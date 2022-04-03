@@ -23,53 +23,53 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 150;
-            projectile.height = 150;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 10;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 150;
+            Projectile.height = 150;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 10;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 1f || (projectile.Calamity().stealthStrike && !updatedTime))
+            if (Projectile.ai[0] == 1f || (Projectile.Calamity().stealthStrike && !updatedTime))
             {
-                projectile.timeLeft = 100;
-                projectile.ai[0] = 0f;
+                Projectile.timeLeft = 100;
+                Projectile.ai[0] = 0f;
                 updatedTime = true;
             }
 
-            if (projectile.timeLeft >= (updatedTime ? 80 : 6))
+            if (Projectile.timeLeft >= (updatedTime ? 80 : 6))
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }
             }
 
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                float num472 = projectile.Center.X;
-                float num473 = projectile.Center.Y;
+                float num472 = Projectile.Center.X;
+                float num473 = Projectile.Center.Y;
                 float num474 = 600f;
                 for (int num475 = 0; num475 < Main.maxNPCs; num475++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
                         float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
                         float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - npcCenterX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - npcCenterY);
+                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
                         if (num478 < num474)
                         {
                             if (Main.npc[num475].position.X < num472)
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
                     ProjectileID.HallowStar,
                     ModContent.ProjectileType<FallenStarProj>()
                 });
-                Projectile star = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(projectile.damage * 0.75), 5f, projectile.owner);
+                Projectile star = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), 5f, Projectile.owner);
                 if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
                     star.Calamity().forceRogue = true;

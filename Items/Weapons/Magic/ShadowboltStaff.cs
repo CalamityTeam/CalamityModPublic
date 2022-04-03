@@ -13,28 +13,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Shadowbolt Staff");
             Tooltip.SetDefault("The more tiles and enemies the beam bounces off of or travels through the more damage the beam does");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 250;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 58;
-            item.height = 56;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item72;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Shadowbolt>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 250;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 58;
+            Item.height = 56;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item72;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Shadowbolt>();
+            Item.shootSpeed = 6f;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,13 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShadowbeamStaff);
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ShadowbeamStaff).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace CalamityMod.Walls.DraedonStructures
     public class RustedPlatingWall : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 32;
             drop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.RustedPlatingWall>();

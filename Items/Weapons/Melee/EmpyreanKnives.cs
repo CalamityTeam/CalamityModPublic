@@ -19,28 +19,28 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 230;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
-            item.shootSpeed = 15f;
+            Item.width = 18;
+            Item.damage = 230;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
+            Item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;
@@ -100,14 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.VampireKnives);
-            recipe.AddIngredient(ModContent.ItemType<MonstrousKnives>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.VampireKnives).AddIngredient(ModContent.ItemType<MonstrousKnives>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

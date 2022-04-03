@@ -17,38 +17,38 @@ namespace CalamityMod.Projectiles.Summon
         public Vector2 CurrentPositionOffset;
         public Vector2 IdealPositionOffset;
         public Vector2[] OldVelocities = new Vector2[20];
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
         public Vector2 DrawStartPosition
         {
             get
             {
-                if (projectile.owner < 0 || projectile.owner >= Main.player.Length)
+                if (Projectile.owner < 0 || Projectile.owner >= Main.player.Length)
                     return Vector2.Zero;
-                return Main.player[projectile.owner].Top + Vector2.UnitY * 8f;
+                return Main.player[Projectile.owner].Top + Vector2.UnitY * 8f;
             }
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Head");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 36;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 32;
+            Projectile.height = 36;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -67,27 +67,27 @@ namespace CalamityMod.Projectiles.Summon
         {
             Vector2 returnPosition = DrawStartPosition + CurrentPositionOffset;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 PerformInitializationEffects();
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             ApplyMinionBuffs();
 
-            projectile.direction = projectile.spriteDirection = Owner.direction;
+            Projectile.direction = Projectile.spriteDirection = Owner.direction;
 
             float idealRotation = 0f;
-            NPC potentialTarget = projectile.Center.MinionHoming(950f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(950f, Owner);
             if (potentialTarget != null)
                 NoticeTarget(potentialTarget, ref returnPosition, ref idealRotation);
             else
-                projectile.frame = 0;
+                Projectile.frame = 0;
 
-            projectile.rotation = projectile.rotation.AngleLerp(idealRotation, 0.15f);
-            projectile.rotation = projectile.rotation.AngleTowards(idealRotation, 0.15f);
+            Projectile.rotation = Projectile.rotation.AngleLerp(idealRotation, 0.15f);
+            Projectile.rotation = Projectile.rotation.AngleTowards(idealRotation, 0.15f);
 
-            projectile.Center = new Vector2(projectile.Center.X, MathHelper.Clamp(projectile.Center.Y, 1f, returnPosition.Y - 8f));
+            Projectile.Center = new Vector2(Projectile.Center.X, MathHelper.Clamp(Projectile.Center.Y, 1f, returnPosition.Y - 8f));
             MoveTowardsDestination(returnPosition);
             AdjustOldVelocityArray();
 
@@ -96,12 +96,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public void PerformInitializationEffects()
         {
-            int totalHeads = CalamityUtils.CountProjectiles(projectile.type);
+            int totalHeads = CalamityUtils.CountProjectiles(Projectile.type);
             CurrentPositionOffset = IdealPositionOffset = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
-            projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
 
-            projectile.netUpdate = true;
+            Projectile.netUpdate = true;
 
             if (Main.dedServ)
                 return;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
             // Release a circle of sulphuric dust.
             for (int i = 0; i < 18; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
                 dust.velocity = new Vector2(0f, -5f).RotatedBy(i / 18f * MathHelper.TwoPi);
                 dust.noGravity = true;
                 dust.scale = 1.35f;
@@ -119,57 +119,57 @@ namespace CalamityMod.Projectiles.Summon
         public void ApplyMinionBuffs()
         {
             Owner.AddBuff(ModContent.BuffType<GammaHeadBuff>(), 3600);
-            if (projectile.type == ModContent.ProjectileType<GammaHead>())
+            if (Projectile.type == ModContent.ProjectileType<GammaHead>())
             {
                 if (Owner.dead)
                     Owner.Calamity().gammaHead = false;
                 if (Owner.Calamity().gammaHead)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
         }
 
         public void NoticeTarget(NPC target, ref Vector2 returnPosition, ref float idealRotation)
         {
             // Reel back a bit if a valid target has been located.
-            returnPosition -= (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 16f;
+            returnPosition -= (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * 16f;
 
             // And release canisters from time to time.
             int canisterShootRate = 100;
 
             // Open the mouth prior to firing.
             if (Time % canisterShootRate > canisterShootRate - 20)
-                projectile.frame = (int)(Main.projFrames[projectile.type] * Utils.InverseLerp(canisterShootRate - 20, canisterShootRate - 4, Time % canisterShootRate, true));
-            projectile.frame %= Main.projFrames[projectile.type];
+                Projectile.frame = (int)(Main.projFrames[Projectile.type] * Utils.InverseLerp(canisterShootRate - 20, canisterShootRate - 4, Time % canisterShootRate, true));
+            Projectile.frame %= Main.projFrames[Projectile.type];
 
-            Vector2 spawnPosition = projectile.Center;
+            Vector2 spawnPosition = Projectile.Center;
             float shootSpeed = MathHelper.Lerp(8f, 29f, Utils.InverseLerp(90f, 850f, target.Distance(spawnPosition), true));
-            Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, projectile.SafeDirectionTo(target.Center));
+            Vector2 shootVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, target.Center, GammaCanister.Gravity, shootSpeed, Projectile.SafeDirectionTo(target.Center));
 
             float fireAngle = shootVelocity.ToRotation();
 
             // Direction affecting.
             if (target.Center.X - spawnPosition.X < 0)
                 fireAngle += MathHelper.Pi;
-            if (projectile.direction == (target.Center.X < spawnPosition.X).ToDirectionInt())
+            if (Projectile.direction == (target.Center.X < spawnPosition.X).ToDirectionInt())
                 fireAngle += MathHelper.Pi;
 
             idealRotation = fireAngle;
 
             // Shoot the actual canister.
-            if (Main.myPlayer == projectile.owner && Time % canisterShootRate == canisterShootRate - 1)
-                Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (Main.myPlayer == Projectile.owner && Time % canisterShootRate == canisterShootRate - 1)
+                Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         public void MoveTowardsDestination(Vector2 returnPosition)
         {
-            float distanceFromTarget = projectile.Distance(returnPosition);
+            float distanceFromTarget = Projectile.Distance(returnPosition);
             if (distanceFromTarget > 7f)
             {
                 float flySpeed = MathHelper.Lerp(2f, 17f, Utils.InverseLerp(10f, 70f, distanceFromTarget, true));
-                projectile.velocity = (projectile.velocity * 9f + projectile.SafeDirectionTo(returnPosition) * flySpeed) / 10f;
+                Projectile.velocity = (Projectile.velocity * 9f + Projectile.SafeDirectionTo(returnPosition) * flySpeed) / 10f;
             }
 
-            int totalHeads = CalamityUtils.CountProjectiles(projectile.type);
+            int totalHeads = CalamityUtils.CountProjectiles(Projectile.type);
             int moveRate = 40 + totalHeads * 4;
 
             // Reset the ideal offset from time to time.
@@ -180,15 +180,15 @@ namespace CalamityMod.Projectiles.Summon
                 CurrentPositionOffset = Vector2.Lerp(CurrentPositionOffset, IdealPositionOffset, 0.125f);
 
             // Clamp the Y position.
-            if (projectile.Center.Y > Owner.Top.Y - 46f)
-                projectile.Center = new Vector2(projectile.Center.X, Owner.Top.Y - 46f);
+            if (Projectile.Center.Y > Owner.Top.Y - 46f)
+                Projectile.Center = new Vector2(Projectile.Center.X, Owner.Top.Y - 46f);
 
             // Clamp the center so that it does not go too far from the return position.
-            if (projectile.Distance(returnPosition) > 120f)
-                projectile.Center = returnPosition + projectile.DirectionFrom(returnPosition) * 120f;
+            if (Projectile.Distance(returnPosition) > 120f)
+                Projectile.Center = returnPosition + Projectile.DirectionFrom(returnPosition) * 120f;
 
             // Disallow heads from getting too close to each other.
-            projectile.MinionAntiClump(0.15f);
+            Projectile.MinionAntiClump(0.15f);
         }
 
         public void AdjustOldVelocityArray()
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = OldVelocities.Length - 1; i > 0; i--)
                 OldVelocities[i] = OldVelocities[i - 1];
 
-            OldVelocities[0] = projectile.velocity;
+            OldVelocities[0] = Projectile.velocity;
         }
 
         public override void Kill(int timeLeft)
@@ -205,13 +205,13 @@ namespace CalamityMod.Projectiles.Summon
                 return;
 
             for (int i = 0; i < 10; i++)
-                Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextVector2CircularEdge(4f, 4f)).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextVector2CircularEdge(4f, 4f)).noGravity = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D chain = ModContent.GetTexture("CalamityMod/Projectiles/Summon/GammaHeadChain");
-            Vector2 end = projectile.Center + (projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/GammaHeadChain");
+            Vector2 end = Projectile.Center + (Projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
 
             List<Vector2> controlPoints = new List<Vector2>
             {
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < chainPoints.Count; i++)
             {
                 Vector2 positionAtPoint = chainPoints[i];
-                if (Vector2.Distance(positionAtPoint, projectile.Center) < 10f)
+                if (Vector2.Distance(positionAtPoint, Projectile.Center) < 10f)
                     continue;
                 float angleAtPoint = i == chainPoints.Count - 1 ? (end - chainPoints[i]).ToRotation() : (chainPoints[i + 1] - chainPoints[i]).ToRotation();
                 angleAtPoint += MathHelper.PiOver2;
@@ -251,15 +251,15 @@ namespace CalamityMod.Projectiles.Summon
                                  0f);
             }
 
-            Texture2D headTexture = ModContent.GetTexture(Texture);
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture);
             spriteBatch.Draw(headTexture,
-                             projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY,
-                             headTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame),
+                             Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
+                             headTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              lightColor,
-                             projectile.rotation,
-                             projectile.Size * 0.5f,
-                             projectile.scale,
-                             projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                             Projectile.rotation,
+                             Projectile.Size * 0.5f,
+                             Projectile.scale,
+                             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                              0f);
 
             return false;

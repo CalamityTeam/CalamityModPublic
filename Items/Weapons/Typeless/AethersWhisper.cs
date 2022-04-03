@@ -22,23 +22,23 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.damage = 504;
-            item.knockBack = 5.5f;
-            item.useTime = item.useAnimation = 24;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<AetherBeam>();
-            item.mana = 30;
-            item.magic = true;
-            item.autoReuse = true;
+            Item.damage = 504;
+            Item.knockBack = 5.5f;
+            Item.useTime = Item.useAnimation = 24;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<AetherBeam>();
+            Item.mana = 30;
+            Item.DamageType = DamageClass.Magic;
+            Item.autoReuse = true;
 
-            item.width = 134;
-            item.height = 44;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.width = 134;
+            Item.height = 44;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -49,21 +49,21 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             if (player.altFunctionUse == 2)
             {
-                item.ranged = true;
-                item.magic = false;
+                Item.DamageType = DamageClass.Ranged;
+                // item.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             }
             else
             {
-                item.ranged = false;
-                item.magic = true;
+                // item.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                Item.DamageType = DamageClass.Magic;
             }
             return base.CanUseItem(player);
         }
 
         public override bool OnPickup(Player player)
         {
-            item.ranged = false;
-            item.magic = true;
+            // item.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            Item.DamageType = DamageClass.Magic;
             return true;
         }
 
@@ -72,8 +72,8 @@ namespace CalamityMod.Items.Weapons.Typeless
             // Reset to magic if not using an item to prevent sorting bugs.
             if (player.itemAnimation <= 0)
             {
-                item.ranged = false;
-                item.magic = true;
+                // item.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                Item.DamageType = DamageClass.Magic;
             }
         }
 
@@ -94,14 +94,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlasmaRod>());
-            recipe.AddIngredient(ModContent.ItemType<Lazhar>());
-            recipe.AddIngredient(ModContent.ItemType<SpectreRifle>());
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlasmaRod>()).AddIngredient(ModContent.ItemType<Lazhar>()).AddIngredient(ModContent.ItemType<SpectreRifle>()).AddIngredient(ModContent.ItemType<TwistingNether>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.defense = 6;
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.defense = 6;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,22 +36,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CorruptFlask>());
-            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrimsonFlask>());
-            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CorruptFlask>()).AddIngredient(ModContent.ItemType<RadiantOoze>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrimsonFlask>()).AddIngredient(ModContent.ItemType<RadiantOoze>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

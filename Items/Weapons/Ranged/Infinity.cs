@@ -22,25 +22,25 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 24;
-            item.useTime = 2;
-            item.reuseDelay = 6;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 24;
+            Item.useTime = 2;
+            Item.reuseDelay = 6;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -114,12 +114,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Shredder>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Shredder>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

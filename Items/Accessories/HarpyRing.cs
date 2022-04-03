@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,13 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
-            recipe.AddIngredient(ItemID.Feather, 5);
-            recipe.AddIngredient(ItemID.FallenStar);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 2).AddIngredient(ItemID.Feather, 5).AddIngredient(ItemID.FallenStar).AddTile(TileID.SkyMill).Register();
         }
     }
 }

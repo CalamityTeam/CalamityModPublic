@@ -11,79 +11,79 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Syringe Cinder");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 120;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().rogue = true;
-            projectile.alpha = 100;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 120;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().rogue = true;
+            Projectile.alpha = 100;
         }
 
         public override void AI()
         {
             //make it face the way it's going
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
             {
-                projectile.rotation += projectile.velocity.X * 0.1f;
-                projectile.rotation = -projectile.velocity.X * 0.05f;
+                Projectile.rotation += Projectile.velocity.X * 0.1f;
+                Projectile.rotation = -Projectile.velocity.X * 0.05f;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + ((3 * MathHelper.Pi) / 2);
-                projectile.spriteDirection = ((projectile.velocity.X > 0f) ? -1 : 1);
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + ((3 * MathHelper.Pi) / 2);
+                Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? -1 : 1);
             }
 
             //frames
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             //movement
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.1f;
+                Projectile.velocity.X = Projectile.velocity.X * -0.1f;
             }
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.5f;
+                Projectile.velocity.X = Projectile.velocity.X * -0.5f;
             }
-            if (projectile.velocity.Y != projectile.velocity.Y && projectile.velocity.Y > 1f)
+            if (Projectile.velocity.Y != Projectile.velocity.Y && Projectile.velocity.Y > 1f)
             {
-                projectile.velocity.Y = projectile.velocity.Y * -0.5f;
+                Projectile.velocity.Y = Projectile.velocity.Y * -0.5f;
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 5f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 5f)
             {
-                projectile.ai[0] = 5f;
-                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                Projectile.ai[0] = 5f;
+                if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    Projectile.velocity.X = Projectile.velocity.X * 0.97f;
+                    if ((double)Projectile.velocity.X > -0.01 && (double)Projectile.velocity.X < 0.01)
                     {
-                        projectile.velocity.X = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.velocity.X = 0f;
+                        Projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.2f;
             }
             if (Main.rand.NextBool(4))
             {
-                int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
+                int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[num199];
                 dust.position.X -= 2f;
                 dust.position.Y += 2f;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Main.rand.NextBool(10))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
+                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[num200];
                 dust.position.X -= 2f;
                 dust.position.Y += 2f;
@@ -101,19 +101,19 @@ namespace CalamityMod.Projectiles.Rogue
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
             }
-            if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
+            if ((double)Projectile.velocity.Y < 0.25 && (double)Projectile.velocity.Y > 0.15)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.8f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.8f;
             }
-            if (projectile.velocity.Y > 16f)
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[1] = 1f;
+            Projectile.ai[1] = 1f;
             return false;
         }
 

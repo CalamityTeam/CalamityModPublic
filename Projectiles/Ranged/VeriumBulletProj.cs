@@ -12,71 +12,71 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Verium Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
         public override bool PreAI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            projectile.spriteDirection = projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+            Projectile.spriteDirection = Projectile.direction;
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    int purple = Dust.NewDust(projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[purple].alpha = projectile.alpha;
+                    int purple = Dust.NewDust(Projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[purple].alpha = Projectile.alpha;
                     Main.dust[purple].velocity *= 0f;
                     Main.dust[purple].noGravity = true;
                 }
             }
 
-            if (projectile.ai[0] > 0f)
-                projectile.ai[0]--;
+            if (Projectile.ai[0] > 0f)
+                Projectile.ai[0]--;
             if (speed == 0f)
-                speed = projectile.velocity.Length();
-            if (projectile.penetrate == 1 && projectile.ai[0] <= 0f)
+                speed = Projectile.velocity.Length();
+            if (Projectile.penetrate == 1 && Projectile.ai[0] <= 0f)
             {
                 float inertia = 15f;
-                Vector2 center = projectile.Center;
+                Vector2 center = Projectile.Center;
                 float maxDistance = 300f;
                 bool homeIn = false;
 
-                int targetIndex = (int)projectile.ai[1];
+                int targetIndex = (int)Projectile.ai[1];
                 NPC target = Main.npc[targetIndex];
-                if (target.CanBeChasedBy(projectile, false))
+                if (target.CanBeChasedBy(Projectile, false))
                 {
                     float extraDistance = (target.width / 2) + (target.height / 2);
 
                     bool canHit = true;
                     if (extraDistance < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, target.Center, 1, 1);
+                        canHit = Collision.CanHit(Projectile.Center, 1, 1, target.Center, 1, 1);
 
-                    if (Vector2.Distance(target.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                    if (Vector2.Distance(target.Center, Projectile.Center) < (maxDistance + extraDistance) && canHit)
                     {
                         center = target.Center;
                         homeIn = true;
@@ -88,15 +88,15 @@ namespace CalamityMod.Projectiles.Ranged
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
                             float extraDistance = (npc.width / 2) + (npc.height / 2);
 
                             bool canHit = true;
                             if (extraDistance < maxDistance)
-                                canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                                canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
 
-                            if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                            if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance) && canHit)
                             {
                                 center = npc.Center;
                                 homeIn = true;
@@ -106,37 +106,37 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
 
-                if (!projectile.friendly)
+                if (!Projectile.friendly)
                 {
                     homeIn = false;
                 }
 
                 if (homeIn)
                 {
-                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-                    projectile.velocity = (projectile.velocity * inertia + moveDirection * speed) / (inertia + 1f);
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * inertia + moveDirection * speed) / (inertia + 1f);
                 }
                 return false;
             }
             return true;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.ai[0] <= 0f && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.ai[0] <= 0f && target.CanBeChasedBy(Projectile);
 
-        public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
+        public override bool CanHitPvp(Player target) => Projectile.ai[0] <= 0f;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.ai[0] = 10f;
-            projectile.damage /= 2;
+            Projectile.ai[0] = 10f;
+            Projectile.damage /= 2;
             if (target.life > 0)
-                projectile.ai[1] = target.whoAmI;
+                Projectile.ai[1] = target.whoAmI;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            projectile.ai[0] = 10f;
-            projectile.damage /= 2;
+            Projectile.ai[0] = 10f;
+            Projectile.damage /= 2;
         }
     }
 }

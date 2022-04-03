@@ -10,43 +10,43 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CryonicShield : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/NPCs/Cryogen/CryogenIce";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryonic Shield");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 222;
-            projectile.height = 216;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 90000;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 25;
+            Projectile.width = 222;
+            Projectile.height = 216;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 90000;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 25;
         }
 
         public override void AI()
         {
             // Protect against projectile reflection.
-            projectile.friendly = true;
-            projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
 
             // Spin around.
-            projectile.rotation += MathHelper.Pi / 48f;
+            Projectile.rotation += MathHelper.Pi / 48f;
 
-            projectile.Center = Owner.Center;
-            Lighting.AddLight(projectile.Center, projectile.Opacity * 0.2f, projectile.Opacity * 0.45f, projectile.Opacity * 0.5f);
+            Projectile.Center = Owner.Center;
+            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.2f, Projectile.Opacity * 0.45f, Projectile.Opacity * 0.5f);
 
             if (Owner is null || !Owner.active || Owner.dead)
-                projectile.Kill();
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (knockbackMultiplier < 0)
                     knockbackMultiplier = 0;
 
-                Vector2 trueKnockback = projectile.SafeDirectionTo(target.Center);
+                Vector2 trueKnockback = Projectile.SafeDirectionTo(target.Center);
                 target.velocity = trueKnockback * knockbackMultiplier;
             }
         }
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, projectile.Size.Length() * 0.5f, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.Size.Length() * 0.5f, targetHitbox);
 
         public override bool? CanHitNPC(NPC target)
         {

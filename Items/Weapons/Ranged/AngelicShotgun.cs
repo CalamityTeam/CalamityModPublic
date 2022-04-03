@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,28 +24,28 @@ Fighting 'til the war's won");
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.knockBack = 3f;
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = true;
+            Item.damage = BaseDamage;
+            Item.knockBack = 3f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.autoReuse = true;
 
-            item.width = 44;
-            item.height = 7;
+            Item.width = 44;
+            Item.height = 7;
 
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.UseSound = SoundID.Item38;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.UseSound = SoundID.Item38;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
 
-            item.shootSpeed = BulletSpeed;
-            item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.shootSpeed = BulletSpeed;
+            Item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -114,21 +115,14 @@ Fighting 'til the war's won");
             Projectile.NewProjectile(rrp, new Vector2(mouseDX, mouseDY + Main.rand.NextFloat(-0.8f, 0.8f)), ModContent.ProjectileType<AngelicBeam>(), laserDamage, laserKB, player.whoAmI);
 
             // Play the sound of the laser beam
-            Main.PlaySound(SoundID.Item72, player.Center);
+            SoundEngine.PlaySound(SoundID.Item72, player.Center);
 
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.SunplateBlock, 75);
-            r.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            r.AddIngredient(ModContent.ItemType<DivineGeode>(), 15);
-            r.AddIngredient(ModContent.ItemType<CoreofCinder>(), 7);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SunplateBlock, 75).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<DivineGeode>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 7).AddTile(TileID.LunarCraftingStation).Register();
         }
 
     }

@@ -10,10 +10,10 @@ namespace CalamityMod.Tiles.Abyss
     public class Voidstone : ModTile
     {
         internal static Texture2D GlowTexture;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
-                GlowTexture = ModContent.GetTexture("CalamityMod/Tiles/Abyss/Voidstone_Glowmask");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/Voidstone_Glowmask");
 
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -138,8 +138,8 @@ namespace CalamityMod.Tiles.Abyss
             if (GlowTexture is null)
                 return;
 
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
             int xOffset = 0;
             int relativeXPos = i % 4;
             int relativeYPos = j % 4;

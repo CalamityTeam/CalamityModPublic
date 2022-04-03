@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -9,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public const int IntangibleFrames = 12;
 
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
 
         public override string Texture => "CalamityMod/ExtraTextures/GemTechArmor/YellowGem";
 
@@ -17,34 +18,34 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.MaxUpdates = 2;
-            projectile.timeLeft = 45;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.ignoreWater = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.MaxUpdates = 2;
+            Projectile.timeLeft = 45;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            if (projectile.FinalExtraUpdate())
+            if (Projectile.FinalExtraUpdate())
                 Time++;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 // Play a shatter sound.
-                Main.PlaySound(SoundID.Item27, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 
                 // Create a triangular puff of yellow dust.
                 Vector2 initialVelocity = (Main.rand.NextFloatDirection() * 0.11f).ToRotationVector2() * Main.rand.NextFloat(2f, 3.3f);
                 for (int i = 0; i < 4; i++)
                 {
-                    Dust crystalShard = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust crystalShard = Dust.NewDustPerfect(Projectile.Center, 267);
                     crystalShard.velocity = initialVelocity * i / 4f;
                     crystalShard.scale = 1.225f;
                     crystalShard.color = Color.Yellow;
@@ -53,12 +54,12 @@ namespace CalamityMod.Projectiles.Melee
                     Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * 0.666f) * i / 4f;
                     Dust.CloneDust(crystalShard).velocity = initialVelocity.RotatedBy(MathHelper.Pi * -0.666f) * i / 4f;
                 }
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.Pi * 0.0005f);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.Opacity = (float)System.Math.Sqrt(projectile.timeLeft / 45f);
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.Pi * 0.0005f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.Opacity = (float)System.Math.Sqrt(Projectile.timeLeft / 45f);
         }
 
         public override void Kill(int timeLeft)

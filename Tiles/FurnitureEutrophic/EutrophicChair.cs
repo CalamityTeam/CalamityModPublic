@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicChair : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChair();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));

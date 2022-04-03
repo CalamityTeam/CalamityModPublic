@@ -9,27 +9,27 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pineapple");
-            Main.projFrames[projectile.type] = 5;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
+            Projectile.netImportant = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (player.dead)
@@ -38,43 +38,43 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.pineapplePet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
 
             float passiveMvtFloat = 0.1f;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             float range = 200f;
-            float xDist = player.Center.X - projectile.Center.X - 2f;
-            float yDist = player.Center.Y - projectile.Center.Y - 60f;
+            float xDist = player.Center.X - Projectile.Center.X - 2f;
+            float yDist = player.Center.Y - Projectile.Center.Y - 60f;
             Vector2 playerVector = new Vector2(xDist, yDist);
             float playerDist = playerVector.Length();
             float returnSpeed = 7f;
-            if (playerDist < range && player.velocity.Y == 0f && (projectile.position.Y + projectile.height <= player.position.Y + player.height && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)))
+            if (playerDist < range && player.velocity.Y == 0f && (Projectile.position.Y + Projectile.height <= player.position.Y + player.height && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height)))
             {
-                projectile.ai[0] = 0f;
-                if (projectile.velocity.Y < -6f)
-                    projectile.velocity.Y = -6f;
+                Projectile.ai[0] = 0f;
+                if (Projectile.velocity.Y < -6f)
+                    Projectile.velocity.Y = -6f;
             }
 
             //Teleport to player if too far
             if (playerDist > 2000f)
             {
-                projectile.position.X = player.Center.X - projectile.width / 2;
-                projectile.position.Y = player.Center.Y - projectile.height / 2;
-                projectile.netUpdate = true;
+                Projectile.position.X = player.Center.X - Projectile.width / 2;
+                Projectile.position.Y = player.Center.Y - Projectile.height / 2;
+                Projectile.netUpdate = true;
             }
 
             if (playerDist < 4f)
             {
-                projectile.velocity.X = xDist;
-                projectile.velocity.Y = yDist;
+                Projectile.velocity.X = xDist;
+                Projectile.velocity.Y = yDist;
                 passiveMvtFloat = 0f;
             }
             else
@@ -88,33 +88,33 @@ namespace CalamityMod.Projectiles.Pets
                 xDist *= speedMult;
                 yDist *= speedMult;
             }
-            if (projectile.velocity.X < xDist)
+            if (Projectile.velocity.X < xDist)
             {
-                projectile.velocity.X += passiveMvtFloat;
-                if (projectile.velocity.X < 0f)
-                    projectile.velocity.X += passiveMvtFloat;
+                Projectile.velocity.X += passiveMvtFloat;
+                if (Projectile.velocity.X < 0f)
+                    Projectile.velocity.X += passiveMvtFloat;
             }
-            if (projectile.velocity.X > xDist)
+            if (Projectile.velocity.X > xDist)
             {
-                projectile.velocity.X -= passiveMvtFloat;
-                if (projectile.velocity.X > 0f)
-                    projectile.velocity.X -= passiveMvtFloat;
+                Projectile.velocity.X -= passiveMvtFloat;
+                if (Projectile.velocity.X > 0f)
+                    Projectile.velocity.X -= passiveMvtFloat;
             }
-            if (projectile.velocity.Y < yDist)
+            if (Projectile.velocity.Y < yDist)
             {
-                projectile.velocity.Y += passiveMvtFloat;
-                if (projectile.velocity.Y < 0f)
-                    projectile.velocity.Y += passiveMvtFloat;
+                Projectile.velocity.Y += passiveMvtFloat;
+                if (Projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y += passiveMvtFloat;
             }
-            if (projectile.velocity.Y > yDist)
+            if (Projectile.velocity.Y > yDist)
             {
-                projectile.velocity.Y -= passiveMvtFloat;
-                if (projectile.velocity.Y > 0f)
-                    projectile.velocity.Y -= passiveMvtFloat;
+                Projectile.velocity.Y -= passiveMvtFloat;
+                if (Projectile.velocity.Y > 0f)
+                    Projectile.velocity.Y -= passiveMvtFloat;
             }
-            projectile.direction = -player.direction;
-            projectile.spriteDirection = 1;
-            projectile.rotation = projectile.velocity.Y * 0.05f * -projectile.direction;
+            Projectile.direction = -player.direction;
+            Projectile.spriteDirection = 1;
+            Projectile.rotation = Projectile.velocity.Y * 0.05f * -Projectile.direction;
         }
     }
 }

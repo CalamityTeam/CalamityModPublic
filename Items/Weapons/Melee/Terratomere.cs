@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.damage = 260;
-            item.melee = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 21;
-            item.useTurn = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
-            item.shootSpeed = 20f;
+            Item.width = 60;
+            Item.damage = 260;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 21;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
+            Item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,24 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Floodtide>());
-            recipe.AddIngredient(ModContent.ItemType<Hellkite>());
-            recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
-            recipe.AddIngredient(ItemID.TerraBlade);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Floodtide>());
-            recipe.AddIngredient(ModContent.ItemType<Hellkite>());
-            recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
-            recipe.AddIngredient(ModContent.ItemType<TerraEdge>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Floodtide>()).AddIngredient(ModContent.ItemType<Hellkite>()).AddIngredient(ModContent.ItemType<TemporalFloeSword>()).AddIngredient(ItemID.TerraBlade).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Floodtide>()).AddIngredient(ModContent.ItemType<Hellkite>()).AddIngredient(ModContent.ItemType<TemporalFloeSword>()).AddIngredient(ModContent.ItemType<TerraEdge>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

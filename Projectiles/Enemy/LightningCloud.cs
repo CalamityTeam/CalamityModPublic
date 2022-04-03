@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class LightningCloud : ModProjectile
@@ -9,46 +10,46 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cloud");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 28;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.hostile = true;
-            projectile.timeLeft = 180;
-            projectile.Opacity = 0f;
-            projectile.penetrate = -1;
+            Projectile.width = 54;
+            Projectile.height = 28;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 180;
+            Projectile.Opacity = 0f;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
 
-                int maxFrame = projectile.timeLeft < 60 ? 6 : 3;
-                if (projectile.frame >= maxFrame)
-                    projectile.frame = 0;
+                int maxFrame = Projectile.timeLeft < 60 ? 6 : 3;
+                if (Projectile.frame >= maxFrame)
+                    Projectile.frame = 0;
 
-                if (projectile.frame == 5 && Main.myPlayer == projectile.owner)
+                if (Projectile.frame == 5 && Main.myPlayer == Projectile.owner)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), projectile.Center);
+                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Projectile.Center);
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.UnitY * 7f;
-                    Projectile.NewProjectile(projectile.Bottom, velocity, ProjectileID.CultistBossLightningOrbArc, projectile.damage, 0f, projectile.owner, MathHelper.PiOver2, ai);
+                    Projectile.NewProjectile(Projectile.Bottom, velocity, ProjectileID.CultistBossLightningOrbArc, Projectile.damage, 0f, Projectile.owner, MathHelper.PiOver2, ai);
                 }
             }
 
-            if (projectile.timeLeft < 30)
-                projectile.Opacity = MathHelper.Lerp(projectile.Opacity, 0f, 0.14f);
+            if (Projectile.timeLeft < 30)
+                Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.14f);
             else
-                projectile.Opacity = MathHelper.Lerp(projectile.Opacity, 1f, 0.33f);
+                Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 1f, 0.33f);
         }
     }
 }

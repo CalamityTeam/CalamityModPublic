@@ -14,54 +14,54 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Empyrean Knife");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 75f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 75f)
             {
-                projectile.alpha += 10;
-                projectile.damage = (int)(projectile.damage * 0.95);
-                projectile.knockBack = projectile.knockBack * 0.95f;
-                if (projectile.alpha >= 255)
-                    projectile.active = false;
+                Projectile.alpha += 10;
+                Projectile.damage = (int)(Projectile.damage * 0.95);
+                Projectile.knockBack = Projectile.knockBack * 0.95f;
+                if (Projectile.alpha >= 255)
+                    Projectile.active = false;
             }
-            if (projectile.ai[0] < 75f)
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            if (Projectile.ai[0] < 75f)
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
             else
             {
-                projectile.rotation += 0.5f;
+                Projectile.rotation += 0.5f;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
             if (Main.rand.NextBool(6))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 58, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 58, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             bounce--;
             if (bounce <= 0)
-                projectile.Kill();
+                Projectile.Kill();
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
-                    projectile.velocity.X = -oldVelocity.X;
-                if (projectile.velocity.Y != oldVelocity.Y)
-                    projectile.velocity.Y = -oldVelocity.Y;
+                if (Projectile.velocity.X != oldVelocity.X)
+                    Projectile.velocity.X = -oldVelocity.X;
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                    Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
@@ -70,10 +70,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int num303 = 0; num303 < 3; num303++)
             {
-                int num304 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 58, 0f, 0f, 100, default, 0.8f);
+                int num304 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 58, 0f, 0f, 100, default, 0.8f);
                 Main.dust[num304].noGravity = true;
                 Main.dust[num304].velocity *= 1.2f;
-                Main.dust[num304].velocity -= projectile.oldVelocity * 0.3f;
+                Main.dust[num304].velocity -= Projectile.oldVelocity * 0.3f;
             }
         }
 
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
             if (healAmt > CalamityMod.lifeStealCap)
                 healAmt = CalamityMod.lifeStealCap;
 
-            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -104,12 +104,12 @@ namespace CalamityMod.Projectiles.Melee
             if (healAmt > CalamityMod.lifeStealCap)
                 healAmt = CalamityMod.lifeStealCap;
 
-            CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
+            CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, Main.player[Projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 3f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

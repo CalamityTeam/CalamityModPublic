@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class SpiritGeneratorDefBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spirit Defense");
             Description.SetDefault("Defense boosted by 6 and damage reduction boosted by 3%");

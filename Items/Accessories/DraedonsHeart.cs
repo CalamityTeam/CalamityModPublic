@@ -14,17 +14,17 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Reduces the amount of defense damage you take by 50%\n" +
                 "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +
                 "Nanomachines, son");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 11));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
         }
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.height = 68;
-            item.accessory = true;
-            item.rare = ItemRarityID.Red;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 52;
+            Item.height = 68;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

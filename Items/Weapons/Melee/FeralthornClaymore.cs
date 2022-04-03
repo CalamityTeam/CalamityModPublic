@@ -17,28 +17,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 68;
-            item.damage = 80;
-            item.melee = true;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 13;
-            item.useTurn = true;
-            item.knockBack = 7.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.width = 68;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 13;
+            Item.useTurn = true;
+            Item.knockBack = 7.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

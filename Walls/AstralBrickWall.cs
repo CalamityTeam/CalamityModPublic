@@ -7,7 +7,7 @@ namespace CalamityMod.Walls
 {
     public class AstralBrickWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;

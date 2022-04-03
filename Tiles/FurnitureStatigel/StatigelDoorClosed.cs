@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelDoorClosed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDoorClosed();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));

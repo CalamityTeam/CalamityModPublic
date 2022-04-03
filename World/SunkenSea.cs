@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -242,7 +242,7 @@ namespace CalamityMod.World
                     if (num10 > 3.5f) //Adjust num10 for all cases if you want different tile frequencies; higher is less frequent, lower is more frequent
                     {
                         tile.ClearEverything();
-                        tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
+                        tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.liquid = 192;
                         if (num4 % 15 == 2)
                         {
@@ -254,7 +254,7 @@ namespace CalamityMod.World
                     }
                     else if (num10 > 1.8f)
                     {
-                        tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
+                        tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.liquid = 192;
                         if (!flag || tile.active())
                         {
@@ -274,7 +274,7 @@ namespace CalamityMod.World
                             Tile.SmoothSlope(num6, num7, true);
                             tile.liquid = 0;
                         }
-                        tile.wall = (ushort)ModContent.WallType<EutrophicSandWall>();
+                        tile.WallType = (ushort)ModContent.WallType<EutrophicSandWall>();
                     }
                     else if (num10 > 0.25f)
                     {
@@ -286,12 +286,12 @@ namespace CalamityMod.World
                                 tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                                 tile.active(true);
                                 Tile.SmoothSlope(num6, num7, true);
-                                tile.wall = (ushort)ModContent.WallType<EutrophicSandWall>();
+                                tile.WallType = (ushort)ModContent.WallType<EutrophicSandWall>();
                                 tile.liquid = 0;
                             }
                             else
                             {
-                                tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
+                                tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                                 tile.liquid = 192;
                             }
                         }
@@ -438,9 +438,9 @@ namespace CalamityMod.World
                     Tile tile = Main.tile[num3, num4];
                     Tile testTile = Main.tile[num3, num4 + 1];
                     Tile testTile2 = Main.tile[num3, num4 + 2];
-                    if (tile.type == ModContent.TileType<EutrophicSand>() && (!WorldGen.SolidTile(testTile) || !WorldGen.SolidTile(testTile2))) //Tile variation
+                    if (tile.TileType == ModContent.TileType<EutrophicSand>() && (!WorldGen.SolidTile(testTile) || !WorldGen.SolidTile(testTile2))) //Tile variation
                     {
-                        tile.type = (ushort)ModContent.TileType<Navystone>();
+                        tile.TileType = (ushort)ModContent.TileType<Navystone>();
                     }
                 }
             }
@@ -453,7 +453,7 @@ namespace CalamityMod.World
                     Tile tile2 = Main.tile[num5, num6];
                     if (tile2 is null)
                         continue;
-                    if (tile2.active() && (tile2.type == ModContent.TileType<SeaPrism>() || tile2.type == ModContent.TileType<Navystone>()))
+                    if (tile2.active() && (tile2.TileType == ModContent.TileType<SeaPrism>() || tile2.TileType == ModContent.TileType<Navystone>()))
                     {
                         bool flag = true;
                         for (int m = -1; m >= -3; m--)
@@ -491,23 +491,23 @@ namespace CalamityMod.World
                                 break;
                             }
                         }
-                        if (tile2.type == ModContent.TileType<SeaPrism>() || (tile2.type == ModContent.TileType<Navystone>() && WorldGen.genRand.Next(8) == 0))
+                        if (tile2.TileType == ModContent.TileType<SeaPrism>() || (tile2.TileType == ModContent.TileType<Navystone>() && WorldGen.genRand.Next(8) == 0))
                         {
                             if (flag3 ^ flag4)
                             {
                                 if (tile2.slope() == 0 && !tile2.halfBrick())
                                 {
                                     Tile tile3 = Main.tile[num5 + (flag3 ? -1 : 1), num6];
-                                    tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
-                                    if (Main.tile[num5 - 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
+                                    tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
+                                    if (Main.tile[num5 - 1, num6].TileType == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5 - 1, num6].frameY = (short)(2 * 18);
+                                        Main.tile[num5 - 1, num6].TileFrameY = (short)(2 * 18);
                                     }
-                                    else if (Main.tile[num5 + 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
+                                    else if (Main.tile[num5 + 1, num6].TileType == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5 + 1, num6].frameY = (short)(3 * 18);
+                                        Main.tile[num5 + 1, num6].TileFrameY = (short)(3 * 18);
                                     }
-                                    tile3.frameX = (short)(WorldGen.genRand.Next(18) * 18);
+                                    tile3.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
                                     tile3.active(true);
                                 }
                             }
@@ -516,16 +516,16 @@ namespace CalamityMod.World
                                 if (tile2.slope() == 0 && !tile2.halfBrick())
                                 {
                                     Tile tile3 = Main.tile[num5, num6 + (flag ? -1 : 1)];
-                                    tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
-                                    if (Main.tile[num5, num6 - 1].type == ModContent.TileType<SeaPrismCrystals>())
+                                    tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
+                                    if (Main.tile[num5, num6 - 1].TileType == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5, num6 - 1].frameY = (short)(0 * 18);
+                                        Main.tile[num5, num6 - 1].TileFrameY = (short)(0 * 18);
                                     }
-                                    else if (Main.tile[num5, num6 + 1].type == ModContent.TileType<SeaPrismCrystals>())
+                                    else if (Main.tile[num5, num6 + 1].TileType == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5, num6 + 1].frameY = (short)(1 * 18);
+                                        Main.tile[num5, num6 + 1].TileFrameY = (short)(1 * 18);
                                     }
-                                    tile3.frameX = (short)(WorldGen.genRand.Next(18) * 18);
+                                    tile3.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
                                     tile3.active(true);
                                 }
                             }
@@ -533,7 +533,7 @@ namespace CalamityMod.World
                     }
                     if (!tile2.active())
                     {
-                        if (tile2.wall == ModContent.WallType<NavystoneWall>() || tile2.wall == ModContent.WallType<EutrophicSandWall>())
+                        if (tile2.WallType == ModContent.WallType<NavystoneWall>() || tile2.WallType == ModContent.WallType<EutrophicSandWall>())
                         {
                             if (WorldGen.genRand.Next(5) == 0)
                             {
@@ -619,27 +619,27 @@ namespace CalamityMod.World
             }
             if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].active() && !Main.tile[x, y + 1].active())
             {
-                if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<Navystone>())
+                if (Main.tile[x, y - 1].TileType == (ushort)ModContent.TileType<Navystone>())
                 {
                     if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y + 2].active())
                     {
                         int num2 = WorldGen.genRand.Next(3) * 18;
-                        Main.tile[x, y].type = type;
+                        Main.tile[x, y].TileType = type;
                         Main.tile[x, y].active(true);
-                        Main.tile[x, y].frameX = (short)num2;
-                        Main.tile[x, y].frameY = 72;
+                        Main.tile[x, y].TileFrameX = (short)num2;
+                        Main.tile[x, y].TileFrameY = 72;
                     }
                     else
                     {
                         int num3 = WorldGen.genRand.Next(3) * 18;
-                        Main.tile[x, y].type = type;
+                        Main.tile[x, y].TileType = type;
                         Main.tile[x, y].active(true);
-                        Main.tile[x, y].frameX = (short)num3;
-                        Main.tile[x, y].frameY = 0;
-                        Main.tile[x, y + 1].type = type;
+                        Main.tile[x, y].TileFrameX = (short)num3;
+                        Main.tile[x, y].TileFrameY = 0;
+                        Main.tile[x, y + 1].TileType = type;
                         Main.tile[x, y + 1].active(true);
-                        Main.tile[x, y + 1].frameX = (short)num3;
-                        Main.tile[x, y + 1].frameY = 18;
+                        Main.tile[x, y + 1].TileFrameX = (short)num3;
+                        Main.tile[x, y + 1].TileFrameY = 18;
                     }
                 }
             }
@@ -647,27 +647,27 @@ namespace CalamityMod.World
             {
                 if (WorldGen.SolidTile(x, y + 1) && !Main.tile[x, y].active() && !Main.tile[x, y - 1].active())
                 {
-                    if (Main.tile[x, y + 1].type == (ushort)ModContent.TileType<Navystone>())
+                    if (Main.tile[x, y + 1].TileType == (ushort)ModContent.TileType<Navystone>())
                     {
                         if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y - 2].active())
                         {
                             int num13 = WorldGen.genRand.Next(3) * 18;
-                            Main.tile[x, y].type = type;
+                            Main.tile[x, y].TileType = type;
                             Main.tile[x, y].active(true);
-                            Main.tile[x, y].frameX = (short)num13;
-                            Main.tile[x, y].frameY = 90;
+                            Main.tile[x, y].TileFrameX = (short)num13;
+                            Main.tile[x, y].TileFrameY = 90;
                         }
                         else
                         {
                             int num14 = WorldGen.genRand.Next(3) * 18;
-                            Main.tile[x, y - 1].type = type;
+                            Main.tile[x, y - 1].TileType = type;
                             Main.tile[x, y - 1].active(true);
-                            Main.tile[x, y - 1].frameX = (short)num14;
-                            Main.tile[x, y - 1].frameY = 36;
-                            Main.tile[x, y].type = type;
+                            Main.tile[x, y - 1].TileFrameX = (short)num14;
+                            Main.tile[x, y - 1].TileFrameY = 36;
+                            Main.tile[x, y].TileType = type;
                             Main.tile[x, y].active(true);
-                            Main.tile[x, y].frameX = (short)num14;
-                            Main.tile[x, y].frameY = 54;
+                            Main.tile[x, y].TileFrameX = (short)num14;
+                            Main.tile[x, y].TileFrameY = 54;
                         }
                     }
                 }

@@ -14,75 +14,75 @@ namespace CalamityMod.Projectiles.Ranged
 
         public float OffsetSpeed
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public float OffsetRotation
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Flare");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
-            projectile.timeLeft = 160;
+            Projectile.width = Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
+            Projectile.timeLeft = 160;
         }
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 OffsetRotation = Main.rand.NextFloat(MathHelper.TwoPi);
                 OffsetSpeed = Main.rand.NextFloat(MathHelper.ToRadians(2.5f), MathHelper.ToRadians(4f)) * Main.rand.NextBool(2).ToDirectionInt();
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             // Ensure that the owner projectile index is a valid one.
-            if (!Main.projectile.IndexInRange((int)projectile.localAI[1]))
+            if (!Main.projectile.IndexInRange((int)Projectile.localAI[1]))
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Projectile owner = Main.projectile[(int)projectile.localAI[1]];
+            Projectile owner = Main.projectile[(int)Projectile.localAI[1]];
 
             // Ensure the owner is the correct projectile.
             if (owner.type != ModContent.ProjectileType<ExoFlareCluster>())
-                projectile.Kill();
+                Projectile.Kill();
 
             // Movement around the owner.
-            projectile.Center = owner.Center + OffsetRotation.ToRotationVector2() * (float)Math.Cos(OffsetRotation * 0.3f) * owner.Size * 0.5f;
-            projectile.rotation = (projectile.position - projectile.oldPos[1]).ToRotation();
+            Projectile.Center = owner.Center + OffsetRotation.ToRotationVector2() * (float)Math.Cos(OffsetRotation * 0.3f) * owner.Size * 0.5f;
+            Projectile.rotation = (Projectile.position - Projectile.oldPos[1]).ToRotation();
             OffsetRotation += OffsetSpeed;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D lightTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PhotovisceratorLight");
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/PhotovisceratorLight");
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float colorInterpolation = (float)Math.Cos(projectile.timeLeft / 16f + Main.GlobalTime / 20f + i / (float)projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
+                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTime / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
                 Color color = Color.Lerp(Color.LightGreen, Color.LightPink, colorInterpolation) * 0.4f;
                 color.A = 0;
-                Vector2 drawPosition = projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
                 Color outerColor = color;
                 Color innerColor = color * 0.5f;
                 float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTime % 60f * MathHelper.TwoPi);
 
                 // Become smaller the futher along the old positions we are.
-                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)projectile.oldPos.Length);
+                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
 
                 Vector2 outerScale = new Vector2(1.65f) * intensity;
                 Vector2 innerScale = new Vector2(1.65f) * intensity * 0.7f;

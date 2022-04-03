@@ -17,27 +17,22 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 25;
-            item.shootSpeed = 14.5f;
-            item.shoot = ModContent.ProjectileType<HeronBobber>();
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 25;
+            Item.shootSpeed = 14.5f;
+            Item.shoot = ModContent.ProjectileType<HeronBobber>();
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
-            recipe.AddIngredient(ItemID.SunplateBlock, 5);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 7).AddIngredient(ItemID.SunplateBlock, 5).AddTile(TileID.SkyMill).Register();
         }
     }
 }

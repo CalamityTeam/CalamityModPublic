@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class AstralBlade : ModItem
@@ -18,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 85;
-            item.melee = true;
-            item.width = 80;
-            item.height = 80;
-            item.scale = 1.5f;
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 85;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 80;
+            Item.height = 80;
+            Item.scale = 1.5f;
+            Item.useTime = 9;
+            Item.useAnimation = 9;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -39,11 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 8);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -77,11 +74,11 @@ namespace CalamityMod.Items.Weapons.Melee
             knockBack *= multiplier;
 
             if (!crit)
-                crit = Main.rand.NextBool((int)MathHelper.Clamp((item.crit + player.meleeCrit) * multiplier, 0f, 99f), 100);
+                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance(DamageClass.Melee)) * multiplier, 0f, 99f), 100);
 
             if (multiplier > 1.5f)
             {
-                Main.PlaySound(SoundID.Item105, Main.player[Main.myPlayer].position);
+                SoundEngine.PlaySound(SoundID.Item105, Main.player[Main.myPlayer].position);
                 bool blue = Main.rand.NextBool();
                 float angleStart = Main.rand.NextFloat(0f, MathHelper.TwoPi);
                 float var = 0.05f + (2f - multiplier);

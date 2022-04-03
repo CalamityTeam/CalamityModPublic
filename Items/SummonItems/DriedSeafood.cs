@@ -5,6 +5,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,13 +20,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.rare = ItemRarityID.Green;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 28;
+            Item.rare = ItemRarityID.Green;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.SummonItems
             return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<DesertScourgeHead>()) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -59,14 +60,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SandBlock, 25);
-            recipe.AddIngredient(ItemID.Cactus, 15);
-            recipe.AddIngredient(ItemID.AntlionMandible, 4);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SandBlock, 25).AddIngredient(ItemID.Cactus, 15).AddIngredient(ItemID.AntlionMandible, 4).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

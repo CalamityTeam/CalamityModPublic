@@ -580,11 +580,11 @@ namespace CalamityMod
                         Tile tile = Main.tile[x, y];
                         bool platformCheck = true;
                         if (ignorePlatforms)
-                            platformCheck = !TileID.Sets.Platforms[tile.type] && tile.type != TileID.PlanterBox;
+                            platformCheck = !TileID.Sets.Platforms[tile.TileType] && tile.TileType != TileID.PlanterBox;
                         bool tableCheck = false;
                         if (stickToEverything)
-                            tableCheck = Main.tileSolidTop[tile.type] && tile.frameY == 0;
-                        if (tile != null && tile.nactive() && platformCheck && (Main.tileSolid[tile.type] || tableCheck))
+                            tableCheck = Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0;
+                        if (tile != null && tile.nactive() && platformCheck && (Main.tileSolid[tile.TileType] || tableCheck))
                         {
                             Vector2 tileSize;
                             tileSize.X = (float)(x * 16);

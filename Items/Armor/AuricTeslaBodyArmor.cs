@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 34;
-            item.value = Item.buyPrice(1, 44, 0, 0);
-            item.defense = 48;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 38;
+            Item.height = 34;
+            Item.value = Item.buyPrice(1, 44, 0, 0);
+            Item.defense = 48;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UpdateEquip(Player player)
@@ -40,25 +40,8 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaArmor>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerChestplate>()).AddIngredient(ModContent.ItemType<BloodflareBodyArmor>()).AddIngredient(ModContent.ItemType<TarragonBreastplate>()).AddIngredient(ModContent.ItemType<FrostBarrier>()).AddIngredient(ModContent.ItemType<AuricBar>(), 18).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaArmor>()).AddIngredient(ModContent.ItemType<BloodflareBodyArmor>()).AddIngredient(ModContent.ItemType<TarragonBreastplate>()).AddIngredient(ModContent.ItemType<FrostBarrier>()).AddIngredient(ModContent.ItemType<AuricBar>(), 18).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

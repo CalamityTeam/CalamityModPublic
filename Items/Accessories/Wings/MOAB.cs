@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -24,11 +25,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    Main.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.position);
                     player.rocketDelay2 = 60;
                 }
                 int dustAmt = 2;
@@ -112,17 +113,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrogLeg);
-            recipe.AddIngredient(ItemID.BundleofBalloons);
-            recipe.AddIngredient(ItemID.LuckyHorseshoe);
-            recipe.AddIngredient(ItemID.Jetpack);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FrogLeg).AddIngredient(ItemID.BundleofBalloons).AddIngredient(ItemID.LuckyHorseshoe).AddIngredient(ItemID.Jetpack).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

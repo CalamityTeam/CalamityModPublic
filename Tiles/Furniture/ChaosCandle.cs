@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class ChaosCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle();
             drop = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.85f;
                 g = 0.25f;
@@ -59,16 +59,16 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
                 CalamityUtils.DrawFlameSparks(235, 5, i, j);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/Furniture/ChaosCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/ChaosCandleFlame"), i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;

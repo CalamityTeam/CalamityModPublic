@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs
 {
     public class PopoNoselessBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Noseless Popo");
             Description.SetDefault("Your nose has been stolen!");

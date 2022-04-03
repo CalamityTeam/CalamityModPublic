@@ -10,30 +10,30 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acorn");
-            ProjectileID.Sets.SentryShot[projectile.type] = true;
+            ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 180;
-            projectile.MaxUpdates = 2;
+            Projectile.width = 10;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 180;
+            Projectile.MaxUpdates = 2;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += Gravity;
-            projectile.rotation += (projectile.velocity.X > 0f).ToDirectionInt() * 0.3f;
+            Projectile.velocity.Y += Gravity;
+            Projectile.rotation += (Projectile.velocity.X > 0f).ToDirectionInt() * 0.3f;
         }
 
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 7, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 7, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
     }
 }

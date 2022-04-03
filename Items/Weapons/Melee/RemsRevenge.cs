@@ -16,35 +16,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 375;
-            item.melee = true;
-            item.width = 44;
-            item.height = 34;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 10f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<RemsRevengeProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().donorItem = true;
+            Item.damage = 375;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 44;
+            Item.height = 34;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 10f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<RemsRevengeProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BlueMoon);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BlueMoon).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

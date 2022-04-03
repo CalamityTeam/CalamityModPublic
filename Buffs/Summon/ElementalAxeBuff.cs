@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ElementalAxeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Axe");
             Description.SetDefault("The elemental axe will protect you");

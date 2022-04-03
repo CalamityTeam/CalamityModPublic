@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoPlatformTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(52, 67, 78));

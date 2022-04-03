@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class ExoGladSpears : ModProjectile
@@ -11,53 +12,53 @@ namespace CalamityMod.Projectiles.Melee
 
         private Color currentColor = Color.Black;
 
-        internal ref float FlySpeedMultiplier => ref projectile.ai[1];
+        internal ref float FlySpeedMultiplier => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gladius Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.timeLeft = 600;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(1000f);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1000f);
 
                 if (potentialTarget != null)
-                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 8f) / 21f;
-                else if (projectile.Distance(Main.player[projectile.owner].Center) > 1000f)
+                    Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(potentialTarget.Center) * 8f) / 21f;
+                else if (Projectile.Distance(Main.player[Projectile.owner].Center) > 1000f)
                 {
                     float inertia = 25f * FlySpeedMultiplier;
-                    Vector2 directionToOwner = (Main.player[projectile.owner].Center - projectile.Center).SafeNormalize(Vector2.UnitY);
-                    projectile.velocity = (projectile.velocity * (inertia - 1f) + directionToOwner * 5f * FlySpeedMultiplier) / inertia;
+                    Vector2 directionToOwner = (Main.player[Projectile.owner].Center - Projectile.Center).SafeNormalize(Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + directionToOwner * 5f * FlySpeedMultiplier) / inertia;
                 }
             }
-            else if (projectile.timeLeft > 30)
-                projectile.timeLeft = 30;
+            else if (Projectile.timeLeft > 30)
+                Projectile.timeLeft = 30;
 
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
             if (currentColor == Color.Black)
             {
                 int startPoint = Main.rand.Next(6);
-                projectile.localAI[0] = startPoint;
+                Projectile.localAI[0] = startPoint;
                 currentColor = GetStartingColor(startPoint);
             }
-            Visuals(projectile, ref currentColor);
+            Visuals(Projectile, ref currentColor);
         }
 
         internal static void Visuals(Projectile projectile, ref Color c)
@@ -85,19 +86,19 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 64);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item74, (int)Projectile.position.X, (int)Projectile.position.Y);
             int dustType = Utils.SelectRandom(Main.rand, new int[]
             {
                 107,
@@ -106,15 +107,15 @@ namespace CalamityMod.Projectiles.Melee
             });
             for (int i = 0; i < 6; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0, 0);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0, 0);
             }
             for (int i = 0; i < 10; i++)
             {
-                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0, 0);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustType, 0, 0);
                 dust.noGravity = true;
                 dust.velocity *= 3f;
 
-                dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustType, 0, 0);
+                dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustType, 0, 0);
                 dust.velocity *= 2f;
                 dust.noGravity = true;
             }

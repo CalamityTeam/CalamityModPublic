@@ -14,28 +14,28 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Phoenix Flame Barrage");
             Tooltip.SetDefault("Baptism by holy fire\n" +
                 "Casts a barrage of fire from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 106;
-            item.height = 140;
-            item.useTime = 15;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<HolyFlame>();
-            item.shootSpeed = 30f;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 106;
+            Item.height = 140;
+            Item.useTime = 15;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<HolyFlame>();
+            Item.shootSpeed = 30f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

@@ -18,27 +18,27 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.noMelee = true;
-            item.width = 30;
-            item.height = 30;
-            item.shoot = ProjectileID.None; // neither kendra nor bear is the direct "shoot"
-            item.buffType = ModContent.BuffType<FurtasticDuoBuff>();
-            item.UseSound = SoundID.Item44;
+            Item.damage = 0;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.noMelee = true;
+            Item.width = 30;
+            Item.height = 30;
+            Item.shoot = ProjectileID.None; // neither kendra nor bear is the direct "shoot"
+            Item.buffType = ModContent.BuffType<FurtasticDuoBuff>();
+            Item.UseSound = SoundID.Item44;
 
-            item.value = Item.sellPrice(platinum: 1);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().devItem = true;
+            Item.value = Item.sellPrice(platinum: 1);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 15, true);
+                player.AddBuff(Item.buffType, 15, true);
             }
         }
 
@@ -52,13 +52,7 @@ namespace CalamityMod.Items.Pets
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BearEye>());
-            recipe.AddIngredient(ModContent.ItemType<RomajedaOrchid>());
-            recipe.AddIngredient(ItemID.LovePotion);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BearEye>()).AddIngredient(ModContent.ItemType<RomajedaOrchid>()).AddIngredient(ItemID.LovePotion).AddTile(TileID.TinkerersWorkbench).Register();
         }
     }
 }

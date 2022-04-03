@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 275;
-            item.ranged = true;
-            item.width = 92;
-            item.height = 44;
-            item.useTime = 3;
-            item.useAnimation = 3;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item41;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 22f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 275;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 92;
+            Item.height = 44;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item41;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 22f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -54,13 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChainGun);
-            recipe.AddIngredient(ModContent.ItemType<ClockGatlignum>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ChainGun).AddIngredient(ModContent.ItemType<ClockGatlignum>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

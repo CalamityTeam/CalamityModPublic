@@ -20,39 +20,39 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 600;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 600;
             aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override bool PreAI()
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                projectile.StickyProjAI(15);
-                projectile.localAI[1]++;
-                if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
+                Projectile.StickyProjAI(15);
+                Projectile.localAI[1]++;
+                if (Projectile.localAI[1] <= 20f && Projectile.ai[0] != 1f)
                 {
-                    projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                    projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+                    Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                    Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * Projectile.direction;
                 }
-                if (projectile.localAI[1] > 20f && projectile.ai[0] != 1f)
+                if (Projectile.localAI[1] > 20f && Projectile.ai[0] != 1f)
                 {
-                    projectile.velocity.Y += 0.4f;
-                    projectile.velocity.X *= 0.97f;
-                    if (projectile.velocity.Y > 16f)
-                        projectile.velocity.Y = 16f;
-                    projectile.rotation += 0.2f * projectile.direction;
+                    Projectile.velocity.Y += 0.4f;
+                    Projectile.velocity.X *= 0.97f;
+                    if (Projectile.velocity.Y > 16f)
+                        Projectile.velocity.Y = 16f;
+                    Projectile.rotation += 0.2f * Projectile.direction;
                 }
-                if (projectile.localAI[0] % 40 == 0 && projectile.ai[0] == 1f)
+                if (Projectile.localAI[0] % 40 == 0 && Projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceRogue = true;
                 }
@@ -63,16 +63,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                projdmg = projectile.damage;
-                projectile.ModifyHitNPCSticky(4, false);
+                projdmg = Projectile.damage;
+                Projectile.ModifyHitNPCSticky(4, false);
             }
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
                 {
@@ -95,8 +95,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<UrchinStinger>());
+                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<UrchinStinger>());
             }
         }
     }

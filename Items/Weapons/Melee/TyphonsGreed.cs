@@ -17,34 +17,28 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.melee = true;
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<TyphonsGreedStaff>();
-            item.shootSpeed = 24f;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<TyphonsGreedStaff>();
+            Item.shootSpeed = 24f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DepthCells>(), 30).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -9,34 +9,34 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FleshBallMinion : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public bool SittingOnGround => Math.Abs(projectile.velocity.X) < 1.55f && projectile.velocity.Y == 0f;
-        public ref float HopTimer => ref projectile.ai[0];
-        public ref float HopAmount => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public bool SittingOnGround => Math.Abs(Projectile.velocity.X) < 1.55f && Projectile.velocity.Y == 0f;
+        public ref float HopTimer => ref Projectile.ai[0];
+        public ref float HopAmount => ref Projectile.ai[1];
         public const float Gravity = 0.25f;
         public const float MaxFallSpeed = 12f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flesh Ball");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 32;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
+            Projectile.width = Projectile.height = 32;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
         }
 
         public override void AI()
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Summon
 
             HopTimer++;
             SufferFromSeparationAnxiety();
-            NPC potentialTarget = projectile.Center.MinionHoming(950f, Owner, false);
+            NPC potentialTarget = Projectile.Center.MinionHoming(950f, Owner, false);
             if (potentialTarget is null)
                 GoNearOwner();
             else
@@ -61,26 +61,26 @@ namespace CalamityMod.Projectiles.Summon
 
             // Verify player/minion state integrity. The minion cannot stay alive if the
             // owner is dead or if the caller of the AI is invalid.
-            if (projectile.type != ModContent.ProjectileType<FleshBallMinion>())
+            if (Projectile.type != ModContent.ProjectileType<FleshBallMinion>())
                 return;
 
             if (Owner.dead)
                 Owner.Calamity().fleshBall = false;
             if (Owner.Calamity().fleshBall)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
         }
 
         internal void DetermineFrames()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 5 == 4)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 5 == 4)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
         internal void EnforceGravity()
         {
-            if (projectile.velocity.Y < MaxFallSpeed)
-                projectile.velocity.Y += Gravity;
+            if (Projectile.velocity.Y < MaxFallSpeed)
+                Projectile.velocity.Y += Gravity;
         }
 
         internal void GenerateVisuals()
@@ -89,74 +89,74 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.dedServ)
                 return;
 
-            projectile.rotation += projectile.velocity.X * 0.05f;
+            Projectile.rotation += Projectile.velocity.X * 0.05f;
 
-            Vector2 shootOffsetDirection = -Vector2.UnitY.RotatedBy(projectile.rotation + projectile.direction * 0.2f);
-            Dust blood = Dust.NewDustDirect(projectile.Center + shootOffsetDirection * 10f - new Vector2(4f), 0, 0, DustID.Blood, newColor: Color.Transparent);
+            Vector2 shootOffsetDirection = -Vector2.UnitY.RotatedBy(Projectile.rotation + Projectile.direction * 0.2f);
+            Dust blood = Dust.NewDustDirect(Projectile.Center + shootOffsetDirection * 10f - new Vector2(4f), 0, 0, DustID.Blood, newColor: Color.Transparent);
             blood.velocity = shootOffsetDirection.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 4f);
             blood.noGravity = true;
         }
 
         internal void SufferFromSeparationAnxiety()
         {
-            float teleportPromptDistance = Collision.CanHitLine(projectile.Center, 1, 1, Owner.Center, 1, 1) ? 1900f : 805f;
-            if (Main.myPlayer == projectile.owner && !projectile.WithinRange(Owner.Center, teleportPromptDistance))
+            float teleportPromptDistance = Collision.CanHitLine(Projectile.Center, 1, 1, Owner.Center, 1, 1) ? 1900f : 805f;
+            if (Main.myPlayer == Projectile.owner && !Projectile.WithinRange(Owner.Center, teleportPromptDistance))
             {
-                projectile.Center = Owner.Center;
-                projectile.netUpdate = true;
+                Projectile.Center = Owner.Center;
+                Projectile.netUpdate = true;
             }
         }
 
         internal void GoNearOwner()
         {
-            projectile.tileCollide = true;
+            Projectile.tileCollide = true;
 
-            bool closeToPlayer = projectile.WithinRange(Owner.Center, 150f);
+            bool closeToPlayer = Projectile.WithinRange(Owner.Center, 150f);
             if (!closeToPlayer && SittingOnGround && HopTimer % 30f == 29f)
             {
-                projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 9f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -9f);
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 9f + new Vector2(Math.Sign(Projectile.velocity.X) * 2f, -9f);
 
                 // Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
-                projectile.tileCollide = false;
-                projectile.netUpdate = true;
+                Projectile.tileCollide = false;
+                Projectile.netUpdate = true;
             }
         }
 
         internal void AttackTarget(NPC target)
         {
-            projectile.tileCollide = true;
+            Projectile.tileCollide = true;
 
             if (SittingOnGround && HopTimer % 20f == 19f)
             {
-                projectile.velocity = projectile.SafeDirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -7f);
+                Projectile.velocity = Projectile.SafeDirectionTo(target.Center) * 6f + new Vector2(Math.Sign(Projectile.velocity.X) * 2f, -7f);
                 HopAmount++;
 
                 // Release a bunch of blood.
-                if (Main.myPlayer == projectile.owner && HopAmount % 3f == 2f)
+                if (Main.myPlayer == Projectile.owner && HopAmount % 3f == 2f)
                 {
                     for (int i = 0; i < 2; i++)
                     {
                         Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f) * Main.rand.NextFloat(6f, 11f);
-                        int blood = Projectile.NewProjectile(projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        int blood = Projectile.NewProjectile(Projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
 
                 // Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
-                projectile.tileCollide = false;
-                projectile.netUpdate = true;
+                Projectile.tileCollide = false;
+                Projectile.netUpdate = true;
             }
         }
 
         // Prevent immediate death on tile collision, and slow down on tile collision.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity.X *= 0.9f;
+            Projectile.velocity.X *= 0.9f;
             return false;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            fallThrough = projectile.Bottom.Y < Owner.Top.Y;
+            fallThrough = Projectile.Bottom.Y < Owner.Top.Y;
             return true;
         }
     }

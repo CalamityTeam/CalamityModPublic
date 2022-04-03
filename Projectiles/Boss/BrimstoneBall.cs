@@ -14,24 +14,24 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.12f * projectile.direction;
+            Projectile.rotation += 0.12f * Projectile.direction;
 
-            Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.25f, 0f, 0f);
 
             for (int num468 = 0; num468 < 2; num468++)
             {
-                Vector2 dspeed = -projectile.velocity * 0.7f;
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 150, default, 1.1f);
+                Vector2 dspeed = -Projectile.velocity * 0.7f;
+                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 150, default, 1.1f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity = dspeed;
             }

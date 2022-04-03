@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class BrimstoneMount : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimrose Mount");
             Description.SetDefault("The seat is toasty.  That is all");

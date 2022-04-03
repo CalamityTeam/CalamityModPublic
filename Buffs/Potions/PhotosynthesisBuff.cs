@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class PhotosynthesisBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photosynthesis");
             Description.SetDefault("Life regen boosted, more during daytime, and hearts heal more HP");

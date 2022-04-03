@@ -16,31 +16,31 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Helium Flash");
             Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
             "Launches volatile star cores which erupt into colossal fusion blasts");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 112;
-            item.height = 112;
-            item.magic = true;
-            item.damage = 2727;
-            item.knockBack = 9.5f;
-            item.mana = 26;
-            item.useAnimation = 40;
-            item.useTime = 40;
-            item.autoReuse = true;
-            item.noMelee = true;
+            Item.width = 112;
+            Item.height = 112;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 2727;
+            Item.knockBack = 9.5f;
+            Item.mana = 26;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
+            Item.autoReuse = true;
+            Item.noMelee = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item73;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item73;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
 
-            item.shoot = ModContent.ProjectileType<VolatileStarcore>();
-            item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<VolatileStarcore>();
+            Item.shootSpeed = 15f;
         }
 
         // TODO -- Fancy visual flare doesn't work with resprited Helium Flash, adjust dust positions
@@ -96,16 +96,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddIngredient(ModContent.ItemType<VenusianTrident>());
-            r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
-            r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
-            r.AddIngredient(ItemID.FragmentSolar, 20);
-            r.AddIngredient(ItemID.FragmentNebula, 5);
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VenusianTrident>()).AddIngredient(ModContent.ItemType<CalamitasInferno>()).AddIngredient(ModContent.ItemType<ForbiddenSun>()).AddIngredient(ItemID.FragmentSolar, 20).AddIngredient(ItemID.FragmentNebula, 5).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

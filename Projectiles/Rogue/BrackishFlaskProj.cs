@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -17,20 +18,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 180;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 180;
             aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
             int randomDust = Utils.SelectRandom(Main.rand, new int[]
             {
                 33,
@@ -38,26 +39,26 @@ namespace CalamityMod.Projectiles.Rogue
             });
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X, projectile.oldVelocity.Y);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
             }
             float spread = 45f * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -32f, ModContent.ProjectileType<BrackishSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -32f, ModContent.ProjectileType<BrackishSpear>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
 
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrackishWaterBlast>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 
                 for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrackishWater>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrackishWater>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrackishWater>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrackishWater>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 1f, 0f);
                 }
             }
         }

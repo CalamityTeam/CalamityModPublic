@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -24,34 +25,34 @@ namespace CalamityMod.Projectiles.Ranged
         {
             DisplayName.SetDefault("Radiant Arrow");
             // While this projectile doesn't have afterimages, it keeps track of old positions for its primitive drawcode.
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 21;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 21;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
-            projectile.arrow = true;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = Lifetime;
-            projectile.MaxUpdates = 3;
-            projectile.penetrate = 2; // Can hit up to two enemies. Will explode extremely soon after hitting the first, though.
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = Projectile.height = 24;
+            Projectile.arrow = true;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = Lifetime;
+            Projectile.MaxUpdates = 3;
+            Projectile.penetrate = 2; // Can hit up to two enemies. Will explode extremely soon after hitting the first, though.
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
-        public override bool CanDamage() => projectile.timeLeft < Lifetime - 4;
+        public override bool CanDamage() => Projectile.timeLeft < Lifetime - 4;
 
-        public override void AI() => Lighting.AddLight(projectile.Center, ShaderColorOne.ToVector3());
+        public override void AI() => Lighting.AddLight(Projectile.Center, ShaderColorOne.ToVector3());
 
         private void RestrictLifetime()
         {
-            if (projectile.timeLeft > 8)
-                projectile.timeLeft = 8;
+            if (Projectile.timeLeft > 8)
+                Projectile.timeLeft = 8;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -99,21 +100,21 @@ namespace CalamityMod.Projectiles.Ranged
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/TelluricGlareStreak"));
-            Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
-            overallOffset += projectile.velocity * 1.4f;
-            TrailDrawer.Draw(projectile.oldPos, overallOffset, 92); // 58
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TelluricGlareStreak"));
+            Vector2 overallOffset = Projectile.Size * 0.5f - Main.screenPosition;
+            overallOffset += Projectile.velocity * 1.4f;
+            TrailDrawer.Draw(Projectile.oldPos, overallOffset, 92); // 58
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
             // Explode into a bunch of holy fire on death.
             for (int i = 0; i < 10; i++)
             {
-                Dust holyFire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+                Dust holyFire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                 holyFire.velocity *= 3f;
 
                 if (Main.rand.NextBool(2))
@@ -124,11 +125,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int i = 0; i < 20; i++)
             {
-                Dust holyFire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, default, 3f);
+                Dust holyFire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 3f);
                 holyFire.noGravity = true;
                 holyFire.velocity *= 5f;
 
-                holyFire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
+                holyFire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
                 holyFire.velocity *= 2f;
             }
         }

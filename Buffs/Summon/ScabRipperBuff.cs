@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ScabRipperBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Blood Crawler");
             Description.SetDefault("The baby blood crawler will protect you");

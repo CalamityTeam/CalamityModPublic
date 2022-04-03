@@ -13,48 +13,48 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 40;
-            projectile.aiStyle = 4;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
+            Projectile.width = Projectile.height = 40;
+            Projectile.aiStyle = 4;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override bool PreAI()
         {
-            if (projectile.ai[0] != 0f)
-                if (projectile.alpha < 170 && projectile.alpha + 5 >= 170)
-                    projectile.alpha += 5;
+            if (Projectile.ai[0] != 0f)
+                if (Projectile.alpha < 170 && Projectile.alpha + 5 >= 170)
+                    Projectile.alpha += 5;
 
             return true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.alpha -= 50;
-                if (projectile.alpha <= 0)
+                Projectile.alpha -= 50;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.ai[0] = 1f;
-                    if (projectile.ai[1] == 0f)
+                    Projectile.alpha = 0;
+                    Projectile.ai[0] = 1f;
+                    if (Projectile.ai[1] == 0f)
                     {
-                        projectile.ai[1] += 1f;
-                        projectile.position += projectile.velocity;
+                        Projectile.ai[1] += 1f;
+                        Projectile.position += Projectile.velocity;
                     }
                 }
             }
             else
             {
-                if (projectile.alpha == 150)
+                if (Projectile.alpha == 150)
                 {
                     for (int num55 = 0; num55 < 10; num55++)
                     {
-                        int num56 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 60, projectile.velocity.X * 0.01f, projectile.velocity.Y * 0.01f, 200, default, 2f);
+                        int num56 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 60, Projectile.velocity.X * 0.01f, Projectile.velocity.Y * 0.01f, 200, default, 2f);
                         Main.dust[num56].noGravity = true;
                     }
                 }
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 8;
+            target.immune[Projectile.owner] = 8;
             target.AddBuff(BuffID.OnFire, 240);
         }
     }

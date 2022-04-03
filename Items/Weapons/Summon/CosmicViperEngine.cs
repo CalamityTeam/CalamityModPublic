@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 138;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 28;
-            item.useTime = item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item15; //phaseblade sound effect
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CosmicViperSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 138;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item15; //phaseblade sound effect
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CosmicViperSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -43,10 +43,10 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 int i = Main.myPlayer;
-                float num72 = item.shootSpeed;
+                float num72 = Item.shootSpeed;
                 float knockback = knockBack;
-                knockback = player.GetWeaponKnockback(item, knockback);
-                player.itemTime = item.useTime;
+                knockback = player.GetWeaponKnockback(Item, knockback);
+                player.itemTime = Item.useTime;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                 float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -78,13 +78,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TacticalPlagueEngine>());
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TacticalPlagueEngine>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 26;
-            item.useTime = 13;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item108;
-            item.autoReuse = true;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<SpykerProj>();
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 26;
+            Item.useTime = 13;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item108;
+            Item.autoReuse = true;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<SpykerProj>();
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Needler>());
-            recipe.AddIngredient(ItemID.Stynger);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Needler>()).AddIngredient(ItemID.Stynger).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

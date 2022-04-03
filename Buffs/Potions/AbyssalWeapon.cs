@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class AbyssalWeapon : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Weapon");
             Description.SetDefault("Melee and rogue weapons inflict abyssal flames, 5% increased movement speed");

@@ -18,29 +18,29 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 248;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 82;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DWArrow>();
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 248;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 82;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DWArrow>();
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DeathwindGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

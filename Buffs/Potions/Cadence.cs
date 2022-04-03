@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Cadence : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cadance");
             Description.SetDefault("Your heart is pure");

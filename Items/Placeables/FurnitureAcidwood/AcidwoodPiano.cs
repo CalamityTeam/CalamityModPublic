@@ -11,28 +11,22 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Acidwood Piano");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<AcidwoodPianoTile>();
+            Item.SetNameOverride("Acidwood Piano");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<AcidwoodPianoTile>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bone, 4);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 15);
-            recipe.AddIngredient(ItemID.Book);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Sawmill);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Bone, 4).AddIngredient(ModContent.ItemType<Acidwood>(), 15).AddIngredient(ItemID.Book).AddTile(TileID.Sawmill).Register();
         }
     }
 }

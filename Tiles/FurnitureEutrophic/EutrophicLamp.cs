@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp();
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.5f;
                 g = 1f;

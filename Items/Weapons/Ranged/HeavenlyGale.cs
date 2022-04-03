@@ -36,23 +36,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 198;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 58;
-            item.useTime = 15;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 198;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 58;
+            Item.useTime = 15;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -103,17 +103,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
-            recipe.AddIngredient(ItemType<Alluvion>());
-            recipe.AddIngredient(ItemType<AstrealDefeat>());
-            recipe.AddIngredient(ItemType<ClockworkBow>());
-            recipe.AddIngredient(ItemType<Galeforce>());
-            recipe.AddIngredient(ItemType<TheBallista>());
-            recipe.AddIngredient(ItemType<MiracleMatter>());
-            recipe.AddTile(TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<PlanetaryAnnihilation>()).AddIngredient(ItemType<Alluvion>()).AddIngredient(ItemType<AstrealDefeat>()).AddIngredient(ItemType<ClockworkBow>()).AddIngredient(ItemType<Galeforce>()).AddIngredient(ItemType<TheBallista>()).AddIngredient(ItemType<MiracleMatter>()).AddTile(TileType<DraedonsForge>()).Register();
         }
     }
 }

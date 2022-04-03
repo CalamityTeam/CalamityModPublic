@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Mechworm : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechworm");
             Description.SetDefault("The mechworm will protect you");

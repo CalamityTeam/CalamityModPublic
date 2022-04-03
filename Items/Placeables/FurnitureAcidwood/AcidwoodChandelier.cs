@@ -11,28 +11,22 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Acidwood Chandelier");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<AcidwoodChandelierTile>();
+            Item.SetNameOverride("Acidwood Chandelier");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<AcidwoodChandelierTile>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 4);
-            recipe.AddIngredient(ItemID.Torch, 4);
-            recipe.AddIngredient(ItemID.Chain);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Acidwood>(), 4).AddIngredient(ItemID.Torch, 4).AddIngredient(ItemID.Chain).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 16;
-            item.height = 42;
-            item.damage = 15;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 16;
+            Item.height = 42;
+            Item.damage = 15;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

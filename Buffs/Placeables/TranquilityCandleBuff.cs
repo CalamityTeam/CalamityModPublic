@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class TranquilityCandleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tranquility Candle");
             Description.SetDefault("Spawn rates around the candle are reduced!");

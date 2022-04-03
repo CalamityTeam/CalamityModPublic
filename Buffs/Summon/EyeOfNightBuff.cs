@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class EyeOfNightBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eye of Night");
             Description.SetDefault("It eerily watches");

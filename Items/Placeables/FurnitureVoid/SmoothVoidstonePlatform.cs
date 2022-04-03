@@ -11,25 +11,21 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 
         public override void SetDefaults()
         {
-            item.width = 8;
-            item.height = 10;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureVoid.SmoothVoidstonePlatform>();
+            Item.width = 8;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureVoid.SmoothVoidstonePlatform>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothVoidstone>());
-            recipe.SetResult(this, 2);
-            recipe.AddTile(ModContent.TileType<VoidCondenser>());
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ModContent.ItemType<SmoothVoidstone>()).AddTile(ModContent.TileType<VoidCondenser>()).Register();
         }
     }
 }

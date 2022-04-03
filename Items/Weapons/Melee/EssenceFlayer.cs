@@ -20,36 +20,32 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.damage = 180;
-            item.melee = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.height = 78;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<EssenceScythe>();
-            item.shootSpeed = 21f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 100;
+            Item.damage = 180;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.height = 78;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<EssenceScythe>();
+            Item.shootSpeed = 21f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

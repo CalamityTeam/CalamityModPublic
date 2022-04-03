@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ViridVanguardBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virid Vanguard");
             Description.SetDefault("A perfect act of unity surrounds you");

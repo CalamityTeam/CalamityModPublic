@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.defense = 12; //43
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.defense = 12; //43
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -57,12 +57,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<TitanHeart>());
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 10).AddIngredient(ModContent.ItemType<TitanHeart>()).AddTile(TileID.Anvils).Register();
         }
     }
 }

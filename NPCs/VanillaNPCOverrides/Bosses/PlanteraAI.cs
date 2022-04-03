@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -145,7 +146,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     if (Main.tile[x, y] != null)
                     {
-                        if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+                        if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tileSolidTop[Main.tile[x, y].TileType] && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                             nearbyActiveTiles++;
                     }
                 }
@@ -519,7 +520,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (calamityGlobalNPC.newAI[0] >= sporeGasGateValue)
                     {
                         npc.TargetClosest();
-                        Main.PlaySound(SoundID.Item20, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item20, npc.position);
 
                         Vector2 vector93 = npc.Center;
                         float num742 = 3f;
@@ -717,7 +718,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         try
                         {
-                            if (WorldGen.SolidTile(num768, num769) || (Main.tile[num768, num769].wall > 0 && (num764 > 500 || lifeRatio < 0.5f)))
+                            if (WorldGen.SolidTile(num768, num769) || (Main.tile[num768, num769].WallType > 0 && (num764 > 500 || lifeRatio < 0.5f)))
                             {
                                 flag50 = true;
                                 npc.ai[0] = num768;

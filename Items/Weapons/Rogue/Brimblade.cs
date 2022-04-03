@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 26;
-            item.damage = 28;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<BrimbladeProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 26;
+            Item.damage = 28;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 26;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<BrimbladeProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -59,11 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

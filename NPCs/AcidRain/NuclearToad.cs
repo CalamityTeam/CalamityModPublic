@@ -10,93 +10,94 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
     public class NuclearToad : ModNPC
     {
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Toad");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 62;
-            npc.height = 34;
-            npc.defense = 4;
+            NPC.width = 62;
+            NPC.height = 34;
+            NPC.defense = 4;
 
-            npc.aiStyle = aiType = -1;
+            NPC.aiStyle = aiType = -1;
 
-            npc.damage = 15;
-            npc.lifeMax = 60;
-            npc.defense = 3;
+            NPC.damage = 15;
+            NPC.lifeMax = 60;
+            NPC.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 80;
-                npc.lifeMax = 2750;
-                npc.defense = 15;
+                NPC.damage = 80;
+                NPC.lifeMax = 2750;
+                NPC.defense = 15;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 35;
-                npc.lifeMax = 200;
+                NPC.damage = 35;
+                NPC.lifeMax = 200;
             }
 
-            npc.knockBackResist = 0.7f;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.lavaImmune = false;
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.knockBackResist = 0.7f;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.lavaImmune = false;
+            NPC.noGravity = true;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<NuclearToadBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
             // Slow down over time on the X axis (to prevent endless sliding as a result of KB).
-            npc.velocity.X *= 0.96f;
+            NPC.velocity.X *= 0.96f;
 
             // Bob on the top of the water.
-            if (npc.wet)
+            if (NPC.wet)
             {
-                if (npc.velocity.Y > 2f)
-                    npc.velocity.Y *= 0.9f;
-                npc.velocity.Y -= 0.16f;
-                if (npc.velocity.Y < -4f)
-                    npc.velocity.Y = -4f;
+                if (NPC.velocity.Y > 2f)
+                    NPC.velocity.Y *= 0.9f;
+                NPC.velocity.Y -= 0.16f;
+                if (NPC.velocity.Y < -4f)
+                    NPC.velocity.Y = -4f;
             }
             else
             {
-                if (npc.velocity.Y < -2f)
-                    npc.velocity.Y *= 0.9f;
-                npc.velocity.Y += 0.16f;
-                if (npc.velocity.Y > 3f)
-                    npc.velocity.Y = 3f;
-                npc.ai[0] = 5f;
+                if (NPC.velocity.Y < -2f)
+                    NPC.velocity.Y *= 0.9f;
+                NPC.velocity.Y += 0.16f;
+                if (NPC.velocity.Y > 3f)
+                    NPC.velocity.Y = 3f;
+                NPC.ai[0] = 5f;
             }
 
             // Make a frog croak sound from time to time.
             if (Main.rand.NextBool(480))
-                Main.PlaySound(SoundID.Zombie, npc.Center, 13);
+                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 13);
 
             float explodeDistance = CalamityWorld.downedAquaticScourge ? 295f : 195f;
             if (CalamityWorld.downedPolterghast)
                 explodeDistance = 470f;
 
             // Explode if a player gets too close.
-            if (npc.WithinRange(Target.Center, explodeDistance))
+            if (NPC.WithinRange(Target.Center, explodeDistance))
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -109,53 +110,53 @@ namespace CalamityMod.NPCs.AcidRain
                     }
 
                     for (int i = 0; i < 7; i++)
-                        Projectile.NewProjectile(npc.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
+                        Projectile.NewProjectile(NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
                 }
-                Main.PlaySound(SoundID.DD2_KoboldExplosion, npc.Center);
-                npc.life = 0;
-                npc.HitEffect();
-                npc.active = false;
-                npc.netUpdate = true;
+                SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, NPC.Center);
+                NPC.life = 0;
+                NPC.HitEffect();
+                NPC.active = false;
+                NPC.netUpdate = true;
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 4)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 4)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                    npc.frame.Y = 0;
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y >= Main.npcFrameCount[NPC.type] * frameHeight)
+                    NPC.frame.Y = 0;
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore1"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore3"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore4"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore1"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore3"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore4"), NPC.scale);
                 for (int i = 0; i < 25; i++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextFloat(-2f, 2f), -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextFloat(-2f, 2f), -1f, 0, default, 1f);
             }
         }
 
         public override void NPCLoot()
         {
             float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CausticCroakerStaff>(), dropChance);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CausticCroakerStaff>(), dropChance);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"), true);
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow"), true);
     }
 }

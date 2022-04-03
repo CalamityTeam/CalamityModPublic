@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -13,21 +14,21 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil Fork");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 5;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.alpha = 180;
-            projectile.timeLeft = 300;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 5;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 180;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -39,28 +40,28 @@ namespace CalamityMod.Projectiles.Melee
                 172
             });
 
-            if (projectile.position.HasNaNs())
+            if (Projectile.position.HasNaNs())
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
-            Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f)];
-            dust.position = projectile.Center;
+            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
+            Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f)];
+            dust.position = Projectile.Center;
             dust.velocity = Vector2.Zero;
             dust.noGravity = true;
 
             if (tileCheck)
                 dust.noLight = true;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.ToRadians(45);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.ToRadians(45);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.position.X / 16, (int)Projectile.position.Y / 16));
             for (int m = 0; m < 4; m++)
             {
                 int dustType = Utils.SelectRandom(Main.rand, new int[]
@@ -69,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                     (int)CalamityDusts.Brimstone,
                     172
                 });
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
             }
             for (int n = 0; n < 4; n++)
             {
@@ -79,14 +80,14 @@ namespace CalamityMod.Projectiles.Melee
                     (int)CalamityDusts.Brimstone,
                     172
                 });
-                int dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                int dustInt = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
                 Main.dust[dustInt].noGravity = true;
                 Main.dust[dustInt].velocity *= 3f;
                 if (tileCheck)
                 {
                     Main.dust[dustInt].noLight = true;
                 }
-                dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
+                dustInt = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
                 Main.dust[dustInt].velocity *= 2f;
                 Main.dust[dustInt].noGravity = true;
                 if (tileCheck)
@@ -97,11 +98,11 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         //glowmask effect
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

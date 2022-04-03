@@ -12,18 +12,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 22;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = projectile.MaxUpdates * 300;
+            Projectile.width = Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = Projectile.MaxUpdates * 300;
         }
 
         public override void AI()
         {
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 850f, 19f, 30f);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 850f, 19f, 30f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Rogue
 
             for (int i = 0; i < 15; i++)
             {
-                Vector2 circularOffsetDirection = (MathHelper.TwoPi * i / 15f).ToRotationVector2().RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
-                Vector2 spawnPosition = projectile.Center - (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * projectile.height * 1.25f;
+                Vector2 circularOffsetDirection = (MathHelper.TwoPi * i / 15f).ToRotationVector2().RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+                Vector2 spawnPosition = Projectile.Center - (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * Projectile.height * 1.25f;
                 spawnPosition += circularOffsetDirection * new Vector2(12f, 7f);
 
                 Dust energy = Dust.NewDustPerfect(spawnPosition, 261);
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
     }

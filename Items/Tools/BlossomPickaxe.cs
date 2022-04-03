@@ -16,32 +16,28 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 92;
-            item.knockBack = 6.5f;
-            item.useTime = 4;
-            item.useAnimation = 12;
-            item.pick = 250;
-            item.tileBoost += 5;
+            Item.damage = 92;
+            Item.knockBack = 6.5f;
+            Item.useTime = 4;
+            Item.useAnimation = 12;
+            Item.pick = 250;
+            Item.tileBoost += 5;
 
-            item.melee = true;
-            item.width = 50;
-            item.height = 52;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 50;
+            Item.height = 52;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

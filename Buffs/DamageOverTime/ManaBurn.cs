@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class ManaBurn : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Burn");
             Description.SetDefault("The excess of mana sears your body and mind");

@@ -15,16 +15,16 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 0, 0, 1);
-            item.createTile = ModContent.TileType<PlacedRock>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 0, 0, 1);
+            Item.createTile = ModContent.TileType<PlacedRock>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
         }
     }
 }

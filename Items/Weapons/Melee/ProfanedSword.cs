@@ -20,20 +20,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.melee = true;
-            item.width = item.height = 52;
-            item.scale = 1.5f;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = Item.height = 52;
+            Item.scale = 1.5f;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -45,15 +45,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.noMelee = true;
-                item.noUseGraphic = true;
-                item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
+                Item.noMelee = true;
+                Item.noUseGraphic = true;
+                Item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
             }
             else
             {
-                item.noMelee = false;
-                item.noUseGraphic = false;
-                item.shoot = ProjectileID.None;
+                Item.noMelee = false;
+                Item.noUseGraphic = false;
+                Item.shoot = ProjectileID.None;
             }
             return base.CanUseItem(player);
         }
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage /= 2;
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Brimblast>(), damage, Item.knockBack, Main.myPlayer);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -90,11 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 6).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

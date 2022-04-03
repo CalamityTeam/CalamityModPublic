@@ -21,41 +21,35 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.width = 44;
-            item.height = 44;
-            item.damage = 110;
-            item.melee = true;
-            item.knockBack = 10f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GalileosMoon>();
-            item.shootSpeed = 14f;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.width = 44;
+            Item.height = 44;
+            Item.damage = 110;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 10f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GalileosMoon>();
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int moonDamage = (int)(damage * 0.3333f);
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, moonDamage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, moonDamage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

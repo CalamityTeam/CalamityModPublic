@@ -11,27 +11,27 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 30;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 30;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 3f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
+            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 150f, 3f, 6f, 2, ModContent.ProjectileType<AngelBolt>(), 1D, true);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BanishingFire>(), 300);

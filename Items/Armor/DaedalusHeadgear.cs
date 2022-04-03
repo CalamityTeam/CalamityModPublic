@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 3; //33
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 3; //33
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -54,24 +54,18 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
                 }
             }
-            player.minionDamage += 0.2f;
+            player.GetDamage(DamageClass.Summon) += 0.2f;
             player.maxMinions += 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.05f;
+            player.GetDamage(DamageClass.Summon) += 0.05f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ItemID.CrystalShard, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.CrystalShard, 3).AddIngredient(ModContent.ItemType<EssenceofEleum>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

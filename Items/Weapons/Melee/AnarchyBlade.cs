@@ -25,30 +25,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.damage = BaseDamage;
-            item.melee = true;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 100;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 94;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 100;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<UnholyCore>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -89,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, Item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }

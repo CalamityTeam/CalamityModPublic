@@ -22,37 +22,37 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.width = 43;
-            item.height = 24;
-            item.magic = true;
-            item.damage = 43;
-            item.knockBack = 1f;
-            item.useTime = 2;
-            item.useAnimation = 2;
-            item.noUseGraphic = true;
-            item.autoReuse = false;
-            item.channel = true;
-            item.mana = 6;
+            Item.width = 43;
+            Item.height = 24;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 43;
+            Item.knockBack = 1f;
+            Item.useTime = 2;
+            Item.useAnimation = 2;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.mana = 6;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
-            item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
-            item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
+            Item.shootSpeed = 24f;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 135f;
             modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 3);
 
@@ -66,14 +66,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 3);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

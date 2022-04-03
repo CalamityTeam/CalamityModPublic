@@ -23,22 +23,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.knockBack = Knockback;
-            item.autoReuse = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 14;
-            item.height = 50;
-            item.UseSound = SoundID.Item106;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<TheSyringeProj>();
-            item.shootSpeed = Speed;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.knockBack = Knockback;
+            Item.autoReuse = true;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 14;
+            Item.height = 50;
+            Item.UseSound = SoundID.Item106;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<TheSyringeProj>();
+            Item.shootSpeed = Speed;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

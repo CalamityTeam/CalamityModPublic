@@ -20,32 +20,28 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 46;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 3.5f;
-            item.value = Item.sellPrice(copper: 28);
-            item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
-            item.shootSpeed = 10f;
-            item.ammo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 46;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 3.5f;
+            Item.value = Item.sellPrice(copper: 28);
+            Item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
+            Item.shootSpeed = 10f;
+            Item.ammo = AmmoID.Arrow;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this, 999);
-            recipe.AddRecipe();
+            CreateRecipe(999).AddIngredient(ModContent.ItemType<CosmiliteBar>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -21,31 +21,31 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
 
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
     public class ArtifactOfResilienceShard2 : ModProjectile
     {
@@ -146,36 +146,36 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
     public class ArtifactOfResilienceShard3 : ModProjectile
     {
@@ -185,35 +185,35 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
     public class ArtifactOfResilienceShard4 : ModProjectile
     {
@@ -223,35 +223,35 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
     public class ArtifactOfResilienceShard5 : ModProjectile
     {
@@ -261,35 +261,35 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
     public class ArtifactOfResilienceShard6 : ModProjectile
     {
@@ -299,34 +299,34 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact Shard");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = ArtifactOfResilienceShard1.MaxTimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frameCounter);
+            writer.Write(Projectile.frameCounter);
             writer.WriteVector2(StartingPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frameCounter = reader.ReadInt32();
+            Projectile.frameCounter = reader.ReadInt32();
             StartingPosition = reader.ReadVector2();
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(projectile, ref StartingPosition, ref Timer);
+        public override void AI() => ArtifactOfResilienceShard1.ArtifactOfResilienceShardAI(Projectile, ref StartingPosition, ref Timer);
     }
 }

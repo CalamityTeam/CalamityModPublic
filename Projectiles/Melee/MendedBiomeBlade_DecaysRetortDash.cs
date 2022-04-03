@@ -11,8 +11,8 @@ namespace CalamityMod.Projectiles.Melee
     public class DecaysRetortDash : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public Player Owner => Main.player[projectile.owner];
-        public float Timer => 20 - projectile.timeLeft;
+        public Player Owner => Main.player[Projectile.owner];
+        public float Timer => 20 - Projectile.timeLeft;
 
         public Vector2 DashStart;
         public Vector2 DashEnd;
@@ -23,14 +23,14 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 8;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
-            projectile.timeLeft = 20;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 8;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
+            Projectile.timeLeft = 20;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetortDash");
 
-            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
+            Vector2 Shake = Projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - Projectile.timeLeft / 5f) * 0.5f;
 
             int dist = (int)Vector2.Distance(DashEnd, DashStart) / 16;
             Vector2[] Nodes = new Vector2[dist + 1];
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
                 float xScale = (i / (float)dist) * 5f;
                 Vector2 scale = new Vector2(xScale, yScale);
 
-                float opacity = MathHelper.Clamp((float)Math.Sin(i / (float)dist * MathHelper.PiOver2) - (i / (float)dist * ((20f - projectile.timeLeft) / 25f)), 0f, 1f);
+                float opacity = MathHelper.Clamp((float)Math.Sin(i / (float)dist * MathHelper.PiOver2) - (i / (float)dist * ((20f - Projectile.timeLeft) / 25f)), 0f, 1f);
 
                 Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
                 spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, null, Color.Crimson * opacity, rotation, origin, scale, SpriteEffects.None, 0);
@@ -84,8 +84,8 @@ namespace CalamityMod.Projectiles.Melee
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)sparkTexture.Width / (float)bloomTexture.Height;
 
-            float bump = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.Pi);
-            float raise = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.PiOver2);
+            float bump = (float)Math.Sin(((20f - Projectile.timeLeft) / 20f) * MathHelper.Pi);
+            float raise = (float)Math.Sin(((20f - Projectile.timeLeft) / 20f) * MathHelper.PiOver2);
             Rectangle frame = new Rectangle(0, 0, 14, 14);
 
             spriteBatch.Draw(bloomTexture, DashEnd - Main.screenPosition, null, Color.Crimson * bump * 0.5f, 0, bloomTexture.Size() / 2f, bump * 6f * properBloomSize, SpriteEffects.None, 0);

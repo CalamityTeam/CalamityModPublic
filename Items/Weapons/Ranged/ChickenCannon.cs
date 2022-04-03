@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,29 +18,29 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 416;
-            item.ranged = true;
-            item.width = 126;
-            item.height = 42;
-            item.useTime = item.useAnimation = 33;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 416;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 126;
+            Item.height = 42;
+            Item.useTime = Item.useAnimation = 33;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
             // No use sound is intentional
-            item.autoReuse = true;
-            item.shootSpeed = 14.5f;
-            item.shoot = ModContent.ProjectileType<ChickenRocket>();
-            item.useAmmo = AmmoID.Rocket;
-            item.channel = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14.5f;
+            Item.shoot = ModContent.ProjectileType<ChickenRocket>();
+            Item.useAmmo = AmmoID.Rocket;
+            Item.channel = true;
         }
 
         public override void HoldItem(Player player)
         {
-            item.channel = player.altFunctionUse != 2;
-            item.noUseGraphic = player.altFunctionUse != 2;
+            Item.channel = player.altFunctionUse != 2;
+            Item.noUseGraphic = player.altFunctionUse != 2;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
@@ -56,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Play a sound and detonate all in-flight rockets, but don't shoot anything.
             if (player.altFunctionUse == 2)
             {
-                Main.PlaySound(SoundID.Item110, position);
+                SoundEngine.PlaySound(SoundID.Item110, position);
                 DetonateRockets(player);
                 return false;
             }
@@ -73,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = 0; i < Main.maxProjectiles; ++i)
             {
                 Projectile p = Main.projectile[i];
-                if (!p.active || p.owner != player.whoAmI || p.type != item.shoot)
+                if (!p.active || p.owner != player.whoAmI || p.type != Item.shoot)
                     continue;
 
                 // All rockets will instantly explode on the next frame and send packets to indicate as such.

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -42,17 +43,17 @@ namespace CalamityMod.Items.Accessories
                 "Provides buffs depending on the time of day\n" +
                 "Thinking back, it was a boring life\n" +
                 "[c/FFBF49:And so we burn it all in the name of purity]");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 50;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.width = 50;
+            Item.height = 50;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Accessories
                 int index = 0;
                 foreach (TooltipLine line in tooltips)
                 {
-                    if (line.mod == "Terraria" && line.Name.StartsWith("Tooltip"))
+                    if (line.Mod == "Terraria" && line.Name.StartsWith("Tooltip"))
                     {
                         if (line.Name == "Tooltip0")
                         {
@@ -80,7 +81,7 @@ namespace CalamityMod.Items.Accessories
                             line.text = "";
                         }
                     }
-                    else if (line.mod == "Terraria" && line.text.Contains("Sell price"))
+                    else if (line.Mod == "Terraria" && line.text.Contains("Sell price"))
                     {
                         line.text = "";
                     }
@@ -94,7 +95,7 @@ namespace CalamityMod.Items.Accessories
                 int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
                 foreach (TooltipLine line in tooltips)
                 {
-                    if (line.mod == "Terraria" && line.Name == "Tooltip5")
+                    if (line.Mod == "Terraria" && line.Name == "Tooltip5")
                     {
                         line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
                     }
@@ -146,14 +147,14 @@ namespace CalamityMod.Items.Accessories
 
                                 Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 175 : 350) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
-                                Main.PlaySound(SoundID.Item20, player.Center);
+                                SoundEngine.PlaySound(SoundID.Item20, player.Center);
                             }
                             player.Calamity().profanedSoulWeaponUsage = 0;
                         }
                         else
                         {
                             Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 125 : 250) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
-                            Main.PlaySound(SoundID.Item20, player.Center);
+                            SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
 
                     }
@@ -186,7 +187,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         if (projType > 1)
                         {
-                            Main.PlaySound(SoundID.Item20, player.Center);
+                            SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
                     }
                 }
@@ -209,7 +210,7 @@ namespace CalamityMod.Items.Accessories
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
-                        Main.PlaySound(SoundID.Item20, player.Center);
+                        SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         int dam = (int)((shouldNerf ? 450 : 900) * player.MinionDamage());
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
@@ -239,7 +240,7 @@ namespace CalamityMod.Items.Accessories
                             int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 88 : 176) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[proj].Calamity().forceMinion = true;
-                            Main.PlaySound(SoundID.Item20, player.Center);
+                            SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
                         player.Calamity().profanedSoulWeaponUsage = 0;
                     }
@@ -249,7 +250,7 @@ namespace CalamityMod.Items.Accessories
                         int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 110 : 220) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                             Main.projectile[proj].Calamity().forceMinion = true;
-                        Main.PlaySound(SoundID.Item20, player.Center);
+                        SoundEngine.PlaySound(SoundID.Item20, player.Center);
                     }
                     player.Calamity().profanedSoulWeaponUsage += enrage ? 1 : 2;
                     if (!enrage && player.Calamity().profanedSoulWeaponUsage % 2 != 0)
@@ -261,18 +262,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            PSCRecipe recipe = new PSCRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>());
-            recipe.AddIngredient(ItemID.ObsidianRose);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 100);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
-            recipe.needLava = true;
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>()).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 25).AddIngredient(ModContent.ItemType<DivineGeode>(), 50).AddIngredient(ModContent.ItemType<UnholyEssence>(), 100).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<ProfanedBasin>()).Register();
         }
     }
 

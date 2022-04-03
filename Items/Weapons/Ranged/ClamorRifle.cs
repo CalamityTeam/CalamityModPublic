@@ -16,23 +16,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 23;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
-            item.autoReuse = true;
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 23;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.autoReuse = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);

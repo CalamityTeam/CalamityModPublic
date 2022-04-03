@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class CorruptionEffigyBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corruption Effigy");
             Description.SetDefault("The corruption empowers you");

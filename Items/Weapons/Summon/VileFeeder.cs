@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item2;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VileFeederSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = BaseDamage;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item2;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VileFeederSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -41,10 +41,10 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 int i = Main.myPlayer;
-                float num72 = item.shootSpeed;
+                float num72 = Item.shootSpeed;
                 float knockback = knockBack;
-                knockback = player.GetWeaponKnockback(item, knockback);
-                player.itemTime = item.useTime;
+                knockback = player.GetWeaponKnockback(Item, knockback);
+                player.itemTime = Item.useTime;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                 float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -76,13 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddIngredient(ItemID.ShadowScale, 9);
-            recipe.AddIngredient(ItemID.Ebonwood, 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ItemID.ShadowScale, 9).AddIngredient(ItemID.Ebonwood, 20).AddTile(TileID.Anvils).Register();
         }
     }
 }

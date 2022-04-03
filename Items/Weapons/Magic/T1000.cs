@@ -20,39 +20,31 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 247;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 94;
-            item.height = 54;
-            item.useTime = item.useAnimation = UseTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.knockBack = 4f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AetherfluxCannonHoldout>();
-            item.shootSpeed = 24f;
+            Item.damage = 247;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 94;
+            Item.height = 54;
+            Item.useTime = Item.useAnimation = UseTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.knockBack = 4f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AetherfluxCannonHoldout>();
+            Item.shootSpeed = 24f;
 
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Purge>());
-            recipe.AddIngredient(ModContent.ItemType<PurgeGuzzler>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Purge>()).AddIngredient(ModContent.ItemType<PurgeGuzzler>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 12).AddIngredient(ModContent.ItemType<DivineGeode>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

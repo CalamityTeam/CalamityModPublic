@@ -13,27 +13,22 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssCandle>();
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.value = 0;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssCandle>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<VoidCondenser>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 4).AddIngredient(ModContent.ItemType<Lumenite>()).AddTile(ModContent.TileType<VoidCondenser>()).Register();
         }
     }
 }

@@ -18,25 +18,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 28;
-            item.damage = 260;
-            item.rare = ItemRarityID.Red;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.useAnimation = item.useTime = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item68;
-            item.shootSpeed = 1f;
-            item.shoot = ModContent.ProjectileType<SpineOfThanatosProjectile>();
+            Item.width = Item.height = 28;
+            Item.damage = 260;
+            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item68;
+            Item.shootSpeed = 1f;
+            Item.shoot = ModContent.ProjectileType<SpineOfThanatosProjectile>();
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

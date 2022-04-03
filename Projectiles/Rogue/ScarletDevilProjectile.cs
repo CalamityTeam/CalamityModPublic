@@ -5,55 +5,56 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilProjectile : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
-        public ref float ShootTimer => ref projectile.ai[0];
+        public ref float ShootTimer => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScarletDevil";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear the Gungnir");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 45;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
-            projectile.width = 108;
-            projectile.height = 108;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 45;
+            Projectile.width = 108;
+            Projectile.height = 108;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.55f, 0.25f, 0f);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Lighting.AddLight(Projectile.Center, 0.55f, 0.25f, 0f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             if (!Main.dedServ)
             {
-                for (int i = 0; i < (projectile.Calamity().stealthStrike && Main.rand.NextBool(2) ? 2 : 1); i++)
-                    Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 130, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
+                for (int i = 0; i < (Projectile.Calamity().stealthStrike && Main.rand.NextBool(2) ? 2 : 1); i++)
+                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 130, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
             }
 
             ShootTimer++;
 
-            if (!projectile.Calamity().stealthStrike && projectile.oldPos.Length != 6)
-                projectile.oldPos = new Vector2[6];
+            if (!Projectile.Calamity().stealthStrike && Projectile.oldPos.Length != 6)
+                Projectile.oldPos = new Vector2[6];
 
-            if ((ShootTimer %= 5f) == 0f && !projectile.Calamity().stealthStrike)
+            if ((ShootTimer %= 5f) == 0f && !Projectile.Calamity().stealthStrike)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                     GenerateSideBullets(2, MathHelper.ToRadians(15f));
             }
         }
@@ -62,10 +63,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < totalBullets; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(-projectile.velocity.X / 3, -projectile.velocity.Y / 3).RotatedBy(MathHelper.Lerp(-rotationalOffset, rotationalOffset, i / (totalBullets - 1)));
+                Vector2 perturbedSpeed = new Vector2(-Projectile.velocity.X / 3, -Projectile.velocity.Y / 3).RotatedBy(MathHelper.Lerp(-rotationalOffset, rotationalOffset, i / (totalBullets - 1)));
                 for (int j = 0; j < 2; j++)
                 {
-                    Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.03), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.03), 0f, Projectile.owner, 0f, 0f);
                     perturbedSpeed *= 1.05f;
                 }
             }
@@ -79,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 40; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 40f).ToRotationVector2() * starSpeed;
-                int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.01), 0f, projectile.owner);
+                int bullet = Projectile.NewProjectile(Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
                 if (Main.projectile.IndexInRange(bullet))
                     Main.projectile[bullet].Calamity().stealthStrike = true;
             }
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int j = 0; j < pointsOnStarSegment; j++)
                     {
                         Vector2 shootVelocity = Vector2.Lerp(start, end, j / (float)pointsOnStarSegment) * starSpeed;
-                        int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.01), 0f, projectile.owner);
+                        int bullet = Projectile.NewProjectile(Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
                         if (Main.projectile.IndexInRange(bullet))
                             Main.projectile[bullet].Calamity().stealthStrike = true;
                     }
@@ -115,21 +116,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item122, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 150);
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(projectile.damage * 0.0075), 0f, projectile.owner);
-            if (!projectile.Calamity().stealthStrike)
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+            if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            if (!Main.player[projectile.owner].moonLeech)
+            if (!Main.player[Projectile.owner].moonLeech)
             {
                 // Give on-heal effects from stealth strikes.
-                Main.player[projectile.owner].statLife += 120;
-                Main.player[projectile.owner].HealEffect(120);
+                Main.player[Projectile.owner].statLife += 120;
+                Main.player[Projectile.owner].HealEffect(120);
             }
 
             // And spawn a bloom of bullets.
@@ -138,14 +139,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 150);
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(projectile.damage * 0.0075), 0f, projectile.owner);
-            if (!projectile.Calamity().stealthStrike)
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+            if (!Projectile.Calamity().stealthStrike)
                 return;
 
             // Give on-heal effects from stealth strikes.
-            Main.player[projectile.owner].statLife += 120;
-            Main.player[projectile.owner].HealEffect(120);
+            Main.player[Projectile.owner].statLife += 120;
+            Main.player[Projectile.owner].HealEffect(120);
 
             // And spawn a bloom of bullets.
             SpawnOnStealthStrikeBullets();
@@ -167,9 +168,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (!projectile.Calamity().stealthStrike)
+            if (!Projectile.Calamity().stealthStrike)
             {
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], new Color(100, 100, 100));
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], new Color(100, 100, 100));
                 return true;
             }
             else
@@ -177,10 +178,10 @@ namespace CalamityMod.Projectiles.Rogue
                 if (TrailDrawer is null)
                     TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"]);
 
-                GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
-                TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, 60);
+                GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, 60);
 
-                Texture2D spearTexture = ModContent.GetTexture(Texture);
+                Texture2D spearTexture = ModContent.Request<Texture2D>(Texture);
 
                 for (int i = 0; i < 7; i++)
                 {
@@ -188,7 +189,7 @@ namespace CalamityMod.Projectiles.Rogue
                     drawColor.A = 0;
 
                     Vector2 drawOffset = (i / 7f * MathHelper.TwoPi).ToRotationVector2() * 2f;
-                    spriteBatch.Draw(spearTexture, projectile.Center - Main.screenPosition + drawOffset, null, drawColor, projectile.rotation, spearTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(spearTexture, Projectile.Center - Main.screenPosition + drawOffset, null, drawColor, Projectile.rotation, spearTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
                 }
             }
             return false;

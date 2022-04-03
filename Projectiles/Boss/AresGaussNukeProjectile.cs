@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -19,52 +20,52 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Nuke");
-            Main.projFrames[projectile.type] = 12;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 12;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 100;
+            Projectile.height = 100;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
             cooldownSlot = 1;
-            projectile.timeLeft = timeLeft;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.timeLeft = timeLeft;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.position.Y > projectile.ai[1])
-                projectile.tileCollide = true;
+            if (Projectile.position.Y > Projectile.ai[1])
+                Projectile.tileCollide = true;
 
             // Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 12)
-                projectile.frame = 0;
+            if (Projectile.frame >= 12)
+                Projectile.frame = 0;
 
             // Rotation
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - MathHelper.PiOver2;
 
             // Difficulty modes
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -73,15 +74,15 @@ namespace CalamityMod.Projectiles.Boss
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             // Spawn effects
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
                 for (int i = 0; i < 25; i++)
                 {
                     // Choose a random speed and angle
                     float dustSpeed = Main.rand.NextFloat(3f, 13f);
                     float angleRandom = 0.06f;
-                    Vector2 dustVel = new Vector2(dustSpeed, 0f).RotatedBy(projectile.velocity.ToRotation());
+                    Vector2 dustVel = new Vector2(dustSpeed, 0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2f * angleRandom);
 
@@ -89,17 +90,17 @@ namespace CalamityMod.Projectiles.Boss
                     float scale = Main.rand.NextFloat(0.5f, 1.6f);
 
                     // Spawn dust
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 107, -dustVel, 0, default, scale);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 107, -dustVel, 0, default, scale);
                     dust.noGravity = true;
                 }
 
                 // Gauss sparks
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     int totalProjectiles = malice ? 18 : 12;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
-                    float velocity = projectile.velocity.Length();
+                    float velocity = Projectile.velocity.Length();
                     double angleA = radians * 0.5;
                     double angleB = MathHelper.ToRadians(90f) - angleA;
                     float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -107,94 +108,94 @@ namespace CalamityMod.Projectiles.Boss
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(projectile.Center, velocity2 + Vector2.Normalize(projectile.velocity) * -6f, type, (int)Math.Round(projectile.damage * 0.5), 0f, Main.myPlayer);
+                        Projectile.NewProjectile(Projectile.Center, velocity2 + Vector2.Normalize(Projectile.velocity) * -6f, type, (int)Math.Round(Projectile.damage * 0.5), 0f, Main.myPlayer);
                     }
                 }
             }
 
             // Light
-            Lighting.AddLight(projectile.Center, 0.2f, 0.25f, 0.05f);
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.25f, 0.05f);
 
             // Get a target and calculate distance from it
-            int target = Player.FindClosest(projectile.Center, 1, 1);
-            Vector2 distanceFromTarget = Main.player[target].Center - projectile.Center;
+            int target = Player.FindClosest(Projectile.Center, 1, 1);
+            Vector2 distanceFromTarget = Main.player[target].Center - Projectile.Center;
 
             // Set AI to stop homing, start accelerating
             float stopHomingDistance = malice ? 260f : death ? 280f : revenge ? 290f : expertMode ? 300f : 320f;
-            if ((distanceFromTarget.Length() < stopHomingDistance && projectile.ai[0] != -1f) || projectile.ai[0] == 1f)
+            if ((distanceFromTarget.Length() < stopHomingDistance && Projectile.ai[0] != -1f) || Projectile.ai[0] == 1f)
             {
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
 
-                if (projectile.velocity.Length() < 24f)
-                    projectile.velocity *= 1.025f;
+                if (Projectile.velocity.Length() < 24f)
+                    Projectile.velocity *= 1.025f;
 
                 return;
             }
 
             // Home in on target
-            float scaleFactor = projectile.velocity.Length();
+            float scaleFactor = Projectile.velocity.Length();
             float inertia = malice ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
             distanceFromTarget.Normalize();
             distanceFromTarget *= scaleFactor;
-            projectile.velocity = (projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
-            projectile.velocity.Normalize();
-            projectile.velocity *= scaleFactor;
+            Projectile.velocity = (Projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
+            Projectile.velocity.Normalize();
+            Projectile.velocity *= scaleFactor;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.EnterShaderRegion();
-            Texture2D telegraphBase = ModContent.GetTexture("CalamityMod/Projectiles/InvisibleProj");
+            Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj");
 
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTime), 3)));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.Lerp(Color.Yellow, Color.White, 0.5f));
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - projectile.timeLeft / (float)timeLeft);
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - Projectile.timeLeft / (float)timeLeft);
 
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             spriteBatch.Draw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
             spriteBatch.ExitShaderRegion();
 
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int drawStart = height * projectile.frame;
-            Vector2 origin = projectile.Size / 2;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int drawStart = height * Projectile.frame;
+            Vector2 origin = Projectile.Size / 2;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 45f, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 45f, targetHitbox);
 
         public override void Kill(int timeLeft)
         {
             // Nuke explosion sound
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
 
             // Nuke gores
-            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
-            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
+            Gore.NewGore(Projectile.position, Projectile.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
+            Gore.NewGore(Projectile.position, Projectile.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
 
             // Create a bunch of lightning bolts in the sky
             ExoMechsSky.CreateLightningBolt(12);
 
-            if (Main.myPlayer == projectile.owner && projectile.ai[0] != -1f)
+            if (Main.myPlayer == Projectile.owner && Projectile.ai[0] != -1f)
             {
                 // Explosion waves
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), projectile.damage, 0f, Main.myPlayer);
+                    Projectile explosion = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), Projectile.damage, 0f, Main.myPlayer);
                     if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         // Make the max explosion radius decrease over time, creating a ring effect.

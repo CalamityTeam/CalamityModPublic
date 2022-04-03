@@ -14,7 +14,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -46,7 +46,7 @@ namespace CalamityMod.World
                     attempts++;
                     int x = WorldGen.genRand.Next(MinX, MaxX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
-                    if (Main.wallDungeon[Main.tile[x, y].wall] && !Main.tile[x, y].active())
+                    if (Main.wallDungeon[Main.tile[x, y].WallType] && !Main.tile[x, y].active())
                         chest = AddChestWithLoot(x, y, (ushort)ChestTypes[i], tileStyle: ChestStyles[i]);
                 }
 
@@ -184,9 +184,9 @@ namespace CalamityMod.World
                 {
                     for (int y = 0; y < Main.maxTilesY; y++)
                     {
-                        if (Main.tile[x, y] != null && Main.tile[x, y].type == TileID.LargePiles)
+                        if (Main.tile[x, y] != null && Main.tile[x, y].TileType == TileID.LargePiles)
                         {
-                            if ((Main.tile[x, y].frameX == 18 && Main.tile[x, y].frameY == 0) || (Main.tile[x, y].frameX == 45 && Main.tile[x, y].frameY == 0))
+                            if ((Main.tile[x, y].TileFrameX == 18 && Main.tile[x, y].TileFrameY == 0) || (Main.tile[x, y].TileFrameX == 45 && Main.tile[x, y].TileFrameY == 0))
                             {
                                 if (WorldGen.genRand.Next(3) == 0)
                                 {
@@ -295,7 +295,7 @@ namespace CalamityMod.World
                                     num6 = l;
                                 }
                                 Main.tile[k, l].active(true);
-                                Main.tile[k, l].type = (ushort)ModContent.TileType<BrimstoneSlag>();
+                                Main.tile[k, l].TileType = (ushort)ModContent.TileType<BrimstoneSlag>();
                                 WorldGen.SquareTileFrame(k, l, true);
                             }
                         }
@@ -349,7 +349,7 @@ namespace CalamityMod.World
                             if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num15 + WorldGen.genRand.Next(2)))
                             {
                                 Main.tile[n, num17].active(true);
-                                Main.tile[n, num17].type = (ushort)num16;
+                                Main.tile[n, num17].TileType = (ushort)num16;
                                 WorldGen.SquareTileFrame(n, num17, true);
                             }
                         }
@@ -394,7 +394,7 @@ namespace CalamityMod.World
             while (num23 < num4)
             {
                 int num24 = num6;
-                while ((!Main.tile[num23, num24].active() || Main.tile[num23, num24].type != 0) && num23 < num4)
+                while ((!Main.tile[num23, num24].active() || Main.tile[num23, num24].TileType != 0) && num23 < num4)
                 {
                     num24--;
                     if (num24 < num5)
@@ -418,7 +418,7 @@ namespace CalamityMod.World
                                 float num29 = (float)(Math.Abs(num28 - num24) * 2);
                                 if (Math.Sqrt((double)(arg_890_0 * arg_890_0 + num29 * num29)) < (double)num25)
                                 {
-                                    Main.tile[num27, num28].type = (ushort)num26;
+                                    Main.tile[num27, num28].TileType = (ushort)num26;
                                     WorldGen.SquareTileFrame(num27, num28, true);
                                 }
                             }
@@ -434,28 +434,28 @@ namespace CalamityMod.World
                 {
                     num35++;
                 }
-                if (num35 < num6 && Main.tile[num34, num35 + 1].type == (ushort)ModContent.TileType<BrimstoneSlag>())
+                if (num35 < num6 && Main.tile[num34, num35 + 1].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                 {
                     if (WorldGen.genRand.Next(10) == 0)
                     {
                         int num36 = WorldGen.genRand.Next(1, 3);
                         for (int num37 = num34 - num36; num37 <= num34 + num36; num37++)
                         {
-                            if (Main.tile[num37, num35].type == (ushort)ModContent.TileType<BrimstoneSlag>())
+                            if (Main.tile[num37, num35].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35].active(false);
                                 Main.tile[num37, num35].liquid = 255;
                                 Main.tile[num37, num35].lava(false);
                                 WorldGen.SquareTileFrame(num34, num35, true);
                             }
-                            if (Main.tile[num37, num35 + 1].type == (ushort)ModContent.TileType<BrimstoneSlag>())
+                            if (Main.tile[num37, num35 + 1].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35 + 1].active(false);
                                 Main.tile[num37, num35 + 1].liquid = 255;
                                 Main.tile[num37, num35 + 1].lava(false);
                                 WorldGen.SquareTileFrame(num34, num35 + 1, true);
                             }
-                            if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].type == (ushort)ModContent.TileType<BrimstoneSlag>())
+                            if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
                                 Main.tile[num37, num35 + 2].active(false);
                                 Main.tile[num37, num35 + 2].liquid = 255;
@@ -526,8 +526,8 @@ namespace CalamityMod.World
                     {
                         Main.tile[l, m].active(true);
                         Main.tile[l, m].liquid = 0;
-                        Main.tile[l, m].type = type;
-                        Main.tile[l, m].wall = 0;
+                        Main.tile[l, m].TileType = type;
+                        Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
                         Main.tile[l, m].slope(0);
                     }
@@ -557,10 +557,10 @@ namespace CalamityMod.World
             {
                 for (int num8 = num6; num8 < num7; num8++)
                 {
-                    if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].wall == 0)
+                    if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
                         Main.tile[n, num8].active(false);
-                        Main.tile[n, num8].wall = wall;
+                        Main.tile[n, num8].WallType = wall;
                     }
                 }
             }
@@ -578,8 +578,8 @@ namespace CalamityMod.World
             {
                 Main.tile[num9, num12].active(true);
                 Main.tile[num9, num12].liquid = 0;
-                Main.tile[num9, num12].type = type;
-                Main.tile[num9, num12].wall = 0;
+                Main.tile[num9, num12].TileType = type;
+                Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);
                 Main.tile[num9, num12].slope(0);
             }
@@ -588,9 +588,9 @@ namespace CalamityMod.World
             WorldGen.PlaceTile(num22, num7 - 1, ModContent.TileType<AncientTable>(), true, false, -1); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, ModContent.TileType<AncientChair>(), true, false, 0); //chair
             Tile tile = Main.tile[num22 - 2, num7 - 1];
-            tile.frameX += 18;
+            tile.TileFrameX += 18;
             Tile tile2 = Main.tile[num22 - 2, num7 - 2];
-            tile2.frameX += 18;
+            tile2.TileFrameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, ModContent.TileType<AncientChair>(), true, false, 0); //chair
         }
         #endregion
@@ -845,30 +845,30 @@ namespace CalamityMod.World
                     {
                         if (Main.tile[x, y] != null)
                         {
-                            if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
-                                Main.tile[x, y].type = TileID.Diamond;
-                            else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
-                                Main.tile[x, y].type = TileID.Ruby;
+                            if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                Main.tile[x, y].TileType = TileID.Diamond;
+                            else if (Main.tile[x, y].TileType == TileID.Topaz || Main.tile[x, y].TileType == TileID.Amethyst)
+                                Main.tile[x, y].TileType = TileID.Ruby;
                         }
                     }
                     else if (y > verticalStartFactor_Layer2)
                     {
                         if (Main.tile[x, y] != null)
                         {
-                            if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
-                                Main.tile[x, y].type = TileID.Emerald;
-                            else if (Main.tile[x, y].type == TileID.Topaz || Main.tile[x, y].type == TileID.Amethyst)
-                                Main.tile[x, y].type = TileID.Sapphire;
+                            if (Main.tile[x, y].TileType == TileID.Diamond || Main.tile[x, y].TileType == TileID.Ruby)
+                                Main.tile[x, y].TileType = TileID.Emerald;
+                            else if (Main.tile[x, y].TileType == TileID.Topaz || Main.tile[x, y].TileType == TileID.Amethyst)
+                                Main.tile[x, y].TileType = TileID.Sapphire;
                         }
                     }
                     else if (y > verticalStartFactor_Layer1)
                     {
                         if (Main.tile[x, y] != null)
                         {
-                            if (Main.tile[x, y].type == TileID.Diamond || Main.tile[x, y].type == TileID.Ruby)
-                                Main.tile[x, y].type = TileID.Topaz;
-                            else if (Main.tile[x, y].type == TileID.Emerald || Main.tile[x, y].type == TileID.Sapphire)
-                                Main.tile[x, y].type = TileID.Amethyst;
+                            if (Main.tile[x, y].TileType == TileID.Diamond || Main.tile[x, y].TileType == TileID.Ruby)
+                                Main.tile[x, y].TileType = TileID.Topaz;
+                            else if (Main.tile[x, y].TileType == TileID.Emerald || Main.tile[x, y].TileType == TileID.Sapphire)
+                                Main.tile[x, y].TileType = TileID.Amethyst;
                         }
                     }
                 }

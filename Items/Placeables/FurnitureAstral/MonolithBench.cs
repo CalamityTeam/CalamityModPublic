@@ -11,27 +11,22 @@ namespace CalamityMod.Items.Placeables.FurnitureAstral
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Monolith Bench");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAstral.MonolithBench>();
+            Item.SetNameOverride("Monolith Bench");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAstral.MonolithBench>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 5);
-            recipe.AddIngredient(ItemID.Silk, 2);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<MonolithCrafting>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 5).AddIngredient(ItemID.Silk, 2).AddTile(ModContent.TileType<MonolithCrafting>()).Register();
         }
     }
 }

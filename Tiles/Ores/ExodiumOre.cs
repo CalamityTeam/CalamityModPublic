@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class ExodiumOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

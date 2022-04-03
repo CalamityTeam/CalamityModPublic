@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -19,63 +20,63 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 52;
+            Projectile.width = 54;
+            Projectile.height = 52;
             // This projectile has no hitboxes and no damage type.
-            projectile.friendly = false;
-            projectile.melee = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 900;
+            Projectile.friendly = false;
+            // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 900;
         }
 
         // ai[0] is a time-dilated frame counter. ai[1] is whether the beam has already fired.
         // localAI[0] is the rate at which the "frame" counter increases.
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
 
             // Calculate how quickly the staff should charge. Charge increases by some number close to 1 every frame.
             // Speed increasing reforges make this number greater than 1. Slowing reforges make it smaller than 1.
-            if (projectile.localAI[0] == 0f)
-                projectile.localAI[0] = 47f / player.ActiveItem().useTime;
+            if (Projectile.localAI[0] == 0f)
+                Projectile.localAI[0] = 47f / player.ActiveItem().useTime;
 
             // Increment the timer for the staff. If the timer has passed 47, destroy it.
-            projectile.ai[0] += projectile.localAI[0];
+            Projectile.ai[0] += Projectile.localAI[0];
             int maxTime = ValkyrieRay.ChargeFrames + ValkyrieRay.CooldownFrames;
-            if (projectile.ai[0] > maxTime)
+            if (Projectile.ai[0] > maxTime)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Compute the weapon's charge.
-            float chargeLevel = MathHelper.Clamp(projectile.ai[0] / ValkyrieRay.ChargeFrames, 0f, 1f);
+            float chargeLevel = MathHelper.Clamp(Projectile.ai[0] / ValkyrieRay.ChargeFrames, 0f, 1f);
 
             // Common code among holdouts to keep the holdout projectile directly in the player's hand
             UpdatePlayerVisuals(player, rrp);
 
             // Compute the gem position, which is needed for visual effects
-            float angle = projectile.rotation - MathHelper.PiOver2;
+            float angle = Projectile.rotation - MathHelper.PiOver2;
             Vector2 gemOffset = Vector2.One * ValkyrieRay.GemDistance * 1.4142f; // distance to gem on staff
-            Vector2 gemPos = projectile.Center + gemOffset.RotatedBy(angle);
+            Vector2 gemPos = Projectile.Center + gemOffset.RotatedBy(angle);
 
             // Firing or charging?
-            if (chargeLevel >= 1f && projectile.ai[1] == 0f)
+            if (chargeLevel >= 1f && Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f; // so it never fires again
+                Projectile.ai[1] = 1f; // so it never fires again
                 FiringEffects(gemPos);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile laser = Projectile.NewProjectileDirect(gemPos, projectile.velocity, ModContent.ProjectileType<ValkyrieRayBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile laser = Projectile.NewProjectileDirect(gemPos, Projectile.velocity, ModContent.ProjectileType<ValkyrieRayBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     laser.Center = gemPos;
                 }
             }
-            else if (projectile.ai[1] == 0f)
+            else if (Projectile.ai[1] == 0f)
             {
                 // The player can constantly re-aim the staff while it's charging, but once it fires it is locked in place.
-                UpdateAim(rrp, projectile.velocity.Length());
+                UpdateAim(rrp, Projectile.velocity.Length());
                 ChargingEffects(gemPos, chargeLevel);
             }
         }
@@ -83,17 +84,17 @@ namespace CalamityMod.Projectiles.Magic
         private void UpdatePlayerVisuals(Player player, Vector2 rrp)
         {
             // Place the projectile directly into the player's hand at all times
-            projectile.Center = rrp;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Projectile.Center = rrp;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             // The staff is a holdout projectile, so change the player's variables to reflect that
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
 
             // Multiplying by projectile.direction is required due to vanilla spaghetti.
-            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         // Adjusts the aim vector of the staff to point towards the mouse. This is Last Prism code.
@@ -102,12 +103,12 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
             if (aimVector.HasNaNs())
                 aimVector = -Vector2.UnitY;
-            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(projectile.velocity), AimResponsiveness));
+            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
             aimVector *= 30f;
 
-            if (aimVector != projectile.velocity)
-                projectile.netUpdate = true;
-            projectile.velocity = aimVector;
+            if (aimVector != Projectile.velocity)
+                Projectile.netUpdate = true;
+            Projectile.velocity = aimVector;
         }
 
         private void ChargingEffects(Vector2 center, float chargeLevel)
@@ -130,8 +131,8 @@ namespace CalamityMod.Projectiles.Magic
 
         private void FiringEffects(Vector2 center)
         {
-            Main.PlaySound(SoundID.Item28, center);
-            Main.PlaySound(SoundID.Item60, center);
+            SoundEngine.PlaySound(SoundID.Item28, center);
+            SoundEngine.PlaySound(SoundID.Item60, center);
             int numDust = 36;
             int dustID = 73;
             for (int i = 0; i < numDust; ++i)

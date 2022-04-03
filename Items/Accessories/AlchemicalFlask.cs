@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,13 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.BeeWax, 5);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ItemID.BeeWax, 5).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

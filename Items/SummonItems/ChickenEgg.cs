@@ -4,6 +4,7 @@ using CalamityMod.NPCs.Yharon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,14 +20,14 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 28;
+            Item.height = 18;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool CanUseItem(Player player)
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.SummonItems
             return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -47,12 +48,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15).AddIngredient(ModContent.ItemType<BarofLife>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

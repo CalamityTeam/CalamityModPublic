@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles
 {
     public class UelibloomBar : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(134, 209, 102));
             dustType = ModContent.DustType<BloomTileLeaves>();

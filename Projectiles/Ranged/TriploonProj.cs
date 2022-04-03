@@ -13,28 +13,28 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.ranged = true;
-            projectile.extraUpdates = 0;
-            projectile.timeLeft = 300;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 0;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            if (projectile.alpha == 0)
+            if (Projectile.alpha == 0)
             {
-                if (projectile.Center.X > player.Center.X)
+                if (Projectile.Center.X > player.Center.X)
                 {
                     player.ChangeDir(1);
                 }
@@ -43,56 +43,56 @@ namespace CalamityMod.Projectiles.Ranged
                     player.ChangeDir(-1);
                 }
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.extraUpdates = 0;
+                Projectile.extraUpdates = 0;
             }
             else
             {
-                projectile.extraUpdates = 1;
+                Projectile.extraUpdates = 1;
             }
-            Vector2 playerVector = player.Center - projectile.Center;
+            Vector2 playerVector = player.Center - Projectile.Center;
             float playerDist = playerVector.Length();
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 if (playerDist > 700f)
                 {
-                    projectile.ai[0] = 1f;
+                    Projectile.ai[0] = 1f;
                 }
                 else if (playerDist > 350f)
                 {
-                    projectile.ai[0] = 1f;
+                    Projectile.ai[0] = 1f;
                 }
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] > 5f)
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] > 5f)
                 {
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                 }
-                if (projectile.ai[1] > 8f)
+                if (Projectile.ai[1] > 8f)
                 {
-                    projectile.ai[1] = 8f;
+                    Projectile.ai[1] = 8f;
                 }
-                if (projectile.ai[1] >= 10f)
+                if (Projectile.ai[1] >= 10f)
                 {
-                    projectile.ai[1] = 15f;
-                    projectile.velocity.Y += 0.3f;
+                    Projectile.ai[1] = 15f;
+                    Projectile.velocity.Y += 0.3f;
                 }
             }
-            else if (projectile.ai[0] == 1f)
+            else if (Projectile.ai[0] == 1f)
             {
-                projectile.tileCollide = false;
-                projectile.rotation = (float)Math.Atan2((double)playerVector.Y, (double)playerVector.X) - MathHelper.PiOver2;
+                Projectile.tileCollide = false;
+                Projectile.rotation = (float)Math.Atan2((double)playerVector.Y, (double)playerVector.X) - MathHelper.PiOver2;
                 float returnSpeed = 20f;
                 if (playerDist < 50f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
                 playerDist = returnSpeed / playerDist;
                 playerVector.X *= playerDist;
                 playerVector.Y *= playerDist;
-                projectile.velocity.X = playerVector.X;
-                projectile.velocity.Y = playerVector.Y;
+                Projectile.velocity.X = playerVector.X;
+                Projectile.velocity.Y = playerVector.Y;
             }
         }
     }

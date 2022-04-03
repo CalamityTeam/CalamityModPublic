@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.mana = 10;
-            item.width = item.height = 32;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item67;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DaedalusGolem>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 70;
+            Item.mana = 10;
+            Item.width = Item.height = 32;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item67;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DaedalusGolem>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -44,11 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

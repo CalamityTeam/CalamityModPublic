@@ -12,58 +12,58 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 6;
-            projectile.extraUpdates = 6;
-            projectile.timeLeft = 151;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 100;
+            Projectile.height = 100;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 6;
+            Projectile.extraUpdates = 6;
+            Projectile.timeLeft = 151;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.6f, 0.5f, 0f);
-            if (projectile.timeLeft % 30 == 0)
+            Lighting.AddLight(Projectile.Center, 0.6f, 0.5f, 0f);
+            if (Projectile.timeLeft % 30 == 0)
             {
                 int numProj = 3;
                 float randomSpread = Main.rand.NextFloat(3f, 18f);
                 float rotation = MathHelper.ToRadians(randomSpread);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = -1; i < numProj - 1; i++)
                     {
-                        Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i));
-                        Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<Ancient2>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, projectile.ai[1]);
+                        Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i));
+                        Projectile.NewProjectile(Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Ancient2>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, Projectile.ai[1]);
                     }
                 }
             }
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.ai[0] > 4f && projectile.numUpdates % 2 == 0)
+            if (Projectile.ai[0] > 4f && Projectile.numUpdates % 2 == 0)
             {
                 int dustType = 22;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 Dust dust = Main.dust[idx];
                 if (Main.rand.NextBool(2))
                 {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 dust.velocity.X *= 2f;
                 dust.velocity.Y *= 2f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 if (Main.rand.NextBool(3))
                 {
                     dust.noGravity = true;
@@ -93,27 +93,27 @@ namespace CalamityMod.Projectiles.Magic
                 dust.velocity.X *= 1.5f;
                 dust.velocity.Y *= 1.5f;
             }
-            projectile.ai[0] += 1f;
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.ai[0] += 1f;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             // Dust effects
-            Circle dustCircle = new Circle(projectile.Center, projectile.width / 2);
+            Circle dustCircle = new Circle(Projectile.Center, Projectile.width / 2);
 
             for (int i = 0; i < 20; i++)
             {
                 // Dust
                 Vector2 dustPos = dustCircle.RandomPointInCircle();
-                if ((dustPos - projectile.Center).Length() > 48)
+                if ((dustPos - Projectile.Center).Length() > 48)
                 {
                     int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
                     Main.dust[dustIndex].noGravity = true;
                     Main.dust[dustIndex].fadeIn = 1f;
-                    Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;
+                    Vector2 dustVelocity = Projectile.Center - Main.dust[dustIndex].position;
                     float distToCenter = dustVelocity.Length();
                     dustVelocity.Normalize();
                     dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));

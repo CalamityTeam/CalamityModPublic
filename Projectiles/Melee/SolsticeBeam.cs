@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class SolsticeBeam : ModProjectile
@@ -16,41 +17,41 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.5f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            if (projectile.ai[1] == 0f)
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.5f, 0.5f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item60, projectile.position);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item60, Projectile.position);
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 30;
-                if (projectile.alpha >= 250)
+                Projectile.scale -= 0.02f;
+                Projectile.alpha += 30;
+                if (Projectile.alpha >= 250)
                 {
-                    projectile.alpha = 255;
-                    projectile.localAI[0] = 1f;
+                    Projectile.alpha = 255;
+                    Projectile.localAI[0] = 1f;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 30;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.02f;
+                Projectile.alpha -= 30;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
+                    Projectile.alpha = 0;
+                    Projectile.localAI[0] = 0f;
                 }
             }
             int dustType = 0;
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f);
                 Main.dust[dust].noGravity = true;
             }
         }
@@ -125,16 +126,16 @@ namespace CalamityMod.Projectiles.Melee
                     blue = 250;
                     break;
             }
-            return new Color(red, green, blue, projectile.alpha);
+            return new Color(red, green, blue, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 595)
+            if (Projectile.timeLeft > 595)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -177,16 +178,16 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
             }
-            Main.PlaySound(SoundID.Item10, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int num795 = 0; num795 < 27; num795++)
             {
-                float num796 = projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
+                float num796 = Projectile.oldVelocity.X * (30f / (float)num795);
+                float num797 = Projectile.oldVelocity.Y * (30f / (float)num795);
+                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
                 Dust dust = Main.dust[num798];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
+                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
                 dust.velocity *= 0.05f;
             }
         }

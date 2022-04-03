@@ -15,25 +15,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 1275;
-            item.knockBack = 7.5f;
-            item.useAnimation = item.useTime = 25;
-            item.melee = true;
-            item.noMelee = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<DragonRageStaff>();
+            Item.damage = 1275;
+            Item.knockBack = 7.5f;
+            Item.useAnimation = Item.useTime = 25;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<DragonRageStaff>();
 
-            item.width = 128;
-            item.height = 140;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().trueMelee = true;
+            Item.width = 128;
+            Item.height = 140;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().trueMelee = true;
         }
     }
 }

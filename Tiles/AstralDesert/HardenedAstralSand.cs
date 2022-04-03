@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.AstralDesert
 {
     public class HardenedAstralSand : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

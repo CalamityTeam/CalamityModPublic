@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             num = fail ? 1 : 3;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

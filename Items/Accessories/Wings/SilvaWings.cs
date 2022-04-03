@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -79,14 +79,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
-            recipe.AddRecipeGroup("AnyGoldBar", 3);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15).AddRecipeGroup("AnyGoldBar", 3).AddIngredient(ModContent.ItemType<Tenebris>(), 3).AddIngredient(ModContent.ItemType<DarksunFragment>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -71,9 +71,9 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip3" && x.mod == "Terraria");
-            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip3" && x.Mod == "Terraria");
+            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
 
             //Default stuff
             effectDescTooltip.text = "Does nothing..yet";
@@ -105,32 +105,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 36;
-            item.damage = BaseDamage;
-            item.melee = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.knockBack = 5f;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shootSpeed = 12f;
+            Item.width = Item.height = 36;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.knockBack = 5f;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyWoodenSword");
-            recipe.AddIngredient(ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddIngredient(ItemID.DirtBlock, 50);
-            recipe.AddIngredient(ItemID.StoneBlock, 50);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyWoodenSword").AddIngredient(ItemType<AerialiteBar>(), 5).AddIngredient(ItemID.HellstoneBar, 5).AddIngredient(ItemID.DirtBlock, 50).AddIngredient(ItemID.StoneBlock, 50).AddTile(TileID.Anvils).Register();
         }
 
         #region Saving and syncing attunements
@@ -147,10 +139,10 @@ namespace CalamityMod.Items.Weapons.Melee
             (clone as BiomeBlade).secondaryAttunement = (item.modItem as BiomeBlade).secondaryAttunement;
 
             //As funny as a Broken Broken Biome Blade would be, its also quite funny to make it turn into that. This is only done for a new instance of the item since the goblin tinkerer changes prevent it from happening through reforging
-            if (clone.item.prefix == PrefixID.Broken)
+            if (clone.Item.prefix == PrefixID.Broken)
             {
-                clone.item.Prefix(PrefixID.Legendary);
-                clone.item.prefix = PrefixID.Legendary;
+                clone.Item.Prefix(PrefixID.Legendary);
+                clone.Item.prefix = PrefixID.Legendary;
             }
 
             return clone;
@@ -163,10 +155,10 @@ namespace CalamityMod.Items.Weapons.Melee
             (clone as BiomeBlade).mainAttunement = mainAttunement;
             (clone as BiomeBlade).secondaryAttunement = secondaryAttunement;
 
-            if (clone.item.prefix == PrefixID.Broken)
+            if (clone.Item.prefix == PrefixID.Broken)
             {
-                clone.item.Prefix(PrefixID.Legendary);
-                clone.item.prefix = PrefixID.Legendary;
+                clone.Item.Prefix(PrefixID.Legendary);
+                clone.Item.prefix = PrefixID.Legendary;
             }
 
             return clone;
@@ -204,7 +196,7 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(secondaryAttunement != null ? (byte)secondaryAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
             secondaryAttunement = Attunement.attunementArray[reader.ReadInt32()];
@@ -240,18 +232,18 @@ namespace CalamityMod.Items.Weapons.Melee
             //Change the swords function based on its attunement
             if (mainAttunement == null)
             {
-                item.noUseGraphic = false;
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.noMelee = false;
-                item.channel = false;
-                item.shoot = ProjectileID.PurificationPowder;
-                item.shootSpeed = 12f;
-                item.UseSound = SoundID.Item1;
+                Item.noUseGraphic = false;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.noMelee = false;
+                Item.channel = false;
+                Item.shoot = ProjectileID.PurificationPowder;
+                Item.shootSpeed = 12f;
+                Item.UseSound = SoundID.Item1;
                 Combo = 0;
             }
 
             else
-                mainAttunement.ApplyStats(item);
+                mainAttunement.ApplyStats(Item);
 
             if (mainAttunement != null && mainAttunement.id != AttunementID.Cold)
                 Combo = 0;
@@ -307,8 +299,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D itemTexture = Main.itemTexture[item.type];
-            Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+            Texture2D itemTexture = Main.itemTexture[Item.type];
+            Rectangle itemFrame = (Main.itemAnimations[Item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[Item.type].GetFrame(itemTexture);
 
             if (mainAttunement == null)
                 return true;

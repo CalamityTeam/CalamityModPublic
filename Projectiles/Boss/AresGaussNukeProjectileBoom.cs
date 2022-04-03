@@ -31,19 +31,19 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = projectile.height = 2;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = Lifetime;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = Projectile.height = 2;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = Lifetime;
             cooldownSlot = 1;
         }
 
-        public override void PostAI() => Lighting.AddLight(projectile.Center, 0.2f, 0.1f, 0f);
+        public override void PostAI() => Lighting.AddLight(Projectile.Center, 0.2f, 0.1f, 0f);
 
-        public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(projectile.Center, CurrentRadius * projectile.scale * 0.4f, target.Hitbox) && projectile.timeLeft > 6;
+        public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(Projectile.Center, CurrentRadius * Projectile.scale * 0.4f, target.Hitbox) && Projectile.timeLeft > 6;
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => target.Calamity().lastProjectileHit = projectile;
 

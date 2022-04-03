@@ -10,8 +10,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public override void SetStaticDefaults()
@@ -21,14 +21,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 500;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 20;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = Projectile.height = 500;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 20;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 for (int i = 0; i < 50; i++)
                 {
                     float angle = i / 30f * MathHelper.TwoPi;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 261);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 261);
                     dust.velocity = angle.ToRotationVector2();
                     dust.velocity = dust.velocity.RotatedByRandom(0.4f);
                     dust.velocity = dust.velocity.RotatedBy(Time / 60f * MathHelper.ToRadians(720f));

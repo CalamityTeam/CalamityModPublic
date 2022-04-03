@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,26 +18,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 90;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 7.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
-            item.shootSpeed = 20f;
+            Item.width = 58;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 7.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 60;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
+            Item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item20, player.position);
+            SoundEngine.PlaySound(SoundID.Item20, player.position);
             for (int index = 0; index < 3; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
@@ -62,11 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 15).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

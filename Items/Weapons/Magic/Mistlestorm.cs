@@ -13,28 +13,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Mistlestorm");
             Tooltip.SetDefault("Casts a storm of pine needles and leaves");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.magic = true;
-            item.mana = 5;
-            item.width = 48;
-            item.height = 48;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PineNeedleFriendly;
-            item.shootSpeed = 24f;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 5;
+            Item.width = 48;
+            Item.height = 48;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PineNeedleFriendly;
+            Item.shootSpeed = 24f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 speedX += (float)Main.rand.Next(-35, 36) * num110;
                 speedY += (float)Main.rand.Next(-35, 36) * num110;
                 float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                num84 = item.shootSpeed / num84;
+                num84 = Item.shootSpeed / num84;
                 speedX *= num84;
                 speedY *= num84;
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
@@ -62,14 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Razorpine);
-            recipe.AddIngredient(ItemID.LeafBlower);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Razorpine).AddIngredient(ItemID.LeafBlower).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

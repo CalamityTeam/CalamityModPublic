@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class GodSlayerInferno : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Inferno");
             Description.SetDefault("Your flesh is burning off");

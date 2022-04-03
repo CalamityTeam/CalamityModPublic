@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class ExtremeGrav : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Extreme Gravity");
             Description.SetDefault("Your wing time is reduced by 25%, infinite flight is disabled");

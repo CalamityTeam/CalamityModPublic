@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -61,7 +63,7 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/AlicornMountExtra");
+                mountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMountExtra");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }
@@ -141,7 +143,7 @@ namespace CalamityMod.Items.Mounts
                 if (player.mount.PlayerOffset == 28)
                 {
                     if (!player.flapSound)
-                        Main.PlaySound(SoundID.Item32, player.position);
+                        SoundEngine.PlaySound(SoundID.Item32, player.position);
                     player.flapSound = true;
                 }
                 else

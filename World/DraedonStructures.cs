@@ -34,7 +34,7 @@ namespace CalamityMod.World
                     "OvergrownLabTile"
                 };
                 foreach (string tileName in redemptionAvoidTiles)
-                    avoid.Add(mor.TileType(tileName));
+                    avoid.Add(mor.Find<ModTile>(tileName).Type);
             }
 
             otherModTilesToAvoid = avoid.ToArray();
@@ -50,21 +50,21 @@ namespace CalamityMod.World
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
             if (tile.lava() && careAboutLava)
                 return true;
-            if (tile.type == TileID.BlueDungeonBrick ||
-                tile.type == TileID.GreenDungeonBrick ||
-                tile.type == TileID.PinkDungeonBrick)
+            if (tile.TileType == TileID.BlueDungeonBrick ||
+                tile.TileType == TileID.GreenDungeonBrick ||
+                tile.TileType == TileID.PinkDungeonBrick)
             {
                 return true;
             }
-            if (tile.type == TileID.LihzahrdBrick ||
-                tile.wall == WallID.LihzahrdBrickUnsafe)
+            if (tile.TileType == TileID.LihzahrdBrick ||
+                tile.WallType == WallID.LihzahrdBrickUnsafe)
             {
                 return true;
             }
-            if (tile.type == TileID.Crimstone ||
-                tile.wall == WallID.CrimstoneUnsafe ||
-                tile.type == TileID.Ebonstone ||
-                tile.wall == WallID.EbonstoneUnsafe)
+            if (tile.TileType == TileID.Crimstone ||
+                tile.WallType == WallID.CrimstoneUnsafe ||
+                tile.TileType == TileID.Ebonstone ||
+                tile.WallType == WallID.EbonstoneUnsafe)
             {
                 return true;
             }
@@ -74,10 +74,10 @@ namespace CalamityMod.World
             //
 
             // Avoid Thorium's Blood Chamber (where you summon Viscount). This is done separately because it uses vanilla tiles.
-            if (tile.type == TileID.StoneSlab || tile.wall == WallID.StoneSlab)
+            if (tile.TileType == TileID.StoneSlab || tile.WallType == WallID.StoneSlab)
                 return true;
             // Avoid all other registered modded tiles to avoid.
-            return otherModTilesToAvoid.Any(id => tile.type == id);
+            return otherModTilesToAvoid.Any(id => tile.TileType == id);
         }
 
         #region Workshop
@@ -421,7 +421,7 @@ namespace CalamityMod.World
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (tile.active())
                         {
-                            if (tile.type == TileID.SnowBlock || tile.type == TileID.IceBlock)
+                            if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock)
                                 iceTilesInArea++;
                             activeTilesInArea++;
                         }
@@ -501,7 +501,7 @@ namespace CalamityMod.World
                             canGenerateInLocation = false;
                         if (tile.active())
                         {
-                            if (tile.type == TileID.Mud || tile.type == TileID.JungleGrass)
+                            if (tile.TileType == TileID.Mud || tile.TileType == TileID.JungleGrass)
                                 jungleTilesInArea++;
                             activeTilesInArea++;
                         }
@@ -553,7 +553,7 @@ namespace CalamityMod.World
 
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
-                contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
+                contents.Add(new ChestItem(thorium.Find<ModItem>("MarineKelpPlanterBox").Type, WorldGen.genRand.Next(5, 9 + 1)));
 
             if (!hasPlacedLogAndSchematic)
             {

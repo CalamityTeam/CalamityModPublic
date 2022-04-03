@@ -13,27 +13,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Plague Staff");
             Tooltip.SetDefault("Fires a spread of plague fangs");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 78;
-            item.magic = true;
-            item.mana = 22;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PlagueFang>();
-            item.shootSpeed = 16f;
+            Item.damage = 78;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 22;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PlagueFang>();
+            Item.shootSpeed = 16f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));

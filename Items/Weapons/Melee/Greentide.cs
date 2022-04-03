@@ -17,30 +17,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 95;
-            item.melee = true;
-            item.width = 62;
-            item.height = 62;
-            item.scale = 1.5f;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 18f;
+            Item.damage = 95;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 62;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 18f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num74 = knockback;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -81,17 +81,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            float num74 = item.knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            float num74 = Item.knockBack;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -133,7 +133,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 

@@ -19,31 +19,31 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.width = 68;
-            item.height = 38;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 1.2f;
+            Item.damage = 12;
+            Item.width = 68;
+            Item.height = 38;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 1.2f;
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.Item11;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlurrystormCannonShooting>();
-            item.useAmmo = AmmoID.Snowball;
-            item.shootSpeed = 18f;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.UseSound = SoundID.Item11;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlurrystormCannonShooting>();
+            Item.useAmmo = AmmoID.Snowball;
+            Item.shootSpeed = 18f;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -60,16 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SnowballCannon);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 25);
-            recipe.AddIngredient(ItemID.WaterBucket, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SnowballCannon).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.Bone, 50).AddIngredient(ModContent.ItemType<VictoryShard>(), 25).AddIngredient(ItemID.WaterBucket, 3).AddTile(TileID.Anvils).Register();
         }
     }
 }

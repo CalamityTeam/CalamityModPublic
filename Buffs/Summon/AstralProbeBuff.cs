@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class AstralProbeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Probe");
             Description.SetDefault("The astral probe will protect you");

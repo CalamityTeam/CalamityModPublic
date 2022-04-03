@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.damage = 210;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = item.useTime = 48;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 10f;
-            item.UseSound = SoundID.Item1;
-            item.melee = true;
-            item.height = 66;
-            item.value = Item.buyPrice(gold: 48);
-            item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
-            item.shootSpeed = 24.4f;
+            Item.width = 66;
+            Item.damage = 210;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = Item.useTime = 48;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 10f;
+            Item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.height = 66;
+            Item.value = Item.buyPrice(gold: 48);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
+            Item.shootSpeed = 24.4f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -52,15 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Pwnhammer);
-            recipe.AddIngredient(ItemID.HallowedBar, 7);
-            recipe.AddIngredient(ItemID.SoulofMight, 3);
-            recipe.AddIngredient(ItemID.SoulofSight, 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Pwnhammer).AddIngredient(ItemID.HallowedBar, 7).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

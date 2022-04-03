@@ -19,55 +19,55 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.GetNPCDamage();
-            npc.width = 32;
-            npc.height = 32;
-            npc.defense = 15;
-            npc.DR_NERD(0.1f);
-            npc.aiStyle = -1;
+            NPC.GetNPCDamage();
+            NPC.width = 32;
+            NPC.height = 32;
+            NPC.defense = 15;
+            NPC.DR_NERD(0.1f);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.alpha = 255;
-            npc.LifeMaxNERB(77000, 92000, 1000000);
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.LifeMaxNERB(77000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.netAlways = true;
-            npc.dontCountMe = true;
-            npc.chaseable = false;
-            npc.canGhostHeal = false;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
+            NPC.chaseable = false;
+            NPC.canGhostHeal = false;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                npc.scale = 1.25f;
+                NPC.scale = 1.25f;
             else if (CalamityWorld.death)
-                npc.scale = 1.2f;
+                NPC.scale = 1.2f;
             else if (CalamityWorld.revenge)
-                npc.scale = 1.15f;
+                NPC.scale = 1.15f;
             else if (Main.expertMode)
-                npc.scale = 1.1f;
+                NPC.scale = 1.1f;
 
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.chaseable);
+            writer.Write(NPC.chaseable);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.chaseable = reader.ReadBoolean();
+            NPC.chaseable = reader.ReadBoolean();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -77,32 +77,32 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            CalamityAI.AquaticScourgeAI(npc, mod, false);
+            CalamityAI.AquaticScourgeAI(NPC, Mod, false);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
 
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            Color color = npc.GetAlpha(lightColor);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Color color = NPC.GetAlpha(lightColor);
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f)
-                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
-                else if (Main.npc[(int)npc.ai[2]].localAI[3] > 0f)
-                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(Main.npc[(int)npc.ai[2]].localAI[3] / 90f, 0f, 1f));
+                if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] > 480f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
+                else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 90f, 0f, 1f));
             }
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             if (projectile.minion)
             {
-                return npc.Calamity().newAI[0] == 1f;
+                return NPC.Calamity().newAI[0] == 1f;
             }
             return null;
         }
@@ -128,25 +128,25 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt3"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt3"), NPC.scale);
             }
         }
 

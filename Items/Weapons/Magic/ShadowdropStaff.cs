@@ -14,27 +14,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Shadowdrop Staff");
             Tooltip.SetDefault("Summons dark aura rain from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.magic = true;
-            item.mana = 6;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 9;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item66;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AuraRain>();
-            item.shootSpeed = 14f;
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = 9;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item66;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AuraRain>();
+            Item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,18 +44,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 5);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 5).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15).AddTile(TileID.DemonAltar).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

@@ -7,35 +7,36 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class Vehemence : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
-        public Player Owner => Main.player[projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast of Vehemence");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 32;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = 300;
-            projectile.magic = true;
+            Projectile.width = Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Lighting.AddLight(projectile.Center, Color.DarkRed.ToVector3());
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Lighting.AddLight(Projectile.Center, Color.DarkRed.ToVector3());
 
             if (Time == 0f)
                 GenerateInitialBurstDust();
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 float angle = MathHelper.TwoPi * i / 40f;
 
-                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + projectile.velocity * 7f, 27);
+                Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * 7f, 27);
                 brimstoneMagic.velocity = angle.ToRotationVector2() * 15f;
                 brimstoneMagic.color = Color.Lerp(Color.Red, Color.MediumPurple, (float)Math.Sin(angle) * 0.5f + 0.5f);
                 brimstoneMagic.scale = 1.6f;
@@ -70,9 +71,9 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = -1; i <= 1; i += 2)
             {
                 float helixOffset = (float)Math.Sin(Time / 45f * MathHelper.TwoPi) * i * 8f;
-                Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(projectile.rotation);
+                Vector2 spawnOffset = new Vector2(helixOffset, 10f).RotatedBy(Projectile.rotation);
 
-                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.Brimstone);
+                Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center + spawnOffset, (int)CalamityDusts.Brimstone);
                 brimstoneMagic.velocity = Vector2.Zero;
                 brimstoneMagic.scale = 1.1f;
                 brimstoneMagic.noGravity = true;
@@ -81,13 +82,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item74, projectile.position);
-            if (Main.myPlayer == projectile.owner)
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
+            if (Main.myPlayer == Projectile.owner)
             {
                 int skullID = ModContent.ProjectileType<VehemenceSkull>();
-                int damage = (int)(projectile.damage * Vehemenc.SkullRatio);
+                int damage = (int)(Projectile.damage * Vehemenc.SkullRatio);
                 for (int i = 0; i < 18; i++)
-                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, Projectile.knockBack, Projectile.owner);
             }
 
             if (!Main.dedServ)
@@ -96,8 +97,8 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        Vector2 shootVelocity = projectile.velocity.RotatedBy(MathHelper.Lerp(-0.35f, 0.35f, j / 4f)) * Main.rand.NextFloat(0.75f, 1.1f);
-                        Vector2 spawnPosition = projectile.Center + shootVelocity.SafeNormalize(Vector2.Zero) * 10f;
+                        Vector2 shootVelocity = Projectile.velocity.RotatedBy(MathHelper.Lerp(-0.35f, 0.35f, j / 4f)) * Main.rand.NextFloat(0.75f, 1.1f);
+                        Vector2 spawnPosition = Projectile.Center + shootVelocity.SafeNormalize(Vector2.Zero) * 10f;
 
                         Dust blood = Dust.NewDustPerfect(spawnPosition, DustID.Blood);
                         blood.velocity = shootVelocity;
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 for (int i = 0; i < 60; i++)
                 {
-                    Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center, Main.rand.NextBool(2) ? (int)CalamityDusts.Brimstone : 27);
+                    Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(2) ? (int)CalamityDusts.Brimstone : 27);
                     brimstoneMagic.velocity = Main.rand.NextVector2Circular(18f, 18f);
                     brimstoneMagic.scale = 1.7f;
                     brimstoneMagic.noGravity = true;
@@ -121,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

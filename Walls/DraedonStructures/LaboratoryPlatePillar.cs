@@ -6,7 +6,7 @@ namespace CalamityMod.Walls.DraedonStructures
     public class LaboratoryPlatePillar : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 109;
             drop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.LaboratoryPlatePillar>();

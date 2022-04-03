@@ -11,11 +11,11 @@ namespace CalamityMod.Tiles.FurnitureExo
     {
         internal static Texture2D GlowTexture;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
             {
-                GlowTexture = ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow");
             }
 
             Main.tileSolid[Type] = true;
@@ -52,9 +52,9 @@ namespace CalamityMod.Tiles.FurnitureExo
                 return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
-            int xPos = tile.frameX;
+            int xPos = tile.TileFrameX;
             int frameOffset = j % 2 * animationFrameHeight;
-            int yPos = tile.frameY + frameOffset;
+            int yPos = tile.TileFrameY + frameOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 

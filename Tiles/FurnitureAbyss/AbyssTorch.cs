@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssTorch : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpTorch(true, true);
             ModTranslation name = CreateMapEntryName();
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameX < 66)
+            if (tile.TileFrameX < 66)
             {
                 r = 0.9f;
                 g = 0.9f;
@@ -66,15 +66,15 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAbyss/AbyssTorchFlame"), i, j, 2);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAbyss/AbyssTorchFlame"), i, j, 2);
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameX < 66)
+            if (Main.tile[i, j].TileFrameX < 66)
                 CalamityUtils.DrawFlameSparks(187, 5, i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;

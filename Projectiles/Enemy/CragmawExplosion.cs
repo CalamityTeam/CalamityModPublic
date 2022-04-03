@@ -22,19 +22,19 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 140;
-            projectile.height = 290;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.tileCollide = false;
-            projectile.hide = true;
+            Projectile.width = 140;
+            Projectile.height = 290;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+            Projectile.hide = true;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 0)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6 == 0)
             {
                 FrameY += 1;
                 if (FrameY >= 7)
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Enemy
                     FrameY = 0;
                 }
                 if (FrameX >= 2)
-                    projectile.Kill();
+                    Projectile.Kill();
             }
         }
 
@@ -59,8 +59,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Rectangle frame = new Rectangle(FrameX * projectile.width, FrameY * projectile.height, projectile.width, projectile.height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2f, 1f, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(FrameX * Projectile.width, FrameY * Projectile.height, Projectile.width, Projectile.height);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0f);
             return false;
         }
     }

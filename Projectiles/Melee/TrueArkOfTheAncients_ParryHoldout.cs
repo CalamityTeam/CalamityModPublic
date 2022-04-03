@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -19,10 +20,10 @@ namespace CalamityMod.Projectiles.Melee
         private bool initialized = false;
         const float MaxTime = 340;
         static float ParryTime = 15;
-        public Vector2 DistanceFromPlayer => projectile.velocity * 10 * (1f + ((float)Math.Sin(Timer / ParryTime * MathHelper.Pi) * 0.8f));
-        public float Timer => MaxTime - projectile.timeLeft;
-        public ref float AlreadyParried => ref projectile.ai[1];
-        public Player Owner => Main.player[projectile.owner];
+        public Vector2 DistanceFromPlayer => Projectile.velocity * 10 * (1f + ((float)Math.Sin(Timer / ParryTime * MathHelper.Pi) * 0.8f));
+        public float Timer => MaxTime - Projectile.timeLeft;
+        public ref float AlreadyParried => ref Projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -30,12 +31,12 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 75;
-            projectile.width = projectile.height = 75;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 75;
+            Projectile.width = Projectile.height = 75;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
         }
 
         public override bool CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
@@ -44,8 +45,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 100f * projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint);
+            float bladeLenght = 100f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
         public void GeneralParryEffects()
@@ -53,9 +54,9 @@ namespace CalamityMod.Projectiles.Melee
             TrueArkoftheAncients sword = (Owner.HeldItem.modItem as TrueArkoftheAncients);
             if (sword != null)
                 sword.Charge = 10f;
-            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            Main.PlaySound(SoundID.Item67);
-            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            SoundEngine.PlaySound(SoundID.Item67);
+            CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
             AlreadyParried = 1f;
         }
 
@@ -70,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
 
-            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
+            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
             Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
             GeneralParticleHandler.SpawnParticle(spark);
 
@@ -86,21 +87,21 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization
             {
-                projectile.timeLeft = (int)MaxTime;
-                Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
+                Projectile.timeLeft = (int)MaxTime;
+                SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryShot, Projectile.Center);
 
-                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
-                projectile.velocity.Normalize();
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+                Projectile.velocity.Normalize();
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
                 initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
             //Manage position and rotation
-            projectile.Center = Owner.Center + DistanceFromPlayer ;
-            projectile.scale = 1.4f + ((float)Math.Sin(Timer / 160 * MathHelper.Pi) * 0.6f); //SWAGGER
+            Projectile.Center = Owner.Center + DistanceFromPlayer ;
+            Projectile.scale = 1.4f + ((float)Math.Sin(Timer / 160 * MathHelper.Pi) * 0.6f); //SWAGGER
 
             if (Timer > ParryTime)
                 return;
@@ -108,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
             if (AlreadyParried == 0)
             {
                 float collisionPoint = 0f;
-                float bladeLenght = 100f * projectile.scale;
+                float bladeLenght = 100f * Projectile.scale;
 
                 for (int k = 0; k < Main.maxProjectiles; k++)
                 {
@@ -117,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
                         proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
                         proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
-                        Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                        Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint))
                     {
                         GeneralParryEffects();
 
@@ -138,9 +139,9 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Make the owner look like theyre holding the sword bla bla
-            Owner.heldProj = projectile.whoAmI;
-            Owner.direction = Math.Sign(projectile.velocity.X);
-            Owner.itemRotation = projectile.rotation;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.itemRotation = Projectile.rotation;
             if (Owner.direction != 1)
             {
                 Owner.itemRotation -= MathHelper.Pi;
@@ -166,7 +167,7 @@ namespace CalamityMod.Projectiles.Melee
                     Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -36) - barBG.Size() / 2;
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
-                    float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? projectile.timeLeft / 8f : 1f;
+                    float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
                     Color color = Main.hslToRgb((Main.GlobalTime * 1.2f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
 
                     spriteBatch.Draw(barBG, drawPos, color * opacity);
@@ -179,20 +180,20 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients");
             Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow");
 
-            float drawRotation = projectile.rotation + MathHelper.PiOver4;
+            float drawRotation = Projectile.rotation + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
-            Vector2 drawOffset = Owner.Center + projectile.velocity * DistanceFromPlayer.Length() - Main.screenPosition;
+            Vector2 drawOffset = Owner.Center + Projectile.velocity * DistanceFromPlayer.Length() - Main.screenPosition;
 
 
-            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-            spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             if (AlreadyParried > 0)
             {
                 drawOrigin = new Vector2(0f, 48f);
                 Rectangle frame = new Rectangle(24, 0, 48, 48);
-                drawOffset = Owner.Center + projectile.velocity * (DistanceFromPlayer.Length() + 34) - Main.screenPosition;
-                spriteBatch.Draw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTime % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
+                drawOffset = Owner.Center + Projectile.velocity * (DistanceFromPlayer.Length() + 34) - Main.screenPosition;
+                spriteBatch.Draw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTime % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, Projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
             }
 
             return false;
@@ -202,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             //Play a blip when it dies, to indicate to the player its ready to get used again
             if (Main.myPlayer == Owner.whoAmI)
-                Main.PlaySound(SoundID.Item35);
+                SoundEngine.PlaySound(SoundID.Item35);
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class ShadowspecBarTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(128, 41, 149));
             dustType = ModContent.DustType<ShadowspecBarDust>();

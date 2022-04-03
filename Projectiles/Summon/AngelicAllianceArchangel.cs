@@ -16,23 +16,23 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Archangel");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 68;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 60;
+            Projectile.height = 68;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(lifeSpan);
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             if (!modPlayer.divineBless || player.dead || !player.active)
@@ -50,116 +50,116 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Initialization and dust
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 10; i++)
                 {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
             // Rotate around the player
-            double deg = projectile.ai[1];
+            double deg = Projectile.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;
-            projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
-            projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
-            projectile.ai[1] += 1f;
+            Projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
+            Projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
+            Projectile.ai[1] += 1f;
 
-            if (!projectile.FinalExtraUpdate())
+            if (!Projectile.FinalExtraUpdate())
                 return;
 
             lifeSpan--;
             if (lifeSpan <= 0)
             {
-                projectile.alpha += 30;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 30;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
 
             // Give off some light
             float lightScalar = Main.rand.NextFloat(0.9f, 1.1f) * Main.essScale;
-            Lighting.AddLight(projectile.Center, 0.3f * lightScalar, 0.26f * lightScalar, 0.15f * lightScalar);
+            Lighting.AddLight(Projectile.Center, 0.3f * lightScalar, 0.26f * lightScalar, 0.15f * lightScalar);
 
             // Get a target
-            NPC target = projectile.Center.MinionHoming(2000f, player, false, true);
+            NPC target = Projectile.Center.MinionHoming(2000f, player, false, true);
 
             // Shoot the target
             if (target != null)
             {
-                Vector2 direction = target.Center - projectile.Center;
+                Vector2 direction = target.Center - Projectile.Center;
                 direction.Normalize();
                 direction *= 6f;
                 if (direction.X >= 0.25f)
                 {
-                    projectile.direction = -1;
+                    Projectile.direction = -1;
                 }
                 else if (direction.X < -0.25f)
                 {
-                    projectile.direction = 1;
+                    Projectile.direction = 1;
                 }
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
                 int timerLimit = 120;
-                if (projectile.ai[0] > timerLimit && projectile.alpha < 50)
+                if (Projectile.ai[0] > timerLimit && Projectile.alpha < 50)
                 {
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == Projectile.owner)
                     {
                         int type = ModContent.ProjectileType<AngelRay>();
-                        Projectile.NewProjectile(projectile.Center, direction * 0.5f, type, projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(Projectile.Center, direction * 0.5f, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                Vector2 direction = player.Center - projectile.Center;
+                Vector2 direction = player.Center - Projectile.Center;
                 direction.Normalize();
                 direction *= 6f;
                 if (direction.X >= 0.25f)
                 {
-                    projectile.direction = -1;
+                    Projectile.direction = -1;
                 }
                 else if (direction.X < -0.25f)
                 {
-                    projectile.direction = 1;
+                    Projectile.direction = 1;
                 }
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
 
             // Frames
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 7)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 7)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
 

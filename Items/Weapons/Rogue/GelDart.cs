@@ -18,24 +18,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 14;
-            item.damage = 28;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 11;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 2, 50);
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<GelDartProjectile>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 28;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 11;
+            Item.knockBack = 2.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 2, 50);
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<GelDartProjectile>();
+            Item.shootSpeed = 14f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

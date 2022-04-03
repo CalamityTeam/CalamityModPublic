@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class DaedalusPellet : ModProjectile
@@ -10,55 +11,55 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pellet");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -2;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                if (projectile.frame >= 3)
+                Projectile.frame++;
+                if (Projectile.frame >= 3)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
-                projectile.frameCounter = 0;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[0] = 1f;
-                Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.Center);
+                Projectile.ai[0] = 1f;
+                SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFuryShot, Projectile.Center);
             }
-            projectile.alpha = Utils.Clamp(projectile.alpha - 50, 0, 255);
+            Projectile.alpha = Utils.Clamp(Projectile.alpha - 50, 0, 255);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
     }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class DaawnlightSpiritOriginBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Archer of Lunamoon");
             Description.SetDefault("You have a personal spotter");

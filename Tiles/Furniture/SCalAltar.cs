@@ -11,6 +11,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.Furniture
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.Furniture
     {
         public const int Width = 4;
         public const int Height = 3;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -53,12 +54,12 @@ namespace CalamityMod.Tiles.Furniture
             Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<SCalAltarItem>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
 
-            int left = i - tile.frameX / 18;
-            int top = j - tile.frameY / 18;
+            int left = i - tile.TileFrameX / 18;
+            int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<CalamityDust>()) &&
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
@@ -77,7 +78,7 @@ namespace CalamityMod.Tiles.Furniture
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(-10f, -24f);
 
-            Main.PlaySound(SoundID.DD2_EtherianPortalOpen, ritualSpawnPosition);
+            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, ritualSpawnPosition);
             Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingSpecialItem)

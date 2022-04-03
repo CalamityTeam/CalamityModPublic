@@ -30,7 +30,7 @@ namespace CalamityMod.Particles
         {
             float scaleFactor = CalamityUtils.Convert01To010(LifetimeCompletion) * 1.3f;
             Vector2 scale = new Vector2(0.3f, 1f) * scaleFactor;
-            Texture2D texture = ModContent.GetTexture(Texture);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture);
 
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, 0f, texture.Size() * 0.5f, scale, 0, 0f);
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, Rotation, texture.Size() * 0.5f, scale, 0, 0f);

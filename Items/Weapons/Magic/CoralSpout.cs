@@ -16,32 +16,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item17;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CoralSpike>();
-            item.shootSpeed = 16f;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item17;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CoralSpike>();
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
-            recipe.AddIngredient(ItemID.Coral, 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 2).AddIngredient(ItemID.Coral, 5).AddTile(TileID.Bookcases).Register();
         }
     }
 }

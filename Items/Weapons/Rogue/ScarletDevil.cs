@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 108;
-            item.height = 108;
-            item.damage = 8000;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = item.useTime = 81;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
-            item.shootSpeed = 30f;
-            item.Calamity().rogue = true;
+            Item.width = 108;
+            Item.height = 108;
+            Item.damage = 8000;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = Item.useTime = 81;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
+            Item.shootSpeed = 30f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,15 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedTrident>());
-            recipe.AddIngredient(ModContent.ItemType<PhantasmalRuin>());
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedTrident>()).AddIngredient(ModContent.ItemType<PhantasmalRuin>()).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15).AddIngredient(ItemID.SoulofNight, 15).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

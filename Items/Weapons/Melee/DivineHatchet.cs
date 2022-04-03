@@ -16,35 +16,28 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.damage = 177;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 17;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item1;
-            item.melee = true;
-            item.height = 62;
-            item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
-            item.shootSpeed = 14f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 60;
+            Item.damage = 177;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 17;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.height = 62;
+            Item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
+            Item.shootSpeed = 14f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PossessedHatchet);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 8);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PossessedHatchet).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 9).AddIngredient(ModContent.ItemType<UnholyEssence>(), 8).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

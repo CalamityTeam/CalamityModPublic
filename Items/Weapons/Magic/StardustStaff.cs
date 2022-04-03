@@ -14,28 +14,28 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Eidolon Staff");
             Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
                 "Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 110;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 56;
-            item.height = 56;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Starblast>();
-            item.shootSpeed = 12f;
+            Item.damage = 110;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Starblast>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));

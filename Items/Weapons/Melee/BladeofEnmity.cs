@@ -15,30 +15,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 64;
-            item.scale = 1.5f;
-            item.damage = 190;
-            item.melee = true;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 60;
+            Item.height = 64;
+            Item.scale = 1.5f;
+            Item.damage = 190;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 10;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

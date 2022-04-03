@@ -18,29 +18,29 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 110;
-            item.width = 20;
-            item.height = 12;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item5;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PhangasmBow>();
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 110;
+            Item.width = 20;
+            Item.height = 12;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item5;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PhangasmBow>();
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Phantasm);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Phantasm).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<Phantoplasm>(), 20).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

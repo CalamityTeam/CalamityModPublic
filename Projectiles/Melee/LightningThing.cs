@@ -16,19 +16,19 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.timeLeft = 90;
-            projectile.melee = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 90;
+            Projectile.DamageType = DamageClass.Melee;
         }
         public override void Kill(int timeLeft)
         {
-            int damage = (int)(GaelsGreatsword.BaseDamage * Main.player[projectile.owner].MeleeDamage());
+            int damage = (int)(GaelsGreatsword.BaseDamage * Main.player[Projectile.owner].MeleeDamage());
             for (int i = 0; i < 3; i++)
             {
-                int idx = Projectile.NewProjectile(projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
-                    ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner,
+                int idx = Projectile.NewProjectile(Projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
+                    ProjectileID.CultistBossLightningOrbArc, damage, 0f, Projectile.owner,
                     MathHelper.PiOver2, Main.rand.Next(100));
                 if (idx.WithinBounds(Main.maxProjectiles))
                 {

@@ -16,23 +16,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 52;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_DarkMageHealImpact;
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 56;
-            item.knockBack = 2f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 15;
-            item.shoot = ModContent.ProjectileType<DazzlingStabber>();
-            item.shootSpeed = 13f;
+            Item.width = 54;
+            Item.height = 52;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_DarkMageHealImpact;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 56;
+            Item.knockBack = 2f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 15;
+            Item.shoot = ModContent.ProjectileType<DazzlingStabber>();
+            Item.shootSpeed = 13f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -45,9 +45,9 @@ namespace CalamityMod.Items.Weapons.Summon
             if (CalamityUtils.CountProjectiles(type) == 1)
                 angleMax = 0f;
             float index = 1f;
-            if (player.ownedProjectileCounts[item.shoot] > 8)
+            if (player.ownedProjectileCounts[Item.shoot] > 8)
             {
-                angleMax += MathHelper.ToRadians((player.ownedProjectileCounts[item.shoot] - 8) * 2.5f);
+                angleMax += MathHelper.ToRadians((player.ownedProjectileCounts[Item.shoot] - 8) * 2.5f);
             }
             angleMax = angleMax > MathHelper.ToRadians(105f) ? MathHelper.ToRadians(105f) : angleMax; // More intuative than using a min function
             for (int i = 0; i < Main.projectile.Length; i++)

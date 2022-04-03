@@ -16,20 +16,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 322;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 180;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 80;
+            Projectile.height = 322;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 180;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.Calamity().rogue = true;
         }
         public override void AI()
         {
             //2-6
-            projectile.frameCounter += 1;
-            if (projectile.frameCounter % 7 == 6)
+            Projectile.frameCounter += 1;
+            if (Projectile.frameCounter % 7 == 6)
             {
                 frameY += 1;
                 if (frameY >= 6)
@@ -39,20 +39,20 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (frameX >= 3)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.position.Y -= projectile.height / 2; //position adjustments
-                projectile.localAI[0] = 1f;
+                Projectile.position.Y -= Projectile.height / 2; //position adjustments
+                Projectile.localAI[0] = 1f;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[Projectile.type];
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
             return false;
         }
     }

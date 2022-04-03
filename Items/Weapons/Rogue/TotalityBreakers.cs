@@ -19,22 +19,22 @@ Stealth strikes leak tar as they fly");
 
         public override void SafeSetDefaults()
         {
-            item.width = 32;
-            item.damage = 55;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 28;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.height = 42;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<TotalityFlask>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 55;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 28;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.height = 42;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<TotalityFlask>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,15 +51,7 @@ Stealth strikes leak tar as they fly");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MolotovCocktail, 50);
-            recipe.AddIngredient(ModContent.ItemType<ConsecratedWater>());
-            recipe.AddIngredient(ModContent.ItemType<DesecratedWater>());
-            recipe.AddIngredient(ModContent.ItemType<SpentFuelContainer>());
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MolotovCocktail, 50).AddIngredient(ModContent.ItemType<ConsecratedWater>()).AddIngredient(ModContent.ItemType<DesecratedWater>()).AddIngredient(ModContent.ItemType<SpentFuelContainer>()).AddIngredient(ModContent.ItemType<SolarVeil>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class LethalLavaBurn : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fire");
             Description.SetDefault("Losing life, reduced movement speed");

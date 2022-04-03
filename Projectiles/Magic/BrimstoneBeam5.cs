@@ -15,20 +15,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 30;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 30;
         }
 
         public override void AI()
         {
-            Vector2 vector33 = projectile.position;
-            vector33 -= projectile.velocity;
-            projectile.alpha = 255;
+            Vector2 vector33 = Projectile.position;
+            vector33 -= Projectile.velocity;
+            Projectile.alpha = 255;
             int num249 = 235;
             int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 1.5f);
             Main.dust[num448].position = vector33;

@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AngryDog : ModNPC
@@ -14,35 +15,35 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Angry Dog");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[NPC.type] = 9;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.damage = 10;
-            npc.width = 56;
-            npc.height = 56;
-            npc.defense = 4;
-            npc.lifeMax = 50;
+            NPC.aiStyle = -1;
+            NPC.damage = 10;
+            NPC.width = 56;
+            NPC.height = 56;
+            NPC.defense = 4;
+            NPC.lifeMax = 50;
             if (CalamityWorld.downedCryogen)
             {
-                npc.damage = 60;
-                npc.defense = 10;
-                npc.lifeMax = 1000;
+                NPC.damage = 60;
+                NPC.defense = 10;
+                NPC.lifeMax = 1000;
             }
-            npc.knockBackResist = 0.3f;
+            NPC.knockBackResist = 0.3f;
             animationType = NPCID.Hellhound;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 3, 0);
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
-            npc.DeathSound = SoundID.NPCDeath5;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 3, 0);
+            NPC.HitSound = Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
+            NPC.DeathSound = SoundID.NPCDeath5;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
-            npc.coldDamage = true;
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = false;
-            npc.Calamity().VulnerableToSickness = true;
+            NPC.coldDamage = true;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = false;
+            NPC.Calamity().VulnerableToSickness = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -59,70 +60,70 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(900))
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngryDogGrowl"), (int)npc.position.X, (int)npc.position.Y);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngryDogGrowl"), (int)NPC.position.X, (int)NPC.position.Y);
             }
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
             if (phase2)
             {
                 if (!reset)
                 {
-                    npc.ai[0] = 0f;
-                    npc.ai[3] = 0f;
+                    NPC.ai[0] = 0f;
+                    NPC.ai[3] = 0f;
                     reset = true;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                if (npc.ai[1] < 7f)
+                if (NPC.ai[1] < 7f)
                 {
-                    npc.ai[1] += 1f;
+                    NPC.ai[1] += 1f;
                 }
-                CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+                CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
                 return;
             }
-            CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
+            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[1] < 7f && npc.ai[1] > 0f)
+            if (NPC.ai[1] < 7f && NPC.ai[1] > 0f)
             {
-                npc.frame.Y = frameHeight * 7;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = frameHeight * 7;
+                NPC.frameCounter = 0.0;
                 return;
             }
-            if (npc.ai[1] >= 7f)
+            if (NPC.ai[1] >= 7f)
             {
-                npc.frame.Y = frameHeight * 8;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = frameHeight * 8;
+                NPC.frameCounter = 0.0;
                 return;
             }
-            if (npc.velocity.Y > 0f || npc.velocity.Y < 0f)
+            if (NPC.velocity.Y > 0f || NPC.velocity.Y < 0f)
             {
-                npc.frame.Y = frameHeight * 5;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = frameHeight * 5;
+                NPC.frameCounter = 0.0;
             }
             else
             {
-                npc.spriteDirection = npc.direction;
-                npc.frameCounter += (double)(npc.velocity.Length() / 16f);
-                if (npc.frameCounter > 12.0)
+                NPC.spriteDirection = NPC.direction;
+                NPC.frameCounter += (double)(NPC.velocity.Length() / 16f);
+                if (NPC.frameCounter > 12.0)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
                 }
-                if (npc.frame.Y >= frameHeight * 6)
+                if (NPC.frame.Y >= frameHeight * 6)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow &&
-                !spawnInfo.player.PillarZone() &&
-                !spawnInfo.player.ZoneDungeon &&
-                !spawnInfo.player.InSunkenSea() &&
-                !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
+            return spawnInfo.Player.ZoneSnow &&
+                !spawnInfo.Player.PillarZone() &&
+                !spawnInfo.Player.ZoneDungeon &&
+                !spawnInfo.Player.InSunkenSea() &&
+                !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -134,21 +135,21 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ItemID.Leather, 1, 1, 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
+            DropHelper.DropItemChance(NPC, ItemID.Leather, 1, 1, 2);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
         }
     }
 }

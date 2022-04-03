@@ -11,26 +11,23 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Exo Work Bench");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<ExoWorkbenchTile>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.SetNameOverride("Exo Work Bench");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<ExoWorkbenchTile>();
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 10);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlating>(), 10).Register();
         }
     }
 }

@@ -14,109 +14,109 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("???");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 100;
-            npc.height = 100;
-            npc.defense = 0;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0f;
-            npc.Opacity = 0f;
-            npc.noGravity = true;
-            npc.dontTakeDamage = true;
-            npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = null;
-            npc.rarity = 2;
+            NPC.damage = 0;
+            NPC.width = 100;
+            NPC.height = 100;
+            NPC.defense = 0;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0f;
+            NPC.Opacity = 0f;
+            NPC.noGravity = true;
+            NPC.dontTakeDamage = true;
+            NPC.chaseable = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = null;
+            NPC.rarity = 2;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AnahitaPreboss") ?? -1;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
+            writer.Write(NPC.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
+            NPC.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.1f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.1f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(true);
+            NPC.TargetClosest(true);
 
-            float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-            npc.direction = playerLocation < 0f ? 1 : -1;
-            npc.spriteDirection = npc.direction;
+            float playerLocation = NPC.Center.X - Main.player[NPC.target].Center.X;
+            NPC.direction = playerLocation < 0f ? 1 : -1;
+            NPC.spriteDirection = NPC.direction;
 
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 560f)
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 560f)
             {
-                if (npc.ai[0] < 90f)
-                    npc.ai[0] += 1f;
+                if (NPC.ai[0] < 90f)
+                    NPC.ai[0] += 1f;
             }
-            else if (npc.ai[0] > 0f)
-                npc.ai[0] -= 1f;
+            else if (NPC.ai[0] > 0f)
+                NPC.ai[0] -= 1f;
 
-            npc.dontTakeDamage = npc.ai[0] != 90f;
+            NPC.dontTakeDamage = NPC.ai[0] != 90f;
 
-            npc.Opacity = MathHelper.Clamp(npc.ai[0] / 90f, 0f, 1f);
+            NPC.Opacity = MathHelper.Clamp(NPC.ai[0] / 90f, 0f, 1f);
 
-            Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0f, 0f, 0.8f * npc.Opacity);
+            Lighting.AddLight((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16, 0f, 0f, 0.8f * NPC.Opacity);
 
             if (CalamityPlayer.areThereAnyDamnBosses)
-                npc.active = false;
+                NPC.active = false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D drawTex = Main.npcTexture[npc.type];
+            Texture2D drawTex = Main.npcTexture[NPC.type];
             Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
 
-            Vector2 drawPos = npc.Center - Main.screenPosition;
-            drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-            drawPos += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(drawTex, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            Vector2 drawPos = NPC.Center - Main.screenPosition;
+            drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(drawTex, drawPos, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            drawTex = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
+            drawTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
 
-            spriteBatch.Draw(drawTex, drawPos, npc.frame, Color.White, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(drawTex, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().disableAnahitaSpawns)
+            if (spawnInfo.Player.Calamity().disableAnahitaSpawns)
                 return 0f;
 
             if (spawnInfo.playerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
-                NPC.AnyNPCs(npc.type) ||
+                NPC.AnyNPCs(NPC.type) ||
                 NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
+                spawnInfo.Player.Calamity().ZoneSulphur ||
                 NPC.LunarApocalypseIsUp)
             {
                 return 0f;
@@ -133,21 +133,21 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SirensHeart>(), 0.25f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<SirensHeart>(), 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life > 0)
+            if (NPC.life > 0)
             {
                 for (int k = 0; k < 5; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int siren = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI);
+                int siren = NPC.NewNPC((int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Siren>(), NPC.whoAmI);
                 CalamityUtils.BossAwakenMessage(siren);
             }
         }

@@ -19,16 +19,16 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 15;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 15;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.04f;
+            player.GetDamage(DamageClass.Summon) += 0.04f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.moveSpeed += 0.4f;
@@ -45,15 +45,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpiderGreaves);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<PlantyMush>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpiderGreaves).AddIngredient(ModContent.ItemType<VictideBar>(), 9).AddIngredient(ModContent.ItemType<PlantyMush>(), 8).AddIngredient(ModContent.ItemType<AbyssGravel>(), 15).AddIngredient(ModContent.ItemType<DepthCells>(), 4).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

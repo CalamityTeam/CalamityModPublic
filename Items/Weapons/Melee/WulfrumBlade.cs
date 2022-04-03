@@ -15,19 +15,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 46;
-            item.damage = 12;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 3.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 32;
+            Item.height = 46;
+            Item.damage = 12;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 3.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
@@ -37,11 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 12).AddTile(TileID.Anvils).Register();
         }
     }
 }

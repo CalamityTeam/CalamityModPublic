@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

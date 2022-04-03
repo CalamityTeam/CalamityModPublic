@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class BrimlingBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimling");
             Description.SetDefault("Protect her or suffer in agony");

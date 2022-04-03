@@ -32,27 +32,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 42;
-            item.damage = 415;
-            item.knockBack = 4f;
-            item.magic = true;
-            item.mana = 6;
+            Item.width = 40;
+            Item.height = 42;
+            Item.damage = 415;
+            Item.knockBack = 4f;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 2;
-            item.useAnimation = 8;
-            item.reuseDelay = 5;
-            item.UseSound = SoundID.Item105;
-            item.autoReuse = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 2;
+            Item.useAnimation = 8;
+            Item.reuseDelay = 5;
+            Item.UseSound = SoundID.Item105;
+            Item.autoReuse = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<LightBlade>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<LightBlade>();
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -87,14 +87,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SkyFracture);
-            recipe.AddIngredient(ItemID.LunarFlareBook);
-            recipe.AddIngredient(ModContent.ItemType<WrathoftheAncients>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SkyFracture).AddIngredient(ItemID.LunarFlareBook).AddIngredient(ModContent.ItemType<WrathoftheAncients>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

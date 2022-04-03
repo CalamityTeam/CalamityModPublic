@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -16,27 +17,27 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Amputator");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 74;
-            projectile.height = 74;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.timeLeft = 180;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 74;
+            Projectile.height = 74;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.timeLeft = 180;
+            Projectile.Calamity().rogue = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 iAmSpeed.Normalize();
                 iAmSpeed *= (float)Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)(Projectile.damage * 0.25), 0f, Projectile.owner, 0f, 0f);
             }
         }
 
@@ -60,58 +61,58 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             // Stealth strikes constantly spawn molten blobs.
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 // If the stealth blob timer isn't set up yet, set it up
-                if (projectile.ai[1] == 0f)
-                    projectile.ai[1] = FramesPerBlob;
+                if (Projectile.ai[1] == 0f)
+                    Projectile.ai[1] = FramesPerBlob;
                 else
                 {
-                    projectile.ai[1]--;
-                    if (projectile.ai[1] <= 0f)
+                    Projectile.ai[1]--;
+                    if (Projectile.ai[1] <= 0f)
                     {
                         SpawnBlobs(1);
-                        projectile.ai[1] = FramesPerBlob;
+                        Projectile.ai[1] = FramesPerBlob;
                     }
                 }
             }
 
             // Frame 1, pick a direction for the scythe. This direction isn't changed from that point on
-            if (projectile.ai[0] == 0f)
-                projectile.spriteDirection = projectile.direction;
+            if (Projectile.ai[0] == 0f)
+                Projectile.spriteDirection = Projectile.direction;
 
             // Boomerang glows orange
-            Lighting.AddLight(projectile.Center, 0.65f, 0.45f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.65f, 0.45f, 0f);
 
             // Boomerang noises
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
             // Main boomerang logic. projectile.ai[0] is a frame counter.
-            projectile.ai[0] += 1f;
+            Projectile.ai[0] += 1f;
 
             // On the first returning frame, send a net update.
-            if (projectile.ai[0] == FramesBeforeReturning)
-                projectile.netUpdate = true;
+            if (Projectile.ai[0] == FramesBeforeReturning)
+                Projectile.netUpdate = true;
 
             // Once returning, use boomerang return AI.
-            if (projectile.ai[0] >= FramesBeforeReturning)
+            if (Projectile.ai[0] >= FramesBeforeReturning)
             {
                 float returnSpeed = MoltenAmputator.Speed * 2f;
                 float acceleration = 1.15f;
 
-                Player owner = Main.player[projectile.owner];
-                Vector2 delta = owner.Center - projectile.Center;
+                Player owner = Main.player[Projectile.owner];
+                Vector2 delta = owner.Center - Projectile.Center;
                 float dx = delta.X;
                 float dy = delta.Y;
 
                 // If the boomerang is excessively far away, destroy it.
                 float dist = delta.Length();
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 // Homing vector math (the boomerang homes in on the player using rather ugly code)
                 dist = returnSpeed / dist;
@@ -119,75 +120,75 @@ namespace CalamityMod.Projectiles.Rogue
                 dy *= dist;
 
                 // X/Y specific boomerang return code. This is what gives them their unique flight path.
-                if (projectile.velocity.X < dx)
+                if (Projectile.velocity.X < dx)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && dx > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + acceleration;
+                    if (Projectile.velocity.X < 0f && dx > 0f)
                     {
-                        projectile.velocity.X = projectile.velocity.X + acceleration;
+                        Projectile.velocity.X = Projectile.velocity.X + acceleration;
                     }
                 }
-                else if (projectile.velocity.X > dx)
+                else if (Projectile.velocity.X > dx)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && dx < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - acceleration;
+                    if (Projectile.velocity.X > 0f && dx < 0f)
                     {
-                        projectile.velocity.X = projectile.velocity.X - acceleration;
+                        Projectile.velocity.X = Projectile.velocity.X - acceleration;
                     }
                 }
-                if (projectile.velocity.Y < dy)
+                if (Projectile.velocity.Y < dy)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && dy > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
+                    if (Projectile.velocity.Y < 0f && dy > 0f)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y + acceleration;
+                        Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
                     }
                 }
-                else if (projectile.velocity.Y > dy)
+                else if (Projectile.velocity.Y > dy)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && dy < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
+                    if (Projectile.velocity.Y > 0f && dy < 0f)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y - acceleration;
+                        Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
                     }
                 }
 
                 // Destroy the boomerang when it returns to the player.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
             }
 
             // Rotate the scythe as it flies.
-            float spin = projectile.spriteDirection <= 0 ? -1f : 1f;
-            projectile.rotation += spin * 0.38f;
+            float spin = Projectile.spriteDirection <= 0 ? -1f : 1f;
+            Projectile.rotation += spin * 0.38f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int blobCount = projectile.Calamity().stealthStrike ? 4 : 2;
+                int blobCount = Projectile.Calamity().stealthStrike ? 4 : 2;
                 SpawnBlobs(blobCount);
             }
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int blobCount = projectile.Calamity().stealthStrike ? 4 : 2;
+                int blobCount = Projectile.Calamity().stealthStrike ? 4 : 2;
                 SpawnBlobs(blobCount);
             }
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

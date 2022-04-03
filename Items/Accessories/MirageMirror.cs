@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 30;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,21 +34,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MagicMirror);
-            recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceMirror);
-            recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MagicMirror).AddIngredient(ItemID.BlackLens).AddIngredient(ItemID.Bone, 50).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe(1).AddIngredient(ItemID.IceMirror).AddIngredient(ItemID.BlackLens).AddIngredient(ItemID.Bone, 50).AddTile(TileID.TinkerersWorkbench).Register();
         }
     }
 }

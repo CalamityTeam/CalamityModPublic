@@ -8,54 +8,54 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TheAtomSplitterDuplicate : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
-        public ref float Lifetime => ref projectile.ai[1];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atom Splitter");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.scale = 0.66f;
-            projectile.width = projectile.height = (int)(124f * projectile.scale);
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
-            projectile.timeLeft = 900;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.scale = 0.66f;
+            Projectile.width = Projectile.height = (int)(124f * Projectile.scale);
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
+            Projectile.timeLeft = 900;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             // Accelerate until at a certain speed.
-            if (projectile.velocity.Length() < 20f)
-                projectile.velocity *= 1.02f;
+            if (Projectile.velocity.Length() < 20f)
+                Projectile.velocity *= 1.02f;
 
-            projectile.Opacity = CalamityUtils.Convert01To010(Time / Lifetime) * 0.6f;
+            Projectile.Opacity = CalamityUtils.Convert01To010(Time / Lifetime) * 0.6f;
             if (Time >= Lifetime)
-                projectile.Kill();
+                Projectile.Kill();
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Time++;
         }
 
-        public override bool CanDamage() => projectile.alpha < 180;
+        public override bool CanDamage() => Projectile.alpha < 180;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (Time <= 1f)
                 return false;
 
-            Color drawColor = CalamityUtils.MulticolorLerp((Time / 35f + projectile.identity / 4f) % 1f, CalamityUtils.ExoPalette);
+            Color drawColor = CalamityUtils.MulticolorLerp((Time / 35f + Projectile.identity / 4f) % 1f, CalamityUtils.ExoPalette);
             drawColor.A = 0;
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], drawColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], drawColor);
             return false;
         }
     }

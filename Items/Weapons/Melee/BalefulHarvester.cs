@@ -16,31 +16,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.width = 66;
-            item.height = 66;
-            item.scale = 1.5f;
-            item.melee = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.damage = 90;
+            Item.width = 66;
+            Item.height = 66;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 22;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TheHorsemansBlade);
-            recipe.AddIngredient(ItemID.BookofSkulls);
-            recipe.AddIngredient(ItemID.FragmentSolar, 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.TheHorsemansBlade).AddIngredient(ItemID.BookofSkulls).AddIngredient(ItemID.FragmentSolar, 20).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -59,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage /= 2;
 
             int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
-            CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), item.knockBack, 0, type);
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), Item.knockBack, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
         }
     }

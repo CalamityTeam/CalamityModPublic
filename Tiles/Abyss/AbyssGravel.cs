@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

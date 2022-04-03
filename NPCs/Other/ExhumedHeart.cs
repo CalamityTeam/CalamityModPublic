@@ -9,58 +9,58 @@ namespace CalamityMod.NPCs.Other
 {
     public class ExhumedHeart : ModNPC
     {
-        public ref float Time => ref npc.ai[0];
+        public ref float Time => ref NPC.ai[0];
         public Player Owner
         {
             get
             {
-                if (npc.target >= 255 || npc.target < 0)
-                    npc.TargetClosest();
-                return Main.player[npc.target];
+                if (NPC.target >= 255 || NPC.target < 0)
+                    NPC.TargetClosest();
+                return Main.player[NPC.target];
             }
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exhumed Brimstone Heart");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.width = npc.height = 38;
-            npc.damage = 0;
-            npc.defense = 0;
-            npc.lifeMax = 51740;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.value = 0f;
-            npc.HitSound = SoundID.NPCHit13;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0f;
-            npc.netAlways = true;
-            npc.aiStyle = -1;
-            npc.Calamity().DoesNotGenerateRage = true;
-            npc.Calamity().DoesNotDisappearInBossRush = true;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.width = NPC.height = 38;
+            NPC.damage = 0;
+            NPC.defense = 0;
+            NPC.lifeMax = 51740;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.value = 0f;
+            NPC.HitSound = SoundID.NPCHit13;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0f;
+            NPC.netAlways = true;
+            NPC.aiStyle = -1;
+            NPC.Calamity().DoesNotGenerateRage = true;
+            NPC.Calamity().DoesNotDisappearInBossRush = true;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 51740;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 51740;
 
         public override void AI()
         {
-            npc.Opacity = Utils.InverseLerp(0f, 25f, Time, true);
-            npc.Center = Owner.Center + (MathHelper.TwoPi * Time / 540f).ToRotationVector2() * 350f;
-            npc.velocity = Vector2.Zero;
+            NPC.Opacity = Utils.InverseLerp(0f, 25f, Time, true);
+            NPC.Center = Owner.Center + (MathHelper.TwoPi * Time / 540f).ToRotationVector2() * 350f;
+            NPC.velocity = Vector2.Zero;
 
             if (!Owner.active || Owner.dead ||
                 Owner.ownedProjectileCounts[ModContent.ProjectileType<SepulcherMinion>()] <= 0)
             {
-                npc.life = 0;
-                npc.HitEffect();
-                npc.checkDead();
-                npc.active = false;
+                NPC.life = 0;
+                NPC.HitEffect();
+                NPC.checkDead();
+                NPC.active = false;
             }
 
             Time++;
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Other
             float widthInterpolant = Utils.InverseLerp(0f, 0.16f, completionRatio, true) * Utils.InverseLerp(1f, 0.84f, completionRatio, true);
             widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);
             float baseWidth = MathHelper.Lerp(4f, 1f, widthInterpolant);
-            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTime * 2.6f + npc.whoAmI * 1.3f + completionRatio), 16D));
+            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTime * 2.6f + NPC.whoAmI * 1.3f + completionRatio), 16D));
             return baseWidth + pulseWidth;
         }
 
@@ -83,13 +83,13 @@ namespace CalamityMod.NPCs.Other
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            npc.frame.Y = (int)(npc.frameCounter / 5) % Main.npcFrameCount[npc.type] * frameHeight;
+            NPC.frameCounter++;
+            NPC.frame.Y = (int)(NPC.frameCounter / 5) % Main.npcFrameCount[NPC.type] * frameHeight;
         }
 
         public override Color? GetAlpha(Color drawColor)
         {
-            Color color = Color.Purple * npc.Opacity;
+            Color color = Color.Purple * NPC.Opacity;
             color.A = 127;
             return color;
         }

@@ -20,24 +20,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 165;
-            item.ranged = true;
-            item.width = 62;
-            item.height = 90;
-            item.useTime = 15;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 165;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 62;
+            Item.height = 90;
+            Item.useTime = 15;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -92,17 +92,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Monsoon>());
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Monsoon>()).AddIngredient(ModContent.ItemType<SeaPrism>(), 20).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

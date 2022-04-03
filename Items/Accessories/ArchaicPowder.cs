@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,14 +34,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AncientFossil>());
-            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
-            recipe.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
-            recipe.AddIngredient(ItemID.Bone, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AncientFossil>()).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3).AddIngredient(ItemID.Bone, 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

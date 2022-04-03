@@ -22,6 +22,7 @@ using System.Threading;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs
 {
@@ -33,14 +34,14 @@ namespace CalamityMod.NPCs
             // No bosses drop loot in Boss Rush. Progress the event instead.
             if (BossRushEvent.BossRushActive)
             {
-                BossRushEvent.OnBossKill(npc, mod);
+                BossRushEvent.OnBossKill(npc, Mod);
                 return false;
             }
 
-            if (AbyssLootCancel(npc, mod))
+            if (AbyssLootCancel(npc, Mod))
                 return false;
 
-            if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, mod))
+            if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, Mod))
                 return false;
 
             // Do not provide free hearts for certain boss NPCs in Rev+.
@@ -820,7 +821,7 @@ namespace CalamityMod.NPCs
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"),
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"),
                             (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
                     }
 

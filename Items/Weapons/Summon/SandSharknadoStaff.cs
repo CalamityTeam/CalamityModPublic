@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.mana = 10;
-            item.width = 48;
-            item.height = 56;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SandnadoMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 35;
+            Item.mana = 10;
+            Item.width = 48;
+            Item.height = 56;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SandnadoMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,14 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ForgottenApexWand>());
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-            recipe.AddIngredient(ItemID.AncientCloth, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ForgottenApexWand>()).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.AncientCloth, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

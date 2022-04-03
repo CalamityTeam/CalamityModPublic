@@ -14,45 +14,45 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Heart");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 32;
-            npc.height = 32;
-            npc.defense = 2;
-            npc.lifeMax = 150;
+            NPC.damage = 0;
+            NPC.width = 32;
+            NPC.height = 32;
+            NPC.defense = 2;
+            NPC.lifeMax = 150;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 1800;
+                NPC.lifeMax = 1800;
             }
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.4f;
-            npc.noGravity = true;
-            npc.canGhostHeal = false;
-            npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit13;
-            npc.DeathSound = SoundID.NPCDeath21;
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
+            NPC.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.4f;
+            NPC.noGravity = true;
+            NPC.canGhostHeal = false;
+            NPC.chaseable = false;
+            NPC.HitSound = SoundID.NPCHit13;
+            NPC.DeathSound = SoundID.NPCDeath21;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            npc.TargetClosest();
+            NPC.TargetClosest();
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
             if (BossRushEvent.BossRushActive || CalamityWorld.malice)
@@ -61,14 +61,14 @@ namespace CalamityMod.NPCs.HiveMind
                 num1165 *= 2f;
             }
 
-            Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num1166 = Main.player[npc.target].Center.X - vector133.X;
-            float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 400f;
+            Vector2 vector133 = new Vector2(NPC.Center.X, NPC.Center.Y);
+            float num1166 = Main.player[NPC.target].Center.X - vector133.X;
+            float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - 400f;
             float num1168 = (float)Math.Sqrt(num1166 * num1166 + num1167 * num1167);
             if (num1168 < 20f)
             {
-                num1166 = npc.velocity.X;
-                num1167 = npc.velocity.Y;
+                num1166 = NPC.velocity.X;
+                num1167 = NPC.velocity.Y;
             }
             else
             {
@@ -76,48 +76,48 @@ namespace CalamityMod.NPCs.HiveMind
                 num1166 *= num1168;
                 num1167 *= num1168;
             }
-            if (npc.velocity.X < num1166)
+            if (NPC.velocity.X < num1166)
             {
-                npc.velocity.X = npc.velocity.X + num1165;
-                if (npc.velocity.X < 0f && num1166 > 0f)
+                NPC.velocity.X = NPC.velocity.X + num1165;
+                if (NPC.velocity.X < 0f && num1166 > 0f)
                 {
-                    npc.velocity.X = npc.velocity.X + num1165 * 2f;
+                    NPC.velocity.X = NPC.velocity.X + num1165 * 2f;
                 }
             }
-            else if (npc.velocity.X > num1166)
+            else if (NPC.velocity.X > num1166)
             {
-                npc.velocity.X = npc.velocity.X - num1165;
-                if (npc.velocity.X > 0f && num1166 < 0f)
+                NPC.velocity.X = NPC.velocity.X - num1165;
+                if (NPC.velocity.X > 0f && num1166 < 0f)
                 {
-                    npc.velocity.X = npc.velocity.X - num1165 * 2f;
+                    NPC.velocity.X = NPC.velocity.X - num1165 * 2f;
                 }
             }
-            if (npc.velocity.Y < num1167)
+            if (NPC.velocity.Y < num1167)
             {
-                npc.velocity.Y = npc.velocity.Y + num1165;
-                if (npc.velocity.Y < 0f && num1167 > 0f)
+                NPC.velocity.Y = NPC.velocity.Y + num1165;
+                if (NPC.velocity.Y < 0f && num1167 > 0f)
                 {
-                    npc.velocity.Y = npc.velocity.Y + num1165 * 2f;
+                    NPC.velocity.Y = NPC.velocity.Y + num1165 * 2f;
                 }
             }
-            else if (npc.velocity.Y > num1167)
+            else if (NPC.velocity.Y > num1167)
             {
-                npc.velocity.Y = npc.velocity.Y - num1165;
-                if (npc.velocity.Y > 0f && num1167 < 0f)
+                NPC.velocity.Y = NPC.velocity.Y - num1165;
+                if (NPC.velocity.Y > 0f && num1167 < 0f)
                 {
-                    npc.velocity.Y = npc.velocity.Y - num1165 * 2f;
+                    NPC.velocity.Y = NPC.velocity.Y - num1165 * 2f;
                 }
             }
-            if (npc.position.X + npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + Main.player[npc.target].width && npc.position.Y + npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
+            if (NPC.position.X + NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + Main.player[NPC.target].width && NPC.position.Y + NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.ai[0] += 1f;
-                if (npc.ai[0] >= 30f)
+                NPC.ai[0] += 1f;
+                if (NPC.ai[0] >= 30f)
                 {
-                    npc.ai[0] = 0f;
-                    int num1169 = (int)(npc.position.X + 10f + Main.rand.Next(npc.width - 20));
-                    int num1170 = (int)(npc.position.Y + npc.height + 4f);
+                    NPC.ai[0] = 0f;
+                    int num1169 = (int)(NPC.position.X + 10f + Main.rand.Next(NPC.width - 20));
+                    int num1170 = (int)(NPC.position.Y + NPC.height + 4f);
                     int type = ModContent.ProjectileType<ShaderainHostile>();
-                    int damage = npc.GetProjectileDamage(type);
+                    int damage = NPC.GetProjectileDamage(type);
                     Projectile.NewProjectile(num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
@@ -127,9 +127,9 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (!CalamityWorld.revenge)
             {
-                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 
@@ -137,13 +137,13 @@ namespace CalamityMod.NPCs.HiveMind
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 31;
-            item.ranged = true;
-            item.width = 50;
-            item.height = 24;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 11.5f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 31;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 50;
+            Item.height = 24;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 11.5f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -53,11 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

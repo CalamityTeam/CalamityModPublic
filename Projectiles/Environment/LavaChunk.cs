@@ -9,86 +9,86 @@ namespace CalamityMod.Projectiles.Environment
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lava Chunk");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.hostile = true;
-            projectile.timeLeft = 360;
-            projectile.penetrate = 1;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 360;
+            Projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
+            if (Projectile.frame > 5)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.localAI[1] < 1f)
+            if (Projectile.localAI[1] < 1f)
             {
-                projectile.localAI[1] += 0.002f;
-                projectile.scale -= 0.002f;
-                projectile.width = (int)(18f * projectile.scale);
-                projectile.height = (int)(18f * projectile.scale);
+                Projectile.localAI[1] += 0.002f;
+                Projectile.scale -= 0.002f;
+                Projectile.width = (int)(18f * Projectile.scale);
+                Projectile.height = (int)(18f * Projectile.scale);
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.scale > 0.25f)
+            if (Projectile.scale > 0.25f)
             {
                 for (int num246 = 0; num246 < 2; num246++)
                 {
                     float num248 = 0f;
                     if (num246 == 1)
                     {
-                        num248 = projectile.velocity.Y * 0.5f;
+                        num248 = Projectile.velocity.Y * 0.5f;
                     }
-                    int num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, projectile.scale);
+                    int num249 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, Projectile.scale);
                     Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                     Main.dust[num249].velocity *= 0.2f;
                     Main.dust[num249].noGravity = true;
-                    num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, projectile.scale * 0.5f);
+                    num249 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 31, 0f, 0f, 100, default, Projectile.scale * 0.5f);
                     Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
             else
             {
-                projectile.damage = 0;
+                Projectile.damage = 0;
             }
-            if (projectile.velocity.Y < 6f)
+            if (Projectile.velocity.Y < 6f)
             {
-                projectile.velocity.Y = projectile.velocity.Y + 0.05f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.05f;
             }
-            if (projectile.wet)
+            if (Projectile.wet)
             {
-                if (projectile.velocity.Y < 0f)
+                if (Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y * 0.98f;
+                    Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
                 }
-                if (projectile.velocity.Y < 0.5f)
+                if (Projectile.velocity.Y < 0.5f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + 0.01f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + 0.01f;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class SmoothNavystone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;

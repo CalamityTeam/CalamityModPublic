@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,24 +18,24 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 59;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 36;
-            item.height = 40;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item9;
-            item.scale = 0.9f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Icicle>();
-            item.shootSpeed = 15f;
+            Item.damage = 59;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 7;
+            Item.width = 36;
+            Item.height = 40;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item9;
+            Item.scale = 0.9f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Icicle>();
+            Item.shootSpeed = 15f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             if (Main.rand.NextBool(4))
             {
-                Main.PlaySound(SoundID.Item1, position);
+                SoundEngine.PlaySound(SoundID.Item1, position);
                 Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<Snowball>(), damage, knockBack * 2f, player.whoAmI);
             }
             speedX += Main.rand.Next(-40, 41) * 0.05f;

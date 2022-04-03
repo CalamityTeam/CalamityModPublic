@@ -19,13 +19,13 @@ Pull Velocity: {SerpentsBiteHook.PullSpeed}");
         public override void SetDefaults()
         {
             // Instead of copying these values, we can clone and modify the ones we want to copy
-            item.CloneDefaults(ItemID.AmethystHook);
-            item.shootSpeed = SerpentsBiteHook.LaunchSpeed; // how quickly the hook is shot.
-            item.shoot = ProjectileType<SerpentsBiteHook>();
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.width = 30;
-            item.height = 32;
+            Item.CloneDefaults(ItemID.AmethystHook);
+            Item.shootSpeed = SerpentsBiteHook.LaunchSpeed; // how quickly the hook is shot.
+            Item.shoot = ProjectileType<SerpentsBiteHook>();
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.width = 30;
+            Item.height = 32;
         }
     }
 }

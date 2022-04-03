@@ -14,22 +14,22 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bad Time");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
             // Intentionally large bullet hitbox to make Hyperius swarm more forgiving with hits
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 360;
-            projectile.extraUpdates = 1;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 360;
+            Projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
         }
 
@@ -38,10 +38,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (currentColor == Color.Black)
             {
                 int startPoint = Main.rand.Next(6);
-                projectile.localAI[0] = startPoint;
+                Projectile.localAI[0] = startPoint;
                 currentColor = HyperiusBulletProj.GetStartingColor(startPoint);
             }
-            HyperiusBulletProj.Visuals(projectile, ref currentColor);
+            HyperiusBulletProj.Visuals(Projectile, ref currentColor);
         }
 
         // This projectile is always fullbright.
@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft == 360)
+            if (Projectile.timeLeft == 360)
                 return false;
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int dustType = dustTypes[Main.rand.Next(3)];
                 float scale = Main.rand.NextFloat(0.4f, 0.9f);
                 float velScale = Main.rand.NextFloat(3f, 5.5f);
-                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].scale = scale;
                 Main.dust[dustID].velocity *= velScale;

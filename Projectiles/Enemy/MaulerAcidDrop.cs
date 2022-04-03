@@ -15,22 +15,22 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.penetrate = -1;
-            projectile.hostile = true;
-            projectile.timeLeft = 240;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.penetrate = -1;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 240;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
         }
         public override void AI()
         {
             float homingSpeed = 16f;
-            Player target = Main.player[Player.FindClosest(projectile.Center, 1, 1)];
-            if (projectile.WithinRange(target.Center, 1200f) && projectile.timeLeft < 210)
-                projectile.velocity = (projectile.velocity * 59f + projectile.SafeDirectionTo(target.Center) * homingSpeed) / 60f;
-            projectile.Opacity = Utils.InverseLerp(0f, 25f, projectile.timeLeft, true);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Player target = Main.player[Player.FindClosest(Projectile.Center, 1, 1)];
+            if (Projectile.WithinRange(target.Center, 1200f) && Projectile.timeLeft < 210)
+                Projectile.velocity = (Projectile.velocity * 59f + Projectile.SafeDirectionTo(target.Center) * homingSpeed) / 60f;
+            Projectile.Opacity = Utils.InverseLerp(0f, 25f, Projectile.timeLeft, true);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Enemy
         {
             lightColor = Color.White;
             lightColor.A = 64;
-            return lightColor * projectile.Opacity;
+            return lightColor * Projectile.Opacity;
         }
     }
 }

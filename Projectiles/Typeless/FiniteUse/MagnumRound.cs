@@ -13,17 +13,17 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 10;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

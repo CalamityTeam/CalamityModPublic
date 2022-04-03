@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class HadopelagicEchoSoundwave : ModProjectile
@@ -17,77 +18,77 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Echo");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.scale = 0.005f;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
-            projectile.timeLeft = 450;
-            projectile.Calamity().PierceResistHarshness = 0.06f;
-            projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.scale = 0.005f;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
+            Projectile.timeLeft = 450;
+            Projectile.Calamity().PierceResistHarshness = 0.06f;
+            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f || projectile.ai[0] == 4f)
+            if (Projectile.ai[0] == 0f || Projectile.ai[0] == 4f)
             {
                 if (!playedSound)
                 {
-                    Main.PlaySound(Main.rand.NextBool(100) ? mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater") : mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)projectile.Center.X, (int)projectile.Center.Y);
+                    SoundEngine.PlaySound(Main.rand.NextBool(100) ? Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater") : Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                     playedSound = true;
                 }
             }
 
-            if (projectile.localAI[0] < 1f)
+            if (Projectile.localAI[0] < 1f)
             {
-                projectile.localAI[0] += 0.05f;
-                projectile.scale += 0.05f;
-                projectile.width = (int)(36f * projectile.scale);
-                projectile.height = (int)(36f * projectile.scale);
+                Projectile.localAI[0] += 0.05f;
+                Projectile.scale += 0.05f;
+                Projectile.width = (int)(36f * Projectile.scale);
+                Projectile.height = (int)(36f * Projectile.scale);
             }
             else
             {
-                projectile.width = 36;
-                projectile.height = 36;
+                Projectile.width = 36;
+                Projectile.height = 36;
             }
 
             if (echoCooldown > 0)
                 echoCooldown--;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
-                projectile.velocity.X = -oldVelocity.X;
+            if (Projectile.velocity.X != oldVelocity.X)
+                Projectile.velocity.X = -oldVelocity.X;
 
-            if (projectile.velocity.Y != oldVelocity.Y)
-                projectile.velocity.Y = -oldVelocity.Y;
+            if (Projectile.velocity.Y != oldVelocity.Y)
+                Projectile.velocity.Y = -oldVelocity.Y;
 
             return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * projectile.localAI[0]);
+            damage = (int)(damage * Projectile.localAI[0]);
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(damage * projectile.localAI[0]);
+            damage = (int)(damage * Projectile.localAI[0]);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -97,8 +98,8 @@ namespace CalamityMod.Projectiles.Magic
             {
                 echoCooldown = 120;
                 int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
-                int echoDamage = (int)(0.2f * projectile.damage);
-                float echoKB = projectile.knockBack / 3;
+                int echoDamage = (int)(0.2f * Projectile.damage);
+                float echoKB = Projectile.knockBack / 3;
                 int echos = 2;
                 for (int i = 0; i < echos; ++i)
                 {
@@ -109,9 +110,9 @@ namespace CalamityMod.Projectiles.Magic
                     float echoSpeed = Main.rand.NextFloat(15f, 18f);
                     Vector2 velocity = startDir * (-echoSpeed);
 
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, projectile.owner);
+                        Projectile.NewProjectile(startPoint, velocity, echoID, echoDamage, echoKB, Projectile.owner);
                     }
                 }
             }
@@ -119,9 +120,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
@@ -130,7 +131,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

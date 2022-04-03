@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class EarthRockBig : ModProjectile
@@ -15,30 +16,30 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.hostile = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 600;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.hostile = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 600;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;
@@ -46,23 +47,23 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCDeath14, (int)projectile.position.X, (int)projectile.position.Y);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.NPCDeath14, (int)Projectile.position.X, (int)Projectile.position.Y);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 8, 0f, 0f, 100, default, 1.2f);
+                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 8, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -72,13 +73,13 @@ namespace CalamityMod.Projectiles.Enemy
             }
             for (int num623 = 0; num623 < 30; num623++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 1, 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 8, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 8, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

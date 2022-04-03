@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 31;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 54;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SmallSkeletonMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 31;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 54;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SmallSkeletonMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

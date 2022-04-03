@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 72;
-            item.damage = 132;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 72;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<GalaxyBlast>();
-            item.shootSpeed = 16f;
+            Item.width = 72;
+            Item.damage = 132;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 72;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<GalaxyBlast>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -103,14 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CatastropheClaymore>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CatastropheClaymore>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<AstralBar>(), 10).AddIngredient(ItemID.MeteoriteBar, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

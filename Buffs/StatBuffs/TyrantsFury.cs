@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class TyrantsFury : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tyrant's Fury");
             Description.SetDefault("30% increased melee damage and 10% increased melee crit chance");

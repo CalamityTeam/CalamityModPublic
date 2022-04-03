@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.ranged = true;
-            item.width = 62;
-            item.height = 32;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item72;
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<TitRail>();
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 62;
+            Item.height = 32;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item72;
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<TitRail>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,18 +41,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = Vector2.Normalize(new Vector2(speedX, speedY));
-            velocity *= item.shootSpeed;
+            velocity *= Item.shootSpeed;
             Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.TitaniumBar, 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

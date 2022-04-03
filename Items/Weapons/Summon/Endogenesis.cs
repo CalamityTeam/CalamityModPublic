@@ -29,24 +29,24 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 80;
-            item.height = 80;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item78;
+            Item.width = 80;
+            Item.height = 80;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item78;
 
-            item.summon = true;
-            item.mana = 80;
-            item.damage = 1300;
-            item.knockBack = 4f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<EndoCooperBody>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 80;
+            Item.damage = 1300;
+            Item.knockBack = 4f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<EndoCooperBody>();
+            Item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override bool CanUseItem(Player player) => player.maxMinions >= 10f;
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 CalamityUtils.KillShootProjectileMany(player, new int[]
                 {
                     type,
@@ -94,15 +94,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryogenicStaff>());
-            recipe.AddIngredient(ItemID.BlizzardStaff);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 100);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CryogenicStaff>()).AddIngredient(ItemID.BlizzardStaff).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 100).AddIngredient(ModContent.ItemType<CoreofEleum>(), 15).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

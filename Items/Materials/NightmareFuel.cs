@@ -15,36 +15,36 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Nightmare Fuel");
             Tooltip.SetDefault("May drain your sanity");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 36;
-            item.maxStack = 999;
-            item.rare = ItemRarityID.Red;
-            item.value = Item.sellPrice(gold: 2);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 38;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Red;
+            Item.value = Item.sellPrice(gold: 2);
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = Main.itemTexture[item.type];
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = Main.itemTexture[Item.type];
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/NightmareFuelGlow");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/NightmareFuelGlow");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
+            Lighting.AddLight(Item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
         }
     }
 }

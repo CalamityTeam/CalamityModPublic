@@ -35,27 +35,27 @@ namespace CalamityMod.Items.Weapons.Magic
         // Ozzatron 09FEB2021
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 36;
+            Item.width = 26;
+            Item.height = 36;
 
-            item.damage = 182;
-            item.magic = true;
-            item.noUseGraphic = true;
-            item.mana = 12;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
+            Item.damage = 182;
+            Item.DamageType = DamageClass.Magic;
+            Item.noUseGraphic = true;
+            Item.mana = 12;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
 
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
-            item.shootSpeed = 19f;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
+            Item.shootSpeed = 19f;
 
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -77,16 +77,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ToxicFlask);
-            recipe.AddIngredient(ItemID.BottledWater, 15);
-            recipe.AddIngredient(ItemID.Leather, 5);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            // the recipe previously also used the individual cores for some reason
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.BottledWater, 15).AddIngredient(ItemID.Leather, 5).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -60,7 +60,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;

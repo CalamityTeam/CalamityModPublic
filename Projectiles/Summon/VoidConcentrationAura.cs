@@ -18,18 +18,18 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 80;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 3f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
+            Projectile.width = 46;
+            Projectile.height = 80;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 3f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
 
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -49,29 +49,29 @@ namespace CalamityMod.Projectiles.Summon
 
         public void HandleRightClick()
         {
-            Vector2 velocity = Main.MouseWorld - Main.player[projectile.owner].Center;
+            Vector2 velocity = Main.MouseWorld - Main.player[Projectile.owner].Center;
             velocity.Normalize();
             velocity *= 2f;
-            Projectile.NewProjectile(Main.player[projectile.owner].Center, velocity, ModContent.ProjectileType<VoidConcentrationBlackhole>(), (int)(projectile.damage * 5f), 0f, projectile.owner);
-            projectile.Kill();
+            Projectile.NewProjectile(Main.player[Projectile.owner].Center, velocity, ModContent.ProjectileType<VoidConcentrationBlackhole>(), (int)(Projectile.damage * 5f), 0f, Projectile.owner);
+            Projectile.Kill();
         }
 
         public override void AI()
         {
-            Player owner = Main.player[projectile.owner];
+            Player owner = Main.player[Projectile.owner];
             CalamityPlayer mp = owner.Calamity();
-            projectile.Center = owner.Center;
+            Projectile.Center = owner.Center;
             mp.voidAuraDamage = true;
             if (owner.dead)
                 mp.voidAuraDamage = false;
-            if (!mp.voidAuraDamage || !mp.voidConcentrationAura && projectile.ai[0] == 1f)
+            if (!mp.voidAuraDamage || !mp.voidConcentrationAura && Projectile.ai[0] == 1f)
             {
                 mp.voidAura = false;
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (owner.whoAmI == Main.myPlayer && owner.ownedProjectileCounts[projectile.type] <= 25 && timer > 0 && timer % 4 == 0)
+            if (owner.whoAmI == Main.myPlayer && owner.ownedProjectileCounts[Projectile.type] <= 25 && timer > 0 && timer % 4 == 0)
             {
-                NPC target = CalamityUtils.MinionHoming(projectile.Center, 1800f, owner);
+                NPC target = CalamityUtils.MinionHoming(Projectile.Center, 1800f, owner);
                 if (target != null)
                 {
                     Vector2 correctedVelocity = target.Center - owner.Center;
@@ -79,11 +79,11 @@ namespace CalamityMod.Projectiles.Summon
                     correctedVelocity *= 3f;
                     int perturbificator9000 = Main.rand.Next(-1, 2);
                     Vector2 perturbedspeed = new Vector2(correctedVelocity.X + perturbificator9000, correctedVelocity.Y + perturbificator9000).RotatedBy(MathHelper.ToRadians(Main.rand.Next(1, 3)));
-                    Projectile.NewProjectile(projectile.Center, perturbedspeed, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(projectile.damage * 0.75f), 0f, owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.Center, perturbedspeed, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(Projectile.damage * 0.75f), 0f, owner.whoAmI);
                 }
                 timer = -1;
             }
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
             if (timer > 50 && timer % 4 == 0)
                 return;
             timer++;

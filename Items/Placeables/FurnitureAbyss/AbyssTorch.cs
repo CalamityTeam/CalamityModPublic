@@ -15,20 +15,20 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 12;
-            item.maxStack = 99;
-            item.holdStyle = 1;
-            item.noWet = false;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssTorch>();
-            item.flame = true;
-            item.value = 500;
+            Item.width = 10;
+            Item.height = 12;
+            Item.maxStack = 99;
+            Item.holdStyle = 1;
+            Item.noWet = false;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssTorch>();
+            Item.flame = true;
+            Item.value = 500;
         }
 
         public override void HoldItem(Player player)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void PostUpdate()
         {
-            Lighting.AddLight((int)((item.position.X + item.width / 2) / 16f), (int)((item.position.Y + item.height / 2) / 16f), 1f, 1f, 1f);
+            Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 1f, 1f, 1f);
         }
 
         public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
@@ -53,11 +53,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Torch, 3);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ItemID.Torch, 3).AddIngredient(ModContent.ItemType<Lumenite>()).Register();
         }
     }
 }

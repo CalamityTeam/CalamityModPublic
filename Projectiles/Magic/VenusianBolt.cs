@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -12,40 +13,40 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 600;
-            projectile.magic = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45);
-            Lighting.AddLight(projectile.Center, 0.25f, 0.2f, 0f);
-            if (projectile.wet && !projectile.lavaWet)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(45);
+            Lighting.AddLight(Projectile.Center, 0.25f, 0.2f, 0f);
+            if (Projectile.wet && !Projectile.lavaWet)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item73, projectile.position);
-                projectile.localAI[0] += 1f;
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
+                Projectile.localAI[0] += 1f;
             }
             for (int num457 = 0; num457 < 3; num457++)
             {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.2f);
+                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 55, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num458].noGravity = true;
                 Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
             }
         }
 
@@ -56,15 +57,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int explosionDamage = projectile.damage;
+                int explosionDamage = Projectile.damage;
                 float explosionKB = 6f;
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, Projectile.owner);
 
-                int cinderDamage = (int)(projectile.damage * 0.75);
+                int cinderDamage = (int)(Projectile.damage * 0.75);
                 float cinderKB = 0f;
-                Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
+                Vector2 cinderPos = Projectile.oldPosition + 0.5f * Projectile.Size;
                 int numCinders = Main.rand.Next(7, 10);
                 for (int i = 0; i < numCinders; i++)
                 {
@@ -75,14 +76,14 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     cinderVel.Normalize();
                     cinderVel *= Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, projectile.owner);
+                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, Projectile.owner);
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class AstrophageBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrophage");
             Description.SetDefault("Little astral buggy");

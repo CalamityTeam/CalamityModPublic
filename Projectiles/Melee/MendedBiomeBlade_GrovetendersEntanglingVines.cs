@@ -10,17 +10,17 @@ namespace CalamityMod.Projectiles.Melee
     public class GrovetendersEntanglingVines : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain";
-        public Player Owner => Main.player[projectile.owner];
-        public float Timer => 20 - projectile.timeLeft;
+        public Player Owner => Main.player[Projectile.owner];
+        public float Timer => 20 - Projectile.timeLeft;
         public NPC NPCfrom
         {
-            get => Main.npc[(int)projectile.ai[0]];
-            set => projectile.ai[0] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[0]];
+            set => Projectile.ai[0] = value.whoAmI;
         }
         public NPC Target
         {
-            get => Main.npc[(int)projectile.ai[1]];
-            set => projectile.ai[1] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[1]];
+            set => Projectile.ai[1] = value.whoAmI;
         }
 
         const float curvature = 16f;
@@ -31,29 +31,29 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 8;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
-            projectile.timeLeft = 20;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 8;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
+            Projectile.timeLeft = 20;
         }
 
         public override bool? CanHitNPC(NPC target) => target == Target;
 
         public override void AI()
         {
-            projectile.Center = Target.Center;
+            Projectile.Center = Target.Center;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchChain");
 
-            float opacity = projectile.timeLeft > 10 ? 1 : projectile.timeLeft / 10f;
-            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
+            float opacity = Projectile.timeLeft > 10 ? 1 : Projectile.timeLeft / 10f;
+            Vector2 Shake = Projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - Projectile.timeLeft / 5f) * 0.5f;
 
             Vector2 lineDirection = Utils.SafeNormalize(Target.Center - NPCfrom.Center, Vector2.Zero);
             int dist = (int)Vector2.Distance(Target.Center, NPCfrom.Center) / 16;

@@ -17,17 +17,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 110;
-            projectile.height = 110;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
-            projectile.melee = true;
-            projectile.hide = true;
-            projectile.ignoreWater = true;
-            projectile.ownerHitCheck = true;
+            Projectile.width = 110;
+            Projectile.height = 110;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.hide = true;
+            Projectile.ignoreWater = true;
+            Projectile.ownerHitCheck = true;
         }
 
         public override void AI()
@@ -35,61 +35,61 @@ namespace CalamityMod.Projectiles.Melee
             float num = 50f;
             float num2 = 2f;
             float scaleFactor = 20f;
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float num3 = -0.7853982f;
             Vector2 value = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value2 = Vector2.Zero;
             if (player.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             Lighting.AddLight(player.Center, 0f, 0.2f, 1.45f);
-            int num9 = Math.Sign(projectile.velocity.X);
-            projectile.velocity = new Vector2((float)num9, 0f);
-            if (projectile.ai[0] == 0f)
+            int num9 = Math.Sign(Projectile.velocity.X);
+            Projectile.velocity = new Vector2((float)num9, 0f);
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.rotation = new Vector2((float)num9, -player.gravDir).ToRotation() + num3 + 3.14159274f;
-                if (projectile.velocity.X < 0f)
+                Projectile.rotation = new Vector2((float)num9, -player.gravDir).ToRotation() + num3 + 3.14159274f;
+                if (Projectile.velocity.X < 0f)
                 {
-                    projectile.rotation -= 1.57079637f;
+                    Projectile.rotation -= 1.57079637f;
                 }
             }
-            projectile.alpha -= 128;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 128;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            float arg_5DB_0 = projectile.ai[0] / num;
+            float arg_5DB_0 = Projectile.ai[0] / num;
             float num10 = 1f;
-            projectile.ai[0] += num10;
-            projectile.rotation += 6.28318548f * num2 / num * (float)num9;
-            bool flag2 = projectile.ai[0] == (float)(int)(num / 2f);
-            if (projectile.ai[0] >= num || (flag2 && !player.controlUseItem))
+            Projectile.ai[0] += num10;
+            Projectile.rotation += 6.28318548f * num2 / num * (float)num9;
+            bool flag2 = Projectile.ai[0] == (float)(int)(num / 2f);
+            if (Projectile.ai[0] >= num || (flag2 && !player.controlUseItem))
             {
-                projectile.Kill();
+                Projectile.Kill();
                 player.reuseDelay = 2;
             }
             else if (flag2)
             {
                 int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
-                if (expectedDirection != projectile.velocity.X)
+                if (expectedDirection != Projectile.velocity.X)
                 {
                     player.ChangeDir(expectedDirection);
-                    projectile.velocity = Vector2.UnitX * expectedDirection;
-                    projectile.rotation -= MathHelper.Pi;
-                    projectile.netUpdate = true;
+                    Projectile.velocity = Vector2.UnitX * expectedDirection;
+                    Projectile.rotation -= MathHelper.Pi;
+                    Projectile.netUpdate = true;
                 }
             }
-            float num12 = projectile.rotation - 0.7853982f * (float)num9;
-            value2 = (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * (projectile.ai[0] / num) * scaleFactor;
-            Vector2 value3 = projectile.Center + (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * 30f;
+            float num12 = Projectile.rotation - 0.7853982f * (float)num9;
+            value2 = (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * (Projectile.ai[0] / num) * scaleFactor;
+            Vector2 value3 = Projectile.Center + (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * 30f;
             Vector2 vector2 = num12.ToRotationVector2();
-            Vector2 value4 = vector2.RotatedBy((double)(1.57079637f * (float)projectile.spriteDirection), default);
+            Vector2 value4 = vector2.RotatedBy((double)(1.57079637f * (float)Projectile.spriteDirection), default);
             if (Main.rand.NextBool(2))
             {
                 Dust dust3 = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 33, player.velocity.X, player.velocity.Y, 150, default, 1f);
-                dust3.velocity = projectile.SafeDirectionTo(dust3.position) * 0.1f + dust3.velocity * 0.1f;
+                dust3.velocity = Projectile.SafeDirectionTo(dust3.position) * 0.1f + dust3.velocity * 0.1f;
             }
             for (int j = 0; j < 4; j++)
             {
@@ -111,8 +111,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (Main.rand.Next(6) != 0)
                 {
-                    Dust dust4 = Dust.NewDustDirect(projectile.position, 0, 0, 186, 0f, 0f, 100, default, 1f);
-                    dust4.position = projectile.Center + vector2 * (60f + Main.rand.NextFloat() * 20f) * scaleFactor3;
+                    Dust dust4 = Dust.NewDustDirect(Projectile.position, 0, 0, 186, 0f, 0f, 100, default, 1f);
+                    dust4.position = Projectile.Center + vector2 * (60f + Main.rand.NextFloat() * 20f) * scaleFactor3;
                     dust4.velocity = value4 * (4f + 4f * Main.rand.NextFloat()) * scaleFactor3 * scaleFactor2;
                     dust4.noGravity = true;
                     dust4.noLight = true;
@@ -123,21 +123,21 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
             }
-            projectile.position = value - projectile.Size / 2f;
-            projectile.position += value2;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = value - Projectile.Size / 2f;
+            Projectile.position += value2;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] % 12f == 0f)
+            player.itemRotation = MathHelper.WrapAngle(Projectile.rotation);
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] % 12f == 0f)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile bubble = CalamityUtils.ProjectileBarrage(projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+                    Projectile bubble = CalamityUtils.ProjectileBarrage(Projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     bubble.ai[1] = Main.rand.NextFloat() + 0.5f;
                 }
             }
@@ -145,16 +145,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-            if (projectile.owner == Main.myPlayer)
+            Rectangle myRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
-                        (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
+                        ((Projectile.friendly && (!Main.npc[i].friendly || (Main.npc[i].type == NPCID.Guide && Projectile.owner < 255 && Main.player[Projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && Projectile.owner < 255 && Main.player[Projectile.owner].killClothier))) ||
+                        (Projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (Projectile.owner < 0 || Main.npc[i].immune[Projectile.owner] == 0 || Projectile.maxPenetrate == 1))
                     {
-                        if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
+                        if (Main.npc[i].noTileCollide || !Projectile.ownerHitCheck || Projectile.CanHit(Main.npc[i]))
                         {
                             bool flag3;
                             if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
@@ -165,20 +165,20 @@ namespace CalamityMod.Projectiles.Melee
                                 rect.Y -= num5;
                                 rect.Width += num5 * 2;
                                 rect.Height += num5 * 2;
-                                flag3 = projectile.Colliding(myRect, rect);
+                                flag3 = Projectile.Colliding(myRect, rect);
                             }
                             else
                             {
-                                flag3 = projectile.Colliding(myRect, Main.npc[i].getRect());
+                                flag3 = Projectile.Colliding(myRect, Main.npc[i].getRect());
                             }
                             if (flag3)
                             {
-                                if (Main.npc[i].reflectingProjectiles && projectile.CanReflect())
+                                if (Main.npc[i].reflectingProjectiles && Projectile.CanReflect())
                                 {
-                                    Main.npc[i].ReflectProjectile(projectile.whoAmI);
+                                    Main.npc[i].ReflectProjectile(Projectile.whoAmI);
                                     return;
                                 }
-                                hitDirection = (Main.player[projectile.owner].Center.X < Main.npc[i].Center.X) ? 1 : -1;
+                                hitDirection = (Main.player[Projectile.owner].Center.X < Main.npc[i].Center.X) ? 1 : -1;
                             }
                         }
                     }
@@ -189,9 +189,9 @@ namespace CalamityMod.Projectiles.Melee
         public override void CutTiles()
         {
             float num5 = 60f;
-            float f = projectile.rotation - 0.7853982f * (float)Math.Sign(projectile.velocity.X);
+            float f = Projectile.rotation - 0.7853982f * (float)Math.Sign(Projectile.velocity.X);
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(projectile.Center + f.ToRotationVector2() * -num5, projectile.Center + f.ToRotationVector2() * num5, (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -200,10 +200,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return true;
             }
-            float f = projectile.rotation - 0.7853982f * (float)Math.Sign(projectile.velocity.X);
+            float f = Projectile.rotation - 0.7853982f * (float)Math.Sign(Projectile.velocity.X);
             float num2 = 0f;
             float num3 = 110f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + f.ToRotationVector2() * -num3, projectile.Center + f.ToRotationVector2() * num3, 23f * projectile.scale, ref num2))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + f.ToRotationVector2() * -num3, Projectile.Center + f.ToRotationVector2() * num3, 23f * Projectile.scale, ref num2))
             {
                 return true;
             }
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-            target.immune[projectile.owner] = 6;
+            target.immune[Projectile.owner] = 6;
         }
     }
 }

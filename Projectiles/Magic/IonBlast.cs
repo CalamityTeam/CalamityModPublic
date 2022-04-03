@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class IonBlast : ModProjectile
@@ -12,73 +13,73 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
-            projectile.ignoreWater = false;
-            projectile.timeLeft = 120;
-            projectile.magic = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.ignoreWater = false;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
-            projectile.velocity.X *= 1.015f;
-            projectile.velocity.Y *= 1.015f;
-            if (projectile.alpha > 0)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
+            Projectile.velocity.X *= 1.015f;
+            Projectile.velocity.Y *= 1.015f;
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 3;
+                Projectile.alpha -= 3;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f, 0f, 0.2f);
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.2f);
             float num55 = 100f;
             float num56 = 3f;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
                 {
-                    projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = num55;
                 }
             }
             else
             {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item92, projectile.Center);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 32;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
             int num212 = Main.rand.Next(15, 30);
             for (int num213 = 0; num213 < num212; num213++)
             {
-                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default, 1f);
+                int num214 = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default, 1f);
                 Main.dust[num214].velocity *= 2f;
                 Main.dust[num214].noGravity = true;
             }
@@ -91,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

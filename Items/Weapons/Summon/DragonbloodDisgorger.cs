@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 160;
-            item.mana = 10;
-            item.width = 64;
-            item.height = 62;
-            item.useTime = item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.DD2_SkeletonDeath;
-            item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 160;
+            Item.mana = 10;
+            Item.width = 64;
+            Item.height = 62;
+            Item.useTime = Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.DD2_SkeletonDeath;
+            Item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,15 +42,11 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

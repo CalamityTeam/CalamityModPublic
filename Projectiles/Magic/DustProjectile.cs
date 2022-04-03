@@ -12,42 +12,42 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dust");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 64;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 90;
+            Projectile.width = 64;
+            Projectile.height = 64;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 90;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.5f, 0.4f, 0.01f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.4f, 0.01f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            if (projectile.ai[0] > 7f)
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+            if (Projectile.ai[0] > 7f)
             {
                 int dustType = 22;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 Dust dust = Main.dust[idx];
                 if (Main.rand.NextBool(3))
                 {
@@ -59,31 +59,31 @@ namespace CalamityMod.Projectiles.Magic
                 dust.velocity.X *= 1.5f;
                 dust.velocity.Y *= 1.5f;
             }
-            projectile.ai[0] += 1f;
-            projectile.rotation += 0.3f * (float)projectile.direction;
-            if (projectile.timeLeft < 30)
-                projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)projectile.timeLeft / 30f);
+            Projectile.ai[0] += 1f;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            if (Projectile.timeLeft < 30)
+                Projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)Projectile.timeLeft / 30f);
         }
 
-        public override bool CanDamage() => projectile.timeLeft > 30;
+        public override bool CanDamage() => Projectile.timeLeft > 30;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             // Dust effects
-            Circle dustCircle = new Circle(projectile.Center, projectile.width / 2);
+            Circle dustCircle = new Circle(Projectile.Center, Projectile.width / 2);
 
             for (int i = 0; i < 20; i++)
             {
                 // Dust
                 Vector2 dustPos = dustCircle.RandomPointInCircle();
-                if ((dustPos - projectile.Center).Length() > 48)
+                if ((dustPos - Projectile.Center).Length() > 48)
                 {
                     int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
                     Main.dust[dustIndex].noGravity = true;
                     Main.dust[dustIndex].fadeIn = 1f;
-                    Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;
+                    Vector2 dustVelocity = Projectile.Center - Main.dust[dustIndex].position;
                     float distToCenter = dustVelocity.Length();
                     dustVelocity.Normalize();
                     dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));

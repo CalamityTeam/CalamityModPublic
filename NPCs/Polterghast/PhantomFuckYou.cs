@@ -18,25 +18,25 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom");
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.width = 30;
-            npc.height = 30;
-            npc.defense = 45;
-            npc.DR_NERD(0.1f);
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
-            npc.damage = 0;
-            npc.LifeMaxNERB(Main.expertMode ? 11250 : 8750, CalamityWorld.death ? 22500 : 18750, 15000);
-            npc.HitSound = SoundID.NPCHit36;
-            npc.DeathSound = SoundID.NPCDeath39;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.width = 30;
+            NPC.height = 30;
+            NPC.defense = 45;
+            NPC.DR_NERD(0.1f);
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.damage = 0;
+            NPC.LifeMaxNERB(Main.expertMode ? 11250 : 8750, CalamityWorld.death ? 22500 : 18750, 15000);
+            NPC.HitSound = SoundID.NPCHit36;
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -57,17 +57,17 @@ namespace CalamityMod.NPCs.Polterghast
 
                 for (int i = 0; i < 10; i++)
                 {
-                    int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
+                    int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[dust].noGravity = true;
                 }
 
-                npc.ai[1] = npc.ai[0];
+                NPC.ai[1] = NPC.ai[0];
             }
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
                 return false;
             }
 
@@ -79,40 +79,40 @@ namespace CalamityMod.NPCs.Polterghast
             // Scale multiplier based on nearby active tiles
             float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
 
-            npc.TargetClosest(true);
+            NPC.TargetClosest(true);
 
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
             direction.Normalize();
             direction *= 0.05f;
-            npc.rotation = direction.ToRotation();
+            NPC.rotation = direction.ToRotation();
 
             if (!chargePhase)
             {
-                npc.ai[2] += 1f;
-                if (npc.ai[2] >= 150f)
+                NPC.ai[2] += 1f;
+                if (NPC.ai[2] >= 150f)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int type = ModContent.ProjectileType<PhantomMine>();
-                        int damage = npc.GetProjectileDamage(type);
+                        int damage = NPC.GetProjectileDamage(type);
                         float maxVelocity = 8f * tileEnrageMult;
                         float acceleration = 1.15f + (tileEnrageMult - 1f) * 0.15f;
-                        Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, acceleration);
+                        Projectile.NewProjectile(NPC.Center, direction, type, damage, 1f, NPC.target, maxVelocity, acceleration);
                     }
-                    npc.ai[2] = 0f;
+                    NPC.ai[2] = 0f;
                 }
             }
 
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];
-            double deg = npc.ai[1];
+            double deg = NPC.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 500;
-            npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
-            npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
+            NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
+            NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
             float SPEEN = 1f - lifeRatio * 2f;
             if (SPEEN < 0f)
                 SPEEN = 0f;
-            npc.ai[1] += 0.5f + SPEEN;
+            NPC.ai[1] += 0.5f + SPEEN;
             return false;
         }
 
@@ -129,11 +129,11 @@ namespace CalamityMod.NPCs.Polterghast
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
             int num153 = 5;
@@ -144,37 +144,37 @@ namespace CalamityMod.NPCs.Polterghast
                 {
                     Color color38 = lightColor;
                     color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = npc.GetAlpha(color38);
+                    color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
-            if (npc.life <= 0)
+            Dust.NewDust(NPC.position, NPC.width, NPC.height, 180, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
             {
-                npc.position.X = npc.position.X + (npc.width / 2);
-                npc.position.Y = npc.position.Y + (npc.height / 2);
-                npc.width = 45;
-                npc.height = 45;
-                npc.position.X = npc.position.X - (npc.width / 2);
-                npc.position.Y = npc.position.Y - (npc.height / 2);
+                NPC.position.X = NPC.position.X + (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                NPC.width = 45;
+                NPC.height = 45;
+                NPC.position.X = NPC.position.X - (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 2; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -184,10 +184,10 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 180, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 180, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

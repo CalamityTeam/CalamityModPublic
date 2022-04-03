@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class MushBomb : ModProjectile
@@ -10,81 +11,81 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mushroom Shot");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 480;
-            projectile.aiStyle = 1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 480;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.WoodenArrowFriendly;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.timeLeft < 90)
+            if (Projectile.timeLeft < 90)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            Lighting.AddLight(projectile.Center, 0f, 0.15f, 0.3f);
-            projectile.velocity.X *= 0.99f;
+            Lighting.AddLight(Projectile.Center, 0f, 0.15f, 0.3f);
+            Projectile.velocity.X *= 0.99f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int drawStart = height * projectile.frame;
-            Vector2 origin = projectile.Size / 2;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int drawStart = height * Projectile.frame;
+            Vector2 origin = Projectile.Size / 2;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int drawStart = height * projectile.frame;
-            Vector2 origin = projectile.Size / 2;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int drawStart = height * Projectile.frame;
+            Vector2 origin = Projectile.Size / 2;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/MushBombGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/MushBombGlow"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCDeath1, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 7; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -94,10 +95,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 20; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

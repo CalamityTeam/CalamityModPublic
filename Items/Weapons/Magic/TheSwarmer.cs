@@ -15,21 +15,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 60;
-            item.height = 52;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Wasp;
-            item.shootSpeed = 12f;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 7;
+            Item.width = 60;
+            Item.height = 52;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Wasp;
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -39,13 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BeeGun);
-            recipe.AddIngredient(ItemID.WaspGun);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BeeGun).AddIngredient(ItemID.WaspGun).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -65,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 float SpeedX2 = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
                 float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI);
+                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(Item.damage), player.beeKB(0f), player.whoAmI);
                 if (bees.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bees].penetrate = 1;

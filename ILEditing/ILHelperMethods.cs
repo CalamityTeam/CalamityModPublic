@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.ILEditing
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.ILEditing
         {
             Tile t = Main.tile[i, j];
             int topY = j;
-            while (t != null && t.active() && t.type == rootTile.type)
+            while (t != null && t.active() && t.TileType == rootTile.TileType)
             {
                 // Immediately stop at the top of the world, if you got there somehow.
                 if (topY == 0)
@@ -45,7 +46,7 @@ namespace CalamityMod.ILEditing
             // If applicable, skip wiring for all door tiles except the one that was hit by this wire event.
             for (int y = doorY; y < doorY + 4; ++y)
             {
-                Main.tile[doorX, y].type = (ushort)newDoorID;
+                Main.tile[doorX, y].TileType = (ushort)newDoorID;
                 if (Main.netMode != NetmodeID.MultiplayerClient && Wiring.running && y != wireHitY)
                     Wiring.SkipWire(doorX, y);
             }
@@ -55,7 +56,7 @@ namespace CalamityMod.ILEditing
                 WorldGen.TileFrame(doorX, y);
 
             // Play the door closing sound (lab doors do not use the door opening sound)
-            Main.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
+            SoundEngine.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
             return true;
         }
 

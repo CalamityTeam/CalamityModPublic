@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class FungalClumpBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
             Description.SetDefault("The fungal clump will protect you");

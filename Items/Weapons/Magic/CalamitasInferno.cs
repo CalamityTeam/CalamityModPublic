@@ -15,21 +15,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BrimstoneHellfireballFriendly>();
-            item.shootSpeed = 9f;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BrimstoneHellfireballFriendly>();
+            Item.shootSpeed = 9f;
         }
     }
 }

@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
             foreach (TooltipLine line in list)
             {
-                if (line.mod == "Terraria" && line.Name == "Tooltip3")
+                if (line.Mod == "Terraria" && line.Name == "Tooltip3")
                 {
                     line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts";
                 }
@@ -53,12 +53,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlaguedFuelPack>());
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 8);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedFuelPack>()).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 8).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

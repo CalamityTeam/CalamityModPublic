@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class NightmareDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/NightmareDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/NightmareDyeShader").Value), "DyePass").
             UseColor(new Color(249, 81, 0)).UseSecondaryColor(new Color(255, 203, 106));
         public override void SafeSetStaticDefaults()
         {
@@ -19,19 +19,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 2);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ItemID.BottledWater, 2).AddIngredient(ModContent.ItemType<NightmareFuel>(), 5).AddTile(TileID.DyeVat).Register();
         }
     }
 }

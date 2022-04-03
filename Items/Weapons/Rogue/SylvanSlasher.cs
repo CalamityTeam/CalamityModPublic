@@ -17,23 +17,23 @@ Does not consume stealth and cannot stealth strike");
 
         public override void SafeSetDefaults()
         {
-            item.width = 72;
-            item.damage = 52;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 5;
-            item.knockBack = 3f;
-            item.autoReuse = false;
-            item.height = 78;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<SylvanSlashAttack>();
-            item.shootSpeed = 24f;
+            Item.width = 72;
+            Item.damage = 52;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 5;
+            Item.knockBack = 3f;
+            Item.autoReuse = false;
+            Item.height = 78;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<SylvanSlashAttack>();
+            Item.shootSpeed = 24f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

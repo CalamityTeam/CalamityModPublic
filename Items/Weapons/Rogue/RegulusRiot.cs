@@ -17,25 +17,25 @@ Stealth strikes explode into energy stars");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 116;
-            item.knockBack = 4.5f;
+            Item.damage = 116;
+            Item.knockBack = 4.5f;
 
-            item.width = 28;
-            item.height = 34;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 28;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.UseSound = SoundID.Item1;
-            item.rare = ItemRarityID.Cyan;
-            item.Calamity().rogue = true;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().rogue = true;
 
-            item.autoReuse = true;
-            item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<RegulusRiotProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<RegulusRiotProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -10,23 +10,23 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 160;
-            projectile.height = 160;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 10;
+            Projectile.penetrate = -1;
+            Projectile.width = 160;
+            Projectile.height = 160;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 10;
         }
 
         public override void AI()
         {
-            ConvertShit(projectile);
+            ConvertShit(Projectile);
         }
 
         public override void PostAI()
         {
-            ConvertShit(projectile);
+            ConvertShit(Projectile);
         }
 
         public void ConvertShit(Projectile projectile)

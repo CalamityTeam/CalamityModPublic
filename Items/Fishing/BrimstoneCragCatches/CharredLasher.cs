@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 36;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 10);
-            item.rare = ItemRarityID.Orange;
+            Item.width = 44;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 10);
+            Item.rare = ItemRarityID.Orange;
         }
     }
 }

@@ -12,26 +12,21 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.AstralDesert.HardenedAstralSand>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
+            Item.createTile = ModContent.TileType<Tiles.AstralDesert.HardenedAstralSand>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 999;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddIngredient(ModContent.ItemType<HardenedAstralSandWall>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-            base.AddRecipes();
+            CreateRecipe(1).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<HardenedAstralSandWall>(), 4).Register();
         }
     }
 }

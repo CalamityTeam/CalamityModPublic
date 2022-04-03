@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -13,33 +14,33 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("High Explosive Peanut Shell");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = Lifetime;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
-            projectile.spriteDirection = 1;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.spriteDirection = 1;
 
             // Lighting
-            Lighting.AddLight(projectile.Center, 0.75f, 0.65f, 0.08f);
+            Lighting.AddLight(Projectile.Center, 0.75f, 0.65f, 0.08f);
 
             // Dirty dust, done dirt cheap
             {
                 int dustID = 7; // wood flakes
                 float scale = Main.rand.NextFloat(1f, 1.4f);
-                Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustID);
+                Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustID);
                 d.noGravity = true;
                 d.scale = scale;
 
@@ -47,46 +48,46 @@ namespace CalamityMod.Projectiles.Ranged
                 d.velocity *= 0.2f;
                 float angleDeviation = 0.17f;
                 float angle = Main.rand.NextFloat(-angleDeviation, angleDeviation);
-                Vector2 sprayVelocity = projectile.velocity.RotatedBy(angle) * 0.6f;
+                Vector2 sprayVelocity = Projectile.velocity.RotatedBy(angle) * 0.6f;
                 d.velocity += sprayVelocity;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             // Grenade Launcher + Lunar Flare sounds for maximum meaty explosion
-            Main.PlaySound(SoundID.Item62, projectile.Center);
-            Main.PlaySound(SoundID.Item88, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item88, Projectile.Center);
 
             // Massively inflate the projectile's hitbox
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 140;
-            projectile.position.X = projectile.position.X - projectile.width / 2;
-            projectile.position.Y = projectile.position.Y - projectile.height / 2;
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 140;
+            Projectile.position.X = Projectile.position.X - Projectile.width / 2;
+            Projectile.position.Y = Projectile.position.Y - Projectile.height / 2;
 
             // Allow infinite piercing and ignoring iframes for this one extra hit
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
 
             // Rocket III type explosion is now a utility for convenience
-            projectile.LargeFieryExplosion();
+            Projectile.LargeFieryExplosion();
 
             // Deal damage again. The explosion deals half the damage of the direct hit.
-            projectile.damage /= 2;
-            projectile.Damage();
+            Projectile.damage /= 2;
+            Projectile.Damage();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             return true; // the projectile does indeed die on collision
         }
     }

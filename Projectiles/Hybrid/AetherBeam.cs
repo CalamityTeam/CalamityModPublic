@@ -20,59 +20,59 @@ namespace CalamityMod.Projectiles.Hybrid
 
         public override void SetDefaults()
         {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 5;
-            projectile.timeLeft = 300;
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 5;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.magic = false;
-                projectile.ranged = true;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                Projectile.DamageType = DamageClass.Ranged;
             }
 
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
             {
                 split = false;
-                projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
+                Projectile.tileCollide = false;
+                Projectile.ai[1] = 0f;
             }
 
-            projectile.damage += projectile.Calamity().defDamage / 200;
+            Projectile.damage += Projectile.Calamity().defDamage / 200;
 
-            if (projectile.alpha > 0)
-                projectile.alpha -= 25;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 25;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f, 0f, 0.7f);
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.7f);
 
             float num55 = 100f;
             float num56 = 2f;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
-                    projectile.localAI[0] = num55;
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
+                    Projectile.localAI[0] = num55;
             }
             else
             {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
-                    projectile.Kill();
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
+                    Projectile.Kill();
             }
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 200, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(100f, 2f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(100f, 2f, lightColor);
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -80,17 +80,17 @@ namespace CalamityMod.Projectiles.Hybrid
             {
                 float random = Main.rand.Next(30, 90);
                 float spread = random * 0.0174f;
-                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
                 int i;
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
-                        int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        int proj1 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
                     }
                 }
             }

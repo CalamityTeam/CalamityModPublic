@@ -16,30 +16,30 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Vehemence");
             Tooltip.SetDefault("Casts intense bolts of hellish power that explode into skulls\n" +
                 "Direct hits inflict Demon Flames for an extended period of time");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.magic = true;
-            item.mana = 41;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = item.useAnimation = 43;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item73;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VehemenceHoldout>();
-            item.shootSpeed = 16f;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 41;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = Item.useAnimation = 43;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item73;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VehemenceHoldout>();
+            Item.shootSpeed = 16f;
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(25, 25);
@@ -52,6 +52,6 @@ namespace CalamityMod.Items.Weapons.Magic
             return false;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

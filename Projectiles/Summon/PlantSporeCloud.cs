@@ -13,47 +13,47 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spore Cloud");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.alpha = 60;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.alpha = 60;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
-            projectile.rotation += projectile.direction * 0.05f;
+            Projectile.velocity.X *= 0.985f;
+            Projectile.velocity.Y *= 0.985f;
+            Projectile.rotation += Projectile.direction * 0.05f;
 
             if (counter % 5 == 0)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 107, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
             counter++;
             if (counter > 300)
-                projectile.alpha += 5;
-            if (projectile.alpha >= 255)
-                projectile.Kill();
+                Projectile.alpha += 5;
+            if (Projectile.alpha >= 255)
+                Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            if (projectile.ai[0] == 1f)
-                tex = ModContent.GetTexture("CalamityMod/Projectiles/Summon/PlantSporeCloud2");
-            if (projectile.ai[0] == 2f)
-                tex = ModContent.GetTexture("CalamityMod/Projectiles/Summon/PlantSporeCloud3");
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            if (Projectile.ai[0] == 1f)
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/PlantSporeCloud2");
+            if (Projectile.ai[0] == 2f)
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/PlantSporeCloud3");
 
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

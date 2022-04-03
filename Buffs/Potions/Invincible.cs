@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Invincible : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Invincible");
             Description.SetDefault("Immune to damage and most debuffs");

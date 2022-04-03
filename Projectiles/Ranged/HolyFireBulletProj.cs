@@ -17,40 +17,40 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.MaxUpdates = 5;
-            projectile.timeLeft = Lifetime;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.MaxUpdates = 5;
+            Projectile.timeLeft = Lifetime;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            projectile.spriteDirection = projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+            Projectile.spriteDirection = Projectile.direction;
 
             // Flaking dust
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 if (Main.rand.NextBool())
                 {
                     float scale = Main.rand.NextFloat(0.6f, 1.6f);
-                    int dustID = Dust.NewDust(projectile.Center, 1, 1, 244);
-                    Main.dust[dustID].position = projectile.Center;
+                    int dustID = Dust.NewDust(Projectile.Center, 1, 1, 244);
+                    Main.dust[dustID].position = Projectile.Center;
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].scale = scale;
                     float angleDeviation = 0.17f;
                     float angle = Main.rand.NextFloat(-angleDeviation, angleDeviation);
-                    Vector2 sprayVelocity = projectile.velocity.RotatedBy(angle) * 0.6f;
+                    Vector2 sprayVelocity = Projectile.velocity.RotatedBy(angle) * 0.6f;
                     Main.dust[dustID].velocity = sprayVelocity;
                 }
             }
@@ -60,21 +60,21 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             // Spawn an on-hit explosion which deals 75% of the projectile's damage.
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int blastDamage = (int)(projectile.damage * HolyFireBullet.ExplosionMultiplier);
+                int blastDamage = (int)(Projectile.damage * HolyFireBullet.ExplosionMultiplier);
                 float scale = 0.85f + Main.rand.NextFloat() * 1.15f;
-                int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, projectile.knockBack, projectile.owner, 0f, scale);
+                int boom = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, Projectile.knockBack, Projectile.owner, 0f, scale);
 
                 // Only declare the explosion as ranged class if the bullet itself is ranged class.
-                if (boom.WithinBounds(Main.maxProjectiles) && projectile.ranged)
+                if (boom.WithinBounds(Main.maxProjectiles) && Projectile.ranged)
                     Main.projectile[boom].Calamity().forceRanged = true;
             }
 
@@ -82,13 +82,13 @@ namespace CalamityMod.Projectiles.Ranged
             for (int k = 0; k < 4; k++)
             {
                 float scale = Main.rand.NextFloat(1.4f, 1.8f);
-                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244);
+                int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244);
                 Main.dust[dustID].noGravity = false;
                 Main.dust[dustID].scale = scale;
                 float angleDeviation = 0.25f;
                 float angle = Main.rand.NextFloat(-angleDeviation, angleDeviation);
                 float velMult = Main.rand.NextFloat(0.08f, 0.14f);
-                Vector2 shrapnelVelocity = projectile.oldVelocity.RotatedBy(angle) * velMult;
+                Vector2 shrapnelVelocity = Projectile.oldVelocity.RotatedBy(angle) * velMult;
                 Main.dust[dustID].velocity = shrapnelVelocity;
             }
         }

@@ -17,16 +17,16 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Blue;
-            item.width = 28;
-            item.height = 28;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<TerminusHoldout>();
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.rare = ItemRarityID.Blue;
+            Item.width = 28;
+            Item.height = 28;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<TerminusHoldout>();
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
     }
 }

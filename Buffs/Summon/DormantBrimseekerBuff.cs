@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DormantBrimseekerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimseeker");
             Description.SetDefault("Does it want something from you?");

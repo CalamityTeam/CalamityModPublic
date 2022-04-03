@@ -21,31 +21,31 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 60;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.magic = true;
-            item.mana = 180;
-            item.noMelee = true;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
+            Item.width = 60;
+            Item.height = 60;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 180;
+            Item.noMelee = true;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.damage = 2250;
-            item.knockBack = 6f;
-            item.useTime = 300;
-            item.useAnimation = 300;
-            item.reuseDelay = 60;
-            item.shoot = ModContent.ProjectileType<IceBarrageMain>();
-            item.shootSpeed = 2f;
-            item.useAmmo = ModContent.ItemType<BloodRune>();
+            Item.damage = 2250;
+            Item.knockBack = 6f;
+            Item.useTime = 300;
+            Item.useAnimation = 300;
+            Item.reuseDelay = 60;
+            Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
+            Item.shootSpeed = 2f;
+            Item.useAmmo = ModContent.ItemType<BloodRune>();
         }
 
         public override bool CanUseItem(Player player)
         {
-            return CalamityGlobalItem.HasEnoughAmmo(player, item, 2);
+            return CalamityGlobalItem.HasEnoughAmmo(player, Item, 2);
         }
 
         public override bool ConsumeAmmo(Player player)
@@ -60,23 +60,14 @@ namespace CalamityMod.Items.Weapons.Magic
             vector2.Y = Main.mouseY + Main.screenPosition.Y;
             Projectile.NewProjectile(vector2, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
 
-            CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 2);
+            CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 2);
 
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BlizzardStaff);
-            recipe.AddIngredient(ItemID.IceRod);
-            recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BlizzardStaff).AddIngredient(ItemID.IceRod).AddIngredient(ModContent.ItemType<IcicleStaff>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18).AddTile(TileID.IceMachine).Register();
         }
 
         public override void UseStyle(Player player)

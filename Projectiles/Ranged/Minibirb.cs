@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -10,53 +11,53 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Minibirb");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.light = 0.25f;
-            projectile.extraUpdates = 1;
+            Projectile.width = 24;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.light = 0.25f;
+            Projectile.extraUpdates = 1;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.NPCHit51, projectile.Center);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.NPCHit51, Projectile.Center);
             return true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.NPCHit51, projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit51, Projectile.Center);
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 1)
+            if (Projectile.frame > 1)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
             if (Main.rand.Next(5) == 0)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.Pi : 0f);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.Pi : 0f);
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 10f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 10f, 20f);
         }
     }
 }

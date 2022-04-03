@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -20,24 +21,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 29;
-            item.ranged = true;
-            item.width = 82;
-            item.height = 34;
-            item.useTime = 7;
-            item.reuseDelay = 30;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 29;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 82;
+            Item.height = 34;
+            Item.useTime = 7;
+            Item.reuseDelay = 30;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item5, (int)player.Center.X, (int)player.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item5, (int)player.Center.X, (int)player.Center.Y);
 
             if (totalProjectiles > 4)
             {

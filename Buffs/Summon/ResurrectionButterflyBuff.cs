@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ResurrectionButterflyBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resurrection Butterfly");
             Description.SetDefault("Sleep beneath the Cherry Blossoms, Red-White Butterfly");

@@ -18,38 +18,26 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = ModContent.ProjectileType<Sparks>();
-            item.buffType = ModContent.BuffType<SparksBuff>();
+            Item.CloneDefaults(ItemID.WispinaBottle);
+            Item.shoot = ModContent.ProjectileType<Sparks>();
+            Item.buffType = ModContent.BuffType<SparksBuff>();
 
-            item.value = Item.sellPrice(gold: 1);
-            item.rare = ItemRarityID.Pink;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldButterfly);
-            recipe.AddIngredient(ItemID.MonarchButterfly);
-            recipe.AddIngredient(ItemID.PurpleEmperorButterfly);
-            recipe.AddIngredient(ItemID.RedAdmiralButterfly);
-            recipe.AddIngredient(ItemID.UlyssesButterfly);
-            recipe.AddIngredient(ItemID.SulphurButterfly);
-            recipe.AddIngredient(ItemID.TreeNymphButterfly);
-            recipe.AddIngredient(ItemID.ZebraSwallowtailButterfly);
-            recipe.AddIngredient(ItemID.JuliaButterfly);
-            recipe.AddTile(TileID.CrystalBall);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.GoldButterfly).AddIngredient(ItemID.MonarchButterfly).AddIngredient(ItemID.PurpleEmperorButterfly).AddIngredient(ItemID.RedAdmiralButterfly).AddIngredient(ItemID.UlyssesButterfly).AddIngredient(ItemID.SulphurButterfly).AddIngredient(ItemID.TreeNymphButterfly).AddIngredient(ItemID.ZebraSwallowtailButterfly).AddIngredient(ItemID.JuliaButterfly).AddTile(TileID.CrystalBall).Register();
         }
     }
 }

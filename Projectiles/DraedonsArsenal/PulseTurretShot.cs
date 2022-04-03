@@ -15,43 +15,43 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Bolt");
-            ProjectileID.Sets.SentryShot[projectile.type] = true;
+            ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += MathHelper.ToRadians(6f);
+            Projectile.ai[0] += MathHelper.ToRadians(6f);
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-                    float pulse = (float)Math.Sin(projectile.ai[0] + MathHelper.TwoPi / 3f * i);
+                    float angle = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                    float pulse = (float)Math.Sin(Projectile.ai[0] + MathHelper.TwoPi / 3f * i);
                     Vector2 offset = angle.ToRotationVector2().RotatedBy(MathHelper.TwoPi / 3f * i) * pulse * 7f;
-                    Dust.NewDustPerfect(projectile.Center + offset, 234, Vector2.Zero).noGravity = true;
-                    Dust.NewDustPerfect(projectile.Center - offset, 234, Vector2.Zero).noGravity = true;
+                    Dust.NewDustPerfect(Projectile.Center + offset, 234, Vector2.Zero).noGravity = true;
+                    Dust.NewDustPerfect(Projectile.Center - offset, 234, Vector2.Zero).noGravity = true;
                 }
             }
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
             {
-                NPC potentialTarget = projectile.Center.MinionHoming(850f, Main.player[projectile.owner], false);
+                NPC potentialTarget = Projectile.Center.MinionHoming(850f, Main.player[Projectile.owner], false);
                 if (potentialTarget != null)
                 {
-                    float speed = projectile.velocity.Length();
-                    float inertia = MathHelper.Lerp(18f, 6f, 1f - projectile.timeLeft / 300f);
-                    projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(potentialTarget.Center) * speed) / (inertia + 1f);
-                    projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX) * speed;
+                    float speed = Projectile.velocity.Length();
+                    float inertia = MathHelper.Lerp(18f, 6f, 1f - Projectile.timeLeft / 300f);
+                    Projectile.velocity = (Projectile.velocity * inertia + Projectile.SafeDirectionTo(potentialTarget.Center) * speed) / (inertia + 1f);
+                    Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitX) * speed;
                 }
             }
         }
@@ -66,17 +66,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     {
                         for (int j = 0; j < SpiralRings; j++)
                         {
-                            Dust dust = Dust.NewDustPerfect(projectile.Center +
+                            Dust dust = Dust.NewDustPerfect(Projectile.Center +
                                 Vector2.UnitY.RotatedBy(j / (float)SpiralRings * MathHelper.TwoPi * direction).RotatedBy(i / (float)SpiralPrecision * MathHelper.TwoPi / SpiralRings * direction) *
                                 36f * i / SpiralPrecision, 173);
-                            dust.velocity = projectile.SafeDirectionTo(dust.position) * 2.4f;
+                            dust.velocity = Projectile.SafeDirectionTo(dust.position) * 2.4f;
                             dust.scale = 1.6f;
                             dust.noGravity = true;
 
-                            dust = Dust.NewDustPerfect(projectile.Center +
+                            dust = Dust.NewDustPerfect(Projectile.Center +
                                 Vector2.UnitY.RotatedBy(j / (float)SpiralRings * MathHelper.TwoPi * direction).RotatedBy(i / (float)SpiralPrecision * MathHelper.TwoPi / SpiralRings * direction) *
                                 36f * i / SpiralPrecision, 173);
-                            dust.velocity = projectile.DirectionFrom(dust.position) * 4f;
+                            dust.velocity = Projectile.DirectionFrom(dust.position) * 4f;
                             dust.scale = 1.6f;
                             dust.noGravity = true;
                         }

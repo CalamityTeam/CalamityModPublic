@@ -17,36 +17,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.damage = 127;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item116;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<MourningstarFlail>();
+            Item.width = 16;
+            Item.height = 16;
+            Item.damage = 127;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.5f;
+            Item.UseSound = SoundID.Item116;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<MourningstarFlail>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SolarEruption);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);//Quantities may or may not be intentional hue
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SolarEruption).AddIngredient(ModContent.ItemType<CoreofChaos>(), 6).AddIngredient(ModContent.ItemType<CoreofCinder>(), 6).AddIngredient(ModContent.ItemType<DivineGeode>(), 6).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

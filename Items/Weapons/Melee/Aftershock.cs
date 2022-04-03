@@ -18,27 +18,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.melee = true;
-            item.width = 54;
-            item.height = 58;
-            item.scale = 1.75f;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 54;
+            Item.height = 58;
+            Item.scale = 1.75f;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -77,13 +77,13 @@ namespace CalamityMod.Items.Weapons.Melee
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -122,7 +122,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

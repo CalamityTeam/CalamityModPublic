@@ -14,30 +14,30 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Fabstaff");
             Tooltip.SetDefault("Casts a bouncing beam that splits when enemies are near it");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 125;
-            item.magic = true;
-            item.mana = 50;
-            item.width = 84;
-            item.height = 84;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
+            Item.damage = 125;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 50;
+            Item.width = 84;
+            Item.height = 84;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FabRay>();
-            item.shootSpeed = 13.5f;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FabRay>();
+            Item.shootSpeed = 13.5f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -47,13 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RainbowRod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RainbowRod).AddIngredient(ModContent.ItemType<Phantoplasm>(), 10).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

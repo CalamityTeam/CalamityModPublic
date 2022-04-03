@@ -14,18 +14,18 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 32;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<SunkenSeaFountainTile>();
+            Item.width = 26;
+            Item.height = 32;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.White;
+            Item.createTile = ModContent.TileType<SunkenSeaFountainTile>();
         }
     }
 }

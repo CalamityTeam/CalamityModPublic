@@ -20,33 +20,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 86;
-            item.damage = 300;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 86;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<SolsticeBeam>();
-            item.shootSpeed = 16f;
+            Item.width = 86;
+            Item.damage = 300;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 86;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<SolsticeBeam>();
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BeamSword);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BeamSword).AddIngredient(ModContent.ItemType<AstralBar>(), 20).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

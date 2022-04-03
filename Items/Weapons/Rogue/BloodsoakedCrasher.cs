@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 245;
-            item.knockBack = 3f;
-            item.autoReuse = true;
-            item.Calamity().rogue = true;
-            item.useAnimation = item.useTime = 24;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
+            Item.damage = 245;
+            Item.knockBack = 3f;
+            Item.autoReuse = true;
+            Item.Calamity().rogue = true;
+            Item.useAnimation = Item.useTime = 24;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
 
-            item.width = 66;
-            item.height = 64;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 66;
+            Item.height = 64;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,12 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrushsawCrasher>());
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrushsawCrasher>()).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

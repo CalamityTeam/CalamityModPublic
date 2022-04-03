@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -20,38 +21,38 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chibii Devourer");
-            Main.projFrames[projectile.type] = 11; //same as black cat
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 11; //same as black cat
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 38;
-            projectile.height = 46;
-            projectile.aiStyle = 26;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.scale = 0.8f;
+            Projectile.netImportant = true;
+            Projectile.width = 38;
+            Projectile.height = 46;
+            Projectile.aiStyle = 26;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.scale = 0.8f;
 
-            projectile.ignoreWater = true;
-            projectile.extraUpdates = 1;
+            Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 1;
 
-            trueType = projectile.type;
+            trueType = Projectile.type;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-            Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/Projectiles/Pets/ChibiiDoggoMonochrome");
-            int num156 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y3 = num156 * projectile.frame;
+            Color color25 = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
+            Texture2D texture2D3 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/ChibiiDoggoMonochrome");
+            int num156 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y3 = num156 * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Pets
             while ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157))
             {
                 Color color26 = color25;
-                color26 = projectile.GetAlpha(color26);
+                color26 = Projectile.GetAlpha(color26);
                 goto IL_6899;
                 IL_6881:
                 num161 += num158;
@@ -74,21 +75,21 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     num164 = (float)(num159 - num161);
                 }
-                color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                Vector2 value4 = projectile.oldPos[num161];
-                float num165 = projectile.rotation;
+                color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f);
+                Vector2 value4 = Projectile.oldPos[num161];
+                float num165 = Projectile.rotation;
                 SpriteEffects effects = spriteEffects;
-                Main.spriteBatch.Draw(texture2D3, value4 + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + projectile.rotation * num160 * (float)(num161 - 1) * projectile.spriteDirection, origin2, projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw(texture2D3, value4 + Projectile.Size / 2f - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + Projectile.rotation * num160 * (float)(num161 - 1) * Projectile.spriteDirection, origin2, Projectile.scale, effects, 0f);
                 goto IL_6881;
             }
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.position + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin2, projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Projectile.position + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin2, Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
         public override bool PreAI()
         {
-            projectile.type = 319; //tricks AI 26 into thinking this is a black cat, makes it act like black cat
-            Player player = Main.player[projectile.owner];
+            Projectile.type = 319; //tricks AI 26 into thinking this is a black cat, makes it act like black cat
+            Player player = Main.player[Projectile.owner];
             player.blackCat = false; //ensure doesnt interact weird with actual black cat
             return true;
         }
@@ -100,13 +101,13 @@ namespace CalamityMod.Projectiles.Pets
         {
             yFlip = !yFlip;
 
-            if (yFlip && projectile.velocity.Y > 0)
-                projectile.position.Y -= projectile.velocity.Y;
+            if (yFlip && Projectile.velocity.Y > 0)
+                Projectile.position.Y -= Projectile.velocity.Y;
         }
 
         public void SpawnDoggo()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             string doggoType = "DevourerofGodsHead";
 
             if (player.name == "Terry")
@@ -120,18 +121,18 @@ namespace CalamityMod.Projectiles.Pets
                 Main.NewText("Don't get cocky, kid!", Color.Cyan);
             }
 
-            int type = mod.NPCType(doggoType);
+            int type = Mod.Find<ModNPC>(doggoType).Type;
 
-            int n = NPC.NewNPC((int)projectile.position.X, (int)projectile.position.Y, type);
+            int n = NPC.NewNPC((int)Projectile.position.X, (int)Projectile.position.Y, type);
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, (NetworkText)null, n, 0.0f, 0.0f, 0.0f, 0, 0, 0);
             Main.npc[n].netUpdate = true;
         }
 
         public override void AI()
         {
-            projectile.type = trueType; //asserts real type after running black Cat AI 26 (ensures chibii pet isnt drawn as black cat and other weird stuff)
+            Projectile.type = trueType; //asserts real type after running black Cat AI 26 (ensures chibii pet isnt drawn as black cat and other weird stuff)
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
@@ -139,19 +140,19 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.chibii)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
             //creates dust whenever switching between flying and grounded like when player spawns/despawns mount
-            if (previousCollide != projectile.tileCollide)
+            if (previousCollide != Projectile.tileCollide)
             {
-                previousCollide = projectile.tileCollide;
+                previousCollide = Projectile.tileCollide;
 
                 for (int i = 0; i < 10; i++) //resets oldpos so trail doesn't "snap" to chibii from previous position after unhiding
-                    projectile.oldPos[i] = projectile.position;
+                    Projectile.oldPos[i] = Projectile.position;
 
                 for (int i = 0; i < 77; i++) //loop to make lots of dust
                 {
-                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 182, projectile.velocity.X * 0.7f, projectile.velocity.Y * 0.7f, 100, default, 2.5f);
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 182, Projectile.velocity.X * 0.7f, Projectile.velocity.Y * 0.7f, 100, default, 2.5f);
 
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.5f;
@@ -172,9 +173,9 @@ namespace CalamityMod.Projectiles.Pets
                 }
             }
 
-            if (projectile.tileCollide)
+            if (Projectile.tileCollide)
             {
-                projectile.hide = false;
+                Projectile.hide = false;
 
                 //if (projectile.extraUpdates == 1)
                 PreventFastfall();
@@ -187,16 +188,16 @@ namespace CalamityMod.Projectiles.Pets
             }
             else
             {
-                projectile.hide = true;
+                Projectile.hide = true;
                 //projectile.extraUpdates = 1;
 
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChibiiDoggoFly>()] <= 0)
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, ModContent.ProjectileType<ChibiiDoggoFly>(), 0, 0f, projectile.owner, (float)projectile.identity);
+                    Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, 0f, ModContent.ProjectileType<ChibiiDoggoFly>(), 0, 0f, Projectile.owner, (float)Projectile.identity);
             }
 
             //companion cube lighting check and stab
             Color color;
-            color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
+            color = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16);
             Vector3 vector3_1 = color.ToVector3();
             color = Lighting.GetColor((int)player.Center.X / 16, (int)player.Center.Y / 16);
             Vector3 vector3_2 = color.ToVector3();
@@ -219,18 +220,18 @@ namespace CalamityMod.Projectiles.Pets
                     if (Main.rand.NextBool(2))
                     {
                         int style = 5 + Main.rand.Next(5);
-                        Main.PlaySound(SoundID.Meowmere, (int)projectile.position.X, (int)projectile.position.Y, style, 4f, 0.0f); //nya
+                        SoundEngine.PlaySound(SoundID.Meowmere, (int)Projectile.position.X, (int)Projectile.position.Y, style, 4f, 0.0f); //nya
                     }
                     else
                     {
-                        Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 2, 2f); //REEEEEEE
+                        SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 2, 2f); //REEEEEEE
                     }
                     notlocalai1 = -600f;
                 }
                 else
                 {
                     notlocalai1 = (float)(Main.rand.Next(30) * -10 - 300);
-                    Main.PlaySound(SoundID.Item1, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                     if (Main.rand.NextBool(2))
                     {
                         player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
@@ -244,7 +245,7 @@ namespace CalamityMod.Projectiles.Pets
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         SpawnDoggo();
                 }
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
     }

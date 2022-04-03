@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,20 +19,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Disk");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 46;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = Projectile.height = 46;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.penetrate = -1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -48,88 +49,88 @@ namespace CalamityMod.Projectiles.Rogue
             if (initialized)
                 return;
 
-            Lifetime = projectile.Calamity().stealthStrike ? 360 : 180;
-            ReboundTime = projectile.Calamity().stealthStrike ? 90 : 45;
-            projectile.timeLeft = Lifetime;
+            Lifetime = Projectile.Calamity().stealthStrike ? 360 : 180;
+            ReboundTime = Projectile.Calamity().stealthStrike ? 90 : 45;
+            Projectile.timeLeft = Lifetime;
             initialized = true;
         }
 
         private void BoomerangAI()
         {
             // Boomerang rotation
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
             // Boomerang sound
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
             // Returns after some number of frames in the air
-            if (projectile.timeLeft < Lifetime - ReboundTime)
-                projectile.ai[0] = 1f;
+            if (Projectile.timeLeft < Lifetime - ReboundTime)
+                Projectile.ai[0] = 1f;
 
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
                 //Ignore tiles and fly faster
-                projectile.tileCollide = false;
-                projectile.extraUpdates = 1;
+                Projectile.tileCollide = false;
+                Projectile.extraUpdates = 1;
 
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
                 float returnSpeed = 16f;
                 float acceleration = 1.4f;
-                Vector2 playerVec = player.Center - projectile.Center;
+                Vector2 playerVec = player.Center - Projectile.Center;
                 float dist = playerVec.Length();
 
                 // Delete the projectile if it's excessively far away.
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 playerVec.Normalize();
                 playerVec *= returnSpeed;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < playerVec.X)
+                if (Projectile.velocity.X < playerVec.X)
                 {
-                    projectile.velocity.X += acceleration;
-                    if (projectile.velocity.X < 0f && playerVec.X > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X += acceleration;
+                    if (Projectile.velocity.X < 0f && playerVec.X > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > playerVec.X)
+                else if (Projectile.velocity.X > playerVec.X)
                 {
-                    projectile.velocity.X -= acceleration;
-                    if (projectile.velocity.X > 0f && playerVec.X < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X -= acceleration;
+                    if (Projectile.velocity.X > 0f && playerVec.X < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < playerVec.Y)
+                if (Projectile.velocity.Y < playerVec.Y)
                 {
-                    projectile.velocity.Y += acceleration;
-                    if (projectile.velocity.Y < 0f && playerVec.Y > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y += acceleration;
+                    if (Projectile.velocity.Y < 0f && playerVec.Y > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > playerVec.Y)
+                else if (Projectile.velocity.Y > playerVec.Y)
                 {
-                    projectile.velocity.Y -= acceleration;
-                    if (projectile.velocity.Y > 0f && playerVec.Y < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y -= acceleration;
+                    if (Projectile.velocity.Y > 0f && playerVec.Y < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(player.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(player.Hitbox))
+                        Projectile.Kill();
             }
         }
 
         private void StealthStrikeAI()
         {
-            if (!projectile.Calamity().stealthStrike)
+            if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            if (projectile.timeLeft % 8f == 0f && Main.myPlayer == projectile.owner)
+            if (Projectile.timeLeft % 8f == 0f && Main.myPlayer == Projectile.owner)
             {
-                int disk = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage / 4, projectile.knockBack / 4f, projectile.owner, projectile.identity, Main.rand.NextFloat(0.02f, 0.1f));
+                int disk = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerraDiskProjectile2>(), Projectile.damage / 4, Projectile.knockBack / 4f, Projectile.owner, Projectile.identity, Main.rand.NextFloat(0.02f, 0.1f));
                 Main.projectile[disk].timeLeft *= 2;
                 Main.projectile[disk].idStaticNPCHitCooldown = 8;
                 Main.projectile[disk].usesIDStaticNPCImmunity = true;
@@ -139,7 +140,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void SpawnProjectilesNearEnemies()
         {
-            if (!projectile.friendly)
+            if (!Projectile.friendly)
                 return;
 
             const float maxDistance = 300f;
@@ -148,15 +149,15 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDistance = npc.width / 2 + npc.height / 2;
 
                     bool canHit = true;
                     if (extraDistance < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                        canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
 
-                    if (Vector2.Distance(npc.Center, projectile.Center) < maxDistance + extraDistance && canHit)
+                    if (Vector2.Distance(npc.Center, Projectile.Center) < maxDistance + extraDistance && canHit)
                     {
                         homeIn = true;
                         break;
@@ -166,20 +167,20 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (homeIn)
             {
-                if (Main.player[projectile.owner].miscCounter % 50 == 0)
+                if (Main.player[Projectile.owner].miscCounter % 50 == 0)
                 {
                     int splitProj = ModContent.ProjectileType<TerraDiskProjectile2>();
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
                         float spread = 60f * 0.0174f;
-                        double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                        double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 6f;
                         double offsetAngle;
                         for (int i = 0; i < 3; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage / 2, projectile.knockBack / 2f, projectile.owner);
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage / 2, projectile.knockBack / 2f, projectile.owner);
+                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
                         }
                     }
                 }
@@ -188,42 +189,42 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void LightingandDust()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.75f, 0f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.75f, 0f);
             if (!Main.rand.NextBool(5))
                 return;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y);
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 107, Projectile.velocity.X, Projectile.velocity.Y);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Return to the player after striking an enemy. Stealth strikes don't return immediately.
-            if (!projectile.Calamity().stealthStrike || projectile.ai[1] > 3)
-                projectile.ai[0] = 1f;
-            projectile.ai[1]++;
+            if (!Projectile.Calamity().stealthStrike || Projectile.ai[1] > 3)
+                Projectile.ai[0] = 1f;
+            Projectile.ai[1]++;
         }
 
         // Make it bounce on tiles.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Impacts the terrain even though it bounces off.
-            Main.PlaySound(SoundID.Dig, projectile.Center);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
 
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
             return false;
         }
     }

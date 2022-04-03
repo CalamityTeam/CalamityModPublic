@@ -19,6 +19,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -28,92 +29,92 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Calamitas");
-            Main.npcFrameCount[npc.type] = 6;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.GetNPCDamage();
-            npc.npcSlots = 14f;
-            npc.width = 120;
-            npc.height = 120;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.npcSlots = 14f;
+            NPC.width = 120;
+            NPC.height = 120;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                npc.scale = 0.8f;
+                NPC.scale = 0.8f;
 
-            npc.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 12 : 25;
-            npc.value = Item.buyPrice(0, 50, 0, 0);
-            npc.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
-            npc.LifeMaxNERB(37500, 45000, 520000);
+            NPC.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 12 : 25;
+            NPC.value = Item.buyPrice(0, 50, 0, 0);
+            NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
+            NPC.LifeMaxNERB(37500, 45000, 520000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.damage *= 3;
-                npc.defense *= 3;
-                npc.lifeMax *= 2;
-                npc.value *= 2.5f;
+                NPC.damage *= 3;
+                NPC.defense *= 3;
+                NPC.lifeMax *= 2;
+                NPC.value *= 2.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.aiStyle = -1;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.boss = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
+            NPC.knockBackResist = 0f;
+            NPC.boss = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<CalamitasBag>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
-            CalamityAI.CalamitasCloneAI(npc, mod);
+            CalamityAI.CalamitasCloneAI(NPC, Mod);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture = Main.npcTexture[npc.type];
-            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[npc.type] / 2));
+            Texture2D texture = Main.npcTexture[NPC.type];
+            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
             Color white = Color.White;
             float colorLerpAmt = 0.5f;
             int afterimageAmt = 7;
@@ -124,21 +125,21 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     Color color1 = lightColor;
                     color1 = Color.Lerp(color1, white, colorLerpAmt);
-                    color1 = npc.GetAlpha(color1);
+                    color1 = NPC.GetAlpha(color1);
                     color1 *= (float)(afterimageAmt - i) / 15f;
-                    Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture, offset, npc.frame, color1, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+                    Vector2 offset = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    offset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture, offset, NPC.frame, color1, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 npcOffset = npc.Center - Main.screenPosition;
-            npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-            npcOffset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture, npcOffset, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            Vector2 npcOffset = NPC.Center - Main.screenPosition;
+            npcOffset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            npcOffset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, npcOffset, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
             Color color = Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
@@ -148,41 +149,41 @@ namespace CalamityMod.NPCs.Calamitas
                     Color color2 = color;
                     color2 = Color.Lerp(color2, white, colorLerpAmt);
                     color2 *= (float)(afterimageAmt - i) / 15f;
-                    Vector2 offset = npc.oldPos[i] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    offset += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture, offset, npc.frame, color2, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+                    Vector2 offset = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    offset -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    offset += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture, offset, NPC.frame, color2, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            spriteBatch.Draw(texture, npcOffset, npc.frame, color, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, npcOffset, NPC.frame, color, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
 
         public override void NPCLoot()
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(npc);
+            DropHelper.DropBags(NPC);
 
-            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
+            DropHelper.DropItem(NPC, ItemID.BrokenHeroSword, true);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CalamitasTrophy>(), 10);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
 
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
             if (!Main.expertMode)
             {
                 //Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                DropHelper.DropItem(npc, ModContent.ItemType<CalamityDust>(), 9, 14);
-                DropHelper.DropItem(npc, ModContent.ItemType<BlightedLens>(), 1, 2);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
+                DropHelper.DropItem(NPC, ModContent.ItemType<CalamityDust>(), 9, 14);
+                DropHelper.DropItem(NPC, ModContent.ItemType<BlightedLens>(), 1, 2);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(npc,
+                DropHelper.DropEntireWeightedSet(NPC,
                     DropHelper.WeightStack<TheEyeofCalamitas>(w),
                     DropHelper.WeightStack<Animosity>(w),
                     DropHelper.WeightStack<CalamitasInferno>(w),
@@ -191,18 +192,18 @@ namespace CalamityMod.NPCs.Calamitas
                 );
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<CalamityRing>(), true);
+                DropHelper.DropItem(NPC, ModContent.ItemType<CalamityRing>(), true);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);
+                DropHelper.DropItemChance(NPC, ModContent.ItemType<CalamitasMask>(), 7);
                 if (Main.rand.NextBool(10))
                 {
-                    DropHelper.DropItem(npc, ModContent.ItemType<CalamityHood>());
-                    DropHelper.DropItem(npc, ModContent.ItemType<CalamityRobes>());
+                    DropHelper.DropItem(NPC, ModContent.ItemType<CalamityHood>());
+                    DropHelper.DropItem(NPC, ModContent.ItemType<CalamityRobes>());
                 }
             }
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), !Main.expertMode, 0.1f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Regenator>(), !Main.expertMode, 0.1f);
 
             // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";
@@ -211,7 +212,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (!CalamityWorld.downedCalamitas)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
@@ -231,25 +232,25 @@ namespace CalamityMod.NPCs.Calamitas
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas3"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas4"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas5"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/Calamitas6"), npc.scale);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 100;
-                npc.height = 100;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas3"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas4"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas5"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CalamitasGores/Calamitas6"), NPC.scale);
+                NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+                NPC.width = 100;
+                NPC.height = 100;
+                NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -259,10 +260,10 @@ namespace CalamityMod.NPCs.Calamitas
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -270,8 +271,8 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

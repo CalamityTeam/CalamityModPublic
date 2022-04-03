@@ -12,13 +12,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.coldDamage = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.coldDamage = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void SetStaticDefaults()
@@ -28,35 +28,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (projectile.owner != Main.myPlayer)
+            if (Projectile.owner != Main.myPlayer)
                 return;
 
             bool shoot = false;
-            if (projectile.timeLeft % 30f == 0f)
+            if (Projectile.timeLeft % 30f == 0f)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                     shoot = true;
             }
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.velocity.X *= 0.99f;
-                projectile.velocity.Y += 0.25f;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                Projectile.velocity.X *= 0.99f;
+                Projectile.velocity.Y += 0.25f;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
                 if (shoot)
                 {
                     Vector2 vel = new Vector2(Main.rand.Next(-300, 301), Main.rand.Next(500, 801));
-                    Vector2 pos = projectile.Center - vel;
+                    Vector2 pos = Projectile.Center - vel;
                     vel.X += Main.rand.Next(-50, 51);
                     vel.Normalize();
                     vel *= 30f;
-                    int flare = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, ModContent.ProjectileType<FrostyFlareProj>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    int flare = Projectile.NewProjectile(pos, vel + Projectile.velocity / 4f, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[flare].alpha = 150;
                 }
-                if (projectile.timeLeft % 10 == 0)
+                if (Projectile.timeLeft % 10 == 0)
                 {
-                    int snowflake = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, Main.rand.Next(3));
+                    int snowflake = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, Main.rand.Next(3));
                     if (snowflake.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[snowflake].Calamity().forceRogue = true;
@@ -64,18 +64,18 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
 
-                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172);
+                int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 172);
                 Main.dust[index2].noGravity = true;
             }
             else
             {
-                projectile.ignoreWater = true;
-                projectile.tileCollide = false;
-                int id = (int)projectile.ai[1];
+                Projectile.ignoreWater = true;
+                Projectile.tileCollide = false;
+                int id = (int)Projectile.ai[1];
                 if (id.WithinBounds(Main.maxNPCs) && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
                 {
-                    projectile.Center = Main.npc[id].Center - projectile.velocity * 2f;
-                    projectile.gfxOffY = Main.npc[id].gfxOffY;
+                    Projectile.Center = Main.npc[id].Center - Projectile.velocity * 2f;
+                    Projectile.gfxOffY = Main.npc[id].gfxOffY;
 
                     if (shoot)
                     {
@@ -84,13 +84,13 @@ namespace CalamityMod.Projectiles.Rogue
                         vel.X += Main.rand.Next(-50, 51);
                         vel.Normalize();
                         vel *= 30f;
-                        int flare = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostyFlareProj>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        int flare = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         Main.projectile[flare].alpha = 150;
                     }
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
@@ -99,12 +99,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(BuffID.Frostburn, 180);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
-            target.immune[projectile.owner] = 0;
-            projectile.ai[0] = 1f;
-            projectile.ai[1] = target.whoAmI;
-            projectile.velocity = target.Center - projectile.Center;
-            projectile.velocity *= 0.75f;
-            projectile.netUpdate = true;
+            target.immune[Projectile.owner] = 0;
+            Projectile.ai[0] = 1f;
+            Projectile.ai[1] = target.whoAmI;
+            Projectile.velocity = target.Center - Projectile.Center;
+            Projectile.velocity *= 0.75f;
+            Projectile.netUpdate = true;
 
             const int maxFlares = 1;
             int flaresFound = 0;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
             int oldestFlareTimeLeft = 300;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == projectile.type && i != projectile.whoAmI && Main.projectile[i].ai[1] == target.whoAmI)
+                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Projectile.type && i != Projectile.whoAmI && Main.projectile[i].ai[1] == target.whoAmI)
                 {
                     flaresFound++;
                     if (Main.projectile[i].timeLeft < oldestFlareTimeLeft)
@@ -136,6 +136,6 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
-        public override bool CanDamage() => projectile.ai[0] == 0f;
+        public override bool CanDamage() => Projectile.ai[0] == 0f;
     }
 }

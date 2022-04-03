@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -201,7 +202,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
 
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
                         return false;
                     }
 
@@ -459,7 +460,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn bees or hornets
                 if (Collision.CanHit(vector76, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && spawnBee)
                 {
-                    Main.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawnType = Main.rand.Next(210, 212);
@@ -548,7 +549,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Fire stingers
                 if (npc.ai[1] % num650 == (num650 - 1) && npc.position.Y + npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector78, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    Main.PlaySound(SoundID.Item17, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item17, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num624 = 12f;

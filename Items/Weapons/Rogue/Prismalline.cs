@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 46;
-            item.damage = 24;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 46;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<PrismallineProj>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 46;
+            Item.damage = 24;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 46;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<PrismallineProj>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -54,13 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Crystalline>());
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Crystalline>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

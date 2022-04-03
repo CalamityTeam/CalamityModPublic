@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class BloodyBoost : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Boost");
             Description.SetDefault("Increased offensive and defensive stats\n" +

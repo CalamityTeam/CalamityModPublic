@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,22 +23,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 80;
-            item.damage = 900;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.useTurn = true;
-            item.melee = true;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 114;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<Exobeam>();
-            item.shootSpeed = 19f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 80;
+            Item.damage = 900;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.useTurn = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 114;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<Exobeam>();
+            Item.shootSpeed = 19f;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), damage, knockback, Main.myPlayer);
 
             target.ExoDebuffs();
-            Main.PlaySound(SoundID.Item88, player.Center);
+            SoundEngine.PlaySound(SoundID.Item88, player.Center);
             float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
             float yPos = player.position.Y + Main.rand.Next(-800, 801);
             Vector2 startPos = new Vector2(xPos, yPos);
@@ -88,10 +89,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage /= 2;
 
             if (target.statLife <= (target.statLifeMax2 * 0.05f))
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, Item.knockBack, Main.myPlayer);
 
             target.ExoDebuffs();
-            Main.PlaySound(SoundID.Item88, player.Center);
+            SoundEngine.PlaySound(SoundID.Item88, player.Center);
             float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
             float yPos = player.position.Y + Main.rand.Next(-800, 801);
             Vector2 startPos = new Vector2(xPos, yPos);
@@ -106,7 +107,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, item.knockBack, player.whoAmI, 0f, ai1);
+                    Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, Item.knockBack, player.whoAmI, 0f, ai1);
                 }
             }
 
@@ -120,16 +121,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Terratomere>());
-            recipe.AddIngredient(ModContent.ItemType<AnarchyBlade>());
-            recipe.AddIngredient(ModContent.ItemType<FlarefrostBlade>());
-            recipe.AddIngredient(ModContent.ItemType<PhoenixBlade>());
-            recipe.AddIngredient(ModContent.ItemType<StellarStriker>());
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Terratomere>()).AddIngredient(ModContent.ItemType<AnarchyBlade>()).AddIngredient(ModContent.ItemType<FlarefrostBlade>()).AddIngredient(ModContent.ItemType<PhoenixBlade>()).AddIngredient(ModContent.ItemType<StellarStriker>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

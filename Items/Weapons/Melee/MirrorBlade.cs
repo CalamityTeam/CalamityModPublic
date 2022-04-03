@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.damage = baseDamage;
-            item.melee = true;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 62;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<MirrorBlast>();
+            Item.width = 52;
+            Item.damage = baseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 62;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<MirrorBlast>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 conDamage = 750;
             }
-            item.damage = conDamage;
+            Item.damage = conDamage;
         }
     }
 }

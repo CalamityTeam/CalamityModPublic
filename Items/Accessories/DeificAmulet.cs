@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.rare = ItemRarityID.Cyan;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.rare = ItemRarityID.Cyan;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,15 +34,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CharmofMyths);
-            recipe.AddIngredient(ItemID.StarVeil);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.CharmofMyths).AddIngredient(ItemID.StarVeil).AddIngredient(ModContent.ItemType<AstralBar>(), 10).AddIngredient(ItemID.MeteoriteBar, 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

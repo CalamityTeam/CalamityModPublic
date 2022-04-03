@@ -15,30 +15,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.width = 32;
-            item.height = 32;
-            item.damage = 33;
-            item.melee = true;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.width = 32;
+            Item.height = 32;
+            Item.damage = 33;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.JungleSpores, 10);
-            recipe.AddIngredient(ItemID.Stinger, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.JungleSpores, 10).AddIngredient(ItemID.Stinger, 5).AddTile(TileID.Anvils).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -49,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
+            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), Item.knockBack, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }

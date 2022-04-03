@@ -14,18 +14,18 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
         }
         public override void AI()
         {
-            if (projectile.velocity.Y < 10f)
-                projectile.velocity.Y += 0.25f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.velocity.Y < 10f)
+                Projectile.velocity.Y += 0.25f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Enemy
         {
             for (int i = 0; i <= 2; i++)
             {
-                int idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                int idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
             }

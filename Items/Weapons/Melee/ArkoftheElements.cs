@@ -60,38 +60,38 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             comboTooltip.text = ComboTooltip;
             comboTooltip.overrideColor = Color.Crimson;
 
-            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
             parryTooltip.text = ParryTooltip;
             parryTooltip.overrideColor = Color.Orange;
 
-            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
             blastTooltip.text = BlastTooltip;
             blastTooltip.overrideColor = Color.Gold;
         }
 
         public override void SetDefaults()
         {
-            item.width = 112;
-            item.height = 172;
-            item.damage = 600;
-            item.melee = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 8.5f;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 16f;
+            Item.width = 112;
+            Item.height = 172;
+            Item.damage = 600;
+            Item.DamageType = DamageClass.Melee;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 8.5f;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 16f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -104,10 +104,10 @@ namespace CalamityMod.Items.Weapons.Melee
             player.Calamity().mouseWorldListener = true;
 
             if (CanUseItem(player) && Combo != 4)
-                item.channel = false;
+                Item.channel = false;
 
             if (Combo == 4)
-                item.channel = true;
+                Item.channel = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -196,22 +196,14 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(Charge);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             Charge = reader.ReadSingle();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<TrueArkoftheAncients>());
-            recipe.AddIngredient(ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemType<CoreofCalamity>(), 5);
-            recipe.AddIngredient(ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<TrueArkoftheAncients>()).AddIngredient(ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemType<CoreofCalamity>(), 5).AddIngredient(ItemType<BarofLife>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
@@ -236,8 +228,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
             Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
 
-            spriteBatch.Draw(backTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(frontTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(backTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(frontTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }
 

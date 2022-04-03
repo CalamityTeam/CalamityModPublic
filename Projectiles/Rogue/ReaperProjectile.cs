@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,47 +15,47 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Reaper");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 70;
-            projectile.height = 70;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = projectile.MaxUpdates * 90;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
-            projectile.Calamity().rogue = true;
+            Projectile.width = 70;
+            Projectile.height = 70;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = Projectile.MaxUpdates * 90;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.ai[1] += 1f;
+                Projectile.ai[1] += 1f;
 
                 // If the Reaper lands a hit, switch to second behavior mode immediately.
-                if (projectile.ai[1] >= 60f || projectile.numHits > 0)
+                if (Projectile.ai[1] >= 60f || Projectile.numHits > 0)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.localAI[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 14f);
+                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.
@@ -62,14 +63,14 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float homingRange = 700f;
                 bool noHomingThisFrame = false;
-                if (projectile.ai[0] == 1f)
+                if (Projectile.ai[0] == 1f)
                 {
-                    projectile.ai[1] += 1f;
-                    if (projectile.ai[1] > 40f)
+                    Projectile.ai[1] += 1f;
+                    if (Projectile.ai[1] > 40f)
                     {
-                        projectile.ai[1] = 1f;
-                        projectile.ai[0] = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.ai[1] = 1f;
+                        Projectile.ai[0] = 0f;
+                        Projectile.netUpdate = true;
                     }
                     else
                         noHomingThisFrame = true;
@@ -78,14 +79,14 @@ namespace CalamityMod.Projectiles.Rogue
                 if (noHomingThisFrame)
                     return;
 
-                Vector2 homingTarget = projectile.Center;
+                Vector2 homingTarget = Projectile.Center;
                 bool foundTarget = false;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC nPC2 = Main.npc[i];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float npcDist = Vector2.Distance(nPC2.Center, projectile.Center);
+                        float npcDist = Vector2.Distance(nPC2.Center, Projectile.Center);
                         if (!foundTarget)
                         {
                             homingRange = npcDist;
@@ -96,9 +97,9 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
 
-                if (foundTarget && projectile.ai[0] == 0f)
+                if (foundTarget && Projectile.ai[0] == 0f)
                 {
-                    Vector2 delta = homingTarget - projectile.Center;
+                    Vector2 delta = homingTarget - Projectile.Center;
                     float distance = delta.Length();
                     delta /= distance;
 
@@ -106,47 +107,47 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         float homingScalar = 11f;
                         delta *= homingScalar;
-                        projectile.velocity = (projectile.velocity * 40f + delta) / 41f;
+                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
                     }
                     else
                     {
                         float homingScalar = 3.6f;
                         delta *= -homingScalar; // yes this is intentionally backwards
-                        projectile.velocity = (projectile.velocity * 40f + delta) / 41f;
+                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
                     }
                 }
 
-                if (projectile.ai[1] > 0f)
+                if (Projectile.ai[1] > 0f)
                 {
-                    projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                    Projectile.ai[1] += (float)Main.rand.Next(1, 4);
                 }
-                if (projectile.ai[1] > 40f)
+                if (Projectile.ai[1] > 40f)
                 {
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
-                if (projectile.ai[0] == 0f)
+                if (Projectile.ai[0] == 0f)
                 {
-                    if (projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
+                    if (Projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
                     {
-                        projectile.ai[1] += 1f;
-                        if (Main.myPlayer == projectile.owner)
+                        Projectile.ai[1] += 1f;
+                        if (Main.myPlayer == Projectile.owner)
                         {
-                            projectile.ai[0] = 1f;
-                            Vector2 value20 = homingTarget - projectile.Center;
+                            Projectile.ai[0] = 1f;
+                            Vector2 value20 = homingTarget - Projectile.Center;
                             value20.Normalize();
-                            projectile.velocity = value20 * 8f;
-                            projectile.netUpdate = true;
+                            Projectile.velocity = value20 * 8f;
+                            Projectile.netUpdate = true;
                         }
                     }
                 }
             }
-            projectile.rotation += 0.07f;
+            Projectile.rotation += 0.07f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -162,16 +163,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item21, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 100;
+            Projectile.height = 100;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -181,10 +182,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 8; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

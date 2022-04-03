@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BloodDragonsBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skeletal Dragons");
             Description.SetDefault("Big happy family");

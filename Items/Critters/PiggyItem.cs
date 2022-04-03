@@ -14,21 +14,21 @@ namespace CalamityMod.Items.Critters
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.width = 26;
-            item.height = 24;
-            item.makeNPC = (short)ModContent.NPCType<Piggy>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.width = 26;
+            Item.height = 24;
+            Item.makeNPC = (short)ModContent.NPCType<Piggy>();
 
-            item.value = Item.sellPrice(gold: 10);
-            item.rare = ItemRarityID.Blue;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 10);
+            Item.rare = ItemRarityID.Blue;
+            Item.Calamity().donorItem = true;
         }
     }
 }

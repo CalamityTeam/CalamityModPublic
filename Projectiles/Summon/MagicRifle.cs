@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -11,36 +12,36 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rifle");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 180;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 180;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
             //Set player namespace
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             //Anti sticky movement to prevent overlapping minions
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
             //Try not to do anything at first
             counter++;
             if (counter == 30)
             {
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
             else if (counter < 30)
             {
@@ -48,17 +49,17 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             float homingRange = MagicHat.Range;
-            Vector2 targetVec = projectile.position;
+            Vector2 targetVec = Projectile.position;
             bool foundTarget = false;
             //If targeting something, prioritize that enemy
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
                     //Calculate distance between target and the projectile to know if it's too far or not
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     if (!foundTarget && targetDist < (homingRange + extraDist))
                     {
                         homingRange = targetDist;
@@ -72,11 +73,11 @@ namespace CalamityMod.Projectiles.Summon
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
                     NPC npc = Main.npc[npcIndex];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
                         //Calculate distance between target and the projectile to know if it's too far or not
-                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         if (!foundTarget && targetDist < (homingRange + extraDist))
                         {
                             homingRange = targetDist;
@@ -94,16 +95,16 @@ namespace CalamityMod.Projectiles.Summon
                 //Max travel distance increases if targeting something
                 separationAnxietyDist = 2600f;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > separationAnxietyDist)
+            if (Vector2.Distance(player.Center, Projectile.Center) > separationAnxietyDist)
             {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
             }
 
             //If a target is found, move toward it
-            if (foundTarget && projectile.ai[0] == 0f)
+            if (foundTarget && Projectile.ai[0] == 0f)
             {
-                Vector2 vecToTarget = targetVec - projectile.Center;
+                Vector2 vecToTarget = targetVec - Projectile.Center;
                 float targetDist = vecToTarget.Length();
                 vecToTarget.Normalize();
                 //If farther than 200 pixels, move toward it
@@ -111,14 +112,14 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float speedMult = 18f; //12
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
                 //Otherwise, back it up slowly
                 else
                 {
                     float speedMult = -9f;
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
             }
 
@@ -128,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                 bool returningToPlayer = false;
                 if (!returningToPlayer)
                 {
-                    returningToPlayer = projectile.ai[0] == 1f;
+                    returningToPlayer = Projectile.ai[0] == 1f;
                 }
                 //Move faster if actively returning to the player
                 float speedMult = 12f;
@@ -136,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     speedMult = 30f;
                 }
-                Vector2 vecToPlayer = player.Center - projectile.Center + new Vector2(0f, -120f);
+                Vector2 vecToPlayer = player.Center - Projectile.Center + new Vector2(0f, -120f);
                 float playerDist = vecToPlayer.Length();
                 //Speed up if near the player
                 if (playerDist < 200f && speedMult < 16f)
@@ -146,82 +147,82 @@ namespace CalamityMod.Projectiles.Summon
                 //If close enough to the player, return to normal
                 if (playerDist < 600f && returningToPlayer)
                 {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 //If abnormally far, teleport to the player
                 if (playerDist > 2000f)
                 {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 //Move toward player if more than 70 pixels away
                 if (playerDist > 70f)
                 {
                     vecToPlayer.Normalize();
                     vecToPlayer *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToPlayer) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToPlayer) / 41f;
                 }
                 //Move if still
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
 
             //Update rotation
             if (foundTarget)
             {
-                projectile.spriteDirection = projectile.direction = ((targetVec.X - projectile.Center.X) > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135)), 0.1f);
+                Projectile.spriteDirection = Projectile.direction = ((targetVec.X - Projectile.Center.X) > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135)), 0.1f);
             }
             else
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135));
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135));
             }
 
             //Increment attack cooldown
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += Main.rand.Next(1, 4);
+                Projectile.ai[1] += Main.rand.Next(1, 4);
             }
             //Set the minion to be ready for attack
-            if (projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 90f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
 
             //Return if on attack cooldown, has no target, or returning to the player
-            if (projectile.ai[0] != 0f || !foundTarget || projectile.ai[1] != 0f)
+            if (Projectile.ai[0] != 0f || !foundTarget || Projectile.ai[1] != 0f)
                 return;
 
             //Shoot a bullet
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 float projSpeed = 6f;
                 int projType = ModContent.ProjectileType<MagicBullet>();
                 if (Main.rand.NextBool(6))
                 {
-                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20, 0.1f);
+                    SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20, 0.1f);
                 }
-                projectile.ai[1] += 1f;
-                if (Main.myPlayer == projectile.owner)
+                Projectile.ai[1] += 1f;
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    Vector2 velocity = targetVec - projectile.Center;
+                    Vector2 velocity = targetVec - Projectile.Center;
                     velocity.Normalize();
                     velocity *= projSpeed;
-                    Main.PlaySound(SoundID.Item40, projectile.position);
-                    Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner);
-                    projectile.netUpdate = true;
+                    SoundEngine.PlaySound(SoundID.Item40, Projectile.position);
+                    Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
+                    Projectile.netUpdate = true;
                 }
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(148, 0, 211, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(148, 0, 211, Projectile.alpha);
 
         public override bool CanDamage() => false;
 
@@ -230,7 +231,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 10; i++)
             {
                 Vector2 dspeed = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                int dust = Dust.NewDust(projectile.Center, 1, 1, 66, dspeed.X, dspeed.Y, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, 66, dspeed.X, dspeed.Y, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
                 Main.dust[dust].noGravity = true;
             }
         }

@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 82;
-            item.height = 62;
-            item.defense = 5;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
+            Item.width = 82;
+            Item.height = 62;
+            Item.defense = 5;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
         }
 
         public override void UpdateEquip(Player player)
@@ -44,14 +44,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HeartofDarkness>());
-            recipe.AddIngredient(ModContent.ItemType<Laudanum>());
-            recipe.AddIngredient(ModContent.ItemType<StressPills>());
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<HeartofDarkness>()).AddIngredient(ModContent.ItemType<Laudanum>()).AddIngredient(ModContent.ItemType<StressPills>()).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

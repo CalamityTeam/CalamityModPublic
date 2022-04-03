@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 26;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 28;
+            Item.height = 26;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

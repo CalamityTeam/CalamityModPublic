@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class CosmiliteBarTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(229, 141, 246));
             dustType = ModContent.DustType<CosmiliteBarDust>();

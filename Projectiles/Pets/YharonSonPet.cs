@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class YharonSonPet : ModProjectile
     {
-        public Player player => Main.player[projectile.owner];
+        public Player player => Main.player[Projectile.owner];
         private static int xFrameAmt = 3;
         private static int yFrameAmt = 16;
 
@@ -27,27 +27,27 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Son of Yharon");
-            Main.projPet[projectile.type] = true;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 104;
-            projectile.height = 82;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.netImportant = true;
+            Projectile.width = 104;
+            Projectile.height = 82;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.frameCounter <= 1)
+            if (Projectile.frameCounter <= 1)
                 return false;
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             Vector2 origin = texture.Size() / new Vector2((float)xFrameAmt, (float)yFrameAmt) * 0.5f;
             Rectangle frame = texture.Frame(xFrameAmt, yFrameAmt, frameX, frameY);
-            SpriteEffects spriteEffects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Pets
 
         private void SittingFrames()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 0)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6 == 0)
             {
                 if (CurrentlyFlying())
                     CurrentFrame = 3;
@@ -80,8 +80,8 @@ namespace CalamityMod.Projectiles.Pets
 
         private void FlyingFrames()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 0)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6 == 0)
             {
                 if (CurrentlySitting())
                     CurrentFrame = 1;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Pets
         {
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.yharonPet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
         }
 
@@ -123,37 +123,37 @@ namespace CalamityMod.Projectiles.Pets
             // Fly toward the player if they are using Rocket Boots
             if (player.rocketDelay2 > 0)
             {
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
             }
 
-            float xDist = player.Center.X - projectile.Center.X;
-            float yDist = player.Center.Y - projectile.Center.Y;
+            float xDist = player.Center.X - Projectile.Center.X;
+            float yDist = player.Center.Y - Projectile.Center.Y;
             Vector2 playerVector = new Vector2(xDist, yDist);
             float playerDist = playerVector.Length();
 
             //Teleport to player if too far
             if (playerDist > 2000f)
             {
-                projectile.position.X = player.Center.X - projectile.width / 2;
-                projectile.position.Y = player.Center.Y - projectile.height / 2;
-                projectile.netUpdate = true;
+                Projectile.position.X = player.Center.X - Projectile.width / 2;
+                Projectile.position.Y = player.Center.Y - Projectile.height / 2;
+                Projectile.netUpdate = true;
             }
             // Otherwise, make sure we're not going crazy in the y velocity and try to fly back toward the player
             else if (playerDist > (CurrentlySitting() ? 300f : 200f))
             {
-                if (yDist > 0f && projectile.velocity.Y < 0f)
+                if (yDist > 0f && Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = 0f;
+                    Projectile.velocity.Y = 0f;
                 }
-                if (yDist < 0f && projectile.velocity.Y > 0f)
+                if (yDist < 0f && Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y = 0f;
+                    Projectile.velocity.Y = 0f;
                 }
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
             }
 
             // Fly toward the player
-            if (projectile.ai[0] != 0f)
+            if (Projectile.ai[0] != 0f)
             {
                 FlyingPetAI();
             }
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 SitDownAttempt();
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
             DontSitInMidair();
         }
 
@@ -171,9 +171,9 @@ namespace CalamityMod.Projectiles.Pets
             if (CurrentlySitting())
             {
                 bool noSolidGround = true;
-                for (int i = (int)projectile.BottomLeft.X / 16; i < (int)projectile.BottomRight.X / 16; i++)
+                for (int i = (int)Projectile.BottomLeft.X / 16; i < (int)Projectile.BottomRight.X / 16; i++)
                 {
-                    Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(i, (int)(projectile.Bottom.Y / 16));
+                    Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(i, (int)(Projectile.Bottom.Y / 16));
                     if (tileBelow.IsTileSolidGround())
                     {
                         noSolidGround = false;
@@ -181,17 +181,17 @@ namespace CalamityMod.Projectiles.Pets
                     }
                 }
                 if (noSolidGround)
-                    projectile.ai[0] = 1f;
+                    Projectile.ai[0] = 1f;
             }
         }
 
         private void FlyingPetAI()
         {
             float passiveMvtFloat = 0.2f;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             float range = 200f;
-            float xDist = player.Center.X - projectile.Center.X;
-            float yDist = player.Center.Y - projectile.Center.Y;
+            float xDist = player.Center.X - Projectile.Center.X;
+            float yDist = player.Center.Y - Projectile.Center.Y;
             yDist += Main.rand.NextFloat(-10, 20);
             xDist += Main.rand.NextFloat(-10, 20);
             xDist += 60f * -(float)player.direction;
@@ -201,19 +201,19 @@ namespace CalamityMod.Projectiles.Pets
             float returnSpeed = 12f;
 
             //If player is close enough, try and land
-            if (playerDist < range && player.velocity.Y == 0f && projectile.Bottom.Y <= player.Bottom.Y && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (playerDist < range && player.velocity.Y == 0f && Projectile.Bottom.Y <= player.Bottom.Y && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.ai[0] = 0f;
-                if (projectile.velocity.Y < -6f)
+                Projectile.ai[0] = 0f;
+                if (Projectile.velocity.Y < -6f)
                 {
-                    projectile.velocity.Y = -6f;
+                    Projectile.velocity.Y = -6f;
                 }
             }
 
             if (playerDist < 60f)
             {
-                playerVector.X = projectile.velocity.X;
-                playerVector.Y = projectile.velocity.Y;
+                playerVector.X = Projectile.velocity.X;
+                playerVector.Y = Projectile.velocity.Y;
             }
             else
             {
@@ -221,57 +221,57 @@ namespace CalamityMod.Projectiles.Pets
                 playerVector.X *= playerDist;
                 playerVector.Y *= playerDist;
             }
-            if (projectile.velocity.X < playerVector.X)
+            if (Projectile.velocity.X < playerVector.X)
             {
-                projectile.velocity.X += passiveMvtFloat;
-                if (projectile.velocity.X < 0f)
+                Projectile.velocity.X += passiveMvtFloat;
+                if (Projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X += passiveMvtFloat * 1.5f;
+                    Projectile.velocity.X += passiveMvtFloat * 1.5f;
                 }
             }
-            if (projectile.velocity.X > playerVector.X)
+            if (Projectile.velocity.X > playerVector.X)
             {
-                projectile.velocity.X -= passiveMvtFloat;
-                if (projectile.velocity.X > 0f)
+                Projectile.velocity.X -= passiveMvtFloat;
+                if (Projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X -= passiveMvtFloat * 1.5f;
+                    Projectile.velocity.X -= passiveMvtFloat * 1.5f;
                 }
             }
-            if (projectile.velocity.Y < playerVector.Y)
+            if (Projectile.velocity.Y < playerVector.Y)
             {
-                projectile.velocity.Y += passiveMvtFloat;
-                if (projectile.velocity.Y < 0f)
+                Projectile.velocity.Y += passiveMvtFloat;
+                if (Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y += passiveMvtFloat * 1.5f;
+                    Projectile.velocity.Y += passiveMvtFloat * 1.5f;
                 }
             }
-            if (projectile.velocity.Y > playerVector.Y)
+            if (Projectile.velocity.Y > playerVector.Y)
             {
-                projectile.velocity.Y -= passiveMvtFloat;
-                if (projectile.velocity.Y > 0f)
+                Projectile.velocity.Y -= passiveMvtFloat;
+                if (Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y -= passiveMvtFloat * 1.5f;
+                    Projectile.velocity.Y -= passiveMvtFloat * 1.5f;
                 }
             }
-            if (projectile.velocity.X >= 0.5f)
+            if (Projectile.velocity.X >= 0.5f)
             {
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
-            else if (projectile.velocity.X < -0.5f)
+            else if (Projectile.velocity.X < -0.5f)
             {
-                projectile.direction = 1;
+                Projectile.direction = 1;
             }
-            else if (player.Center.X < projectile.Center.X)
+            else if (player.Center.X < Projectile.Center.X)
             {
-                projectile.direction = 1;
+                Projectile.direction = 1;
             }
-            else if (player.Center.X > projectile.Center.X)
+            else if (player.Center.X > Projectile.Center.X)
             {
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
 
             //Tilting
-            projectile.rotation = projectile.velocity.X * 0.075f;
+            Projectile.rotation = Projectile.velocity.X * 0.075f;
 
             // Frames while flying
             FlyingFrames();
@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles.Pets
 
         private void SitDownAttempt()
         {
-            projectile.tileCollide = true;
+            Projectile.tileCollide = true;
 
             bool tooRight = false;
             bool tooLeft = false;
@@ -287,62 +287,62 @@ namespace CalamityMod.Projectiles.Pets
             float xAdjust = 0.08f;
             float xVelMax = 6.5f;
 
-            if (player.Center.X < projectile.Center.X - 85f)
+            if (player.Center.X < Projectile.Center.X - 85f)
             {
                 tooRight = true;
             }
-            else if (player.Center.X > projectile.Center.X + 85f)
+            else if (player.Center.X > Projectile.Center.X + 85f)
             {
                 tooLeft = true;
             }
 
             if (tooRight)
             {
-                if (projectile.velocity.X > -3.5f)
+                if (Projectile.velocity.X > -3.5f)
                 {
-                    projectile.velocity.X -= xAdjust;
+                    Projectile.velocity.X -= xAdjust;
                 }
                 else
                 {
-                    projectile.velocity.X -= xAdjust * 0.25f;
+                    Projectile.velocity.X -= xAdjust * 0.25f;
                 }
             }
             else if (tooLeft)
             {
-                if (projectile.velocity.X < 3.5f)
+                if (Projectile.velocity.X < 3.5f)
                 {
-                    projectile.velocity.X += xAdjust;
+                    Projectile.velocity.X += xAdjust;
                 }
                 else
                 {
-                    projectile.velocity.X += xAdjust * 0.25f;
+                    Projectile.velocity.X += xAdjust * 0.25f;
                 }
             }
             else
             {
-                projectile.velocity.X *= 0.9f;
-                if (projectile.velocity.X >= 0f - xAdjust && projectile.velocity.X <= xAdjust)
+                Projectile.velocity.X *= 0.9f;
+                if (Projectile.velocity.X >= 0f - xAdjust && Projectile.velocity.X <= xAdjust)
                 {
-                    projectile.velocity.X = 0f;
+                    Projectile.velocity.X = 0f;
                 }
             }
-            projectile.velocity.X *= 0.95f;
-            if (projectile.velocity.X > -0.1f && projectile.velocity.X < 0.1f)
+            Projectile.velocity.X *= 0.95f;
+            if (Projectile.velocity.X > -0.1f && Projectile.velocity.X < 0.1f)
             {
-                projectile.velocity.X = 0f;
+                Projectile.velocity.X = 0f;
             }
 
-            if (player.Bottom.Y - 8f > projectile.Bottom.Y)
+            if (player.Bottom.Y - 8f > Projectile.Bottom.Y)
             {
                 abovePlayer = true;
             }
-            Collision.StepUp(ref projectile.position, ref projectile.velocity, projectile.width, projectile.height, ref projectile.stepSpeed, ref projectile.gfxOffY);
-            if (projectile.velocity.Y == 0f)
+            Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY);
+            if (Projectile.velocity.Y == 0f)
             {
-                if (!abovePlayer && projectile.velocity.X != 0f)
+                if (!abovePlayer && Projectile.velocity.X != 0f)
                 {
-                    int i = (int)projectile.Center.X / 16;
-                    int j = (int)projectile.Center.Y / 16 + 1;
+                    int i = (int)Projectile.Center.X / 16;
+                    int j = (int)Projectile.Center.Y / 16 + 1;
                     if (tooRight)
                     {
                         i--;
@@ -356,51 +356,51 @@ namespace CalamityMod.Projectiles.Pets
             }
 
             // Cap X velocity when attempting to sit
-            if (projectile.velocity.X > xVelMax)
+            if (Projectile.velocity.X > xVelMax)
             {
-                projectile.velocity.X = xVelMax;
+                Projectile.velocity.X = xVelMax;
             }
-            if (projectile.velocity.X < -xVelMax)
+            if (Projectile.velocity.X < -xVelMax)
             {
-                projectile.velocity.X = -xVelMax;
+                Projectile.velocity.X = -xVelMax;
             }
 
             // Handle frames and sitting direction/rotation
-            bool sitting = projectile.position.X == projectile.oldPosition.X;
-            if (projectile.velocity.Y == 0f && sitting)
+            bool sitting = Projectile.position.X == Projectile.oldPosition.X;
+            if (Projectile.velocity.Y == 0f && sitting)
             {
-                if (player.Center.X < projectile.Center.X)
+                if (player.Center.X < Projectile.Center.X)
                 {
-                    projectile.direction = 1;
+                    Projectile.direction = 1;
                 }
-                else if (player.Center.X > projectile.Center.X)
+                else if (player.Center.X > Projectile.Center.X)
                 {
-                    projectile.direction = -1;
+                    Projectile.direction = -1;
                 }
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
                 // Frames while sitting
                 SittingFrames();
             }
             else
             {
-                if (projectile.velocity.X >= 0.5f)
+                if (Projectile.velocity.X >= 0.5f)
                 {
-                    projectile.direction = -1;
+                    Projectile.direction = -1;
                 }
-                else if (projectile.velocity.X < -0.5f)
+                else if (Projectile.velocity.X < -0.5f)
                 {
-                    projectile.direction = 1;
+                    Projectile.direction = 1;
                 }
-                else if (player.Center.X < projectile.Center.X)
+                else if (player.Center.X < Projectile.Center.X)
                 {
-                    projectile.direction = 1;
+                    Projectile.direction = 1;
                 }
-                else if (player.Center.X > projectile.Center.X)
+                else if (player.Center.X > Projectile.Center.X)
                 {
-                    projectile.direction = -1;
+                    Projectile.direction = -1;
                 }
 
-                projectile.rotation = projectile.velocity.X * 0.075f;
+                Projectile.rotation = Projectile.velocity.X * 0.075f;
 
                 // Frames while flying
                 FlyingFrames();

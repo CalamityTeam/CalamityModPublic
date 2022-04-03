@@ -11,17 +11,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 34;
-            projectile.aiStyle = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 6;
-            projectile.extraUpdates = 1;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 32;
+            Projectile.height = 34;
+            Projectile.aiStyle = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 6;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
             aiType = ProjectileID.BoulderStaffOfEarth;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
     }
 }

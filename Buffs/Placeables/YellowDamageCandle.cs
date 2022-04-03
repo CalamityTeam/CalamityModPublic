@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class YellowDamageCandle : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spite");
             Description.SetDefault("Its hateful glow flickers with ire");

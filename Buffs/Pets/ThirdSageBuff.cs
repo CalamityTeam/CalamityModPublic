@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class ThirdSageBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Third Sage");
             Description.SetDefault("Eh? No way it's an oni.");

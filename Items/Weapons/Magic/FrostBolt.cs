@@ -15,34 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 14;
-            item.magic = true;
-            item.mana = 6;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FrostBoltProjectile>();
-            item.shootSpeed = 6f;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FrostBoltProjectile>();
+            Item.shootSpeed = 6f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyIceBlock", 20);
-            recipe.AddIngredient(ItemID.Shiverthorn, 2);
-            recipe.AddRecipeGroup("AnySnowBlock", 10);
-            recipe.AddIngredient(ItemID.WaterBucket);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyIceBlock", 20).AddIngredient(ItemID.Shiverthorn, 2).AddRecipeGroup("AnySnowBlock", 10).AddIngredient(ItemID.WaterBucket).AddTile(TileID.Bookcases).Register();
         }
     }
 }

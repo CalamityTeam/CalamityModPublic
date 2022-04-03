@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -11,53 +12,53 @@ namespace CalamityMod.Projectiles.Summon
     {
         public int TargetNPCIndex
         {
-            get => (int)projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public const float DistanceToCheck = 2800f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra Body");
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 86;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.coldDamage = true;
+            Projectile.width = 52;
+            Projectile.height = 86;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 TargetNPCIndex = -1;
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<EndoHydraBody>();
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<EndoHydraBody>();
             player.AddBuff(ModContent.BuffType<EndoHydraBuff>(), 3600);
             if (isProperProjectile)
             {
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.endoHydra)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
@@ -75,26 +76,26 @@ namespace CalamityMod.Projectiles.Summon
             returnLocation.X -= (18 + player.width / 2) * player.direction;
             returnLocation.Y -= 25f;
 
-            NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(DistanceToCheck, player);
             if (potentialTarget != null)
             {
                 if (TargetNPCIndex != potentialTarget.whoAmI)
                 {
                     TargetNPCIndex = potentialTarget.whoAmI;
-                    Main.PlaySound(SoundID.Zombie, projectile.Center, 53); // Ethereal whisper indicating a new target has been spotted.
-                    projectile.netUpdate = true;
+                    SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 53); // Ethereal whisper indicating a new target has been spotted.
+                    Projectile.netUpdate = true;
                 }
             }
 
-            if (projectile.frameCounter++ > (potentialTarget is null ? 8 : 6))
+            if (Projectile.frameCounter++ > (potentialTarget is null ? 8 : 6))
             {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
 
-            projectile.Center = Vector2.Lerp(projectile.Center, returnLocation, 0.25f);
-            projectile.direction = projectile.spriteDirection = player.direction;
-            Lighting.AddLight(projectile.Center - Vector2.UnitY * 21f, 0.25f, 0.865f, 0.825f);
+            Projectile.Center = Vector2.Lerp(Projectile.Center, returnLocation, 0.25f);
+            Projectile.direction = Projectile.spriteDirection = player.direction;
+            Lighting.AddLight(Projectile.Center - Vector2.UnitY * 21f, 0.25f, 0.865f, 0.825f);
         }
 
         public override bool CanDamage() => false;

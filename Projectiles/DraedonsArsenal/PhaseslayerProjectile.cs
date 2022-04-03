@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             get
             {
-                CalamityGlobalItem swordItem = Main.player[projectile.owner].ActiveItem().Calamity();
+                CalamityGlobalItem swordItem = Main.player[Projectile.owner].ActiveItem().Calamity();
                 return swordItem.ChargeRatio < Phaseslayer.SizeChargeThreshold;
             }
         }
@@ -41,62 +42,62 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         // ai[0] wrapper. Stores a rolling lerped average of angular momentum which is used as the swing speed damage multiplier.
         public float AngularDamageFactor
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         // ai[1] wrapper. Stores the sword's vanishing timer.
         public float FadeoutTime
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
-        public int BladeFrameX => IsSmall ? 1 : projectile.frame / 7;
-        public int BladeFrameY => IsSmall ? projectile.frame % 3 : projectile.frame % 7;
+        public int BladeFrameX => IsSmall ? 1 : Projectile.frame / 7;
+        public int BladeFrameY => IsSmall ? Projectile.frame % 3 : Projectile.frame % 7;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phaseslayer");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 13;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 13;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46; // Collision logic is done manually.
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 46; // Collision logic is done manually.
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
 
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 13;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 13;
         }
 
         // Vanilla Terraria doesn't sync projectile rotation, but it does sync velocity.
         // Rather than hacking velocity to reflect rotation, I'd rather just send the rotation directly.
         // - Ozzatron (09/21/2020)
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.rotation);
-        public override void ReceiveExtraAI(BinaryReader reader) => projectile.rotation = reader.ReadSingle();
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.rotation);
+        public override void ReceiveExtraAI(BinaryReader reader) => Projectile.rotation = reader.ReadSingle();
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityGlobalItem modItem = player.ActiveItem().Calamity();
 
             // Angles are wrapped to be 0 to 2pi instead of -pi to pi for convenience with absolute values.
-            float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
-            float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
+            float rotationAdjusted = MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi;
+            float oldRotationAdjusted = MathHelper.WrapAngle(Projectile.oldRot[1]) + MathHelper.Pi;
             float deltaAngle = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - oldRotationAdjusted));
 
             // Frame 1 effect: Prevent the sword from instantly firing a sword beam.
-            if (projectile.localAI[1] == 0f)
+            if (Projectile.localAI[1] == 0f)
             {
-                projectile.localAI[1] = 1f;
-                projectile.soundDelay = SwordBeamCooldown;
+                Projectile.localAI[1] = 1f;
+                Projectile.soundDelay = SwordBeamCooldown;
             }
 
             ManipulatePlayer(player, modItem);
@@ -128,7 +129,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (player.channel && !player.noItems && !player.CCed && playerItem.type == ModContent.ItemType<Phaseslayer>() && hasCharge)
                 {
                     // The distance ratio ranges from 0 (your mouse is directly on the player) to 1 (your mouse is at the max range considered, or any further distance).
-                    float mouseDistance = projectile.Distance(Main.MouseWorld);
+                    float mouseDistance = Projectile.Distance(Main.MouseWorld);
                     float distRatio = Utils.InverseLerp(0f, MaximumMouseRange, mouseDistance, true);
 
                     // This formula ensures that the sword has a sudden and extremely harsh responsiveness penalty when the mouse is close to the player.
@@ -137,13 +138,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                     // Update the sword's angle with the responsiveness determined by mouse position.
                     // Also flag for netcode sync if applicable (this is the only way the sword can rotate in multiplayer).
-                    float newRotation = projectile.rotation.AngleLerp(player.AngleTo(Main.MouseWorld), aimResponsiveness);
-                    if (projectile.rotation != newRotation)
+                    float newRotation = Projectile.rotation.AngleLerp(player.AngleTo(Main.MouseWorld), aimResponsiveness);
+                    if (Projectile.rotation != newRotation)
                     {
-                        projectile.netUpdate = true;
-                        projectile.netSpam = 0; // You cannot stop Phaseslayer from sending packets.
+                        Projectile.netUpdate = true;
+                        Projectile.netSpam = 0; // You cannot stop Phaseslayer from sending packets.
                     }
-                    projectile.rotation = newRotation;
+                    Projectile.rotation = newRotation;
                 }
 
                 // If the player is not wielding the sword, determine whether it should fade out or instantly vanish.
@@ -154,30 +155,30 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         FadeoutTime = 10f;
                     // If the player was killed, frozen, cursed, etc. just delete it immediately.
                     else
-                        projectile.Kill();
+                        Projectile.Kill();
                 }
             }
 
             // This line ensures the sword stays glued to the player, even for other players in multiplayer.
-            projectile.Center = player.MountedCenter + projectile.rotation.ToRotationVector2() * ProjCenterOffset;
+            Projectile.Center = player.MountedCenter + Projectile.rotation.ToRotationVector2() * ProjCenterOffset;
 
             // These lines ensure the player and their arm are rotated the correct direction to hold the sword.
-            projectile.direction = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
-            player.ChangeDir(projectile.direction);
+            Projectile.direction = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
+            player.ChangeDir(Projectile.direction);
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = CalamityUtils.WrapAngle90Degrees(projectile.rotation);
+            player.itemRotation = CalamityUtils.WrapAngle90Degrees(Projectile.rotation);
         }
 
         private void OnShrinkEffects()
         {
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle"), projectile.Center);
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle"), Projectile.Center);
             if (Main.dedServ)
                 return;
 
             for (int i = 0; i < 60; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.Brimstone);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.Brimstone);
                 dust.velocity = Main.rand.NextVector2Circular(20f, 20f);
                 dust.scale = 2.5f;
                 dust.fadeIn = 1.2f;
@@ -202,58 +203,58 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // Get the underlying sword item's current damage. This takes into account the player's stats and the sword's current charge.
             int damageWithChargeAndStats = player.GetWeaponDamage(player.ActiveItem());
             float sizeDamageScalar = IsSmall ? Phaseslayer.SmallDamageMultiplier : 1f;
-            projectile.damage = (int)(damageWithChargeAndStats * speedDamageScalar * sizeDamageScalar);
+            Projectile.damage = (int)(damageWithChargeAndStats * speedDamageScalar * sizeDamageScalar);
         }
 
         private void ManipulateFrames()
         {
-            projectile.frame = 0;
+            Projectile.frame = 0;
 
             if (IsSmall)
             {
                 // Fadeout frames.
                 if (FadeoutTime > 5)
-                    projectile.frame = 1;
+                    Projectile.frame = 1;
                 else if (FadeoutTime > 0)
-                    projectile.frame = 2;
+                    Projectile.frame = 2;
             }
             else
             {
-                projectile.frameCounter++;
-                int adjustFrameCounter = projectile.frameCounter % 120;
+                Projectile.frameCounter++;
+                int adjustFrameCounter = Projectile.frameCounter % 120;
 
                 // Idle lightning frames.
                 if (adjustFrameCounter >= 50 && adjustFrameCounter <= 78)
-                    projectile.frame = (int)MathHelper.Lerp(1, 9, Utils.InverseLerp(50, 75, adjustFrameCounter, true));
+                    Projectile.frame = (int)MathHelper.Lerp(1, 9, Utils.InverseLerp(50, 75, adjustFrameCounter, true));
                 if (adjustFrameCounter >= 90 && adjustFrameCounter <= 120)
-                    projectile.frame = (int)MathHelper.Lerp(10, 18, Utils.InverseLerp(90, 117, adjustFrameCounter, true));
+                    Projectile.frame = (int)MathHelper.Lerp(10, 18, Utils.InverseLerp(90, 117, adjustFrameCounter, true));
 
                 // Fadeout frames.
                 if (FadeoutTime > 5)
-                    projectile.frame = 19;
+                    Projectile.frame = 19;
                 else if (FadeoutTime > 0)
-                    projectile.frame = 20;
+                    Projectile.frame = 20;
             }
         }
 
         private void HandleSwordBeams(Player player, CalamityGlobalItem modItem, float deltaAngle)
         {
             // Producing a sword beam takes a bit higher of a speed than the "typical" speed the sword is balanced around.
-            if (projectile.soundDelay <= 0 && deltaAngle >= 1.3f * StandardSwingSpeed)
+            if (Projectile.soundDelay <= 0 && deltaAngle >= 1.3f * StandardSwingSpeed)
             {
                 // Sword beams cost a noticeable amount of energy, but deal the blade's current damage. Swing harder to get more damage!
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    Vector2 velocity = projectile.rotation.ToRotationVector2() * 20f;
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), (int)(projectile.damage * SwordBeamDamageMultiplier), 0f, player.whoAmI);
+                    Vector2 velocity = Projectile.rotation.ToRotationVector2() * 20f;
+                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), (int)(Projectile.damage * SwordBeamDamageMultiplier), 0f, player.whoAmI);
 
                     // Actually consume energy to fire the sword beam.
                     modItem.Charge -= Phaseslayer.SwordBeamChargeUse;
                 }
 
                 // The sound delay doubles as the sword beam's cooldown.
-                projectile.soundDelay = SwordBeamCooldown;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), projectile.Center);
+                Projectile.soundDelay = SwordBeamCooldown;
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), Projectile.Center);
             }
         }
 
@@ -263,22 +264,22 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 FadeoutTime--;
                 if (FadeoutTime <= 0f)
-                    projectile.Kill();
+                    Projectile.Kill();
             }
         }
 
         internal PrimitiveTrail TrailDrawer;
         internal Color ColorFunction(float completionRatio)
         {
-            float averageRotation = projectile.oldRot.Take(20).Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
-            float deltaAngle = Math.Abs(averageRotation - (MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi));
-            float opacity = projectile.Opacity;
+            float averageRotation = Projectile.oldRot.Take(20).Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
+            float deltaAngle = Math.Abs(averageRotation - (MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi));
+            float opacity = Projectile.Opacity;
             opacity *= Utils.InverseLerp(StandardSwingSpeed * 0.7f, StandardSwingSpeed, AngularDamageFactor, true);
             opacity *= (float)Math.Pow(Utils.InverseLerp(1f, 0.45f, completionRatio, true), 4D);
             opacity *= (float)Math.Pow(Utils.InverseLerp(0.9f, 1.1f, deltaAngle, true), 2D);
 
-            float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
-            float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
+            float rotationAdjusted = MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi;
+            float oldRotationAdjusted = MathHelper.WrapAngle(Projectile.oldRot[1]) + MathHelper.Pi;
             deltaAngle = Math.Abs(MathHelper.WrapAngle(rotationAdjusted - oldRotationAdjusted));
 
             if (deltaAngle < 0.04f)
@@ -291,13 +292,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D bladeTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBlade");
-            Texture2D hiltTexture = ModContent.GetTexture(Texture);
+            Texture2D bladeTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBlade");
+            Texture2D hiltTexture = ModContent.Request<Texture2D>(Texture);
             if (IsSmall)
-                bladeTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBladeSmall");
+                bladeTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PhaseslayerBladeSmall");
 
-            float bladeLength = (IsSmall ? 90f : 132f) * projectile.scale;
-            Vector2 bladeOffset = projectile.rotation.ToRotationVector2() * bladeLength;
+            float bladeLength = (IsSmall ? 90f : 132f) * Projectile.scale;
+            Vector2 bladeOffset = Projectile.rotation.ToRotationVector2() * bladeLength;
             Vector2 origin = bladeTexture.Size() * 0.5f;
             origin /= IsSmall ? new Vector2(1f, 3f) : new Vector2(3f, 7f);
 
@@ -306,27 +307,27 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
-            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SwordSlashTexture"));
+            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture"));
 
-            Player player = Main.player[projectile.owner];
-            float swingAngularDirection = Math.Sign(MathHelper.WrapAngle(projectile.rotation - projectile.oldRot[1]));
+            Player player = Main.player[Projectile.owner];
+            float swingAngularDirection = Math.Sign(MathHelper.WrapAngle(Projectile.rotation - Projectile.oldRot[1]));
 
-            Vector2[] drawPoints = new Vector2[projectile.oldPos.Length];
+            Vector2[] drawPoints = new Vector2[Projectile.oldPos.Length];
             Vector2 perpendicularDirection = bladeOffset.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.PiOver2);
             for (int i = 0; i < drawPoints.Length; i++)
             {
-                if (projectile.oldPos[i] == Vector2.Zero)
+                if (Projectile.oldPos[i] == Vector2.Zero)
                     continue;
 
                 float swingFactor = MathHelper.Min(1f, AngularDamageFactor);
                 float offsetFactor = i * -swingAngularDirection * MathHelper.Min(0.8f, swingFactor) * 100f;
                 float angularTurn = i * swingAngularDirection * -0.09f;
-                drawPoints[i] = projectile.position + perpendicularDirection.RotatedBy(angularTurn) * offsetFactor;
+                drawPoints[i] = Projectile.position + perpendicularDirection.RotatedBy(angularTurn) * offsetFactor;
             }
 
-            TrailDrawer.Draw(drawPoints, projectile.Size * 0.5f + bladeOffset - Main.screenPosition, 50);
-            spriteBatch.Draw(bladeTexture, projectile.Center + bladeOffset - Main.screenPosition, frame, Color.White, projectile.rotation + MathHelper.PiOver2, origin, projectile.scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(hiltTexture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation + MathHelper.PiOver2, hiltTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+            TrailDrawer.Draw(drawPoints, Projectile.Size * 0.5f + bladeOffset - Main.screenPosition, 50);
+            spriteBatch.Draw(bladeTexture, Projectile.Center + bladeOffset - Main.screenPosition, frame, Color.White, Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(hiltTexture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation + MathHelper.PiOver2, hiltTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }
@@ -334,9 +335,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float _ = 0f;
-            Vector2 start = projectile.Center + projectile.rotation.ToRotationVector2() * 28f;
-            Vector2 end = start + projectile.rotation.ToRotationVector2() * (IsSmall ? 202f : 254f) * projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, 60f * projectile.scale, ref _);
+            Vector2 start = Projectile.Center + Projectile.rotation.ToRotationVector2() * 28f;
+            Vector2 end = start + Projectile.rotation.ToRotationVector2() * (IsSmall ? 202f : 254f) * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, 60f * Projectile.scale, ref _);
         }
     }
 }

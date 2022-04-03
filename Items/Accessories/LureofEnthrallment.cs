@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 56;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 56;
+            Item.height = 56;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 26;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlamingStake>();
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Stake;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 26;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlamingStake>();
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Stake;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -59,14 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StakeLauncher);
-            recipe.AddIngredient(ItemID.ExplosivePowder, 100);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
-            recipe.AddIngredient(ItemID.LivingFireBlock, 75);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.StakeLauncher).AddIngredient(ItemID.ExplosivePowder, 100).AddIngredient(ModContent.ItemType<CruptixBar>(), 5).AddIngredient(ItemID.LivingFireBlock, 75).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -13,19 +13,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.damage = 13;
-            item.melee = true;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.useTurn = true;
-            item.knockBack = 3.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 26;
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 7;
+            Item.useTurn = true;
+            Item.knockBack = 3.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

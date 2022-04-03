@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -20,38 +21,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -2;
+            Projectile.width = 22;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
         {
             if (!initialized)
             {
-                projectile.rotation += Main.rand.NextFloat();
+                Projectile.rotation += Main.rand.NextFloat();
                 initialized = true;
             }
-            projectile.ai[0]++;
-            if (projectile.ai[0] > 120f)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] > 120f)
             {
-                projectile.scale *= 0.98f;
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, projectile.scale);
-                if (projectile.scale <= 0.05f)
-                    projectile.Kill();
+                Projectile.scale *= 0.98f;
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, Projectile.scale);
+                if (Projectile.scale <= 0.05f)
+                    Projectile.Kill();
             }
-            projectile.rotation += projectile.direction * 0.05f;
-            if (projectile.soundDelay == 0)
+            Projectile.rotation += Projectile.direction * 0.05f;
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 20 + Main.rand.Next(40);
+                Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(9))
                 {
-                    Main.PlaySound(SoundID.Item9, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
         }
@@ -82,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
                     ModContent.DustType<AstralBlue>()
                 });
 
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f), 1.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f), 1.5f);
                 Main.dust[dust].noGravity = true;
             }
             for (int num480 = 0; num480 < 3; num480++)
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                 velocity.SafeNormalize(default);
                 velocity *= Main.rand.Next(1, 6) * 0.01f;
-                Gore.NewGore(projectile.position, velocity, Main.rand.Next(16, 18), 1f);
+                Gore.NewGore(Projectile.position, velocity, Main.rand.Next(16, 18), 1f);
             }
         }
     }

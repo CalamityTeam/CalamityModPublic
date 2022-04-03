@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class HiveMindPet : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mini Mind");
             Description.SetDefault("It knows everything");

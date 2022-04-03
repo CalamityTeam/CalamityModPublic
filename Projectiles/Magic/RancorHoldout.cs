@@ -7,30 +7,30 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorHoldout : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
         public const int ManaConsumeRate = 12;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rancor");
-            Main.projFrames[projectile.type] = 16;
+            Main.projFrames[Projectile.type] = 16;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 34;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.timeLeft = 90000;
+            Projectile.width = Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.timeLeft = 90000;
         }
 
         public override void AI()
         {
-            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 8f;
+            Projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 8f;
 
             // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
             bool allowContinuedUse = Time % ManaConsumeRate != ManaConsumeRate - 1f || Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
@@ -39,22 +39,22 @@ namespace CalamityMod.Projectiles.Magic
             // If the owner is no longer able to hold the book, kill it.
             if (!bookStillInUse)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             Time++;
 
             // Cast the magic circle on the first frame.
-            if (Main.myPlayer == projectile.owner && Time == 1f)
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RancorMagicCircle>(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (Main.myPlayer == Projectile.owner && Time == 1f)
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RancorMagicCircle>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
             // Handle frames.
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 4)
             {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
 
             AdjustPlayerHoldValues();
@@ -64,9 +64,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public void AdjustPlayerHoldValues()
         {
-            projectile.spriteDirection = projectile.direction = Owner.direction;
-            projectile.timeLeft = 2;
-            Owner.heldProj = projectile.whoAmI;
+            Projectile.spriteDirection = Projectile.direction = Owner.direction;
+            Projectile.timeLeft = 2;
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = 0f;

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CinderBlossomBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder Blossom");
             Description.SetDefault("A hot, searing flower is floating uncomfortably close to you");

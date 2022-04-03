@@ -16,27 +16,27 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.width = 24;
-            item.height = 48;
-            item.UseSound = SoundID.NPCHit9;
-            item.shoot = ModContent.ProjectileType<PerforaMini>();
-            item.buffType = ModContent.BuffType<BloodBound>();
+            Item.damage = 0;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.width = 24;
+            Item.height = 48;
+            Item.UseSound = SoundID.NPCHit9;
+            Item.shoot = ModContent.ProjectileType<PerforaMini>();
+            Item.buffType = ModContent.BuffType<BloodBound>();
 
-            item.value = Item.buyPrice(gold: 4);
-            item.rare = ItemRarityID.Orange;
-            item.Calamity().donorItem = true;
+            Item.value = Item.buyPrice(gold: 4);
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.AstralDesert
         //All of this code is taken directly from Example Mod.
         //Cheers Blushie
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

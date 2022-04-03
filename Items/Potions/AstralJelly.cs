@@ -15,23 +15,23 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.rare = ItemRarityID.Lime;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.healMana = 200;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.value = Item.buyPrice(0, 4, 50, 0);
-            item.buffType = BuffID.MagicPower;
-            item.buffTime = CalamityUtils.SecondsToFrames(360f);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.rare = ItemRarityID.Lime;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.healMana = 200;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.value = Item.buyPrice(0, 4, 50, 0);
+            Item.buffType = BuffID.MagicPower;
+            Item.buffTime = CalamityUtils.SecondsToFrames(360f);
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {

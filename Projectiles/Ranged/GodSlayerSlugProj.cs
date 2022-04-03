@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -18,128 +19,128 @@ namespace CalamityMod.Projectiles.Ranged
         private const float MouseAimDeviation = 13f;
         private const int TextureHeight = 136;
 
-        private bool BlueMode => projectile.ai[0] != 0f;
+        private bool BlueMode => Projectile.ai[0] != 0f;
         public override string Texture => "CalamityMod/Projectiles/Ranged/GodSlayerSlugPurple";
         private static Texture2D TextureBlue;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Slug");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
             if (Main.netMode != NetmodeID.Server)
-                TextureBlue = mod.GetTexture("Projectiles/Ranged/GodSlayerSlugBlue");
+                TextureBlue = Mod.Assets.Request<Texture2D>("Projectiles/Ranged/GodSlayerSlugBlue").Value;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-            projectile.alpha = 255;
-            projectile.MaxUpdates = 6;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.timeLeft = Lifetime;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.alpha = 255;
+            Projectile.MaxUpdates = 6;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.timeLeft = Lifetime;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.tileCollide);
-        public override void ReceiveExtraAI(BinaryReader reader) => projectile.tileCollide = reader.ReadBoolean();
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.tileCollide);
+        public override void ReceiveExtraAI(BinaryReader reader) => Projectile.tileCollide = reader.ReadBoolean();
 
         public override void AI()
         {
             // Store the original velocity if it has yet to be initialized. This is needed for the warp.
-            if (projectile.localAI[0] == 0f)
-                projectile.localAI[0] = projectile.velocity.Length();
+            if (Projectile.localAI[0] == 0f)
+                Projectile.localAI[0] = Projectile.velocity.Length();
 
             // Rapidly fade into visibility.
-            if (projectile.alpha > 0)
-                projectile.alpha -= 17;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 17;
 
             // Add light appropriate to the bullet's current state.
             if (BlueMode)
-                Lighting.AddLight(projectile.Center, 0.06f, 0.24f, 0.29f);
+                Lighting.AddLight(Projectile.Center, 0.06f, 0.24f, 0.29f);
             else
-                Lighting.AddLight(projectile.Center, 0.3f, 0.2f, 0.32f);
+                Lighting.AddLight(Projectile.Center, 0.3f, 0.2f, 0.32f);
 
             // If the bullet has struck at least one target, increment the counter for turning blue.
-            if (projectile.numHits > 0 && CalamityUtils.FinalExtraUpdate(projectile) && !BlueMode)
-                ++projectile.ai[1];
+            if (Projectile.numHits > 0 && CalamityUtils.FinalExtraUpdate(Projectile) && !BlueMode)
+                ++Projectile.ai[1];
 
             // If the bullet has struck at least one target but hasn't hit anything for several frames, turn blue and warp.
             // Obviously if the bullet is already blue, it can't turn blue again.
-            if (!BlueMode && projectile.ai[1] >= TurnBlueFrameDelay)
+            if (!BlueMode && Projectile.ai[1] >= TurnBlueFrameDelay)
                 TurnBlue(true);
 
             // When blue, ignore walls for the first several updates.
-            if (BlueMode && projectile.ai[1] > 0f)
+            if (BlueMode && Projectile.ai[1] > 0f)
             {
-                --projectile.ai[1];
-                if (projectile.ai[1] == 0f)
-                    projectile.tileCollide = true;
+                --Projectile.ai[1];
+                if (Projectile.ai[1] == 0f)
+                    Projectile.tileCollide = true;
             }
         }
 
         private void TurnBlue(bool setPosition = false)
         {
             // Switch to blue mode officially
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
 
             // Provide several frames of passing through walls to prevent frustration
-            projectile.ai[1] = BlueNoCollideFrames;
-            projectile.tileCollide = false;
+            Projectile.ai[1] = BlueNoCollideFrames;
+            Projectile.tileCollide = false;
 
             // Reduce damage, but remove piercing. Reset local iframes so the bullet, turned blue, may always strike again.
-            projectile.damage = (int)(0.28f * projectile.damage);
-            projectile.penetrate = 1;
+            Projectile.damage = (int)(0.28f * Projectile.damage);
+            Projectile.penetrate = 1;
             for (int i = 0; i < Main.maxNPCs; i++)
-                projectile.localNPCImmunity[i] = 0;
+                Projectile.localNPCImmunity[i] = 0;
 
             // Reset projectile lifetime so it can fly again for its full possible range
-            projectile.timeLeft = Lifetime - NoDrawFrames * projectile.MaxUpdates;
+            Projectile.timeLeft = Lifetime - NoDrawFrames * Projectile.MaxUpdates;
 
-            if (!setPosition || Main.myPlayer != projectile.owner)
+            if (!setPosition || Main.myPlayer != Projectile.owner)
                 return;
 
             // The bullet disappears in a puff of dust.
-            ProduceWarpCrossDust(projectile.Center, (int)CalamityDusts.PurpleCosmilite);
+            ProduceWarpCrossDust(Projectile.Center, (int)CalamityDusts.PurpleCosmilite);
 
             // The warp must be performed client side because it requires knowledge of the player's mouse position.
-            projectile.netUpdate = true;
-            projectile.tileCollide = false;
+            Projectile.netUpdate = true;
+            Projectile.tileCollide = false;
 
             // Step 1 of the warp: Place the bullet behind the player, opposite the mouse cursor.
             Vector2 playerToMouseVec = CalamityUtils.SafeDirectionTo(Main.LocalPlayer, Main.MouseWorld, -Vector2.UnitY);
             float warpDist = Main.rand.NextFloat(70f, 96f);
             float warpAngle = Main.rand.NextFloat(-MathHelper.Pi / 3f, MathHelper.Pi / 3f);
             Vector2 warpOffset = -warpDist * playerToMouseVec.RotatedBy(warpAngle);
-            projectile.position = Main.LocalPlayer.MountedCenter + warpOffset;
+            Projectile.position = Main.LocalPlayer.MountedCenter + warpOffset;
 
             // Step 2 of the warp: Angle the bullet so that it is pointing at the mouse cursor.
             // This intentionally has a slight inaccuracy.
             Vector2 mouseTargetVec = Main.MouseWorld + Main.rand.NextVector2Circular(MouseAimDeviation, MouseAimDeviation);
-            Vector2 bulletToMouseVec = CalamityUtils.SafeDirectionTo(projectile, mouseTargetVec, -Vector2.UnitY);
-            projectile.velocity = bulletToMouseVec * projectile.localAI[0];
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Vector2 bulletToMouseVec = CalamityUtils.SafeDirectionTo(Projectile, mouseTargetVec, -Vector2.UnitY);
+            Projectile.velocity = bulletToMouseVec * Projectile.localAI[0];
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             // Set all old positions to the bullet's warp position so that there aren't weird afterimages.
             // If an old position is uninitialized (0,0 aka never used), then don't change it.
-            for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; ++i)
+            for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; ++i)
             {
-                Vector2 oldPosElem = projectile.oldPos[i];
+                Vector2 oldPosElem = Projectile.oldPos[i];
                 if (!(oldPosElem == Vector2.Zero))
-                    projectile.oldPos[i] = projectile.position;
+                    Projectile.oldPos[i] = Projectile.position;
             }
 
             // Now that the bullet has warped, produce a tiny puff of dust at its back for effect.
-            Vector2 warpInDustPos = projectile.Center - bulletToMouseVec * TextureHeight;
+            Vector2 warpInDustPos = Projectile.Center - bulletToMouseVec * TextureHeight;
             ProduceWarpCrossDust(warpInDustPos, (int)CalamityDusts.BlueCosmilite);
         }
 
@@ -147,10 +148,10 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft >= Lifetime - NoDrawFrames * projectile.MaxUpdates)
+            if (Projectile.timeLeft >= Lifetime - NoDrawFrames * Projectile.MaxUpdates)
                 return false;
             // Use the blue bullet texture if the bullet has turned blue.
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor, BlueMode ? TextureBlue : null);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor, BlueMode ? TextureBlue : null);
             return false;
         }
 
@@ -160,8 +161,8 @@ namespace CalamityMod.Projectiles.Ranged
             // Turn blue to set stats correctly, if not already done.
             if (!BlueMode)
                 TurnBlue(false);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
-            projectile.Damage();
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            Projectile.Damage();
 
             // Create a fancy triangle of dust.
             int dustID = (int)CalamityDusts.BlueCosmilite;
@@ -171,8 +172,8 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 float speed = MathHelper.Lerp(0.2f, 3.6f, i / (float)(numDust - 1));
                 Vector2 dustVel = Vector2.UnitX.RotatedBy(triangleAngle) * speed;
-                Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
-                d.position = projectile.Center;
+                Dust d = Dust.NewDustDirect(Projectile.Center, 0, 0, dustID);
+                d.position = Projectile.Center;
                 d.velocity = dustVel;
                 d.noGravity = true;
                 d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
@@ -184,14 +185,14 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // If the projectile has hit something but hasn't turned blue, turn it blue and warp it behind the player.
-            if (projectile.numHits > 0 && !BlueMode)
+            if (Projectile.numHits > 0 && !BlueMode)
             {
                 TurnBlue(true);
                 return false;
             }
 
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.Center, 1);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center, 1);
             return true;
         }
 
@@ -201,7 +202,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 float speed = Main.rand.NextFloat(2.0f, 4.1f);
                 Vector2 dustVel = Vector2.UnitX * speed;
-                Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
+                Dust d = Dust.NewDustDirect(Projectile.Center, 0, 0, dustID);
                 d.position = dustPos;
                 d.velocity = dustVel;
                 d.noGravity = true;

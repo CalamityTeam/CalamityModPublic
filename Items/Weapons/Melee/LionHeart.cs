@@ -20,33 +20,33 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 62;
+            Item.width = 60;
+            Item.height = 62;
 
-            item.damage = 323;
-            item.knockBack = 5.5f;
-            item.scale = 1.5f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.shootSpeed = 0f;
+            Item.damage = 323;
+            Item.knockBack = 5.5f;
+            Item.scale = 1.5f;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.shootSpeed = 0f;
 
-            item.melee = true;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
-            item.shoot = player.altFunctionUse == 2 ? ModContent.ProjectileType<EnergyShell>() : ProjectileID.None;
+            Item.shoot = player.altFunctionUse == 2 ? ModContent.ProjectileType<EnergyShell>() : ProjectileID.None;
             return base.CanUseItem(player);
         }
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, item.knockBack, player.whoAmI);
+            int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, Item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
                 Main.projectile[explosion].Calamity().forceMelee = true;
         }

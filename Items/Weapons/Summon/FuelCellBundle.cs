@@ -15,22 +15,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = item.useAnimation = 20;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
-            item.shootSpeed = 11f;
-            item.summon = true;
+            Item.mana = 10;
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = Item.useAnimation = 20;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
+            Item.shootSpeed = 11f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

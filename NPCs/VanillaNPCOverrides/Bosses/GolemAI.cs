@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -66,7 +67,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
                     turboEnrage = malice;
@@ -269,7 +270,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.TargetClosest();
 
                     // Play sound
-                    Main.PlaySound(SoundID.Item14, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item14, npc.position);
 
                     npc.ai[0] = 0f;
 
@@ -418,7 +419,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
                     turboEnrage = malice;
@@ -673,7 +674,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
                     turboEnrage = malice;
@@ -909,7 +910,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
                     turboEnrage = malice;

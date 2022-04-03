@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateBasin : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             Tile tile = Main.tile[i, j];
             //227 79 79
-            if (tile.frameX < 54)
+            if (tile.TileFrameX < 54)
             {
                 r = 0.4f;
                 g = 1f;

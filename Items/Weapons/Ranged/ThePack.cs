@@ -18,24 +18,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1000;
-            item.ranged = true;
-            item.width = 96;
-            item.height = 40;
-            item.useTime = 52;
-            item.useAnimation = 52;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<ThePackMissile>();
-            item.useAmmo = AmmoID.Rocket;
+            Item.damage = 1000;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 96;
+            Item.height = 40;
+            Item.useTime = 52;
+            Item.useAnimation = 52;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<ThePackMissile>();
+            Item.useAmmo = AmmoID.Rocket;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -51,15 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Scorpion>());
-            recipe.AddIngredient(ItemID.MarbleBlock, 50);
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Scorpion>()).AddIngredient(ItemID.MarbleBlock, 50).AddIngredient(ModContent.ItemType<ArmoredShell>(), 4).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

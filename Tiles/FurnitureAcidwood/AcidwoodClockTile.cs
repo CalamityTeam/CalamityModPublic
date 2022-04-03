@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodClockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             return false;
         }
 
-        public override bool NewRightClick(int x, int y) => CalamityUtils.ClockRightClick();
+        public override bool RightClick(int x, int y) => CalamityUtils.ClockRightClick();
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

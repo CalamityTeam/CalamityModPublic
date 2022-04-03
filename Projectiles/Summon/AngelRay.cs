@@ -13,36 +13,36 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 200;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 200;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.2f, 0.01f, 0.1f);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] % 6f == 0f && projectile.owner == Main.myPlayer)
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.01f, 0.1f);
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] % 6f == 0f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AngelOrb>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AngelOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
 
-            if (projectile.ai[0] > 16f && projectile.ai[0] % 2f == 0f)
+            if (Projectile.ai[0] > 16f && Projectile.ai[0] % 2f == 0f)
             {
-                Vector2 source = projectile.position;
+                Vector2 source = Projectile.position;
                 int pink = Dust.NewDust(source, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
                 Main.dust[pink].noGravity = true;
                 Main.dust[pink].noLight = true;
@@ -54,20 +54,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;

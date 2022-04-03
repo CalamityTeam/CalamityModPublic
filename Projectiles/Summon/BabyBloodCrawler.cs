@@ -15,25 +15,25 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Blood Crawler");
-            Main.projFrames[projectile.type] = 11;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 11;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1f;
-            projectile.aiStyle = 26;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1f;
+            Projectile.aiStyle = 26;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
             aiType = ProjectileID.VenomSpider;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -44,16 +44,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             for (int j = 0; j < Main.maxProjectiles; j++)
             {
                 Projectile proj = Main.projectile[j];
                 // Short circuits to make the loop as fast as possible
-                if (!proj.active || proj.owner != projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
+                if (!proj.active || proj.owner != Projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
                     continue;
-                if (proj.type == projectile.type)
+                if (proj.type == Projectile.type)
                 {
                     spiderCount += (int)proj.minionSlots;
                     proj.Calamity().lineColor = 1;
@@ -62,14 +62,14 @@ namespace CalamityMod.Projectiles.Summon
 
             if (dust == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num226 = 16;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
+                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
+                    Vector2 vector7 = vector6 - Projectile.Center;
                     int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 5, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].noLight = true;
@@ -77,14 +77,14 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<BabyBloodCrawler>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<BabyBloodCrawler>();
             player.AddBuff(ModContent.BuffType<ScabRipperBuff>(), 3600);
             if (flag64)
             {
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.scabRipper)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
             int immuneTime = 16 - spiderCount;
             if (immuneTime < 5)
                 immuneTime = 5; //cap to prevent potential insanity
-            target.immune[projectile.owner] = immuneTime;
+            target.immune[Projectile.owner] = immuneTime;
 
             OnHitEffects(target.Center);
         }
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
                 int projAmt = Main.rand.Next(1, 3);
                 for (int n = 0; n < projAmt; n++)
                 {
-                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner);
+                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(Projectile.damage * Main.rand.NextFloat(0.7f, 1f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner);
                 }
             }
         }

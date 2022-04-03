@@ -16,28 +16,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Voltaic Climax");
             Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the cursor");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.magic = true;
-            item.mana = 30;
-            item.width = 78;
-            item.height = 78;
-            item.useTime = 33;
-            item.useAnimation = 33;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ClimaxProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 30;
+            Item.width = 78;
+            Item.height = 78;
+            Item.useTime = 33;
+            Item.useAnimation = 33;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ClimaxProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -64,12 +64,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MagneticMeltdown>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MagneticMeltdown>()).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

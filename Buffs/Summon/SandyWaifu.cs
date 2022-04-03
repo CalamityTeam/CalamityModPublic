@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SandyWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Elemental");
             Description.SetDefault("The sand elemental will protect you");

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedLantern : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.85f;
@@ -59,12 +59,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/ProfanedLanternFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedLanternFlame"), i, j);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
                 CalamityUtils.DrawFlameSparks(246, 5, i, j);
         }
     }

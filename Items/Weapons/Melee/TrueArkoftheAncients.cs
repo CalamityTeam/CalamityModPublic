@@ -49,29 +49,29 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             tooltip.text = ParryTooltip;
             tooltip.overrideColor = Color.CornflowerBlue;
         }
 
         public override void SetDefaults()
         {
-            item.width = item.height = 72;
-            item.damage = 188;
-            item.melee = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 6.5f;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
+            Item.width = Item.height = 72;
+            Item.damage = 188;
+            Item.DamageType = DamageClass.Melee;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 6.5f;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
         }
         public override bool AltFunctionUse(Player player) => true;
 
@@ -159,21 +159,14 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(Charge);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             Charge = reader.ReadSingle();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<ArkoftheAncients>());
-            recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemType<LivingShard>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<ArkoftheAncients>()).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ItemType<CoreofCalamity>()).AddIngredient(ItemType<LivingShard>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

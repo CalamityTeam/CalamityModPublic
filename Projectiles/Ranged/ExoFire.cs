@@ -17,34 +17,34 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = 3;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
-            projectile.timeLeft = 180;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 3;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] <= 3f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] <= 3f)
                 return;
 
             float dustScale = 1f;
-            if (projectile.ai[0] == 8f)
+            if (Projectile.ai[0] == 8f)
             {
                 dustScale = 0.25f;
             }
-            else if (projectile.ai[0] == 9f)
+            else if (Projectile.ai[0] == 9f)
             {
                 dustScale = 0.5f;
             }
-            else if (projectile.ai[0] == 10f)
+            else if (Projectile.ai[0] == 10f)
             {
                 dustScale = 0.75f;
             }
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustID, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.6f);
+                    Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustID, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 0.6f);
                     if (Main.rand.NextBool(3))
                     {
                         d.scale *= 1.5f;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
                     d.velocity.X *= 0.8f;
                     d.velocity.Y *= 0.8f;
                     d.scale *= dustScale;
-                    d.velocity += projectile.velocity;
+                    d.velocity += Projectile.velocity;
                 }
             }
         }

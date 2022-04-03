@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class DemonFlames : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Flames");
             Description.SetDefault("Another burning debuff");

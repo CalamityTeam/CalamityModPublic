@@ -29,40 +29,23 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 34;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<ThaumaticChairTile>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.width = 16;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<ThaumaticChairTile>();
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssChair>());
-            recipe.AddIngredient(ModContent.ItemType<AshenChair>());
-            recipe.AddIngredient(ModContent.ItemType<BotanicChair>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteChair>());
-            recipe.AddIngredient(ModContent.ItemType<EutrophicChair>());
-            recipe.AddIngredient(ModContent.ItemType<MonolithChair>());
-            recipe.AddIngredient(ModContent.ItemType<OccultChair>());
-            recipe.AddIngredient(ModContent.ItemType<PlaguedPlateChair>());
-            recipe.AddIngredient(ModContent.ItemType<ProfanedChair>());
-            recipe.AddIngredient(ModContent.ItemType<SilvaChair>());
-            recipe.AddIngredient(ModContent.ItemType<StatigelChair>());
-            recipe.AddIngredient(ModContent.ItemType<StratusChair>());
-            recipe.AddIngredient(ModContent.ItemType<VoidChair>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>());
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssChair>()).AddIngredient(ModContent.ItemType<AshenChair>()).AddIngredient(ModContent.ItemType<BotanicChair>()).AddIngredient(ModContent.ItemType<CosmiliteChair>()).AddIngredient(ModContent.ItemType<EutrophicChair>()).AddIngredient(ModContent.ItemType<MonolithChair>()).AddIngredient(ModContent.ItemType<OccultChair>()).AddIngredient(ModContent.ItemType<PlaguedPlateChair>()).AddIngredient(ModContent.ItemType<ProfanedChair>()).AddIngredient(ModContent.ItemType<SilvaChair>()).AddIngredient(ModContent.ItemType<StatigelChair>()).AddIngredient(ModContent.ItemType<StratusChair>()).AddIngredient(ModContent.ItemType<VoidChair>()).AddIngredient(ModContent.ItemType<AuricBar>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

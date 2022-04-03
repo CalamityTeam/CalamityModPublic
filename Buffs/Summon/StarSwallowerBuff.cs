@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class StarSwallowerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Swallower");
             Description.SetDefault("Mmmm myes");

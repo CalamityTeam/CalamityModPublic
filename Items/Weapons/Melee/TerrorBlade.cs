@@ -20,27 +20,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.damage = 630;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 80;
-            item.shoot = ModContent.ProjectileType<TerrorBeam>();
-            item.shootSpeed = 20f;
+            Item.width = 88;
+            Item.damage = 630;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 80;
+            Item.shoot = ModContent.ProjectileType<TerrorBeam>();
+            Item.shootSpeed = 20f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"));
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -21,12 +21,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.accessory = true;
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

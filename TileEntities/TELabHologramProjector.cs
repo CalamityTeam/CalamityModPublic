@@ -20,7 +20,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<LabHologramProjector>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.TileType == ModContent.TileType<LabHologramProjector>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         // Check if the hologram should become visible.
@@ -100,7 +100,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.LabHologramProjector);
             packet.Write(ID);
             packet.Write(PoppingUp);

@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class AbyssGravelWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 33;
             AddMapEntry(new Color(6, 10, 54));

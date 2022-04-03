@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodChestTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<AcidwoodChest>("Acidwood Chest", i, j);
 

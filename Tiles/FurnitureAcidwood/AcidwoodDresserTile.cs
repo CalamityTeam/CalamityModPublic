@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodDresserTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override bool HasSmartInteract() => true;
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.DresserRightClick();
+        public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
         public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<AcidwoodDresser>(chest);
 

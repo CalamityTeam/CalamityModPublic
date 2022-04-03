@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -54,15 +54,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LivingDew>());
-            recipe.AddIngredient(ItemID.BottledHoney, 10);
-            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
-            recipe.AddIngredient(ItemID.ButterflyDust);
-            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LivingDew>()).AddIngredient(ItemID.BottledHoney, 10).AddIngredient(ModContent.ItemType<TrapperBulb>(), 2).AddIngredient(ItemID.ButterflyDust).AddIngredient(ModContent.ItemType<BeetleJuice>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

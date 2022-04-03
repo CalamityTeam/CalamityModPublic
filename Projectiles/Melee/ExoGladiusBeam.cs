@@ -19,66 +19,66 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gladius Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = penetrationAmt;
-            projectile.timeLeft = 290;
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.penetrate = penetrationAmt;
+            Projectile.timeLeft = 290;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
             if (!initialized)
             {
-                startYVelSign = (float)Math.Sign(projectile.velocity.Y) * 0.35f;
+                startYVelSign = (float)Math.Sign(Projectile.velocity.Y) * 0.35f;
                 initialized = true;
             }
-            if (projectile.penetrate == penetrationAmt && projectile.timeLeft < 245)
+            if (Projectile.penetrate == penetrationAmt && Projectile.timeLeft < 245)
             {
-                projectile.velocity.Y -= startYVelSign; //arc on the X axis (the amount of pressure on this tiny detail made me want to tear my head off)
-                if (Math.Abs(projectile.velocity.X) < 30f)
+                Projectile.velocity.Y -= startYVelSign; //arc on the X axis (the amount of pressure on this tiny detail made me want to tear my head off)
+                if (Math.Abs(Projectile.velocity.X) < 30f)
                 {
-                    projectile.velocity.X *= 1.04f;
+                    Projectile.velocity.X *= 1.04f;
                 }
             }
-            if (projectile.velocity.Length() != 0)
+            if (Projectile.velocity.Length() != 0)
             {
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.Pi / 4;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.Pi / 4;
             }
             else
             {
-                projectile.rotation += MathHelper.Pi / 6f / (projectile.scale * 2.5f);
+                Projectile.rotation += MathHelper.Pi / 6f / (Projectile.scale * 2.5f);
             }
-            projectile.ai[0]++;
-            if (projectile.ai[1] >= 0)
+            Projectile.ai[0]++;
+            if (Projectile.ai[1] >= 0)
             {
-                projectile.ai[1]--;
-                if (projectile.ai[1] == 0)
+                Projectile.ai[1]--;
+                if (Projectile.ai[1] == 0)
                 {
-                    projectile.velocity *= -0.9f;
+                    Projectile.velocity *= -0.9f;
                 }
             }
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
             if (currentColor == Color.Black)
             {
                 int startPoint = Main.rand.Next(6);
-                projectile.localAI[0] = startPoint;
+                Projectile.localAI[0] = startPoint;
                 currentColor = GetStartingColor(startPoint);
             }
-            Visuals(projectile, ref currentColor);
+            Visuals(Projectile, ref currentColor);
         }
 
         internal static void Visuals(Projectile projectile, ref Color c)
@@ -109,22 +109,22 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.scale += (maxScale - 1) / (float)penetrationAmt;
-            projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
+            Projectile.scale += (maxScale - 1) / (float)penetrationAmt;
+            Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
             target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            projectile.scale += (maxScale - 1) / (float)penetrationAmt;
-            projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
+            Projectile.scale += (maxScale - 1) / (float)penetrationAmt;
+            Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
             target.ExoDebuffs();
         }

@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 130;
-            item.magic = true;
-            item.mana = 5;
-            item.width = 84;
-            item.height = 74;
-            item.useTime = item.useAnimation = 4;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ParticleBeamofDoom>();
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 130;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 5;
+            Item.width = 84;
+            Item.height = 74;
+            Item.useTime = Item.useAnimation = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ParticleBeamofDoom>();
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -85,14 +85,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Genisis>());
-            recipe.AddIngredient(ModContent.ItemType<Wingman>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Genisis>()).AddIngredient(ModContent.ItemType<Wingman>(), 2).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

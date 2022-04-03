@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 22;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 19;
+            Item.width = 34;
+            Item.height = 22;
+            Item.value = Item.buyPrice(0, 24, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 19;
         }
 
         public override void UpdateEquip(Player player)
@@ -33,13 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 15);
-            recipe.AddIngredient(ItemID.JungleSpores, 12);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 15).AddIngredient(ItemID.JungleSpores, 12).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

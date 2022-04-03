@@ -11,34 +11,34 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Hyphae Rod");
             Tooltip.SetDefault("Creates mushroom spores near the player");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 34;
-            item.height = 34;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.TruffleSpore;
-            item.shootSpeed = 1f;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 7;
+            Item.width = 34;
+            Item.height = 34;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.TruffleSpore;
+            Item.shootSpeed = 1f;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float xDist = (float)Main.mouseX + Main.screenPosition.X + source.X;
             float yDist = (float)Main.mouseY + Main.screenPosition.Y + source.Y;

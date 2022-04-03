@@ -16,27 +16,27 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Stormfront Razor");
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
                                "Stealth strikes cause the knife to be faster and leave a huge shower of sparks as it travels");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.damage = 50;
-            item.knockBack = 7f;
-            item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
-            item.shootSpeed = 7f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.height = 38;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.damage = 50;
+            Item.knockBack = 7f;
+            Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
+            Item.shootSpeed = 7f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -44,15 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Cinquedea>());
-            recipe.AddRecipeGroup("AnyMythrilBar", 6);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Cinquedea>()).AddRecipeGroup("AnyMythrilBar", 6).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

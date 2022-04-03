@@ -27,20 +27,20 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.useAnimation = item.useTime = 28;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item45;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
-            item.shootSpeed = 0f;
+            Item.width = 40;
+            Item.height = 34;
+            Item.useAnimation = Item.useTime = 28;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item45;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
+            Item.shootSpeed = 0f;
         }
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
-        public override bool UseItem(Player player) => true;
+        public override bool? UseItem(Player player) => true;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddCooldown(Cooldowns.RelicOfResilience.ID, CalamityUtils.SecondsToFrames(CooldownSeconds));
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Weapons.Typeless
                 ModContent.ProjectileType<ArtifactOfResilienceShard5>(),
                 ModContent.ProjectileType<ArtifactOfResilienceShard6>(),
             };
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].type == item.shoot)
+                    if (Main.projectile[i].type == Item.shoot)
                     {
                         Main.projectile[i].Center = Main.MouseWorld;
                         Main.projectile[i].netUpdate = true;

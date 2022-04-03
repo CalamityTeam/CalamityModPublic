@@ -12,29 +12,29 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 75;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 75;
         }
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.scale = 0.1f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.scale = 0.1f;
 
             // Hardcoded spaghetti appearss to make the scale setting above tamper with the hitbox.
-            projectile.width = projectile.height = (int)(120 / projectile.scale);
-            projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            Projectile.width = Projectile.height = (int)(120 / Projectile.scale);
+            Projectile.timeLeft = 60;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
         {
-            projectile.scale = MathHelper.Lerp(projectile.scale, 1f, 0.125f);
-            projectile.Opacity = projectile.scale * Utils.InverseLerp(0f, 30f, projectile.timeLeft, true);
+            Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.125f);
+            Projectile.Opacity = Projectile.scale * Utils.InverseLerp(0f, 30f, Projectile.timeLeft, true);
 
             // Emit sparks and dust.
             if (Main.netMode != NetmodeID.Server)
@@ -44,11 +44,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Color sparkColor = Color.Lerp(Color.Cyan, Color.DarkBlue, Main.rand.NextFloat(0.7f));
                 Vector2 sparkVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(3f, 8f);
 
-                SparkParticle spark = new SparkParticle(projectile.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
                 GeneralParticleHandler.SpawnParticle(spark);
 
-                Vector2 dustSpawnOffset = Main.rand.NextVector2Circular(projectile.width, projectile.height) * projectile.scale * 0.4f;
-                Dust electricity = Dust.NewDustPerfect(projectile.Center + dustSpawnOffset, 267);
+                Vector2 dustSpawnOffset = Main.rand.NextVector2Circular(Projectile.width, Projectile.height) * Projectile.scale * 0.4f;
+                Dust electricity = Dust.NewDustPerfect(Projectile.Center + dustSpawnOffset, 267);
                 electricity.color = Color.Cyan;
                 electricity.color.A = 84;
                 electricity.scale *= Main.rand.NextFloat(0.7f, 1.2f);
@@ -60,26 +60,26 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             Vector2 origin = texture.Size() * 0.5f;
 
-            float scale = projectile.scale * projectile.width / texture.Width;
-            Color frontAfterimageColor = projectile.GetAlpha(Color.Lerp(Color.Cyan, Color.DarkBlue, projectile.identity / 7f % 0.8f)) * 0.2f;
+            float scale = Projectile.scale * Projectile.width / texture.Width;
+            Color frontAfterimageColor = Projectile.GetAlpha(Color.Lerp(Color.Cyan, Color.DarkBlue, Projectile.identity / 7f % 0.8f)) * 0.2f;
             frontAfterimageColor.A = 0;
             for (int i = 0; i < 12; i++)
             {
-                Vector2 drawOffset = (MathHelper.TwoPi * i / 12f + projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 2f;
-                Vector2 afterimageDrawPosition = projectile.Center + drawOffset - Main.screenPosition;
-                spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, projectile.rotation, origin, scale, SpriteEffects.None, 0f);
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 12f + Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 2f;
+                Vector2 afterimageDrawPosition = Projectile.Center + drawOffset - Main.screenPosition;
+                spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
             }
             return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return CalamityUtils.CircularHitboxCollision(projectile.Center, projectile.Size.Length() * projectile.scale / 1.414f, targetHitbox);
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.Size.Length() * Projectile.scale / 1.414f, targetHitbox);
         }
 
-        public override bool CanDamage() => projectile.Opacity > 0.4f;
+        public override bool CanDamage() => Projectile.Opacity > 0.4f;
     }
 }

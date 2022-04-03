@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 49;
-            item.ranged = true;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.knockBack = 2f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AuroraFire>();
-            item.shootSpeed = 7.5f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 49;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.knockBack = 2f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AuroraFire>();
+            Item.shootSpeed = 7.5f;
+            Item.useAmmo = AmmoID.Gel;
 
-            item.width = 68;
-            item.height = 36;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item34;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
+            Item.width = 68;
+            Item.height = 36;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item34;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow"));
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

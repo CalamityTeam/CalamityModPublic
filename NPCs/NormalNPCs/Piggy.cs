@@ -11,34 +11,34 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Piggy");
-            Main.npcFrameCount[npc.type] = 5;
-            Main.npcCatchable[npc.type] = true;
+            Main.npcFrameCount[NPC.type] = 5;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
         {
-            npc.chaseable = false;
-            npc.damage = 0;
-            npc.width = 26;
-            npc.height = 26;
-            npc.lifeMax = 2000;
-            npc.aiStyle = 7;
+            NPC.chaseable = false;
+            NPC.damage = 0;
+            NPC.width = 26;
+            NPC.height = 26;
+            NPC.lifeMax = 2000;
+            NPC.aiStyle = 7;
             aiType = NPCID.Squirrel;
-            npc.knockBackResist = 0.99f;
-            npc.value = Item.buyPrice(0, 2, 0, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.knockBackResist = 0.99f;
+            NPC.value = Item.buyPrice(0, 2, 0, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<PiggyBanner>();
-            npc.catchItem = (short)ModContent.ItemType<PiggyItem>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
+            NPC.catchItem = (short)ModContent.ItemType<PiggyItem>();
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneSulphur || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.Player.Calamity().ZoneSulphur || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -47,57 +47,57 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.velocity.Y == 0f)
+            if (NPC.velocity.Y == 0f)
             {
-                if (npc.direction == 1)
+                if (NPC.direction == 1)
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
-                if (npc.direction == -1)
+                if (NPC.direction == -1)
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
-                if (npc.velocity.X == 0f)
+                if (NPC.velocity.X == 0f)
                 {
-                    npc.frame.Y = 0;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = 0;
+                    NPC.frameCounter = 0.0;
                     return;
                 }
-                npc.frameCounter += (double)(Math.Abs(npc.velocity.X) * 0.25f);
-                npc.frameCounter += 1.0;
-                if (npc.frameCounter > 12.0)
+                NPC.frameCounter += (double)(Math.Abs(NPC.velocity.X) * 0.25f);
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 12.0)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
                 }
-                if (npc.frame.Y / frameHeight >= Main.npcFrameCount[npc.type] - 1)
+                if (NPC.frame.Y / frameHeight >= Main.npcFrameCount[NPC.type] - 1)
                 {
-                    npc.frame.Y = frameHeight;
+                    NPC.frame.Y = frameHeight;
                 }
             }
             else
             {
-                npc.frameCounter = 0.0;
-                npc.frame.Y = frameHeight * 2;
+                NPC.frameCounter = 0.0;
+                NPC.frame.Y = frameHeight * 2;
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ItemID.Bacon, 1, 1);
+            DropHelper.DropItem(NPC, ItemID.Bacon, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

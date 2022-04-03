@@ -19,30 +19,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.damage = 400;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 12;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 62;
+            Item.width = 44;
+            Item.damage = 400;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 12;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 62;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.shoot = ModContent.ProjectileType<IllustriousKnife>();
-            item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<IllustriousKnife>();
+            Item.shootSpeed = 9f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;
@@ -102,13 +102,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EmpyreanKnives>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EmpyreanKnives>()).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

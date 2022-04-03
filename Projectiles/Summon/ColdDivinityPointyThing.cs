@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void homingAi()
         {
-            if (projectile.timeLeft <= 240)
+            if (Projectile.timeLeft <= 240)
             {
                 if (target != null)
                 {
@@ -29,11 +30,11 @@ namespace CalamityMod.Projectiles.Summon
                         target = null;
                 }
                 if (target == null)
-                    target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
+                    target = CalamityUtils.MinionHoming(Projectile.Center, 1000f, Main.player[Projectile.owner]);
                 if (target != null) //target found
                 {
                     float num550 = 40f;
-                    Vector2 vector43 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                     float num551 = target.Center.X - vector43.X;
                     float num552 = target.Center.Y - vector43.Y;
                     float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
@@ -44,8 +45,8 @@ namespace CalamityMod.Projectiles.Summon
                     num553 = num550 / num553;
                     num551 *= num553;
                     num552 *= num553;
-                    projectile.velocity.X = (projectile.velocity.X * 20f + num551) / 21f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 20f + num552) / 21f;
+                    Projectile.velocity.X = (Projectile.velocity.X * 20f + num551) / 21f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 20f + num552) / 21f;
                 }
             }
         }
@@ -53,23 +54,23 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Castle Shard");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 60;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 28;
+            Projectile.height = 60;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -93,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int i = 0; i < dustAmt; i++)
             {
-                Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Ice, Main.rand.NextFloat(1, 3), Main.rand.NextFloat(1, 3), 0, Color.Cyan, Main.rand.NextFloat(0.5f, 1.5f));
+                Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Ice, Main.rand.NextFloat(1, 3), Main.rand.NextFloat(1, 3), 0, Color.Cyan, Main.rand.NextFloat(0.5f, 1.5f));
             }
         }
 
@@ -101,41 +102,41 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (recharging == -1)
             {
-                recharging = projectile.ai[1] == 0f ? 210 : 0;
+                recharging = Projectile.ai[1] == 0f ? 210 : 0;
                 dust(30);
             }
-            if (projectile.ai[1] == 1f && projectile.timeLeft > 1000)
+            if (Projectile.ai[1] == 1f && Projectile.timeLeft > 1000)
             {
-                projectile.ai[1] = 0f;
-                projectile.timeLeft = 250;
+                Projectile.ai[1] = 0f;
+                Projectile.timeLeft = 250;
                 circling = circlingPlayer = false;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
-            else if (projectile.ai[1] >= 2f && projectile.timeLeft > 900)
+            else if (Projectile.ai[1] >= 2f && Projectile.timeLeft > 900)
             {
-                target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
+                target = CalamityUtils.MinionHoming(Projectile.Center, 1000f, Main.player[Projectile.owner]);
                 if (target != null)
                 {
-                    projectile.timeLeft = 669;
-                    projectile.ai[1]++;
+                    Projectile.timeLeft = 669;
+                    Projectile.ai[1]++;
                     circlingPlayer = false;
                     float height = target.getRect().Height;
                     float width = target.getRect().Width;
                     floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
                     if (floatyDistance > Main.LogicCheckScreenWidth / 3)
                         floatyDistance = Main.LogicCheckScreenWidth / 3;
-                    projectile.penetrate = -1;
-                    projectile.usesIDStaticNPCImmunity = true;
-                    projectile.idStaticNPCHitCooldown = 4;
-                    projectile.netUpdate = true;
+                    Projectile.penetrate = -1;
+                    Projectile.usesIDStaticNPCImmunity = true;
+                    Projectile.idStaticNPCHitCooldown = 4;
+                    Projectile.netUpdate = true;
                 }
             }
             if (circlingPlayer)
             {
-                ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-                if (projectile.penetrate == 1)
+                ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+                if (Projectile.penetrate == 1)
                 {
-                    projectile.penetrate++;
+                    Projectile.penetrate++;
                 }
             }
             return true;
@@ -143,20 +144,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
 
             if (player.dead)
@@ -165,17 +166,17 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (circlingPlayer)
             {
-                projectile.minionSlots = 1f;
-                projectile.timeLeft = 2;
+                Projectile.minionSlots = 1f;
+                Projectile.timeLeft = 2;
                 if (!modPlayer.coldDivinity && recharging > 0)
-                    projectile.Kill();
+                    Projectile.Kill();
 
             }
             if (circling && !circlingPlayer)
             {
                 if (target != null && (!target.active || target.life <= 0))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             if (recharging > 0)
@@ -184,23 +185,23 @@ namespace CalamityMod.Projectiles.Summon
                 if (recharging == 0)
                 {
                     dust(15);
-                    SoundEffectInstance sound = Main.PlaySound(SoundID.Item30, projectile.position);
+                    SoundEffectInstance sound = SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
                     if (sound != null)
                     {
                         sound.Pitch = 0.2f;
                     }
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
             }
             if (circling)
             {
-                if (circling && !circlingPlayer && projectile.timeLeft < 120)
+                if (circling && !circlingPlayer && Projectile.timeLeft < 120)
                 {
                     recharging = 0;
-                    projectile.usesIDStaticNPCImmunity = false;
-                    projectile.penetrate = 1;
+                    Projectile.usesIDStaticNPCImmunity = false;
+                    Projectile.penetrate = 1;
                     float applicableDist = target.getRect().Width > target.getRect().Height ? target.getRect().Width : target.getRect().Height;
-                    if (projectile.timeLeft > 60)
+                    if (Projectile.timeLeft > 60)
                         floatyDistance += 5;
                     else
                         floatyDistance -= 10;
@@ -209,42 +210,42 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float math = recharging == 0 ? 90f :(300 - recharging) / 3;
                     float regularDistance = math > 90f ? 90f : math;
-                    projectile.Center = player.Center + projectile.ai[0].ToRotationVector2() * regularDistance;
-                    projectile.rotation = projectile.ai[0] + (float)Math.Atan(90);
-                    projectile.ai[0] -= MathHelper.ToRadians(4f);
-                    NPC target = recharging > 0 ? null : CalamityUtils.MinionHoming(projectile.Center, 800f, player);
-                    if (target != null && projectile.owner == Main.myPlayer)
+                    Projectile.Center = player.Center + Projectile.ai[0].ToRotationVector2() * regularDistance;
+                    Projectile.rotation = Projectile.ai[0] + (float)Math.Atan(90);
+                    Projectile.ai[0] -= MathHelper.ToRadians(4f);
+                    NPC target = recharging > 0 ? null : CalamityUtils.MinionHoming(Projectile.Center, 800f, player);
+                    if (target != null && Projectile.owner == Main.myPlayer)
                     {
                         recharging = 180;
-                        Vector2 velocity = projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
+                        Vector2 velocity = Projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
                         velocity.Normalize();
                         velocity *= 20f;
-                        Projectile.NewProjectile(projectile.position, velocity, projectile.type, (int)(projectile.damage * 1.05f), projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        Projectile.NewProjectile(Projectile.position, velocity, Projectile.type, (int)(Projectile.damage * 1.05f), Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
 
                     }
-                    projectile.netUpdate = projectile.owner == Main.myPlayer;
+                    Projectile.netUpdate = Projectile.owner == Main.myPlayer;
                 }
                 else
                 {
-                    projectile.Center = target.Center + projectile.ai[0].ToRotationVector2() * floatyDistance;
-                    projectile.rotation = projectile.ai[0] + (float)Math.Atan(90);
-                    Vector2 vec = projectile.rotation.ToRotationVector2() - target.Center;
+                    Projectile.Center = target.Center + Projectile.ai[0].ToRotationVector2() * floatyDistance;
+                    Projectile.rotation = Projectile.ai[0] + (float)Math.Atan(90);
+                    Vector2 vec = Projectile.rotation.ToRotationVector2() - target.Center;
                     vec.Normalize();
-                    if (projectile.timeLeft <= 120)
-                        projectile.rotation = projectile.timeLeft <= 60 ? projectile.ai[0] - (float)Math.Atan(90) : projectile.rotation - (MathHelper.Distance(projectile.rotation, -projectile.rotation) / (120 - 60));
-                    projectile.ai[0] -= MathHelper.ToRadians(4f);
+                    if (Projectile.timeLeft <= 120)
+                        Projectile.rotation = Projectile.timeLeft <= 60 ? Projectile.ai[0] - (float)Math.Atan(90) : Projectile.rotation - (MathHelper.Distance(Projectile.rotation, -Projectile.rotation) / (120 - 60));
+                    Projectile.ai[0] -= MathHelper.ToRadians(4f);
                 }
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + (float)Math.Atan(90);
+                Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.Atan(90);
                 homingAi();
             }
         }
 
         public override bool CanDamage()
         {
-            return recharging <= 0 && (circlingPlayer || (circling && (projectile.timeLeft >= 120 || projectile.timeLeft <= 45)) || !circling) && !projectile.hide;
+            return recharging <= 0 && (circlingPlayer || (circling && (Projectile.timeLeft >= 120 || Projectile.timeLeft <= 45)) || !circling) && !Projectile.hide;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -253,7 +254,7 @@ namespace CalamityMod.Projectiles.Summon
             int circlers = 0;
             for (int i = 0; i < Main.projectile.Length; i++)
             {
-                if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type)
+                if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type)
                 {
                     ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].modProjectile;
                     if (Main.projectile[i].ai[1] > 2f)
@@ -261,15 +262,15 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             circlers = (int)MathHelper.Min(Main.rand.Next(15, 21), circlers);
-            if (projectile.ai[1] > 2f)
-                projectile.ai[1]++;
-            if (projectile.ai[1] >= (30f - circlers) && projectile.timeLeft >= 120)
-                recharging = projectile.timeLeft > 121 ? projectile.timeLeft - 121 : 0;
+            if (Projectile.ai[1] > 2f)
+                Projectile.ai[1]++;
+            if (Projectile.ai[1] >= (30f - circlers) && Projectile.timeLeft >= 120)
+                recharging = Projectile.timeLeft > 121 ? Projectile.timeLeft - 121 : 0;
 
-            if (circling && target == this.target && projectile.timeLeft < 60)
+            if (circling && target == this.target && Projectile.timeLeft < 60)
             {
-                if (projectile.timeLeft < 60)
-                    projectile.Kill();
+                if (Projectile.timeLeft < 60)
+                    Projectile.Kill();
             }
             else if (circlingPlayer)
             {
@@ -280,13 +281,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (circling && target == this.target && projectile.timeLeft < 60)
+            if (circling && target == this.target && Projectile.timeLeft < 60)
             {
                 dust(30);
-                Main.PlaySound(SoundID.NPCHit5, projectile.position);
+                SoundEngine.PlaySound(SoundID.NPCHit5, Projectile.position);
                 damage = (int)(damage * 1.1f);
             }
-            else if (circling && target == this.target && projectile.timeLeft > 60)
+            else if (circling && target == this.target && Projectile.timeLeft > 60)
             {
                 dust(5);
                 damage = (int)(damage * 0.2f); //nerfffffff the nerf because nerf? nerf.
@@ -305,7 +306,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCHit5, projectile.position);
+            SoundEngine.PlaySound(SoundID.NPCHit5, Projectile.position);
             dust(20);
         }
 
@@ -318,7 +319,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (!circling || (!circlingPlayer && recharging == 0))
             {
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, !circlingPlayer ? 1 : 3);
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, !circlingPlayer ? 1 : 3);
             }
             return true;
         }

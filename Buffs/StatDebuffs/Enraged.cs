@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class Enraged : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enraged");
             Description.SetDefault("All damage taken is increased by 25%");

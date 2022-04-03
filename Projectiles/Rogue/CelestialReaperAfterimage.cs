@@ -14,31 +14,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 66;
-            projectile.height = 76;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 51;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.timeLeft = 180;
+            Projectile.width = 66;
+            Projectile.height = 76;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 51;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.timeLeft = 180;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(30f); // Buzzsaw scythe.
+            Projectile.rotation += MathHelper.ToRadians(30f); // Buzzsaw scythe.
 
-            if (projectile.timeLeft < 150)
+            if (Projectile.timeLeft < 150)
             {
-                NPC target = projectile.Center.ClosestNPCAt(640f);
+                NPC target = Projectile.Center.ClosestNPCAt(640f);
                 if (target != null)
-                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
+                    Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
             }
 
-            projectile.alpha += 5;
+            Projectile.alpha += 5;
         }
     }
 }

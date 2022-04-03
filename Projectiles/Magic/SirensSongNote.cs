@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -12,70 +13,70 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Song");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 420;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 420;
         }
 
         public override void AI()
         {
-            if (projectile.velocity.Length() > 4f)
-                projectile.velocity *= 0.985f;
+            if (Projectile.velocity.Length() > 4f)
+                Projectile.velocity *= 0.985f;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.02f;
-                if (projectile.scale >= 1.25f)
-                    projectile.localAI[0] = 1f;
+                Projectile.scale += 0.02f;
+                if (Projectile.scale >= 1.25f)
+                    Projectile.localAI[0] = 1f;
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale -= 0.02f;
-                if (projectile.scale <= 0.75f)
-                    projectile.localAI[0] = 0f;
-            }
-
-            if (projectile.ai[1] == 0f)
-            {
-                projectile.ai[1] = 1f;
-                Main.harpNote = projectile.ai[0];
-                Main.PlaySound(SoundID.Item26, projectile.position);
+                Projectile.scale -= 0.02f;
+                if (Projectile.scale <= 0.75f)
+                    Projectile.localAI[0] = 0f;
             }
 
-            Lighting.AddLight(projectile.Center, 0f, 0f, 1.2f);
+            if (Projectile.ai[1] == 0f)
+            {
+                Projectile.ai[1] = 1f;
+                Main.harpNote = Projectile.ai[0];
+                SoundEngine.PlaySound(SoundID.Item26, Projectile.position);
+            }
 
-            if (projectile.velocity.X > 0f)
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 1.2f);
+
+            if (Projectile.velocity.X > 0f)
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
             else
-                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
+                Projectile.rotation = (float)Math.Atan2(-Projectile.velocity.Y, -Projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
-                projectile.velocity.X = -oldVelocity.X;
+            if (Projectile.velocity.X != oldVelocity.X)
+                Projectile.velocity.X = -oldVelocity.X;
 
-            if (projectile.velocity.Y != oldVelocity.Y)
-                projectile.velocity.Y = -oldVelocity.Y;
+            if (Projectile.velocity.Y != oldVelocity.Y)
+                Projectile.velocity.Y = -oldVelocity.Y;
 
             return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(50f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }
@@ -84,13 +85,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
+            target.immune[Projectile.owner] = 7;
             target.AddBuff(BuffID.Confused, 300);
         }
     }

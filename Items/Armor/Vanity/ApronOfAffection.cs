@@ -15,25 +15,19 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
+            Item.width = 18;
+            Item.height = 18;
 
-            item.value = Item.sellPrice(gold: 2);
-            item.rare = ItemRarityID.Blue;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 2);
+            Item.rare = ItemRarityID.Blue;
+            Item.Calamity().donorItem = true;
 
-            item.vanity = true;
+            Item.vanity = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Robe);
-            recipe.AddIngredient(ItemID.LovePotion, 10);
-            recipe.AddIngredient(ItemID.LifeCrystal);
-            recipe.AddTile(TileID.Loom);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Robe).AddIngredient(ItemID.LovePotion, 10).AddIngredient(ItemID.LifeCrystal).AddTile(TileID.Loom).Register();
         }
     }
 }

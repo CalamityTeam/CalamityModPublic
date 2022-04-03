@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.damage = 35;
-            item.melee = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.knockBack = 4;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 42;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<RedtideWhirlpool>();
-            item.shootSpeed = 9f;
+            Item.width = 42;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.knockBack = 4;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 42;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<RedtideWhirlpool>();
+            Item.shootSpeed = 9f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,11 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 3).AddTile(TileID.Anvils).Register();
         }
     }
 }

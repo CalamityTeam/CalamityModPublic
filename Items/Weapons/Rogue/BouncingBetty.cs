@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.width = 16;
-            item.height = 22;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 4, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<BouncingBettyProjectile>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.width = 16;
+            Item.height = 22;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 4, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<BouncingBettyProjectile>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

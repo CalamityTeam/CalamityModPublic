@@ -19,26 +19,26 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 46;
+            Item.width = 40;
+            Item.height = 46;
 
-            item.damage = 275;
-            item.knockBack = 3.5f;
-            item.noMelee = true;
-            item.magic = true;
-            item.mana = 12;
+            Item.damage = 275;
+            Item.knockBack = 3.5f;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
 
-            item.useTime = item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
 
-            item.UseSound = SoundID.Item84;
-            item.shoot = ModContent.ProjectileType<EventHorizonStar>();
-            item.shootSpeed = 25f;
+            Item.UseSound = SoundID.Item84;
+            Item.shoot = ModContent.ProjectileType<EventHorizonStar>();
+            Item.shootSpeed = 25f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,15 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Starfall>());
-            recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
-            recipe.AddIngredient(ModContent.ItemType<RelicofRuin>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Starfall>()).AddIngredient(ModContent.ItemType<NuclearFury>()).AddIngredient(ModContent.ItemType<RelicofRuin>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(TileID.Bookcases).Register();
         }
     }
 }

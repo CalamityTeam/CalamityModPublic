@@ -17,30 +17,30 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = lifetime;
-            projectile.Calamity().rogue = true;
-            projectile.localAI[0] = 10f;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = lifetime;
+            Projectile.Calamity().rogue = true;
+            Projectile.localAI[0] = 10f;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.direction * projectile.ai[0];
+            Projectile.rotation += Projectile.direction * Projectile.ai[0];
 
-            if (projectile.timeLeft < (lifetime - projectile.ai[1]) && projectile.localAI[0] >= 0)
+            if (Projectile.timeLeft < (lifetime - Projectile.ai[1]) && Projectile.localAI[0] >= 0)
             {
-                projectile.velocity.Normalize();
-                projectile.velocity *= projectile.localAI[0];
-                projectile.localAI[0]--;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= Projectile.localAI[0];
+                Projectile.localAI[0]--;
             }
 
-            if (projectile.localAI[0] == 0)
+            if (Projectile.localAI[0] == 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
             for (int i = 0; i < 3; i++)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                         break;
                 }
 
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= dustVelocity;
             }
@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            Projectile.Kill();
             return false;
         }
 
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                         break;
                 }
 
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 0.75f;
             }

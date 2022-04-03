@@ -11,29 +11,22 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Void Obelisk");
-            item.width = 26;
-            item.height = 22;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureVoid.VoidClock>();
+            Item.SetNameOverride("Void Obelisk");
+            Item.width = 26;
+            Item.height = 22;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureVoid.VoidClock>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Glass, 6);
-            recipe.AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 10);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<VoidCondenser>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.IronBar, 3).AddIngredient(ItemID.Glass, 6).AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 10).AddTile(ModContent.TileType<VoidCondenser>()).Register();
         }
     }
 }

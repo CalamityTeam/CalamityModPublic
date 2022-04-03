@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = item.height = 128;
-            item.damage = 320;
-            item.knockBack = 7f;
-            item.useAnimation = item.useTime = 25;
-            item.Calamity().rogue = true;
-            item.autoReuse = true;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<TheAtomSplitterProjectile>();
+            Item.width = Item.height = 128;
+            Item.damage = 320;
+            Item.knockBack = 7f;
+            Item.useAnimation = Item.useTime = 25;
+            Item.Calamity().rogue = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<TheAtomSplitterProjectile>();
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

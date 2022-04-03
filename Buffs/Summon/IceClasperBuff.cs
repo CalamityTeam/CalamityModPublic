@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class IceClasperBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Clasper");
             Description.SetDefault("The ice clasper will protect you");

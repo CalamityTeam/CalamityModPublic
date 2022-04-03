@@ -16,19 +16,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
         }
 
         public override float InitialSpeed => 3f;
@@ -36,14 +36,14 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.6f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                           projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<SpatialSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
+                           Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<SpatialSpear>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
         };
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(5))
             {
-                int idx = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                int idx = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
                 Main.dust[idx].noGravity = true;
             }
         }

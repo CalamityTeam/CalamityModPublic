@@ -18,37 +18,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Lime;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<AbyssalWeapon>();
-            item.buffTime = CalamityUtils.SecondsToFrames(900f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 30;
+            Item.height = 30;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<AbyssalWeapon>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(900f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 3);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneFish>());
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
-            recipe.AddTile(TileID.ImbuingStation);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>());
-            recipe.AddTile(TileID.ImbuingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ItemID.BottledWater, 3).AddIngredient(ModContent.ItemType<BrimstoneFish>()).AddIngredient(ModContent.ItemType<CalamityDust>(), 3).AddTile(TileID.ImbuingStation).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 20).AddIngredient(ModContent.ItemType<CalamityDust>()).AddTile(TileID.ImbuingStation).Register();
         }
     }
 }

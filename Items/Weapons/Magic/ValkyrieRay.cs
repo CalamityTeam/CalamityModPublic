@@ -21,42 +21,33 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Valkyrie Ray");
             Tooltip.SetDefault("Casts a devastating ray of holy power");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 52;
-            item.damage = 73;
-            item.knockBack = 8.5f;
-            item.magic = true;
-            item.mana = 26;
-            item.useTime = ChargeFrames + CooldownFrames;
-            item.useAnimation = ChargeFrames + CooldownFrames;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.NPCDeath7;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.value = Item.buyPrice(gold: 36);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<ValkyrieRayStaff>();
-            item.shootSpeed = 25f;
+            Item.width = 54;
+            Item.height = 52;
+            Item.damage = 73;
+            Item.knockBack = 8.5f;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 26;
+            Item.useTime = ChargeFrames + CooldownFrames;
+            Item.useAnimation = ChargeFrames + CooldownFrames;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.NPCDeath7;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.value = Item.buyPrice(gold: 36);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ValkyrieRayStaff>();
+            Item.shootSpeed = 25f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddIngredient(ItemID.Ruby);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 12).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Ruby).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

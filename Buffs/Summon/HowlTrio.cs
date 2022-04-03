@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class HowlTrio : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Howl's Heart");
             Description.SetDefault("Howl protects you, Calcifer lights your way, Turnip-Head stalks you");

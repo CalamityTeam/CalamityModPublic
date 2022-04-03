@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class GranitePulse : ModProjectile
@@ -13,63 +14,63 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1200;
+            Projectile.width = 40;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1200;
         }
 
         public override void AI()
         {
-            projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(MathHelper.TwoPi * projectile.ai[0] / 300f)) * 0.5f);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 300f)
+            Projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(MathHelper.TwoPi * Projectile.ai[0] / 300f)) * 0.5f);
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 300f)
             {
-                projectile.ai[0] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 0f;
+                Projectile.netUpdate = true;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] >= 7200f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] >= 7200f)
             {
-                projectile.alpha += 5;
-                if (projectile.alpha > 255)
+                Projectile.alpha += 5;
+                if (Projectile.alpha > 255)
                 {
-                    projectile.alpha = 255;
-                    projectile.Kill();
+                    Projectile.alpha = 255;
+                    Projectile.Kill();
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 10f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 10f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 int projCount = 0;
                 int index = 0;
                 float findOldest = 0f;
-                int projType = projectile.type;
+                int projType = Projectile.type;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile proj = Main.projectile[i];
-                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
+                    if (proj.active && proj.owner == Projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
                         projCount++;
                         if (proj.ai[1] > findOldest)
@@ -88,11 +89,11 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (!initialized)
             {
-                Main.PlaySound(SoundID.NPCHit53, projectile.Center);
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 20);
+                SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 20);
                 for (int d = 0; d < 5; d++)
                 {
-                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
+                    int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -102,21 +103,21 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 for (int d = 0; d < 10; d++)
                 {
-                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
+                    int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 1f);
                     Main.dust[ecto].noGravity = true;
                     Main.dust[ecto].velocity *= 5f;
-                    ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+                    ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 2f;
                 }
                 initialized = true;
             }
-            if (projectile.timeLeft % 50 == 1 && projectile.alpha <= 0)
+            if (Projectile.timeLeft % 50 == 1 && Projectile.alpha <= 0)
             {
-                Main.PlaySound(SoundID.NPCHit53, projectile.Center);
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 20);
+                SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 20);
                 for (int d = 0; d < 5; d++)
                 {
-                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
+                    int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -126,23 +127,23 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 for (int d = 0; d < 10; d++)
                 {
-                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
+                    int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 1f);
                     Main.dust[ecto].noGravity = true;
                     Main.dust[ecto].velocity *= 5f;
-                    ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+                    ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 0.5f);
                     Main.dust[ecto].velocity *= 2f;
                 }
                 float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -150,13 +151,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int frameHeight = height * projectile.frame;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
 

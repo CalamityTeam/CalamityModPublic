@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 49;
-            item.magic = true;
-            item.mana = 17;
-            item.width = 56;
-            item.height = 26;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.75f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item95;
-            item.autoReuse = true;
-            item.shootSpeed = 13f;
-            item.shoot = ModContent.ProjectileType<UberBubble>();
+            Item.damage = 49;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 17;
+            Item.width = 56;
+            Item.height = 26;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.75f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item95;
+            Item.autoReuse = true;
+            Item.shootSpeed = 13f;
+            Item.shoot = ModContent.ProjectileType<UberBubble>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BubbleGun);
-            recipe.AddIngredient(ItemID.Xenopopper);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BubbleGun).AddIngredient(ItemID.Xenopopper).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -18,32 +18,27 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 54;
-            item.damage = 65;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 27;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 54;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<SpearofPaleolithProj>();
-            item.shootSpeed = 35f;
-            item.Calamity().rogue = true;
+            Item.width = 54;
+            Item.damage = 65;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 27;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 54;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<SpearofPaleolithProj>();
+            Item.shootSpeed = 35f;
+            Item.Calamity().rogue = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddRecipeGroup("AnyAdamantiteBar", 4).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

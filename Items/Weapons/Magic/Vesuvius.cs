@@ -15,27 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
                 "Calls down a swarm of molten asteroids\n" +
                 "Right click to fire a spread of molten asteroids from the staff");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 60;
-            item.mana = 6;
-            item.magic = true;
-            item.useAnimation = item.useTime = 15;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item88;
-            item.autoReuse = true;
-            item.height = 62;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<AsteroidMolten>();
+            Item.width = 62;
+            Item.damage = 60;
+            Item.mana = 6;
+            Item.DamageType = DamageClass.Magic;
+            Item.useAnimation = Item.useTime = 15;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item88;
+            Item.autoReuse = true;
+            Item.height = 62;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<AsteroidMolten>();
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             else
             {
-                float num72 = item.shootSpeed;
+                float num72 = Item.shootSpeed;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                 float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.magic = true;
-            item.mana = 16;
-            item.width = 34;
-            item.height = 40;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.25f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item84;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
-            item.shootSpeed = 5f;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 16;
+            Item.width = 34;
+            Item.height = 40;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.25f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item84;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
+            Item.shootSpeed = 5f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             float radians = MathHelper.TwoPi / totalProjectiles;
             for (int i = 0; i < totalProjectiles; i++)
             {
-                Vector2 vector = new Vector2(0f, -item.shootSpeed).RotatedBy(radians * i);
+                Vector2 vector = new Vector2(0f, -Item.shootSpeed).RotatedBy(radians * i);
                 Projectile.NewProjectile(position, vector, type, damage, knockBack, Main.myPlayer);
             }
             return false;
@@ -48,13 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpellTome);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5); // This is here to keep the Forbidden Fragment stuff on the same tier.
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddTile(TileID.Bookcases).Register();
         }
     }
 }

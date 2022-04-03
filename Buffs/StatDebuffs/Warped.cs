@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class Warped : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Warped");
             Description.SetDefault("Movement is being warped");

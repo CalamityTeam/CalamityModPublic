@@ -16,17 +16,17 @@ namespace CalamityMod.Items.Accessories
                                 "This reflect has a 120 second cooldown which is shared with all other dodges and reflects\n" +
                                 "If this effect triggers you get a health regeneration boost for 5 seconds\n" +
                                 "If the same enemy projectile type hits you again you will resist its damage by 15%");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 10));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 10));
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 44;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.rare = ItemRarityID.Purple;
-            item.accessory = true;
+            Item.width = 58;
+            Item.height = 44;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

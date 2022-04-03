@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenDresser : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDresser();
             Main.tileLavaDeath[Type] = false;
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             return true;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.DresserRightClick();
         }

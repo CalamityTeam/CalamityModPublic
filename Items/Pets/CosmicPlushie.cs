@@ -16,27 +16,27 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.noMelee = true;
-            item.width = 28;
-            item.height = 36;
-            item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
-            item.buffType = ModContent.BuffType<ChibiiBuff>();
-            item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+            Item.damage = 0;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.noMelee = true;
+            Item.width = 28;
+            Item.height = 36;
+            Item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
+            Item.buffType = ModContent.BuffType<ChibiiBuff>();
+            Item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
 
-            item.value = Item.sellPrice(gold: 7);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().devItem = true;
+            Item.value = Item.sellPrice(gold: 7);
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 15, true);
+                player.AddBuff(Item.buffType, 15, true);
             }
         }
     }

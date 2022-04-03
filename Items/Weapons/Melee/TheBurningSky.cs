@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,37 +17,37 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Hold the blade to the sky, and witness Armageddon");
 
             // Visually a sword, but with no true melee capability. The Burning Sky is held out like a staff.
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 102;
-            item.height = 146;
-            item.damage = 244;
-            item.knockBack = 2.5f;
+            Item.width = 102;
+            Item.height = 146;
+            Item.damage = 244;
+            Item.knockBack = 2.5f;
 
-            item.melee = true;
-            item.noMelee = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
 
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item105;
+            Item.useTime = 9;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item105;
 
-            item.shoot = ModContent.ProjectileType<BurningMeteor>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<BurningMeteor>();
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // Every time the item spawns more meteors, play a violent, bass heavy sound to add onto Star Wrath's use sound.
-            Main.PlaySound(SoundID.Item70, player.Center);
+            SoundEngine.PlaySound(SoundID.Item70, player.Center);
 
             Vector2 originalVelocity = new Vector2(speedX, speedY);
             float speed = originalVelocity.Length();

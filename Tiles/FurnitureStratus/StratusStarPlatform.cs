@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusStarPlatform : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
@@ -32,9 +32,9 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureStratus/StratusStarPlatformGlow");
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusStarPlatformGlow");
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange));
             Tile trackTile = Main.tile[i, j];
             if (!(trackTile.halfBrick() && trackTile.slope() == 0))

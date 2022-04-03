@@ -15,17 +15,17 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetDefaults()
         {
             //projectile.CloneDefaults(360); //Wooden Bobber
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 61;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<VerstaltiteFishingRod>(), new Color(95, 158, 160, 100));
+            Lighting.AddLight(Projectile.Center, 0.4f, 0f, 0.4f);
+            CalamityUtils.DrawFishingLine(Projectile, ModContent.ItemType<VerstaltiteFishingRod>(), new Color(95, 158, 160, 100));
             return false;
         }
     }

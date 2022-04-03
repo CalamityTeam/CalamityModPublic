@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public static int DefenseReduction = 5;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Marked");
             Description.SetDefault("Damage reduction reduced");

@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 86;
-            item.height = 102;
-            item.damage = 149;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<LuminousStrikerProj>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 86;
+            Item.height = 102;
+            Item.damage = 149;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 0, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<LuminousStrikerProj>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,15 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpearofPaleolith>());
-            recipe.AddIngredient(ModContent.ItemType<ScourgeoftheSeas>());
-            recipe.AddIngredient(ModContent.ItemType<Turbulance>());
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 10);
-            recipe.AddIngredient(ItemID.FragmentStardust, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpearofPaleolith>()).AddIngredient(ModContent.ItemType<ScourgeoftheSeas>()).AddIngredient(ModContent.ItemType<Turbulance>()).AddIngredient(ModContent.ItemType<MeldiateBar>(), 10).AddIngredient(ItemID.FragmentStardust, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

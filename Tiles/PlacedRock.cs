@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles
 {
     public class PlacedRock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
 
@@ -33,8 +33,8 @@ namespace CalamityMod.Tiles
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            Main.tile[i, j].frameX = 0;
-            Main.tile[i, j].frameY = 0;
+            Main.tile[i, j].TileFrameX = 0;
+            Main.tile[i, j].TileFrameY = 0;
         }
     }
 }

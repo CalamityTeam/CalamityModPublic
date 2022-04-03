@@ -28,24 +28,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 695;
-            item.ranged = true;
-            item.useTime = item.useAnimation = 30;
-            item.knockBack = 10f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AuralisBullet>();
-            item.shootSpeed = 7.5f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 695;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = Item.useAnimation = 30;
+            Item.knockBack = 10f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AuralisBullet>();
+            Item.shootSpeed = 7.5f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.width = 96;
-            item.height = 34;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.width = 96;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
@@ -56,13 +56,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), Item.shoot, damage, knockBack, player.whoAmI);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuralisGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/AuralisGlow"));
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -71,14 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SniperRifle);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SniperRifle).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<AstralJelly>(), 5).AddIngredient(ModContent.ItemType<Stardust>(), 50).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

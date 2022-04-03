@@ -14,38 +14,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 240;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 240;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             // Set the projectile's direction correctly
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             // The projectile rapidly fades in as it starts existing
-            if (projectile.timeLeft >= 207)
-                projectile.alpha += 6;
+            if (Projectile.timeLeft >= 207)
+                Projectile.alpha += 6;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 40f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 40f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 239)
+            if (Projectile.timeLeft > 239)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

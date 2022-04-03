@@ -10,6 +10,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
@@ -34,7 +35,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         // With a delay of this many extra frames after that animation frame starts.
         public const int MagicFrameDelay = AnimationFramerate - 1;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -78,8 +79,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<PowerCellFactoryItem>());
 
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
+            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
             // Drop any cells contained in the factory.
             TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
@@ -90,7 +91,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             factory?.Kill(left, top);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             TEPowerCellFactory thisFactory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
             Player player = Main.LocalPlayer;
@@ -101,14 +102,14 @@ namespace CalamityMod.Tiles.DraedonStructures
             if (thisFactory is null || thisFactory.ID == mp.CurrentlyViewedFactoryID)
             {
                 mp.CurrentlyViewedFactoryID = -1;
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
             }
 
             // Otherwise, "switch to" this factory when it exists. This can be either opening the GUI from nothing, or just opening a different factory.
             else if (thisFactory != null)
             {
                 // Play a sound depending on whether the player had another factory open previously.
-                Main.PlaySound(mp.CurrentlyViewedFactoryID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                SoundEngine.PlaySound(mp.CurrentlyViewedFactoryID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
                 mp.CurrentlyViewedFactoryID = thisFactory.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
@@ -123,8 +124,8 @@ namespace CalamityMod.Tiles.DraedonStructures
         {
             // These offsets start as the tile offsets, i.e. which sub-tile of the FrameImportant structure this specific location is.
             Tile t = Main.tile[i, j];
-            int frameXPos = t.frameX;
-            int frameYPos = t.frameY;
+            int frameXPos = t.TileFrameX;
+            int frameYPos = t.TileFrameY;
 
             // Grab the tile entity because its internal timer controls the animation.
             TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
@@ -132,7 +133,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             frameXPos += frameIndex / FramesPerColumn * (Width * SheetSquare);
             frameYPos += frameIndex % FramesPerColumn * (Height * SheetSquare);
 
-            Texture2D tex = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/PowerCellFactory");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/PowerCellFactory");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);

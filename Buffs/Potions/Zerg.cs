@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Zerg : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zerg");
             Description.SetDefault("Spawn rates are boosted");

@@ -14,19 +14,19 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Green;
-            item.width = 30;
-            item.height = 26;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 50);
+            Item.rare = ItemRarityID.Green;
+            Item.width = 30;
+            Item.height = 26;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item29;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 50);
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && (player.statManaMax < 200 && player.itemTime == 0))
             {

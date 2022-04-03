@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class SulphuricPoisoning : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphuric Poisoning");
             Description.SetDefault("The acidic water burns away your flesh");

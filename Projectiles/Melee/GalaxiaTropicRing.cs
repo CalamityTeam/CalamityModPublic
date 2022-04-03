@@ -11,9 +11,9 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxiaTropicRing : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Mode => ref projectile.ai[0];
-        public ref float Fade => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Mode => ref Projectile.ai[0];
+        public ref float Fade => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
@@ -23,12 +23,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.melee = true;
-            projectile.tileCollide = false;
+            Projectile.width = Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -46,20 +46,20 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - Vector2.One * 95 * projectile.scale, Vector2.One * 190 * projectile.scale);
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - Vector2.One * 95 * Projectile.scale, Vector2.One * 190 * Projectile.scale);
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.95f;
+            Projectile.velocity *= 0.95f;
 
             if (Mode == 0f)
-                projectile.Center = Vector2.Lerp(projectile.Center, Owner.Center, 0.4f * MathHelper.Clamp((projectile.timeLeft - 150) / 150f, 0, 1));
+                Projectile.Center = Vector2.Lerp(Projectile.Center, Owner.Center, 0.4f * MathHelper.Clamp((Projectile.timeLeft - 150) / 150f, 0, 1));
             else
-                projectile.velocity = Utils.SafeNormalize(projectile.Center - Owner.Center, Vector2.Zero) * MathHelper.Clamp((projectile.timeLeft - 150) / 150f, 0, 1) * 3f * (5f - MathHelper.Clamp((projectile.Center - Owner.Center).Length() / 150f, 0, 4f));
+                Projectile.velocity = Utils.SafeNormalize(Projectile.Center - Owner.Center, Vector2.Zero) * MathHelper.Clamp((Projectile.timeLeft - 150) / 150f, 0, 1) * 3f * (5f - MathHelper.Clamp((Projectile.Center - Owner.Center).Length() / 150f, 0, 4f));
 
-            Fade = projectile.timeLeft > 250 ? (float)Math.Sin((300 - projectile.timeLeft) / 50f * MathHelper.PiOver2) * 0.6f + 0.4f : projectile.timeLeft > 50 ? 1f : (float)Math.Sin((projectile.timeLeft) / 50f * MathHelper.PiOver2);
-            Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            Fade = Projectile.timeLeft > 250 ? (float)Math.Sin((300 - Projectile.timeLeft) / 50f * MathHelper.PiOver2) * 0.6f + 0.4f : Projectile.timeLeft > 50 ? 1f : (float)Math.Sin((Projectile.timeLeft) / 50f * MathHelper.PiOver2);
+            Lighting.AddLight(Projectile.Center, 0.75f, 1f, 0.24f);
 
         }
 
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
             float starHeight = (float)Math.Sin(Main.GlobalTime * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
             float starWidth = (float)Math.Cos(Main.GlobalTime * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
 
-            return projectile.Center + projectile.rotation.ToRotationVector2() * starWidth * (projectile.scale * diameter * 0.4f) + (projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (projectile.scale * diameter * 0.4f);
+            return Projectile.Center + Projectile.rotation.ToRotationVector2() * starWidth * (Projectile.scale * diameter * 0.4f) + (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (Projectile.scale * diameter * 0.4f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -84,11 +84,11 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            spriteBatch.Draw(bloomTexture, projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
-            spriteBatch.Draw(ring, projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(bloomTexture, Projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
+            spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0f);
 
-            spriteBatch.Draw(sigil, projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTime * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, projectile.scale + ((Main.GlobalTime * 5f) % 10) / 10f * 2f, 0f, 0f);
-            spriteBatch.Draw(sigil, projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(sigil, Projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTime * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, Projectile.scale + ((Main.GlobalTime * 5f) % 10) / 10f * 2f, 0f, 0f);
+            spriteBatch.Draw(sigil, Projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, Projectile.scale, 0f, 0f);
 
             for (int i = 0; i < 5; i++)
             {

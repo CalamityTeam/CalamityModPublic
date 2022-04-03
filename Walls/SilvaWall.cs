@@ -7,7 +7,7 @@ namespace CalamityMod.Walls
 {
     public class SilvaWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 

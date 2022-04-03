@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -60,7 +61,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                Main.PlaySound(SoundID.Item38, (int)npc.position.X, (int)npc.position.Y);
+                SoundEngine.PlaySound(SoundID.Item38, (int)npc.position.X, (int)npc.position.Y);
                 NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
             }
 
@@ -436,7 +437,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int num241 = num240;
                     int num242 = 0;
 
-                    if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type])
+                    if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
                     {
                         num242 = 1;
                     }
@@ -445,7 +446,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
                         {
                             int y = num241 + num242;
-                            if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].type] && !Main.tileSolidTop[Main.tile[num239, y].type])
+                            if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
                             {
                                 num242--;
                                 break;

@@ -9,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -16,66 +17,66 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public float DustAngleMultiplier1;
         public float DustAngleMultiplier2;
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public float LaserTelegraphPower => Utils.InverseLerp(540f, 480f, LaserShootCountdown, true);
         public float LaserTelegraphLength => MathHelper.Lerp(20f, 550f, LaserTelegraphPower);
         public float LaserTelegraphOpacity => MathHelper.Lerp(0.3f, 0.9f, LaserTelegraphPower);
-        public ref float GammaAcidShootTimer => ref npc.ai[0];
-        public ref float LaserShootCountdown => ref npc.ai[1];
+        public ref float GammaAcidShootTimer => ref NPC.ai[0];
+        public ref float LaserShootCountdown => ref NPC.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 40;
-            npc.height = 44;
+            NPC.width = 40;
+            NPC.height = 44;
 
-            npc.damage = 110;
-            npc.lifeMax = 5060;
-            npc.DR_NERD(0.15f);
-            npc.defense = 25;
+            NPC.damage = 110;
+            NPC.lifeMax = 5060;
+            NPC.DR_NERD(0.15f);
+            NPC.defense = 25;
 
-            npc.aiStyle = aiType = -1;
+            NPC.aiStyle = aiType = -1;
 
-            npc.knockBackResist = 0f;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 8, 30);
-            npc.alpha = 50;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 8, 30);
+            NPC.alpha = 50;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<GammaSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
             // Release green light at the position of the slime.
-            Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.6f, 0.8f, 0.6f);
+            Lighting.AddLight((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16, 0.6f, 0.8f, 0.6f);
 
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
-            if (npc.velocity.Y == 0f && LaserShootCountdown <= 0f && !Target.npcTypeNoAggro[npc.type])
+            if (NPC.velocity.Y == 0f && LaserShootCountdown <= 0f && !Target.npcTypeNoAggro[NPC.type])
             {
-                npc.velocity.X *= 0.8f;
+                NPC.velocity.X *= 0.8f;
 
                 GammaAcidShootTimer++;
 
                 // Jump into the air and release gamma acid upward.
                 if (GammaAcidShootTimer % 30f == 29f)
                 {
-                    npc.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - npc.Center.Y) / 16f, 5f, 15f);
-                    npc.velocity.X = npc.SafeDirectionTo(Target.Center).X * 16f;
+                    NPC.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - NPC.Center.Y) / 16f, 5f, 15f);
+                    NPC.velocity.X = NPC.SafeDirectionTo(Target.Center).X * 16f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -84,14 +85,14 @@ namespace CalamityMod.NPCs.AcidRain
                             float angle = MathHelper.TwoPi / 5f * i;
                             if (GammaAcidShootTimer % 60f == 58f)
                                 angle += MathHelper.PiOver2;
-                            Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(), Main.expertMode ? 36 : 45, 3f);
+                            Projectile.NewProjectile(NPC.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(), Main.expertMode ? 36 : 45, 3f);
                         }
                     }
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             else
-                npc.velocity.X *= 0.9935f;
+                NPC.velocity.X *= 0.9935f;
 
             if (LaserShootCountdown > 0f)
                 LaserShootCountdown--;
@@ -99,15 +100,15 @@ namespace CalamityMod.NPCs.AcidRain
             // Stop moving for a bit after the laser.
             if (LaserShootCountdown > 240f)
             {
-                npc.velocity.X *= 0.95f;
-                npc.velocity.Y += 0.2f;
+                NPC.velocity.X *= 0.95f;
+                NPC.velocity.Y += 0.2f;
             }
 
             // Hold energy for laser
             if (LaserShootCountdown > 480f)
             {
                 float scale = LaserShootCountdown < 530f ? 2.25f : 1.65f;
-                Vector2 destination = npc.Top + new Vector2(0f, 6f);
+                Vector2 destination = NPC.Top + new Vector2(0f, 6f);
                 Dust dust = Dust.NewDustPerfect(destination + Main.rand.NextVector2CircularEdge(12f, 12f), (int)CalamityDusts.SulfurousSeaAcid);
                 dust.velocity = Vector2.Normalize(destination - dust.position) * 3f;
                 dust.scale = scale;
@@ -115,10 +116,10 @@ namespace CalamityMod.NPCs.AcidRain
 
                 if (LaserShootCountdown <= 540f)
                 {
-                    for (float i = npc.Top.Y + 4f; i >= npc.Top.Y + 4f - LaserTelegraphLength; i -= 8f)
+                    for (float i = NPC.Top.Y + 4f; i >= NPC.Top.Y + 4f - LaserTelegraphLength; i -= 8f)
                     {
                         float angle = i / 24f;
-                        Vector2 spawnPosition = new Vector2(npc.Center.X, i);
+                        Vector2 spawnPosition = new Vector2(NPC.Center.X, i);
                         dust = Dust.NewDustPerfect(spawnPosition, (int)CalamityDusts.SulfurousSeaAcid);
                         dust.scale = 1.5f;
                         dust.velocity = Vector2.UnitX * (float)Math.Cos(angle) * (1f - LaserTelegraphPower) * 4f;
@@ -134,10 +135,10 @@ namespace CalamityMod.NPCs.AcidRain
                 DustAngleMultiplier2 = Main.rand.NextFloat(4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
-                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, npc.whoAmI);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 104);
+                    Projectile.NewProjectile(NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, NPC.whoAmI);
                 }
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             // Very complex particle effects while releasing the beam
@@ -147,36 +148,36 @@ namespace CalamityMod.NPCs.AcidRain
                 float horizontalSpeed = (float)Math.Sin(angle * DustAngleMultiplier1) * (float)Math.Cos(angle) * 4.5f;
                 float verticalSpeed = (float)Math.Cos(angle * DustAngleMultiplier1) * (float)Math.Sin(angle) * 2f;
                 Vector2 velocity = new Vector2(horizontalSpeed, verticalSpeed);
-                Dust dust = Dust.NewDustPerfect(npc.Center + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
+                Dust dust = Dust.NewDustPerfect(NPC.Center + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
                 dust.velocity = velocity;
                 dust.scale = (float)Math.Cos(angle) + 2f;
                 dust.noGravity = true;
 
-                dust = Dust.NewDustPerfect(npc.Center + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
+                dust = Dust.NewDustPerfect(NPC.Center + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
                 dust.velocity = -velocity;
                 dust.scale = (float)Math.Cos(angle) + 2f;
                 dust.noGravity = true;
             }
 
             // Randomly prepare to shoot a laser.
-            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(Target.Center.X - npc.Center.X) < 250f && Target.Center.X < npc.Center.X &&
-                LaserShootCountdown == 0f && Main.rand.NextBool(110) && !Target.npcTypeNoAggro[npc.type])
+            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(Target.Center.X - NPC.Center.X) < 250f && Target.Center.X < NPC.Center.X &&
+                LaserShootCountdown == 0f && Main.rand.NextBool(110) && !Target.npcTypeNoAggro[NPC.type])
             {
                 LaserShootCountdown = 600f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            if (npc.life <= 0)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore2"), npc.scale);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore2"), NPC.scale);
             }
         }
 
@@ -184,14 +185,14 @@ namespace CalamityMod.NPCs.AcidRain
         {
             if (LaserShootCountdown >= 480f && LaserShootCountdown <= 540f)
             {
-                Vector2 laserBottom = npc.Top + Vector2.UnitY * 4f;
+                Vector2 laserBottom = NPC.Top + Vector2.UnitY * 4f;
                 Vector2 laserTop = laserBottom - Vector2.UnitY * LaserTelegraphLength;
                 Utils.DrawLine(spriteBatch, laserBottom, laserTop, Color.Lerp(Color.Lime, Color.Transparent, LaserTelegraphOpacity));
             }
-            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
+            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow"));
         }
 
-        public override void NPCLoot() => DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);
+        public override void NPCLoot() => DropHelper.DropItemChance(NPC, ModContent.ItemType<LeadCore>(), 30);
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
     }

@@ -19,22 +19,22 @@ Stealth strikes are trailed by homing wind slashes");
 
         public override void SafeSetDefaults()
         {
-            item.width = 14;
-            item.damage = 18;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 14;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<TurbulanceProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 18;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 14;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<TurbulanceProjectile>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,13 +51,7 @@ Stealth strikes are trailed by homing wind slashes");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.SunplateBlock, 3);
-            recipe.AddIngredient(ItemID.Cloud, 4);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 5).AddIngredient(ItemID.SunplateBlock, 3).AddIngredient(ItemID.Cloud, 4).AddTile(TileID.SkyMill).Register();
         }
     }
 }

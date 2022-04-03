@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 32;
-            item.damage = 14;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 26;
-            item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<GildedDaggerProj>();
-            item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 14;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 26;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<GildedDaggerProj>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,12 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldBar, 12);
-            recipe.AddIngredient(ItemID.ThrowingKnife, 250);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.GoldBar, 12).AddIngredient(ItemID.ThrowingKnife, 250).AddTile(TileID.Anvils).Register();
         }
     }
 }

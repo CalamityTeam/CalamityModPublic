@@ -14,18 +14,18 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether projectile is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.scale = 1.5f;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;  //Dictates whether projectile is a melee-class weapon.
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.scale = 1.5f;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -34,19 +34,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(4))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 32, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 6f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 6f)
             {
-                projectile.localAI[0] = 0f;
-                if (Main.myPlayer == projectile.owner)
+                Projectile.localAI[0] = 0f;
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    float velocityY = projectile.velocity.Y * 1.25f;
+                    float velocityY = Projectile.velocity.Y * 1.25f;
                     if (velocityY < 0.1f)
                         velocityY = 0.1f;
-                    int proj = Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
+                        Projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMelee = true;
                 }
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 8;
+            target.immune[Projectile.owner] = 8;
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
         }
     }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class PurpleDefenseCandle : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resilience");
             Description.SetDefault("Neither rain nor wind can snuff its undying flame");

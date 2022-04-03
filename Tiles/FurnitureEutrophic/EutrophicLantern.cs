@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicLantern : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.5f;
                 g = 1f;

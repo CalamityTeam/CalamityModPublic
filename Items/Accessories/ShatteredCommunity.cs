@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -39,18 +40,18 @@ namespace CalamityMod.Items.Accessories
                 "Taking damage gives rage, this effect is not hindered by your defensive stats\n" +
                 "While Rage Mode is active, taking damage gives only half as much rage\n" +
                 "Deal damage with Rage Mode to further empower your wrath\n");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 5));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         // Not overriding these Clones makes tooltips fail to function correctly due to HoverItem spaghetti.
@@ -97,7 +98,7 @@ namespace CalamityMod.Items.Accessories
         public override void PostUpdate()
         {
             float brightness = Main.essScale;
-            Lighting.AddLight(item.Center, 0.92f * brightness, 0.42f * brightness, 0.92f * brightness);
+            Lighting.AddLight(Item.Center, 0.92f * brightness, 0.42f * brightness, 0.92f * brightness);
         }
 
         internal static void AccumulateRageDamage(Player player, CalamityPlayer mp, long damage)
@@ -146,7 +147,7 @@ namespace CalamityMod.Items.Accessories
 
             // Play a weird dimensional lightning sound simultaneously.
             var extraSound = SoundID.DD2_EtherianPortalDryadTouch.WithVolume(1.4f);
-            Main.PlaySound(extraSound, player.Center);
+            SoundEngine.PlaySound(extraSound, player.Center);
 
             // Display a level up text notification.
             Rectangle textArea = new Rectangle((int)player.Center.X, (int)player.Center.Y, 1, 1);
@@ -165,7 +166,7 @@ namespace CalamityMod.Items.Accessories
             sb.Append(" (+");
             sb.Append(level);
             sb.Append("% Rage Mode damage)");
-            tooltips.Add(new TooltipLine(mod, "Tooltip6", sb.ToString()));
+            tooltips.Add(new TooltipLine(Mod, "Tooltip6", sb.ToString()));
             sb.Clear();
 
             if (level < MaxLevel)
@@ -179,14 +180,14 @@ namespace CalamityMod.Items.Accessories
                 sb.Append("Progress to next level: ");
                 sb.Append(percent);
                 sb.Append('%');
-                tooltips.Add(new TooltipLine(mod, "Tooltip7", sb.ToString()));
+                tooltips.Add(new TooltipLine(Mod, "Tooltip7", sb.ToString()));
                 sb.Clear();
             }
 
             // Line 8: Total damage dealt
             sb.Append("Total Rage Mode damage: ");
             sb.Append(totalRageDamage);
-            tooltips.Add(new TooltipLine(mod, "Tooltip8", sb.ToString()));
+            tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
         }
 
         public override TagCompound Save()
@@ -214,7 +215,7 @@ namespace CalamityMod.Items.Accessories
             writer.Write(totalRageDamage);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             level = reader.ReadInt32();
             totalRageDamage = reader.ReadInt64();

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class TarragonCloak : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Cloak");
             Description.SetDefault("Contact damage is reduced");

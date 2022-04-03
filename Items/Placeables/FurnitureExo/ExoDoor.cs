@@ -12,27 +12,23 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Exo Door");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<ExoDoorClosed>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.SetNameOverride("Exo Door");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<ExoDoorClosed>();
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPlating>(), 8);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlating>(), 8).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

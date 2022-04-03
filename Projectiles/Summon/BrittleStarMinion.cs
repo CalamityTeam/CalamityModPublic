@@ -12,43 +12,43 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brittle Star");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<BrittleStarMinion>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<BrittleStarMinion>();
             player.AddBuff(ModContent.BuffType<BrittleStar>(), 3600);
             if (flag64)
             {
@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.bStar)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            projectile.rotation += projectile.velocity.X * 0.04f;
+            Projectile.rotation += Projectile.velocity.X * 0.04f;
 
-              projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
+              Projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 9.5f, false, false);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

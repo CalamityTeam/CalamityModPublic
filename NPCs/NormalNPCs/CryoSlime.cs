@@ -11,38 +11,38 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryo Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
+            NPC.aiStyle = 1;
             aiType = NPCID.DungeonSlime;
-            npc.damage = 30;
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 8;
-            npc.lifeMax = 120;
-            npc.knockBackResist = 0f;
+            NPC.damage = 30;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 8;
+            NPC.lifeMax = 120;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<CryoSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = false;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = false;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !CalamityWorld.downedCryogen || (!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1) || spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !CalamityWorld.downedCryogen || (!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1) || spawnInfo.Player.Calamity().ZoneAbyss ||
+                spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -61,20 +61,20 @@ namespace CalamityMod.NPCs.NormalNPCs
             int dustType = 91;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<CryonicOre>(), 10, 26);
+            DropHelper.DropItem(NPC, ModContent.ItemType<CryonicOre>(), 10, 26);
         }
     }
 }

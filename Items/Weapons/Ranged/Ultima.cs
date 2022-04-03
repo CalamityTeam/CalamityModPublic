@@ -23,27 +23,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 116;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 58;
-            item.useTime = item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
-            item.channel = true;
-            item.useTurn = false;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 116;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 58;
+            Item.useTime = Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -55,17 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool ConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 90;
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PulseBow);
-            recipe.AddIngredient(ItemID.LaserRifle);
-            recipe.AddIngredient(ModContent.ItemType<TheStorm>());
-            recipe.AddIngredient(ModContent.ItemType<AstralRepeater>());
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PulseBow).AddIngredient(ItemID.LaserRifle).AddIngredient(ModContent.ItemType<TheStorm>()).AddIngredient(ModContent.ItemType<AstralRepeater>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

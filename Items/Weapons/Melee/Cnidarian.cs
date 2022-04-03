@@ -13,42 +13,38 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Cnidarian");
             Tooltip.SetDefault("Fires a seashell when enemies are near\n" +
             "A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 26;
-            item.melee = true;
-            item.damage = 11;
-            item.knockBack = 3f;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.autoReuse = true;
+            Item.width = 30;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 11;
+            Item.knockBack = 3f;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<CnidarianYoyo>();
-            item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<CnidarianYoyo>();
+            Item.shootSpeed = 10f;
 
-            item.rare = ItemRarityID.Green;
-            item.value = Item.buyPrice(gold: 2);
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(gold: 2);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 2).AddTile(TileID.Anvils).Register();
         }
     }
 }

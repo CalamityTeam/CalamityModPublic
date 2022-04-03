@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class TundraLeashBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Angry Dog");
             Description.SetDefault("You are riding an angry dog");

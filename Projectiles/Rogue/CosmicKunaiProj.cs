@@ -14,25 +14,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.alpha += 17;
-            if (projectile.alpha >= 255)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            Projectile.alpha += 17;
+            if (Projectile.alpha >= 255)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.5f / 255f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SepulcherMinionBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sepulcher");
             Description.SetDefault("It is not benevolent");

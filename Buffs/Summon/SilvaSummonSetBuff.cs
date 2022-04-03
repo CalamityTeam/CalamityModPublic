@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SilvaSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Crystal");
             Description.SetDefault("The crystal will protect you");

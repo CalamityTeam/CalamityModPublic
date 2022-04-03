@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.mana = 10;
-            item.width = item.height = 32;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.DD2_BetsySummon;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SeekerSummonProj>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 150;
+            Item.mana = 10;
+            Item.width = Item.height = 32;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.DD2_BetsySummon;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SeekerSummonProj>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

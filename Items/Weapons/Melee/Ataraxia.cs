@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,32 +20,32 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 92;
-            item.melee = true;
-            item.damage = 710;
-            item.knockBack = 2.5f;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.width = 94;
+            Item.height = 92;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 710;
+            Item.knockBack = 2.5f;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.autoReuse = true;
+            Item.useTurn = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
-            item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
+            Item.shootSpeed = 9f;
         }
 
         // Fires one large and two small projectiles which stay together in formation.
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // Play the Terra Blade sound upon firing
-            Main.PlaySound(SoundID.Item60, position);
+            SoundEngine.PlaySound(SoundID.Item60, position);
 
             // Center projectile
             int centerID = ModContent.ProjectileType<AtaraxiaMain>();
@@ -88,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
             int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)(0.1f * item.damage * player.MeleeDamage());
+            int trueMeleeDamage = (int)(0.1f * Item.damage * player.MeleeDamage());
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
@@ -99,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();
                 velocity *= 8f;
-                Projectile.NewProjectile(targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, item.knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
             }
         }
 
@@ -132,15 +133,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

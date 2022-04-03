@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoDresserTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override bool HasSmartInteract() => true;
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.DresserRightClick();
+        public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
         public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<ExoDresser>(chest);
 
@@ -50,9 +50,9 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xFrameOffset = Main.tile[i, j].frameX;
-            int yFrameOffset = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoDresserGlow");
+            int xFrameOffset = Main.tile[i, j].TileFrameX;
+            int yFrameOffset = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoDresserGlow");
             Vector2 drawOffest = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffest;
             Color drawColour = Color.White;

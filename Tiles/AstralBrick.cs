@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles
         private const short subsheetWidth = 324;
         private const short subsheetHeight = 90;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -42,15 +42,15 @@ namespace CalamityMod.Tiles
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
             int xOffset = i % 2;
             int yOffset = j % 2;
             xOffset *= subsheetWidth;
             yOffset *= subsheetHeight;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/AstralBrickGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralBrickGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

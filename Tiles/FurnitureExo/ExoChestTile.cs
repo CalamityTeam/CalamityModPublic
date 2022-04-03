@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoChestTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<ExoChest>("Exo Chest", i, j);
 
@@ -55,11 +55,11 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             Tile tile = Main.tile[i, j];
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoChestGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoChestGlow");
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - (int)Main.screenPosition.X / 2f, j * 16 - (int)Main.screenPosition.Y + yOffset) + drawOffset;
             Color drawColour = Color.White;
-            Main.spriteBatch.Draw(glowmask, drawPosition, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColour, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(glowmask, drawPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), drawColour, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

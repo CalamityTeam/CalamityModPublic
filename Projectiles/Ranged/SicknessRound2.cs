@@ -11,50 +11,50 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.light = 0.15f;
-            projectile.extraUpdates = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+            Projectile.light = 0.15f;
+            Projectile.extraUpdates = 1;
             aiType = ProjectileID.WoodenArrowFriendly;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override bool PreAI()
         {
-            Vector2 dspeed = -projectile.velocity * 0.5f;
-            float x2 = projectile.Center.X - projectile.velocity.X / 10f;
-            float y2 = projectile.Center.Y - projectile.velocity.Y / 10f;
+            Vector2 dspeed = -Projectile.velocity * 0.5f;
+            float x2 = Projectile.Center.X - Projectile.velocity.X / 10f;
+            float y2 = Projectile.Center.Y - Projectile.velocity.Y / 10f;
             int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, 0f, 0f, 0, default, 1f);
-            Main.dust[num137].alpha = projectile.alpha;
+            Main.dust[num137].alpha = Projectile.alpha;
             Main.dust[num137].position.X = x2;
             Main.dust[num137].position.Y = y2;
             Main.dust[num137].velocity = dspeed;
             Main.dust[num137].noGravity = true;
 
             //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * Projectile.direction;
 
-            if (projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 25f);
+            if (Projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 12f, 25f);
 
             return false;
         }
@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Sickness>(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (Projectile.owner == Main.myPlayer)
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Sickness>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
     }
 }

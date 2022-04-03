@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 32;
-            item.ranged = true;
-            item.width = 32;
-            item.height = 62;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item75;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LunarBolt>();
-            item.shootSpeed = 8f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 32;
+            Item.height = 62;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item75;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LunarBolt>();
+            Item.shootSpeed = 8f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -66,22 +66,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemonBow);
-            recipe.AddIngredient(ItemID.BeesKnees);
-            recipe.AddIngredient(ItemID.MoltenFury);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TendonBow);
-            recipe.AddIngredient(ItemID.BeesKnees);
-            recipe.AddIngredient(ItemID.MoltenFury);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DemonBow).AddIngredient(ItemID.BeesKnees).AddIngredient(ItemID.MoltenFury).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe(1).AddIngredient(ItemID.TendonBow).AddIngredient(ItemID.BeesKnees).AddIngredient(ItemID.MoltenFury).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

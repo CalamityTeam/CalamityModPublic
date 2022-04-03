@@ -26,11 +26,11 @@ namespace CalamityMod.Particles
         };
         public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
         {
-            ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1"),
-            ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer2"),
-            ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer3"),
-            ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer4"),
-            ModContent.GetTexture("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer5"),
+            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1"),
+            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer2"),
+            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer3"),
+            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer4"),
+            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer5"),
         };
         public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
         {
@@ -85,7 +85,7 @@ namespace CalamityMod.Particles
 
         public override void DrawParticles()
         {
-            Texture2D fusableParticleBase = ModContent.GetTexture("CalamityMod/ExtraTextures/FusableParticleBase");
+            Texture2D fusableParticleBase = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FusableParticleBase");
             foreach (FusableParticle particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;

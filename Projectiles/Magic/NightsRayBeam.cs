@@ -5,11 +5,11 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class NightsRayBeam : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public bool HasFiredSideBeams
         {
-            get => projectile.ai[1] == 1f;
-            set => projectile.ai[1] = value.ToInt();
+            get => Projectile.ai[1] == 1f;
+            set => Projectile.ai[1] = value.ToInt();
         }
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
@@ -19,14 +19,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 150;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 150;
         }
 
         public override void AI()
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Vector2 dustSpawnPos = projectile.position - projectile.velocity * i / 2f;
+                    Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
                     Dust corruptMagic = Dust.NewDustPerfect(dustSpawnPos, 27);
                     corruptMagic.color = Color.Lerp(Color.Fuchsia, Color.Magenta, Main.rand.NextFloat(0.6f));
                     corruptMagic.scale = Main.rand.NextFloat(0.96f, 1.04f);
@@ -48,16 +48,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!HasFiredSideBeams && projectile.owner == Main.myPlayer)
+            if (!HasFiredSideBeams && Projectile.owner == Main.myPlayer)
             {
                 Vector2 baseSpawnPositionOffset = Main.rand.NextVector2CircularEdge(40f, 40f);
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 spawnPosition = target.Center + baseSpawnPositionOffset.RotatedBy(MathHelper.TwoPi * i / 4f);
-                    Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<NightOrb>(), (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<NightOrb>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
                 }
                 HasFiredSideBeams = true;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
     }

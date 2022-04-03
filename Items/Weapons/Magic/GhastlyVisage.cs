@@ -17,31 +17,31 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.magic = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.mana = 20;
-            item.width = 32;
-            item.height = 36;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Magic;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.mana = 20;
+            Item.width = 32;
+            Item.height = 36;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         // This weapon uses a holdout projectile.
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/GhastlyVisageGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/GhastlyVisageGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -18,19 +18,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 66;
-            item.scale = 2f;
-            item.damage = 100;
-            item.melee = true;
-            item.useAnimation = item.useTime = 38;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
+            Item.width = 64;
+            Item.height = 66;
+            Item.scale = 2f;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 38;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override float UseTimeMultiplier    (Player player) => 1f + (player.Calamity().evilSmasherBoost * 0.1f);

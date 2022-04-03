@@ -13,17 +13,17 @@ namespace CalamityMod.Items.Ammo.FiniteUse
 
         public override void SetDefaults()
         {
-            item.damage = 200;
-            item.width = 18;
-            item.height = 18;
-            item.maxStack = 9;
-            item.consumable = true;
-            item.knockBack = 10f;
-            item.value = 15000;
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<GrenadeRound>();
-            item.shootSpeed = 12f;
-            item.ammo = ModContent.ItemType<GrenadeRounds>(); // CONSIDER -- Would item.type work here instead of a self reference?
+            Item.damage = 200;
+            Item.width = 18;
+            Item.height = 18;
+            Item.maxStack = 9;
+            Item.consumable = true;
+            Item.knockBack = 10f;
+            Item.value = 15000;
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<GrenadeRound>();
+            Item.shootSpeed = 12f;
+            Item.ammo = ModContent.ItemType<GrenadeRounds>(); // CONSIDER -- Would item.type work here instead of a self reference?
         }
     }
 }

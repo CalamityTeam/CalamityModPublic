@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = 0; // lul intentionally has zero value
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = 0; // lul intentionally has zero value
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

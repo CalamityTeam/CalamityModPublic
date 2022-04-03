@@ -19,26 +19,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1178;
-            item.ranged = true;
-            item.knockBack = 10f;
-            item.useTime = 30;
-            item.useAnimation = 300;
-            item.autoReuse = false;
+            Item.damage = 1178;
+            Item.DamageType = DamageClass.Ranged;
+            Item.knockBack = 10f;
+            Item.useTime = 30;
+            Item.useAnimation = 300;
+            Item.autoReuse = false;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.width = 82;
-            item.height = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.width = 82;
+            Item.height = 28;
 
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -48,13 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PestilentDefiler>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PestilentDefiler>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

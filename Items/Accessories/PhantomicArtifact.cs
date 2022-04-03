@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Accessories
                 "If you have the offensive boost, enemies hit by minions will sometimes be hit by phantomic knives\n" +
                 "If you have the regenerative boost, a phantomic heart will occasionally materialise granting massive health regen\n" +
                 "If you have the defensive boost, a phantomic bulwark will absorb 20% of the next projectile's damage that hits the bulwark, shattering it");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 40;
-            item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.accessory = true;
+            Item.width = 50;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,14 +37,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HallowedRune>());
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<HallowedRune>()).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

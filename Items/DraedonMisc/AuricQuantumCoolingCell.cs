@@ -24,29 +24,29 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 44;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Red;
-            item.useTime = item.useAnimation = 15;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 26;
+            Item.height = 44;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Red;
+            Item.useTime = Item.useAnimation = 15;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria").overrideColor = Color.DarkRed;
+            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria").overrideColor = Color.DarkRed;
             CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5, true);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 1.2f * brightness, 0.4f * brightness, 0.8f);
+            Lighting.AddLight(Item.Center, 1.2f * brightness, 0.4f * brightness, 0.8f);
         }
 
-        public override bool UseItem(Player player) => true;
+        public override bool? UseItem(Player player) => true;
 
         public override bool ConsumeItem(Player player)
         {
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.DraedonMisc
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placeTileCoords.X, placeTileCoords.Y);
             float checkDistance = ((Player.tileRangeX + Player.tileRangeY) / 2f + player.blockRange) * 16f;
 
-            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.type == ModContent.TileType<CodebreakerTile>())
+            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsCoolingCell || codebreakerTileEntity.DecryptionCountdown > 0)
@@ -71,15 +71,7 @@ namespace CalamityMod.Items.DraedonMisc
         public override void AddRecipes()
         {
             // Old worlds can craft the cell immediately for the sake of being able to easily fight Draedon in endgame worlds.
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5, true);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 6);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuricBar>(), 2).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8).AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<CoreofEleum>(), 6).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralChestLocked : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool HasSmartInteract() => true;
 
-        public override bool IsLockedChest(int i, int j) => Main.tile[i, j].frameX / 36 == 1;
+        public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
 
         public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
         {
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.Astral
             return true;
         }
 
-        public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
+        public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].TileFrameX / 36);
 
         public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
@@ -58,18 +58,18 @@ namespace CalamityMod.Tiles.Astral
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
 
             int left = i;
             int top = j;
 
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }

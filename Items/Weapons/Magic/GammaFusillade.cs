@@ -15,33 +15,28 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 3;
-            item.useAnimation = 3;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GammaLaser>();
-            item.shootSpeed = 20f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GammaLaser>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpellTome);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddTile(TileID.Bookcases).Register();
         }
     }
 }

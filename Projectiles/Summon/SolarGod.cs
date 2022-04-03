@@ -11,31 +11,31 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar God");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 74;
-            projectile.height = 90;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 74;
+            Projectile.height = 90;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<SolarSpiritGod>(), 3600);
-            bool correctMinion = projectile.type == ModContent.ProjectileType<SolarGod>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<SolarGod>();
             if (correctMinion)
             {
                 if (player.dead)
@@ -44,62 +44,62 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.SPG)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y += 120f;
-                projectile.rotation = MathHelper.Pi;
+                Projectile.position.Y += 120f;
+                Projectile.rotation = MathHelper.Pi;
             }
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
             float sizeScale = (float)Main.mouseTextColor / 200f - 0.35f;
             sizeScale *= 0.2f;
-            projectile.scale = sizeScale + 0.95f;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            if (projectile.localAI[0] == 0f)
+            Projectile.scale = sizeScale + 0.95f;
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0f / 255f);
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
-                    int fire = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 244, 0f, 0f, 0, default, 1f);
+                    int fire = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 244, 0f, 0f, 0, default, 1f);
                     Main.dust[fire].velocity *= 2f;
                     Main.dust[fire].scale *= 1.15f;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                if (projectile.ai[0] != 0f)
+                if (Projectile.ai[0] != 0f)
                 {
-                    projectile.ai[0] -= 1f;
+                    Projectile.ai[0] -= 1f;
                     return;
                 }
-                Vector2 targetPos = projectile.position;
+                Vector2 targetPos = Projectile.position;
                 float maxDistance = 700f;
                 bool foundTarget = false;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float npcDist = Vector2.Distance(projectile.Center, npc.Center);
-                        if (npcDist < maxDistance && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        float npcDist = Vector2.Distance(Projectile.Center, npc.Center);
+                        if (npcDist < maxDistance && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                         {
                             targetPos = npc.Center;
                             foundTarget = true;
@@ -111,10 +111,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
-                            float npcDist = Vector2.Distance(projectile.Center, npc.Center);
-                            if (npcDist < maxDistance && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                            float npcDist = Vector2.Distance(Projectile.Center, npc.Center);
+                            if (npcDist < maxDistance && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                             {
                                 maxDistance = npcDist;
                                 targetPos = npc.Center;
@@ -126,12 +126,12 @@ namespace CalamityMod.Projectiles.Summon
                 if (foundTarget)
                 {
                     float shootSpeed = 15f;
-                    Vector2 source = projectile.Center;
+                    Vector2 source = Projectile.Center;
                     Vector2 velocity = targetPos - source;
                     velocity.Normalize();
                     velocity *= shootSpeed;
-                    Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SolarBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    projectile.ai[0] = 20f;
+                    Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SolarBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.ai[0] = 20f;
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class SignusScythe : ModProjectile
@@ -14,62 +15,62 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scythe");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 420;
-            projectile.alpha = 100;
-            projectile.penetrate = -1;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 420;
+            Projectile.alpha = 100;
+            Projectile.penetrate = -1;
             cooldownSlot = 1;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(counter);
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             counter = reader.ReadInt32();
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.5f * projectile.direction;
+            Projectile.rotation += 0.5f * Projectile.direction;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                Main.PlaySound(SoundID.Item73, projectile.position);
+                Projectile.localAI[0] = 1f;
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
             }
 
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
+            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 150f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 150f)
             {
-                if (projectile.ai[1] > 0f && projectile.ai[0] < 160f)
+                if (Projectile.ai[1] > 0f && Projectile.ai[0] < 160f)
                 {
-                    int num625 = (int)projectile.ai[1] - 1;
+                    int num625 = (int)Projectile.ai[1] - 1;
                     if (num625 < Main.maxPlayers)
                     {
-                        Vector2 value16 = Main.player[num625].Center - projectile.Center;
-                        projectile.velocity = Vector2.Normalize(value16) * 22f;
+                        Vector2 value16 = Main.player[num625].Center - Projectile.Center;
+                        Projectile.velocity = Vector2.Normalize(value16) * 22f;
                     }
                 }
             }
@@ -77,12 +78,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -93,10 +94,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item74, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -106,10 +107,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 10; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.5f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

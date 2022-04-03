@@ -15,26 +15,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.damage = 210;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 20;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 70;
-            item.shoot = ModContent.ProjectileType<InsidiousImpalerProj>();
-            item.shootSpeed = 5f;
+            Item.width = 66;
+            Item.damage = 210;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 20;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 70;
+            Item.shoot = ModContent.ProjectileType<InsidiousImpalerProj>();
+            Item.shootSpeed = 5f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

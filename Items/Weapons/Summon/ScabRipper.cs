@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item83;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BabyBloodCrawler>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 15;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item83;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BabyBloodCrawler>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -47,13 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            recipe.AddIngredient(ItemID.TissueSample, 9);
-            recipe.AddIngredient(ItemID.Shadewood, 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.CrimtaneBar, 5).AddIngredient(ItemID.TissueSample, 9).AddIngredient(ItemID.Shadewood, 20).AddTile(TileID.Anvils).Register();
         }
     }
 }

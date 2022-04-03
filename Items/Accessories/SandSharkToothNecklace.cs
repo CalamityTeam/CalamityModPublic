@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 44;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
+            Item.width = 32;
+            Item.height = 44;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,13 +30,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SharkToothNecklace);
-            recipe.AddIngredient(ItemID.AvengerEmblem);
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SharkToothNecklace).AddIngredient(ItemID.AvengerEmblem).AddIngredient(ModContent.ItemType<GrandScale>()).AddTile(TileID.TinkerersWorkbench).Register();
         }
     }
 }

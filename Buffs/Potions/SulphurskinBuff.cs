@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class SulphurskinBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurskin");
             Description.SetDefault("The sulphuric waters have a lesser effect on you");

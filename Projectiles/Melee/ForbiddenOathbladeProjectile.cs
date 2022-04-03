@@ -11,31 +11,31 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oathblade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.aiStyle = 18;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 3;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.aiStyle = 18;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 3;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
             aiType = ProjectileID.DemonScythe;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.35f);
+            Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.35f);
 
             if (Main.rand.NextBool(3))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

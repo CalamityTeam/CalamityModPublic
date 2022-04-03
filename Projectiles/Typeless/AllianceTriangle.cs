@@ -13,43 +13,43 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 154;
-            projectile.height = 134;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 254;
+            Projectile.width = 154;
+            Projectile.height = 134;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 254;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            Lighting.AddLight(projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
-            projectile.Center = player.Center;
+            Player player = Main.player[Projectile.owner];
+            Lighting.AddLight(Projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
+            Projectile.Center = player.Center;
 
-            projectile.ai[0]++;
-            if (projectile.ai[0] <= 5f)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] <= 5f)
             {
-                projectile.alpha -= 75;
-                if (projectile.alpha < 0)
-                    projectile.alpha = 0;
+                Projectile.alpha -= 75;
+                if (Projectile.alpha < 0)
+                    Projectile.alpha = 0;
             }
             else
             {
-                projectile.scale *= 1.06f;
-                projectile.alpha += 10;
+                Projectile.scale *= 1.06f;
+                Projectile.alpha += 10;
             }
 
-            if (projectile.alpha >= 255 || player is null || player.dead)
+            if (Projectile.alpha >= 255 || player is null || player.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.alpha <= 0)
+            if (Projectile.alpha <= 0)
                 return new Color(200, 200, 200, 200);
             return null;
         }

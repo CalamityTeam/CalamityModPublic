@@ -20,32 +20,32 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 8;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.height = 58;
+            Item.width = 58;
+            Item.damage = 8;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.height = 58;
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<CursorProj>();
-            item.shootSpeed = 5f;
+            Item.shoot = ModContent.ProjectileType<CursorProj>();
+            Item.shootSpeed = 5f;
         }
 
         // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             float formula = 5f * (player.allDamage - 1f);
-            formula += player.meleeDamage - 1f;
-            formula += player.rangedDamage - 1f;
-            formula += player.magicDamage - 1f;
-            formula += player.minionDamage - 1f;
+            formula += player.GetDamage(DamageClass.Melee) - 1f;
+            formula += player.GetDamage(DamageClass.Ranged) - 1f;
+            formula += player.GetDamage(DamageClass.Magic) - 1f;
+            formula += player.GetDamage(DamageClass.Summon) - 1f;
             formula += player.Calamity().throwingDamage - 1f;
             add += formula;
         }
@@ -58,17 +58,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddIngredient(ItemID.Glass, 20);
-            recipe.AddIngredient(ItemID.Gel, 15);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 10).AddIngredient(ItemID.MeteoriteBar, 10).AddIngredient(ModContent.ItemType<AerialiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ItemID.Glass, 20).AddIngredient(ItemID.Gel, 15).AddIngredient(ItemID.FallenStar, 5).AddTile(TileID.Anvils).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

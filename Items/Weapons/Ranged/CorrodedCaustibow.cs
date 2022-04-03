@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 88;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 38;
-            item.useTime = 45;
-            item.useAnimation = 45;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Shell>();
-            item.shootSpeed = 5f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 88;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 38;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Shell>();
+            Item.shootSpeed = 5f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -51,13 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<Shellshooter>());
-            r.AddIngredient(ModContent.ItemType<Toxibow>());
-            r.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Shellshooter>()).AddIngredient(ModContent.ItemType<Toxibow>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

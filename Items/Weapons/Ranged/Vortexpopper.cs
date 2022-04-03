@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 22;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item95;
-            item.autoReuse = true;
-            item.shootSpeed = 50f;
-            item.shoot = ProjectileID.Xenopopper;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 22;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item95;
+            Item.autoReuse = true;
+            Item.shootSpeed = 50f;
+            Item.shoot = ProjectileID.Xenopopper;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             num78 *= num80;
             num79 *= num80;
-            Vector2 value6 = Vector2.Normalize(new Vector2(num78, num79)) * 40f * item.scale;
+            Vector2 value6 = Vector2.Normalize(new Vector2(num78, num79)) * 40f * Item.scale;
             if (Collision.CanHit(vector2, 0, 0, vector2 + value6, 0, 0))
             {
             }
@@ -106,12 +106,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Xenopopper);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Xenopopper).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

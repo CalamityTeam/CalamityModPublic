@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 58;
-            item.scale = 1.5f;
-            item.damage = 112;
-            item.melee = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 17;
-            item.useTurn = true;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<TerraEdgeBeam>();
-            item.shootSpeed = 12f;
+            Item.width = 58;
+            Item.height = 58;
+            Item.scale = 1.5f;
+            Item.damage = 112;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 17;
+            Item.useTurn = true;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<TerraEdgeBeam>();
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,20 +44,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
-            recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TrueNightsEdge);
-            recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TrueBloodyEdge>()).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ItemID.TrueNightsEdge).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

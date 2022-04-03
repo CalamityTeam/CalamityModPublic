@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 54;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 38;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             int x = (int)player.Center.X / 16;
             int y = (int)(player.Bottom.Y - 1f) / 16;
             Tile groundTile = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
-            bool groundTileIsSolid = groundTile.nactive() && (Main.tileSolid[groundTile.type] || Main.tileSolidTop[groundTile.type]);
+            bool groundTileIsSolid = groundTile.nactive() && (Main.tileSolid[groundTile.TileType] || Main.tileSolidTop[groundTile.TileType]);
             if (groundTileIsSolid && player.gravDir == 1f)
                 modPlayer.BloomStoneRegen = true;
 
@@ -45,19 +45,19 @@ namespace CalamityMod.Items.Accessories
                 Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y);
                 if (!walkTile.active() && walkTile.liquid == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
                 {
-                    walkTile.frameY = 0;
+                    walkTile.TileFrameY = 0;
                     walkTile.slope(0);
                     walkTile.halfBrick(false);
                     // On dirt blocks, there's a small chance to grow a dye plant.
-                    if (groundTile.type == TileID.Dirt)
+                    if (groundTile.TileType == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
                         {
                             walkTile.active(true);
-                            walkTile.type = TileID.DyePlants;
-                            walkTile.frameX = (short)(34 * Main.rand.Next(1, 13));
-                            while (walkTile.frameX == 144)
-                                walkTile.frameX = (short)(34 * Main.rand.Next(1, 13));
+                            walkTile.TileType = TileID.DyePlants;
+                            walkTile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
+                            while (walkTile.TileFrameX == 144)
+                                walkTile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
                         }
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -65,25 +65,25 @@ namespace CalamityMod.Items.Accessories
                     }
 
                     // On grass, grow flowers.
-                    if (groundTile.type == TileID.Grass)
+                    if (groundTile.TileType == TileID.Grass)
                     {
                         if (Main.rand.NextBool(2))
                         {
                             walkTile.active(true);
-                            walkTile.type = TileID.Plants;
-                            walkTile.frameX = (short)(18 * Main.rand.Next(6, 11));
+                            walkTile.TileType = TileID.Plants;
+                            walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 11));
 
-                            while (walkTile.frameX == 144)
-                                walkTile.frameX = (short)(18 * Main.rand.Next(6, 11));
+                            while (walkTile.TileFrameX == 144)
+                                walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 11));
                         }
                         else
                         {
                             walkTile.active(true);
-                            walkTile.type = TileID.Plants2;
-                            walkTile.frameX = (short)(18 * Main.rand.Next(6, 21));
+                            walkTile.TileType = TileID.Plants2;
+                            walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 21));
 
-                            while (walkTile.frameX == 144)
-                                walkTile.frameX = (short)(18 * Main.rand.Next(6, 21));
+                            while (walkTile.TileFrameX == 144)
+                                walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 21));
                         }
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -91,23 +91,23 @@ namespace CalamityMod.Items.Accessories
                     }
 
                     // On hallowed grass, grow hallowed flowers.
-                    else if (groundTile.type == TileID.HallowedGrass)
+                    else if (groundTile.TileType == TileID.HallowedGrass)
                     {
                         if (Main.rand.NextBool(2))
                         {
                             walkTile.active(true);
-                            walkTile.type = TileID.HallowedPlants;
-                            walkTile.frameX = (short)(18 * Main.rand.Next(4, 7));
-                            while (walkTile.frameX == 90)
-                                walkTile.frameX = (short)(18 * Main.rand.Next(4, 7));
+                            walkTile.TileType = TileID.HallowedPlants;
+                            walkTile.TileFrameX = (short)(18 * Main.rand.Next(4, 7));
+                            while (walkTile.TileFrameX == 90)
+                                walkTile.TileFrameX = (short)(18 * Main.rand.Next(4, 7));
                         }
                         else
                         {
                             walkTile.active(true);
-                            walkTile.type = TileID.HallowedPlants2;
-                            walkTile.frameX = (short)(18 * Main.rand.Next(2, 8));
-                            while (walkTile.frameX == 90)
-                                walkTile.frameX = (short)(18 * Main.rand.Next(2, 8));
+                            walkTile.TileType = TileID.HallowedPlants2;
+                            walkTile.TileFrameX = (short)(18 * Main.rand.Next(2, 8));
+                            while (walkTile.TileFrameX == 90)
+                                walkTile.TileFrameX = (short)(18 * Main.rand.Next(2, 8));
                         }
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -115,11 +115,11 @@ namespace CalamityMod.Items.Accessories
                     }
 
                     // On jungle grass, grow jungle flowers.
-                    else if (groundTile.type == TileID.JungleGrass)
+                    else if (groundTile.TileType == TileID.JungleGrass)
                     {
                         walkTile.active(true);
-                        walkTile.type = TileID.JunglePlants2;
-                        walkTile.frameX = (short)(18 * Main.rand.Next(9, 17));
+                        walkTile.TileType = TileID.JunglePlants2;
+                        walkTile.TileFrameX = (short)(18 * Main.rand.Next(9, 17));
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);

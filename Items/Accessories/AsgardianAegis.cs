@@ -29,12 +29,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 54;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.defense = 28;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 60;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.defense = 28;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AegisHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
                 {
                     line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
                 }
@@ -83,14 +83,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AsgardsValor>());
-            recipe.AddIngredient(ModContent.ItemType<ElysianAegis>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AsgardsValor>()).AddIngredient(ModContent.ItemType<ElysianAegis>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -22,23 +22,23 @@ Stealth strikes are super fast and pierce infinitely");
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = Knockback;
-            item.value = Item.buyPrice(0, 1, 40, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 3;
+            Item.damage = BaseDamage;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = Knockback;
+            Item.value = Item.buyPrice(0, 1, 40, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 3;
 
-            item.shootSpeed = Speed;
-            item.shoot = ModContent.ProjectileType<GlaiveProj>();
+            Item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<GlaiveProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -62,7 +62,7 @@ Stealth strikes are super fast and pierce infinitely");
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < item.stack;
+            return player.ownedProjectileCounts[Item.shoot] < Item.stack;
         }
 
     }

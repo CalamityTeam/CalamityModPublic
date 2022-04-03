@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
+using Terraria.Audio;
 
 namespace CalamityMod.UI
 {
@@ -43,7 +44,7 @@ namespace CalamityMod.UI
             }
 
             // Draw the background.
-            Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterBackground");
+            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterBackground");
             spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
             Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size());
@@ -54,9 +55,9 @@ namespace CalamityMod.UI
             Vector2 backgroundTopLeft = BackgroundCenter - backgroundTexture.Size() * GeneralScale * 0.5f;
 
             // Draw the cell payment slot icon.
-            Texture2D emptyCellIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
-            Texture2D occupiedCellIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
-            Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
+            Texture2D emptyCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
+            Texture2D occupiedCellIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
+            Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
             Texture2D cellTexture = codebreakerTileEntity.InputtedCellCount > 0 ? occupiedCellIconTexture : emptyCellIconTexture;
             Vector2 cellDrawCenter = backgroundTopLeft + Vector2.One * GeneralScale * 60f;
 
@@ -103,7 +104,7 @@ namespace CalamityMod.UI
                 DrawDecryptCancelConfirmationText(textPanelCenter);
 
             // Draw the schematic icon.
-            Texture2D schematicIconBG = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotBackground");
+            Texture2D schematicIconBG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotBackground");
             Texture2D schematicIconTexture = schematicIconBG;
             int schematicType = 0;
 
@@ -111,13 +112,13 @@ namespace CalamityMod.UI
                 schematicType = CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID];
 
             if (schematicType == ModContent.ItemType<EncryptedSchematicPlanetoid>())
-                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicPlanetoid");
+                schematicIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/EncryptedSchematicPlanetoid");
             if (schematicType == ModContent.ItemType<EncryptedSchematicJungle>())
-                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicJungle");
+                schematicIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/EncryptedSchematicJungle");
             if (schematicType == ModContent.ItemType<EncryptedSchematicHell>())
-                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicHell");
+                schematicIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/EncryptedSchematicHell");
             if (schematicType == ModContent.ItemType<EncryptedSchematicIce>())
-                schematicIconTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/EncryptedSchematicIce");
+                schematicIconTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/EncryptedSchematicIce");
 
             spriteBatch.Draw(schematicIconBG, schematicSlotDrawCenter, null, Color.White, 0f, schematicIconBG.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
             if (codebreakerTileEntity.HeldSchematicID != 0)
@@ -199,7 +200,7 @@ namespace CalamityMod.UI
                 if (cellStackDiff != 0)
                 {
                     if (shouldPlaySound)
-                        Main.PlaySound(SoundID.Grab);
+                        SoundEngine.PlaySound(SoundID.Grab);
                     AwaitingDecryptionTextClose = false;
                     codebreakerTileEntity.InputtedCellCount += cellStackDiff;
                     codebreakerTileEntity.SyncContainedStuff();
@@ -233,7 +234,7 @@ namespace CalamityMod.UI
                     codebreakerTileEntity.HeldSchematicID = 0;
                     codebreakerTileEntity.DecryptionCountdown = 0;
                     codebreakerTileEntity.SyncContainedStuff();
-                    Main.PlaySound(SoundID.Grab);
+                    SoundEngine.PlaySound(SoundID.Grab);
 
                     AwaitingDecryptionTextClose = false;
                 }
@@ -244,7 +245,7 @@ namespace CalamityMod.UI
                     codebreakerTileEntity.HeldSchematicID = CalamityLists.EncryptedSchematicIDRelationship.First(i => i.Value == Main.mouseItem.type).Key;
                     playerHandItem.TurnToAir();
                     codebreakerTileEntity.SyncContainedStuff();
-                    Main.PlaySound(SoundID.Grab);
+                    SoundEngine.PlaySound(SoundID.Grab);
 
                     AwaitingDecryptionTextClose = false;
                 }
@@ -255,7 +256,7 @@ namespace CalamityMod.UI
                     int previouslyHeldSchematic = CalamityLists.EncryptedSchematicIDRelationship[codebreakerTileEntity.HeldSchematicID];
 
                     // If the schematics are the same, don't actually do anything, just play the sound as an illusion, to prevent having to send a packet.
-                    Main.PlaySound(SoundID.Grab);
+                    SoundEngine.PlaySound(SoundID.Grab);
                     if (playerHandItem.type != previouslyHeldSchematic)
                     {
                         codebreakerTileEntity.HeldSchematicID = CalamityLists.EncryptedSchematicIDRelationship.First(i => i.Value == Main.mouseItem.type).Key;
@@ -275,7 +276,7 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(Main.spriteBatch, Main.fontMouseText, text, drawPosition.X, drawPosition.Y + GeneralScale * 20f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, GeneralScale);
 
             // And draw the cells to the right of the text.
-            Texture2D cellTexture = ModContent.GetTexture("CalamityMod/Items/DraedonMisc/PowerCell");
+            Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/PowerCell");
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
@@ -285,7 +286,7 @@ namespace CalamityMod.UI
 
         public static void DrawCostVerificationButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
-            Texture2D confirmationTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptIcon");
+            Texture2D confirmationTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DecryptIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, confirmationTexture.Size() * VerificationButtonScale);
 
             // Check if the mouse is hovering over the cost button area.
@@ -299,7 +300,7 @@ namespace CalamityMod.UI
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    Main.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
+                    SoundEngine.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
                     AwaitingDecryptionTextClose = true;
                     codebreakerTileEntity.InitialCellCountBeforeDecrypting = codebreakerTileEntity.InputtedCellCount;
                     codebreakerTileEntity.DecryptionCountdown = codebreakerTileEntity.DecryptionTotalTime;
@@ -319,7 +320,7 @@ namespace CalamityMod.UI
         public static void DisplayDecryptCancelButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
             bool clickingMouse = Main.mouseLeft && Main.mouseLeftRelease;
-            Texture2D cancelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DecryptCancelIcon");
+            Texture2D cancelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DecryptCancelIcon");
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, cancelTexture.Size() * CancelButtonScale * 1.2f);
 
             // Check if the mouse is hovering over the decrypt button area.
@@ -334,7 +335,7 @@ namespace CalamityMod.UI
                 {
                     if (AwaitingCloseConfirmation)
                     {
-                        Main.PlaySound(SoundID.Item94, Main.LocalPlayer.Center);
+                        SoundEngine.PlaySound(SoundID.Item94, Main.LocalPlayer.Center);
 
                         AwaitingDecryptionTextClose = false;
                         codebreakerTileEntity.InitialCellCountBeforeDecrypting = 0;
@@ -362,7 +363,7 @@ namespace CalamityMod.UI
 
         public static void DrawDecryptCancelConfirmationText(Vector2 drawPosition)
         {
-            Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
+            Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
             Vector2 scale = new Vector2(1f, 0.3f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
 
@@ -373,7 +374,7 @@ namespace CalamityMod.UI
 
         public static void HandleDecryptionStuff(TECodebreaker codebreakerTileEntity, Texture2D backgroundTexture, Vector2 backgroundTopLeft, Vector2 barCenter)
         {
-            Texture2D textPanelTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
+            Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen");
             Vector2 textPanelCenter = backgroundTopLeft + Vector2.UnitX * backgroundTexture.Width * GeneralScale + textPanelTexture.Size() * new Vector2(-0.5f, 0.5f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, textPanelCenter, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
@@ -415,8 +416,8 @@ namespace CalamityMod.UI
                 return;
 
             // Draw a small bar at the bottom to indicate how much work is left.
-            Texture2D borderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBar");
-            Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBarCharge");
+            Texture2D borderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBar");
+            Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CodebreakerDecyptionBarCharge");
             Main.spriteBatch.Draw(borderTexture, barCenter, null, Color.White, 0f, borderTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0);
             Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * codebreakerTileEntity.DecryptionCompletion), barTexture.Width);
             Main.spriteBatch.Draw(barTexture, barCenter, barRectangle, Color.White, 0f, barTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0);
@@ -429,7 +430,7 @@ namespace CalamityMod.UI
 
         public static void HandleDraedonSummonButton(TECodebreaker codebreakerTileEntity, Vector2 drawPosition)
         {
-            Texture2D contactButton = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ContactIcon_THanos");
+            Texture2D contactButton = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ContactIcon_THanos");
 
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, contactButton.Size() * VerificationButtonScale);
 
@@ -446,7 +447,7 @@ namespace CalamityMod.UI
                 {
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
-                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CodebreakerBeam"), CalamityWorld.DraedonSummonPosition);
+                    SoundEngine.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CodebreakerBeam"), CalamityWorld.DraedonSummonPosition);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
                     {

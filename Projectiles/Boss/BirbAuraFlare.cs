@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -19,61 +20,61 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1200;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1200;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                int num625 = (int)projectile.ai[1] - 1;
+                int num625 = (int)Projectile.ai[1] - 1;
                 if (num625 < 255)
                 {
-                    projectile.localAI[0] += 1f;
-                    if (projectile.localAI[0] > 10f)
+                    Projectile.localAI[0] += 1f;
+                    if (Projectile.localAI[0] > 10f)
                     {
                         // Dust pulse effect
-                        projectile.localAI[1] = (float)Math.Abs(Math.Cos(MathHelper.ToRadians(projectile.localAI[0] * 2f)));
+                        Projectile.localAI[1] = (float)Math.Abs(Math.Cos(MathHelper.ToRadians(Projectile.localAI[0] * 2f)));
                         int num626 = 18;
                         for (int num627 = 0; num627 < num626; num627++)
                         {
-                            Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * projectile.localAI[1];
-                            vector45 = vector45.RotatedBy((num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (float)num626) + projectile.Center;
+                            Vector2 vector45 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * Projectile.localAI[1];
+                            vector45 = vector45.RotatedBy((num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (float)num626) + Projectile.Center;
                             Vector2 value15 = ((float)(Main.rand.NextDouble() * Math.PI) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                             int num628 = Dust.NewDust(vector45 + value15, 0, 0, 60, value15.X * 2f, value15.Y * 2f, 100, default, 1f);
                             Main.dust[num628].scale = 1.4f;
                             Main.dust[num628].noGravity = true;
                             Main.dust[num628].noLight = true;
                             Main.dust[num628].velocity /= 4f;
-                            Main.dust[num628].velocity -= projectile.velocity;
+                            Main.dust[num628].velocity -= Projectile.velocity;
                         }
                     }
 
-                    Vector2 value16 = Main.player[num625].Center - projectile.Center;
+                    Vector2 value16 = Main.player[num625].Center - Projectile.Center;
                     float num629 = 4f;
-                    float divisor = 60f - 15f * projectile.ai[0];
-                    num629 += projectile.localAI[0] / divisor;
-                    projectile.velocity = Vector2.Normalize(value16) * num629;
+                    float divisor = 60f - 15f * Projectile.ai[0];
+                    num629 += Projectile.localAI[0] / divisor;
+                    Projectile.velocity = Vector2.Normalize(value16) * num629;
                     if (value16.Length() < 32f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
             }
@@ -81,22 +82,22 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.DD2_BetsyFireballImpact, (int)projectile.position.X, (int)projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, (int)Projectile.position.X, (int)Projectile.position.Y);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
+                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + Projectile.Center;
+                Vector2 vector7 = vector6 - Projectile.Center;
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 60, vector7.X, vector7.Y, 100, default, 1.4f);
                 Main.dust[num228].noGravity = true;
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int num231 = (int)(projectile.Center.Y / 16f);
-                int num232 = (int)(projectile.Center.X / 16f);
+                int num231 = (int)(Projectile.Center.Y / 16f);
+                int num232 = (int)(Projectile.Center.X / 16f);
                 int num233 = 100;
                 if (num232 < 10)
                 {
@@ -118,8 +119,8 @@ namespace CalamityMod.Projectiles.Boss
                 float y = num231 * 16 + 900;
                 Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
                 int type = ModContent.ProjectileType<BirbAura>();
-                int damage = projectile.GetProjectileDamage(ModContent.NPCType<Bumblefuck>());
-                if (projectile.ai[0] >= 2f)
+                int damage = Projectile.GetProjectileDamage(ModContent.NPCType<Bumblefuck>());
+                if (Projectile.ai[0] >= 2f)
                 {
                     x += 1000f;
                     if ((int)(x / 16f) > Main.maxTilesX - 10)

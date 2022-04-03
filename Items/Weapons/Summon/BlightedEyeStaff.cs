@@ -18,30 +18,30 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item82;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Calamitamini>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 40;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item82;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Calamitamini>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

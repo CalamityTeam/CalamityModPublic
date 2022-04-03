@@ -20,17 +20,17 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Potions
             {
                 foreach (TooltipLine line2 in list)
                 {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Makes you immune to all damage and most debuffs for 5 seconds";
                     }
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Potions
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.AddBuff(ModContent.BuffType<Invincible>(), (CalamityWorld.death || BossRushEvent.BossRushActive) ? 300 : 600);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 1500 : 1800);

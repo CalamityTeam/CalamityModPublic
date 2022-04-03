@@ -17,72 +17,72 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Irradiated Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 40;
-            npc.height = 30;
+            NPC.width = 40;
+            NPC.height = 30;
 
-            npc.damage = 42;
-            npc.lifeMax = 220;
-            npc.defense = 5;
+            NPC.damage = 42;
+            NPC.lifeMax = 220;
+            NPC.defense = 5;
 
-            npc.knockBackResist = 0f;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
             aiType = NPCID.ToxicSludge;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Falling);
-            writer.Write(npc.aiStyle);
+            writer.Write(NPC.aiStyle);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Falling = reader.ReadBoolean();
-            npc.aiStyle = reader.ReadInt32();
+            NPC.aiStyle = reader.ReadInt32();
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
+            Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
             if (Falling)
             {
-                npc.TargetClosest(false);
-                Player player = Main.player[npc.target];
-                npc.aiStyle = aiType = -1;
+                NPC.TargetClosest(false);
+                Player player = Main.player[NPC.target];
+                NPC.aiStyle = aiType = -1;
 
-                npc.noTileCollide = npc.noGravity = true;
-                if (player.Top.Y < npc.Bottom.Y)
+                NPC.noTileCollide = NPC.noGravity = true;
+                if (player.Top.Y < NPC.Bottom.Y)
                 {
-                    npc.noTileCollide = npc.noGravity = false;
+                    NPC.noTileCollide = NPC.noGravity = false;
                     Falling = false;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
                 else
                 {
-                    npc.velocity = Vector2.UnitY * 6f;
+                    NPC.velocity = Vector2.UnitY * 6f;
                 }
             }
             else
             {
-                npc.aiStyle = 1;
+                NPC.aiStyle = 1;
             }
         }
 
@@ -90,27 +90,27 @@ namespace CalamityMod.NPCs.AcidRain
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/IrradiatedSlime"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/IrradiatedSlime2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/IrradiatedSlime"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/IrradiatedSlime2"), 1f);
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
+            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow"));
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<LeadCore>(), 30);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

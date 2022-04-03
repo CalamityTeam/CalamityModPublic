@@ -20,26 +20,26 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.width = 112;
-            item.height = 36;
-            item.ranged = true;
-            item.damage = 150;
-            item.knockBack = 30f;
-            item.useTime = item.useAnimation = 32;
-            item.autoReuse = true;
+            Item.width = 112;
+            Item.height = 36;
+            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 150;
+            Item.knockBack = 30f;
+            Item.useTime = Item.useAnimation = 32;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
-            item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
-            item.shootSpeed = 27f;
+            Item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
+            Item.shootSpeed = 27f;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 135f;
@@ -56,14 +56,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 3);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18).AddIngredient(ModContent.ItemType<DubiousPlating>(), 12).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 60;
-            item.damage = 60;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.knockBack = 6.75f;
-            item.UseSound = SoundID.Item1;
-            item.melee = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<IcebreakerHammer>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 60;
+            Item.damage = 60;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.knockBack = 6.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.height = 60;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<IcebreakerHammer>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

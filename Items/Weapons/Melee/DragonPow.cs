@@ -25,44 +25,32 @@ Summons a barrage of petals and waterfalls on enemy hits");
 
         public override void SetDefaults()
         {
-            item.width = 76;
-            item.height = 82;
-            item.melee = true;
-            item.damage = 660;
-            item.knockBack = 9f;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 76;
+            Item.height = 82;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 660;
+            Item.knockBack = 9f;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort");
-            item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort");
+            Item.channel = true;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<DragonPowFlail>();
-            item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<DragonPowFlail>();
+            Item.shootSpeed = Speed;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddIngredient(ModContent.ItemType<Mourningstar>());
-            r.AddIngredient(ItemID.DaoofPow);
-            r.AddIngredient(ItemID.FlowerPow);
-            r.AddIngredient(ItemID.Flairon);
-            r.AddIngredient(ModContent.ItemType<BallOFugu>());
-            r.AddIngredient(ModContent.ItemType<Tumbleweed>());
-            r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
-            r.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Mourningstar>()).AddIngredient(ItemID.DaoofPow).AddIngredient(ItemID.FlowerPow).AddIngredient(ItemID.Flairon).AddIngredient(ModContent.ItemType<BallOFugu>()).AddIngredient(ModContent.ItemType<Tumbleweed>()).AddIngredient(ModContent.ItemType<UrchinFlail>()).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

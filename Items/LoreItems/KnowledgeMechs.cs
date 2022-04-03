@@ -16,10 +16,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Pink;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -29,33 +29,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.RetinazerTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.SpazmatismTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.DestroyerTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.SkeletronPrimeTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.RetinazerTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SpazmatismTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.DestroyerTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SkeletronPrimeTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
         }
     }
 }

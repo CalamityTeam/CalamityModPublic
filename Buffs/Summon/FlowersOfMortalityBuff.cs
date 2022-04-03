@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class FlowersOfMortalityBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flowers of Mortality");
             Description.SetDefault("Celestial blossoms surround you");

@@ -4,6 +4,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class UniverseSplitterField : ModProjectile
@@ -12,8 +13,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public float Timer
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public float DustRadius = 0f;
         public const float DustChargeTime = 30f;
@@ -27,18 +28,18 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Field");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 200;
-            projectile.alpha = 255;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = TimeLeft;
+            Projectile.width = Projectile.height = 200;
+            Projectile.alpha = 255;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = TimeLeft;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
             // Generate a dust ring that pulsates
             for (int i = 0; i < 80; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center + (i / 80f * MathHelper.TwoPi).ToRotationVector2() * DustRadius, 247);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + (i / 80f * MathHelper.TwoPi).ToRotationVector2() * DustRadius, 247);
                 dust.velocity = Vector2.Zero;
                 dust.scale = 1.2f;
                 dust.noGravity = true;
@@ -87,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     for (int j = 0; j < SpiralRings; j++)
                     {
-                        Dust dust = Dust.NewDustPerfect(projectile.Center +
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center +
                             Vector2.UnitY.RotatedBy(Timer / SpiralPrecision * direction).RotatedBy(j / (float)SpiralRings * MathHelper.TwoPi).RotatedBy(i / (float)SpiralPrecision * MathHelper.TwoPi / SpiralRings * direction) *
                             DustRadius * i / SpiralPrecision, 261);
                         dust.velocity = Vector2.Zero;
@@ -101,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             bool firingGiantLaserBeam = Timer > TimeLeft - UniverseSplitterHugeBeam.TimeLeft;
             for (int i = 0; i < (firingGiantLaserBeam ? 30 : 16); i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 247);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 247);
                 dust.velocity = Main.rand.NextVector2Circular(8f, 8f) * (firingGiantLaserBeam ? 1.6f : 1f);
                 dust.noGravity = true;
                 dust.scale = 1.25f;
@@ -113,10 +114,10 @@ namespace CalamityMod.Projectiles.Summon
                 float outwardCircleRadius = MathHelper.Lerp(0f, DustRadius * 1.2f, MathHelper.Clamp((Timer - (TimeLeft - UniverseSplitterHugeBeam.TimeLeft - 120f)) / 40f, 0f, 1f));
                 for (int i = 0; i < 95; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + (i / 95f * MathHelper.TwoPi).ToRotationVector2() * outwardCircleRadius, 247);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + (i / 95f * MathHelper.TwoPi).ToRotationVector2() * outwardCircleRadius, 247);
                     dust.scale = 1.2f;
                     dust.noGravity = true;
-                    dust.velocity = Main.rand.NextBool(7) ? projectile.DirectionFrom(dust.position) * 6f : Vector2.Zero;
+                    dust.velocity = Main.rand.NextBool(7) ? Projectile.DirectionFrom(dust.position) * 6f : Vector2.Zero;
                 }
             }
         }
@@ -128,29 +129,29 @@ namespace CalamityMod.Projectiles.Summon
                 Timer < TimeLeft - UniverseSplitterHugeBeam.TimeLeft &&
                 Timer % 60f == 0f)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), projectile.Center);
-                if (Main.myPlayer == projectile.owner)
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), Projectile.Center);
+                if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new Vector2(Main.rand.NextFloat(-800f, 800f), -1460f);
-                    Projectile.NewProjectile(projectile.Center + offset,
+                    Projectile.NewProjectile(Projectile.Center + offset,
                                              -Vector2.Normalize(offset),
                                              ModContent.ProjectileType<UniverseSplitterSmallBeam>(),
-                                             projectile.damage,
-                                             projectile.knockBack,
-                                             projectile.owner,
+                                             Projectile.damage,
+                                             Projectile.knockBack,
+                                             Projectile.owner,
                                              (-Vector2.Normalize(offset)).ToRotation());
                 }
             }
             // Summon a giant beam
-            if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == projectile.owner)
+            if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
-                Main.PlaySound(SoundID.Zombie, projectile.Center, 104);
-                Projectile.NewProjectile(projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
+                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
+                Projectile.NewProjectile(Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,
                                          ModContent.ProjectileType<UniverseSplitterHugeBeam>(),
-                                         projectile.damage,
-                                         projectile.knockBack,
-                                         projectile.owner,
+                                         Projectile.damage,
+                                         Projectile.knockBack,
+                                         Projectile.owner,
                                          0f);
             }
         }

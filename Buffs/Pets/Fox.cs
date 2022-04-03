@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class Fox : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fox Pet");
             Description.SetDefault("Fox Pet? FOX PET");

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class Irradiated : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Irradiated");
             Description.SetDefault("Your skin is burning off");

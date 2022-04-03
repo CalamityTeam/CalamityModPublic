@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -16,53 +17,53 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Sun UFO");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.SentryShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.SentryShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 58;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = 26;
+            Projectile.height = 58;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override bool CanDamage() => false;
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
-            Player player = Main.player[projectile.owner];
+            Lighting.AddLight(Projectile.Center, Color.SkyBlue.ToVector3());
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool(2).ToDirectionInt();
-                projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool(2).ToDirectionInt();
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool(2).ToDirectionInt();
+                Projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool(2).ToDirectionInt();
 
                 // This AI variable doubles as the random frame on which this UFO chooses to shoot its machine gun.
-                projectile.localAI[0] = Main.rand.Next(1, (int)MidnightSunBeacon.MachineGunRate);
+                Projectile.localAI[0] = Main.rand.Next(1, (int)MidnightSunBeacon.MachineGunRate);
             }
 
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<MidnightSunUFO>();
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<MidnightSunUFO>();
             player.AddBuff(ModContent.BuffType<MidnightSunBuff>(), 3600);
             if (isProperProjectile)
             {
@@ -72,78 +73,78 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.midnightUFO)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(DistanceToCheck, player);
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             if (potentialTarget != null)
             {
-                projectile.ai[0]++;
-                if (projectile.ai[0] % 360f < 180f)
+                Projectile.ai[0]++;
+                if (Projectile.ai[0] % 360f < 180f)
                 {
-                    projectile.rotation = projectile.rotation.AngleTowards(0f, 0.2f);
-                    float angle = MathHelper.ToRadians(2f * projectile.ai[0] % 180f);
+                    Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.2f);
+                    float angle = MathHelper.ToRadians(2f * Projectile.ai[0] % 180f);
                     Vector2 destination = potentialTarget.Center - new Vector2((float)Math.Cos(angle) * potentialTarget.width * 0.65f, 250f);
-                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 24f, 0.03f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(destination) * 24f, 0.03f);
 
-                    if (projectile.ai[0] % MidnightSunBeacon.MachineGunRate == projectile.localAI[0] && potentialTarget.Top.Y > projectile.Bottom.Y)
+                    if (Projectile.ai[0] % MidnightSunBeacon.MachineGunRate == Projectile.localAI[0] && potentialTarget.Top.Y > Projectile.Bottom.Y)
                     {
-                        Vector2 laserVelocity = projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
-                        Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Vector2 laserVelocity = Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
+                        Projectile.NewProjectile(Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
-                    projectile.MinionAntiClump(0.35f);
-                    projectile.ai[1] = 0f;
+                    Projectile.MinionAntiClump(0.35f);
+                    Projectile.ai[1] = 0f;
                 }
                 else
                 {
                     // Move very, very quickly above the target.
-                    Vector2 hoverDestination = potentialTarget.Top - Vector2.UnitY * 40f + (projectile.minionPos + projectile.ai[0] / 7f).ToRotationVector2() * 40f;
-                    projectile.Center = Vector2.Lerp(projectile.Center, hoverDestination, 0.1f).MoveTowards(hoverDestination, 20f);
-                    projectile.velocity = projectile.velocity.MoveTowards(Vector2.Zero, 4f);
-                    projectile.ai[1] = Math.Abs(hoverDestination.Y - potentialTarget.Bottom.Y) + MathHelper.Lerp(30f, 50f, projectile.identity % 7f / 7f);
+                    Vector2 hoverDestination = potentialTarget.Top - Vector2.UnitY * 40f + (Projectile.minionPos + Projectile.ai[0] / 7f).ToRotationVector2() * 40f;
+                    Projectile.Center = Vector2.Lerp(Projectile.Center, hoverDestination, 0.1f).MoveTowards(hoverDestination, 20f);
+                    Projectile.velocity = Projectile.velocity.MoveTowards(Vector2.Zero, 4f);
+                    Projectile.ai[1] = Math.Abs(hoverDestination.Y - potentialTarget.Bottom.Y) + MathHelper.Lerp(30f, 50f, Projectile.identity % 7f / 7f);
 
-                    if (projectile.ai[0] % 360f == 240f)
+                    if (Projectile.ai[0] % 360f == 240f)
                     {
-                        if (Main.myPlayer == projectile.owner)
+                        if (Main.myPlayer == Projectile.owner)
                         {
-                            Main.PlaySound(SoundID.Item122, projectile.Center);
-                            Vector2 laserVelocity = projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
-                            Projectile.NewProjectile(projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, projectile.whoAmI);
+                            SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
+                            Vector2 laserVelocity = Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
+                            Projectile.NewProjectile(Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
                         }
                     }
                 }
             }
             else
             {
-                projectile.velocity = (projectile.velocity * 15f + projectile.SafeDirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
+                Projectile.velocity = (Projectile.velocity * 15f + Projectile.SafeDirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
 
-                Vector2 distanceVector = player.Center - projectile.Center;
+                Vector2 distanceVector = player.Center - Projectile.Center;
                 if (distanceVector.Length() > DistanceToCheck * 1.5f)
                 {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
 
-                projectile.MinionAntiClump(0.35f);
-                projectile.rotation = projectile.velocity.X * 0.03f;
+                Projectile.MinionAntiClump(0.35f);
+                Projectile.rotation = Projectile.velocity.X * 0.03f;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

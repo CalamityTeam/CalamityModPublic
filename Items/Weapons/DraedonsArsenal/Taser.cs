@@ -20,46 +20,39 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.width = 50;
-            item.height = 26;
-            item.ranged = true;
-            item.damage = 22;
-            item.knockBack = 0f;
-            item.useTime = item.useAnimation = 28;
-            item.autoReuse = true;
+            Item.width = 50;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 22;
+            Item.knockBack = 0f;
+            Item.useTime = Item.useAnimation = 28;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
-            item.shoot = ModContent.ProjectileType<TaserHook>();
-            item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<TaserHook>();
+            Item.shootSpeed = 15f;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 50f;
             modItem.ChargePerUse = 0.05f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7).AddIngredient(ModContent.ItemType<DubiousPlating>(), 5).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
         }
     }
 }

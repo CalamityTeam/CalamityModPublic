@@ -18,21 +18,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 320;
-            projectile.height = 320;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 320;
+            Projectile.height = 320;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft >= 8)
+            if (Projectile.timeLeft >= 8)
             {
                 for (int i = 0; i < 50; i++)
                 {
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                     dustVelocity.Normalize();
                     dustVelocity *= 8;
 
-                    int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, dustVelocity.X, dustVelocity.Y, 0, default, 0.75f);
+                    int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, dustVelocity.X, dustVelocity.Y, 0, default, 0.75f);
                     Main.dust[dust].noGravity = true;
                 }
             }
@@ -62,6 +62,6 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Electrified, 180);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -19,58 +20,58 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
-            projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.Calamity().rogue = true;
+            Projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 25;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 45f)
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= 45f)
                 {
                     float horizontalMult = 0.98f;
                     float fallSpeed = 0.35f;
-                    projectile.velocity.X *= horizontalMult;
-                    projectile.velocity.Y += fallSpeed;
+                    Projectile.velocity.X *= horizontalMult;
+                    Projectile.velocity.Y += fallSpeed;
                 }
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
-                    if (projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
+                    if (Projectile.timeLeft % 8 == 0 && Projectile.owner == Main.myPlayer)
                     {
-                        Vector2 velocity = projectile.DirectionFrom(Main.player[projectile.owner].Center);
+                        Vector2 velocity = Projectile.DirectionFrom(Main.player[Projectile.owner].Center);
                         velocity *= Main.rand.NextFloat(4.5f, 6.5f);
                         velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * Math.PI * 0.5, default);
-                        int spike = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
+                        int spike = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, -10f, 0f);
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].Calamity().forceRogue = true;
                     }
                 }
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(15);
+            Projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(6, false);
+            Projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -84,28 +85,28 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[Projectile.type];
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 72);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 72);
             for (int d = 0; d < 3; d++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
             for (int d = 0; d < 30; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
                 Main.dust[idx].velocity *= 2f;
                 Main.dust[idx].noGravity = true;
             }

@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.Calamity().donorItem = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
@@ -41,14 +41,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CounterScarf>());
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.Silk, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CounterScarf>()).AddIngredient(ItemID.SoulofNight, 5).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.Silk, 15).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

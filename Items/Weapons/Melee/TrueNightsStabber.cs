@@ -16,38 +16,33 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.width = 40;
-            item.height = 40;
-            item.damage = 310;
-            item.melee = true;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ShortNightBeam>();
-            item.shootSpeed = 25f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.width = 40;
+            Item.height = 40;
+            Item.damage = 310;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ShortNightBeam>();
+            Item.shootSpeed = 25f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NightsStabber>());
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NightsStabber>()).AddIngredient(ItemID.BrokenHeroSword).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

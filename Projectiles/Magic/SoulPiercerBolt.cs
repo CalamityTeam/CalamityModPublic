@@ -14,22 +14,22 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.extraUpdates = 100;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 180;
-            projectile.penetrate = -1;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.extraUpdates = 100;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 180;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            Vector2 vector33 = projectile.position;
-            vector33 -= projectile.velocity;
+            Vector2 vector33 = Projectile.position;
+            vector33 -= Projectile.velocity;
             int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
             Main.dust[num448].position = vector33;
             Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.014f;

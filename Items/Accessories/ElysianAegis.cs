@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 48;
-            item.height = 42;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.defense = 18;
-            item.accessory = true;
+            Item.width = 48;
+            Item.height = 42;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.defense = 18;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AegisHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
                 {
                     line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance and defense";
                 }

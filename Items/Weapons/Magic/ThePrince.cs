@@ -16,28 +16,28 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault($"Casts a holy fireball that explodes into {FlameSplitCount} flames\n" +
                                "So you're telling me that the prince exploded, and then turned into a flower?\n" +
                                "-Dain, the sailor druid");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 166;
-            item.knockBack = 4.25f;
-            item.shootSpeed = 23.5f;
-            item.magic = true;
-            item.noMelee = true;
-            item.mana = 12;
-            item.width = 102;
-            item.height = 112;
-            item.useTime = item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = true;
-            item.UseSound = SoundID.DD2_FlameburstTowerShot;
-            item.shoot = ModContent.ProjectileType<PrinceFlameLarge>();
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().donorItem = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 166;
+            Item.knockBack = 4.25f;
+            Item.shootSpeed = 23.5f;
+            Item.DamageType = DamageClass.Magic;
+            Item.noMelee = true;
+            Item.mana = 12;
+            Item.width = 102;
+            Item.height = 112;
+            Item.useTime = Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.DD2_FlameburstTowerShot;
+            Item.shoot = ModContent.ProjectileType<PrinceFlameLarge>();
+            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -56,13 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArchAmaryllis>()).AddIngredient(ModContent.ItemType<DivineGeode>(), 15).AddIngredient(ModContent.ItemType<UnholyEssence>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -18,28 +19,28 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 32;
-            item.damage = 30;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 0, 40);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 30;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 0, 40);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 9, 2, 0);
+            SoundEngine.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 9, 2, 0);
 
             if (player.Calamity().StealthStrikeAvailable())
             {
@@ -53,11 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 15);
-            recipe.AddRecipeGroup("Boss2Material");
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ModContent.ItemType<EbonianGel>(), 15).AddRecipeGroup("Boss2Material").Register();
         }
     }
 }

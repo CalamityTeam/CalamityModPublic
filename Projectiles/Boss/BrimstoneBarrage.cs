@@ -16,88 +16,88 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Dart");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 690;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 690;
             cooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
 
-            if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? (malice ? 17.5f : 14f) : (malice ? 12.5f : 10f)))
-                projectile.velocity *= malice ? 1.0125f : 1.01f;
+            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (malice ? 17.5f : 14f) : (malice ? 12.5f : 10f)))
+                Projectile.velocity *= malice ? 1.0125f : 1.01f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-                projectile.frame = 0;
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
 
-            if (projectile.timeLeft < 60)
-                projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+            if (Projectile.timeLeft < 60)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
 
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                if (projectile.timeLeft > 570)
+                if (Projectile.timeLeft > 570)
                 {
-                    int player = Player.FindClosest(projectile.Center, 1, 1);
-                    Vector2 vector = Main.player[player].Center - projectile.Center;
-                    float scaleFactor = projectile.velocity.Length();
+                    int player = Player.FindClosest(Projectile.Center, 1, 1);
+                    Vector2 vector = Main.player[player].Center - Projectile.Center;
+                    float scaleFactor = Projectile.velocity.Length();
                     vector.Normalize();
                     vector *= scaleFactor;
-                    projectile.velocity = (projectile.velocity * 15f + vector) / 16f;
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= scaleFactor;
+                    Projectile.velocity = (Projectile.velocity * 15f + vector) / 16f;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= scaleFactor;
                 }
             }
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
 
-                if (projectile.ai[0] == 0f)
-                    projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
+                if (Projectile.ai[0] == 0f)
+                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
             }
 
-            Lighting.AddLight(projectile.Center, 0.75f * projectile.Opacity, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.75f * Projectile.Opacity, 0f, 0f);
         }
 
-        public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.Opacity != 1f)
+            if (Projectile.Opacity != 1f)
                 return;
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
@@ -108,8 +108,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor.R = (byte)(255 * projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

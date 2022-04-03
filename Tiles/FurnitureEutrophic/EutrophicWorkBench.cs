@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicWorkBench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();

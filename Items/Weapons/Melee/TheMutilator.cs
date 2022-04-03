@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -18,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 90;
-            item.height = 90;
-            item.scale = 1.5f;
-            item.damage = 483;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 10f;
+            Item.width = 90;
+            Item.height = 90;
+            Item.scale = 1.5f;
+            Item.damage = 483;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
                     }
                 }
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
                 target.position.X += target.width / 2;
                 target.position.Y += target.height / 2;
                 target.position.X -= target.width / 2;
@@ -76,11 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

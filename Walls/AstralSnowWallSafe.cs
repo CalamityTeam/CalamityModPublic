@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
     public class AstralSnowWallSafe : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = ModContent.DustType<Dusts.AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.Walls.AstralSnowWall>();

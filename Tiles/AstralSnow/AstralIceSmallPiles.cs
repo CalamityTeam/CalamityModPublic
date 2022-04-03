@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.AstralSnow
 {
     public class AstralIceSmallPiles : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoFail[Type] = true;

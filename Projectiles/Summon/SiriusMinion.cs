@@ -12,31 +12,31 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sirius");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 48;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 38;
+            Projectile.height = 48;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<SiriusMinion>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<SiriusMinion>();
             if (correctMinion)
             {
                 if (player.dead)
@@ -45,69 +45,69 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.sirius)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             player.AddBuff(ModContent.BuffType<SiriusBuff>(), 3600);
 
-            projectile.minionSlots = projectile.ai[0];
-            Lighting.AddLight(projectile.Center, 1f, 0.5f, 5f);
+            Projectile.minionSlots = Projectile.ai[0];
+            Lighting.AddLight(Projectile.Center, 1f, 0.5f, 5f);
 
-            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y += 120f;
-                projectile.rotation = MathHelper.Pi;
+                Projectile.position.Y += 120f;
+                Projectile.rotation = MathHelper.Pi;
             }
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
 
             float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
             scalar *= 0.2f;
-            projectile.scale = scalar + 0.95f;
+            Projectile.scale = scalar + 0.95f;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
-                    int sirius = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 20, 0f, 0f, 0, default, 1f);
+                    int sirius = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 20, 0f, 0f, 0, default, 1f);
                     Main.dust[sirius].velocity *= 2f;
                     Main.dust[sirius].scale *= 1.15f;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
 
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                projectile.damage = damage2;
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
+                Projectile.damage = damage2;
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                if (projectile.ai[1] != 0f)
+                if (Projectile.ai[1] != 0f)
                 {
-                    projectile.ai[1] -= 1f;
+                    Projectile.ai[1] -= 1f;
                     return;
                 }
-                Vector2 targetVec = projectile.position;
+                Vector2 targetVec = Projectile.position;
                 float maxDistance = 7000f;
                 bool hasTarget = false;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-                        if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                        if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance))
                         {
                             targetVec = npc.Center;
                             hasTarget = true;
@@ -119,11 +119,11 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
                             float extraDistance = (npc.width / 2) + (npc.height / 2);
 
-                            if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+                            if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance))
                             {
                                 targetVec = npc.Center;
                                 hasTarget = true;
@@ -134,16 +134,16 @@ namespace CalamityMod.Projectiles.Summon
                 if (hasTarget)
                 {
                     float projSpeed = 15f;
-                    Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y);
-                    Vector2 velocity = targetVec - projectile.Center;
+                    Vector2 source = new Vector2(Projectile.Center.X - 4f, Projectile.Center.Y);
+                    Vector2 velocity = targetVec - Projectile.Center;
                     float targetDist = velocity.Length();
                     targetDist = projSpeed / targetDist;
                     velocity.X *= targetDist;
                     velocity.Y *= targetDist;
-                    float damageMult = ((float)Math.Log(projectile.ai[0], MathHelper.E)) + 1f;
-                    int beam = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner);
-                    Main.projectile[beam].penetrate = (int)projectile.ai[0];
-                    projectile.ai[1] = 30f;
+                    float damageMult = ((float)Math.Log(Projectile.ai[0], MathHelper.E)) + 1f;
+                    int beam = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
+                    Main.projectile[beam].penetrate = (int)Projectile.ai[0];
+                    Projectile.ai[1] = 30f;
                 }
             }
         }

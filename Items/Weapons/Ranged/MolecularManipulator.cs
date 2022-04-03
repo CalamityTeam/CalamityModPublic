@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 580;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 34;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shootSpeed = 25f;
-            item.shoot = ModContent.ProjectileType<NullShot2>();
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 580;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 34;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shootSpeed = 25f;
+            Item.shoot = ModContent.ProjectileType<NullShot2>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,13 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NullificationRifle>());
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NullificationRifle>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 2).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

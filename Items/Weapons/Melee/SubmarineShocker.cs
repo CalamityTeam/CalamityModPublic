@@ -16,20 +16,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.width = 32;
-            item.height = 32;
-            item.damage = 60;
-            item.melee = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.width = 32;
+            Item.height = 32;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(damage * 0.7f), Item.knockBack, Main.myPlayer);
         }
     }
 }

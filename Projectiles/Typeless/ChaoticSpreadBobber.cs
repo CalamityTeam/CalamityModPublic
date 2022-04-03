@@ -22,11 +22,11 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 61;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
         //What if we want to randomize the line color
@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             if (fishingLineColor == PossibleLineColors[0])
-                Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+                Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
             else
-                Lighting.AddLight(projectile.Center, 0f, 0.45f, 0.46f);
-            return projectile.DrawFishingLine(ModContent.ItemType<ChaoticSpreadRod>(), fishingLineColor, 65, 30f);
+                Lighting.AddLight(Projectile.Center, 0f, 0.45f, 0.46f);
+            return Projectile.DrawFishingLine(ModContent.ItemType<ChaoticSpreadRod>(), fishingLineColor, 65, 30f);
         }
     }
 }

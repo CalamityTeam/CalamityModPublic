@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -14,32 +15,32 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.timeLeft = 120;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 120;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 90 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.velocity *= 0.99f;
+            Projectile.velocity *= 0.99f;
 
-            projectile.scale += 0.005f;
+            Projectile.scale += 0.005f;
 
-            if (projectile.alpha > 0)
-                projectile.alpha -= 30;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 30;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
-            Vector2 v2 = projectile.ai[0].ToRotationVector2();
-            float num743 = projectile.velocity.ToRotation();
+            Vector2 v2 = Projectile.ai[0].ToRotationVector2();
+            float num743 = Projectile.velocity.ToRotation();
             float num744 = v2.ToRotation();
             double num745 = num744 - num743;
             if (num745 > MathHelper.Pi)
@@ -47,21 +48,21 @@ namespace CalamityMod.Projectiles.Magic
             if (num745 < -MathHelper.Pi)
                 num745 += MathHelper.TwoPi;
 
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            if (projectile.timeLeft < 90)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 400f, 8f, 20f);
+            if (Projectile.timeLeft < 90)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 400f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
             int num190 = Main.rand.Next(5, 9);
             for (int num191 = 0; num191 < num190; num191++)
             {
-                int num192 = Dust.NewDust(projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
+                int num192 = Dust.NewDust(Projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
                 Main.dust[num192].velocity *= 0.8f;
-                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, projectile.Center, 0.5f);
+                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, Projectile.Center, 0.5f);
                 Main.dust[num192].noGravity = true;
             }
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoLanternTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern(true);
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Lantern"));
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -60,7 +60,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoLanternTileFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoLanternTileFlame"), i, j);
         }
     }
 }

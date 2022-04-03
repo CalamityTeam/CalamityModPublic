@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class ProfanedRageBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Rage");
             Description.SetDefault("Increased critical strike chance");

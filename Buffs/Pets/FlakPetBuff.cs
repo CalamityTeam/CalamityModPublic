@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class FlakPetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flak Hermit");
             Description.SetDefault("Little acid buggy");

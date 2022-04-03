@@ -18,9 +18,9 @@ namespace CalamityMod.Projectiles.Magic
         public override float Lifetime => 20f;
         public override Color LaserOverlayColor => CalamityUtils.ColorSwap(startingColor, secondColor, 0.9f);
         public override Color LightCastColor => LaserOverlayColor;
-        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
 
         public override void SetStaticDefaults()
         {
@@ -29,19 +29,19 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 22;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
+            Projectile.width = Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
         }
 
         public override bool PreAI()
         {
             // Initialization. Using the AI hook would override the base laser's code, and we don't want that.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 if (Main.rand.NextBool())
                 {

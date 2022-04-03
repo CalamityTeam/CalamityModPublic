@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DaedalusSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Crystal");
             Description.SetDefault("The daedalus crystal will protect you");

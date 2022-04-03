@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 28;
-            item.damage = 60;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 35;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.height = 30;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<BrackishFlaskProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 28;
+            Item.damage = 60;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 35;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<BrackishFlaskProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

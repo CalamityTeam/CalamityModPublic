@@ -21,37 +21,37 @@ namespace CalamityMod.Projectiles.Damageable
 
         public override void SafeSetDefaults()
         {
-            projectile.width = projectile.height = 76;
-            projectile.friendly = true;
-            projectile.penetrate = 20;
+            Projectile.width = Projectile.height = 76;
+            Projectile.friendly = true;
+            Projectile.penetrate = 20;
         }
 
         public override void SafeAI()
         {
-            projectile.rotation += MathHelper.ToRadians(8f);
-            Vector2 spawnPosition = projectile.Center + Utils.NextVector2Circular(Main.rand, projectile.width, projectile.height) / 2f;
+            Projectile.rotation += MathHelper.ToRadians(8f);
+            Vector2 spawnPosition = Projectile.Center + Utils.NextVector2Circular(Main.rand, Projectile.width, Projectile.height) / 2f;
             for (int i = 0; i < 8; i++)
             {
                 Dust dust = Dust.NewDustPerfect(spawnPosition, (int)CalamityDusts.ProfanedFire);
-                dust.velocity = projectile.DirectionFrom(spawnPosition);
+                dust.velocity = Projectile.DirectionFrom(spawnPosition);
                 dust.scale = Main.rand.NextFloat(1.1f, 1.5f);
                 dust.noGravity = true;
             }
         }
         public override void DamageKillEffect()
         {
-            Utils.PoofOfSmoke(projectile.Center);
+            Utils.PoofOfSmoke(Projectile.Center);
         }
         public override void Kill(int timeLeft)
         {
             for (int i = 1; i <= 6; i++)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     float angle = MathHelper.TwoPi / 6f * (i - 1);
-                    Projectile shard = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, mod.ProjectileType("ArtifactOfResilienceShard" + i.ToString()), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile shard = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, Mod.Find<ModProjectile>("ArtifactOfResilienceShard" + i.ToString()).Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     shard.ai[0] = angle;
-                    shard.frameCounter = projectile.frameCounter + 1; // FrameCounter is a stored value for the amount of times the bulwark has reformed.
+                    shard.frameCounter = Projectile.frameCounter + 1; // FrameCounter is a stored value for the amount of times the bulwark has reformed.
                 }
             }
         }

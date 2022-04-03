@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();

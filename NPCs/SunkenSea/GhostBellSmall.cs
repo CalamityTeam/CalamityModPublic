@@ -16,56 +16,56 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Ghost Bell");
-            Main.npcFrameCount[npc.type] = 4;
-            Main.npcCatchable[npc.type] = true;
+            Main.npcFrameCount[NPC.type] = 4;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.1f;
-            npc.noGravity = true;
-            npc.chaseable = false;
-            npc.aiStyle = -1;
+            NPC.npcSlots = 0.1f;
+            NPC.noGravity = true;
+            NPC.chaseable = false;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 28;
-            npc.height = 36;
-            npc.defense = 0;
-            npc.lifeMax = 5;
-            npc.knockBackResist = 1f;
-            npc.alpha = 100;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            banner = npc.type;
+            NPC.damage = 0;
+            NPC.width = 28;
+            NPC.height = 36;
+            NPC.defense = 0;
+            NPC.lifeMax = 5;
+            NPC.knockBackResist = 1f;
+            NPC.alpha = 100;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
-            npc.catchItem = (short)ModContent.ItemType<BabyGhostBellItem>();
+            NPC.catchItem = (short)ModContent.ItemType<BabyGhostBellItem>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.chaseable);
+            writer.Write(NPC.chaseable);
             writer.Write(hasBeenHit);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.chaseable = reader.ReadBoolean();
+            NPC.chaseable = reader.ReadBoolean();
             hasBeenHit = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+            if (NPC.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (Main.rand.NextBool(20))
-                    npc.catchItem = (short)ModContent.ItemType<RustedJingleBell>();
-                npc.localAI[0] = 1f;
-                npc.velocity.Y = -3f;
-                npc.netUpdate = true;
+                    NPC.catchItem = (short)ModContent.ItemType<RustedJingleBell>();
+                NPC.localAI[0] = 1f;
+                NPC.velocity.Y = -3f;
+                NPC.netUpdate = true;
             }
-            if (Main.rand.Next(8) < 1 && npc.catchItem == (short)ModContent.ItemType<RustedJingleBell>())
+            if (Main.rand.Next(8) < 1 && NPC.catchItem == (short)ModContent.ItemType<RustedJingleBell>())
             {
-                int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 68, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
+                int dust = Dust.NewDust(NPC.position - new Vector2(2f, 2f), NPC.width + 4, NPC.height + 4, 68, NPC.velocity.X * 0.4f, NPC.velocity.Y * 0.4f, 200, default, 1f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 1.1f;
                 Main.dust[dust].velocity.Y += 0.25f;
@@ -76,22 +76,22 @@ namespace CalamityMod.NPCs.SunkenSea
                     Main.dust[dust].scale *= 0.5f;
                 }
             }
-            Lighting.AddLight(npc.Center, 0f, (255 - npc.alpha) * 1f / 255f, (255 - npc.alpha) * 1f / 255f);
-            if (npc.wet)
+            Lighting.AddLight(NPC.Center, 0f, (255 - NPC.alpha) * 1f / 255f, (255 - NPC.alpha) * 1f / 255f);
+            if (NPC.wet)
             {
-                npc.noGravity = true;
-                if (npc.velocity.Y < 0f)
+                NPC.noGravity = true;
+                if (NPC.velocity.Y < 0f)
                 {
-                    npc.velocity.Y += 0.1f;
+                    NPC.velocity.Y += 0.1f;
                 }
-                if (npc.velocity.Y > 0f)
+                if (NPC.velocity.Y > 0f)
                 {
-                    npc.velocity.Y = 0f;
+                    NPC.velocity.Y = 0f;
                 }
             }
             else
             {
-                npc.noGravity = false;
+                NPC.noGravity = false;
             }
         }
 
@@ -106,15 +106,15 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.Calamity().clamity)
+            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.water && !spawnInfo.Player.Calamity().clamity)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.5f;
             }
@@ -124,31 +124,31 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
-            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
+            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow"), vector,
+                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 2; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

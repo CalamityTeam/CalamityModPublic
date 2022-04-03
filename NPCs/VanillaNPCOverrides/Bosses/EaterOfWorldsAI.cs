@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -249,7 +250,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     for (int num34 = num31; num34 < num32; num34++)
                     {
-                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[Main.tile[num33, num34].type] || (Main.tileSolidTop[Main.tile[num33, num34].type] && Main.tile[num33, num34].frameY == 0))) || Main.tile[num33, num34].liquid > 64))
+                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[Main.tile[num33, num34].TileType] || (Main.tileSolidTop[Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].liquid > 64))
                         {
                             Vector2 vector;
                             vector.X = num33 * 16;
@@ -400,7 +401,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num54 = 20f;
 
                         npc.soundDelay = (int)num54;
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                     }
 
                     num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);

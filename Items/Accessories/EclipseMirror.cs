@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.accessory = true;
+            Item.width = 38;
+            Item.height = 38;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -50,13 +50,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssalMirror>());
-            recipe.AddIngredient(ModContent.ItemType<DarkGodsSheath>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalMirror>()).AddIngredient(ModContent.ItemType<DarkGodsSheath>()).AddIngredient(ModContent.ItemType<DarksunFragment>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

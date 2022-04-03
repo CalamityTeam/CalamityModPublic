@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class AuricTeslaBar : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(255, 227, 81));
             dustType = ModContent.DustType<AuricBarDust>();

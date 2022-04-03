@@ -21,21 +21,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.height = 72;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_EtherianPortalOpen;
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 150;
-            item.knockBack = 4f;
-            item.useTime = item.useAnimation = 15; // 14 because of useStyle 1
-            item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();
-            item.shootSpeed = 10f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 52;
+            Item.height = 72;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_EtherianPortalOpen;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 150;
+            Item.knockBack = 4f;
+            Item.useTime = Item.useAnimation = 15; // 14 because of useStyle 1
+            Item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();
+            Item.shootSpeed = 10f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanUseItem(Player player)

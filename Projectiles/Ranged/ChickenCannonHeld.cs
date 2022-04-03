@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -10,38 +11,38 @@ namespace CalamityMod.Projectiles.Ranged
     {
         static float FireRate = 33f;
         //The first shot from the holdout doesnt consume ammo, this is because the ammo is already consumed by the fact the player needs to consume ammo to shoot it
-        public ref float FreeShotLoaded => ref projectile.ai[0];
-        public ref float FramesTillNextShot => ref projectile.ai[1];
+        public ref float FreeShotLoaded => ref Projectile.ai[0];
+        public ref float FramesTillNextShot => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chicken Cannon");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 126;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 126;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Player player = Main.player[Projectile.owner];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
 
@@ -53,13 +54,13 @@ namespace CalamityMod.Projectiles.Ranged
                 shouldShoot = true;
             }
             bool canShoot = player.channel && (player.HasAmmo(player.ActiveItem(), true) || FreeShotLoaded > 0) && !player.noItems && !player.CCed;
-            if (projectile.soundDelay <= 0 && canShoot)
+            if (Projectile.soundDelay <= 0 && canShoot)
             {
-                projectile.soundDelay = (int)FireRate;
-                Main.PlaySound(SoundID.Item61, projectile.position);
+                Projectile.soundDelay = (int)FireRate;
+                SoundEngine.PlaySound(SoundID.Item61, Projectile.position);
             }
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 int projType = ModContent.ProjectileType<ChickenRocket>(); // PickAmmo screws up with Rockets as per usual so this variable is reset right afterward
                 float speedMult2 = 14.5f;
@@ -74,17 +75,17 @@ namespace CalamityMod.Projectiles.Ranged
                         direction.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - source.Y;
                     }
                     Vector2 speedMult = Vector2.Normalize(direction);
-                    float shootSpeed = player.ActiveItem().shootSpeed * projectile.scale;
+                    float shootSpeed = player.ActiveItem().shootSpeed * Projectile.scale;
                     if (float.IsNaN(speedMult.X) || float.IsNaN(speedMult.Y))
                     {
                         speedMult = -Vector2.UnitY;
                     }
                     speedMult *= shootSpeed;
-                    if (speedMult.X != projectile.velocity.X || speedMult.Y != projectile.velocity.Y)
+                    if (speedMult.X != Projectile.velocity.X || speedMult.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = speedMult * 0.55f;
+                    Projectile.velocity = speedMult * 0.55f;
 
                     if (shouldShoot)
                     {
@@ -96,31 +97,31 @@ namespace CalamityMod.Projectiles.Ranged
                         projType = ModContent.ProjectileType<ChickenRocket>();
                         kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);
 
-                        Vector2 velocity = Vector2.Normalize(projectile.velocity) * speedMult2;
+                        Vector2 velocity = Vector2.Normalize(Projectile.velocity) * speedMult2;
                         if (float.IsNaN(velocity.X) || float.IsNaN(velocity.Y))
                         {
                             velocity = -Vector2.UnitY;
                         }
-                        Projectile.NewProjectile(source, velocity, projType, dmg, kBack, projectile.owner);
+                        Projectile.NewProjectile(source, velocity, projType, dmg, kBack, Projectile.owner);
                     }
                 }
                 else if (!canShoot)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             if (player.itemTime < 2)
                 player.itemTime = 2;
             if (player.itemAnimation < 2)
                 player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
         }
 
         public override bool CanDamage() => false;

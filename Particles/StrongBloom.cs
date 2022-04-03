@@ -35,14 +35,14 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
+            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
 
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch, Vector2 relativePosition)
         {
-            Texture2D tex = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
 
             spriteBatch.Draw(tex, relativePosition - Main.screenPosition, null, Color, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }

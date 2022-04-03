@@ -16,35 +16,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.damage = 48;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 23;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 54;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
-            item.shootSpeed = 8f;
+            Item.width = 54;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 23;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 54;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
+            Item.shootSpeed = 8f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-            recipe.AddIngredient(ItemID.SunplateBlock, 4);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.SunplateBlock, 4).AddTile(TileID.SkyMill).Register();
         }
     }
 }

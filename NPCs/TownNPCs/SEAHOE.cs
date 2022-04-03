@@ -21,29 +21,29 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Sea King");
 
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 5;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 700;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 90;
-            NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 16;
+            Main.npcFrameCount[NPC.type] = 25;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 5;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 90;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPCID.Sets.HatOffsetY[NPC.type] = 16;
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.width = 30;
-            npc.height = 58;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 25;
-            npc.lifeMax = 7500;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.65f;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.width = 30;
+            NPC.height = 58;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 25;
+            NPC.lifeMax = 7500;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.65f;
             animationType = NPCID.Guide;
         }
 
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void AI()
         {
-            npc.breath += 2;
+            NPC.breath += 2;
         }
 
         public override string GetChat()
@@ -67,10 +67,10 @@ namespace CalamityMod.NPCs.TownNPCs
             IList<string> dialogue = new List<string>();
             Player player = Main.player[Main.myPlayer];
 
-            if (npc.homeless)
+            if (NPC.homeless)
             {
                 if (Main.rand.NextBool(2))
-                    return "How much more has the world fallen to ruin? Even the Tyrantâ€™s empire...";
+                    return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
                 else
                     return "Thank you for your service, my child, but I am afraid I am without a home now.";
             }
@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (CalamityWorld.downedDoG)
             {
-                dialogue.Add("To see that Tyrantâ€™s serpent free of its shackles. It gave me chills.");
+                dialogue.Add("To see that Tyrant’s serpent free of its shackles. It gave me chills.");
             }
 
             return dialogue[Main.rand.Next(dialogue.Count)];
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (CalamityWorld.downedYharon)
             {
-                switch (npc.Calamity().newAI[0] % 3f)
+                switch (NPC.Calamity().newAI[0] % 3f)
                 {
                     case 0f:
                         displayThisText = "Pockets of ore have appeared once more in the land. This will allow you to create the most powerful weaponry and armor imagined!";
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (CalamityWorld.downedDoG)
             {
-                switch (npc.Calamity().newAI[0] % 3f)
+                switch (NPC.Calamity().newAI[0] % 3f)
                 {
                     case 0f:
                         displayThisText = "The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.";
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (CalamityWorld.downedPolterghast)
             {
-                switch (npc.Calamity().newAI[0] % 2f)
+                switch (NPC.Calamity().newAI[0] % 2f)
                 {
                     case 0f:
                         displayThisText = "The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.";
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (CalamityWorld.downedProvidence)
             {
-                switch (npc.Calamity().newAI[0] % 3f)
+                switch (NPC.Calamity().newAI[0] % 3f)
                 {
                     case 0f:
                         displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.";
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (NPC.downedMoonlord)
             {
-                switch (npc.Calamity().newAI[0] % 6f)
+                switch (NPC.Calamity().newAI[0] % 6f)
                 {
                     case 0f:
                         displayThisText = "Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.";
@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (NPC.downedGolemBoss)
             {
-                switch (npc.Calamity().newAI[0] % 3f)
+                switch (NPC.Calamity().newAI[0] % 3f)
                 {
                     case 0f:
                         displayThisText = "The men at the front of the dungeon are performing a ritual to keep the Moon Lord contained in his prison. In order to gain Yharim's attention, however, you may need to defeat them.";
@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (Main.hardMode)
             {
-                switch (npc.Calamity().newAI[0] % 8f)
+                switch (NPC.Calamity().newAI[0] % 8f)
                 {
                     case 0f:
                         displayThisText = !CalamityWorld.downedCryogen ? "Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed." : "You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.";
@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else
             {
-                switch (npc.Calamity().newAI[0] % 10f)
+                switch (NPC.Calamity().newAI[0] % 10f)
                 {
                     case 0f:
                         displayThisText = "There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.";
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop = false;
                 Main.npcChatText = Lore();
-                npc.Calamity().newAI[0]++;
+                NPC.Calamity().newAI[0]++;
                 Player player = Main.player[Main.myPlayer];
                 player.AddBuff(ModContent.BuffType<AmidiasBlessing>(), 36000);
             }
@@ -391,12 +391,12 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amidias/Amidias"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amidias/Amidias2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amidias/Amidias3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amidias/Amidias4"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias3"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias4"), 1f);
             }
         }
 

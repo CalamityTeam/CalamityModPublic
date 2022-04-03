@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class PinkHealthCandle : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vigor");
             Description.SetDefault("Its brilliant light suffuses those nearby with hope");

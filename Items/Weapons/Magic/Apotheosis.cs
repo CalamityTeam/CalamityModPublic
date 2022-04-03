@@ -21,45 +21,35 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 77;
-            item.magic = true;
-            item.mana = 42;
-            item.width = 30;
-            item.height = 34;
-            item.useTime = item.useAnimation = 177;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 6.9f;
+            Item.damage = 77;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 42;
+            Item.width = 30;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 177;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 6.9f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ApotheosisWorm>();
-            item.shootSpeed = 42.0f;
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ApotheosisWorm>();
+            Item.shootSpeed = 42.0f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpellTome);
-            recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
-            recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 11);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<CosmicDischarge>()).AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2).AddIngredient(ModContent.ItemType<Excelsus>(), 2).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 11).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

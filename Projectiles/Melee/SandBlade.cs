@@ -11,43 +11,43 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.melee = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.5f;
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] <= 30f)
+            Projectile.rotation += 0.5f;
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] <= 30f)
             {
-                projectile.velocity.X *= 0.925f;
-                projectile.velocity.Y *= 0.925f;
+                Projectile.velocity.X *= 0.925f;
+                Projectile.velocity.Y *= 0.925f;
             }
-            else if (projectile.ai[1] > 30f && projectile.ai[1] <= 59f)
+            else if (Projectile.ai[1] > 30f && Projectile.ai[1] <= 59f)
             {
-                projectile.velocity.X *= 1.15f;
-                projectile.velocity.Y *= 1.15f;
+                Projectile.velocity.X *= 1.15f;
+                Projectile.velocity.Y *= 1.15f;
             }
-            else if (projectile.ai[1] == 60f)
+            else if (Projectile.ai[1] == 60f)
             {
-                projectile.ai[1] = 0f;
+                Projectile.ai[1] = 0f;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, 0f, 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 159, 0f, 0f);
             }
         }
     }

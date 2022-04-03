@@ -66,13 +66,13 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<PowerCellFactory>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.TileType == ModContent.TileType<PowerCellFactory>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         public override void Update()
         {
             ++Time;
-            int maxCellStack = ModContent.GetModItem(ModContent.ItemType<PowerCell>()).item.maxStack;
+            int maxCellStack = ModContent.GetModItem(ModContent.ItemType<PowerCell>()).Item.maxStack;
             if (IsCellFrame && CellStack < maxCellStack)
                 // The property setter will automatically send the necessary packet.
                 CellStack++;
@@ -149,7 +149,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.PowerCellFactory);
             packet.Write(ID);
             packet.Write(Time);

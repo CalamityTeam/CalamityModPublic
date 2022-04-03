@@ -16,35 +16,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 160;
-            item.height = 160;
-            item.damage = 2000;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.knockBack = 50f;
-            item.UseSound = SoundID.Item1;
-            item.melee = true;
-            item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
-            item.shootSpeed = 25f;
+            Item.width = 160;
+            Item.height = 160;
+            Item.damage = 2000;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 10;
+            Item.knockBack = 50f;
+            Item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
+            Item.shootSpeed = 25f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GalaxySmasherMelee>());
-            recipe.AddIngredient(ItemID.SoulofMight, 30);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GalaxySmasherMelee>()).AddIngredient(ItemID.SoulofMight, 30).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

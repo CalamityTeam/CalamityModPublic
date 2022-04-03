@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -13,19 +14,19 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Not Exoblade");
-            Main.projFrames[projectile.type] = NumAnimationFrames;
+            Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = 180;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 180;
         }
 
         public override void AI()
@@ -33,29 +34,29 @@ namespace CalamityMod.Projectiles.Melee
             drawOffsetX = -40;
             drawOriginOffsetY = -3;
             drawOriginOffsetX = 18;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Light
-            Lighting.AddLight(projectile.Center, 0.45f, 0.1f, 0.1f);
+            Lighting.AddLight(Projectile.Center, 0.45f, 0.1f, 0.1f);
 
             // Spawn dust with a 1/2 chance
             if (Main.rand.NextBool())
             {
-                int idx = Dust.NewDust(projectile.Center, 1, 1, 90);
-                Main.dust[idx].position = projectile.Center;
+                int idx = Dust.NewDust(Projectile.Center, 1, 1, 90);
+                Main.dust[idx].position = Projectile.Center;
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 0.6f;
             }
 
             // Update animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > AnimationFrameTime)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > AnimationFrameTime)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= NumAnimationFrames)
-                projectile.frame = 0;
+            if (Projectile.frame >= NumAnimationFrames)
+                Projectile.frame = 0;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -66,36 +67,36 @@ namespace CalamityMod.Projectiles.Melee
         // Explodes like Exoblade's Exobeams
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCDeath55, projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCDeath55, Projectile.Center);
 
             // Transform the projectile's hitbox into a big explosion
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 140;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 140;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 
-            Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
+            Vector2 corner = new Vector2(Projectile.position.X, Projectile.position.Y);
             for (int i = 0; i < 50; i++)
             {
-                int idx = Dust.NewDust(corner, projectile.width, projectile.height, 86, 0f, 0f, 0, new Color(210, 0, 255), 2.2f);
+                int idx = Dust.NewDust(corner, Projectile.width, Projectile.height, 86, 0f, 0f, 0, new Color(210, 0, 255), 2.2f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 2.5f;
 
-                idx = Dust.NewDust(corner, projectile.width, projectile.height, 118, 0f, 0f, 100, new Color(210, 0, 255), 1.8f);
+                idx = Dust.NewDust(corner, Projectile.width, Projectile.height, 118, 0f, 0f, 100, new Color(210, 0, 255), 1.8f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 1.8f;
 
-                idx = Dust.NewDust(corner, projectile.width, projectile.height, 71, 0f, 0f, 100, new Color(210, 0, 255), 1.0f);
+                idx = Dust.NewDust(corner, Projectile.width, Projectile.height, 71, 0f, 0f, 100, new Color(210, 0, 255), 1.0f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 4.0f;
             }
 
             // Make the projectile ignore iframes while exploding
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
         }
     }
 }

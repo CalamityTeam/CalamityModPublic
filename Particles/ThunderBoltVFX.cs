@@ -46,7 +46,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
+            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
 
             Vector2 Shake = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (1 - (Time / (float)Lifetime)) * ShakePower;
 

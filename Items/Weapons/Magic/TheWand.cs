@@ -16,29 +16,29 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("The Wand");
             Tooltip.SetDefault("The ultimate wand");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.damage = 1;
-            item.mana = 150;
-            item.magic = true;
-            item.noMelee = true;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 0.5f;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.height = 36;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<SparkInfernal>();
-            item.shootSpeed = 24f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 40;
+            Item.damage = 1;
+            Item.mana = 150;
+            Item.DamageType = DamageClass.Magic;
+            Item.noMelee = true;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.5f;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.height = 36;
+            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<SparkInfernal>();
+            Item.shootSpeed = 24f;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool CanUseItem(Player player)
@@ -59,12 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WandofSparking);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.WandofSparking).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

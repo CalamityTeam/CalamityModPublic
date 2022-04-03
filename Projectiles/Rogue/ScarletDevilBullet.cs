@@ -12,35 +12,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.timeLeft = 140;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 140;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] <= 60f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] <= 60f)
             {
-                projectile.velocity.X *= 0.975f;
-                projectile.velocity.Y *= 0.975f;
+                Projectile.velocity.X *= 0.975f;
+                Projectile.velocity.Y *= 0.975f;
             }
             else
             {
-                Vector2 center = projectile.Center;
+                Vector2 center = Projectile.Center;
                 float maxDistance = 1000f;
                 bool homeIn = false;
 
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false))
                     {
                         float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-                        if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+                        if (Vector2.Distance(Main.npc[i].Center, Projectile.Center) < (maxDistance + extraDistance))
                         {
                             center = Main.npc[i].Center;
                             homeIn = true;
@@ -51,13 +51,13 @@ namespace CalamityMod.Projectiles.Rogue
 
                 if (homeIn)
                 {
-                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-                    projectile.velocity = (projectile.velocity * 10f + moveDirection * 30f) / (11f);
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * 10f + moveDirection * 30f) / (11f);
                 }
                 else
                 {
-                    projectile.velocity.X = 0f;
-                    projectile.velocity.Y = 0f;
+                    Projectile.velocity.X = 0f;
+                    Projectile.velocity.Y = 0f;
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanDamage()
         {
-            if (projectile.Calamity().stealthStrike && projectile.ai[0] < 60f)
+            if (Projectile.Calamity().stealthStrike && Projectile.ai[0] < 60f)
                 return false;
             return base.CanDamage();
         }

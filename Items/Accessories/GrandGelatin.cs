@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -39,15 +39,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ManaJelly>());
-            recipe.AddIngredient(ModContent.ItemType<LifeJelly>());
-            recipe.AddIngredient(ModContent.ItemType<VitalJelly>());
-            recipe.AddIngredient(ItemID.SoulofLight, 2);
-            recipe.AddIngredient(ItemID.SoulofNight, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ManaJelly>()).AddIngredient(ModContent.ItemType<LifeJelly>()).AddIngredient(ModContent.ItemType<VitalJelly>()).AddIngredient(ItemID.SoulofLight, 2).AddIngredient(ItemID.SoulofNight, 2).AddTile(TileID.Anvils).Register();
         }
     }
 }

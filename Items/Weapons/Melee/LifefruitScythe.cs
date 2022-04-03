@@ -17,31 +17,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 156;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.height = 72;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<LifeScythe>();
-            item.shootSpeed = 12f;
+            Item.width = 62;
+            Item.damage = 156;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.height = 72;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<LifeScythe>();
+            Item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

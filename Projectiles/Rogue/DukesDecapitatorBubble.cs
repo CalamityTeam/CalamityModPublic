@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -16,65 +17,65 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] > 2f)
+            if (Projectile.localAI[0] > 2f)
             {
-                projectile.alpha -= 20;
-                if (projectile.alpha < 100)
+                Projectile.alpha -= 20;
+                if (Projectile.alpha < 100)
                 {
-                    projectile.alpha = 100;
+                    Projectile.alpha = 100;
                 }
             }
             else
             {
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (projectile.ai[0] > 30f)
+            if (Projectile.ai[0] > 30f)
             {
-                if (projectile.velocity.Y > -8f)
+                if (Projectile.velocity.Y > -8f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - 0.05f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - 0.05f;
                 }
-                projectile.velocity.X = projectile.velocity.X * 0.98f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.98f;
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
-            projectile.rotation = projectile.velocity.X * 0.1f;
-            if (projectile.wet)
+            Projectile.rotation = Projectile.velocity.X * 0.1f;
+            if (Projectile.wet)
             {
-                if (projectile.velocity.Y > 0f)
+                if (Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y * 0.98f;
+                    Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
                 }
-                if (projectile.velocity.Y > -8f)
+                if (Projectile.velocity.Y > -8f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - 0.2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - 0.2f;
                 }
-                projectile.velocity.X = projectile.velocity.X * 0.94f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.94f;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
             int num190 = Main.rand.Next(5, 9);
             for (int num191 = 0; num191 < num190; num191++)
             {
-                int num192 = Dust.NewDust(projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
+                int num192 = Dust.NewDust(Projectile.Center, 0, 0, 206, 0f, 0f, 100, default, 1.4f);
                 Main.dust[num192].velocity *= 0.8f;
-                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, projectile.Center, 0.5f);
+                Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, Projectile.Center, 0.5f);
                 Main.dust[num192].noGravity = true;
             }
         }

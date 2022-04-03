@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SandyHealingWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rare Sand Elemental");
             Description.SetDefault("The sand elemental will heal you");

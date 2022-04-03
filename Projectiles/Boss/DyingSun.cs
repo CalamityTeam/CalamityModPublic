@@ -11,37 +11,37 @@ namespace CalamityMod.Projectiles.Boss
     public class DyingSun : ModProjectile
     {
         public PrimitiveTrail FireDrawer;
-        public ref float Time => ref projectile.ai[0];
-        public ref float Radius => ref projectile.ai[1];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float Radius => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults() => DisplayName.SetDefault("Dying Sun");
 
         public override void SetDefaults()
         {
-            projectile.width = 164;
-            projectile.height = 164;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 100;
-            projectile.MaxUpdates = 2;
-            projectile.scale = 1f;
+            Projectile.width = 164;
+            Projectile.height = 164;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 100;
+            Projectile.MaxUpdates = 2;
+            Projectile.scale = 1f;
         }
 
         public override void AI()
         {
-            projectile.scale += 0.08f;
-            Radius = projectile.scale * 42f;
-            projectile.Opacity = Utils.InverseLerp(8f, 42f, projectile.timeLeft, true);
+            Projectile.scale += 0.08f;
+            Radius = Projectile.scale * 42f;
+            Projectile.Opacity = Utils.InverseLerp(8f, 42f, Projectile.timeLeft, true);
 
             Time++;
         }
 
-        public float SunWidthFunction(float completionRatio) => Radius * projectile.scale * (float)Math.Sin(MathHelper.Pi * completionRatio);
+        public float SunWidthFunction(float completionRatio) => Radius * Projectile.scale * (float)Math.Sin(MathHelper.Pi * completionRatio);
 
         public Color SunColorFunction(float completionRatio)
         {
             Color sunColor = Main.dayTime ? Color.Yellow : Color.Cyan;
-            return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * projectile.Opacity;
+            return Color.Lerp(sunColor, Color.White, (float)Math.Sin(MathHelper.Pi * completionRatio) * 0.5f + 0.3f) * Projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int i = 0; i < 16; i++)
                 {
                     rotationPoints.Add(adjustedAngle);
-                    drawPoints.Add(Vector2.Lerp(projectile.Center - offsetDirection * Radius / 2f, projectile.Center + offsetDirection * Radius / 2f, i / 16f));
+                    drawPoints.Add(Vector2.Lerp(Projectile.Center - offsetDirection * Radius / 2f, Projectile.Center + offsetDirection * Radius / 2f, i / 16f));
                 }
 
                 FireDrawer.Draw(drawPoints, -Main.screenPosition, 24);

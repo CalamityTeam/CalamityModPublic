@@ -12,53 +12,53 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kraken");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 54;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.scale = 0.002f;
-            projectile.timeLeft = 36000;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            Projectile.width = 54;
+            Projectile.height = 54;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.scale = 0.002f;
+            Projectile.timeLeft = 36000;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
         }
 
         public override void AI()
         {
-            if (projectile.type != ModContent.ProjectileType<FlakKrakenProj>() ||
-                !Main.projectile[(int)projectile.ai[1]].active ||
-                Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<FlakKrakenGun>())
+            if (Projectile.type != ModContent.ProjectileType<FlakKrakenProj>() ||
+                !Main.projectile[(int)Projectile.ai[1]].active ||
+                Main.projectile[(int)Projectile.ai[1]].type != ModContent.ProjectileType<FlakKrakenGun>())
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
 
             // This code uses player-specific fields (such as the mouse), and does not need to be run for anyone
             // other than its owner.
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
-            projectile.rotation += 0.2f;
-            if (projectile.localAI[0] < 1f)
+            Projectile.rotation += 0.2f;
+            if (Projectile.localAI[0] < 1f)
             {
-                projectile.localAI[0] += 0.002f;
-                projectile.scale += 0.002f;
-                projectile.width = projectile.height = (int)(50f * projectile.scale);
+                Projectile.localAI[0] += 0.002f;
+                Projectile.scale += 0.002f;
+                Projectile.width = Projectile.height = (int)(50f * Projectile.scale);
             }
             else
             {
-                projectile.width = projectile.height = 50;
+                Projectile.width = Projectile.height = 50;
             }
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
             vector2 += new Vector2(num78, num79);
             float speed = 30f;
             float speedScale = 3f;
-            Vector2 vectorPos = projectile.Center;
+            Vector2 vectorPos = Projectile.Center;
             if (Vector2.Distance(vector2, vectorPos) < 90f)
             {
                 speed = 10f;
@@ -96,53 +96,53 @@ namespace CalamityMod.Projectiles.Ranged
             num680 = speed / num680;
             num678 *= num680;
             num679 *= num680;
-            if (projectile.velocity.X < num678)
+            if (Projectile.velocity.X < num678)
             {
-                projectile.velocity.X = projectile.velocity.X + speedScale;
-                if (projectile.velocity.X < 0f && num678 > 0f)
+                Projectile.velocity.X = Projectile.velocity.X + speedScale;
+                if (Projectile.velocity.X < 0f && num678 > 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X + speedScale;
+                    Projectile.velocity.X = Projectile.velocity.X + speedScale;
                 }
             }
-            else if (projectile.velocity.X > num678)
+            else if (Projectile.velocity.X > num678)
             {
-                projectile.velocity.X = projectile.velocity.X - speedScale;
-                if (projectile.velocity.X > 0f && num678 < 0f)
+                Projectile.velocity.X = Projectile.velocity.X - speedScale;
+                if (Projectile.velocity.X > 0f && num678 < 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X - speedScale;
+                    Projectile.velocity.X = Projectile.velocity.X - speedScale;
                 }
             }
-            if (projectile.velocity.Y < num679)
+            if (Projectile.velocity.Y < num679)
             {
-                projectile.velocity.Y = projectile.velocity.Y + speedScale;
-                if (projectile.velocity.Y < 0f && num679 > 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y + speedScale;
+                if (Projectile.velocity.Y < 0f && num679 > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + speedScale;
+                    Projectile.velocity.Y = Projectile.velocity.Y + speedScale;
                 }
             }
-            else if (projectile.velocity.Y > num679)
+            else if (Projectile.velocity.Y > num679)
             {
-                projectile.velocity.Y = projectile.velocity.Y - speedScale;
-                if (projectile.velocity.Y > 0f && num679 < 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y - speedScale;
+                if (Projectile.velocity.Y > 0f && num679 < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - speedScale;
+                    Projectile.velocity.Y = Projectile.velocity.Y - speedScale;
                 }
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * projectile.localAI[0]);
+            damage = (int)(damage * Projectile.localAI[0]);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 200, 50, projectile.alpha);
+            return new Color(255, 200, 50, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

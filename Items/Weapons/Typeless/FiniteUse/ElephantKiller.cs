@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void SetDefaults()
         {
-            item.damage = 2000;
-            item.width = 56;
-            item.height = 26;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MagnumRound>();
-            item.useAmmo = ModContent.ItemType<MagnumRounds>();
+            Item.damage = 2000;
+            Item.width = 56;
+            Item.height = 26;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<MagnumRound>();
+            Item.useAmmo = ModContent.ItemType<MagnumRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 3;
+                Item.Calamity().timesUsed = 3;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -44,19 +44,19 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 3;
+                Item.Calamity().timesUsed = 3;
 
             return true;
         }
 
-        public override bool CanUseItem(Player player) => item.Calamity().timesUsed < 3;
+        public override bool CanUseItem(Player player) => Item.Calamity().timesUsed < 3;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 0;
+                Item.Calamity().timesUsed = 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 player.HeldItem.Calamity().timesUsed++;
                 for (int i = 0; i < Main.maxInventory; i++)
                 {
-                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+                    if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;
                 }
             }
@@ -75,13 +75,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LightningHawk>());
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.LunarBar, 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LightningHawk>()).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.LunarBar, 15).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

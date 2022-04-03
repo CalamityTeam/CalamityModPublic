@@ -26,22 +26,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.useTurn = true;
-            item.melee = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.width = 112;
-            item.height = 112;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.damage = BaseDamage;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.useTurn = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.width = 112;
+            Item.height = 112;
+            Item.value = Item.buyPrice(5, 0, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+            Item.shootSpeed = 6f;
+            Item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -64,13 +64,13 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
             }
             else
             {
-                item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
-                item.shootSpeed = 12f;
+                Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+                Item.shootSpeed = 12f;
             }
 
             return base.CanUseItem(player);
@@ -171,20 +171,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GreatswordofBlah>());
-            recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ItemID.LargeDiamond);
-            recipe.AddIngredient(ItemID.LightShard, 3);
-            recipe.AddIngredient(ItemID.DarkShard, 3);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 20);
-            recipe.AddIngredient(ItemID.SoulofNight, 20);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GreatswordofBlah>()).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ItemID.LargeDiamond).AddIngredient(ItemID.LightShard, 3).AddIngredient(ItemID.DarkShard, 3).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10).AddIngredient(ItemID.SoulofLight, 20).AddIngredient(ItemID.SoulofNight, 20).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

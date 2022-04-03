@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         int subsheetWidth = 324;
         int subsheetHeight = 90;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileNoAttach[Type] = true;

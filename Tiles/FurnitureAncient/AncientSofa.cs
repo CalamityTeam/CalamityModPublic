@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientSofa : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();

@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Gleaming Magnolia");
             Tooltip.SetDefault("Casts a gleaming flower that explodes into petals");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 32;
-            item.magic = true;
-            item.mana = 11;
-            item.width = 52;
-            item.height = 54;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GleamingBolt>();
-            item.shootSpeed = 14f;
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 11;
+            Item.width = 52;
+            Item.height = 54;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GleamingBolt>();
+            Item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -42,12 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ManaRose>());
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ManaRose>()).AddIngredient(ItemID.HallowedBar, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -12,31 +12,25 @@ namespace CalamityMod.Items.Mounts.Minecarts
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 36;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.width = 34;
+            Item.height = 36;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
 
-            item.value = Item.sellPrice(gold: 30);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 30);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.Item68;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<DoGCartMount>();
+            Item.UseSound = SoundID.Item68;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<DoGCartMount>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddIngredient(ItemID.Wire, 60);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>()).AddIngredient(ItemID.Wire, 60).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

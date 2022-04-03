@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 22;
-            item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 18;
+            Item.width = 22;
+            Item.height = 22;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 18;
         }
 
         public override void UpdateEquip(Player player)
@@ -65,12 +65,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MolluskHusk>(), 6).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

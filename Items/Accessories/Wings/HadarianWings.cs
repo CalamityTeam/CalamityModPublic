@@ -27,11 +27,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 36;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.accessory = true;
+            Item.width = 24;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -91,13 +91,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<HadarianMembrane>(), 8);
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddIngredient(ModContent.ItemType<HadarianMembrane>(), 8).AddIngredient(ItemID.SoulofFlight, 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

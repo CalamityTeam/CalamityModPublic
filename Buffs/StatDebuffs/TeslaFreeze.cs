@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class TeslaFreeze : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galvanic Corrosion");
             Description.SetDefault("Your limbs have begun to corrode");

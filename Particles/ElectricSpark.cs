@@ -55,9 +55,9 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D sparkTexture = GeneralParticleHandler.GetTexture(Type);
+            Texture2D sparkTexture = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
             Rectangle frame = new Rectangle(0, 6 * Variant, 6, 6);
-            Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)frame.Height / (float)bloomTexture.Height;
 

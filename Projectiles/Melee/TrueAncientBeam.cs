@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -18,47 +19,47 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("True Ancient Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         const float MaxTime = 40;
-        public float Timer => MaxTime - projectile.timeLeft;
+        public float Timer => MaxTime - Projectile.timeLeft;
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 32;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = (int)MaxTime;
-            projectile.melee = true;
-            projectile.tileCollide = false;
+            Projectile.width = Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = (int)MaxTime;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeLenght = 44f * projectile.scale;
-            Vector2 start = -Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * 16f;
+            float bladeLenght = 44f * Projectile.scale;
+            Vector2 start = -Utils.SafeNormalize(Projectile.velocity, Vector2.Zero) * 16f;
 
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + start, projectile.Center + start + Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * bladeLenght, 24, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + start, Projectile.Center + start + Utils.SafeNormalize(Projectile.velocity, Vector2.Zero) * bladeLenght, 24, ref collisionPoint);
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < MaxTime - 5)
-                projectile.tileCollide = true;
+            if (Projectile.timeLeft < MaxTime - 5)
+                Projectile.tileCollide = true;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            projectile.scale = 2.4f;
-            projectile.Opacity = 0.6f;
-            Lighting.AddLight(projectile.Center, 0.75f, 1f, 0.24f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Projectile.scale = 2.4f;
+            Projectile.Opacity = 0.6f;
+            Lighting.AddLight(Projectile.Center, 0.75f, 1f, 0.24f);
 
-            projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3));
+            Projectile.velocity *= (1 - (float)Math.Pow(Timer / MaxTime, 3));
 
             if (Main.rand.NextBool(3))
             {
-                int dustTrail = Dust.NewDust(projectile.Center, 14, 14, 66, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
+                int dustTrail = Dust.NewDust(Projectile.Center, 14, 14, 66, Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
                 Main.dust[dustTrail].noGravity = true;
             }
 
@@ -67,21 +68,21 @@ namespace CalamityMod.Projectiles.Melee
                 int dustType = Main.rand.Next(3);
                 dustType = dustType == 0 ? 15 : dustType == 1 ? 57 : 58;
 
-                Dust.NewDust(projectile.Center, 14, 14, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default, 1.3f);
+                Dust.NewDust(Projectile.Center, 14, 14, dustType, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default, 1.3f);
             }
 
 
 
-            if (projectile.velocity.Length() < 1.0f)
-                projectile.Kill();
+            if (Projectile.velocity.Length() < 1.0f)
+                Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 35)
+            if (Projectile.timeLeft > 35)
                 return false;
 
-            DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -94,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
             Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f);
             float rotation = Main.GlobalTime * 8f;
 
-            Vector2 sparkCenter = projectile.Center - Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * 30.5f - Main.screenPosition;
+            Vector2 sparkCenter = Projectile.Center - Utils.SafeNormalize(Projectile.velocity, Vector2.Zero) * 30.5f - Main.screenPosition;
 
             spriteBatch.Draw(bloomTexture, sparkCenter, null, color* 0.5f, 0, bloomTexture.Size() / 2f, 4 * properBloomSize, SpriteEffects.None, 0);
             spriteBatch.Draw(starTexture, sparkCenter, null, color * 0.5f, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 2 * 0.75f, SpriteEffects.None, 0);
@@ -109,18 +110,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, Projectile.Center);
             for (int i = 0; i < 10; i++)
             {
                 Vector2 particleSpeed = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(1.2f, 2.3f);
-                Particle energyLeak = new SquishyLightParticle(projectile.Center + Utils.SafeNormalize(projectile.velocity, Vector2.Zero) * 40f, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Cyan, 60, 1, 1.5f, hueShift: 0.02f);
+                Particle energyLeak = new SquishyLightParticle(Projectile.Center + Utils.SafeNormalize(Projectile.velocity, Vector2.Zero) * 40f, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Cyan, 60, 1, 1.5f, hueShift: 0.02f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
+            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
             for (int i = 0; i < 10; i++)
             {
                 Vector2 particleSpeed = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(2.6f, 4f);

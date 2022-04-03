@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             newPrefix.Add("Flimsy", 1);
             newPrefix.Add("Unbalanced", 1);
             newPrefix.Add("Atrocious", 1);
-            return mod.GetPrefix(newPrefix).Type;
+            return Mod.GetPrefix(newPrefix).Type;
         }
 
         public override bool NewPreReforge()
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
-            if (item.maxStack > 1)
+            if (Item.maxStack > 1)
             {
                 return false;
             }
@@ -68,11 +68,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
-            item.melee = false;
-            item.ranged = false;
-            item.magic = false;
-            item.thrown = true;
-            item.summon = false;
+            // item.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            // item.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            // item.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            Item.DamageType = DamageClass.Throwing;
+            // item.summon = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
         }
 
         // Add both the player's dedicated rogue damage and stealth strike damage as applicable.
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             add += mp.throwingDamage + mp.stealthDamage - 1f;
 
             // Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
-            if (mp.StealthStrikeAvailable() && item.prefix > 0)
+            if (mp.StealthStrikeAvailable() && Item.prefix > 0)
                 mult += StealthStrikePrefixBonus - 1f;
         }
 
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             float baseMultiplier = SafeSetUseTimeMultiplier(player);
             float rogueAS = baseMultiplier == -1f ? 1f : baseMultiplier;
-            if (item.useTime == item.useAnimation)
+            if (Item.useTime == Item.useAnimation)
             {
                 rogueAS += player.Calamity().rogueUseSpeedFactor;
             }
@@ -120,7 +120,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
+            TooltipLine damageTooltip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.Mod == "Terraria");
             if (damageTooltip != null)
             {
                 // Replace the word "throwing" with "rogue" in the item's damage line.
@@ -137,7 +137,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                         string restOfTooltip = text.Substring(damageNumberSubstringIndex);
                         int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
 
-                        int damageWithoutStealth = (int)(item.damage * (p.allDamage + p.thrownDamage + mp.throwingDamage - 2f));
+                        int damageWithoutStealth = (int)(Item.damage * (p.allDamage + p.GetDamage(DamageClass.Throwing) + mp.throwingDamage - 2f));
                         text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
                     }
                 }
@@ -146,14 +146,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 
             // Add a tooltip line for the stealth strike damage bonus of the item's prefix, if applicable.
-            if (item.prefix > 0)
+            if (Item.prefix > 0)
             {
                 float ssDmgBoost = StealthStrikePrefixBonus - 1f;
                 if (ssDmgBoost != 0f)
                 {
                     bool badModifier = ssDmgBoost < 0f;
                     string txt = (badModifier ? "-" : "+") + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage";
-                    TooltipLine stealthTooltip = new TooltipLine(mod, "PrefixSSDmg", txt)
+                    TooltipLine stealthTooltip = new TooltipLine(Mod, "PrefixSSDmg", txt)
                     {
                         isModifier = true,
                         isModifierBad = badModifier

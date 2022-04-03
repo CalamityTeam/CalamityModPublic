@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class BotanicPlanter : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         {
             Tile tile = Main.tile[i, j];
             //227 79 79
-            if (tile.frameX < 54)
+            if (tile.TileFrameX < 54)
             {
                 r = 0.8f;
                 g = 0.9f;

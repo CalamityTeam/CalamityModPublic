@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 35, 25, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 22;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 35, 25, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 22;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateEquip(Player player)
@@ -35,14 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ReaperTooth>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<Tenebris>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

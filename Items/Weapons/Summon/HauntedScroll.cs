@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<HauntedDishes>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 25;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<HauntedDishes>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,15 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 10);
-            recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ItemID.Bowl);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Wood, 10).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.SoulofNight, 5).AddIngredient(ItemID.Bowl).AddTile(TileID.Anvils).Register();
         }
     }
 }

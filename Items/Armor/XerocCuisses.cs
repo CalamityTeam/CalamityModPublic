@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 24;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 24, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 24;
         }
 
         public override void UpdateEquip(Player player)
@@ -34,12 +34,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 18);
-            recipe.AddIngredient(ItemID.LunarBar, 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MeldiateBar>(), 18).AddIngredient(ItemID.LunarBar, 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

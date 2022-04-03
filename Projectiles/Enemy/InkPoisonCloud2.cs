@@ -10,61 +10,61 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ink Cloud");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 48;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 3600;
+            Projectile.width = 52;
+            Projectile.height = 48;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 3600;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 9)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 9)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-                projectile.frame = 0;
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
 
-            projectile.velocity *= 0.995f;
+            Projectile.velocity *= 0.995f;
 
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 120f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 120f)
             {
-                if (projectile.alpha < 255)
+                if (Projectile.alpha < 255)
                 {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
-                        projectile.alpha = 255;
+                    Projectile.alpha += 5;
+                    if (Projectile.alpha > 255)
+                        Projectile.alpha = 255;
                 }
-                else if (projectile.owner == Main.myPlayer)
-                    projectile.Kill();
+                else if (Projectile.owner == Main.myPlayer)
+                    Projectile.Kill();
             }
-            else if (projectile.alpha > 80)
+            else if (Projectile.alpha > 80)
             {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 80)
-                    projectile.alpha = 80;
+                Projectile.alpha -= 30;
+                if (Projectile.alpha < 80)
+                    Projectile.alpha = 80;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 20f, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => projectile.alpha == 80;
+        public override bool CanHitPlayer(Player target) => Projectile.alpha == 80;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.alpha == 80)
+            if (Projectile.alpha == 80)
                 target.AddBuff(BuffID.Darkness, 300, true);
         }
     }

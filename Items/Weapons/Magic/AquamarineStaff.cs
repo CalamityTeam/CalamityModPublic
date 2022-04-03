@@ -13,27 +13,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Aquamarine Staff");
             Tooltip.SetDefault("Shoots two blue bolts");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.magic = true;
-            item.mana = 3;
-            item.width = 38;
-            item.height = 38;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AquamarineBolt>();
-            item.shootSpeed = 14f;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 3;
+            Item.width = 38;
+            Item.height = 38;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AquamarineBolt>();
+            Item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -56,20 +56,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RubyStaff);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DiamondStaff);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RubyStaff).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 25).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).AddIngredient(ItemID.DiamondStaff).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 25).AddTile(TileID.Anvils).Register();
         }
     }
 }

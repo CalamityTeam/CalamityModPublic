@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class RadiantResolutionBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Saros Possession");
             Description.SetDefault("A radiant aura protects you");

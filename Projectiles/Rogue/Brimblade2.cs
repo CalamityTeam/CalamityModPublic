@@ -16,15 +16,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 180;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 180;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

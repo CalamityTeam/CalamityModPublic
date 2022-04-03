@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class BabyGhostBellBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Ghost Bell");
             Description.SetDefault("Be careful not to pop the bubble");

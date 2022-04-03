@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.defense = 16; //85
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.defense = 16; //85
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
-            player.minionDamage += 0.5f;
+            player.GetDamage(DamageClass.Summon) += 0.5f;
             player.maxMinions += 3;
         }
 
@@ -58,17 +58,12 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.minionDamage += 0.05f;
+            player.GetDamage(DamageClass.Summon) += 0.05f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class SirenWaterSpeed : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ocean's Blessing");
             Description.SetDefault("15% increased max speed and acceleration");

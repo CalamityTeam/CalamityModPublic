@@ -16,28 +16,23 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.AstralBar>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 99;
-            item.rare = ItemRarityID.Cyan;
-            item.value = Item.sellPrice(gold: 1, silver: 20);
+            Item.createTile = ModContent.TileType<Tiles.AstralBar>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 99;
+            Item.rare = ItemRarityID.Cyan;
+            Item.value = Item.sellPrice(gold: 1, silver: 20);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<AstralOre>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 3).AddIngredient(ModContent.ItemType<AstralOre>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

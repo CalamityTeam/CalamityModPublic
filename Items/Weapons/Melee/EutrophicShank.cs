@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 14;
-            item.useTime = 14;
-            item.width = 42;
-            item.height = 38;
-            item.damage = 35;
-            item.melee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<EutrophicSpark>();
-            item.shootSpeed = 10f;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 14;
+            Item.useTime = 14;
+            Item.width = 42;
+            Item.height = 38;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<EutrophicSpark>();
+            Item.shootSpeed = 10f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -17,29 +17,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 28;
-            item.height = 32;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SerpentineHead>();
-            item.shootSpeed = 10f;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 28;
+            Item.height = 32;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SerpentineHead>();
+            Item.shootSpeed = 10f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int owner = player.whoAmI;
-            float num72 = item.shootSpeed;
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;

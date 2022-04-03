@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 77;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 34;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.UseSound = SoundID.Item34;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 77;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 34;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -54,16 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TerraFlameburster>());
-            recipe.AddIngredient(ModContent.ItemType<Meowthrower>());
-            recipe.AddIngredient(ModContent.ItemType<MepheticSprayer>());
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneFlamesprayer>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TerraFlameburster>()).AddIngredient(ModContent.ItemType<Meowthrower>()).AddIngredient(ModContent.ItemType<MepheticSprayer>()).AddIngredient(ModContent.ItemType<BrimstoneFlamesprayer>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -12,33 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Oblivion");
             Tooltip.SetDefault("Fires brimstone lasers when enemies are near\n" +
             "A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 38;
-            item.melee = true;
-            item.damage = 55;
-            item.knockBack = 4f;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.autoReuse = true;
+            Item.width = 28;
+            Item.height = 38;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 55;
+            Item.knockBack = 4f;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<OblivionYoyo>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<OblivionYoyo>();
+            Item.shootSpeed = 14f;
 
-            item.rare = ItemRarityID.Lime;
-            item.value = Item.buyPrice(gold: 60);
+            Item.rare = ItemRarityID.Lime;
+            Item.value = Item.buyPrice(gold: 60);
         }
     }
 }

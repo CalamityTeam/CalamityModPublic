@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 1, 15, 0);
-            item.defense = 6;
-            item.rare = ItemRarityID.Green;
+            Item.width = 24;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 1, 15, 0);
+            Item.defense = 6;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateEquip(Player player)
@@ -33,15 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UrchinStinger>(), 50).AddIngredient(ModContent.ItemType<Acidwood>(), 20).AddIngredient(ModContent.ItemType<SulphurousSand>(), 20).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddTile(TileID.Anvils).Register();
         }
     }
 }

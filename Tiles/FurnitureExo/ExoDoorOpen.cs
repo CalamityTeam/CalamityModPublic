@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoDoorOpen : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileBlockLight[Type] = true;

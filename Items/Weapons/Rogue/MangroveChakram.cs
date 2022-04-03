@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.damage = 84;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.height = 38;
-            item.value = Item.buyPrice(gold: 60);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.damage = 84;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 38;
+            Item.value = Item.buyPrice(gold: 60);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,11 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

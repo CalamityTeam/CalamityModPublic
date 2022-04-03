@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class MargaritaBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Margarita");
             Description.SetDefault("Reduced duration to most debuffs, defense and life regen reduced");

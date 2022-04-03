@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item66;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item66;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             return !Main.slimeRain;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (!Main.raining)
             {

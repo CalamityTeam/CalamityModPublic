@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -11,55 +12,55 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Latcher Mine");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 27;
-            projectile.height = 15;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.scale = 1.5f;
-            projectile.alpha = 0;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 27;
+            Projectile.height = 15;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1.5f;
+            Projectile.alpha = 0;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.rotation += (projectile.velocity.X > 0) ? 0.3f : -0.3f;
-                if (projectile.velocity.Y < 7f)
+                Projectile.rotation += (Projectile.velocity.X > 0) ? 0.3f : -0.3f;
+                if (Projectile.velocity.Y < 7f)
                 {
-                    projectile.velocity.Y += 0.24f;
+                    Projectile.velocity.Y += 0.24f;
                 }
             }
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-                projectile.tileCollide = false;
-                int secondsToLive = (projectile.Calamity().stealthStrike ? 14 : 6);
+                Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+                Projectile.tileCollide = false;
+                int secondsToLive = (Projectile.Calamity().stealthStrike ? 14 : 6);
                 bool readyToKillSelf = false;
                 //There was something along the lines of "var_2_2CB4E_cp_0" doing this exact iterative expression, but in 4 times as many lines and barely decipherable variables and copies of arrays.
                 //*shudder*
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] >= (float)(60 * secondsToLive))
+                Projectile.localAI[0] += 1f;
+                if (Projectile.localAI[0] >= (float)(60 * secondsToLive))
                 {
                     readyToKillSelf = true;
                 }
-                else if ((int)projectile.ai[1] < 0 || (int)projectile.ai[1] >= 200)
+                else if ((int)Projectile.ai[1] < 0 || (int)Projectile.ai[1] >= 200)
                 {
                     readyToKillSelf = true;
                 }
-                else if (Main.npc[(int)projectile.ai[1]].active && !Main.npc[(int)projectile.ai[1]].dontTakeDamage)
+                else if (Main.npc[(int)Projectile.ai[1]].active && !Main.npc[(int)Projectile.ai[1]].dontTakeDamage)
                 {
-                    projectile.Center = Main.npc[(int)projectile.ai[1]].Center - projectile.velocity * 2f;
-                    projectile.gfxOffY = Main.npc[(int)projectile.ai[1]].gfxOffY;
-                    projectile.timeLeft = (int)MathHelper.Min(projectile.timeLeft, 120);
+                    Projectile.Center = Main.npc[(int)Projectile.ai[1]].Center - Projectile.velocity * 2f;
+                    Projectile.gfxOffY = Main.npc[(int)Projectile.ai[1]].gfxOffY;
+                    Projectile.timeLeft = (int)MathHelper.Min(Projectile.timeLeft, 120);
                 }
                 else
                 {
@@ -67,55 +68,55 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (readyToKillSelf)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
-                if (projectile.timeLeft == 1)
+                if (Projectile.timeLeft == 1)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                projectile.velocity = Vector2.UnitY * 3f;
-                projectile.rotation = 0f;
+                Projectile.velocity = Vector2.UnitY * 3f;
+                Projectile.rotation = 0f;
             }
-            if (projectile.timeLeft == 110 * (projectile.Calamity().stealthStrike ? 2 : 1) ||
-                projectile.timeLeft == 60 * (projectile.Calamity().stealthStrike ? 2 : 1) ||
-                projectile.timeLeft == 24 * (projectile.Calamity().stealthStrike ? 2 : 1))
+            if (Projectile.timeLeft == 110 * (Projectile.Calamity().stealthStrike ? 2 : 1) ||
+                Projectile.timeLeft == 60 * (Projectile.Calamity().stealthStrike ? 2 : 1) ||
+                Projectile.timeLeft == 24 * (Projectile.Calamity().stealthStrike ? 2 : 1))
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.timeLeft < 24 * (projectile.Calamity().stealthStrike ? 2 : 1))
+            if (Projectile.timeLeft < 24 * (Projectile.Calamity().stealthStrike ? 2 : 1))
             {
-                projectile.frameCounter += 1;
-                if (projectile.frameCounter % 2 == 1)
+                Projectile.frameCounter += 1;
+                if (Projectile.frameCounter % 2 == 1)
                 {
-                    projectile.frame += 1;
-                    if (projectile.frame >= 4)
+                    Projectile.frame += 1;
+                    if (Projectile.frame >= 4)
                     {
-                        projectile.frame = 0;
+                        Projectile.frame = 0;
                     }
                 }
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                projectile.height = 10;
-                if (projectile.localAI[1] == 0f)
+                Projectile.height = 10;
+                if (Projectile.localAI[1] == 0f)
                 {
-                    projectile.timeLeft = 14 * 60;
-                    projectile.localAI[1] = 1f;
+                    Projectile.timeLeft = 14 * 60;
+                    Projectile.localAI[1] = 1f;
                 }
-                projectile.ai[0] = 2f;
+                Projectile.ai[0] = 2f;
             }
-            return !projectile.Calamity().stealthStrike;
+            return !Projectile.Calamity().stealthStrike;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projdmg = projectile.damage;
-            projectile.ModifyHitNPCSticky(6, false);
+            projdmg = Projectile.damage;
+            Projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -129,23 +130,23 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.Center);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = (projectile.Calamity().stealthStrike ? 240 : 100);
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.Damage();
-            for (int i = 0; i < (projectile.Calamity().stealthStrike ? 7 : 4); i++)
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = (Projectile.Calamity().stealthStrike ? 240 : 100);
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.Damage();
+            for (int i = 0; i < (Projectile.Calamity().stealthStrike ? 7 : 4); i++)
             {
-                if (Main.rand.NextBool(2) && projectile.Calamity().stealthStrike)
+                if (Main.rand.NextBool(2) && Projectile.Calamity().stealthStrike)
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    Projectile.NewProjectile(projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, Projectile.owner);
                 }
                 else
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, projectile.owner);
+                    int fireIndex = Projectile.NewProjectile(Projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, Projectile.owner);
                     Main.projectile[fireIndex].localNPCHitCooldown = -2;
                 }
             }

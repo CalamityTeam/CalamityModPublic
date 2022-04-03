@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Whiterain : ModProjectile
@@ -15,36 +16,36 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = 2;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 120;
-            projectile.melee = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = 2;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item125, projectile.Center);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
             }
 
-            Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.2f, 0.2f);
 
             for (int num457 = 0; num457 < 2; num457++)
             {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 91, 0f, 0f, 100, default, 1.25f);
+                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 91, 0f, 0f, 100, default, 1.25f);
                 Main.dust[num458].noGravity = true;
                 Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
     }
 }

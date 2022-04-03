@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 24;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.75f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item41;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<AstralRound>();
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 24;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.75f;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item41;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<AstralRound>();
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -53,11 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 6).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

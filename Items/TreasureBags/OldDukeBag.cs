@@ -24,12 +24,12 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
-            item.rare = ItemRarityID.Red;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Red;
         }
 
         public override bool CanRightClick()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.TreasureBags
             return true;
         }
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
         public override void OpenBossBag(Player player)
         {

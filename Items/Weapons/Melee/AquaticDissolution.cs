@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.damage = 125;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.height = 72;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<OceanBeam>();
-            item.shootSpeed = 12f;
+            Item.width = 50;
+            Item.damage = 125;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.height = 72;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<OceanBeam>();
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,15 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Mariana>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Mariana>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddIngredient(ModContent.ItemType<BarofLife>(), 2).AddIngredient(ModContent.ItemType<Lumenite>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

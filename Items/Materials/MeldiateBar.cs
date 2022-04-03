@@ -13,21 +13,16 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 1, silver: 20);
-            item.rare = ItemRarityID.Cyan;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 1, silver: 20);
+            Item.rare = ItemRarityID.Cyan;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldBlob>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ModContent.ItemType<MeldBlob>(), 6).AddIngredient(ModContent.ItemType<Stardust>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

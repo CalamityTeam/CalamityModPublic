@@ -17,34 +17,34 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 75;
-            projectile.height = 75;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 30;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 75;
+            Projectile.height = 75;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 30;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.ai[1]++;
-            if (projectile.ai[1] >= 3f)
+            Projectile.ai[1]++;
+            if (Projectile.ai[1] >= 3f)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Vector2 Dspeed = new Vector2(2.3f, 2.3f).RotatedBy(MathHelper.ToRadians(projectile.ai[0]));
+                    Vector2 Dspeed = new Vector2(2.3f, 2.3f).RotatedBy(MathHelper.ToRadians(Projectile.ai[0]));
                     float Dscale = Main.rand.NextFloat(1f, 1.3f);
-                    Dust.NewDust(projectile.Center, 1, 1, DustID.Shadowflame, Dspeed.X, Dspeed.Y, 0, default, Dscale);
-                    Dust.NewDust(projectile.Center, 1, 1, DustID.Shadowflame, -Dspeed.X, -Dspeed.Y, 0, default, Dscale);
-                    projectile.ai[0] += 19f;
+                    Dust.NewDust(Projectile.Center, 1, 1, DustID.Shadowflame, Dspeed.X, Dspeed.Y, 0, default, Dscale);
+                    Dust.NewDust(Projectile.Center, 1, 1, DustID.Shadowflame, -Dspeed.X, -Dspeed.Y, 0, default, Dscale);
+                    Projectile.ai[0] += 19f;
                 }
-                projectile.ai[1] = 0f;
+                Projectile.ai[1] = 0f;
             }
-            if (projectile.timeLeft < 25)
+            if (Projectile.timeLeft < 25)
             {
-                projectile.damage = 0;
+                Projectile.damage = 0;
             }
 
         }

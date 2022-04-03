@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Sandnado : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandnado");
             Description.SetDefault("The sandnado will protect you");

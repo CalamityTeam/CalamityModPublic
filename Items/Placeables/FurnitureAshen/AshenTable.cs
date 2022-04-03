@@ -12,27 +12,23 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Orange;
-            item.consumable = true;
-            item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenTable>();
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.consumable = true;
+            Item.value = 0;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenTable>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 8);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AshenAltar>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 8).AddTile(ModContent.TileType<AshenAltar>()).Register();
         }
     }
 }

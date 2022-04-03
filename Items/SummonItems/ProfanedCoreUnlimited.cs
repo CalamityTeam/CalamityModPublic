@@ -3,6 +3,7 @@ using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,13 +20,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override bool CanUseItem(Player player)
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.SummonItems
             return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
             if (Main.netMode != NetmodeID.MultiplayerClient)

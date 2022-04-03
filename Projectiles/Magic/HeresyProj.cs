@@ -5,40 +5,41 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class HeresyProj : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 275f, Time, true));
-        public ref float Time => ref projectile.ai[0];
-        public ref float AttackTimer => ref projectile.ai[1];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float AttackTimer => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heresy");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 26;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 18f;
+            Projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 18f;
 
             // If the player is no longer able to hold the book, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
@@ -46,30 +47,30 @@ namespace CalamityMod.Projectiles.Magic
                 ReleaseThings();
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= (int)MathHelper.Lerp(10f, 2f, Utils.InverseLerp(0f, 180f, Time, true)))
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= (int)MathHelper.Lerp(10f, 2f, Utils.InverseLerp(0f, 180f, Time, true)))
             {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
 
             AdjustPlayerValues();
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
             AttackTimer++;
             Time++;
         }
 
         public void ReleaseThings()
         {
-            Main.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy);
-            if (Main.myPlayer != projectile.owner)
+            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy);
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             // If the owner has sufficient mana, consume it.
             // Otherwise, delete the book and don't bother summoning anything.
             if (!Owner.CheckMana(Owner.ActiveItem().mana, true, false))
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             WeightedRandom<int> typeDecider = new WeightedRandom<int>();
@@ -81,33 +82,33 @@ namespace CalamityMod.Projectiles.Magic
             typeDecider.Add(ModContent.ProjectileType<RedirectingVengefulSoul>(), ShootIntensity * 0.4f);
             typeDecider.Add(ModContent.ProjectileType<RedirectingGildedSoul>(), ShootIntensity * 0.2f);
 
-            Vector2 spawnPosition = projectile.Top + Main.rand.NextVector2CircularEdge(4f, 4f);
+            Vector2 spawnPosition = Projectile.Top + Main.rand.NextVector2CircularEdge(4f, 4f);
             Vector2 shootVelocity = -Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-0.13f, 0.23f) * Owner.direction) * Owner.gravDir;
             shootVelocity *= Main.rand.NextFloat(5f, 8);
 
             if (Owner.velocity.Y < 0f)
                 shootVelocity.Y += Owner.velocity.Y;
 
-            Projectile.NewProjectile(spawnPosition, shootVelocity, typeDecider.Get(), projectile.damage, projectile.knockBack, projectile.owner, ShootIntensity);
+            Projectile.NewProjectile(spawnPosition, shootVelocity, typeDecider.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner, ShootIntensity);
 
             AttackTimer = 0f;
-            projectile.netUpdate = true;
+            Projectile.netUpdate = true;
         }
 
         public void AdjustPlayerValues()
         {
-            projectile.spriteDirection = projectile.direction = Owner.direction;
-            Owner.heldProj = projectile.whoAmI;
+            Projectile.spriteDirection = Projectile.direction = Owner.direction;
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.direction * projectile.velocity).ToRotation();
+            Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float glowOutwardness = MathHelper.SmoothStep(0f, 4f, Utils.InverseLerp(90f, 270f, Time, true));
-            Texture2D bookTexture = Main.projectileTexture[projectile.type];
-            Rectangle frame = bookTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Texture2D bookTexture = Main.projectileTexture[Projectile.type];
+            Rectangle frame = bookTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Vector2 drawPosition;
             Vector2 origin = frame.Size() * 0.5f;
             Color glowColor = Color.Lerp(Color.Pink, Color.Red, (float)Math.Cos(Main.GlobalTime * 5f) * 0.5f + 0.5f);
@@ -116,12 +117,12 @@ namespace CalamityMod.Projectiles.Magic
             // Draw an ominous glowing version of the book after a bit of time.
             for (int i = 0; i < 8; i++)
             {
-                drawPosition = projectile.Center + (MathHelper.TwoPi * i / 8f + Main.GlobalTime * 4f).ToRotationVector2() * glowOutwardness - Main.screenPosition;
-                spriteBatch.Draw(bookTexture, drawPosition, frame, projectile.GetAlpha(glowColor), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                drawPosition = Projectile.Center + (MathHelper.TwoPi * i / 8f + Main.GlobalTime * 4f).ToRotationVector2() * glowOutwardness - Main.screenPosition;
+                spriteBatch.Draw(bookTexture, drawPosition, frame, Projectile.GetAlpha(glowColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             }
 
-            drawPosition = projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(bookTexture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            drawPosition = Projectile.Center - Main.screenPosition;
+            spriteBatch.Draw(bookTexture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

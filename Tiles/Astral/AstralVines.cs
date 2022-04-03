@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralVines : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;

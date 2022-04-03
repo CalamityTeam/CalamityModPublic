@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class BitingEmbraceMist : ModProjectile
     {
         public override string Texture => "CalamityMod/Particles/MediumMist";
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public Color mistColor;
         public int variant = -1;
         public override void SetStaticDefaults()
@@ -19,19 +19,19 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 34;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 34;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 300;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Vector2 size = projectile.Size * projectile.scale;
+            Vector2 size = Projectile.Size * Projectile.scale;
 
-            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - size / 2f, size);
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - size / 2f, size);
         }
 
         public override void AI()
@@ -39,31 +39,31 @@ namespace CalamityMod.Projectiles.Melee
             if (variant == -1)
                 variant = Main.rand.Next(3);
 
-            if (Main.rand.Next(15) == 0 && projectile.alpha <= 140) //only try to spawn your particles if you're not close to dying
+            if (Main.rand.Next(15) == 0 && Projectile.alpha <= 140) //only try to spawn your particles if you're not close to dying
             {
-                Vector2 particlePosition = projectile.Center + Main.rand.NextVector2Circular(projectile.width * projectile.scale * 0.5f, projectile.height * projectile.scale * 0.5f);
+                Vector2 particlePosition = Projectile.Center + Main.rand.NextVector2Circular(Projectile.width * Projectile.scale * 0.5f, Projectile.height * Projectile.scale * 0.5f);
                 Particle snowflake = new SnowflakeSparkle(particlePosition, Vector2.Zero, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
                 GeneralParticleHandler.SpawnParticle(snowflake);
             }
 
-            projectile.velocity *= 0.85f;
-            projectile.position += projectile.velocity;
-            projectile.rotation += 0.02f * projectile.timeLeft / 300f * ((projectile.velocity.X > 0) ? 1f : -1f);
+            Projectile.velocity *= 0.85f;
+            Projectile.position += Projectile.velocity;
+            Projectile.rotation += 0.02f * Projectile.timeLeft / 300f * ((Projectile.velocity.X > 0) ? 1f : -1f);
 
-            if (projectile.alpha < 165)
+            if (Projectile.alpha < 165)
             {
-                projectile.scale += 0.05f;
-                projectile.alpha += 2;
+                Projectile.scale += 0.05f;
+                Projectile.alpha += 2;
             }
             else
             {
-                projectile.scale *= 0.975f;
-                projectile.alpha += 1;
+                Projectile.scale *= 0.975f;
+                Projectile.alpha += 1;
             }
-            if (projectile.alpha >= 170)
-                projectile.Kill();
+            if (Projectile.alpha >= 170)
+                Projectile.Kill();
 
-            mistColor = Color.Lerp(new Color(172, 238, 255), new Color(145, 170, 188), MathHelper.Clamp((float)(projectile.alpha - 100) / 80, 0f, 1f)) * (255 - projectile.alpha / 255f);
+            mistColor = Color.Lerp(new Color(172, 238, 255), new Color(145, 170, 188), MathHelper.Clamp((float)(Projectile.alpha - 100) / 80, 0f, 1f)) * (255 - Projectile.alpha / 255f);
         }
 
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
 
             var tex = GetTexture("CalamityMod/Particles/MediumMist");
             Rectangle frame = tex.Frame(1, 3, 0, variant);
-            spriteBatch.Draw(tex, projectile.position - Main.screenPosition, frame, mistColor * 0.5f * ((255f - projectile.alpha) / 255f), projectile.rotation, frame.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, Projectile.position - Main.screenPosition, frame, mistColor * 0.5f * ((255f - Projectile.alpha) / 255f), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
 
             spriteBatch.ExitShaderRegion();
             return false;

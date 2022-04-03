@@ -20,25 +20,25 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 466;
-            item.knockBack = 10f;
+            Item.damage = 466;
+            Item.knockBack = 10f;
 
-            item.width = 56;
-            item.height = 56;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().rogue = true;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().rogue = true;
 
-            item.autoReuse = true;
-            item.shootSpeed = 13.69f;
-            item.shoot = ModContent.ProjectileType<DeificThunderboltProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 13.69f;
+            Item.shoot = ModContent.ProjectileType<DeificThunderboltProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -63,14 +63,7 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StormfrontRazor>());
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StormfrontRazor>()).AddIngredient(ModContent.ItemType<ArmoredShell>(), 8).AddIngredient(ModContent.ItemType<UnholyEssence>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

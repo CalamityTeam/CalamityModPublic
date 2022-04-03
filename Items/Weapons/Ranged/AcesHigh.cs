@@ -21,26 +21,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 325;
-            item.ranged = true;
-            item.width = 48;
-            item.height = 30;
-            item.useTime = 3;
-            item.reuseDelay = 8;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
+            Item.damage = 325;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 48;
+            Item.height = 30;
+            Item.useTime = 3;
+            Item.reuseDelay = 8;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<CardHeart>();
-            item.useAmmo = AmmoID.Bullet;
+            Item.UseSound = SoundID.Item36;
+            Item.autoReuse = true;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<CardHeart>();
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Revolver);
-            recipe.AddIngredient(ModContent.ItemType<ClaretCannon>());
-            recipe.AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Revolver).AddIngredient(ModContent.ItemType<ClaretCannon>()).AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

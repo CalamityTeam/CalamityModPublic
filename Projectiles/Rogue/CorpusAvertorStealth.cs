@@ -16,41 +16,41 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corpus Avertor");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.02f;
 
-            if (projectile.ai[0] < 120f)
-                projectile.ai[0] += 1f;
+            if (Projectile.ai[0] < 120f)
+                Projectile.ai[0] += 1f;
 
-            projectile.velocity.X *= 1.01f;
-            projectile.velocity.Y *= 1.01f;
+            Projectile.velocity.X *= 1.01f;
+            Projectile.velocity.Y *= 1.01f;
 
-            int scale = (int)((projectile.ai[0] - 60f) * 4.25f);
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0f, 0f, 100, new Color(scale, 0, 0, 50), 2f);
+            int scale = (int)((Projectile.ai[0] - 60f) * 4.25f);
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 5, 0f, 0f, 100, new Color(scale, 0, 0, 50), 2f);
             Main.dust[dust].velocity *= 0f;
             Main.dust[dust].noGravity = true;
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects(int damage)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (Main.rand.NextBool(7))
             {
                 int lifeLossAmt = (int)Math.Ceiling(player.statLife * 0.5);
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (heal > CalamityMod.lifeStealCap)
                     heal = CalamityMod.lifeStealCap;
 
-                CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
+                CalamityGlobalProjectile.SpawnLifeStealProjectile(Projectile, player, heal, ProjectileID.VampireHeal, 1200f, 3f);
             }
         }
     }

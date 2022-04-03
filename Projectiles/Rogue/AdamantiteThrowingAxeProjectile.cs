@@ -17,21 +17,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 600;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 600;
             aiType = ProjectileID.Shuriken;
-            projectile.Calamity().rogue = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().rogue = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.Center.X, (int)projectile.Center.Y, projectile.width, projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
+                Item.NewItem((int)Projectile.Center.X, (int)Projectile.Center.Y, Projectile.width, Projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
             }
         }
 
@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
+            if (Projectile.Calamity().stealthStrike && Main.myPlayer == Projectile.owner)
             {
                 for (int n = 0; n < 3; n++)
                 {
-                    Projectile lightning = CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile lightning = CalamityUtils.ProjectileRain(Projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     lightning.ai[0] = Main.rand.Next(2);
                 }
             }

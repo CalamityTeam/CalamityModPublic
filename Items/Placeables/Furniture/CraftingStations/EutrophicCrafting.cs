@@ -11,28 +11,22 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Eutrophic Shelf");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.EutrophicCrafting>();
+            Item.SetNameOverride("Eutrophic Shelf");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.EutrophicCrafting>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

@@ -11,35 +11,28 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Galactica Singularity");
             Tooltip.SetDefault("A shard of the cosmos");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 24));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 24));
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 96);
-            item.rare = ItemRarityID.Red;
+            Item.width = 28;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 96);
+            Item.rare = ItemRarityID.Red;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentSolar);
-            recipe.AddIngredient(ItemID.FragmentVortex);
-            recipe.AddIngredient(ItemID.FragmentStardust);
-            recipe.AddIngredient(ItemID.FragmentNebula);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FragmentSolar).AddIngredient(ItemID.FragmentVortex).AddIngredient(ItemID.FragmentStardust).AddIngredient(ItemID.FragmentNebula).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 1f * num, 0.3f * num, 0.3f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 1f * num, 0.3f * num, 0.3f * num);
         }
     }
 }

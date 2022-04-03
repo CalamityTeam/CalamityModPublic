@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,36 +12,36 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enhanced Nano Round");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 3;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.25f, 0.25f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.25f, 0.25f);
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 if (Main.rand.NextBool(3))
                 {
-                    int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[num137].alpha = projectile.alpha;
+                    int num137 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[num137].alpha = Projectile.alpha;
                     Main.dust[num137].velocity *= 0f;
                     Main.dust[num137].noGravity = true;
                 }
@@ -49,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
@@ -64,12 +65,12 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.Confused, 300);
             if (target.life <= 0)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < 2; i++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<Nanomachine>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<Nanomachine>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -77,11 +78,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item93, (int)projectile.position.X, (int)projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item93, (int)Projectile.position.X, (int)Projectile.position.Y);
             int num212 = Main.rand.Next(5, 10);
             for (int num213 = 0; num213 < num212; num213++)
             {
-                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
+                int num214 = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
                 Main.dust[num214].velocity *= 2f;
                 Main.dust[num214].noGravity = true;
             }

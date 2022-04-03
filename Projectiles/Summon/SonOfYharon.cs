@@ -6,39 +6,40 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class SonOfYharon : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float AttackTimer => ref projectile.ai[0];
-        public ref float RamCountdown => ref projectile.ai[1];
-        public ref float RamReboundCountdown => ref projectile.localAI[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float AttackTimer => ref Projectile.ai[0];
+        public ref float RamCountdown => ref Projectile.ai[1];
+        public ref float RamReboundCountdown => ref Projectile.localAI[1];
         public const int FireballShootRate = 20;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconid");
-            Main.projFrames[projectile.type] = 10;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 10;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.extraUpdates = 1;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = projectile.MaxUpdates * 9;
-            projectile.minionSlots = 5f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = 100;
+            Projectile.height = 100;
+            Projectile.extraUpdates = 1;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 9;
+            Projectile.minionSlots = 5f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -53,60 +54,60 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
                 PerformInitialization();
-            projectile.localAI[0]++;
+            Projectile.localAI[0]++;
 
             // Perform minion checks.
             PerformMinionChecks();
 
             // Dynamically adjust damage if it changes.
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                projectile.damage = trueDamage;
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
+                Projectile.damage = trueDamage;
             }
 
             // Handle frame logic.
-            if (projectile.FinalExtraUpdate())
-                projectile.frameCounter++;
-            if (projectile.frameCounter % 8 == 0)
+            if (Projectile.FinalExtraUpdate())
+                Projectile.frameCounter++;
+            if (Projectile.frameCounter % 8 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
             if (RamCountdown > 0f || RamReboundCountdown > 0f)
             {
-                if (projectile.frame < 6)
+                if (Projectile.frame < 6)
                 {
-                    projectile.frame = 6;
+                    Projectile.frame = 6;
                 }
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.frame = 6;
+                    Projectile.frame = 6;
                 }
             }
             else
             {
-                if (projectile.frame >= 6)
+                if (Projectile.frame >= 6)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(2000f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(2000f, Owner);
 
             // Teleport to the player if extremely far away.
-            if (!projectile.WithinRange(Owner.Center, 4000f))
+            if (!Projectile.WithinRange(Owner.Center, 4000f))
             {
-                projectile.Center = Owner.Center + Main.rand.NextVector2Circular(16f, 16f);
-                projectile.netUpdate = true;
+                Projectile.Center = Owner.Center + Main.rand.NextVector2Circular(16f, 16f);
+                Projectile.netUpdate = true;
                 return;
             }
 
             // Rebound for a bit after a ram.
             if (RamReboundCountdown > 0f)
             {
-                projectile.velocity *= 0.97f;
+                Projectile.velocity *= 0.97f;
                 RamReboundCountdown--;
                 return;
             }
@@ -125,12 +126,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public void PerformInitialization()
         {
-            projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
 
             for (int i = 0; i < 45; i++)
             {
-                Dust fire = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(55f, 55f), 244);
+                Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(55f, 55f), 244);
                 fire.velocity *= 2f;
                 fire.scale *= 1.15f;
             }
@@ -138,7 +139,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void PerformMinionChecks()
         {
-            bool correctMinion = projectile.type == ModContent.ProjectileType<SonOfYharon>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<SonOfYharon>();
             Owner.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600);
             if (!correctMinion)
                 return;
@@ -147,27 +148,27 @@ namespace CalamityMod.Projectiles.Summon
                 Owner.Calamity().aChicken = false;
 
             if (Owner.Calamity().aChicken)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
         }
 
         public void DoPlayerHoverMovement()
         {
             // Move away from other minions of the same type.
-            projectile.MinionAntiClump(0.1f);
+            Projectile.MinionAntiClump(0.1f);
 
             Vector2 hoverDestination = Owner.Top - Vector2.UnitY * 50f;
-            if (!projectile.WithinRange(hoverDestination, 60f))
-                projectile.velocity = (projectile.velocity * 19f + projectile.SafeDirectionTo(hoverDestination) * 11f) / 20f;
+            if (!Projectile.WithinRange(hoverDestination, 60f))
+                Projectile.velocity = (Projectile.velocity * 19f + Projectile.SafeDirectionTo(hoverDestination) * 11f) / 20f;
 
             // Adjust the sprite direction to point towards the hover destination. This does not happen if already really close
             // horizontally to the destination, to prevent direction changing spam.
-            if (MathHelper.Distance(projectile.Center.X, hoverDestination.X) > 45f)
-                projectile.spriteDirection = (projectile.Center.X - hoverDestination.X > 0).ToDirectionInt();
+            if (MathHelper.Distance(Projectile.Center.X, hoverDestination.X) > 45f)
+                Projectile.spriteDirection = (Projectile.Center.X - hoverDestination.X > 0).ToDirectionInt();
         }
 
         public void AttackTarget(NPC target)
         {
-            float distanceFromTarget = projectile.Distance(target.Center);
+            float distanceFromTarget = Projectile.Distance(target.Center);
 
             // Approach the target quickly if far enough away.
             // Movement becomes sharper the farther away from the target the minion is.
@@ -175,23 +176,23 @@ namespace CalamityMod.Projectiles.Summon
             if (distanceFromTarget > 220f)
             {
                 float interpolantToIdealVelocity = MathHelper.Lerp(0.05f, 0.3f, Utils.InverseLerp(300f, 560f, distanceFromTarget, true));
-                Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center) * MathHelper.Min(distanceFromTarget, 14f);
-                projectile.velocity = Vector2.Lerp(projectile.velocity, idealVelocity, interpolantToIdealVelocity);
+                Vector2 idealVelocity = Projectile.SafeDirectionTo(target.Center) * MathHelper.Min(distanceFromTarget, 14f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, interpolantToIdealVelocity);
 
                 // Adjust the sprite direction to point towards the hover destination.
-                projectile.spriteDirection = (projectile.Center.X - target.Center.X > 0).ToDirectionInt();
+                Projectile.spriteDirection = (Projectile.Center.X - target.Center.X > 0).ToDirectionInt();
 
                 // Periodically release fireballs at the target.
                 // They move faster the farther away from the target the minion is.
                 if (AttackTimer % FireballShootRate == FireballShootRate - 1f)
                 {
                     float shootSpeed = (distanceFromTarget - 220f) * 0.015f + 45f;
-                    Main.PlaySound(SoundID.Item73, projectile.Center);
-                    if (Main.myPlayer == projectile.owner)
+                    SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        Vector2 shootPosition = projectile.Center + Vector2.UnitX * projectile.spriteDirection * 10f;
-                        Vector2 shootVelocity = (target.Center - shootPosition).SafeNormalize(Vector2.UnitX * projectile.spriteDirection) * shootSpeed;
-                        Projectile.NewProjectile(shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), projectile.damage, projectile.knockBack * 0.5f, projectile.owner);
+                        Vector2 shootPosition = Projectile.Center + Vector2.UnitX * Projectile.spriteDirection * 10f;
+                        Vector2 shootVelocity = (target.Center - shootPosition).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection) * shootSpeed;
+                        Projectile.NewProjectile(shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
                     }
                 }
             }
@@ -201,8 +202,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 RamCountdown = 60f;
 
-                projectile.velocity = projectile.SafeDirectionTo(target.Center, -Vector2.UnitY) * 23f;
-                projectile.netUpdate = true;
+                Projectile.velocity = Projectile.SafeDirectionTo(target.Center, -Vector2.UnitY) * 23f;
+                Projectile.netUpdate = true;
             }
         }
 
@@ -213,22 +214,22 @@ namespace CalamityMod.Projectiles.Summon
             {
                 RamCountdown = 0f;
                 RamReboundCountdown = 30f;
-                projectile.velocity *= -0.6f;
+                Projectile.velocity *= -0.6f;
 
                 // Create an explosion of dust.
                 for (int i = 0; i < 150; i++)
                 {
-                    Dust fire = Dust.NewDustPerfect(projectile.Center, 244);
+                    Dust fire = Dust.NewDustPerfect(Projectile.Center, 244);
                     fire.velocity = Main.rand.NextVector2Circular(20f, 20f);
                     fire.scale *= 3f;
                     fire.noGravity = true;
 
-                    fire = Dust.NewDustPerfect(projectile.Center, 244);
+                    fire = Dust.NewDustPerfect(Projectile.Center, 244);
                     fire.velocity *= Main.rand.NextVector2Circular(8f, 8f);
                     fire.scale *= 2f;
                 }
 
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
 
@@ -239,15 +240,15 @@ namespace CalamityMod.Projectiles.Summon
                 damage = (int)(damage * AngryChickenStaff.ReboundRamDamageFactor);
         }
 
-        public override bool CanDamage() => projectile.localAI[0] > 1f;
+        public override bool CanDamage() => Projectile.localAI[0] > 1f;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
     }

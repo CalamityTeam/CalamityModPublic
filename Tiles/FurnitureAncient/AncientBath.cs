@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientBath : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

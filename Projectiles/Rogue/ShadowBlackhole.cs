@@ -11,49 +11,49 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blackhole");
-            Main.projFrames[projectile.type] = 7;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = false;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 20;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 20;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
         public override void AI()
         {
             // Update animation
-            if (projectile.timeLeft % 5 == 0)
+            if (Projectile.timeLeft % 5 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            projectile.ai[0]++;
-            if (projectile.ai[0] > 120f)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] > 120f)
             {
-                projectile.scale *= 0.95f;
-                projectile.Opacity *= 0.95f;
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, projectile.scale);
+                Projectile.scale *= 0.95f;
+                Projectile.Opacity *= 0.95f;
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, Projectile.scale);
             }
-            if (projectile.scale <= 0.05f)
+            if (Projectile.scale <= 0.05f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 

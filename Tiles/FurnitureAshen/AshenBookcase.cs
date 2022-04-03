@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

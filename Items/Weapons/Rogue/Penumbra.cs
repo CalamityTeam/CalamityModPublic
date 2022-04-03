@@ -20,25 +20,25 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 46;
-            item.height = 32;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item103;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
+            Item.width = 46;
+            Item.height = 32;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item103;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
 
-            item.damage = 1008;
-            item.useAnimation = 40;
-            item.useTime = 40;
-            item.knockBack = 8f;
-            item.shoot = ModContent.ProjectileType<PenumbraBomb>();
-            item.shootSpeed = ShootSpeed;
+            Item.damage = 1008;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
+            Item.knockBack = 8f;
+            Item.shoot = ModContent.ProjectileType<PenumbraBomb>();
+            Item.shootSpeed = ShootSpeed;
 
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().rogue = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -71,13 +71,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RuinousSoul>(), 6).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

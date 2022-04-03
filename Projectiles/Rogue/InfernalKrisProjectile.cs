@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -17,57 +18,57 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Kris");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 300;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < spinTime)
+            if (Projectile.timeLeft < spinTime)
             {
-                projectile.rotation += 0.4f * projectile.direction;
+                Projectile.rotation += 0.4f * Projectile.direction;
 
                 float minScale = 1.9f;
                 float maxScale = 2.5f;
-                int dust = Dust.NewDust(projectile.position - new Vector2(10, 10), 30, 30, 6, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                int dust = Dust.NewDust(Projectile.position - new Vector2(10, 10), 30, 30, 6, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
                 Main.dust[dust].noGravity = true;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
             }
 
-            projectile.velocity.Y += 0.01f;
-            if (projectile.velocity.Y > 10f)
+            Projectile.velocity.Y += 0.01f;
+            if (Projectile.velocity.Y > 10f)
             {
-                projectile.velocity.Y = 10f;
+                Projectile.velocity.Y = 10f;
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.timeLeft < spinTime)
+            if (Projectile.timeLeft < spinTime)
             {
-                damage = (int)(projectile.damage * 1.75f) + Main.rand.Next(0, 6);
+                damage = (int)(Projectile.damage * 1.75f) + Main.rand.Next(0, 6);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            int debuffTime = 60 * (Projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
             target.AddBuff(BuffID.OnFire, debuffTime);
 
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 int sparkCount = Main.rand.Next(3, 7);
                 for (int i = 0; i < sparkCount; i++)
@@ -78,19 +79,19 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(SoundID.Item74, projectile.position);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            int debuffTime = 60 * (Projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
             target.AddBuff(BuffID.OnFire, debuffTime);
 
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 int sparkCount = Main.rand.Next(3, 7);
                 for (int i = 0; i < sparkCount; i++)
@@ -101,65 +102,65 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(SoundID.Item74, projectile.position);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 // If this is a stealth strike, make the blade glow orange
                 Color glowColour = new Color(255, 215, 100, 100);
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], glowColour, 1);
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], glowColour, 1);
 
                 float minScale = 1.9f;
                 float maxScale = 2.5f;
-                int dust = Dust.NewDust(projectile.position, 10, 10, 6, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                int dust = Dust.NewDust(Projectile.position, 10, 10, 6, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
                 Main.dust[dust].noGravity = true;
             }
             else
             {
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             }
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
 
-            projectile.ai[0] = 0;
-            projectile.ai[1] = 0;
+            Projectile.ai[0] = 0;
+            Projectile.ai[1] = 0;
 
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
                 if (oldVelocity.X < 0)
                 {
-                    projectile.ai[0] = 1;
+                    Projectile.ai[0] = 1;
                 }
                 if (oldVelocity.X > 0)
                 {
-                    projectile.ai[0] = -1;
+                    Projectile.ai[0] = -1;
                 }
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
                 if (oldVelocity.Y < 0)
                 {
-                    projectile.ai[1] = 1;
+                    Projectile.ai[1] = 1;
                 }
                 if (oldVelocity.Y > 0)
                 {
-                    projectile.ai[1] = -1;
+                    Projectile.ai[1] = -1;
                 }
             }
 
-            Main.PlaySound(SoundID.Item74, projectile.position);
-            projectile.Kill();
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
@@ -167,10 +168,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.Next(4) == 0)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<InfernalKris>());
+                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<InfernalKris>());
             }
 
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 int sparkCount = Main.rand.Next(3, 7);
                 for (int i = 0; i < sparkCount; i++)
@@ -178,24 +179,24 @@ namespace CalamityMod.Projectiles.Rogue
                     int sparkScatter = 1;
                     Vector2 sparkVelocity = new Vector2(Main.rand.NextFloat(-sparkScatter, sparkScatter), Main.rand.NextFloat(-sparkScatter, sparkScatter));
 
-                    if (projectile.ai[0] != 0)
+                    if (Projectile.ai[0] != 0)
                     {
                         sparkVelocity.X *= -1;
                     }
-                    if (projectile.ai[1] != 0)
+                    if (Projectile.ai[1] != 0)
                     {
                         sparkVelocity.Y *= -1;
                     }
 
-                    sparkVelocity.X += projectile.ai[0];
-                    sparkVelocity.Y += projectile.ai[1];
+                    sparkVelocity.X += Projectile.ai[0];
+                    sparkVelocity.Y += Projectile.ai[1];
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(SoundID.Item74, projectile.position);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
     }

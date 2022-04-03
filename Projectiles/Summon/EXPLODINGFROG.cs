@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class EXPLODINGFROG : ModProjectile
@@ -12,91 +13,91 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("A not frog of the explosive variety");
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 26;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.sentry = true;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.penetrate = -1;
+            Projectile.width = 44;
+            Projectile.height = 26;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.sentry = true;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            if (projectile.frameCounter++ > 5)
+            if (Projectile.frameCounter++ > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0f)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool canExplode = projectile.Center.ClosestNPCAt(MinExplodeDistance) != null;
+            bool canExplode = Projectile.Center.ClosestNPCAt(MinExplodeDistance) != null;
             if (player.HasMinionAttackTargetNPC)
             {
-                canExplode = Main.npc[player.MinionAttackTargetNPC].Distance(projectile.Center) < MinExplodeDistance;
+                canExplode = Main.npc[player.MinionAttackTargetNPC].Distance(Projectile.Center) < MinExplodeDistance;
             }
             if (canExplode)
-                projectile.ai[0]++;
-            if (projectile.ai[0] >= ExplodeWaitTime)
+                Projectile.ai[0]++;
+            if (Projectile.ai[0] >= ExplodeWaitTime)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     // Goop projectiles
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(projectile.Center,
+                        Projectile.NewProjectile(Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                            ModContent.ProjectileType<FrogGore1>(), projectile.damage, projectile.knockBack, projectile.owner);
-                        Projectile.NewProjectile(projectile.Center,
+                            ModContent.ProjectileType<FrogGore1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                            ModContent.ProjectileType<FrogGore2>(), projectile.damage, projectile.knockBack, projectile.owner);
+                            ModContent.ProjectileType<FrogGore2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     // Normally I would do something like mod.ProjectileType($"FrogGore1 + i") in a loop, but I suppose I'll let it go.
-                    Projectile.NewProjectile(projectile.Center,
+                    Projectile.NewProjectile(Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore3>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    Projectile.NewProjectile(projectile.Center,
+                        ModContent.ProjectileType<FrogGore3>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore4>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    Projectile.NewProjectile(projectile.Center,
+                        ModContent.ProjectileType<FrogGore4>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore5>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        ModContent.ProjectileType<FrogGore5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
                 // WoF vomit sound.
-                Main.PlaySound(SoundID.NPCKilled, projectile.Center, 13);
-                projectile.Kill();
+                SoundEngine.PlaySound(SoundID.NPCKilled, Projectile.Center, 13);
+                Projectile.Kill();
             }
-            projectile.velocity.Y += 0.5f;
+            Projectile.velocity.Y += 0.5f;
 
-            if (projectile.velocity.Y > 10f)
+            if (Projectile.velocity.Y > 10f)
             {
-                projectile.velocity.Y = 10f;
+                Projectile.velocity.Y = 10f;
             }
 
-            projectile.StickToTiles(false, false);
+            Projectile.StickToTiles(false, false);
         }
 
         public override bool CanDamage() => false;

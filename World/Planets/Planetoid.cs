@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World.Planets
 {
@@ -81,11 +81,11 @@ namespace CalamityMod.World.Planets
             {
                 for (int j = area.Top; j < area.Bottom; j++)
                 {
-                    if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
+                    if (Main.tile[i, j].TileType == TileID.Cloud || Main.tile[i, j].TileType == TileID.RainCloud || Main.tile[i, j].TileType == TileID.Sunplate)
                         return false;
 
                     if (varia != null &&
-                        (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud")))
+                        (Main.tile[i, j].TileType == varia.Find<ModTile>("StarplateBrick") .Type|| Main.tile[i, j].TileType == varia.Find<ModTile>("ForgottenCloud").Type))
                     {
                         return false;
                     }

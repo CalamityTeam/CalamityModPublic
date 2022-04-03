@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicChest : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.ChestRightClick(i, j);
         }

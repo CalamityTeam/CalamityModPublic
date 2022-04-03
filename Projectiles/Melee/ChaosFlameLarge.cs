@@ -11,38 +11,38 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 44;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 44;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
             aiType = ProjectileID.SporeCloud;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            Lighting.AddLight(projectile.Center, 0.4f, 0f, 0f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
+            Lighting.AddLight(Projectile.Center, 0.4f, 0f, 0f);
             if (Main.rand.NextBool(4))
             {
-                int num469 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
+                int num469 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 5; k++)
             {
-                int num469 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
+                int num469 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 174, 0f, 0f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
+            return new Color(255, Main.DiscoG, 53, Projectile.alpha);
         }
     }
 }

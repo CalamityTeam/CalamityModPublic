@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SageSpiritBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sage Spirit");
             Description.SetDefault("It's uncomfortably close");

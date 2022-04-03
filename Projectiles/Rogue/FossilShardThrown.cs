@@ -15,20 +15,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            projectile.timeLeft = 90;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = 1;
+            Projectile.timeLeft = 90;
             aiType = ProjectileID.WoodenArrowFriendly;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.Y;
-            projectile.velocity.Y *= 1.05f;
+            Projectile.rotation += Projectile.velocity.Y;
+            Projectile.velocity.Y *= 1.05f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 32, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
     }
 }

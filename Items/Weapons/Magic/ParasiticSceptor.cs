@@ -12,33 +12,33 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Parasitic Scepter");
             Tooltip.SetDefault("Fires a spread of water leeches that latch onto enemies, dealing a stacking damage over time");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.knockBack = 3f;
-            item.mana = 10;
-            item.useTime = item.useAnimation = 35;
-            item.autoReuse = true;
-            item.magic = true;
-            item.shootSpeed = 10f;
-            item.shoot = ModContent.ProjectileType<WaterLeechProj>();
+            Item.damage = 12;
+            Item.knockBack = 3f;
+            Item.mana = 10;
+            Item.useTime = Item.useAnimation = 35;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Magic;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<WaterLeechProj>();
 
-            item.width = item.height = 52;
-            item.UseSound = SoundID.Item46;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = ItemRarityID.Green;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.width = Item.height = 52;
+            Item.UseSound = SoundID.Item46;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.rare = ItemRarityID.Green;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float xDist = Main.mouseX + Main.screenPosition.X - playerPos.X;
             float yDist = Main.mouseY + Main.screenPosition.Y - playerPos.Y;

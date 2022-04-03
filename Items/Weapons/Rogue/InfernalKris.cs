@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 32;
-            item.damage = 24;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<InfernalKrisProjectile>();
-            item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 24;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 5, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<InfernalKrisProjectile>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,12 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar);
-            recipe.AddIngredient(ItemID.Obsidian, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.HellstoneBar).AddIngredient(ItemID.Obsidian, 2).AddTile(TileID.Anvils).Register();
         }
     }
 }

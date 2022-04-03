@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();

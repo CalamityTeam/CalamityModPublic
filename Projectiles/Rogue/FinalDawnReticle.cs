@@ -14,66 +14,66 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void SetDefaults()
         {
-            projectile.scale = 1.5f;
-            projectile.width = 120;
-            projectile.height = 120;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.alpha = 0;
+            Projectile.scale = 1.5f;
+            Projectile.width = 120;
+            Projectile.height = 120;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.alpha = 0;
 
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
-            if (projectile.ai[1] == 0)
-                projectile.ai[1] = 1;
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[1] == 0)
+                Projectile.ai[1] = 1;
+            if (Projectile.ai[0] == 0)
             {
                 int dustCount = 36;
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Vector2 startingPosition = projectile.Center + 10f * Vector2.UnitX;
-                    Vector2 offset = Vector2.UnitX * projectile.width * 0.1875f;
+                    Vector2 startingPosition = Projectile.Center + 10f * Vector2.UnitX;
+                    Vector2 offset = Vector2.UnitX * Projectile.width * 0.1875f;
                     offset = offset.RotatedBy((i - (dustCount / 2 - 1)) * MathHelper.TwoPi / 20f);
                     int dustIdx = Dust.NewDust(startingPosition + offset, 0, 0, ModContent.DustType<FinalFlame>(), offset.X * 2f, offset.Y * 2f, 100, default, 3.4f);
                     Main.dust[dustIdx].noGravity = true;
                     Main.dust[dustIdx].noLight = true;
                     Main.dust[dustIdx].velocity = Vector2.Normalize(offset) * 5f;
                 }
-                projectile.ai[0] = 1;
+                Projectile.ai[0] = 1;
             }
-            projectile.alpha += 8;
-            projectile.scale *= 0.98f;
-            projectile.ai[1] *= 1.01f;
-            if(projectile.alpha >= 255)
-                projectile.Kill();
+            Projectile.alpha += 8;
+            Projectile.scale *= 0.98f;
+            Projectile.ai[1] *= 1.01f;
+            if(Projectile.alpha >= 255)
+                Projectile.Kill();
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D ring = Main.projectileTexture[projectile.type];
-            Texture2D symbol = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
+            Texture2D ring = Main.projectileTexture[Projectile.type];
+            Texture2D symbol = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
             spriteBatch.Draw(symbol,
-                             projectile.Center - Main.screenPosition,
+                             Projectile.Center - Main.screenPosition,
                              null,
-                             projectile.GetAlpha(Color.White),
-                             projectile.rotation,
+                             Projectile.GetAlpha(Color.White),
+                             Projectile.rotation,
                              new Vector2(symbol.Width / 2, symbol.Height / 2),
-                             projectile.scale,
-                             projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                             Projectile.scale,
+                             Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                              0f);
             spriteBatch.Draw(ring,
-                             projectile.Center - Main.screenPosition,
+                             Projectile.Center - Main.screenPosition,
                              null,
-                             projectile.GetAlpha(Color.White),
-                             projectile.rotation,
+                             Projectile.GetAlpha(Color.White),
+                             Projectile.rotation,
                              new Vector2(ring.Width / 2, ring.Height / 2),
-                             projectile.ai[1],
-                             projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                             Projectile.ai[1],
+                             Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                              0f);
             return false;
         }

@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusBathtub : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

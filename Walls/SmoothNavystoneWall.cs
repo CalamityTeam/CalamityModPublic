@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class SmoothNavystoneWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 

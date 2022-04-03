@@ -17,16 +17,16 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item94;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<DraedonGamerChairMount>();
+            Item.width = 32;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item94;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<DraedonGamerChairMount>();
 
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Mounts
             string hotkey2 = CalamityMod.ExoChairSlowdownHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                     line2.text = $"Hold {hotkey} while sitting in the throne to move much faster";
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
                     line2.text = $"And hold {hotkey2} to move much slower";
             }
         }

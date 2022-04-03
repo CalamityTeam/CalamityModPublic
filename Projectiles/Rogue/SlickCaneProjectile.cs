@@ -19,20 +19,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 36;
-            projectile.Calamity().rogue = true;
-            projectile.timeLeft = 90;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.hide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
-            projectile.alpha = 180;
+            Projectile.width = 42;
+            Projectile.height = 36;
+            Projectile.Calamity().rogue = true;
+            Projectile.timeLeft = 90;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.hide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 2;
+            Projectile.alpha = 180;
         }
         public override SpearType SpearAiType => SpearType.GhastlyGlaiveSpear;
         public override float TravelSpeed => 8f;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Initialization. Using the AI hook would override the base spear's code, and we don't want that.
             if (!initialized)
             {
-                Main.player[projectile.owner].Calamity().ConsumeStealthByAttacking();
+                Main.player[Projectile.owner].Calamity().ConsumeStealthByAttacking();
                 initialized = true;
             }
             return true;
@@ -50,24 +50,24 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-            Texture2D alternateHookTexture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SlickCaneProjectileAlt") : Main.projectileTexture[projectile.type];
-            Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? alternateHookTexture.Width + 8f : -8f, -8f);
+            Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Texture2D alternateHookTexture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SlickCaneProjectileAlt") : Main.projectileTexture[Projectile.type];
+            Vector2 origin = new Vector2(Projectile.spriteDirection == 1 ? alternateHookTexture.Width + 8f : -8f, -8f);
             spriteBatch.Draw(alternateHookTexture, drawPosition, null,
-                lightColor, projectile.rotation,
-                origin, projectile.scale, SpriteEffects.None, 0f);
+                lightColor, Projectile.rotation,
+                origin, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float f2 = projectile.rotation - MathHelper.PiOver4 *
-                Math.Sign(projectile.velocity.X) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+            float f2 = Projectile.rotation - MathHelper.PiOver4 *
+                Math.Sign(Projectile.velocity.X) + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
             float velocityMagnitude = 0f;
             float scaleFactor = 35f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
-                projectile.Center, projectile.Center + f2.ToRotationVector2() * scaleFactor,
-                (TravelSpeed + 1f) * projectile.scale, ref velocityMagnitude))
+                Projectile.Center, Projectile.Center + f2.ToRotationVector2() * scaleFactor,
+                (TravelSpeed + 1f) * Projectile.scale, ref velocityMagnitude))
             {
                 return true;
             }
@@ -75,13 +75,13 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
                 float moneyValueToDrop = target.value / Main.rand.NextFloat(15f, 35f);
                 // Maximum of 50 silver, not counting steath strikes
                 moneyValueToDrop = (int)MathHelper.Clamp(moneyValueToDrop, 0, 5000f);
-                if (projectile.Calamity().stealthStrike && Main.rand.NextBool(15))
+                if (Projectile.Calamity().stealthStrike && Main.rand.NextBool(15))
                 {
                     moneyValueToDrop += Item.buyPrice(0, Main.rand.Next(1, 4), Main.rand.Next(0, 100), Main.rand.Next(0, 100));
                 }

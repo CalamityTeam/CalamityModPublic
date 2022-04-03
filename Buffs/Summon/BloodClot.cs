@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BloodClot : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Clot");
             Description.SetDefault("The blood clot will protect you");

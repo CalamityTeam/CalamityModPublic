@@ -3,6 +3,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -17,31 +18,31 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.aiStyle = 1;
-            projectile.extraUpdates = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2 : 1;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.aiStyle = 1;
+            Projectile.extraUpdates = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2 : 1;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
             for (int num468 = 0; num468 < 2; num468++)
             {
-                int num469 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 3f);
+                int num469 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 135, 0f, 0f, 100, default, 3f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item20, projectile.position);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
         }
 

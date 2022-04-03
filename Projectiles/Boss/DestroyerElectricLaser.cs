@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class DestroyerElectricLaser : ModProjectile
@@ -14,46 +15,46 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.ignoreWater = true;
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.scale = 1.2f;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 2;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.ignoreWater = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.scale = 1.2f;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 2;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
-            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
-            if (projectile.alpha > 0)
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+            Lighting.AddLight(Projectile.Center, 0f, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0.35f / 255f);
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 125;
+                Projectile.alpha -= 125;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.localAI[1] == 0f)
+            if (Projectile.localAI[1] == 0f)
             {
-                Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
-                projectile.localAI[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item33, (int)Projectile.position.X, (int)Projectile.position.Y);
+                Projectile.localAI[1] = 1f;
             }
-            if (projectile.velocity.Length() < 12f)
+            if (Projectile.velocity.Length() < 12f)
             {
-                projectile.velocity *= 1.0025f;
+                Projectile.velocity *= 1.0025f;
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.alpha < 200)
+            if (Projectile.alpha < 200)
             {
-                return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
+                return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
             }
             return Color.Transparent;
         }

@@ -22,20 +22,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 130;
-            item.height = 130;
-            item.damage = 150;
-            item.melee = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.useTurn = true;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shootSpeed = 12f;
+            Item.width = 130;
+            Item.height = 130;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 22;
+            Item.useTurn = true;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 0, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shootSpeed = 12f;
         }
 
         public override void UseStyle(Player player)
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, item.knockBack, damage, crit);
+            OnHitEffects(player, target.Center, target.statLife, target.statLifeMax2, Item.knockBack, damage, crit);
         }
 
         private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
@@ -97,13 +97,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MajesticGuard>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MajesticGuard>()).AddIngredient(ModContent.ItemType<BarofLife>(), 10).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

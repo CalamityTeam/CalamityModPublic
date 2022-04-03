@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ProfanedBabs : ModBuff //Buff name is reference to how I refer to the guardians as my babs ~Amber
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Profaned Soul");
             Description.SetDefault("The healer will heal your wounds!");

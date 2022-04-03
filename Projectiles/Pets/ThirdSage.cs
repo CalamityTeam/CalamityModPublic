@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -10,27 +11,27 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Third Sage");
-            Main.projPet[projectile.type] = true;
-            Main.projFrames[projectile.type] = 7;
+            Main.projPet[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 42;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.tileCollide = false;
+            Projectile.netImportant = true;
+            Projectile.width = 42;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -40,29 +41,29 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.thirdSage)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-            projectile.FloatingPetAI(true, 0.1f);
+            Projectile.FloatingPetAI(true, 0.1f);
             //Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 4 && projectile.ai[1] < 45)
+            if (Projectile.frame > 4 && Projectile.ai[1] < 45)
             {
-                projectile.frame = 0;
-                projectile.ai[1]++;
+                Projectile.frame = 0;
+                Projectile.ai[1]++;
             }
-            else if (projectile.frame == 4 && projectile.ai[1] >= 45)
+            else if (Projectile.frame == 4 && Projectile.ai[1] >= 45)
             {
-                Main.PlaySound(SoundID.Zombie, projectile.Center, 32);
+                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 32);
             }
-            else if (projectile.frame > 6)
+            else if (Projectile.frame > 6)
             {
-                projectile.frame = 0;
-                projectile.ai[1] = 0;
+                Projectile.frame = 0;
+                Projectile.ai[1] = 0;
             }
         }
     }

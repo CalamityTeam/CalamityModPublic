@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CloudyWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cloud Elemental");
             Description.SetDefault("The cloud elemental will protect you");

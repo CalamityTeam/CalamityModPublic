@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class PlaguebringerBabBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Bab");
             Description.SetDefault("The baby plaguebringer sees you as the queen");

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Weapons.Melee;
+using Terraria.Audio;
 
 namespace CalamityMod.DataStructures
 {
@@ -97,7 +98,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = false;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.Swing;
             item.shoot = ProjectileType<PurityProjection>();
             item.shootSpeed = 12f;
             item.UseSound = SoundID.Item1;
@@ -123,7 +124,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<AridGrandeur>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -149,7 +150,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<BitingEmbrace>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -198,7 +199,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.Swing;
             item.shoot = ProjectileType<GrovetendersTouch>();
             item.shootSpeed = 30;
             item.UseSound = null;
@@ -225,7 +226,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.Stabbing;
+            item.useStyle = ItemUseStyleID.Thrust;
             item.shoot = ProjectileType<DecaysRetort>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -262,7 +263,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = false;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.Swing;
             item.shoot = ProjectileType<TruePurityProjection>();
             item.shootSpeed = 12f;
             item.UseSound = SoundID.Item1;
@@ -289,7 +290,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<TrueAridGrandeur>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -315,7 +316,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<TrueBitingEmbrace>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -365,7 +366,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.Swing;
             item.shoot = ProjectileType<TrueGrovetendersTouch>();
             item.shootSpeed = 30;
             item.UseSound = null;
@@ -404,7 +405,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.Stabbing;
+            item.useStyle = ItemUseStyleID.Thrust;
             item.shoot = ProjectileType<TrueDecaysRetort>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -449,7 +450,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<HeavensMight>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -476,7 +477,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.Stabbing;
+            item.useStyle = ItemUseStyleID.Thrust;
             item.shoot = ProjectileType<ExtantAbhorrence>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -504,7 +505,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = false;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.Stabbing;
+            item.useStyle = ItemUseStyleID.Thrust;
             item.shoot = ProjectileType<GestureForTheDrowned>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -533,7 +534,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<SwordsmithsPride>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -544,7 +545,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
-                Main.PlaySound(SoundID.Item78);
+                SoundEngine.PlaySound(SoundID.Item78);
                 Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
@@ -570,7 +571,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<LamentationsOfTheChained>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -584,7 +585,7 @@ namespace CalamityMod.DataStructures
                 if (projectile.modProjectile is ChainedMeatHook hook && hook.Twirling == 0f)
                 {
                     hook.Twirling = 1f;
-                    hook.projectile.timeLeft = (int)ChainedMeatHook.MaxTwirlTime;
+                    hook.Projectile.timeLeft = (int)ChainedMeatHook.MaxTwirlTime;
                 }
                 Procced = false;
             }
@@ -609,7 +610,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<SanguineFury>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -647,7 +648,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<MercurialTides>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -690,7 +691,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<PhoenixsPride>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -701,7 +702,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 500 == 449)
             {
-                Main.PlaySound(SoundID.Item78);
+                SoundEngine.PlaySound(SoundID.Item78);
                 Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
                 UseTimer++;
             }
@@ -729,7 +730,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<AriesWrath>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -740,7 +741,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 500 == 449)
             {
-                Main.PlaySound(SoundID.Item78);
+                SoundEngine.PlaySound(SoundID.Item78);
                 Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
                 UseTimer++;
             }
@@ -768,7 +769,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<PolarisGaze>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -779,7 +780,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 500 == 449)
             {
-                Main.PlaySound(SoundID.Item78);
+                SoundEngine.PlaySound(SoundID.Item78);
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
                 UseTimer++;
             }
@@ -808,7 +809,7 @@ namespace CalamityMod.DataStructures
         {
             item.channel = true;
             item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.Shoot;
             item.shoot = ProjectileType<AndromedasStride>();
             item.shootSpeed = 12f;
             item.UseSound = null;
@@ -819,7 +820,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 500 == 449)
             {
-                Main.PlaySound(SoundID.Item78);
+                SoundEngine.PlaySound(SoundID.Item78);
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
                 UseTimer++;
             }

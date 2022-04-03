@@ -15,6 +15,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.IO;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -24,28 +25,28 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ceaseless Void");
-            Main.npcFrameCount[npc.type] = 6;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.GetNPCDamage();
-            npc.npcSlots = 36f;
-            npc.width = 100;
-            npc.height = 100;
-            npc.defense = 80;
-            CalamityGlobalNPC global = npc.Calamity();
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.npcSlots = 36f;
+            NPC.width = 100;
+            NPC.height = 100;
+            NPC.defense = 80;
+            CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.5f;
 
             bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1;
-            npc.LifeMaxNERB(notDoGFight ? 64400 : 16100, notDoGFight ? 77280 : 19320, 72000);
+            NPC.LifeMaxNERB(notDoGFight ? 64400 : 16100, notDoGFight ? 77280 : 19320, 72000);
 
             // If fought alone, Ceaseless Void plays its own theme
             if (notDoGFight)
             {
-                npc.value = Item.buyPrice(2, 0, 0, 0);
+                NPC.value = Item.buyPrice(2, 0, 0, 0);
                 music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             }
             // If fought as a DoG interlude, keep the DoG music playing
@@ -53,51 +54,51 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
 
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.aiStyle = -1;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.boss = true;
-            npc.DeathSound = SoundID.NPCDeath14;
+            NPC.knockBackResist = 0f;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.boss = true;
+            NPC.DeathSound = SoundID.NPCDeath14;
             bossBag = ModContent.ItemType<CeaselessVoidBag>();
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
-            CalamityAI.CeaselessVoidAI(npc, mod);
+            CalamityAI.CeaselessVoidAI(NPC, Mod);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -106,10 +107,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -125,11 +126,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2));
             Color color36 = Color.White;
             float amount9 = 0.5f;
             int num153 = 7;
@@ -140,21 +141,21 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 {
                     Color color38 = lightColor;
                     color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = npc.GetAlpha(color38);
+                    color38 = NPC.GetAlpha(color38);
                     color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/CeaselessVoid/CeaselessVoidGlow");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/CeaselessVoidGlow");
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
@@ -164,14 +165,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     Color color41 = color37;
                     color41 = Color.Lerp(color41, color36, amount9);
                     color41 *= (float)(num153 - num163) / 15f;
-                    Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -182,34 +183,34 @@ namespace CalamityMod.NPCs.CeaselessVoid
             bool fullStrength = !CalamityWorld.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
-                CalamityGlobalNPC.SetNewBossJustDowned(npc);
+                CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-                DropHelper.DropBags(npc);
+                DropHelper.DropBags(NPC);
 
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+                DropHelper.DropItemChance(NPC, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
 
                 if (!Main.expertMode)
                 {
                     // Materials
-                    DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
+                    DropHelper.DropItem(NPC, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
                     // Weapons
                     float dropChance = DropHelper.NormalWeaponDropRateFloat;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), dropChance);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<VoidConcentrationStaff>(), dropChance);
+                    DropHelper.DropItemChance(NPC, ModContent.ItemType<MirrorBlade>(), dropChance);
+                    DropHelper.DropItemChance(NPC, ModContent.ItemType<VoidConcentrationStaff>(), dropChance);
 
                     // Equipment
-                    DropHelper.DropItem(npc, ModContent.ItemType<TheEvolution>(), true);
+                    DropHelper.DropItem(NPC, ModContent.ItemType<TheEvolution>(), true);
 
                     // Vanity
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
+                    DropHelper.DropItemChance(NPC, ModContent.ItemType<CeaselessVoidMask>(), 7);
                     if (Main.rand.NextBool(20))
                     {
-                        DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
-                        DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
-                        DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerHelm>());
+                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
+                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
                     }
                 }
             }
@@ -220,7 +221,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 CalamityWorld.DoGSecondStageCountdown = 14460;
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = mod.GetPacket();
+                    var netMessage = Mod.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
                     netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                     netMessage.Send();
@@ -237,7 +238,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -247,29 +248,29 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (NPC.soundDelay == 0)
             {
-                npc.soundDelay = 8;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
+                NPC.soundDelay = 8;
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
             }
 
             for (int k = 0; k < 5; k++)
             {
-                int dust = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, hitDirection, -1f, 0, default, 1f);
                 Main.dust[dust].noGravity = true;
             }
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 100;
-                npc.height = 100;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+                NPC.width = 100;
+                NPC.height = 100;
+                NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     Main.dust[num622].noGravity = true;
                     if (Main.rand.NextBool(2))
@@ -280,20 +281,20 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 2f;
                 }
 
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
             }
         }
     }

@@ -11,20 +11,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.aiStyle = 14;
-            projectile.penetrate = 4;
-            projectile.timeLeft = 360;
-            projectile.magic = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.aiStyle = 14;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = 360;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.9f;
-            projectile.velocity.Y *= 0.99f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.velocity.X *= 0.9f;
+            Projectile.velocity.Y *= 0.99f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
         }
     }
 }

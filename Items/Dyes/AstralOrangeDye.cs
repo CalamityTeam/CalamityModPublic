@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class AstralOrangeDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/AstralOrangeDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/AstralOrangeDyeShader").Value), "DyePass").
             UseColor(new Color(255, 166, 94)).UseSecondaryColor(new Color(238, 93, 82));
         public override void SafeSetStaticDefaults()
         {
@@ -19,18 +19,13 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Cyan;
-            item.value = Item.sellPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.value = Item.sellPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<AstralOre>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<AstralOre>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

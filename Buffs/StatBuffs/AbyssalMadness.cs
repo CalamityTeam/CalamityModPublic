@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class AbyssalMadness : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Madness");
             Description.SetDefault("Increased damage, critical strike chance, and tentacle aggression/range");

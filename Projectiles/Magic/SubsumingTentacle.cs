@@ -10,16 +10,16 @@ namespace CalamityMod.Projectiles.Magic
     {
         public int AlphaFade
         {
-            get => (int)projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => (int)Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public Vector2 OffsetAcceleration
         {
-            get => new Vector2(projectile.ai[0], projectile.ai[1]);
+            get => new Vector2(Projectile.ai[0], Projectile.ai[1]);
             set
             {
-                projectile.ai[0] = value.X;
-                projectile.ai[1] = value.Y;
+                Projectile.ai[0] = value.X;
+                Projectile.ai[1] = value.Y;
             }
         }
         public const float SegmentOffset = 5f;
@@ -29,47 +29,47 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Tentacle");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 75;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 75;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.MaxUpdates = 2;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            Projectile.width = Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.MaxUpdates = 2;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
         {
-            if (!projectile.tileCollide)
+            if (!Projectile.tileCollide)
             {
                 AlphaFade++;
-                projectile.alpha = AlphaFade;
-                if (projectile.alpha >= 255)
+                Projectile.alpha = AlphaFade;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
             // Here, the old positions act more like "control points" than old postions, and will be referred as such henceforth.
             // Each control point should have a set offset, to give a "chain" effect.
-            for (int i = 1; i < projectile.oldPos.Length; i++)
+            for (int i = 1; i < Projectile.oldPos.Length; i++)
             {
-                projectile.oldPos[i] = projectile.oldPos[i - 1] + Vector2.Normalize(projectile.oldPos[i] - projectile.oldPos[i - 1]) * SegmentOffset;
+                Projectile.oldPos[i] = Projectile.oldPos[i - 1] + Vector2.Normalize(Projectile.oldPos[i] - Projectile.oldPos[i - 1]) * SegmentOffset;
             }
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(20f * projectile.scale));
-            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height) && projectile.tileCollide)
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(20f * Projectile.scale));
+            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height) && Projectile.tileCollide)
             {
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
             }
 
-            NPC closestTarget = projectile.Center.ClosestNPCAt(MaxEnemyDistance, true, true);
+            NPC closestTarget = Projectile.Center.ClosestNPCAt(MaxEnemyDistance, true, true);
             if (closestTarget != null)
             {
                 HomingMovement(closestTarget);
@@ -78,20 +78,20 @@ namespace CalamityMod.Projectiles.Magic
             {
                 ArcingMovement();
             }
-            projectile.scale -= closestTarget is null ? 0.007f : 0.004f;
-            if (projectile.scale <= 0.05f)
+            Projectile.scale -= closestTarget is null ? 0.007f : 0.004f;
+            if (Projectile.scale <= 0.05f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public void ArcingMovement()
         {
             // Cause the tentacle to arc around at an increasingly fast rate.
-            projectile.velocity += OffsetAcceleration;
-            if (projectile.velocity.Length() > MaxArcingSpeed)
+            Projectile.velocity += OffsetAcceleration;
+            if (Projectile.velocity.Length() > MaxArcingSpeed)
             {
-                projectile.velocity.Normalize();
-                projectile.velocity *= MaxArcingSpeed;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= MaxArcingSpeed;
             }
 
             // Accelerate the arc.
@@ -99,13 +99,13 @@ namespace CalamityMod.Projectiles.Magic
         }
         public void HomingMovement(NPC closestTarget)
         {
-            float angleOffset = MathHelper.WrapAngle(projectile.AngleTo(closestTarget.Center) - projectile.velocity.ToRotation());
+            float angleOffset = MathHelper.WrapAngle(Projectile.AngleTo(closestTarget.Center) - Projectile.velocity.ToRotation());
             angleOffset = MathHelper.Clamp(angleOffset, -0.2f, 0.2f);
 
-            if (projectile.Distance(closestTarget.Center) > 65f)
+            if (Projectile.Distance(closestTarget.Center) > 65f)
             {
-                projectile.velocity = projectile.velocity.RotatedBy(angleOffset);
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * MaxHomingSpeed;
+                Projectile.velocity = Projectile.velocity.RotatedBy(angleOffset);
+                Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * MaxHomingSpeed;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -113,21 +113,21 @@ namespace CalamityMod.Projectiles.Magic
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            if (projectile.scale < 1f)
+            if (Projectile.scale < 1f)
             {
-                for (int i = 10; i < projectile.oldPos.Length; i++)
+                for (int i = 10; i < Projectile.oldPos.Length; i++)
                 {
                     var tentacleShader = GameShaders.Misc["CalamityMod:SubsumingTentacle"];
                     tentacleShader.UseImage("Images/Misc/Perlin");
 
-                    Vector2 drawPos = projectile.oldPos[i] + ModContent.GetTexture(Texture).Size() / 2f - Main.screenPosition + projectile.gfxOffY * Vector2.UnitY;
-                    float scale = MathHelper.Lerp(0.05f, 1.3f, i / (float)projectile.oldPos.Length) * projectile.scale;
+                    Vector2 drawPos = Projectile.oldPos[i] + ModContent.Request<Texture2D>(Texture).Size() / 2f - Main.screenPosition + Projectile.gfxOffY * Vector2.UnitY;
+                    float scale = MathHelper.Lerp(0.05f, 1.3f, i / (float)Projectile.oldPos.Length) * Projectile.scale;
                     scale = MathHelper.Clamp(scale, 0f, 2f);
-                    Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - i) / projectile.oldPos.Length);
+                    Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
 
-                    spriteBatch.Draw(ModContent.GetTexture(Texture), drawPos, null, color, projectile.rotation, ModContent.GetTexture(Texture).Size() / 2f, scale, SpriteEffects.None, 0f);
-                    tentacleShader.UseSaturation(i / (float)projectile.oldPos.Length); // A "completion ratio" for the shader. Used to make the entire tentacle appear multi-colored.
-                    tentacleShader.UseOpacity(1f / projectile.oldPos.Length); // A "step value" for the shader. Used to give variance in color at each individual segment.
+                    spriteBatch.Draw(ModContent.Request<Texture2D>(Texture), drawPos, null, color, Projectile.rotation, ModContent.Request<Texture2D>(Texture).Size() / 2f, scale, SpriteEffects.None, 0f);
+                    tentacleShader.UseSaturation(i / (float)Projectile.oldPos.Length); // A "completion ratio" for the shader. Used to make the entire tentacle appear multi-colored.
+                    tentacleShader.UseOpacity(1f / Projectile.oldPos.Length); // A "step value" for the shader. Used to give variance in color at each individual segment.
                     tentacleShader.Apply(null);
                 }
             }
@@ -141,10 +141,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            for (int i = 1; i < projectile.oldPos.Length; i++)
+            for (int i = 1; i < Projectile.oldPos.Length; i++)
             {
-                float scale = MathHelper.Lerp(0.05f, 1f, i / (float)projectile.oldPos.Length) * projectile.scale * 0.85f;
-                if (targetHitbox.Intersects(new Rectangle((int)projectile.oldPos[i].X, (int)projectile.oldPos[i].Y, (int)(projectile.width * scale), (int)(projectile.height * scale))))
+                float scale = MathHelper.Lerp(0.05f, 1f, i / (float)Projectile.oldPos.Length) * Projectile.scale * 0.85f;
+                if (targetHitbox.Intersects(new Rectangle((int)Projectile.oldPos[i].X, (int)Projectile.oldPos[i].Y, (int)(Projectile.width * scale), (int)(Projectile.height * scale))))
                     return true;
             }
             return false;
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = oldVelocity;
+            Projectile.velocity = oldVelocity;
             return false;
         }
     }

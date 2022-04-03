@@ -10,81 +10,82 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
     public class AcidEel : ModNPC
     {
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Eel");
-            Main.npcFrameCount[npc.type] = 6;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
-            NPCID.Sets.TrailCacheLength[npc.type] = 7;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 72;
-            npc.height = 18;
+            NPC.width = 72;
+            NPC.height = 18;
 
-            npc.damage = 20;
-            npc.lifeMax = 80;
-            npc.defense = 4;
-            npc.knockBackResist = 0.9f;
+            NPC.damage = 20;
+            NPC.lifeMax = 80;
+            NPC.defense = 4;
+            NPC.knockBackResist = 0.9f;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.DR_NERD(0.05f);
-                npc.damage = 100;
-                npc.lifeMax = 3300;
-                npc.defense = 20;
-                npc.knockBackResist = 0.7f;
+                NPC.DR_NERD(0.05f);
+                NPC.damage = 100;
+                NPC.lifeMax = 3300;
+                NPC.defense = 20;
+                NPC.knockBackResist = 0.7f;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 50;
-                npc.lifeMax = 240;
+                NPC.damage = 50;
+                NPC.lifeMax = 240;
             }
 
-            npc.value = Item.buyPrice(0, 0, 3, 32);
-            npc.aiStyle = -1;
+            NPC.value = Item.buyPrice(0, 0, 3, 32);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.lavaImmune = false;
-            npc.noGravity = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.lavaImmune = false;
+            NPC.noGravity = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<AcidEelBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
             // Fall through platforms.
-            npc.Calamity().ShouldFallThroughPlatforms = true;
+            NPC.Calamity().ShouldFallThroughPlatforms = true;
 
             // Play a slither sound from time to time.
             if (Main.rand.NextBool(480))
-                Main.PlaySound(SoundID.Zombie, npc.Center, 32);
+                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 32);
 
-            if (npc.wet)
+            if (NPC.wet)
             {
                 SwimTowardsTarget();
                 return;
             }
 
             // Do nothing on land.
-            npc.rotation = npc.rotation.AngleLerp(0f, 0.1f);
-            npc.velocity.X *= 0.95f;
-            if (npc.velocity.Y < 14f)
-                npc.velocity.Y += 0.15f;
+            NPC.rotation = NPC.rotation.AngleLerp(0f, 0.1f);
+            NPC.velocity.X *= 0.95f;
+            if (NPC.velocity.Y < 14f)
+                NPC.velocity.Y += 0.15f;
         }
 
         public void SwimTowardsTarget()
@@ -99,7 +100,7 @@ namespace CalamityMod.NPCs.AcidRain
             bool waterAbove = false;
             for (int dy = -160; dy < 0; dy += 8)
             {
-                if (Collision.WetCollision(npc.position + Vector2.UnitY * dy, npc.width, 16))
+                if (Collision.WetCollision(NPC.position + Vector2.UnitY * dy, NPC.width, 16))
                 {
                     waterAbove = true;
                     break;
@@ -107,67 +108,67 @@ namespace CalamityMod.NPCs.AcidRain
             }
 
             if (waterAbove)
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y - 0.25f, -14f, 14f);
+                NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y - 0.25f, -14f, 14f);
             else
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.4f, -4f, 8f);
+                NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y + 0.4f, -4f, 8f);
 
             // Coast in a single direction until hitting something.
-            if (npc.direction == 0)
+            if (NPC.direction == 0)
             {
-                npc.direction = Main.rand.NextBool().ToDirectionInt();
-                npc.netUpdate = true;
+                NPC.direction = Main.rand.NextBool().ToDirectionInt();
+                NPC.netUpdate = true;
             }
 
             // Rebound on impending collision or when near the world edge.
-            bool nearWorldEdge = npc.Center.X < (Main.offLimitBorderTiles + 2f) * 16f || npc.Center.X > (Main.maxTilesX - Main.offLimitBorderTiles - 2f) * 16f;
-            if ((CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * npc.direction, 20) ?? 20f) < 5f || nearWorldEdge)
+            bool nearWorldEdge = NPC.Center.X < (Main.offLimitBorderTiles + 2f) * 16f || NPC.Center.X > (Main.maxTilesX - Main.offLimitBorderTiles - 2f) * 16f;
+            if ((CalamityUtils.DistanceToTileCollisionHit(NPC.Center, Vector2.UnitX * NPC.direction, 20) ?? 20f) < 5f || nearWorldEdge)
             {
-                npc.direction *= -1;
+                NPC.direction *= -1;
                 if (nearWorldEdge)
-                    npc.position.X += Math.Sign(Main.maxTilesX * 8f - npc.position.X) * 12f;
+                    NPC.position.X += Math.Sign(Main.maxTilesX * 8f - NPC.position.X) * 12f;
 
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
-            npc.velocity.X = (npc.velocity.X * 24f + npc.direction * swimSpeed) / 25f;
+            NPC.velocity.X = (NPC.velocity.X * 24f + NPC.direction * swimSpeed) / 25f;
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 5)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 5)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                    npc.frame.Y = 0;
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y >= Main.npcFrameCount[NPC.type] * frameHeight)
+                    NPC.frame.Y = 0;
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
-            if (npc.velocity.Length() > 1.5f)
-                CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
+            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow"));
+            if (NPC.velocity.Length() > 1.5f)
+                CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            if (npc.life <= 0)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AcidEelGore"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AcidEelGore2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AcidEelGore3"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AcidEelGore"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AcidEelGore2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AcidEelGore3"), NPC.scale);
                 for (int k = 0; k < 20; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
         }
 

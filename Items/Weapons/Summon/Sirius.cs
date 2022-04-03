@@ -22,23 +22,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 62;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item44;
+            Item.width = 62;
+            Item.height = 62;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item44;
 
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 160;
-            item.knockBack = 3f;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<SiriusMinion>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 160;
+            Item.knockBack = 3f;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<SiriusMinion>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void HoldItem(Player player)
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
             for (int j = 0; j < Main.projectile.Length; j++)
             {
                 Projectile proj = Main.projectile[j];
-                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
+                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != Item.shoot)
                 {
                     minionCount += proj.minionSlots;
                 }
@@ -69,14 +69,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SunGodStaff>());
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SunGodStaff>()).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

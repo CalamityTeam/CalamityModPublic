@@ -18,34 +18,30 @@ Stealth strike throws a volley of knives");
 
         public override void SafeSetDefaults()
         {
-            item.width = 18;
-            item.damage = 25;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 32;
-            item.maxStack = 999;
-            item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
+            Item.width = 18;
+            Item.damage = 25;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 32;
+            Item.maxStack = 999;
+            Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
+            Item.shootSpeed = 25f;
+            Item.Calamity().rogue = true;
 
-            item.value = Item.sellPrice(copper: 60);
-            item.rare = ItemRarityID.Orange;
+            Item.value = Item.sellPrice(copper: 60);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>());
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ModContent.ItemType<AerialiteBar>()).AddTile(TileID.SkyMill).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

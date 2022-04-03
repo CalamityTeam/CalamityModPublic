@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -18,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 444;
-            item.mana = 10;
-            item.width = item.height = 56;
-            item.useTime = item.useAnimation = 10; // 9 because of useStyle 1
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.DD2_EtherianPortalOpen;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PerditionBeacon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.sentry = true;
+            Item.damage = 444;
+            Item.mana = 10;
+            Item.width = Item.height = 56;
+            Item.useTime = Item.useAnimation = 10; // 9 because of useStyle 1
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.DD2_EtherianPortalOpen;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PerditionBeacon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
 
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -50,8 +51,8 @@ namespace CalamityMod.Items.Weapons.Summon
             else
             {
                 // Play some demonic noises prior to a target being selected.
-                Main.PlaySound(SoundID.Zombie, player.Center, 93);
-                Main.PlaySound(SoundID.Item119, player.Center);
+                SoundEngine.PlaySound(SoundID.Zombie, player.Center, 93);
+                SoundEngine.PlaySound(SoundID.Item119, player.Center);
             }
             return false;
         }

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp(true);
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.6f;
                 g = 0.8f;

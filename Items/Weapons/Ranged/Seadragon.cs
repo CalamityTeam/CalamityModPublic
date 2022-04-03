@@ -23,24 +23,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.ranged = true;
-            item.width = 90;
-            item.height = 38;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 90;
+            Item.height = 38;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -86,17 +86,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Megalodon>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Megalodon>()).AddIngredient(ModContent.ItemType<Phantoplasm>(), 9).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

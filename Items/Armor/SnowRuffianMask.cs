@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 0, 75, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 1; //4
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 0, 75, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 1; //4
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -67,13 +67,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnySnowBlock", 10);
-            recipe.AddRecipeGroup("AnyIceBlock", 5);
-            recipe.AddIngredient(ItemID.BorealWood, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnySnowBlock", 10).AddRecipeGroup("AnyIceBlock", 5).AddIngredient(ItemID.BorealWood, 15).AddTile(TileID.Anvils).Register();
         }
     }
     public class SnowRuffianWings : EquipTexture

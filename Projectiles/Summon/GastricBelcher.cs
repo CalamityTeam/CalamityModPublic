@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -16,39 +17,39 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gastric Belcher");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
             //Set namespaces
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            CalamityGlobalProjectile modProj = projectile.Calamity();
+            CalamityGlobalProjectile modProj = Projectile.Calamity();
 
             //On spawn effects
             if (!initialized)
             {
                 //Set constants
                 modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 //Spawn dust
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
@@ -58,9 +59,9 @@ namespace CalamityMod.Projectiles.Summon
                         33,
                         89
                     });
-                    Vector2 direction = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
-                    direction = direction.RotatedBy((double)((dustIndex - (dustAmt / 2f - 1f)) * MathHelper.TwoPi / dustAmt), default) + projectile.Center;
-                    Vector2 dustVel = direction - projectile.Center;
+                    Vector2 direction = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                    direction = direction.RotatedBy((double)((dustIndex - (dustAmt / 2f - 1f)) * MathHelper.TwoPi / dustAmt), default) + Projectile.Center;
+                    Vector2 dustVel = direction - Projectile.Center;
                     int water = Dust.NewDust(direction + dustVel, 0, 0, randomDust, dustVel.X * 1.75f, dustVel.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[water].noGravity = true;
                     Main.dust[water].velocity = dustVel;
@@ -73,21 +74,21 @@ namespace CalamityMod.Projectiles.Summon
             {
                 int damage2 = (int)(modProj.spawnedPlayerMinionProjectileDamageValue /
                     modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
             //Update frames
-            if (projectile.frameCounter++ % 6 == 0)
+            if (Projectile.frameCounter++ % 6 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             //Set up buff and timeLeft
-            bool typeCheck = projectile.type == ModContent.ProjectileType<GastricBelcher>();
+            bool typeCheck = Projectile.type == ModContent.ProjectileType<GastricBelcher>();
             player.AddBuff(ModContent.BuffType<GastricBelcherBuff>(), 3600);
             if (typeCheck)
             {
@@ -97,28 +98,28 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.gastricBelcher)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
             //Anti sticky movement to prevent overlapping minions
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
             //Find a target
             float maxDistance = 700f;
-            Vector2 targetVec = projectile.position;
+            Vector2 targetVec = Projectile.position;
             bool foundTarget = false;
             //If targeting something, prioritize that enemy
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     bool canHit = true;
                     if (extraDist < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                        canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
                     if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
                     {
                         maxDistance = targetDist;
@@ -132,13 +133,13 @@ namespace CalamityMod.Projectiles.Summon
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
                     NPC npc = Main.npc[npcIndex];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
-                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         bool canHit = true;
                         if (extraDist < maxDistance)
-                            canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                            canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
                         if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
                         {
                             maxDistance = targetDist;
@@ -156,16 +157,16 @@ namespace CalamityMod.Projectiles.Summon
                 //Max travel distance increases if targeting something
                 returnDist = 2200f;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > returnDist)
+            if (Vector2.Distance(player.Center, Projectile.Center) > returnDist)
             {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
             }
 
             //If a target is found, move toward it
-            if (foundTarget && projectile.ai[0] == 0f)
+            if (foundTarget && Projectile.ai[0] == 0f)
             {
-                Vector2 vecToTarget = targetVec - projectile.Center;
+                Vector2 vecToTarget = targetVec - Projectile.Center;
                 float targetDist = vecToTarget.Length();
                 vecToTarget.Normalize();
                 //If farther than 200 pixels, move toward it
@@ -173,14 +174,14 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float speedMult = (targetDist > 400f) ? 12f : (targetDist > 250) ? 6f : 3f;
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
                 //Otherwise, back it up slowly
                 else
                 {
                     float speedMult = -3f;
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
             }
 
@@ -190,7 +191,7 @@ namespace CalamityMod.Projectiles.Summon
                 bool returningToPlayer = false;
                 if (!returningToPlayer)
                 {
-                    returningToPlayer = projectile.ai[0] == 1f;
+                    returningToPlayer = Projectile.ai[0] == 1f;
                 }
                 //Move faster if actively returning to the player
                 float speedMult = 10f;
@@ -198,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     speedMult = 21f;
                 }
-                Vector2 vecToPlayer = player.Center - projectile.Center + new Vector2(0f, -60f);
+                Vector2 vecToPlayer = player.Center - Projectile.Center + new Vector2(0f, -60f);
                 float playerDist = vecToPlayer.Length();
                 //Slow down if near the player
                 if (playerDist < 200f && speedMult > 8f)
@@ -206,77 +207,77 @@ namespace CalamityMod.Projectiles.Summon
                     speedMult = 1f;
                 }
                 //If close enough to the player, return to normal
-                if (playerDist < 150f && returningToPlayer && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                if (playerDist < 150f && returningToPlayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 //If abnormally far, teleport to the player
                 if (playerDist > 2000f)
                 {
-                    projectile.position.X = player.Center.X - (projectile.width / 2f);
-                    projectile.position.Y = player.Center.Y - (projectile.height / 2f);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = player.Center.X - (Projectile.width / 2f);
+                    Projectile.position.Y = player.Center.Y - (Projectile.height / 2f);
+                    Projectile.netUpdate = true;
                 }
                 //Move toward player if more than 70 pixels away
                 if (playerDist > 70f)
                 {
                     vecToPlayer.Normalize();
                     vecToPlayer *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToPlayer) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToPlayer) / 41f;
                 }
                 //Move if still
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
 
             //Update sprite direction and rotation
             if (foundTarget)
             {
-                projectile.spriteDirection = projectile.direction = ((targetVec.X - projectile.Center.X) > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
+                Projectile.spriteDirection = Projectile.direction = ((targetVec.X - Projectile.Center.X) > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
             }
             else
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             }
 
             //Increment attack cooldown
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += Main.rand.Next(1, 4);
+                Projectile.ai[1] += Main.rand.Next(1, 4);
             }
             //Set the minion to be ready for attack
-            if (projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 90f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
 
             //Return if on attack cooldown, has no target, or returning to the player
-            if (projectile.ai[0] != 0f || !foundTarget || projectile.ai[1] != 0f)
+            if (Projectile.ai[0] != 0f || !foundTarget || Projectile.ai[1] != 0f)
                 return;
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 //Play vomit sound
                 if (modPlayer.soundCooldown <= 0)
                 {
-                    Main.PlaySound(SoundID.NPCKilled, (int)projectile.Center.X, (int)projectile.Center.Y, 13, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.Center.X, (int)Projectile.Center.Y, 13, 0.5f, 0f);
                     modPlayer.soundCooldown = Main.rand.Next(120, 180);
                 }
 
                 //Increment the attack counter
-                projectile.ai[1]++;
+                Projectile.ai[1]++;
 
                 int projType = ModContent.ProjectileType<GastricBelcherVomit>();
 
                 //Calculate the general velocity
-                Vector2 velocity = targetVec - projectile.Center;
+                Vector2 velocity = targetVec - Projectile.Center;
                 velocity.Normalize();
 
                 //Add some inaccuracy for the vomit projectiles
@@ -286,7 +287,7 @@ namespace CalamityMod.Projectiles.Summon
                 vomitVel.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
                 //Fire the vomit projectile
-                Projectile.NewProjectile(projectile.Center, vomitVel, projType, projectile.damage, projectile.knockBack, projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.Center, vomitVel, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
 
                 //Fire 5 bubbles for every three attacks
                 if (bubbleCounter++ % 3 == 2)
@@ -299,11 +300,11 @@ namespace CalamityMod.Projectiles.Summon
                         bubbleVel.Y += Main.rand.NextFloat(-50f, 50f) * 0.05f;
                         bubbleVel.X += Main.rand.NextFloat(-50f, 50f) * 0.05f;
 
-                        Projectile.NewProjectile(projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
 
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
 
@@ -312,14 +313,14 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = frameHeight * projectile.frame;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int frameHeight = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = frameHeight * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
     }

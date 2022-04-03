@@ -14,36 +14,23 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlate>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlate>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyStoneBlock", 10);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>());
-            recipe.SetResult(this, 10);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlaguedPlateWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlaguedPlatePlatform>(), 2);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
-            recipe.AddRecipe();
+            CreateRecipe(10).AddRecipeGroup("AnyStoneBlock", 10).AddIngredient(ModContent.ItemType<PlagueCellCluster>()).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlateWall>(), 4).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlatePlatform>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
         }
     }
 }

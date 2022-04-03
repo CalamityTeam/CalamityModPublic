@@ -15,21 +15,21 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 200;
-            projectile.extraUpdates = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 200;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
+            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 2f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

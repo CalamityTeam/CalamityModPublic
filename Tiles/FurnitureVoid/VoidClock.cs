@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             animationFrameHeight = 90;
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             }
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

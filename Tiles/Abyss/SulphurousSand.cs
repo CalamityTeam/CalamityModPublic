@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousSand : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -117,7 +117,7 @@ namespace CalamityMod.Tiles.Abyss
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             if (CalamityUtils.ParanoidTileRetrieval(i, j + 1).active() &&
-                CalamityUtils.ParanoidTileRetrieval(i, j + 1).type == (ushort)ModContent.TileType<SulphurousVines>())
+                CalamityUtils.ParanoidTileRetrieval(i, j + 1).TileType == (ushort)ModContent.TileType<SulphurousVines>())
             {
                 WorldGen.KillTile(i, j + 1);
             }
@@ -147,7 +147,7 @@ namespace CalamityMod.Tiles.Abyss
                                 {
                                     for (int m = tileLocationY - num13; m <= tileLocationY + num13; m++)
                                     {
-                                        if (Main.tile[l, m].active() && Main.tile[l, m].type == 81)
+                                        if (Main.tile[l, m].active() && Main.tile[l, m].TileType == 81)
                                         {
                                             num15++;
                                         }
@@ -173,7 +173,7 @@ namespace CalamityMod.Tiles.Abyss
                                 {
                                     for (int m = tileLocationY - num13; m <= tileLocationY + num13; m++)
                                     {
-                                        if (Main.tile[l, m].active() && Main.tile[l, m].type == 324)
+                                        if (Main.tile[l, m].active() && Main.tile[l, m].TileType == 324)
                                         {
                                             num15++;
                                         }
@@ -202,7 +202,7 @@ namespace CalamityMod.Tiles.Abyss
                     if (WorldGen.InWorld(x, y))
                     {
                         if (CalamityUtils.ParanoidTileRetrieval(x, y).active() &&
-                            CalamityUtils.ParanoidTileRetrieval(x, y).type == (ushort)ModContent.TileType<SulphurousVines>())
+                            CalamityUtils.ParanoidTileRetrieval(x, y).TileType == (ushort)ModContent.TileType<SulphurousVines>())
                         {
                             nearbyVineCount++;
                         }
@@ -211,7 +211,7 @@ namespace CalamityMod.Tiles.Abyss
             }
             if (Main.tile[i, j + 1] != null && nearbyVineCount < 5)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<SulphurousVines>())
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
                         !Main.tile[i, j + 1].lava())
@@ -234,7 +234,7 @@ namespace CalamityMod.Tiles.Abyss
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<SulphurousVines>();
+                            Main.tile[num53, num54].TileType = (ushort)ModContent.TileType<SulphurousVines>();
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)

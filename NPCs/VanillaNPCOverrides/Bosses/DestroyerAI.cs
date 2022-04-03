@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -289,7 +290,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     for (int l = num14; l < num15; l++)
                     {
-                        if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[Main.tile[k, l].type] || (Main.tileSolidTop[Main.tile[k, l].type] && Main.tile[k, l].frameY == 0))) || Main.tile[k, l].liquid > 64))
+                        if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[Main.tile[k, l].TileType] || (Main.tileSolidTop[Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].liquid > 64))
                         {
                             Vector2 vector2;
                             vector2.X = k * 16;
@@ -464,7 +465,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num24 = 20f;
 
                     npc.soundDelay = (int)num24;
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
 
                 num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);

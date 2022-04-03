@@ -14,28 +14,28 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.extraUpdates = 100;
-            projectile.friendly = true;
-            projectile.timeLeft = 30;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.extraUpdates = 100;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 30;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
+            Projectile.localAI[1] += 1f;
+            if (Projectile.localAI[1] >= 29f && Projectile.owner == Main.myPlayer)
             {
-                projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ElementOrb2>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.localAI[1] = 0f;
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ElementOrb2>(), (int)(Projectile.damage * 0.7f), Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
 
             for (int num447 = 0; num447 < 2; num447++)
             {
-                Vector2 vector33 = projectile.position;
-                vector33 -= projectile.velocity * ((float)num447 * 0.25f);
+                Vector2 vector33 = Projectile.position;
+                vector33 -= Projectile.velocity * ((float)num447 * 0.25f);
                 int num448 = Dust.NewDust(vector33, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
                 Main.dust[num448].noGravity = true;
                 Main.dust[num448].position = vector33;

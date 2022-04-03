@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -15,40 +16,40 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Healer");
-            Main.projFrames[projectile.type] = 6;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 98;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 42;
+            Projectile.height = 98;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             if (!modPlayer.sandBoobWaifu && !modPlayer.allWaifus)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<SandElementalHealer>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<SandElementalHealer>();
             if (correctMinion)
             {
                 if (player.dead)
@@ -57,134 +58,134 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.dWaifu)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
-                    int sand = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 32, 0f, 0f, 0, default, 1f);
+                    int sand = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 32, 0f, 0f, 0, default, 1f);
                     Main.dust[sand].velocity *= 2f;
                     Main.dust[sand].scale *= 1.15f;
                 }
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 16)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 16)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            if (Math.Abs(projectile.velocity.X) > 0.2f)
+            if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
-                projectile.spriteDirection = -projectile.direction;
+                Projectile.spriteDirection = -Projectile.direction;
             }
 
             float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
             lightScalar *= Main.essScale;
-            Lighting.AddLight(projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
+            Lighting.AddLight(Projectile.Center, 0.7f * lightScalar, 0.6f * lightScalar, 0f * lightScalar);
 
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
-            if (Vector2.Distance(player.Center, projectile.Center) > 400f)
+            if (Vector2.Distance(player.Center, Projectile.Center) > 400f)
             {
-                projectile.ai[0] = 1f;
-                projectile.tileCollide = false;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.tileCollide = false;
+                Projectile.netUpdate = true;
             }
 
             float safeDist = 100f; //150
             bool returning = false;
             if (!returning)
             {
-                returning = projectile.ai[0] == 1f;
+                returning = Projectile.ai[0] == 1f;
             }
             float returnSpeed = 7f; //6
             if (returning)
             {
                 returnSpeed = 18f; //15
             }
-            Vector2 playerVec = player.Center - projectile.Center + new Vector2(-250f, -60f); //-60
+            Vector2 playerVec = player.Center - Projectile.Center + new Vector2(-250f, -60f); //-60
             float playerDist = playerVec.Length();
             if (playerDist > 200f && returnSpeed < 10f) //200 and 8
             {
                 returnSpeed = 10f; //8
             }
-            if (playerDist < safeDist && returning && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (playerDist < safeDist && returning && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.ai[0] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 0f;
+                Projectile.netUpdate = true;
             }
             if (playerDist > 2000f)
             {
-                projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
+                Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+                Projectile.netUpdate = true;
             }
             if (playerDist > 70f)
             {
                 playerVec.Normalize();
                 playerVec *= returnSpeed;
-                projectile.velocity = (projectile.velocity * 40f + playerVec) / 41f;
+                Projectile.velocity = (Projectile.velocity * 40f + playerVec) / 41f;
             }
-            else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+            else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
             {
-                projectile.velocity.X = -0.22f;
-                projectile.velocity.Y = -0.12f;
+                Projectile.velocity.X = -0.22f;
+                Projectile.velocity.Y = -0.12f;
             }
 
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                Projectile.ai[1] += (float)Main.rand.Next(1, 4);
             }
-            if (projectile.ai[1] > 220f)
+            if (Projectile.ai[1] > 220f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
-            if (projectile.localAI[0] < 120f)
+            if (Projectile.localAI[0] < 120f)
             {
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 int healProj = ModContent.ProjectileType<CactusHealOrb>();
-                if (projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
+                if (Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
                 {
-                    projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner && player.statLife < player.statLifeMax2)
+                    Projectile.ai[1] += 1f;
+                    if (Main.myPlayer == Projectile.owner && player.statLife < player.statLifeMax2)
                     {
-                        Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 6);
+                        SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
                         int dustAmt = 36;
                         for (int d = 0; d < dustAmt; d++)
                         {
-                            Vector2 source = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                            source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                            Vector2 dustVel = source - projectile.Center;
+                            Vector2 source = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                            source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                            Vector2 dustVel = source - Projectile.Center;
                             int green = Dust.NewDust(source + dustVel, 0, 0, 107, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, new Color(0, 200, 0), 1f);
                             Main.dust[green].noGravity = true;
                             Main.dust[green].noLight = true;
                             Main.dust[green].velocity = dustVel;
                         }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -6f, healProj, 0, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -6f, healProj, 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }

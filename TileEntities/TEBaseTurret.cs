@@ -61,7 +61,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == TileType;
+            return tile.active() && tile.TileType == TileType;
         }
 
         #region Update and Turret Behavior
@@ -196,7 +196,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.Turret);
             packet.Write(ID);
             packet.Write(FiringTime);

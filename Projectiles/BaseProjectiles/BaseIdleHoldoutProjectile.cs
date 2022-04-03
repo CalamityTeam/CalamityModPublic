@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseIdleHoldoutProjectile : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public abstract int AssociatedItemID { get; }
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             CheckForEveryHoldout(Owner);
             if (Owner.ActiveItem().type != AssociatedItemID || Owner.CCed || !Owner.active || Owner.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             SafeAI();

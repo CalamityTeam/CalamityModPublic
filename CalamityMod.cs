@@ -271,9 +271,9 @@ namespace CalamityMod
 
             AddEquipTexture(null, EquipType.Legs, "CirrusDress_Legs", "CalamityMod/Items/Armor/CirrusDress_Legs");
 
-            AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
-            AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
-            AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
+            AstralCactusTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactus");
+            AstralCactusGlowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
+            AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();

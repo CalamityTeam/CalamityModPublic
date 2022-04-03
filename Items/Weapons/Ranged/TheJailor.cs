@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 360;
-            item.ranged = true;
-            item.width = 102;
-            item.height = 70;
-            item.useTime = item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.UseSound = SoundID.Item14;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PrismMine>();
-            item.shootSpeed = 14.5f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 360;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 102;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.UseSound = SoundID.Item14;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PrismMine>();
+            Item.shootSpeed = 14.5f;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-40f, -16f);
@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 shootVelocity = new Vector2(speedX, speedY);
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Vector2 gunTip = position + shootDirection * item.scale * 45f;
+            Vector2 gunTip = position + shootDirection * Item.scale * 45f;
 
-            Projectile.NewProjectile(gunTip, shootVelocity, item.shoot, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(gunTip, shootVelocity, Item.shoot, damage, knockBack, player.whoAmI);
             return false;
         }
     }

@@ -6,12 +6,12 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseSporeSacProjectile : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public bool FadingOut => GeneralTimer > 5400f;
-        public bool HomesInStronglyOnEnemies => projectile.ai[1] == 1f;
-        public ref float GeneralTimer => ref projectile.ai[0];
-        public ref float PulseIncrement => ref projectile.localAI[0];
-        public ref float MoveTimer => ref projectile.localAI[1];
+        public bool HomesInStronglyOnEnemies => Projectile.ai[1] == 1f;
+        public ref float GeneralTimer => ref Projectile.ai[0];
+        public ref float PulseIncrement => ref Projectile.localAI[0];
+        public ref float MoveTimer => ref Projectile.localAI[1];
 
         public virtual Color? LightColor => new Color(0.25f, 0.025f, 0.275f);
 
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             // Emit light if applicable.
             if (LightColor.HasValue)
             {
-                float lightFactor = projectile.Opacity * projectile.scale;
-                Lighting.AddLight(projectile.Center, LightColor.Value.ToVector3() * lightFactor);
+                float lightFactor = Projectile.Opacity * Projectile.scale;
+                Lighting.AddLight(Projectile.Center, LightColor.Value.ToVector3() * lightFactor);
             }
 
             PulseIncrement++;
@@ -34,14 +34,14 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 PulseIncrement *= -1f;
 
             // Pulse in and out based on the increment in a way analogous to a triangle wave.
-            projectile.scale += (PulseIncrement >= 0f).ToDirectionInt() * 0.003f;
+            Projectile.scale += (PulseIncrement >= 0f).ToDirectionInt() * 0.003f;
 
             // Rotate with an angular velocity proportional to the scale of the projectile.
-            projectile.rotation += projectile.scale * 0.0025f;
+            Projectile.rotation += Projectile.scale * 0.0025f;
 
             // Determine the move direction.
             Vector2 moveDirection = Vector2.One;
-            switch (projectile.identity % 6)
+            switch (Projectile.identity % 6)
             {
                 case 0:
                     moveDirection.X *= -1f;
@@ -64,23 +64,23 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             MoveTimer += 1f;
             if (MoveTimer > 60f)
                 MoveTimer = -180f;
-            projectile.velocity += moveDirection * (MoveTimer >= -60f).ToDirectionInt() * 0.002f;
+            Projectile.velocity += moveDirection * (MoveTimer >= -60f).ToDirectionInt() * 0.002f;
 
             // Fade out and die after enough time.
             // This process is accelerated the farther away the projectile is from its owner.
             GeneralTimer++;
             if (FadingOut)
             {
-                projectile.damage = 0;
-                if (projectile.alpha < 255)
-                    projectile.alpha = Utils.Clamp(projectile.alpha + 5, 0, 255);
+                Projectile.damage = 0;
+                if (Projectile.alpha < 255)
+                    Projectile.alpha = Utils.Clamp(Projectile.alpha + 5, 0, 255);
 
-                else if (projectile.owner == Main.myPlayer)
-                    projectile.Kill();
+                else if (Projectile.owner == Main.myPlayer)
+                    Projectile.Kill();
             }
             else
             {
-                float ownerDistanceIncrement = projectile.Distance(Owner.Center);
+                float ownerDistanceIncrement = Projectile.Distance(Owner.Center);
                 if (ownerDistanceIncrement > 400f)
                     ownerDistanceIncrement *= 1.1f;
 
@@ -105,24 +105,24 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 GeneralTimer += ownerDistanceIncrement * 0.01f;
 
                 // Fade in.
-                projectile.alpha = Utils.Clamp(projectile.alpha - 10, 50, 255);
+                Projectile.alpha = Utils.Clamp(Projectile.alpha - 10, 50, 255);
             }
-            if (HomesInStronglyOnEnemies || projectile.timeLeft < (3300 + PulseIncrement))
+            if (HomesInStronglyOnEnemies || Projectile.timeLeft < (3300 + PulseIncrement))
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(HomeDistance);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(HomeDistance);
 
                 if (potentialTarget != null)
                 {
                     if (HomesInStronglyOnEnemies)
-                        projectile.extraUpdates = 5;
+                        Projectile.extraUpdates = 5;
 
-                    projectile.velocity = (projectile.velocity * 10f + projectile.SafeDirectionTo(potentialTarget.Center) * HomeSpeed) / 11f;
+                    Projectile.velocity = (Projectile.velocity * 10f + Projectile.SafeDirectionTo(potentialTarget.Center) * HomeSpeed) / 11f;
                     return;
                 }
             }
-            if (projectile.velocity.Length() > 0.2f)
+            if (Projectile.velocity.Length() > 0.2f)
             {
-                projectile.velocity *= 0.98f;
+                Projectile.velocity *= 0.98f;
             }
         }
     }

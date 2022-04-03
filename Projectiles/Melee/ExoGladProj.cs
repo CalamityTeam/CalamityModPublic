@@ -17,13 +17,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -45,17 +45,17 @@ namespace CalamityMod.Projectiles.Melee
                     }
                     Vector2 offset = Vector2.UnitX * -12f;
                     offset = -Vector2.UnitY.RotatedBy((double)(counter * 0.1308997f + (float)i * MathHelper.Pi), default) * value7;
-                    int exo = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1.5f);
+                    int exo = Dust.NewDust(Projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1.5f);
                     Main.dust[exo].noGravity = true;
-                    Main.dust[exo].position = projectile.Center + offset;
-                    Main.dust[exo].velocity = projectile.velocity;
-                    int dusters = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
+                    Main.dust[exo].position = Projectile.Center + offset;
+                    Main.dust[exo].velocity = Projectile.velocity;
+                    int dusters = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
                     Main.dust[dusters].noGravity = true;
                     Main.dust[dusters].velocity *= 0f;
                 }
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
             });
             for (int k = 0; k < 4; k++)
             {
-                int exo = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType, (float)(projectile.direction * 2), 0f, 150, default, 1f);
+                int exo = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType, (float)(Projectile.direction * 2), 0f, 150, default, 1f);
                 Main.dust[exo].noGravity = true;
             }
         }
@@ -87,20 +87,20 @@ namespace CalamityMod.Projectiles.Melee
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            float swordKB = projectile.knockBack;
-            int swordDmg = (int)(projectile.damage * 0.25);
+            float swordKB = Projectile.knockBack;
+            int swordDmg = (int)(Projectile.damage * 0.25);
             int numSwords = Main.rand.Next(1,4);
             int spearAmt = Main.rand.Next(1,4);
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < numSwords; ++i)
                 {
-                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(24f, 30f), ModContent.ProjectileType<ExoGladiusBeam>(), swordDmg, swordKB, projectile.owner);
+                    CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(24f, 30f), ModContent.ProjectileType<ExoGladiusBeam>(), swordDmg, swordKB, Projectile.owner);
                 }
 
                 for (int n = 0; n < spearAmt; n++)
                 {
-                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, -1000f, -800f, 29f, ModContent.ProjectileType<ExoGladSpears>(), swordDmg, swordKB, projectile.owner);
+                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, -1000f, -800f, 29f, ModContent.ProjectileType<ExoGladSpears>(), swordDmg, swordKB, Projectile.owner);
                 }
             }
         }

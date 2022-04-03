@@ -20,10 +20,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
 
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles
 {
@@ -485,7 +486,7 @@ namespace CalamityMod.Projectiles
                 if (ExplosiveEnchantCountdown <= 300)
                 {
                     if (Main.rand.NextBool(24))
-                        Main.PlaySound(SoundID.DD2_BetsyFireballShot, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, projectile.Center);
 
                     Dust fire = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(projectile.width, projectile.height) * 0.42f, 267);
                     fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.45f, 1f));
@@ -502,7 +503,7 @@ namespace CalamityMod.Projectiles
 
                 if (ExplosiveEnchantCountdown <= 0)
                 {
-                    Main.PlaySound(SoundID.DD2_KoboldExplosion, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, projectile.Center);
                     if (Main.myPlayer == projectile.owner)
                     {
                         if (projectile.minionSlots > 0f)
@@ -646,7 +647,7 @@ namespace CalamityMod.Projectiles
                 if (projectile.soundDelay == 0)
                 {
                     projectile.soundDelay = 20 + Main.rand.Next(40);
-                    Main.PlaySound(SoundID.Item9, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item9, projectile.position);
                 }
 
                 if (projectile.localAI[0] == 0f)
@@ -750,7 +751,7 @@ namespace CalamityMod.Projectiles
                     if (projectile.ai[1] == 0f)
                     {
                         projectile.ai[1] = 1f;
-                        Main.PlaySound(SoundID.Item34, projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item34, projectile.position);
                     }
                     else if (projectile.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -871,7 +872,7 @@ namespace CalamityMod.Projectiles
                     if (projectile.localAI[1] == 0f)
                     {
                         projectile.localAI[1] = 1f;
-                        Main.PlaySound(SoundID.Item120, projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item120, projectile.position);
                     }
 
                     projectile.ai[0] += 1f;
@@ -1042,7 +1043,7 @@ namespace CalamityMod.Projectiles
                         return true;
 
                     if (projectile.ai[0] == 0f)
-                        Main.PlaySound(SoundID.Item8, projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item8, projectile.position);
 
                     projectile.rotation += projectile.direction * 0.8f;
 
@@ -1080,7 +1081,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.localAI[1] == 0f)
                     {
-                        Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
                         projectile.localAI[1] = 1f;
                     }
 
@@ -1117,7 +1118,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.localAI[1] == 0f)
                     {
-                        Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
                         projectile.localAI[1] = 1f;
                     }
 
@@ -1142,7 +1143,7 @@ namespace CalamityMod.Projectiles
                     if (projectile.ai[1] == 0f)
                     {
                         projectile.ai[1] = 1f;
-                        Main.PlaySound(SoundID.Item17, projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item17, projectile.position);
                     }
 
                     if (projectile.alpha > 0)
@@ -1365,7 +1366,7 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.localAI[1] == 0f)
                         {
-                            Main.PlaySound(SoundID.Item121, projectile.position);
+                            SoundEngine.PlaySound(SoundID.Item121, projectile.position);
                             projectile.localAI[1] = 1f;
                         }
 
@@ -1476,7 +1477,7 @@ namespace CalamityMod.Projectiles
                     if (projectile.localAI[1] == 0f)
                     {
                         projectile.localAI[1] = 1f;
-                        Main.PlaySound(SoundID.Item120, projectile.position);
+                        SoundEngine.PlaySound(SoundID.Item120, projectile.position);
                     }
 
                     projectile.ai[0] += 1f;
@@ -1706,7 +1707,7 @@ namespace CalamityMod.Projectiles
                             projectile.velocity = -Vector2.UnitY;
 
                         if (projectile.localAI[0] == 0f)
-                            Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
 
                         float num801 = 1f;
                         projectile.localAI[0] += 1f;
@@ -1873,7 +1874,7 @@ namespace CalamityMod.Projectiles
                     projectile.damage = defDamage + 15;
             }
 
-            if (projectile.modProjectile != null && projectile.modProjectile.mod.Name.Equals("CalamityMod"))
+            if (projectile.modProjectile != null && projectile.modProjectile.Mod.Name.Equals("CalamityMod"))
                 goto SKIP_CALAMITY;
 
             if ((projectile.minion || projectile.sentry) && !ProjectileID.Sets.StardustDragon[projectile.type]) //For all other mods and vanilla, exclude dragon due to bugs
@@ -1894,83 +1895,83 @@ namespace CalamityMod.Projectiles
 
             // If rogue projectiles are not internally throwing while in-flight, they can never critically strike.
             if (rogue)
-                projectile.thrown = true;
+                projectile.DamageType = DamageClass.Throwing;
 
             if (forceMelee)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = true;
-                projectile.ranged = false;
-                projectile.magic = false;
+                projectile.DamageType = DamageClass.Melee;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
             else if (forceRanged)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = true;
-                projectile.magic = false;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                projectile.DamageType = DamageClass.Ranged;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
             else if (forceMagic)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = true;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                projectile.DamageType = DamageClass.Magic;
                 projectile.minion = false;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
             else if (forceMinion)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = true;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
             else if (forceRogue)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                projectile.thrown = true;
+                projectile.DamageType = DamageClass.Throwing;
                 rogue = true;
             }
             else if (forceTypeless)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
             else if (forceHostile)
             {
                 projectile.hostile = true;
                 projectile.friendly = false;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
+                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                projectile.thrown = false;
+                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 rogue = false;
             }
 
@@ -1980,13 +1981,13 @@ namespace CalamityMod.Projectiles
                 {
                     if (player.ActiveItem().type == ItemID.BeesKnees)
                     {
-                        projectile.magic = false;
-                        projectile.ranged = true;
+                        // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                        projectile.DamageType = DamageClass.Ranged;
                     }
                 }
             }
             else if (projectile.type == ProjectileID.SoulDrain)
-                projectile.magic = true;
+                projectile.DamageType = DamageClass.Magic;
 
             if (projectile.type == ProjectileID.OrnamentFriendly && lineColor == 1) //spawned by Festive Wings
             {

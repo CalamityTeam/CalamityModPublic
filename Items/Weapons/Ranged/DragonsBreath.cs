@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -28,27 +29,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 198;
-            item.ranged = true;
-            item.width = 124;
-            item.height = 78;
+            Item.damage = 198;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 124;
+            Item.height = 78;
 
-            item.useTime = 9;
-            item.useAnimation = 18;
-            item.reuseDelay = BetweenShotsPause;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useTime = 9;
+            Item.useAnimation = 18;
+            Item.reuseDelay = BetweenShotsPause;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
-            item.noMelee = true;
-            item.knockBack = 6.5f;
+            Item.noMelee = true;
+            Item.knockBack = 6.5f;
             // item.UseSound = SoundID.Item38;
-            item.shoot = ModContent.ProjectileType<DragonsBreathRound>();
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.shoot = ModContent.ProjectileType<DragonsBreathRound>();
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
 
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
         public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.66f;
 
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player)
         {
-            item.reuseDelay = player.altFunctionUse == 2 ? 0 : BetweenShotsPause;
+            Item.reuseDelay = player.altFunctionUse == 2 ? 0 : BetweenShotsPause;
             return base.CanUseItem(player);
         }
 
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item38, position);
+            SoundEngine.PlaySound(SoundID.Item38, position);
             bool doDust = false;
             Vector2 vel = new Vector2(speedX, speedY);
             int[] bulletIDs = new int[PelletsPerShot];
@@ -83,9 +84,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                 while (dragonsBreathAdded < PelletsPerShot / 2)
                 {
                     int i = Main.rand.Next(PelletsPerShot);
-                    if (bulletIDs[i] == item.shoot)
+                    if (bulletIDs[i] == Item.shoot)
                         continue;
-                    bulletIDs[i] = item.shoot;
+                    bulletIDs[i] = Item.shoot;
                     ++dragonsBreathAdded;
                 }
 
@@ -100,9 +101,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Left click second shot: Six Dragon's Breath Rounds, very low spread. Extra sound and dust blast.
             else
             {
-                Main.PlaySound(SoundID.Item74, position);
+                SoundEngine.PlaySound(SoundID.Item74, position);
                 for (int i = 0; i < PelletsPerShot; ++i)
-                    bulletIDs[i] = item.shoot;
+                    bulletIDs[i] = Item.shoot;
 
                 spreadFactor = 0.5f;
                 doDust = true;
@@ -124,7 +125,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         private void SpawnDragonsBreathDust(Vector2 pos, Vector2 velocity)
         {
-            pos += velocity.SafeNormalize(Vector2.Zero) * item.width * item.scale * 0.71f;
+            pos += velocity.SafeNormalize(Vector2.Zero) * Item.width * Item.scale * 0.71f;
             for (int i = 0; i < 30; ++i)
             {
                 // Pick a random type of smoke (there's a little fire mixed in)

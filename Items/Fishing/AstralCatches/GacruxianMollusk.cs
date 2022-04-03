@@ -22,22 +22,22 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.knockBack = Knockback;
-            item.autoReuse = true;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 24;
-            item.height = 22;
-            item.UseSound = SoundID.Item1;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<GacruxianProj>();
-            item.shootSpeed = Speed;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.knockBack = Knockback;
+            Item.autoReuse = true;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 24;
+            Item.height = 22;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<GacruxianProj>();
+            Item.shootSpeed = Speed;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

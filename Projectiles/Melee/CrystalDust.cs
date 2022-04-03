@@ -15,20 +15,20 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 100;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 100;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 int num307 = Main.rand.Next(3);
                 if (num307 == 0)
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 for (int num468 = 0; num468 < 5; num468++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num307, 0f, 0f, 100, default, 2f);
+                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num307, 0f, 0f, 100, default, 2f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }

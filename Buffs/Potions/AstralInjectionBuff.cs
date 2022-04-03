@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class AstralInjectionBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Injection");
             Description.SetDefault("Extreme mana recovery");

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Crimslime : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimslime");
             Description.SetDefault("The crimslime will protect you");

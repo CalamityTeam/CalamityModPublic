@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,30 +17,30 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 22;
-            item.useTime = 7;
-            item.useAnimation = 21;
-            item.reuseDelay = 54;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.useAmmo = AmmoID.Bullet;
-            item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Blizzard;
-            item.shootSpeed = 9f;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 55;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 22;
+            Item.useTime = 7;
+            Item.useAnimation = 21;
+            Item.reuseDelay = 54;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.UseSound = SoundID.Item36;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Blizzard;
+            Item.shootSpeed = 9f;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item36, position);
+            SoundEngine.PlaySound(SoundID.Item36, position);
             for (int i = 0; i < 2; i++)
             {
                 float newSpeedX = speedX + Main.rand.Next(-40, 41) * 0.06f;
@@ -48,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (type == ProjectileID.Bullet)
                 {
                     int p = Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, ProjectileID.Blizzard, damage, knockBack, player.whoAmI);
-                    Main.projectile[p].magic = false;
-                    Main.projectile[p].ranged = true;
+                    // Main.projectile[p].magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                    Main.projectile[p].DamageType = DamageClass.Ranged;
                 }
                 else
                     Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockBack, player.whoAmI);

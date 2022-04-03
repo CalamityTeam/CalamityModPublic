@@ -25,11 +25,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 46;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 46;
+            Item.height = 46;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip7")
                 {
                     line2.text = "Rogue Crit Level: " + critLevel;
                 }
@@ -58,17 +58,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
-            recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
-            recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
-            recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
-            recipe.AddIngredient(ItemID.LunarBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RogueEmblem>()).AddIngredient(ModContent.ItemType<RaidersTalisman>()).AddIngredient(ModContent.ItemType<MoonstoneCrown>()).AddIngredient(ModContent.ItemType<ElectriciansGlove>()).AddIngredient(ItemID.LunarBar, 8).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

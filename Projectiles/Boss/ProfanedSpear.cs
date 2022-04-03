@@ -13,79 +13,79 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Spear");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 300;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 300;
             cooldownSlot = 1;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 210)
-                projectile.tileCollide = true;
+            if (Projectile.timeLeft < 210)
+                Projectile.tileCollide = true;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver4;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver4;
 
-            if (projectile.alpha > 0)
-                projectile.alpha -= 17;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 17;
 
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] <= 20f)
-                projectile.velocity *= 0.95f;
-            else if (projectile.ai[1] > 20f && projectile.ai[1] <= 39f)
-                projectile.velocity *= 1.1f;
-            else if (projectile.ai[1] == 40f)
-                projectile.ai[1] = 0f;
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] <= 20f)
+                Projectile.velocity *= 0.95f;
+            else if (Projectile.ai[1] > 20f && Projectile.ai[1] <= 39f)
+                Projectile.velocity *= 1.1f;
+            else if (Projectile.ai[1] == 40f)
+                Projectile.ai[1] = 0f;
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 30f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] == 30f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
+                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Main.dust[num9].position = Projectile.Center + vector3;
+                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(250, 150, 0, projectile.alpha);
+            return new Color(250, 150, 0, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

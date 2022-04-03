@@ -23,24 +23,24 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 666;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 78;
-            item.useTime = item.useAnimation = 10; // 9 because of useStyle 1
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.UseSound = SoundID.DD2_BetsySummon;
-            item.shoot = ModContent.ProjectileType<SepulcherMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 666;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 78;
+            Item.useTime = Item.useAnimation = 10; // 9 because of useStyle 1
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.UseSound = SoundID.DD2_BetsySummon;
+            Item.shoot = ModContent.ProjectileType<SepulcherMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

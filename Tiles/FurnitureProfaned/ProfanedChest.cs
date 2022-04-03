@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedChest : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.ChestRightClick(i, j);
         }

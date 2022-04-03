@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,12 +33,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AvengerEmblem);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AvengerEmblem).AddIngredient(ModContent.ItemType<DraedonBar>(), 2).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

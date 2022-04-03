@@ -17,11 +17,11 @@ namespace CalamityMod.Items.LoreItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Red;
-            item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Red;
+            Item.consumable = false;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool CanUseItem(Player player) => false;
@@ -29,33 +29,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<ArtemisTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<ApolloTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<ThanatosTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<AresTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ArtemisTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ApolloTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ThanatosTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<AresTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
         }
     }
 }

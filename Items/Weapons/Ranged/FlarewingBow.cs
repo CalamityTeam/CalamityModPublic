@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 72;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 72;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -70,14 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellwingBow);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddIngredient(ItemID.LivingFireBlock, 50);
-            recipe.AddIngredient(ItemID.Obsidian, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellwingBow).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.LivingFireBlock, 50).AddIngredient(ItemID.Obsidian, 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

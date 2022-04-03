@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class SCalPetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supreme Calamitas");
             Description.SetDefault("Watching over you with supreme calamitous energy... how adorable");

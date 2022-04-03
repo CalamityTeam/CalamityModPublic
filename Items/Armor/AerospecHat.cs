@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.defense = 3; //15
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 3; //15
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,25 +43,18 @@ namespace CalamityMod.Items.Armor
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.magicCrit += 5;
+            player.GetCritChance(DamageClass.Magic) += 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.08f;
+            player.GetDamage(DamageClass.Magic) += 0.08f;
             player.statManaMax2 += 20;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.Cloud, 3);
-            recipe.AddIngredient(ItemID.RainCloud);
-            recipe.AddIngredient(ItemID.Feather);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 5).AddIngredient(ItemID.Cloud, 3).AddIngredient(ItemID.RainCloud).AddIngredient(ItemID.Feather).AddTile(TileID.SkyMill).Register();
         }
     }
 }

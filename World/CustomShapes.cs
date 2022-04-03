@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {

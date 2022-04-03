@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 36;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
             foreach (TooltipLine line in list)
             {
-                if (line.mod == "Terraria" && line.Name == "Tooltip2")
+                if (line.Mod == "Terraria" && line.Name == "Tooltip2")
                 {
                     line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
                 }

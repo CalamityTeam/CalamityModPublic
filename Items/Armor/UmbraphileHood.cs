@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 8; //36
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 8; //36
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -57,12 +57,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 12);
-            recipe.AddIngredient(ItemID.HallowedBar, 8);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SolarVeil>(), 12).AddIngredient(ItemID.HallowedBar, 8).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

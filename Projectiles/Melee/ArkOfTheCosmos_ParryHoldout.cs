@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -20,12 +21,12 @@ namespace CalamityMod.Projectiles.Melee
         private bool initialized = false;
         const float MaxTime = 340;
         static float ParryTime = 15;
-        public Vector2 DistanceFromPlayer => projectile.velocity * 10 + projectile.velocity * 10 * ThrustDisplaceRatio();
-        public float Timer => MaxTime - projectile.timeLeft;
-        public float ParryProgress => (MaxTime - projectile.timeLeft) / ParryTime;
+        public Vector2 DistanceFromPlayer => Projectile.velocity * 10 + Projectile.velocity * 10 * ThrustDisplaceRatio();
+        public float Timer => MaxTime - Projectile.timeLeft;
+        public float ParryProgress => (MaxTime - Projectile.timeLeft) / ParryTime;
 
-        public ref float AlreadyParried => ref projectile.ai[1];
-        public Player Owner => Main.player[projectile.owner];
+        public ref float AlreadyParried => ref Projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -33,12 +34,12 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 75;
-            projectile.width = projectile.height = 75;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 75;
+            Projectile.width = Projectile.height = 75;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
         }
 
         public override bool CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
@@ -47,8 +48,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 142f * projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 44, ref collisionPoint);
+            float bladeLenght = 142f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 44, ref collisionPoint);
         }
 
         public void GeneralParryEffects()
@@ -59,11 +60,11 @@ namespace CalamityMod.Projectiles.Melee
                 sword.Charge = 10f;
                 sword.Combo = 0f;
             }
-            Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            var chunder = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScissorGuillotineSnap"), projectile.Center);
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+            var chunder = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
             SafeVolumeChange(ref chunder, 1.3f);
 
-            CombatText.NewText(projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
+            CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             for (int i = 0; i < 5; i ++) //Don't loose your way
             {
@@ -87,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
             if (target.damage > 0)
                 Owner.GiveIFrames(35);
 
-            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : projectile.Center + projectile.rotation.ToRotationVector2() * 60f;
+            Vector2 particleOrigin = target.Hitbox.Size().Length() < 140 ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
             Particle spark = new GenericSparkle(particleOrigin, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2);
             GeneralParticleHandler.SpawnParticle(spark);
 
@@ -103,28 +104,28 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization
             {
-                projectile.timeLeft = (int)MaxTime;
-                var sound = Main.PlaySound(SoundID.Item84, projectile.Center);
+                Projectile.timeLeft = (int)MaxTime;
+                var sound = SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
                 CalamityUtils.SafeVolumeChange(ref sound, 0.3f);
 
-                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
-                projectile.velocity.Normalize();
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+                Projectile.velocity.Normalize();
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
                 initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
             //Manage position and rotation
-            projectile.Center = Owner.Center + DistanceFromPlayer ;
-            projectile.scale = 1.4f + ThrustDisplaceRatio() * 0.2f;
+            Projectile.Center = Owner.Center + DistanceFromPlayer ;
+            Projectile.scale = 1.4f + ThrustDisplaceRatio() * 0.2f;
 
             if (Timer > ParryTime)
                 return;
 
             float collisionPoint = 0f;
-            float bladeLenght = 142f * projectile.scale;
+            float bladeLenght = 142f * Projectile.scale;
 
             for (int k = 0; k < Main.maxProjectiles; k++)
             {
@@ -133,7 +134,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (proj.active && proj.hostile && proj.damage > 1 && //Only parry harmful projectiles
                    proj.velocity.Length() * (proj.extraUpdates + 1) > 1f && //Only parry projectiles that move semi-quickly
                    proj.Size.Length() < 300 && //Only parry projectiles that aren't too large
-                   Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (projectile.velocity * bladeLenght), 24, ref collisionPoint))
+                   Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint))
                 {
                     if (AlreadyParried == 0)
                     {
@@ -153,9 +154,9 @@ namespace CalamityMod.Projectiles.Melee
 
 
             //Make the owner look like theyre holding the sword bla bla
-            Owner.heldProj = projectile.whoAmI;
-            Owner.direction = Math.Sign(projectile.velocity.X);
-            Owner.itemRotation = projectile.rotation;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.itemRotation = Projectile.rotation;
             if (Owner.direction != 1)
             {
                 Owner.itemRotation -= MathHelper.Pi;
@@ -192,7 +193,7 @@ namespace CalamityMod.Projectiles.Melee
                     Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -36) - barBG.Size() / 2;
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
-                    float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? projectile.timeLeft / 8f : 1f;
+                    float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
                     Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 1.2f) * 0.05f + 0.08f, 1, 0.65f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
 
                     spriteBatch.Draw(barBG, drawPos, color * opacity);
@@ -206,20 +207,20 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRight");
             Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow");
 
-            float snippingRotation = projectile.rotation + MathHelper.PiOver4;
+            float snippingRotation = Projectile.rotation + MathHelper.PiOver4;
 
             float drawRotation = MathHelper.Lerp(snippingRotation - MathHelper.PiOver4, snippingRotation, RotationRatio());
             float drawRotationBack = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio());
 
             Vector2 drawOrigin = new Vector2(33, 86); //Right on the hole
             Vector2 drawOriginBack = new Vector2(44f, 86); //Right on the hole
-            Vector2 drawPosition = Owner.Center + projectile.velocity * 15 + projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
+            Vector2 drawPosition = Owner.Center + Projectile.velocity * 15 + Projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
 
-            spriteBatch.Draw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
-            spriteBatch.Draw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
+            spriteBatch.Draw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
 
-            spriteBatch.Draw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
-            spriteBatch.Draw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            spriteBatch.Draw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             return false;
         }
 
@@ -228,7 +229,7 @@ namespace CalamityMod.Projectiles.Melee
             //Play a blip when it dies, to indicate to the player its ready to get used again
             if (Main.myPlayer == Owner.whoAmI)
             {
-                var ding = Main.PlaySound(SoundID.Item35);
+                var ding = SoundEngine.PlaySound(SoundID.Item35);
                 CalamityUtils.SafeVolumeChange(ref ding, 2f);
             }
         }

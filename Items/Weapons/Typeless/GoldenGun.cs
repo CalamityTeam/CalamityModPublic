@@ -16,20 +16,20 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.width = 78;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GoldenGunProj>();
-            item.shootSpeed = 12f;
+            Item.damage = 5;
+            Item.width = 78;
+            Item.height = 36;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GoldenGunProj>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -45,12 +45,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ichor, 15);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Ichor, 15).AddIngredient(ItemID.HellstoneBar, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

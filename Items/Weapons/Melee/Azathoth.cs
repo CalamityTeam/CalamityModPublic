@@ -15,46 +15,40 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires cosmic orbs that blast nearby enemies with lasers\n" +
             "A very agile yoyo\n" +
             "Destroy the universe in the blink of an eye");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 54;
-            item.melee = true;
-            item.damage = 50;
-            item.knockBack = 6f;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.autoReuse = true;
+            Item.width = 40;
+            Item.height = 54;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 50;
+            Item.knockBack = 6f;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<AzathothYoyo>();
-            item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<AzathothYoyo>();
+            Item.shootSpeed = 16f;
 
-            item.rare = ItemRarityID.Red;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.value = Item.buyPrice(platinum: 5);
+            Item.rare = ItemRarityID.Red;
+            Item.autoReuse = true;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.value = Item.buyPrice(platinum: 5);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Terrarian);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Terrarian).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

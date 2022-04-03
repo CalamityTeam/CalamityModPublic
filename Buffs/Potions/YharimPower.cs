@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class YharimPower : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharim's Power");
             Description.SetDefault("You feel like you can break the world in two... with your bare hands!");

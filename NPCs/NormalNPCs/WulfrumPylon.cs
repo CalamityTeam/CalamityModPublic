@@ -14,13 +14,13 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public bool Charging
         {
-            get => npc.ai[0] != 0f;
-            set => npc.ai[0] = value.ToInt();
+            get => NPC.ai[0] != 0f;
+            set => NPC.ai[0] = value.ToInt();
         }
         public float ChargeRadius
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
         public static List<int> SuperchargableEnemies = new List<int>()
         {
@@ -33,37 +33,37 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Pylon");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
             aiType = -1;
-            npc.aiStyle = -1;
-            npc.damage = 0;
-            npc.width = 44;
-            npc.height = 44;
-            npc.defense = 4;
-            npc.lifeMax = 92;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 0, 1, 50);
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            banner = npc.type;
+            NPC.aiStyle = -1;
+            NPC.damage = 0;
+            NPC.width = 44;
+            NPC.height = 44;
+            NPC.defense = 4;
+            NPC.lifeMax = 92;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 1, 50);
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<WulfrumPylonBanner>();
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && !Charging && npc.Distance(player.Center) < ChargeRadiusMax * 0.667f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !Charging && NPC.Distance(player.Center) < ChargeRadiusMax * 0.667f)
             {
                 // Spawn some off-screen enemies to act as threats if the player enters the field.
                 int enemiesToSpawn = CalamityWorld.death ? 2 : 1;
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                 }
                 Charging = true;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
             else if (Charging)
             {
@@ -101,11 +101,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                     for (int i = 0; i < dustCount; i++)
                     {
                         float angle = MathHelper.TwoPi * i / dustCount;
-                        Dust dust = Dust.NewDustPerfect(npc.Center, 229);
-                        dust.position = npc.Center + angle.ToRotationVector2() * ChargeRadius;
+                        Dust dust = Dust.NewDustPerfect(NPC.Center, 229);
+                        dust.position = NPC.Center + angle.ToRotationVector2() * ChargeRadius;
                         dust.scale = 0.7f;
                         dust.noGravity = true;
-                        dust.velocity = npc.velocity;
+                        dust.velocity = NPC.velocity;
                     }
                 }
 
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         continue;
                     if (npcAtIndex.ai[3] > 0f)
                         continue;
-                    if (npc.Distance(npcAtIndex.Center) > ChargeRadius)
+                    if (NPC.Distance(npcAtIndex.Center) > ChargeRadius)
                         continue;
 
                     npcAtIndex.ai[3] = SuperchargeTime; // Supercharge the npc for a while if isn't already supercharged.
@@ -144,17 +144,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            int frame = (int)(npc.frameCounter / 8) % Main.npcFrameCount[npc.type];
+            NPC.frameCounter++;
+            int frame = (int)(NPC.frameCounter / 8) % Main.npcFrameCount[NPC.type];
 
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             float pylonMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 1.3f : 1f;
 
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
+            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
 
             // Spawn less frequently in the inner third of the world.
@@ -168,22 +168,22 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
-            DropHelper.DropItem(npc, ModContent.ItemType<EnergyCore>());
-            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
+            DropHelper.DropItem(NPC, ModContent.ItemType<WulfrumShard>(), 2, 3);
+            DropHelper.DropItem(NPC, ModContent.ItemType<EnergyCore>());
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace CalamityMod.CalPlayer
 
             if (modPlayer.sirenIce)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/IceShield");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
                 DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
@@ -112,7 +112,7 @@ namespace CalamityMod.CalPlayer
             }
             if (modPlayer.amidiasBlessing)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/AmidiasBubble");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AmidiasBubble");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
                 DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
@@ -146,27 +146,27 @@ namespace CalamityMod.CalPlayer
                 {
                     case 0:
                     default:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
                         gemType = GemTechArmorGemType.Rogue;
                         break;
                     case 1:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/YellowGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/YellowGem");
                         gemType = GemTechArmorGemType.Melee;
                         break;
                     case 2:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
                         gemType = GemTechArmorGemType.Ranged;
                         break;
                     case 3:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
                         gemType = GemTechArmorGemType.Summoner;
                         break;
                     case 4:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
                         gemType = GemTechArmorGemType.Magic;
                         break;
                     case 5:
-                        gemTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
                         gemType = GemTechArmorGemType.Base;
                         pulseFactor = 2.5f;
                         break;
@@ -295,17 +295,17 @@ namespace CalamityMod.CalPlayer
                         currentlyHeldItem.type == ModContent.ItemType<Vesuvius>() ||
                         currentlyHeldItem.type == ModContent.ItemType<SoulPiercer>() ||
                         currentlyHeldItem.type == ModContent.ItemType<FatesReveal>() ||
-                        (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.HoldingOut))
+                        (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.Shoot))
                     {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
+                        Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
                         if (currentlyHeldItem.type == ModContent.ItemType<Vesuvius>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<SoulPiercer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<FatesReveal>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
 
                         float rotation = drawPlayer.itemRotation + MathHelper.PiOver4 * (float)drawPlayer.direction;
                         int xOffset = 0;
@@ -352,31 +352,31 @@ namespace CalamityMod.CalPlayer
                              currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>() ||
                              currentlyHeldItem.type == ModContent.ItemType<Auralis>())
                     {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
+                        Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
                         int offsetX = 10;
                         if (currentlyHeldItem.type == ModContent.ItemType<Apotheosis>())
                         {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
                             offsetX = 6;
                         }
                         else if (currentlyHeldItem.type == ModContent.ItemType<CleansingBlaze>())
                         {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
                             offsetX = 37;
                         }
                         else if (currentlyHeldItem.type == ModContent.ItemType<SubsumingVortex>())
                         {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
                             offsetX = 9;
                         }
                         else if (currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>())
                         {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
                             offsetX = 44;
                         }
                         else if (currentlyHeldItem.type == ModContent.ItemType<Auralis>())
                         {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuralisGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/AuralisGlow");
                             offsetX = 62;
                         }
 
@@ -406,19 +406,19 @@ namespace CalamityMod.CalPlayer
                              currentlyHeldItem.type == ModContent.ItemType<TheEnforcer>() ||
                              currentlyHeldItem.type == ModContent.ItemType<TerrorBlade>() ||
                              currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>() ||
-                             (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.SwingThrow))
+                             (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>() && currentlyHeldItem.useStyle == ItemUseStyleID.Swing))
                     {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
+                        Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
                         if (currentlyHeldItem.type == ModContent.ItemType<EssenceFlayer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<TheEnforcer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<TerrorBlade>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<EtherealSubjugator>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
                         else if (currentlyHeldItem.type == ModContent.ItemType<PrismaticBreaker>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
 
                         float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[currentlyHeldItem.type].Height;
 
@@ -455,7 +455,7 @@ namespace CalamityMod.CalPlayer
             if (drawInfo.shadow != 0f || drawPlayer.dead)
                 return;
 
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
 
             Rectangle frame = texture.Frame(1, 4, 0, modPlayer.tailFrame);
             if (modPlayer.fathomSwarmerTail)
@@ -534,7 +534,7 @@ namespace CalamityMod.CalPlayer
 
                     headDrawPosition += ExtendedHatDrawer.ExtensionSpriteOffset(drawInfo);
 
-                    Texture2D extraPieceTexture = ModContent.GetTexture(ExtendedHatDrawer.ExtensionTexture);
+                    Texture2D extraPieceTexture = ModContent.Request<Texture2D>(ExtendedHatDrawer.ExtensionTexture);
                     Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
                     DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.upperArmorColor, drawPlayer.fullRotation, origin, 1f, drawInfo.spriteEffects, 0);
                     pieceDrawData.shader = dyeShader;
@@ -598,7 +598,7 @@ namespace CalamityMod.CalPlayer
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.coldDivinity)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/ColdDivinityBody");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ColdDivinityBody");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
                 SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -613,7 +613,7 @@ namespace CalamityMod.CalPlayer
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.voidAura || modPlayer.voidAuraDamage)
             {
-                Texture2D tex = ModContent.GetTexture("CalamityMod/ExtraTextures/VoidConcentrationAura");
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VoidConcentrationAura");
                 Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
                 drawPos.Y -= 9;
                 SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None; //intentionally inverse due to giving more space for the player model without faffing about with the specific positioning
@@ -632,7 +632,7 @@ namespace CalamityMod.CalPlayer
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RoverAccShield");
                 Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
                 Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
                 Color color = Color.White * 0.625f;
@@ -662,7 +662,7 @@ namespace CalamityMod.CalPlayer
                 if (drawPlayer.gravDir != 1f)
                     effect |= SpriteEffects.FlipVertically;
                 Vector2 itemDrawPosition = drawPlayer.Center;
-                Texture2D drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHold");
+                Texture2D drawTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/StratusSphereHold");
                 Rectangle rectangle = drawTexture.Frame(1, 4, 0, (int)(2 * Math.Sin(drawPlayer.miscCounter / 20f * MathHelper.TwoPi) + 2));
                 Vector2 drawOffset = new Vector2(rectangle.Width / 2 * drawPlayer.direction, 0f);
                 Vector2 origin = rectangle.Size() / 2f;
@@ -675,7 +675,7 @@ namespace CalamityMod.CalPlayer
                                                      drawPlayer.inventory[drawPlayer.selectedItem].scale,
                                                      effect,
                                                      0));
-                drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHoldGlow");
+                drawTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/StratusSphereHoldGlow");
                 Main.playerDrawData.Add(new DrawData(drawTexture,
                                                      (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
                                                      new Rectangle?(rectangle),
@@ -742,7 +742,7 @@ namespace CalamityMod.CalPlayer
             switch (drawPlayer.Calamity().andromedaState)
             {
                 case AndromedaPlayerState.SpecialAttack:
-                    Texture2D dashTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AndromedaBolt");
+                    Texture2D dashTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AndromedaBolt");
                     Rectangle frame = dashTexture.Frame(1, 4, 0, robotEntityInstance.RightIconCooldown / 4 % 4);
 
                     DrawData drawData = new DrawData(dashTexture,
@@ -759,10 +759,10 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawData.Add(drawData);
                     break;
                 case AndromedaPlayerState.LargeRobot:
-                    Texture2D robotTexture = ModContent.GetTexture(robotEntityInstance.Texture);
+                    Texture2D robotTexture = ModContent.Request<Texture2D>(robotEntityInstance.Texture);
                     frame = new Rectangle(robotEntityInstance.FrameX * robotTexture.Width / 3, robotEntityInstance.FrameY * robotTexture.Height / 7, robotTexture.Width / 3, robotTexture.Height / 7);
 
-                    drawData = new DrawData(ModContent.GetTexture(Main.projectile[robot].modProjectile.Texture),
+                    drawData = new DrawData(ModContent.Request<Texture2D>(Main.projectile[robot].modProjectile.Texture),
                                      Main.projectile[robot].Center + Vector2.UnitY * 6f - Main.screenPosition,
                                      frame,
                                      Color.White,
@@ -776,7 +776,7 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawData.Add(drawData);
                     break;
                 case AndromedaPlayerState.SmallRobot:
-                    robotTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/AndromedaSmall");
+                    robotTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaSmall");
                     frame = new Rectangle(0, robotEntityInstance.CurrentFrame * 54, robotTexture.Width, robotTexture.Height / 21);
                     drawData = new DrawData(robotTexture,
                                      drawPlayer.Center + new Vector2(drawPlayer.direction == 1 ? -24 : -10, -8f) - Main.screenPosition,
@@ -846,22 +846,22 @@ namespace CalamityMod.CalPlayer
             list.Add(MiscEffectsFront);
 
             // Remove shoe drawing effects if special legs are meant to be drawn.
-            if (CalamityLists.legOverrideList.Contains(player.legs))
+            if (CalamityLists.legOverrideList.Contains(Player.legs))
                 list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
 
-            if (player.Calamity().fab || player.Calamity().crysthamyr || player.Calamity().onyxExcavator)
+            if (Player.Calamity().fab || Player.Calamity().crysthamyr || Player.Calamity().onyxExcavator)
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false);
 
-            if (player.heldProj != -1 && Main.projectile[player.heldProj].active && Main.projectile[player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
+            if (Player.heldProj != -1 && Main.projectile[Player.heldProj].active && Main.projectile[Player.heldProj].type == ModContent.ProjectileType<RancorHoldout>())
                 list.Insert(list.IndexOf(PlayerLayer.Arms), DrawRancorBookManually);
 
-            if (player.Calamity().fathomSwarmerTail)
+            if (Player.Calamity().fathomSwarmerTail)
             {
                 int skinIndex = list.IndexOf(PlayerLayer.Skin);
                 list.Insert(skinIndex - 1, Tail);
             }
 
-            if (player.Calamity().forbiddenCirclet)
+            if (Player.Calamity().forbiddenCirclet)
             {
                 int drawTheStupidSign = list.IndexOf(PlayerLayer.Skin);
                 list.Insert(drawTheStupidSign, ForbiddenCircletSign);
@@ -882,8 +882,8 @@ namespace CalamityMod.CalPlayer
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            CalamityPlayer calamityPlayer = player.Calamity();
-            if (Main.myPlayer == player.whoAmI && !Main.gameMenu && CalamityConfig.Instance.SpeedrunTimer)
+            CalamityPlayer calamityPlayer = Player.Calamity();
+            if (Main.myPlayer == Player.whoAmI && !Main.gameMenu && CalamityConfig.Instance.SpeedrunTimer)
             {
                 string formatStr = @"hh\:mm\:ss\.ff";
                 string formatStrDays = @"d\:hh\:mm\:ss\.ff";
@@ -934,7 +934,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 7:
-                            texture = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss");
                             break;
 
                         case 8:
@@ -1053,7 +1053,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 34:
-                            texture = ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss");
                             break;
 
                         case 35:
@@ -1061,7 +1061,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 36:
-                            texture = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss");
                             break;
 
                         case 37:
@@ -1077,7 +1077,7 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 40:
-                            texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon");
+                            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon");
                             break;
 
                         case 41:
@@ -1104,7 +1104,7 @@ namespace CalamityMod.CalPlayer
             // Dust modifications while high.
             if (calamityPlayer.trippy)
             {
-                if (Main.myPlayer == player.whoAmI)
+                if (Main.myPlayer == Player.whoAmI)
                 {
                     Rectangle screenArea = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
                     int dustDrawn = 0;
@@ -1123,18 +1123,18 @@ namespace CalamityMod.CalPlayer
                                     Vector2 dustDrawPosition = dust.position;
                                     Vector2 dustCenter = dustDrawPosition + new Vector2(4f);
 
-                                    float distanceX = Math.Abs(dustCenter.X - player.Center.X);
-                                    float distanceY = Math.Abs(dustCenter.Y - player.Center.Y);
+                                    float distanceX = Math.Abs(dustCenter.X - Player.Center.X);
+                                    float distanceY = Math.Abs(dustCenter.Y - Player.Center.Y);
                                     if (j == 0 || j == 2)
-                                        dustDrawPosition.X = player.Center.X + distanceX;
-                                    else dustDrawPosition.X = player.Center.X - distanceX;
+                                        dustDrawPosition.X = Player.Center.X + distanceX;
+                                    else dustDrawPosition.X = Player.Center.X - distanceX;
 
                                     dustDrawPosition.X -= 4f;
 
                                     if (j == 0 || j == 1)
-                                        dustDrawPosition.Y = player.Center.Y + distanceY;
+                                        dustDrawPosition.Y = Player.Center.Y + distanceY;
 
-                                    else dustDrawPosition.Y = player.Center.Y - distanceY;
+                                    else dustDrawPosition.Y = Player.Center.Y - distanceY;
 
                                     dustDrawPosition.Y -= 4f;
                                     Main.spriteBatch.Draw(Main.dustTexture, dustDrawPosition - Main.screenPosition, dust.frame, dust.color, dust.rotation, new Vector2(4f), dust.scale, SpriteEffects.None, 0f);
@@ -1150,8 +1150,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
-            if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisbility)
+            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || Player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
+            if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && Player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisbility)
             {
                 // A translucent orchid color, the rogue class color
                 float colorValue = calamityPlayer.rogueStealth / calamityPlayer.rogueStealthMax * 0.9f; //0 to 0.9
@@ -1159,17 +1159,17 @@ namespace CalamityMod.CalPlayer
                 g *= 1f - colorValue; //255 to 25
                 b *= 1f - (colorValue * 0.89f); //255 to 50
                 a *= 1f - colorValue; //255 to 25
-                player.armorEffectDrawOutlines = false;
-                player.armorEffectDrawShadow = false;
-                player.armorEffectDrawShadowSubtle = false;
+                Player.armorEffectDrawOutlines = false;
+                Player.armorEffectDrawShadow = false;
+                Player.armorEffectDrawShadowSubtle = false;
             }
 
-            Texture2D heart3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart3");
-            Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
-            Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
-            Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-            Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); // Life fruit
-            Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); // Life crystal
+            Texture2D heart3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart3");
+            Texture2D heart4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart4");
+            Texture2D heart5 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart5");
+            Texture2D heart6 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart6");
+            Texture2D heartOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/HeartOriginal"); // Life fruit
+            Texture2D heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/HeartOriginal2"); // Life crystal
 
             int totalFruit =
                 (calamityPlayer.mFruit ? 1 : 0) +
@@ -1201,7 +1201,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 91, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 1f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 91, Player.velocity.X * 0.2f, Player.velocity.Y * 0.2f, 100, default, 1f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity.Y -= 0.5f;
                     Main.playerDrawDust.Add(dust);
@@ -1211,7 +1211,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 107, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 107, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 0.75f;
                     Main.dust[dust].velocity.Y -= 0.35f;
@@ -1227,11 +1227,11 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.IBoots)
             {
-                if (!player.StandingStill() && !player.mount.Active)
+                if (!Player.StandingStill() && !Player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 229, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
+                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 229, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 0.5f;
                         Main.playerDrawDust.Add(dust);
@@ -1247,11 +1247,11 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.elysianFire)
             {
-                if (!player.StandingStill() && !player.mount.Active)
+                if (!Player.StandingStill() && !Player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 246, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
+                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 246, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 0.5f;
                         Main.playerDrawDust.Add(dust);
@@ -1267,11 +1267,11 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.dsSetBonus)
             {
-                if (!player.StandingStill() && !player.mount.Active)
+                if (!Player.StandingStill() && !Player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
+                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 0.5f;
                         Main.playerDrawDust.Add(dust);
@@ -1287,11 +1287,11 @@ namespace CalamityMod.CalPlayer
             }
             if (calamityPlayer.auricSet)
             {
-                if (!player.StandingStill() && !player.mount.Active)
+                if (!Player.StandingStill() && !Player.mount.Active)
                 {
                     if (drawInfo.shadow == 0f)
                     {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, Main.rand.NextBool(2) ? 57 : 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
+                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, Main.rand.NextBool(2) ? 57 : 244, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.5f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= 0.5f;
                         Main.playerDrawDust.Add(dust);
@@ -1309,7 +1309,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, ModContent.DustType<BrimstoneFlame>(), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1327,7 +1327,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.95f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 27, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.95f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 0.75f;
                     Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
@@ -1343,7 +1343,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 46, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.95f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 46, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 1.95f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 0.75f;
                     Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
@@ -1365,7 +1365,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 206, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 206, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
                     Main.playerDrawDust.Add(dust);
@@ -1382,7 +1382,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 173, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 173, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1401,7 +1401,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
                     int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 0.7f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, dustType, Player.velocity.X * 0.2f, Player.velocity.Y * 0.2f, 100, default, 0.7f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1413,7 +1413,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, ModContent.DustType<HolyFireDust>(), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, ModContent.DustType<HolyFireDust>(), Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1431,7 +1431,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(calamityPlayer.dragonFire ? 6 : 12) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, (int)CalamityDusts.ProfanedFire, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, (int)CalamityDusts.ProfanedFire, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1442,7 +1442,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 89, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 89, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity.Y -= 0.15f;
@@ -1460,7 +1460,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 176, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 176, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1488,7 +1488,7 @@ namespace CalamityMod.CalPlayer
                 });
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, dustType, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1517,7 +1517,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.draedonsHeart && !calamityPlayer.shadeRegen && !calamityPlayer.cFreeze && player.StandingStill() && player.itemAnimation == 0)
+            if (calamityPlayer.draedonsHeart && !calamityPlayer.shadeRegen && !calamityPlayer.cFreeze && Player.StandingStill() && Player.itemAnimation == 0)
             {
                 if (noRogueStealth)
                 {
@@ -1531,7 +1531,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 5, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1549,7 +1549,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 56, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 2f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 56, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 2f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 0.5f;
                     Main.dust[dust].velocity.Y -= 0.1f;
@@ -1567,7 +1567,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), Player.width + 4, Player.height + 4, 5, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -1581,7 +1581,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !player.loveStruck)
+            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !Player.loveStruck)
             {
                 if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
                 {
@@ -1589,7 +1589,7 @@ namespace CalamityMod.CalPlayer
                     velocity.X *= 0.66f;
                     velocity *= Main.rand.NextFloat(1f, 2f);
 
-                    int heart = Gore.NewGore(drawInfo.position + new Vector2(Main.rand.Next(player.width + 1), Main.rand.Next(player.height + 1)), velocity, 331, Main.rand.NextFloat(0.4f, 1.2f));
+                    int heart = Gore.NewGore(drawInfo.position + new Vector2(Main.rand.Next(Player.width + 1), Main.rand.Next(Player.height + 1)), velocity, 331, Main.rand.NextFloat(0.4f, 1.2f));
                     Main.gore[heart].sticky = false;
                     Main.gore[heart].velocity *= 0.4f;
                     Main.gore[heart].velocity.Y -= 0.6f;
@@ -1637,23 +1637,23 @@ namespace CalamityMod.CalPlayer
                 };
                 List<Texture2D> tankTextures = new List<Texture2D>()
                 {
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury"),
-                    ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer")
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury"),
+                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer")
                 };
                 if (tankItems.Contains(item.type) || drawPlayer.Calamity().plaguebringerCarapace)
                 {
@@ -1670,12 +1670,12 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     else if (drawPlayer.Calamity().plaguebringerCarapace)
-                        thingToDraw = ModContent.GetTexture("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
+                        thingToDraw = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
 
                     if (thingToDraw is null)
                         return;
 
-                    SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                    SpriteEffects spriteEffects = Player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
                     float num25 = -4f;
                     float num24 = -8f;

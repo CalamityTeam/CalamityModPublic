@@ -11,23 +11,23 @@ namespace CalamityMod.Projectiles.Magic
 
         public int TargetNPCIndex
         {
-            get => (int)projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public float SinusoidalPositionAngle
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public float SinusoidalOffsetAngle
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public int HeldBookIndex
         {
-            get => (int)projectile.localAI[1];
-            set => projectile.localAI[1] = value;
+            get => (int)Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
         }
         public const float TargetOffsetRadius = 490f;
         public const float SinusoidalOffsetAngleIncrement = 0.54f;
@@ -39,13 +39,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = EternityHex.Lifetime;
-            projectile.alpha = 255;
-            projectile.magic = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = EternityHex.Lifetime;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
@@ -55,19 +55,19 @@ namespace CalamityMod.Projectiles.Magic
             // Delete the circle if any necessary components are incorrect/would cause errors.
             if (HeldBookIndex >= Main.projectile.Length || SinusoidalOffsetAngle < 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             if (!Main.projectile[HeldBookIndex].active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Delete the circle if the target cannot be damaged.
             if (!target.active || target.dontTakeDamage)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
 
             // Assign an offset angle if it has a default value.
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Circle around the enemy.
-            projectile.position = target.Center + SinusoidalPositionAngle.ToRotationVector2() * TargetOffsetRadius;
+            Projectile.position = target.Center + SinusoidalPositionAngle.ToRotationVector2() * TargetOffsetRadius;
 
             SinusoidalPositionAngle += SinusoidalPositionAngleIncrement;
             SinusoidalOffsetAngle += SinusoidalOffsetAngleIncrement;
@@ -87,10 +87,10 @@ namespace CalamityMod.Projectiles.Magic
             float radius = 8f;
             Vector2 offset = Vector2.UnitY * pulse * radius;
 
-            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 132, Vector2.Zero);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 132, Vector2.Zero);
             dust.noGravity = true;
 
-            dust = Dust.NewDustPerfect(projectile.Center - offset, 133, Vector2.Zero);
+            dust = Dust.NewDustPerfect(Projectile.Center - offset, 133, Vector2.Zero);
             dust.noGravity = true;
         }
     }

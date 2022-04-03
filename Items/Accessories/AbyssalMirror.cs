@@ -22,11 +22,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -40,16 +40,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MirageMirror>());
-            recipe.AddIngredient(ModContent.ItemType<InkBomb>());
-            recipe.AddIngredient(ItemID.SpectreBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MirageMirror>()).AddIngredient(ModContent.ItemType<InkBomb>()).AddIngredient(ItemID.SpectreBar, 8).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<DepthCells>(), 5).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

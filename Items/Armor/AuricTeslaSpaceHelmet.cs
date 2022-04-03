@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.defense = 12; //132
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.defense = 12; //132
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
             player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
-            player.minionDamage += 0.75f;
+            player.GetDamage(DamageClass.Summon) += 0.75f;
             player.maxMinions += 6;
             if (player.lavaWet)
             {
@@ -81,20 +81,12 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.minionDamage += 0.15f;
+            player.GetDamage(DamageClass.Summon) += 0.15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaHelmet>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareHelmet>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonHornedHelm>());
-            recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaHelmet>()).AddIngredient(ModContent.ItemType<BloodflareHelmet>()).AddIngredient(ModContent.ItemType<TarragonHornedHelm>()).AddIngredient(ModContent.ItemType<PsychoticAmulet>()).AddIngredient(ModContent.ItemType<AuricBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

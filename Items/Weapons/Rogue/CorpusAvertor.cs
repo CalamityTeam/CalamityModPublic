@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 18;
-            item.height = 32;
-            item.damage = 98;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(gold: 80);
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
-            item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
-            item.shootSpeed = 8.5f;
-            item.Calamity().rogue = true;
+            Item.width = 18;
+            Item.height = 32;
+            Item.damage = 98;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(gold: 80);
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
+            Item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
+            Item.shootSpeed = 8.5f;
+            Item.Calamity().rogue = true;
         }
 
         // Gains 10% of missing health as base damage.

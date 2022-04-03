@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.mana = 10;
-            item.width = 28;
-            item.height = 20;
-            item.useTime = item.useAnimation = 34;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item15; //phaseblade sound effect
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WulfrumDroid>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 10;
+            Item.mana = 10;
+            Item.width = 28;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 34;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item15; //phaseblade sound effect
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WulfrumDroid>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,11 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 9);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 9).AddTile(TileID.Anvils).Register();
         }
     }
 }

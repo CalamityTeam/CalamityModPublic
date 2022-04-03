@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -19,17 +20,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.width = 200;
-            projectile.height = 200;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.width = 200;
+            Projectile.height = 200;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -37,12 +38,12 @@ namespace CalamityMod.Projectiles.Melee
             Projectile parent = FindParent();
             if (parent != null && parent.active)
             {
-                projectile.Center = parent.Center;
-                projectile.timeLeft = 2;
+                Projectile.Center = parent.Center;
+                Projectile.timeLeft = 2;
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
             if (target.life <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 (FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
             if (target.statLife <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 (FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>() && p.owner == projectile.owner)
+                if (p.identity == Projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>() && p.owner == Projectile.owner)
                 {
                     parent = p;
                     break;
@@ -81,6 +82,6 @@ namespace CalamityMod.Projectiles.Melee
             return parent;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

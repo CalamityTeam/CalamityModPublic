@@ -23,11 +23,11 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 61;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
         //What if we want to randomize the line color
@@ -45,25 +45,25 @@ namespace CalamityMod.Projectiles.Typeless
         //i second this notion -Dominic
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow");
-            float xOffset = (glowmask.Width - projectile.width) * 0.5f + projectile.width * 0.5f;
-            Vector2 drawPos = projectile.position - Main.screenPosition;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow");
+            float xOffset = (glowmask.Width - Projectile.width) * 0.5f + Projectile.width * 0.5f;
+            Vector2 drawPos = Projectile.position - Main.screenPosition;
             drawPos.X += xOffset;
-            drawPos.Y += projectile.height / 2f + projectile.gfxOffY;
+            drawPos.Y += Projectile.height / 2f + Projectile.gfxOffY;
             Rectangle frame = new Microsoft.Xna.Framework.Rectangle(0, 0, glowmask.Width, glowmask.Height);
-            Vector2 origin = new Vector2(xOffset, projectile.height / 2f);
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Vector2 origin = new Vector2(xOffset, Projectile.height / 2f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            if (projectile.ai[0] <= 1f)
+            if (Projectile.ai[0] <= 1f)
             {
-                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
             }
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
-            return projectile.DrawFishingLine(ModContent.ItemType<TheDevourerofCods>(), fishingLineColor);
+            Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
+            return Projectile.DrawFishingLine(ModContent.ItemType<TheDevourerofCods>(), fishingLineColor);
         }
     }
 }

@@ -35,15 +35,15 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.expert = true;
-            item.rare = ItemRarityID.Purple;
-            item.width = 82;
-            item.height = 66;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item119;
-            item.consumable = false;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Purple;
+            Item.width = 82;
+            Item.height = 66;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item119;
+            Item.consumable = false;
         }
 
         public override void UseStyle(Player player)
@@ -53,22 +53,22 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/DifficultyItems/Malice_Animated");
-            spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/DifficultyItems/Malice_Animated");
+            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/DifficultyItems/Malice_Animated");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/DifficultyItems/Malice_Animated");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         // Can only be used in Death Mode.
         public override bool CanUseItem(Player player) => CalamityWorld.death || CalamityWorld.malice;
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             // This world syncing code should only be run by one entity- the server, to prevent a race condition
             // with the packets.
@@ -104,10 +104,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

@@ -11,36 +11,36 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yin-Yo");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 350f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 17f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 14f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 350f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 17f;
         }
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.scale = 1f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.aiStyle = 99;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.scale = 1f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 144f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<Dark>() : ModContent.ProjectileType<Light>());
-            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-                projectile.Kill();
+            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 10f, 144f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<Dark>() : ModContent.ProjectileType<Light>());
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

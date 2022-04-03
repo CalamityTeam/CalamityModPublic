@@ -16,31 +16,26 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.magic = true;
-            item.mana = 33;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
-            item.shootSpeed = 9f;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 33;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
+            Item.shootSpeed = 9f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpellTome); //Living Fire Blocks were CRINGE!
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 6);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<CruptixBar>(), 6).AddTile(TileID.Bookcases).Register();
         }
     }
 }

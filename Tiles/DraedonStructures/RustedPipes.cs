@@ -2,12 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
     public class RustedPipes : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -25,7 +26,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            Main.PlaySound(SoundID.Item,i * 16, j * 16, 52, 0.75f, -0.5f);
+            SoundEngine.PlaySound(SoundID.Item,i * 16, j * 16, 52, 0.75f, -0.5f);
         }
     }
 }

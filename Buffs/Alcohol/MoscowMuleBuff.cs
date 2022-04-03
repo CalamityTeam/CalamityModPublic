@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class MoscowMuleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moscow Mule");
             Description.SetDefault("Damage, critical strike chance, and knockback boosted, life regen reduced");

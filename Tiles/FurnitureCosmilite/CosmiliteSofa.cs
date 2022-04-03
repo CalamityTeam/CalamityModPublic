@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteSofa : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();

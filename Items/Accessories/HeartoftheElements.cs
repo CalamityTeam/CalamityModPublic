@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
                 "Summons all elementals to protect you");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -96,15 +96,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<WifeinaBottle>());
-            recipe.AddIngredient(ItemType<WifeinaBottlewithBoobs>());
-            recipe.AddIngredient(ItemType<LureofEnthrallment>());
-            recipe.AddIngredient(ItemType<EyeoftheStorm>());
-            recipe.AddIngredient(ItemType<RoseStone>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<WifeinaBottle>()).AddIngredient(ItemType<WifeinaBottlewithBoobs>()).AddIngredient(ItemType<LureofEnthrallment>()).AddIngredient(ItemType<EyeoftheStorm>()).AddIngredient(ItemType<RoseStone>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -11,53 +11,53 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.melee = true;
-            projectile.timeLeft = 600;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
             Vector2 value7 = new Vector2(6f, 12f);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 48f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] == 48f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
             }
             else
             {
                 for (int num41 = 0; num41 < 2; num41++)
                 {
                     Vector2 value8 = Vector2.UnitX * -15f;
-                    value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7;
-                    int num42 = Dust.NewDust(projectile.Center, 0, 0, 27, 0f, 0f, 160, default, 1f);
+                    value8 = -Vector2.UnitY.RotatedBy((double)(Projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7;
+                    int num42 = Dust.NewDust(Projectile.Center, 0, 0, 27, 0f, 0f, 160, default, 1f);
                     Main.dust[num42].scale = 1f;
                     Main.dust[num42].noGravity = true;
-                    Main.dust[num42].position = projectile.Center + value8;
-                    Main.dust[num42].velocity = projectile.velocity;
+                    Main.dust[num42].position = Projectile.Center + value8;
+                    Main.dust[num42].velocity = Projectile.velocity;
                 }
             }
 
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default, 0.8f);
+            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 27, 0f, 0f, 100, default, 0.8f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

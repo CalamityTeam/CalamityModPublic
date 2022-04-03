@@ -7,7 +7,7 @@ namespace CalamityMod.Walls.DraedonStructures
     public class RustedPlatePillar : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 32;
             drop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.RustedPlatePillar>();

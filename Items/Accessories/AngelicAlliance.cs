@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 92;
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.accessory = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.width = 56;
+            Item.height = 92;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.accessory = true;
+            Item.rare = 10;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AngelicAllianceHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
                 {
                     line2.text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
                 }
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.angelicAlliance = true;
             player.allDamage += 0.08f;
-            player.minionDamage += 0.07f; //7% + 8% = 15%
+            player.GetDamage(DamageClass.Summon) += 0.07f; //7% + 8% = 15%
             player.maxMinions += 2;
             if (player.controlJump)
                 player.lifeRegen += 4;
@@ -61,19 +61,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyHallowedHelmet");
-            //recipe.AddRecipeGroup("AnyHallowedPlatemail");
-            //recipe.AddRecipeGroup("AnyHallowedGreaves");
-            recipe.AddIngredient(ItemID.HallowedPlateMail);
-            recipe.AddIngredient(ItemID.HallowedGreaves);
-            recipe.AddIngredient(ItemID.PaladinsShield);
-            recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(ItemID.CrossNecklace);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyHallowedHelmet").AddIngredient(ItemID.HallowedPlateMail).AddIngredient(ItemID.HallowedGreaves).AddIngredient(ItemID.PaladinsShield).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ItemID.CrossNecklace).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

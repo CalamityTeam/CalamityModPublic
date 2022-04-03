@@ -10,46 +10,46 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crescent Cutter");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.timeLeft = 200;
-            projectile.aiStyle = 0;
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.knockBack = 0;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.magic = true;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 200;
+            Projectile.aiStyle = 0;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.knockBack = 0;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(230, 230, 255, projectile.alpha);
+            return new Color(230, 230, 255, Projectile.alpha);
         }
 
         public override void AI()
         {
-            Projectile parent = Main.projectile[(int)projectile.ai[0]];
+            Projectile parent = Main.projectile[(int)Projectile.ai[0]];
             if (!parent.active)
-                projectile.Kill();
+                Projectile.Kill();
 
-            projectile.rotation += 0.7f;
+            Projectile.rotation += 0.7f;
 
-            projectile.ai[1]++;
+            Projectile.ai[1]++;
 
-            if (projectile.ai[1] > 20)
+            if (Projectile.ai[1] > 20)
             {
-                projectile.velocity += projectile.SafeDirectionTo(parent.Center) * 2.5f;
-                if (projectile.WithinRange(parent.Center, 75f))
-                    projectile.Kill();
+                Projectile.velocity += Projectile.SafeDirectionTo(parent.Center) * 2.5f;
+                if (Projectile.WithinRange(parent.Center, 75f))
+                    Projectile.Kill();
             }
         }
     }

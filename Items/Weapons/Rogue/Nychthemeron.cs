@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 18;
-            item.damage = 60;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 18;
-            item.maxStack = 10;
-            item.value = Item.buyPrice(0, 3, 60, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-            item.shootSpeed = 6f;
-            item.Calamity().rogue = true;
+            Item.width = 18;
+            Item.damage = 60;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 18;
+            Item.maxStack = 10;
+            Item.value = Item.buyPrice(0, 3, 60, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
+            Item.shootSpeed = 6f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             if (player.Calamity().StealthStrikeAvailable())
             {
-                for (int j = 0; j < item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
+                for (int j = 0; j < Item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
                     int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockBack, player.whoAmI, 0f, 1f);
@@ -85,29 +85,22 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
             }
             else
             {
-                item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-                item.shootSpeed = 6f;
-                int UseMax = item.stack;
+                Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
+                Item.shootSpeed = 6f;
+                int UseMax = Item.stack;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < UseMax;
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 30);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddRecipeGroup("AnyMythrilBar", 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 30).AddIngredient(ItemID.LightShard).AddIngredient(ItemID.DarkShard).AddRecipeGroup("AnyMythrilBar", 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
         private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player, bool stealth)

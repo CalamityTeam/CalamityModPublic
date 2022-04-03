@@ -22,11 +22,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -39,14 +39,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssalAmulet>());
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalAmulet>()).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

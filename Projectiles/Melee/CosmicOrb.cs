@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -14,57 +15,57 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.extraUpdates = 0;
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 0;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
+            Lighting.AddLight(Projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
 
-            projectile.velocity *= 0.985f;
-            projectile.rotation += projectile.velocity.X * 0.2f;
+            Projectile.velocity *= 0.985f;
+            Projectile.rotation += Projectile.velocity.X * 0.2f;
 
-            if (projectile.velocity.X > 0f)
+            if (Projectile.velocity.X > 0f)
             {
-                projectile.rotation += 0.08f;
+                Projectile.rotation += 0.08f;
             }
             else
             {
-                projectile.rotation -= 0.08f;
+                Projectile.rotation -= 0.08f;
             }
 
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 30f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] > 30f)
             {
-                projectile.alpha += 10;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 10;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.alpha = 255;
-                    projectile.Kill();
+                    Projectile.alpha = 255;
+                    Projectile.Kill();
                     return;
                 }
             }
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
+            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int num192 = (int)(10f * projectile.scale);
-                int d = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 242, 0f, 0f, 0, default, 1f);
+                int num192 = (int)(10f * Projectile.scale);
+                int d = Dust.NewDust(Projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 242, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[d];
-                Vector2 offset = Vector2.Normalize(dust.position - projectile.Center);
-                dust.position = projectile.Center + offset * (float)num192 * projectile.scale;
+                Vector2 offset = Vector2.Normalize(dust.position - Projectile.Center);
+                dust.position = Projectile.Center + offset * (float)num192 * Projectile.scale;
                 if (i < 30)
                 {
                     dust.velocity = offset * dust.velocity.Length();
@@ -82,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha);
+            return new Color(200 - Projectile.alpha, 200 - Projectile.alpha, 200 - Projectile.alpha, 200 - Projectile.alpha);
         }
     }
 }

@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.mana = 10;
-            item.width = 48;
-            item.height = 56;
-            item.useTime = item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SageSpirit>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 24;
+            Item.mana = 10;
+            Item.width = 48;
+            Item.height = 56;
+            Item.useTime = Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SageSpirit>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -57,11 +57,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

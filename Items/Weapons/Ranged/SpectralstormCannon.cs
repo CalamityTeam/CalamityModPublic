@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 48;
-            item.ranged = true;
-            item.width = 66;
-            item.height = 26;
-            item.useTime = 4;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Flare;
-            item.shootSpeed = 9.5f;
-            item.useAmmo = AmmoID.Flare;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 66;
+            Item.height = 26;
+            Item.useTime = 4;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Flare;
+            Item.shootSpeed = 9.5f;
+            Item.useAmmo = AmmoID.Flare;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -70,13 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FirestormCannon>());
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddIngredient(ItemID.Ectoplasm, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FirestormCannon>()).AddIngredient(ItemID.FragmentVortex, 20).AddIngredient(ItemID.Ectoplasm, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

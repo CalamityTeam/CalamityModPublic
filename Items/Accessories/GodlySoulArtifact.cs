@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.accessory = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.width = 28;
+            Item.height = 28;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,13 +35,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<PlagueContainmentCells>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25).AddIngredient(ModContent.ItemType<PlagueContainmentCells>(), 25).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

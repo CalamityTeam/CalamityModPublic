@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class AnechoicCoatingBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anechoic Coating");
             Description.SetDefault("Abyssal creatures' detection radius reduced");

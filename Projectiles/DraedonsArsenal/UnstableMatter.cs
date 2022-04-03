@@ -11,14 +11,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public bool HasCollidedWithATile
         {
-            get => projectile.ai[0] == 1f;
-            set => projectile.ai[0] = value.ToInt();
+            get => Projectile.ai[0] == 1f;
+            set => Projectile.ai[0] = value.ToInt();
         }
 
         public float Time
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         public override void SetStaticDefaults()
@@ -28,19 +28,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 480;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 480;
         }
 
         public override void AI()
         {
             // Cast some lime light at the projectile's position.
-            Lighting.AddLight(projectile.Center, Color.GreenYellow.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.GreenYellow.ToVector3());
             Time++;
             if (Time >= 10f)
                 GenerateIdleDust();
@@ -55,15 +55,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // The faster the projectile itself is, the slower the dust, and the longer it lasts.
             // This is done to give the projectile a "streak" movement the faster it is versus a expansion.
             int dustCount = HasCollidedWithATile ? 5 : 12;
-            float baseSpeedRatio = Utils.InverseLerp(6f, 14f, projectile.velocity.Length(), true);
+            float baseSpeedRatio = Utils.InverseLerp(6f, 14f, Projectile.velocity.Length(), true);
             float speed = MathHelper.Lerp(6f, 1.8f, (float)Math.Pow(baseSpeedRatio, 3f));
             if (!HasCollidedWithATile)
                 speed += MathHelper.Lerp(-6f, 4f, Utils.InverseLerp(10f, 150f, Time, true));
             float persistence = MathHelper.Lerp(0f, 0.8f, baseSpeedRatio);
             for (int i = 0; i < dustCount; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 107);
-                dust.velocity = Main.rand.NextVector2CircularEdge(speed, speed) - projectile.velocity;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 107);
+                dust.velocity = Main.rand.NextVector2CircularEdge(speed, speed) - Projectile.velocity;
                 dust.fadeIn = persistence;
                 dust.scale = 0.9f;
                 dust.noGravity = true;
@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             if (!HasCollidedWithATile)
                 damage /= 3;
-            else if (projectile.penetrate == -1)
-                projectile.penetrate = 1;
+            else if (Projectile.penetrate == -1)
+                Projectile.penetrate = 1;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -86,20 +86,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 HasCollidedWithATile = true;
 
                 // And bounce off the tile. Or towards a nearby enemy, if there is one.
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(700f, false);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(700f, false);
                 if (potentialTarget != null)
-                    projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center);
+                    Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center);
                 else
                 {
-                    if (projectile.velocity.X != oldVelocity.X)
-                        projectile.velocity.X = -oldVelocity.X;
-                    if (projectile.velocity.Y != oldVelocity.Y)
-                        projectile.velocity.Y = -oldVelocity.Y;
+                    if (Projectile.velocity.X != oldVelocity.X)
+                        Projectile.velocity.X = -oldVelocity.X;
+                    if (Projectile.velocity.Y != oldVelocity.Y)
+                        Projectile.velocity.Y = -oldVelocity.Y;
                 }
 
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 14f;
+                Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 14f;
 
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
                 return false;
             }
             return true;

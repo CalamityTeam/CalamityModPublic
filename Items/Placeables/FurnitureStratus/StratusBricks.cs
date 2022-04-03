@@ -14,43 +14,24 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusBricks>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusBricks>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyStoneBlock", 50);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1);
-            recipe.SetResult(this, 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StratusWall>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StratusPlatform>(), 2);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StratusStarPlatformItem>(), 2);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.AddRecipe();
+            CreateRecipe(50).AddRecipeGroup("AnyStoneBlock", 50).AddIngredient(ModContent.ItemType<Lumenite>(), 3).AddIngredient(ModContent.ItemType<RuinousSoul>(), 1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusPlatform>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusStarPlatformItem>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

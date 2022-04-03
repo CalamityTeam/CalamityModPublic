@@ -11,36 +11,36 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = LifeTime;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = LifeTime;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 0f, 0f, 100, default, 1f);
+                    int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f, 100, default, 1f);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].velocity *= 0f;
                 }
             }
 
-            if (projectile.timeLeft < LifeTime - 30)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
+            if (Projectile.timeLeft < LifeTime - 30)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

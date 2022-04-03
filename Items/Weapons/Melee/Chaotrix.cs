@@ -13,42 +13,38 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Fault Line");
             Tooltip.SetDefault("Explodes on enemy hits\n" +
             "A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 26;
-            item.melee = true;
-            item.damage = 88; // 110 pre-nerf
-            item.knockBack = 4f;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.autoReuse = true;
+            Item.width = 30;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 88; // 110 pre-nerf
+            Item.knockBack = 4f;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
+            Item.shootSpeed = 14f;
 
-            item.rare = ItemRarityID.Yellow;
-            item.value = Item.buyPrice(gold: 80);
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = Item.buyPrice(gold: 80);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 6).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

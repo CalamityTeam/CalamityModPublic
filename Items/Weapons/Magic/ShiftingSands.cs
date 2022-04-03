@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 61;
-            item.knockBack = 5f;
-            item.useTime = item.useAnimation = 30;
-            item.mana = 20;
-            item.magic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shootSpeed = 7f;
-            item.shoot = ModContent.ProjectileType<ShiftingSandsProj>();
+            Item.damage = 61;
+            Item.knockBack = 5f;
+            Item.useTime = Item.useAnimation = 30;
+            Item.mana = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 7f;
+            Item.shoot = ModContent.ProjectileType<ShiftingSandsProj>();
 
-            item.width = item.height = 58;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item20;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.width = Item.height = 58;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item20;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override bool CanUseItem(Player player)
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == item.shoot && proj.ai[0] <= 0f)
+                if (proj.active && proj.owner == player.whoAmI && proj.type == Item.shoot && proj.ai[0] <= 0f)
                 {
                     projCount++;
                 }
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MagicMissile);
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddIngredient(ItemID.SpectreBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MagicMissile).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddIngredient(ItemID.SpectreBar, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

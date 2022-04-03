@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.4f;
                 g = 1f;
@@ -58,7 +58,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;

@@ -14,27 +14,27 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Terra Ray");
             Tooltip.SetDefault("Casts an energy ray that splits into energy on enemy hits\n" +
                 "More energy is created the farther along the ray the hit enemy is");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 54;
-            item.height = 54;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraBeam>();
-            item.shootSpeed = 6f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 54;
+            Item.height = 54;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TerraBeam>();
+            Item.shootSpeed = 6f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -52,20 +52,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NightsRay>());
-            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CarnageRay>());
-            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NightsRay>()).AddIngredient(ModContent.ItemType<ValkyrieRay>()).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CarnageRay>()).AddIngredient(ModContent.ItemType<ValkyrieRay>()).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

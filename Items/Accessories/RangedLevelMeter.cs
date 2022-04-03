@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = Item.buyPrice(0, 6, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Accessories
             }
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                 {
                     line2.text = "Tells you how high your ranged proficiency is\n" +
                 "While equipped you will gain ranged proficiency faster\n" +

@@ -16,19 +16,19 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<YharonSonPet>();
-            item.buffType = ModContent.BuffType<YharonSonBuff>();
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<YharonSonPet>();
+            Item.buffType = ModContent.BuffType<YharonSonBuff>();
 
-            item.value = Item.sellPrice(gold: 30);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.sellPrice(gold: 30);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

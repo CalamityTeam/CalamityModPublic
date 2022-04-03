@@ -17,20 +17,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public TaserAIState AIState
         {
-            get => (TaserAIState)(int)projectile.ai[0];
-            set => projectile.ai[0] = (int)value;
+            get => (TaserAIState)(int)Projectile.ai[0];
+            set => Projectile.ai[0] = (int)value;
         }
 
         public float Time
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         public int ElectrocutionTarget
         {
-            get => (int)projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => (int)Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
 
         public const float ReelbackSpeed = 15f;
@@ -42,25 +42,25 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.tileCollide = true;
-            projectile.ownerHitCheck = true;
-            projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.tileCollide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
         {
             Time++;
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             switch (AIState)
             {
                 case TaserAIState.Firing:
-                    float distanceFromPlayer = projectile.Distance(player.Center);
+                    float distanceFromPlayer = Projectile.Distance(player.Center);
                     if (distanceFromPlayer > 600f || Time >= 90f)
                         GoToAIState(TaserAIState.ReelingBack);
                     break;
@@ -72,21 +72,21 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         return;
                     }
 
-                    projectile.Center = Main.npc[ElectrocutionTarget].Center;
+                    Projectile.Center = Main.npc[ElectrocutionTarget].Center;
                     break;
                 case TaserAIState.ReelingBack:
                     // Kill the gun and the hook if the hook has returned to the gun.
-                    if (projectile.Hitbox.Intersects(player.Hitbox))
+                    if (Projectile.Hitbox.Intersects(player.Hitbox))
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                         return;
                     }
-                    projectile.tileCollide = false;
-                    projectile.velocity = projectile.SafeDirectionTo(player.Center) * ReelbackSpeed;
+                    Projectile.tileCollide = false;
+                    Projectile.velocity = Projectile.SafeDirectionTo(player.Center) * ReelbackSpeed;
                     break;
             }
 
-            projectile.rotation = projectile.AngleFrom(player.Center);
+            Projectile.rotation = Projectile.AngleFrom(player.Center);
 
             ManipulatePlayerItemValues(player);
         }
@@ -94,8 +94,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void ManipulatePlayerItemValues(Player player)
         {
-            player.ChangeDir((player.Center.X - projectile.Center.X < 0).ToDirectionInt());
-            player.itemRotation = CalamityUtils.WrapAngle90Degrees(projectile.rotation);
+            player.ChangeDir((player.Center.X - Projectile.Center.X < 0).ToDirectionInt());
+            player.itemRotation = CalamityUtils.WrapAngle90Degrees(Projectile.rotation);
             player.itemTime = 4;
             player.itemAnimation = 4;
         }
@@ -106,17 +106,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (AIState == newAIState)
                 return;
 
-            projectile.penetrate = -1;
+            Projectile.penetrate = -1;
             AIState = newAIState;
-            projectile.netUpdate = true;
+            Projectile.netUpdate = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Player player = Main.player[projectile.owner];
-            Texture2D texture = ModContent.GetTexture(Texture);
-            Utils.DrawLine(spriteBatch, player.MountedCenter, projectile.Center, Color.Cyan, Color.White, 4f);
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, texture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+            Player player = Main.player[Projectile.owner];
+            Texture2D texture = ModContent.Request<Texture2D>(Texture);
+            Utils.DrawLine(spriteBatch, player.MountedCenter, Projectile.Center, Color.Cyan, Color.White, 4f);
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

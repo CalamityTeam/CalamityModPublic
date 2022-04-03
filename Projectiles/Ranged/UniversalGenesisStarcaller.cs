@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,64 +12,64 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starcaller Shot");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.23f, 0.19f, 0.25f);
+            Lighting.AddLight(Projectile.Center, 0.23f, 0.19f, 0.25f);
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    int idx = Dust.NewDust(projectile.position, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[idx].alpha = projectile.alpha;
+                    int idx = Dust.NewDust(Projectile.position, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
+                    Main.dust[idx].alpha = Projectile.alpha;
                     Main.dust[idx].velocity *= 0f;
                     Main.dust[idx].noGravity = true;
                 }
             }
 
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), projectile.Center);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), Projectile.Center);
             return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
@@ -92,17 +93,17 @@ namespace CalamityMod.Projectiles.Ranged
             int maxDistance = 480; // 30 blocks
             bool bossFound = false;
             int life = 0;
-            Vector2 targetVec = projectile.Center;
+            Vector2 targetVec = Projectile.Center;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
                 if (bossFound && !npc.IsABoss())
                     continue;
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
                     //Calculate distance between target and the projectile to know if it's too far or not
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     if (targetDist < (maxDistance + extraDist) && (npc.IsABoss() || npc.life > life))
                     {
                         if (npc.IsABoss())
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int n = 0; n < 2; n++)
             {
-                Projectile star = CalamityUtils.ProjectileRain(targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                Projectile star = CalamityUtils.ProjectileRain(targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
                 star.ai[0] = n;
             }
         }
@@ -123,11 +124,11 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
             for (int g = 0; g < 3; g++)
             {
-                Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
             }
         }
     }

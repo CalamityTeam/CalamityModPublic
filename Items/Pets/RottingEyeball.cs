@@ -18,24 +18,24 @@ namespace CalamityMod.Items.Pets
         {
             /*item.DefaultToVanitypet(ModContent.ProjectileType<MiniHiveMind>(), ModContent.BuffType<HiveMindPet>());
             item.rare = -13;*/
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.damage = 0;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = 1;
-            item.noMelee = true;
-            item.width = 16;
-            item.height = 30;
-            item.UseSound = SoundID.NPCHit2;
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<MiniHiveMind>();
-            item.buffType = ModContent.BuffType<HiveMindPet>();
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.damage = 0;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = 1;
+            Item.noMelee = true;
+            Item.width = 16;
+            Item.height = 30;
+            Item.UseSound = SoundID.NPCHit2;
+            Item.rare = 3;
+            Item.shoot = ModContent.ProjectileType<MiniHiveMind>();
+            Item.buffType = ModContent.BuffType<HiveMindPet>();
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

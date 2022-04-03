@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.85f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;
@@ -69,12 +69,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandleFlame"), i, j);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
                 CalamityUtils.DrawFlameSparks(246, 5, i, j);
         }
     }

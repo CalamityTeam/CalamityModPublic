@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

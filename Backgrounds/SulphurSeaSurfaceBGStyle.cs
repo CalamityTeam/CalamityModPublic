@@ -8,7 +8,7 @@ namespace CalamityMod.Backgrounds
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             b -= 250f;
-            return mod.GetBackgroundSlot("Backgrounds/SulphurSeaSurfaceClose");
+            return Mod.GetBackgroundSlot("Backgrounds/SulphurSeaSurfaceClose");
         }
 
         public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.InSulphur();

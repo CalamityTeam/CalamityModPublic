@@ -93,10 +93,10 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
-            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
-            var blessingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.mod == "Terraria");
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
+            var blessingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.Mod == "Terraria");
 
             //Default stuff gets skipped here. MainAttunement is set to true in SafeCheckAttunements() above
 
@@ -123,32 +123,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 128;
-            item.damage = BaseDamage;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 24f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = Item.height = 128;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 24f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<OmegaBiomeBlade>());
-            recipe.AddIngredient(ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<OmegaBiomeBlade>()).AddIngredient(ItemType<CosmiliteBar>(), 8).AddIngredient(ItemType<DarksunFragment>(), 8).AddTile(TileType<CosmicAnvil>()).Register();
         }
 
         #region saving and syncing attunements
@@ -194,7 +188,7 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(mainAttunement != null ? (byte)mainAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
         }
@@ -241,7 +235,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             SafeCheckAttunements();
 
-            mainAttunement.ApplyStats(item);
+            mainAttunement.ApplyStats(Item);
 
             //Passive effects only jappen player side haha
             if (player.whoAmI != Main.myPlayer)
@@ -312,13 +306,13 @@ namespace CalamityMod.Items.Weapons.Melee
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);
 
-            spriteBatch.Draw(outlineTexture, item.Center - Main.screenPosition, animFrame, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(outlineTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
 
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
 
 
-            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, animFrame, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }
     }

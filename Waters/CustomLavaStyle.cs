@@ -17,8 +17,8 @@ namespace CalamityMod.Waters
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            LavaTexture = ModContent.GetTexture(LavaTexturePath);
-            BlockTexture = ModContent.GetTexture(BlockTexturePath);
+            LavaTexture = ModContent.Request<Texture2D>(LavaTexturePath);
+            BlockTexture = ModContent.Request<Texture2D>(BlockTexturePath);
         }
 
         internal void Unload()

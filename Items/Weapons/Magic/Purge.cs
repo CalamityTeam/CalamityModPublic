@@ -18,35 +18,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 73;
-            item.magic = true;
-            item.mana = 6;
-            item.width = 62;
-            item.height = 34;
-            item.useTime = item.useAnimation = UseTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.knockBack = 3f;
-            item.rare = ItemRarityID.Red;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<NanoPurgeHoldout>();
-            item.shootSpeed = 16f;
+            Item.damage = 73;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.width = 62;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = UseTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.knockBack = 3f;
+            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<NanoPurgeHoldout>();
+            Item.shootSpeed = 16f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LaserMachinegun);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddIngredient(ItemID.Nanites, 100);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LaserMachinegun).AddIngredient(ItemID.FragmentVortex, 20).AddIngredient(ItemID.Nanites, 100).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaBench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();

@@ -15,28 +15,28 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Deathhail Staff");
             Tooltip.SetDefault("Rain death upon your foes!\n" +
                 "Casts a storm of nebula lasers from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 328;
-            item.magic = true;
-            item.mana = 16;
-            item.width = 80;
-            item.height = 84;
-            item.useTime = 11;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item12;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DeathhailBeam>();
-            item.shootSpeed = 18f;
+            Item.damage = 328;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 16;
+            Item.width = 80;
+            Item.height = 84;
+            Item.useTime = 11;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.UseSound = SoundID.Item12;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DeathhailBeam>();
+            Item.shootSpeed = 18f;
         }
 
         /*public override Vector2? HoldoutOrigin()
@@ -46,17 +46,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             int num73 = damage;
             float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;

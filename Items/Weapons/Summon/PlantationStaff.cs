@@ -20,42 +20,28 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item76;
-            item.shoot = ModContent.ProjectileType<PlantSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 55;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item76;
+            Item.shoot = ModContent.ProjectileType<PlantSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 3;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 3;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EyeOfNight>());
-            recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
-            recipe.AddIngredient(ItemID.OpticStaff);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FleshOfInfidelity>());
-            recipe.AddIngredient(ModContent.ItemType<DeepseaStaff>());
-            recipe.AddIngredient(ItemID.OpticStaff);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EyeOfNight>()).AddIngredient(ModContent.ItemType<DeepseaStaff>()).AddIngredient(ItemID.OpticStaff).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FleshOfInfidelity>()).AddIngredient(ModContent.ItemType<DeepseaStaff>()).AddIngredient(ItemID.OpticStaff).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -64,8 +50,8 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 CalamityUtils.KillShootProjectileMany(player, new int[] { type, ModContent.ProjectileType<PlantTentacle>() });
 
-                float speed = item.shootSpeed;
-                player.itemTime = item.useTime;
+                float speed = Item.shootSpeed;
+                player.itemTime = Item.useTime;
                 Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
                 float directionX = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
                 float directionY = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;

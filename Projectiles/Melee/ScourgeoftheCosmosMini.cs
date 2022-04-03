@@ -13,74 +13,74 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Miniature Cosmic Scourge");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 3;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 3;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 270 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
-                projectile.alpha -= 50;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 50;
             else
-                projectile.extraUpdates = 1;
+                Projectile.extraUpdates = 1;
 
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 1)
-                projectile.frame = 0;
+            if (Projectile.frame > 1)
+                Projectile.frame = 0;
 
             for (int num369 = 0; num369 < 1; num369++)
             {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                float num370 = projectile.velocity.X / 3f * num369;
-                float num371 = projectile.velocity.Y / 3f * num369;
-                int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                float num370 = Projectile.velocity.X / 3f * num369;
+                float num371 = Projectile.velocity.Y / 3f * num369;
+                int num372 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num372];
-                dust.position.X = projectile.Center.X - num370;
-                dust.position.Y = projectile.Center.Y - num371;
+                dust.position.X = Projectile.Center.X - num370;
+                dust.position.Y = Projectile.Center.Y - num371;
                 dust.velocity *= 0f;
                 dust.scale = 0.5f;
             }
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - MathHelper.PiOver2;
 
-            float num373 = projectile.position.X;
-            float num374 = projectile.position.Y;
+            float num373 = Projectile.position.X;
+            float num374 = Projectile.position.Y;
             float num375 = 100000f;
             bool flag10 = false;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 30f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 30f)
             {
-                projectile.ai[0] = 30f;
+                Projectile.ai[0] = 30f;
                 for (int num376 = 0; num376 < Main.maxNPCs; num376++)
                 {
-                    if (Main.npc[num376].CanBeChasedBy(projectile, false))
+                    if (Main.npc[num376].CanBeChasedBy(Projectile, false))
                     {
                         float num377 = Main.npc[num376].position.X + Main.npc[num376].width / 2;
                         float num378 = Main.npc[num376].position.Y + Main.npc[num376].height / 2;
-                        float num379 = Math.Abs(projectile.position.X + projectile.width / 2 - num377) + Math.Abs(projectile.position.Y + projectile.height / 2 - num378);
-                        if (num379 < 800f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num376].position, Main.npc[num376].width, Main.npc[num376].height))
+                        float num379 = Math.Abs(Projectile.position.X + Projectile.width / 2 - num377) + Math.Abs(Projectile.position.Y + Projectile.height / 2 - num378);
+                        if (num379 < 800f && num379 < num375 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num376].position, Main.npc[num376].width, Main.npc[num376].height))
                         {
                             num375 = num379;
                             num373 = num377;
@@ -92,42 +92,42 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (!flag10)
             {
-                num373 = projectile.position.X + projectile.width / 2 + projectile.velocity.X * 100f;
-                num374 = projectile.position.Y + projectile.height / 2 + projectile.velocity.Y * 100f;
+                num373 = Projectile.position.X + Projectile.width / 2 + Projectile.velocity.X * 100f;
+                num374 = Projectile.position.Y + Projectile.height / 2 + Projectile.velocity.Y * 100f;
             }
 
             float num380 = 10f;
             float num381 = 0.16f;
-            Vector2 vector30 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
+            Vector2 vector30 = new Vector2(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
             float num382 = num373 - vector30.X;
             float num383 = num374 - vector30.Y;
             float num384 = (float)Math.Sqrt(num382 * num382 + num383 * num383);
             num384 = num380 / num384;
             num382 *= num384;
             num383 *= num384;
-            if (projectile.velocity.X < num382)
+            if (Projectile.velocity.X < num382)
             {
-                projectile.velocity.X = projectile.velocity.X + num381;
-                if (projectile.velocity.X < 0f && num382 > 0f)
-                    projectile.velocity.X = projectile.velocity.X + num381 * 2f;
+                Projectile.velocity.X = Projectile.velocity.X + num381;
+                if (Projectile.velocity.X < 0f && num382 > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + num381 * 2f;
             }
-            else if (projectile.velocity.X > num382)
+            else if (Projectile.velocity.X > num382)
             {
-                projectile.velocity.X = projectile.velocity.X - num381;
-                if (projectile.velocity.X > 0f && num382 < 0f)
-                    projectile.velocity.X = projectile.velocity.X - num381 * 2f;
+                Projectile.velocity.X = Projectile.velocity.X - num381;
+                if (Projectile.velocity.X > 0f && num382 < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - num381 * 2f;
             }
-            if (projectile.velocity.Y < num383)
+            if (Projectile.velocity.Y < num383)
             {
-                projectile.velocity.Y = projectile.velocity.Y + num381;
-                if (projectile.velocity.Y < 0f && num383 > 0f)
-                    projectile.velocity.Y = projectile.velocity.Y + num381 * 2f;
+                Projectile.velocity.Y = Projectile.velocity.Y + num381;
+                if (Projectile.velocity.Y < 0f && num383 > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + num381 * 2f;
             }
-            else if (projectile.velocity.Y > num383)
+            else if (Projectile.velocity.Y > num383)
             {
-                projectile.velocity.Y = projectile.velocity.Y - num381;
-                if (projectile.velocity.Y > 0f && num383 < 0f)
-                    projectile.velocity.Y = projectile.velocity.Y - num381 * 2f;
+                Projectile.velocity.Y = Projectile.velocity.Y - num381;
+                if (Projectile.velocity.Y > 0f && num383 < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - num381 * 2f;
             }
         }
 
@@ -135,24 +135,24 @@ namespace CalamityMod.Projectiles.Melee
         {
             bounce--;
             if (bounce <= 0)
-                projectile.Kill();
+                Projectile.Kill();
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
-                    projectile.velocity.X = -oldVelocity.X;
-                if (projectile.velocity.Y != oldVelocity.Y)
-                    projectile.velocity.Y = -oldVelocity.Y;
+                if (Projectile.velocity.X != oldVelocity.X)
+                    Projectile.velocity.X = -oldVelocity.X;
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                    Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
             Vector2 origin = new Vector2(9f, 10f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }

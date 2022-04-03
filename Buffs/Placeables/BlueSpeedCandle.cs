@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class BlueSpeedCandle : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Limber");
             Description.SetDefault("The floating flame seems to uplift your very spirit");

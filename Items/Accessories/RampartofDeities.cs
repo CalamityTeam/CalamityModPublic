@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 62;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.defense = 18;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 64;
+            Item.height = 62;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.defense = 18;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,16 +43,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FrigidBulwark>());
-            recipe.AddIngredient(ModContent.ItemType<DeificAmulet>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrigidBulwark>()).AddIngredient(ModContent.ItemType<DeificAmulet>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

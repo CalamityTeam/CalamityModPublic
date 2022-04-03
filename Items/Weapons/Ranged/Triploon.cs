@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 24;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item10;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<TriploonProj>();
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 24;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item10;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<TriploonProj>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -65,15 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Dualpoon>());
-            recipe.AddIngredient(ItemID.Harpoon);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Dualpoon>()).AddIngredient(ItemID.Harpoon).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

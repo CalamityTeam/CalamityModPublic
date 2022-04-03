@@ -12,30 +12,22 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureEutrophic.SmoothNavystone>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureEutrophic.SmoothNavystone>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 1);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothNavystoneWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 1).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothNavystoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

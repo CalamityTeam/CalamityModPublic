@@ -18,31 +18,31 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 44;
-            item.ranged = true;
-            item.damage = 900;
-            item.knockBack = 12f;
-            item.useTime = 52;
-            item.useAnimation = 52;
-            item.autoReuse = true;
+            Item.width = 94;
+            Item.height = 44;
+            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 900;
+            Item.knockBack = 12f;
+            Item.useTime = 52;
+            Item.useAnimation = 52;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<KarasawaShot>();
-            item.shootSpeed = 1f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ModContent.ProjectileType<KarasawaShot>();
+            Item.shootSpeed = 1f;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override bool CanUseItem(Player player)
         {
-            return CalamityGlobalItem.HasEnoughAmmo(player, item, 5);
+            return CalamityGlobalItem.HasEnoughAmmo(player, Item, 5);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
 
             // Consume 5 ammo per shot
-            CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 5);
+            CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 5);
 
             return false;
         }
@@ -74,16 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.LargeRuby);
-            r.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-            r.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
-            r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LargeRuby).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 25).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

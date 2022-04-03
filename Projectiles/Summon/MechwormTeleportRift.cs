@@ -11,40 +11,40 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
-        public ref float GeneralRotationalOffset => ref projectile.ai[0];
+        public ref float GeneralRotationalOffset => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rift");
-            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 170;
-            projectile.scale = 0.25f;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.Opacity = 0f;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 45;
-            projectile.netImportant = true;
+            Projectile.width = Projectile.height = 170;
+            Projectile.scale = 0.25f;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.Opacity = 0f;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 45;
+            Projectile.netImportant = true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
-                projectile.ai[0] = 45f;
+            if (Projectile.ai[0] == 0f)
+                Projectile.ai[0] = 45f;
 
             GeneralRotationalOffset += MathHelper.Pi / 8f;
-            projectile.Opacity = MathHelper.Clamp(GeneralRotationalOffset, 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(GeneralRotationalOffset, 0f, 1f);
 
-            if (projectile.Opacity == 1f && Main.rand.NextBool(15))
+            if (Projectile.Opacity == 1f && Main.rand.NextBool(15))
             {
-                Dust dust = Dust.NewDustDirect(projectile.Center, 0, 0, 267, 0f, 0f, 100, new Color(150, 100, 255, 255), 1f);
+                Dust dust = Dust.NewDustDirect(Projectile.Center, 0, 0, 267, 0f, 0f, 100, new Color(150, 100, 255, 255), 1f);
                 dust.velocity.X = 0f;
                 dust.noGravity = true;
-                dust.position = projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 20f);
+                dust.position = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 20f);
                 dust.fadeIn = 1f;
                 dust.scale = 0.5f;
             }
@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            float currentFade = Utils.InverseLerp(0f, 5f, projectile.timeLeft, true) * Utils.InverseLerp(projectile.ai[0], projectile.ai[0] - 5f, projectile.timeLeft, true);
+            float currentFade = Utils.InverseLerp(0f, 5f, Projectile.timeLeft, true) * Utils.InverseLerp(Projectile.ai[0], Projectile.ai[0] - 5f, Projectile.timeLeft, true);
             currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            Color baseColor = new Color(150, 100, 255, 255) * projectile.Opacity;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            Color baseColor = new Color(150, 100, 255, 255) * Projectile.Opacity;
             baseColor *= 0.5f;
             baseColor.A = 0;
             Color colorA = baseColor;
@@ -65,10 +65,10 @@ namespace CalamityMod.Projectiles.Summon
             colorA *= currentFade;
             colorB *= currentFade;
             Vector2 origin = texture.Size() / 2f;
-            Vector2 scale = new Vector2(3f, 7f) * projectile.Opacity * projectile.scale * currentFade;
+            Vector2 scale = new Vector2(3f, 7f) * Projectile.Opacity * Projectile.scale * currentFade;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);

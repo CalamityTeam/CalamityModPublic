@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -17,24 +18,24 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.light = 0.8f;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 360;
-            projectile.scale = 1.25f;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.light = 0.8f;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 360;
+            Projectile.scale = 1.25f;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                Main.PlaySound(SoundID.Item20, projectile.position);
+                Projectile.localAI[0] = 1f;
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
 
             // Main chunky dark purple dust at the front of the fireball
@@ -42,9 +43,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int dustType = 27;
                 float dustScale = Main.rand.NextFloat(1.4f, 2.4f);
-                int dustID = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType);
+                int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType);
                 Main.dust[dustID].noGravity = true;
-                Main.dust[dustID].velocity = projectile.velocity;
+                Main.dust[dustID].velocity = Projectile.velocity;
                 Main.dust[dustID].scale = dustScale;
             }
 
@@ -53,35 +54,35 @@ namespace CalamityMod.Projectiles.Boss
                 int dustType = 70;
                 float velMult = Main.rand.NextFloat(0.05f, 0.6f);
                 float dustScale = Main.rand.NextFloat(1.2f, 1.8f);
-                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].velocity *= 0.1f;
-                Main.dust[dustID].velocity += projectile.velocity * velMult;
+                Main.dust[dustID].velocity += Projectile.velocity * velMult;
                 Main.dust[dustID].scale = dustScale;
             }
 
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
 
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
             {
-                int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] >= 60f)
+                int num103 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] >= 60f)
                 {
-                    if (projectile.ai[0] < 240f)
+                    if (Projectile.ai[0] < 240f)
                     {
-                        float scaleFactor2 = projectile.velocity.Length();
+                        float scaleFactor2 = Projectile.velocity.Length();
                         vector11.Normalize();
                         vector11 *= scaleFactor2;
-                        projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= scaleFactor2;
+                        Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= scaleFactor2;
                     }
-                    else if (projectile.velocity.Length() < 18f)
+                    else if (Projectile.velocity.Length() < 18f)
                     {
-                        projectile.tileCollide = true;
-                        projectile.velocity *= 1.02f;
+                        Projectile.tileCollide = true;
+                        Projectile.velocity *= 1.02f;
                     }
                 }
             }
@@ -99,13 +100,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             int killDust = 20;
             for (int i = 0; i < killDust; ++i)
             {
                 int dustType = Main.rand.NextBool() ? 70 : 27;
                 float dustScale = Main.rand.NextFloat(1f, 1.6f);
-                int dustID = Dust.NewDust(projectile.Center, 1, 1, dustType);
+                int dustID = Dust.NewDust(Projectile.Center, 1, 1, dustType);
                 Main.dust[dustID].velocity *= 4f;
                 Main.dust[dustID].scale = dustScale;
             }

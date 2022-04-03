@@ -16,28 +16,23 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 36;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.5f;
-            item.value = Item.sellPrice(copper: 20);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<TerraArrowMain>();
-            item.shootSpeed = 15f;
-            item.ammo = AmmoID.Arrow;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.sellPrice(copper: 20);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<TerraArrowMain>();
+            Item.shootSpeed = 15f;
+            Item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodenArrow, 250);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 250);
-            recipe.AddRecipe();
+            CreateRecipe(250).AddIngredient(ItemID.WoodenArrow, 250).AddIngredient(ModContent.ItemType<LivingShard>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

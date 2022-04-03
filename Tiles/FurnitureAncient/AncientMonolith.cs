@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientMonolith : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -58,7 +58,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             }
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

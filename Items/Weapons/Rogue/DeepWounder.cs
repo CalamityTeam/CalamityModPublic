@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 52;
-            item.damage = 106;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 23;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 48;
-            item.maxStack = 1;
-            item.rare = ItemRarityID.Lime;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.width = 52;
+            Item.damage = 106;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 23;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.maxStack = 1;
+            Item.rare = ItemRarityID.Lime;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
+            Item.shootSpeed = 14f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float stealthSpeedMult = 1.5f;
                 Vector2 velocity = new Vector2(speedX, speedY);
                 velocity.Normalize();
-                velocity *= item.shootSpeed * stealthSpeedMult;
+                velocity *= Item.shootSpeed * stealthSpeedMult;
 
                 int p = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 1f);
                 if (p.WithinBounds(Main.maxProjectiles))

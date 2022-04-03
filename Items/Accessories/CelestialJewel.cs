@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.defense = 8;
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.defense = 8;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AstralTeleportHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
                 {
                     line2.text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
                 }
@@ -48,14 +48,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
-            recipe.AddIngredient(ItemID.TeleportationPotion, 3);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrownJewel>()).AddIngredient(ItemID.TeleportationPotion, 3).AddIngredient(ModContent.ItemType<AstralJelly>(), 15).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

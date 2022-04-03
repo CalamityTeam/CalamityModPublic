@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class WhisperingDeath : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whispering Death");
             Description.SetDefault("Death approaches; movement speed, attack power and life regen reduced");

@@ -15,28 +15,21 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 36;
-            item.maxStack = 99;
-            item.value = Item.sellPrice(gold: 4);
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 36;
+            Item.height = 36;
+            Item.maxStack = 99;
+            Item.value = Item.sellPrice(gold: 4);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/CoreofCalamityGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CoreofCalamityGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CoreofCinder>(), 3).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ModContent.ItemType<CoreofChaos>(), 3).AddIngredient(ModContent.ItemType<CalamityDust>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -18,24 +18,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 27;
-            item.ranged = true;
-            item.width = 72;
-            item.height = 34;
-            item.useTime = 60;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.25f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 11f;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 27;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 72;
+            Item.height = 34;
+            Item.useTime = 60;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.25f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 11f;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-30f, 0f);
@@ -54,13 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.Pumpkin, 30);
-            recipe.AddIngredient(ItemID.PumpkinSeed, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.Pumpkin, 30).AddIngredient(ItemID.PumpkinSeed, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

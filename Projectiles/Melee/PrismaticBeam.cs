@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -42,15 +43,15 @@ namespace CalamityMod.Projectiles.Melee
 
         public const int ChargeupTime = 100;
 
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public override Color LaserOverlayColor => CalamityUtils.MulticolorLerp(Main.GlobalTime / ColorSet.Length % 1f, ColorSet);
         public override Color LightCastColor => LaserOverlayColor;
         public override float Lifetime => 300f;
         public override float MaxScale => 1.5f;
         public override float MaxLaserLength => 2200f;
-        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
 
         public override void SetStaticDefaults()
         {
@@ -59,25 +60,25 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.melee = true;
-            projectile.scale = 1.5f;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().PierceResistHarshness = 0.06f;
-            projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.scale = 1.5f;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().PierceResistHarshness = 0.06f;
+            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void DetermineScale()
         {
-            projectile.scale = Time < ChargeupTime ? 0f : Utils.InverseLerp(0f, 40f, projectile.timeLeft, true) * MaxScale;
+            Projectile.scale = Time < ChargeupTime ? 0f : Utils.InverseLerp(0f, 40f, Projectile.timeLeft, true) * MaxScale;
         }
 
         public override float DetermineLaserLength()
@@ -88,25 +89,25 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreAI()
         {
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                projectile.velocity = (Main.MouseWorld - Owner.Center).SafeNormalize(Vector2.UnitX * Owner.direction);
-                projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
-                projectile.netUpdate = true;
+                Projectile.velocity = (Main.MouseWorld - Owner.Center).SafeNormalize(Vector2.UnitX * Owner.direction);
+                Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
+                Projectile.netUpdate = true;
             }
 
-            int dir = projectile.direction;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.Center = Owner.Center + projectile.velocity * 80f;
+            int dir = Projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.Center = Owner.Center + Projectile.velocity * 80f;
             Owner.ChangeDir(dir);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(projectile.rotation - MathHelper.PiOver2);
+            Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(Projectile.rotation - MathHelper.PiOver2);
 
             if (!Owner.channel)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return false;
             }
 
@@ -114,10 +115,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 // Crate charge-up dust.
                 int dustCount = (int)(Time / 20f);
-                Vector2 spawnPos = projectile.Center;
+                Vector2 spawnPos = Projectile.Center;
                 for (int k = 0; k < dustCount + 1; k++)
                 {
-                    Dust dust = Dust.NewDustDirect(spawnPos, 1, 1, 267, projectile.velocity.X / 2f, projectile.velocity.Y / 2f);
+                    Dust dust = Dust.NewDustDirect(spawnPos, 1, 1, 267, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f);
                     dust.position += Main.rand.NextVector2Square(-10f, 10f);
                     dust.velocity = Main.rand.NextVector2Unit() * (10f - dustCount * 2f) / 10f;
                     dust.color = Main.rand.Next(Colors);
@@ -132,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
             // Play a cool sound when fully charged.
             if (!PlayedSound)
             {
-                Main.PlaySound(SoundID.Item68, projectile.position);
+                SoundEngine.PlaySound(SoundID.Item68, Projectile.position);
                 PlayedSound = true;
             }
             return true;
@@ -144,8 +145,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * LaserLength, projectile.width + 16, DelegateMethods.CutTiles);
+            Vector2 unit = Projectile.velocity;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * LaserLength, Projectile.width + 16, DelegateMethods.CutTiles);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

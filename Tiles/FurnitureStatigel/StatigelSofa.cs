@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelSofa : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();

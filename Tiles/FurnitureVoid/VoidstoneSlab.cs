@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidstoneSlab : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -92,10 +92,10 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.tile[i, j].type == ModContent.TileType<VoidstoneSlab>())
+            if (Main.tile[i, j].TileType == ModContent.TileType<VoidstoneSlab>())
             {
-                int xPos = Main.tile[i, j].frameX;
-                int yPos = Main.tile[i, j].frameY;
+                int xPos = Main.tile[i, j].TileFrameX;
+                int yPos = Main.tile[i, j].TileFrameY;
                 int yOffset = 0;
                 int relavtiveXPos = i % 3;
                 int relavtiveYPos = j % 3;
@@ -155,7 +155,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                 }
                 yOffset *= 270;
                 yPos += yOffset;
-                Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureVoid/VoidstoneSlabGlow");
+                Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureVoid/VoidstoneSlabGlow");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
                 Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
                 Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 75));

@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
@@ -13,33 +14,33 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Melter");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.5f;
-            npc.aiStyle = 14;
+            NPC.npcSlots = 0.5f;
+            NPC.aiStyle = 14;
             aiType = NPCID.GiantFlyingFox;
             animationType = NPCID.GiantFlyingFox;
-            npc.damage = 55;
-            npc.width = 38;
-            npc.height = 34;
-            npc.defense = 15;
-            npc.lifeMax = 500;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            banner = npc.type;
+            NPC.damage = 55;
+            NPC.width = 38;
+            NPC.height = 34;
+            NPC.defense = 15;
+            NPC.lifeMax = 500;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<MelterBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -55,21 +56,21 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), NPC.Center);
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            DropHelper.DropItem(NPC, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
     }
 }

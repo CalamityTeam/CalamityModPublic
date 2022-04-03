@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class PerennialBar : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(157, 255, 0));
             dustType = 44;

@@ -8,54 +8,54 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sun");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 62;
-            projectile.height = 64;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.alpha = 255;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            Projectile.width = 62;
+            Projectile.height = 64;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.alpha = 255;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 9;
-                if (projectile.alpha < 0)
-                    projectile.alpha = 0;
+                Projectile.alpha -= 9;
+                if (Projectile.alpha < 0)
+                    Projectile.alpha = 0;
             }
-            Player player = Main.player[projectile.owner];
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8)
+            Player player = Main.player[Projectile.owner];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 8)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.ai[0]++ < 30f)
+            if (Projectile.ai[0]++ < 30f)
             {
-                projectile.velocity *= 1.01f;
+                Projectile.velocity *= 1.01f;
             }
             else
             {
-                NPC potentialTarget = projectile.Center.MinionHoming(2000f, player);
+                NPC potentialTarget = Projectile.Center.MinionHoming(2000f, player);
                 if (potentialTarget != null)
-                    projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 8f;
+                    Projectile.velocity = (Projectile.velocity * 7f + Projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 8f;
             }
         }
     }

@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.ranged = true;
-            item.width = 84;
-            item.height = 34;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.BlackBolt;
-            item.shootSpeed = 28f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 84;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.UseSound = SoundID.Item36;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.BlackBolt;
+            Item.shootSpeed = 28f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -77,13 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<OnyxChainBlaster>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<OnyxChainBlaster>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

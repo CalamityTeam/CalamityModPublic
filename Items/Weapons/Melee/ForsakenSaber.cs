@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 65;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 6;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 56;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<SandBlade>();
-            item.shootSpeed = 15f;
+            Item.width = 46;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 6;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 56;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<SandBlade>();
+            Item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,12 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

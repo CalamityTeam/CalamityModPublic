@@ -4,50 +4,51 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class CataclysmSummon : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public bool LookingAtPlayer => Time < 45f;
         public override string Texture => "CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysm";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cataclysm");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = false;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = false;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = false;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = false;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 100;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.Opacity = 0f;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = Projectile.height = 100;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.Opacity = 0f;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
             if (LookingAtPlayer)
-                projectile.frame = (int)Math.Round(MathHelper.Lerp(0f, 9f, Time / 45f));
+                Projectile.frame = (int)Math.Round(MathHelper.Lerp(0f, 9f, Time / 45f));
             else
             {
                 float punchInterpolant = ((Time - 45f) / 35f) % 1f;
-                projectile.frame = (int)Math.Round(MathHelper.Lerp(12f, 21f, punchInterpolant));
+                Projectile.frame = (int)Math.Round(MathHelper.Lerp(12f, 21f, punchInterpolant));
             }
 
-            Behavior(projectile, Main.player[projectile.owner], ref Time);
+            Behavior(Projectile, Main.player[Projectile.owner], ref Time);
         }
 
         public static void Behavior(Projectile projectile, Player owner, ref float time)
@@ -74,8 +75,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.rotation = projectile.velocity.X * 0.0125f;
                 projectile.damage = (int)(projectile.damage * 1.45);
 
-                Main.PlaySound(SoundID.DD2_BetsyFlameBreath, owner.Center);
-                Main.PlaySound(SoundID.DD2_WyvernDiveDown, owner.Center);
+                SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, owner.Center);
+                SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, owner.Center);
             }
 
             time++;
@@ -102,26 +103,26 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Rectangle frame = texture.Frame(3, 9, projectile.frame / 9, projectile.frame % 9);
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Rectangle frame = texture.Frame(3, 9, Projectile.frame / 9, Projectile.frame % 9);
             Vector2 origin = frame.Size() * 0.5f;
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float afterimageRot = projectile.oldRot[i];
-                SpriteEffects sfxForThisAfterimage = projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                float afterimageRot = Projectile.oldRot[i];
+                SpriteEffects sfxForThisAfterimage = Projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-                Vector2 drawPos = projectile.oldPos[i] + projectile.Size * 0.5f - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / projectile.oldPos.Length);
-                spriteBatch.Draw(texture, drawPos, frame, color, afterimageRot, origin, projectile.scale, sfxForThisAfterimage, 0f);
+                Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
+                Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
+                spriteBatch.Draw(texture, drawPos, frame, color, afterimageRot, origin, Projectile.scale, sfxForThisAfterimage, 0f);
             }
 
-            SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, direction, 0f);
+            SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
             return false;
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 70;
 
-        public override bool CanDamage() => projectile.Opacity >= 1f;
+        public override bool CanDamage() => Projectile.Opacity >= 1f;
     }
 }

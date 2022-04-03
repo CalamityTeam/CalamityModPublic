@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -21,22 +22,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 118;
-            item.height = 118;
-            item.damage = 166;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<Oathblade>();
-            item.shootSpeed = 28f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 118;
+            Item.height = 118;
+            Item.damage = 166;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<Oathblade>();
+            Item.shootSpeed = 28f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             //Not actually sure what this middle code does
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float directionX = (float)Main.mouseX + Main.screenPosition.X - source.X;
             float directionY = (float)Main.mouseY + Main.screenPosition.Y - source.Y;
@@ -104,14 +105,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Devastation>());
-            recipe.AddIngredient(ModContent.ItemType<TrueForbiddenOathblade>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Devastation>()).AddIngredient(ModContent.ItemType<TrueForbiddenOathblade>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -135,7 +129,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float scalar3 = 2f;
                 Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
                 Vector2 value4 = value3 * target.velocity.Length();
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
                 for (int i = 0; i < 40; i++)
                 {
                     int dustInt = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 200, default, scalar1);
@@ -175,7 +169,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
                 target.AddBuff(BuffID.OnFire, 900);
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
         }
     }

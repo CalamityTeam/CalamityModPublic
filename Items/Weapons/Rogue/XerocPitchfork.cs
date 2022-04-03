@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 48;
-            item.damage = 280;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 19;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 48;
-            item.maxStack = 999;
-            item.value = 10000;
-            item.rare = ItemRarityID.Cyan;
-            item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
-            item.shootSpeed = 24f;
-            item.Calamity().rogue = true;
+            Item.width = 48;
+            Item.damage = 280;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 19;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.maxStack = 999;
+            Item.value = 10000;
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
+            Item.shootSpeed = 24f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,11 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ModContent.ItemType<MeldiateBar>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

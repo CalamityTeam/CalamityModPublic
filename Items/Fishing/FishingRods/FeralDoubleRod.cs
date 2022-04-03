@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 40;
-            item.shootSpeed = 16f;
-            item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 40;
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -43,11 +43,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

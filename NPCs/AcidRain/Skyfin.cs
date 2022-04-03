@@ -8,93 +8,94 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
     public class Skyfin : ModNPC
     {
-        public ref float AttackState => ref npc.ai[0];
-        public ref float AttackTimer => ref npc.ai[1];
-        public Player Target => Main.player[npc.target];
+        public ref float AttackState => ref NPC.ai[0];
+        public ref float AttackTimer => ref NPC.ai[1];
+        public Player Target => Main.player[NPC.target];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 46;
-            npc.height = 22;
-            npc.aiStyle = aiType = -1;
+            NPC.width = 46;
+            NPC.height = 22;
+            NPC.aiStyle = aiType = -1;
 
-            npc.damage = 12;
-            npc.lifeMax = 70;
-            npc.defense = 6;
-            npc.knockBackResist = 1f;
+            NPC.damage = 12;
+            NPC.lifeMax = 70;
+            NPC.defense = 6;
+            NPC.knockBackResist = 1f;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.knockBackResist = 0.8f;
-                npc.damage = 88;
-                npc.lifeMax = 3025;
-                npc.defense = 18;
-                npc.DR_NERD(0.05f);
+                NPC.knockBackResist = 0.8f;
+                NPC.damage = 88;
+                NPC.lifeMax = 3025;
+                NPC.defense = 18;
+                NPC.DR_NERD(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 38;
-                npc.lifeMax = 220;
-                npc.DR_NERD(0.05f);
+                NPC.damage = 38;
+                NPC.lifeMax = 220;
+                NPC.DR_NERD(0.05f);
             }
 
-            npc.value = Item.buyPrice(0, 0, 3, 65);
-            npc.lavaImmune = false;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 3, 65);
+            NPC.lavaImmune = false;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<SkyfinBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
-            int idealDirection = (npc.velocity.X > 0).ToDirectionInt();
-            npc.spriteDirection = idealDirection;
+            NPC.TargetClosest(false);
+            int idealDirection = (NPC.velocity.X > 0).ToDirectionInt();
+            NPC.spriteDirection = idealDirection;
 
             switch ((int)AttackState)
             {
                 // Rise upward.
                 case 0:
-                    Vector2 flyDestination = Target.Center + new Vector2((Target.Center.X < npc.Center.X).ToDirectionInt() * 400f, -240f);
-                    Vector2 idealVelocity = npc.SafeDirectionTo(flyDestination) * 12f;
-                    npc.velocity = (npc.velocity * 29f + idealVelocity) / 29f;
-                    npc.velocity = npc.velocity.MoveTowards(idealVelocity, 1.5f);
+                    Vector2 flyDestination = Target.Center + new Vector2((Target.Center.X < NPC.Center.X).ToDirectionInt() * 400f, -240f);
+                    Vector2 idealVelocity = NPC.SafeDirectionTo(flyDestination) * 12f;
+                    NPC.velocity = (NPC.velocity * 29f + idealVelocity) / 29f;
+                    NPC.velocity = NPC.velocity.MoveTowards(idealVelocity, 1.5f);
 
                     // Decide rotation.
-                    npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi;
+                    NPC.rotation = NPC.velocity.ToRotation() + (NPC.spriteDirection > 0).ToInt() * MathHelper.Pi;
 
-                    if (npc.WithinRange(flyDestination, 40f) || AttackTimer > 150f)
+                    if (NPC.WithinRange(flyDestination, 40f) || AttackTimer > 150f)
                     {
                         AttackState = 1f;
-                        npc.velocity *= 0.65f;
-                        npc.netUpdate = true;
+                        NPC.velocity *= 0.65f;
+                        NPC.netUpdate = true;
                     }
                     break;
 
                 // Slow down and look at the target.
                 case 1:
-                    npc.spriteDirection = (Target.Center.X > npc.Center.X).ToDirectionInt();
-                    npc.velocity *= 0.97f;
-                    npc.velocity = npc.velocity.MoveTowards(Vector2.Zero, 0.25f);
-                    npc.rotation = npc.rotation.AngleTowards(npc.AngleTo(Target.Center) + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi, 0.2f);
+                    NPC.spriteDirection = (Target.Center.X > NPC.Center.X).ToDirectionInt();
+                    NPC.velocity *= 0.97f;
+                    NPC.velocity = NPC.velocity.MoveTowards(Vector2.Zero, 0.25f);
+                    NPC.rotation = NPC.rotation.AngleTowards(NPC.AngleTo(Target.Center) + (NPC.spriteDirection > 0).ToInt() * MathHelper.Pi, 0.2f);
 
                     // Charge once sufficiently slowed down.
                     float chargeSpeed = 11.5f;
@@ -102,12 +103,12 @@ namespace CalamityMod.NPCs.AcidRain
                         chargeSpeed += 4f;
                     if (CalamityWorld.downedPolterghast)
                         chargeSpeed += 3.5f;
-                    if (npc.velocity.Length() < 1.25f)
+                    if (NPC.velocity.Length() < 1.25f)
                     {
-                        Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
                         for (int i = 0; i < 36; i++)
                         {
-                            Dust acid = Dust.NewDustPerfect(npc.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                            Dust acid = Dust.NewDustPerfect(NPC.Center, (int)CalamityDusts.SulfurousSeaAcid);
                             acid.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 6f;
                             acid.scale = 1.1f;
                             acid.noGravity = true;
@@ -115,31 +116,31 @@ namespace CalamityMod.NPCs.AcidRain
 
                         AttackState = 2f;
                         AttackTimer = 0f;
-                        npc.velocity = npc.SafeDirectionTo(Target.Center) * chargeSpeed;
-                        npc.netUpdate = true;
+                        NPC.velocity = NPC.SafeDirectionTo(Target.Center) * chargeSpeed;
+                        NPC.netUpdate = true;
                     }
                     break;
 
                 // Charge and swoop.
                 case 2:
                     float angularTurnSpeed = MathHelper.Pi / 300f;
-                    idealVelocity = npc.SafeDirectionTo(Target.Center);
-                    Vector2 leftVelocity = npc.velocity.RotatedBy(-angularTurnSpeed);
-                    Vector2 rightVelocity = npc.velocity.RotatedBy(angularTurnSpeed);
+                    idealVelocity = NPC.SafeDirectionTo(Target.Center);
+                    Vector2 leftVelocity = NPC.velocity.RotatedBy(-angularTurnSpeed);
+                    Vector2 rightVelocity = NPC.velocity.RotatedBy(angularTurnSpeed);
                     if (leftVelocity.AngleBetween(idealVelocity) < rightVelocity.AngleBetween(idealVelocity))
-                        npc.velocity = leftVelocity;
+                        NPC.velocity = leftVelocity;
                     else
-                        npc.velocity = rightVelocity;
+                        NPC.velocity = rightVelocity;
 
                     // Decide rotation.
-                    npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection > 0).ToInt() * MathHelper.Pi;
+                    NPC.rotation = NPC.velocity.ToRotation() + (NPC.spriteDirection > 0).ToInt() * MathHelper.Pi;
 
                     if (AttackTimer > 50f)
                     {
                         AttackState = 0f;
                         AttackTimer = 0f;
-                        npc.velocity = Vector2.Lerp(npc.velocity, -Vector2.UnitY * 8f, 0.14f);
-                        npc.netUpdate = true;
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, -Vector2.UnitY * 8f, 0.14f);
+                        NPC.netUpdate = true;
                     }
                     break;
             }
@@ -148,33 +149,33 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 5)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 5)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                    npc.frame.Y = 0;
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y >= Main.npcFrameCount[NPC.type] * frameHeight)
+                    NPC.frame.Y = 0;
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyfinBombers>(), CalamityWorld.downedAquaticScourge, 0.05f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SkyfinBombers>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            if (npc.life <= 0)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SkyfinGore"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SkyfinGore2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SkyfinGore3"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/SkyfinGore"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/SkyfinGore2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/SkyfinGore3"), NPC.scale);
                 for (int k = 0; k < 20; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
         }
 

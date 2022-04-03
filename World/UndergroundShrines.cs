@@ -40,7 +40,7 @@ namespace CalamityMod.World
                 for (int y = shrineLocationY - randomY - 1; y <= shrineLocationY + randomY + 1; y++)
                 {
                     Main.tile[x, y].active(true);
-                    Main.tile[x, y].type = tile;
+                    Main.tile[x, y].TileType = tile;
                     Main.tile[x, y].slope(0);
                     Main.tile[x, y].liquid = 0;
                     Main.tile[x, y].lava(false);
@@ -53,7 +53,7 @@ namespace CalamityMod.World
                 for (int y = shrineLocationY - randomY; y <= shrineLocationY + randomY; y++)
                 {
                     Main.tile[x, y].active(false);
-                    Main.tile[x, y].wall = wall;
+                    Main.tile[x, y].WallType = wall;
                 }
             }
 
@@ -77,7 +77,7 @@ namespace CalamityMod.World
                 while (!Main.tile[x, y].active() && y < Main.maxTilesY && verticalOffset > 0)
                 {
                     Main.tile[x, y].active(true);
-                    Main.tile[x, y].type = tile2;
+                    Main.tile[x, y].TileType = tile2;
                     Main.tile[x, y].slope(0);
                     y++;
                     verticalOffset--;
@@ -92,7 +92,7 @@ namespace CalamityMod.World
                 for (int x = shrineLocationX - randomX - 1; x <= shrineLocationX + randomX + 1; x++)
                 {
                     Main.tile[x, num21].active(true);
-                    Main.tile[x, num21].type = tile;
+                    Main.tile[x, num21].TileType = tile;
                 }
                 randomX -= WorldGen.genRand.Next(1, 3);
                 num21--;
@@ -192,12 +192,12 @@ namespace CalamityMod.World
                 int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.65));
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.35f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.Dirt || Main.tile[tilesX, tilesY].TileType == TileID.Stone)
                 {
                     SpecialHut(TileID.RedBrick, TileID.Dirt, WallID.RedBrick, 0, tilesX, tilesY);
                     break;
                 }
-                if (Main.tile[tilesX2, tilesY].type == TileID.Dirt || Main.tile[tilesX2, tilesY].type == TileID.Stone)
+                if (Main.tile[tilesX2, tilesY].TileType == TileID.Dirt || Main.tile[tilesX2, tilesY].TileType == TileID.Stone)
                 {
                     SpecialHut(TileID.RedBrick, TileID.Dirt, WallID.RedBrick, 0, tilesX2, tilesY);
                     break;
@@ -209,7 +209,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.35f));
 
-                if (Main.tile[tilesX, tilesY].type == (WorldGen.crimson ? TileID.Crimstone : TileID.Ebonstone))
+                if (Main.tile[tilesX, tilesY].TileType == (WorldGen.crimson ? TileID.Crimstone : TileID.Ebonstone))
                 {
                     SpecialHut(WorldGen.crimson ? TileID.CrimtaneBrick : TileID.DemoniteBrick,
                         WorldGen.crimson ? TileID.Crimstone : TileID.Ebonstone,
@@ -224,12 +224,12 @@ namespace CalamityMod.World
                 int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.7));
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.55f), (int)(y * 0.8f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.Stone)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.Stone)
                 {
                     SpecialHut(TileID.ObsidianBrick, TileID.Obsidian, WallID.ObsidianBrick, UndergroundShrineType.Cavern, tilesX, tilesY);
                     break;
                 }
-                if (Main.tile[tilesX2, tilesY].type == TileID.Stone)
+                if (Main.tile[tilesX2, tilesY].TileType == TileID.Stone)
                 {
                     SpecialHut(TileID.ObsidianBrick, TileID.Obsidian, WallID.ObsidianBrick, UndergroundShrineType.Cavern, tilesX2, tilesY);
                     break;
@@ -241,7 +241,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.IceBlock)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.IceBlock)
                 {
                     SpecialHut(TileID.IceBrick, TileID.IceBlock, WallID.IceBrick, UndergroundShrineType.Ice, tilesX, tilesY);
                     break;
@@ -253,7 +253,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.5f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.DesertFossil)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.DesertFossil)
                 {
                     SpecialHut(TileID.DesertFossil, TileID.Sandstone, WallID.DesertFossil, UndergroundShrineType.Desert, tilesX, tilesY);
                     break;
@@ -265,7 +265,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.MushroomGrass)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.MushroomGrass)
                 {
                     SpecialHut(TileID.MushroomBlock, TileID.Mud, WallID.MushroomUnsafe, UndergroundShrineType.Mushroom, tilesX, tilesY);
                     break;
@@ -277,7 +277,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.Granite)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.Granite)
                 {
                     SpecialHut(TileID.GraniteBlock, TileID.Granite, WallID.GraniteUnsafe, UndergroundShrineType.Granite, tilesX, tilesY);
                     break;
@@ -289,7 +289,7 @@ namespace CalamityMod.World
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
-                if (Main.tile[tilesX, tilesY].type == TileID.Marble)
+                if (Main.tile[tilesX, tilesY].TileType == TileID.Marble)
                 {
                     SpecialHut(TileID.MarbleBlock, TileID.Marble, WallID.MarbleUnsafe, UndergroundShrineType.Marble, tilesX, tilesY);
                     break;

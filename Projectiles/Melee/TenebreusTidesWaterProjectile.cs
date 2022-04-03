@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TenebreusTidesWaterProjectile : ModProjectile
@@ -11,54 +12,54 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Spear");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.ignoreWater = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.tileCollide = false;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 27;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.ignoreWater = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.tileCollide = false;
             aiType = ProjectileID.LightBeam;
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0f, 0f, (255 - projectile.alpha) * 1f / 255f);
-            int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0f, 0f, (255 - Projectile.alpha) * 1f / 255f);
+            int water = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 0.4f);
             Main.dust[water].noGravity = true;
             Main.dust[water].velocity *= 0.5f;
-            Main.dust[water].velocity += projectile.velocity * 0.1f;
+            Main.dust[water].velocity += Projectile.velocity * 0.1f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft == 300)
+            if (Projectile.timeLeft == 300)
                 return false;
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(50, 50, 255, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(50, 50, 255, Projectile.alpha);
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
-            projectile.position.X -= (float)(projectile.width / 2);
-            projectile.position.Y -= (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 64;
+            Projectile.position.X -= (float)(Projectile.width / 2);
+            Projectile.position.Y -= (float)(Projectile.height / 2);
             for (int dustIndex = 0; dustIndex <= 30; dustIndex++)
             {
                 Vector2 dustVel = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
@@ -67,11 +68,11 @@ namespace CalamityMod.Projectiles.Melee
                 dist = dustSpeed / dist;
                 dustVel.X *= dist;
                 dustVel.Y *= dist;
-                int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
+                int water = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 1.2f);
                 Dust dust = Main.dust[water];
                 dust.noGravity = true;
-                dust.position.X = projectile.Center.X;
-                dust.position.Y = projectile.Center.Y;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
                 dust.velocity = dustVel;
@@ -97,9 +98,9 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < projAmt; ++i)
             {
                 int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
+                    CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
             }
         }

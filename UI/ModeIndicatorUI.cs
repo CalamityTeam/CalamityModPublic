@@ -14,7 +14,7 @@ namespace CalamityMod.UI
             if (!Main.playerInventory)
                 return;
 
-            Texture2D indicatorTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ModeIndicator");
+            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator");
             int indicatorFrame = 0;
             if (CalamityWorld.revenge)
                 indicatorFrame = 1;

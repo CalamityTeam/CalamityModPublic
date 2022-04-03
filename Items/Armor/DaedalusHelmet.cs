@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 9; //39
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 9; //39
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,25 +42,19 @@ namespace CalamityMod.Items.Armor
                 "Getting hit causes you to emit a blast of crystal shards";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusShard = true;
-            player.rangedDamage += 0.05f;
+            player.GetDamage(DamageClass.Ranged) += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ammoCost80 = true;
-            player.rangedDamage += 0.13f;
-            player.rangedCrit += 7;
+            player.GetDamage(DamageClass.Ranged) += 0.13f;
+            player.GetCritChance(DamageClass.Ranged) += 7;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ItemID.CrystalShard, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.CrystalShard, 3).AddIngredient(ModContent.ItemType<EssenceofEleum>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -19,33 +19,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.damage = 80;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 82;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<StormRulerProj>();
-            item.shootSpeed = 20f;
+            Item.width = 74;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 82;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<StormRulerProj>();
+            Item.shootSpeed = 20f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StormSaber>());
-            recipe.AddIngredient(ModContent.ItemType<WindBlade>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StormSaber>()).AddIngredient(ModContent.ItemType<WindBlade>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

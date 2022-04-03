@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class PlaguebringerSummonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lil' Plaguebringer");
             Description.SetDefault("The plaguebringer will protect you");

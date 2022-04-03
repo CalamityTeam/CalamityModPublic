@@ -16,11 +16,11 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 42;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.maxStack = 1;
+            Item.width = 42;
+            Item.height = 42;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.maxStack = 1;
         }
 
         public override void UpdateInventory(Player player)
@@ -34,13 +34,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            SchematicRecipe recipe = new SchematicRecipe(mod, "Jungle");
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ItemID.Glass, 50);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddIngredient(ItemID.Glass, 50).AddTile(TileID.Anvils).Register();
         }
     }
 }

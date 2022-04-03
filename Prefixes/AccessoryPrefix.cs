@@ -28,10 +28,10 @@ namespace CalamityMod.Prefixes
             if (base.Autoload(ref name))
             {
                 AccessoryModifiers = new List<byte>();
-                AddAccessoryPrefix(mod, AccPrefixType.Quiet, 1.02f);
-                AddAccessoryPrefix(mod, AccPrefixType.Cloaked, 1.04f);
-                AddAccessoryPrefix(mod, AccPrefixType.Camouflaged, 1.06f);
-                AddAccessoryPrefix(mod, AccPrefixType.Silent, 1.08f);
+                AddAccessoryPrefix(Mod, AccPrefixType.Quiet, 1.02f);
+                AddAccessoryPrefix(Mod, AccPrefixType.Cloaked, 1.04f);
+                AddAccessoryPrefix(Mod, AccPrefixType.Camouflaged, 1.06f);
+                AddAccessoryPrefix(Mod, AccPrefixType.Silent, 1.08f);
             }
             return false;
         }

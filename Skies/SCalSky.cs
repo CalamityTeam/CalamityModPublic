@@ -203,7 +203,7 @@ namespace CalamityMod.Skies
             }
 
             // Draw cinders.
-            Texture2D cinderTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamitasCinder");
+            Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder");
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center - Main.screenPosition;

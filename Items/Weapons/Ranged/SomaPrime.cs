@@ -25,24 +25,24 @@ Replaces standard bullets with High Velocity Bullets
 
         public override void SetDefaults()
         {
-            item.damage = 130;
-            item.ranged = true;
-            item.width = 94;
-            item.height = 34;
-            item.useTime = item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item40;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.BulletHighVelocity;
-            item.shootSpeed = 9f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 130;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 94;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item40;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.BulletHighVelocity;
+            Item.shootSpeed = 9f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -52,13 +52,7 @@ Replaces standard bullets with High Velocity Bullets
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<P90>());
-            recipe.AddIngredient(ModContent.ItemType<Minigun>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<P90>()).AddIngredient(ModContent.ItemType<Minigun>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

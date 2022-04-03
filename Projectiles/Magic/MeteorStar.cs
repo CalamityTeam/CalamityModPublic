@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -11,78 +12,78 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteor Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = 361;
+            Projectile.width = 42;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 361;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             bool flippedGravity = player.gravDir == -1f;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.15f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.15f / 255f);
 
-            bool explodingSoon = projectile.timeLeft <= 120;
-            if (projectile.soundDelay <= 0)
+            bool explodingSoon = Projectile.timeLeft <= 120;
+            if (Projectile.soundDelay <= 0)
             {
-                projectile.soundDelay = 30 + Main.rand.Next(40);
+                Projectile.soundDelay = 30 + Main.rand.Next(40);
                 if (explodingSoon)
-                    projectile.soundDelay -= 30;
+                    Projectile.soundDelay -= 30;
                 if (Main.rand.NextBool(10) || explodingSoon)
                 {
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
                 }
             }
             if (Main.rand.NextBool(20) || explodingSoon && Main.rand.NextBool(3))
             {
-                int idx = Gore.NewGore(projectile.Center, projectile.velocity * 0.2f, Main.rand.Next(16, 18), 1f);
+                int idx = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.2f, Main.rand.Next(16, 18), 1f);
                 Main.gore[idx].velocity *= 0.66f;
-                Main.gore[idx].velocity += projectile.velocity * 0.3f;
+                Main.gore[idx].velocity += Projectile.velocity * 0.3f;
             }
             if (explodingSoon)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
+                    int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
                     Dust dust = Main.dust[smoke];
                     dust.velocity *= 0.3f;
-                    dust.position.X = projectile.Center.X + 4f + Main.rand.NextFloat(-6f, 6f);
-                    dust.position.Y = projectile.Center.Y + Main.rand.NextFloat(-6f, 6f);
+                    dust.position.X = Projectile.Center.X + 4f + Main.rand.NextFloat(-6f, 6f);
+                    dust.position.Y = Projectile.Center.Y + Main.rand.NextFloat(-6f, 6f);
                     dust.noGravity = true;
                 }
             }
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (player.channel)
                 {
                     float speed = 14f;
-                    float mouseDistX = (float)Main.mouseX + Main.screenPosition.X - projectile.Center.X;
-                    float mouseDistY = (float)Main.mouseY + Main.screenPosition.Y - projectile.Center.Y;
+                    float mouseDistX = (float)Main.mouseX + Main.screenPosition.X - Projectile.Center.X;
+                    float mouseDistY = (float)Main.mouseY + Main.screenPosition.Y - Projectile.Center.Y;
                     if (player.gravDir == -1f)
                     {
-                        mouseDistY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projectile.Center.Y;
+                        mouseDistY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - Projectile.Center.Y;
                     }
                     Vector2 mouseVec = new Vector2(mouseDistX, mouseDistY);
                     float mouseDist = mouseVec.Length();
@@ -92,34 +93,34 @@ namespace CalamityMod.Projectiles.Magic
                         mouseVec.X *= mouseDist;
                         mouseVec.Y *= mouseDist;
                         int mouseSpeedX = (int)(mouseVec.X * 1000f);
-                        int projSpeedX = (int)(projectile.velocity.X * 1000f);
+                        int projSpeedX = (int)(Projectile.velocity.X * 1000f);
                         int mouseSpeedY = (int)(mouseVec.Y * 1000f);
-                        int projSpeedY = (int)(projectile.velocity.Y * 1000f);
+                        int projSpeedY = (int)(Projectile.velocity.Y * 1000f);
                         if (mouseSpeedX != projSpeedX || mouseSpeedY != projSpeedY)
                         {
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.velocity.X = mouseVec.X;
-                        projectile.velocity.Y = mouseVec.Y;
+                        Projectile.velocity.X = mouseVec.X;
+                        Projectile.velocity.Y = mouseVec.Y;
                     }
                     else
                     {
                         int mouseSpeedX = (int)(mouseVec.X * 1000f);
-                        int projSpeedX = (int)(projectile.velocity.X * 1000f);
+                        int projSpeedX = (int)(Projectile.velocity.X * 1000f);
                         int mouseSpeedY = (int)(mouseVec.Y * 1000f);
-                        int projSpeedY = (int)(projectile.velocity.Y * 1000f);
+                        int projSpeedY = (int)(Projectile.velocity.Y * 1000f);
                         if (mouseSpeedX != projSpeedX || mouseSpeedY != projSpeedY)
                         {
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.velocity.X = mouseVec.X;
-                        projectile.velocity.Y = mouseVec.Y;
+                        Projectile.velocity.X = mouseVec.X;
+                        Projectile.velocity.Y = mouseVec.Y;
                     }
-                    player.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                    player.velocity = projectile.velocity;
-                    if (projectile.velocity.Y > 16f)
+                    player.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                    player.velocity = Projectile.velocity;
+                    if (Projectile.velocity.Y > 16f)
                     {
-                        projectile.velocity.Y = 16f;
+                        Projectile.velocity.Y = 16f;
                         player.velocity.Y = 16f;
                     }
                     if (player.mount != null)
@@ -127,9 +128,9 @@ namespace CalamityMod.Projectiles.Magic
                         player.mount.Dismount(player);
                     }
                     if (!flippedGravity)
-                        player.Bottom = projectile.Center;
+                        player.Bottom = Projectile.Center;
                     else
-                        player.Top = projectile.Center;
+                        player.Top = Projectile.Center;
                 }
                 else
                 {
@@ -137,16 +138,16 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            projectile.tileCollide = projectile.velocity != Vector2.Zero && ++projectile.ai[0] >= 5f;
+            Projectile.tileCollide = Projectile.velocity != Vector2.Zero && ++Projectile.ai[0] >= 5f;
 
             // Die immediately if the owner of this projectile is clipping into tiles because of its movement.
-            if (Collision.SolidCollision(player.position, player.width, player.height) && projectile.velocity != Vector2.Zero)
+            if (Collision.SolidCollision(player.position, player.width, player.height) && Projectile.velocity != Vector2.Zero)
             {
                 player.velocity.Y = 0f;
                 Explode();
             }
 
-            if (projectile.timeLeft <= 1)
+            if (Projectile.timeLeft <= 1)
                 Explode();
         }
 
@@ -162,39 +163,39 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             // Draw the main texture in fullbright
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
 
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            float scale = projectile.scale;
-            float rotation = projectile.rotation;
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            float scale = Projectile.scale;
+            float rotation = Projectile.rotation;
 
             Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
             Vector2 origin = rectangle.Size() / 2f;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, Color.White, rotation, origin, scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, Color.White, rotation, origin, scale, spriteEffects, 0f);
             return false;
         }
 
         private void Explode(bool reducedDmg = false)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            Vector2 spawnPos = projectile.Center;
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 64);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Vector2 spawnPos = Projectile.Center;
             spawnPos.Y -= 70f;
             if (reducedDmg)
-                projectile.damage /= 6;
-            Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MeteorStarExplosion>(), projectile.damage * 3, projectile.knockBack * 3f, projectile.owner, reducedDmg.ToInt());
+                Projectile.damage /= 6;
+            Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MeteorStarExplosion>(), Projectile.damage * 3, Projectile.knockBack * 3f, Projectile.owner, reducedDmg.ToInt());
 
             for (int i = 0; i < 10; i++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.2f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.2f);
                 Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -204,9 +205,9 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int i = 0; i < 5; i++)
             {
-                Gore.NewGore(projectile.position, projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
+                Gore.NewGore(Projectile.position, Projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
     }
 }

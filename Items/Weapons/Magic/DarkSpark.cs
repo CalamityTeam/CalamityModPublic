@@ -15,34 +15,34 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Dark Spark");
             Tooltip.SetDefault("And everything under the sun is in tune,\n" +
                 "But the sun is eclipsed by the moon.");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.reuseDelay = 5;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item13;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.knockBack = 0f;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
-            item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
-            item.shootSpeed = 30f;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 5;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item13;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
+            Item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
+            Item.shootSpeed = 30f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -52,14 +52,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LastPrism);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 30);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LastPrism).AddIngredient(ModContent.ItemType<DarkPlasma>(), 10).AddIngredient(ModContent.ItemType<RuinousSoul>(), 20).AddIngredient(ModContent.ItemType<DivineGeode>(), 30).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

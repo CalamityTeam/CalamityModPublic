@@ -12,122 +12,122 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Sentry");
-            Main.projFrames[projectile.type] = 18;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 18;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 94;
-            projectile.height = 94;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.sentry = true;
-            projectile.coldDamage = true;
+            Projectile.width = 94;
+            Projectile.height = 94;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.sentry = true;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (setDamage)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 setDamage = false;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
             }
 
-            if (projectile.ai[1] < 300f)
+            if (Projectile.ai[1] < 300f)
             {
-                projectile.localAI[1] = 1f;
-                if (projectile.frame >= 9)
-                    projectile.frame = 0;
+                Projectile.localAI[1] = 1f;
+                if (Projectile.frame >= 9)
+                    Projectile.frame = 0;
             }
             else
             {
-                if (projectile.frame >= 18)
-                    projectile.frame = 9;
+                if (Projectile.frame >= 18)
+                    Projectile.frame = 9;
 
-                projectile.localAI[1]++;
-                if (projectile.localAI[1] > 2)
+                Projectile.localAI[1]++;
+                if (Projectile.localAI[1] > 2)
                 {
-                    projectile.localAI[1] = 0;
+                    Projectile.localAI[1] = 0;
 
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
                         Vector2 speed = new Vector2(Main.rand.Next(-1000, 1001), Main.rand.Next(-1000, 1001));
                         speed.Normalize();
                         speed *= 15f;
-                        int shard = Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<IceSentryShard>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
+                        int shard = Projectile.NewProjectile(Projectile.Center + speed, speed, ModContent.ProjectileType<IceSentryShard>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
                     }
                 }
             }
 
-            NPC minionAttackTargetNpc = projectile.OwnerMinionAttackTargetNPC;
-            if (minionAttackTargetNpc != null && projectile.ai[0] != minionAttackTargetNpc.whoAmI && minionAttackTargetNpc.CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 0, 0, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
+            NPC minionAttackTargetNpc = Projectile.OwnerMinionAttackTargetNPC;
+            if (minionAttackTargetNpc != null && Projectile.ai[0] != minionAttackTargetNpc.whoAmI && minionAttackTargetNpc.CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 0, 0, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
             {
-                projectile.ai[0] = minionAttackTargetNpc.whoAmI;
-                projectile.ai[1] = 0f;
-                projectile.localAI[0] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = minionAttackTargetNpc.whoAmI;
+                Projectile.ai[1] = 0f;
+                Projectile.localAI[0] = 0f;
+                Projectile.netUpdate = true;
             }
 
-            if (projectile.ai[0] >= 0 && projectile.ai[0] < Main.maxNPCs)
+            if (Projectile.ai[0] >= 0 && Projectile.ai[0] < Main.maxNPCs)
             {
-                NPC npc = Main.npc[(int)projectile.ai[0]];
+                NPC npc = Main.npc[(int)Projectile.ai[0]];
 
-                bool rememberTarget = npc.CanBeChasedBy(projectile);
+                bool rememberTarget = npc.CanBeChasedBy(Projectile);
                 if (rememberTarget)
                 {
-                    projectile.localAI[0]++;
+                    Projectile.localAI[0]++;
 
-                    if (projectile.ai[1] < 300f)
-                        projectile.ai[1]++;
+                    if (Projectile.ai[1] < 300f)
+                        Projectile.ai[1]++;
 
-                    float delay = 60f - projectile.ai[1] / 60f * 10f;
-                    if (projectile.localAI[0] > delay)
+                    float delay = 60f - Projectile.ai[1] / 60f * 10f;
+                    if (Projectile.localAI[0] > delay)
                     {
-                        projectile.localAI[0] = 0f;
+                        Projectile.localAI[0] = 0f;
 
-                        rememberTarget = Collision.CanHit(projectile.Center, 0, 0, npc.position, npc.width, npc.height);
-                        if (rememberTarget && projectile.owner == Main.myPlayer)
+                        rememberTarget = Collision.CanHit(Projectile.Center, 0, 0, npc.position, npc.width, npc.height);
+                        if (rememberTarget && Projectile.owner == Main.myPlayer)
                         {
-                            Vector2 speed = npc.Center - projectile.Center;
+                            Vector2 speed = npc.Center - Projectile.Center;
                             speed.Normalize();
                             speed *= 8f;
-                            if (projectile.ai[1] >= 300f)
+                            if (Projectile.ai[1] >= 300f)
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
-                            Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), projectile.damage, projectile.knockBack, projectile.owner);
+                            Projectile.NewProjectile(Projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         }
                     }
                 }
 
                 if (!rememberTarget)
                 {
-                    projectile.ai[0] = -1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = -1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
 
                 float maxDistance = 1000f;
                 int possibleTarget = -1;
@@ -135,9 +135,9 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(projectile))
+                    if (npc.CanBeChasedBy(Projectile))
                     {
-                        float npcDistance = projectile.Distance(npc.Center);
+                        float npcDistance = Projectile.Distance(npc.Center);
                         if (npcDistance < maxDistance)
                         {
                             maxDistance = npcDistance;
@@ -149,9 +149,9 @@ namespace CalamityMod.Projectiles.Summon
                 if (possibleTarget > 0)
                 {
                     //Main.NewText("new target acquired");
-                    projectile.ai[0] = possibleTarget;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = possibleTarget;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
         }

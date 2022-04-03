@@ -33,8 +33,8 @@ namespace CalamityMod.Waters
 
             if (Main.netMode != NetmodeID.Server)
             {
-                LavaBlockTexture = ModContent.GetTexture("Terraria/Liquid_1");
-                LavaTexture = ModContent.GetTexture("Terraria/Misc/water_1");
+                LavaBlockTexture = ModContent.Request<Texture2D>("Terraria/Liquid_1");
+                LavaTexture = ModContent.Request<Texture2D>("Terraria/Misc/water_1");
             }
         }
 

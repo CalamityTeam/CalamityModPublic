@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class RotomBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electric Troublemaker");
             Description.SetDefault("Lightning never strikes the same place twice");

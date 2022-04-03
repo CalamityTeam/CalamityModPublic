@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.damage = 120;
-            item.melee = true;
-            item.useAnimation = 27;
-            item.useTime = 27;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 58;
-            item.scale = 2f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<Iceberg>();
-            item.shootSpeed = 10f;
+            Item.width = 60;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 27;
+            Item.useTime = 27;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 58;
+            Item.scale = 2f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<Iceberg>();
+            Item.shootSpeed = 10f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -18,26 +18,26 @@ Stealth strikes spawn smaller spears to fly along side it");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 322;
-            item.knockBack = 8f;
+            Item.damage = 322;
+            Item.knockBack = 8f;
 
-            item.width = 56;
-            item.height = 56;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.UseSound = SoundID.Item1;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().rogue = true;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().rogue = true;
 
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ProfanedPartisanProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ProfanedPartisanProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -58,14 +58,7 @@ Stealth strikes spawn smaller spears to fly along side it");
         public override void AddRecipes()
         {
 
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrystalPiercer>(), 500);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 4);
-            recipe.AddIngredient(ModContent.ItemType <UnholyEssence>(), 25);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrystalPiercer>(), 500).AddIngredient(ModContent.ItemType<UeliaceBar>(), 6).AddIngredient(ModContent.ItemType<DivineGeode>(), 4).AddIngredient(ModContent.ItemType <UnholyEssence>(), 25).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

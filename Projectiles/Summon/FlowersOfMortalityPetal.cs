@@ -10,36 +10,36 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlowersOfMortalityPetal : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float OffsetAngle => ref projectile.ai[0];
-        public ref float Time => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float OffsetAngle => ref Projectile.ai[0];
+        public ref float Time => ref Projectile.ai[1];
         public float Hue => OffsetAngle % MathHelper.TwoPi / MathHelper.TwoPi % 1f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Petal");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0.5f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            bool isCorrectMinion = projectile.type == ModContent.ProjectileType<FlowersOfMortalityPetal>();
-            Player player = Main.player[projectile.owner];
+            bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<FlowersOfMortalityPetal>();
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<FlowersOfMortalityBuff>(), 3600);
             if (isCorrectMinion)
@@ -47,56 +47,56 @@ namespace CalamityMod.Projectiles.Summon
                 if (player.dead)
                     modPlayer.flowersOfMortality = false;
                 if (modPlayer.flowersOfMortality)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
 
             SetProjectileDamage();
 
             Time++;
-            NPC potentialTarget = projectile.Center.MinionHoming(1050f, Owner);
-            if (Time % 50f == 49f && Main.myPlayer == projectile.owner && potentialTarget != null)
+            NPC potentialTarget = Projectile.Center.MinionHoming(1050f, Owner);
+            if (Time % 50f == 49f && Main.myPlayer == Projectile.owner && potentialTarget != null)
             {
-                Vector2 shootVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
-                Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 10f;
+                Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<MortalityBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * (150f + (float)Math.Sin(Time * 0.08f) * 15f);
-            projectile.rotation += MathHelper.ToRadians(7f);
+            Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * (150f + (float)Math.Sin(Time * 0.08f) * 15f);
+            Projectile.rotation += MathHelper.ToRadians(7f);
             OffsetAngle += MathHelper.ToRadians(6f);
         }
 
         public void SetProjectileDamage()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 36; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 261);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 261);
                     dust.noGravity = true;
                     dust.color = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.5f);
                     dust.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 7f);
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Owner.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D petalTexture = Main.projectileTexture[projectile.type];
-            Texture2D coreTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/FlowersOfMortalityCore");
+            Texture2D petalTexture = Main.projectileTexture[Projectile.type];
+            Texture2D coreTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/FlowersOfMortalityCore");
             Color drawColor = Main.hslToRgb(Hue, 0.95f, 0.5f) * 2.3f;
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(petalTexture, drawPosition, null, projectile.GetAlpha(drawColor), projectile.rotation, petalTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(coreTexture, drawPosition, null, projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            spriteBatch.Draw(petalTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.rotation, petalTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(coreTexture, drawPosition, null, Projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }

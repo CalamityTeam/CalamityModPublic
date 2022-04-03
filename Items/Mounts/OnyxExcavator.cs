@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -57,8 +58,8 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.backTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
-                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
+                mountData.backTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
+                mountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }
@@ -145,14 +146,14 @@ namespace CalamityMod.Items.Mounts
                             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
 
                             int pickReq = 0;
-                            ModTile moddedTile = TileLoader.GetTile(tile.type);
+                            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
                             if (moddedTile != null)
                             {
                                 pickReq = moddedTile.minPick;
                             }
                             else
                             {
-                                switch (tile.type)
+                                switch (tile.TileType)
                                 {
                                     case TileID.Chlorophyte:
                                         pickReq = 200;
@@ -193,7 +194,7 @@ namespace CalamityMod.Items.Mounts
                                         break;
                                 }
                             }
-                            if (Main.tileDungeon[tile.type])
+                            if (Main.tileDungeon[tile.TileType])
                             {
                                 if (x < Main.maxTilesX * 0.35 || x > Main.maxTilesX * 0.65)
                                 pickReq = 65;
@@ -203,7 +204,7 @@ namespace CalamityMod.Items.Mounts
                             {
                                 bool t = 1 == 1;
                                 bool f = 1 == 2;
-                                bool canBreakTileCheck = TileLoader.CanKillTile(x, y, tile.type, ref t) && TileLoader.CanKillTile(x, y, tile.type, ref f);
+                                bool canBreakTileCheck = TileLoader.CanKillTile(x, y, tile.TileType, ref t) && TileLoader.CanKillTile(x, y, tile.TileType, ref f);
                                 List<int> tileExcludeList = new List<int>()
                                 {
                                     ModContent.TileType<AbyssGravel>(),
@@ -212,8 +213,8 @@ namespace CalamityMod.Items.Mounts
                                     TileID.ElderCrystalStand
                                 };
 
-                                if (tile.active() && !player.noBuilding && !Main.tileContainer[tile.type] &&
-                                    tileExcludeList.TrueForAll(z => tile.type != z) && pickReq < highestPickPower && canBreakTileCheck)
+                                if (tile.active() && !player.noBuilding && !Main.tileContainer[tile.TileType] &&
+                                    tileExcludeList.TrueForAll(z => tile.TileType != z) && pickReq < highestPickPower && canBreakTileCheck)
                                 {
                                     WorldGen.KillTile(x, y, false, false, false);
                                     if (!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer)

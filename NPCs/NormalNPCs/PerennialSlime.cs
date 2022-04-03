@@ -10,37 +10,37 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perennial Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
+            NPC.aiStyle = 1;
             aiType = NPCID.ToxicSludge;
-            npc.damage = 35;
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 12;
-            npc.lifeMax = 150;
-            npc.knockBackResist = 0f;
+            NPC.damage = 35;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 12;
+            NPC.lifeMax = 150;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<PerennialSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedPlantBoss || spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !NPC.downedPlantBoss || spawnInfo.Player.Calamity().ZoneAbyss ||
+                spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -53,20 +53,20 @@ namespace CalamityMod.NPCs.NormalNPCs
             int dustType = 115;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<PerennialOre>(), 10, 26);
+            DropHelper.DropItem(NPC, ModContent.ItemType<PerennialOre>(), 10, 26);
         }
     }
 }

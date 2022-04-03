@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteBath : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

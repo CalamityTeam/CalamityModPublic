@@ -21,20 +21,20 @@ The life regen boost is stronger if below 75% health
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 36;
-            item.maxStack = 30;
-            item.useTurn = true;
-            item.value = Item.sellPrice(gold: 5);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.healLife = 240;
-            item.potion = true;
+            Item.width = 44;
+            Item.height = 36;
+            Item.maxStack = 30;
+            Item.useTurn = true;
+            Item.value = Item.sellPrice(gold: 5);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.healLife = 240;
+            Item.potion = true;
         }
 
         public override void OnConsumeItem(Player player)

@@ -8,7 +8,7 @@ namespace CalamityMod.Walls
 {
     public class ExoPrismPanelWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             drop = ModContent.ItemType<ExoPrismPanelWallItem>();

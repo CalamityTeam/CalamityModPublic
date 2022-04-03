@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodChairTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;

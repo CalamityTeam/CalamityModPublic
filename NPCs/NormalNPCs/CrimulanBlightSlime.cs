@@ -10,36 +10,36 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimulan Blight Slime");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
+            NPC.aiStyle = 1;
             aiType = NPCID.DungeonSlime;
-            npc.damage = 30;
-            npc.width = 60;
-            npc.height = 42;
-            npc.defense = 8;
-            npc.lifeMax = 130;
-            npc.knockBackResist = 0.3f;
+            NPC.damage = 30;
+            NPC.width = 60;
+            NPC.height = 42;
+            NPC.defense = 8;
+            NPC.lifeMax = 130;
+            NPC.knockBackResist = 0.3f;
             animationType = NPCID.RainbowSlime;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
-            npc.alpha = 105;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 2, 0);
+            NPC.alpha = 105;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneAbyss)
+            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneAbyss)
             {
                 return 0f;
             }
@@ -50,13 +50,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -68,11 +68,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
+            int item = Item.NewItem(NPC.Center, NPC.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
             Main.item[item].notAmmo = true;
             NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
 
-            DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
+            DropHelper.DropItem(NPC, ItemID.Gel, 10, 14);
         }
     }
 }

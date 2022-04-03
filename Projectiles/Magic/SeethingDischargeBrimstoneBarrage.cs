@@ -14,51 +14,51 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < (projectile.ai[1] == 1f ? 12f : 16f))
+            if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < (Projectile.ai[1] == 1f ? 12f : 16f))
             {
-                projectile.velocity *= 1.01f;
+                Projectile.velocity *= 1.01f;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (Projectile.frame >= 4)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(250, 50, 50, projectile.alpha);
+            return new Color(250, 50, 50, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.Audio;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
@@ -81,7 +82,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             Main.playerInventory = true;
             Main.npcChatText = string.Empty;
 
-            Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
+            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
             Vector2 backgroundScale = Vector2.One * Main.UIScale;
 
             // Draw the background.
@@ -106,7 +107,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 DrawEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
                 if (!string.IsNullOrEmpty(SelectedEnchantment.Value.IconTexturePath))
                 {
-                    Texture2D iconTexture = ModContent.GetTexture(SelectedEnchantment.Value.IconTexturePath);
+                    Texture2D iconTexture = ModContent.Request<Texture2D>(SelectedEnchantment.Value.IconTexturePath);
                     DrawIcon(spriteBatch, iconDrawPositionTopLeft, iconTexture);
                 }
             }
@@ -216,20 +217,20 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
         {
             isHoveringOverReforgeIcon = false;
-            Texture2D itemSlotTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot");
+            Texture2D itemSlotTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot");
 
-            Texture2D reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button");
+            Texture2D reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button");
             Rectangle reforgeIconArea = new Rectangle((int)reforgeIconDrawPosition.X, (int)reforgeIconDrawPosition.Y, (int)(reforgeIconTexture.Width * scale.X), (int)(reforgeIconTexture.Height * scale.Y));
 
             // Have the reforge icon light up if the mouse is hovering over it.
             if (MouseScreenArea.Intersects(reforgeIconArea))
             {
-                reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered");
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered");
                 isHoveringOverReforgeIcon = true;
             }
 
             if (ReforgeButtonClickCountdown > 0f)
-                reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked");
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked");
 
             // This will be used for item deposit/withdrawal logic.
             isHoveringOverItemIcon = MouseScreenArea.Intersects(new Rectangle((int)itemSlotDrawPosition.X, (int)itemSlotDrawPosition.Y, (int)(itemSlotTexture.Width * scale.X), (int)(itemSlotTexture.Height * scale.Y)));
@@ -287,7 +288,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             {
                 EnchantIndex = 0;
                 Utils.Swap(ref Main.mouseItem, ref CurrentlyHeldItem);
-                Main.PlaySound(SoundID.Grab);
+                SoundEngine.PlaySound(SoundID.Grab);
             }
         }
 
@@ -298,22 +299,22 @@ namespace CalamityMod.UI.CalamitasEnchants
                 return;
 
             // Decide textures.
-            Texture2D topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp");
-            Texture2D bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown");
+            Texture2D topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp");
+            Texture2D bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown");
             if (TopButtonClickCountdown > 0f)
-                topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked");
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked");
             if (BottomButtonClickCountdown > 0f)
-                bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked");
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked");
 
             Rectangle topButtonArea = new Rectangle((int)topButtonTopLeft.X, (int)topButtonTopLeft.Y, (int)(topArrowTexture.Width * scale.X), (int)(topArrowTexture.Height * scale.Y));
             Rectangle bottomButtonArea = new Rectangle((int)bottomButtonTopLeft.X, (int)bottomButtonTopLeft.Y, (int)(bottomArrowTexture.Width * scale.X), (int)(bottomArrowTexture.Height * scale.Y));
             bool hoveringOverTopArrow = MouseScreenArea.Intersects(topButtonArea);
             bool hoveringOverBottomArrow = MouseScreenArea.Intersects(bottomButtonArea);
             if (hoveringOverTopArrow)
-                topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered");
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered");
 
             if (hoveringOverBottomArrow)
-                bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered");
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered");
 
             // Draw the arrows.
             if (EnchantIndex > 0)
@@ -328,7 +329,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 {
                     EnchantIndex--;
                     TopButtonClickCountdown = 15f;
-                    Main.PlaySound(SoundID.MenuTick);
+                    SoundEngine.PlaySound(SoundID.MenuTick);
                 }
 
                 // Increment the enchantment index if the bottom button is pressed.
@@ -336,7 +337,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 {
                     EnchantIndex++;
                     BottomButtonClickCountdown = 15f;
-                    Main.PlaySound(SoundID.MenuTick);
+                    SoundEngine.PlaySound(SoundID.MenuTick);
                 }
             }
         }
@@ -400,10 +401,10 @@ namespace CalamityMod.UI.CalamitasEnchants
             // Reset the enchantment index to prevent index problems on a different item.
             EnchantIndex = 0;
 
-            Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
+            SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
 
             if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
-                Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Main.LocalPlayer.Center);
+                SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Main.LocalPlayer.Center);
         }
     }
 }

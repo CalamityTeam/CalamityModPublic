@@ -33,7 +33,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
+            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
             float rot = LineVector.ToRotation() + MathHelper.PiOver2;
             Vector2 origin = new Vector2(tex.Width/2f, tex.Height);
             Vector2 scale = new Vector2(Scale, LineVector.Length() / tex.Height);
@@ -41,7 +41,7 @@ namespace CalamityMod.Particles
 
             if (Capped)
             {
-                Texture2D cap = ModContent.GetTexture("CalamityMod/Particles/BloomLineCap"); ;
+                Texture2D cap = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLineCap"); ;
                 scale = new Vector2(Scale, Scale);
                 origin = new Vector2(cap.Width / 2f, cap.Height);
 

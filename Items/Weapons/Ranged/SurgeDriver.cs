@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 156;
-            item.ranged = true;
-            item.width = 164;
-            item.height = 58;
-            item.useTime = item.useAnimation = 56;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.channel = true;
-            item.knockBack = 8f;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PrismEnergyBullet>();
-            item.shootSpeed = 11f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 156;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 164;
+            Item.height = 58;
+            Item.useTime = Item.useAnimation = 56;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PrismEnergyBullet>();
+            Item.shootSpeed = 11f;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, -8f);
@@ -47,13 +47,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0)
             {
-                item.noUseGraphic = false;
-                item.reuseDelay = 0;
+                Item.noUseGraphic = false;
+                Item.reuseDelay = 0;
             }
             else
             {
-                item.noUseGraphic = true;
-                item.reuseDelay = 28;
+                Item.noUseGraphic = true;
+                Item.reuseDelay = 28;
             }
         }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 shootVelocity = new Vector2(speedX, speedY);
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Vector2 gunTip = position + shootDirection * item.scale * 126f;
+            Vector2 gunTip = position + shootDirection * Item.scale * 126f;
             gunTip.Y -= 6f;
 
             // Large bullet/rocket releasing.
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     Vector2 newShootVelocity = shootVelocity * Main.rand.NextFloat(1f, 1.45f);
                     newShootVelocity = newShootVelocity.RotatedByRandom(0.15f);
-                    Projectile.NewProjectile(gunTip, newShootVelocity, item.shoot, (int)(damage * 1.08), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(gunTip, newShootVelocity, Item.shoot, (int)(damage * 1.08), knockBack, player.whoAmI);
                 }
             }
 

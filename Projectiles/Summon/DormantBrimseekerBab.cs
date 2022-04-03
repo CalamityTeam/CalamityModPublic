@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -18,56 +19,56 @@ namespace CalamityMod.Projectiles.Summon
         {
             get
             {
-                return (projectile.localAI[1] == 1f) ? 21 : 38;
+                return (Projectile.localAI[1] == 1f) ? 21 : 38;
             }
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dormant Brimseeker");
 
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 36;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 1f;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 46;
+            Projectile.height = 36;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 1f;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>();
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>();
             player.AddBuff(ModContent.BuffType<DormantBrimseekerBuff>(), 3600);
             if (isProperProjectile)
             {
@@ -77,107 +78,107 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.brimseeker)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(DistanceToCheck, player);
             if (potentialTarget == null)
             {
-                if (projectile.ai[0] != 0f)
+                if (Projectile.ai[0] != 0f)
                 {
-                    projectile.ai[0] = 0f; // Disable charge animation when not attacking
+                    Projectile.ai[0] = 0f; // Disable charge animation when not attacking
                 }
-                projectile.rotation = projectile.rotation.AngleTowards(0f, 0.1f);
-                projectile.direction = projectile.spriteDirection = (projectile.velocity.X < 0).ToDirectionInt();
-                projectile.ai[1] += MathHelper.ToRadians(3f);
-                if (projectile.ai[1] >= MathHelper.Pi * 4f)
+                Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.1f);
+                Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X < 0).ToDirectionInt();
+                Projectile.ai[1] += MathHelper.ToRadians(3f);
+                if (Projectile.ai[1] >= MathHelper.Pi * 4f)
                 {
-                    projectile.ai[1] = 0f;
+                    Projectile.ai[1] = 0f;
                 }
-                Vector2 destination = player.Center + projectile.ai[1].ToRotationVector2() * new Vector2(1f, (float)Math.Cos(projectile.ai[1])) * 200f;
+                Vector2 destination = player.Center + Projectile.ai[1].ToRotationVector2() * new Vector2(1f, (float)Math.Cos(Projectile.ai[1])) * 200f;
 
-                projectile.velocity = (projectile.velocity * 18f + projectile.SafeDirectionTo(destination) * 14f) / 20f;
+                Projectile.velocity = (Projectile.velocity * 18f + Projectile.SafeDirectionTo(destination) * 14f) / 20f;
 
-                projectile.frameCounter++;
-                if (projectile.frameCounter >= 6)
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter >= 6)
                 {
-                    projectile.frameCounter = 0;
-                    projectile.frame++;
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
                 }
-                if (projectile.frame >= 4 + (projectile.localAI[1] == 1f).ToInt() * 4)
+                if (Projectile.frame >= 4 + (Projectile.localAI[1] == 1f).ToInt() * 4)
                 {
-                    projectile.frame = (projectile.localAI[1] == 1f).ToInt() * 4;
+                    Projectile.frame = (Projectile.localAI[1] == 1f).ToInt() * 4;
                 }
 
-                projectile.MinionAntiClump(0.1f);
-                if (projectile.Distance(player.Center) > 2700f)
+                Projectile.MinionAntiClump(0.1f);
+                if (Projectile.Distance(player.Center) > 2700f)
                 {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                if (projectile.Distance(potentialTarget.Center) < 1100f && projectile.ai[0] == 0f)
+                if (Projectile.Distance(potentialTarget.Center) < 1100f && Projectile.ai[0] == 0f)
                 {
-                    Main.PlaySound(SoundID.DD2_DrakinShot, projectile.Center);
-                    projectile.ai[0]++;
-                    float acceleration = (projectile.localAI[1] == 1f) ? 1.6f : 0.8f;
-                    float minSpeed = (projectile.localAI[1] == 1f) ? 13f : 8f;
-                    float maxSpeed = (projectile.localAI[1] == 1f) ? 21f : 18f;
-                    projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
-                    projectile.rotation = projectile.AngleTo(potentialTarget.Center) + (projectile.spriteDirection == 1).ToInt() * MathHelper.Pi;
+                    SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Projectile.Center);
+                    Projectile.ai[0]++;
+                    float acceleration = (Projectile.localAI[1] == 1f) ? 1.6f : 0.8f;
+                    float minSpeed = (Projectile.localAI[1] == 1f) ? 13f : 8f;
+                    float maxSpeed = (Projectile.localAI[1] == 1f) ? 21f : 18f;
+                    Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
+                    Projectile.rotation = Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi;
                 }
-                else if (projectile.ai[0] > 0)
+                else if (Projectile.ai[0] > 0)
                 {
-                    projectile.ai[0]++;
+                    Projectile.ai[0]++;
                     SeekingTarget = false;
                 }
-                else if (projectile.Distance(potentialTarget.Center) >= 1100f)
+                else if (Projectile.Distance(potentialTarget.Center) >= 1100f)
                 {
-                    projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center) + (projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
-                    projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + 2f, 6f, 15f);
+                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
+                    Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + 2f, 6f, 15f);
                     SeekingTarget = true;
-                    projectile.ai[0] = 0f;
+                    Projectile.ai[0] = 0f;
                 }
 
-                if (projectile.ai[0] >= MaxChargeTime)
+                if (Projectile.ai[0] >= MaxChargeTime)
                 {
-                    projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center) + (projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
+                    Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
                 }
 
-                projectile.frameCounter++;
-                if (projectile.frameCounter >= 6)
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter >= 6)
                 {
-                    projectile.frameCounter = 0;
-                    projectile.frame++;
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
                 }
-                if (projectile.frame >= 8)
+                if (Projectile.frame >= 8)
                 {
-                    projectile.frame = 4;
+                    Projectile.frame = 4;
                 }
 
-                if (projectile.ai[0] >= MaxChargeTime + TurnTime)
-                    projectile.ai[0] = 0f;
+                if (Projectile.ai[0] >= MaxChargeTime + TurnTime)
+                    Projectile.ai[0] = 0f;
             }
-            Lighting.AddLight(projectile.Center, Color.Red.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.Red.ToVector3());
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if ((projectile.ai[0] > 0f && projectile.ai[0] <= MaxChargeTime && projectile.velocity.Length() >= 8f) || SeekingTarget)
+            if ((Projectile.ai[0] > 0f && Projectile.ai[0] <= MaxChargeTime && Projectile.velocity.Length() >= 8f) || SeekingTarget)
             {
-                Texture2D projectileTexture = ModContent.GetTexture(Texture);
+                Texture2D projectileTexture = ModContent.Request<Texture2D>(Texture);
                 Texture2D flameTexture = Main.extraTexture[ExtrasID.MeteorHeadFlame];
                 SpriteEffects spriteEffects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
-                float completionRatio = projectile.ai[0] / 30f;
-                if (projectile.ai[0] > 30f)
-                    completionRatio = 1f - (30f - projectile.ai[0]) / 30f;
+                float completionRatio = Projectile.ai[0] / 30f;
+                if (Projectile.ai[0] > 30f)
+                    completionRatio = 1f - (30f - Projectile.ai[0]) / 30f;
 
-                Vector2 modifiedProjectileTexture = new Vector2(projectileTexture.Width / 2,projectileTexture.Height / Main.projFrames[projectile.type] / 2);
+                Vector2 modifiedProjectileTexture = new Vector2(projectileTexture.Width / 2,projectileTexture.Height / Main.projFrames[Projectile.type] / 2);
                 for (int oldPositionDrawIndex = 6; oldPositionDrawIndex >= 0; oldPositionDrawIndex--)
                 {
                     Color drawColor = Color.Lerp(Color.LightGoldenrodYellow, new Color(142, 24, 67), completionRatio);
@@ -188,7 +189,7 @@ namespace CalamityMod.Projectiles.Summon
                     drawColor.B = (byte)(drawColor.B * (10 - oldPositionDrawIndex) / 20);
                     drawColor.A = (byte)(drawColor.A * (10 - oldPositionDrawIndex) / 20);
                     drawColor *= completionRatio;
-                    int yFrame = ((int)projectile.ai[0] / 2 - oldPositionDrawIndex) % 4;
+                    int yFrame = ((int)Projectile.ai[0] / 2 - oldPositionDrawIndex) % 4;
                     if (yFrame < 0)
                     {
                         yFrame += 4;
@@ -196,10 +197,10 @@ namespace CalamityMod.Projectiles.Summon
                     Rectangle flameFrameRectangle = flameTexture.Frame(1, 4, 0, yFrame);
                     Vector2 flameOrigin = new Vector2(flameTexture.Width / 2, flameTexture.Height / 8 + 14);
                     spriteBatch.Draw(flameTexture,
-                                          new Vector2(projectile.oldPos[oldPositionDrawIndex].X - Main.screenPosition.X + projectile.width / 2 - projectileTexture.Width * projectile.scale / 2f + modifiedProjectileTexture.X * projectile.scale, projectile.oldPos[oldPositionDrawIndex].Y - Main.screenPosition.Y + projectile.height - projectileTexture.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + modifiedProjectileTexture.Y * projectile.scale + projectile.gfxOffY),
+                                          new Vector2(Projectile.oldPos[oldPositionDrawIndex].X - Main.screenPosition.X + Projectile.width / 2 - projectileTexture.Width * Projectile.scale / 2f + modifiedProjectileTexture.X * Projectile.scale, Projectile.oldPos[oldPositionDrawIndex].Y - Main.screenPosition.Y + Projectile.height - projectileTexture.Height * Projectile.scale / Main.projFrames[Projectile.type] + 4f + modifiedProjectileTexture.Y * Projectile.scale + Projectile.gfxOffY),
                                           new Rectangle?(flameFrameRectangle),
                                           drawColor,
-                                          projectile.oldRot[oldPositionDrawIndex] + projectile.oldSpriteDirection[oldPositionDrawIndex] * MathHelper.PiOver2,
+                                          Projectile.oldRot[oldPositionDrawIndex] + Projectile.oldSpriteDirection[oldPositionDrawIndex] * MathHelper.PiOver2,
                                           flameOrigin,
                                           MathHelper.Lerp(0.1f, 1.2f, (10f - oldPositionDrawIndex) / 10f),
                                           spriteEffects,

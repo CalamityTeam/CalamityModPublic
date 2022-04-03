@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 53;
-            item.mana = 10;
-            item.width = 34;
-            item.height = 34;
-            item.useTime = item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item42;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlyingOrthocera>();
-            item.shootSpeed = 0f;
-            item.summon = true;
+            Item.damage = 53;
+            Item.mana = 10;
+            Item.width = 34;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item42;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlyingOrthocera>();
+            Item.shootSpeed = 0f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

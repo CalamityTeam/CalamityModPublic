@@ -12,60 +12,60 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 600;
-            projectile.magic = true;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 64, 0f, 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 64, 0f, 0f);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.velocity *= 0.75f;
+                Projectile.velocity *= 0.75f;
             }
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.ai[0] += 0.1f;
-            projectile.velocity *= 0.75f;
+            Projectile.ai[0] += 0.1f;
+            Projectile.velocity *= 0.75f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

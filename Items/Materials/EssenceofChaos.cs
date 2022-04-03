@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 40);
-            item.rare = ItemRarityID.LightRed;
+            Item.width = 34;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 40);
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[item.type]);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[Item.type]);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 0.5f * brightness, 0.3f * brightness, 0.05f * brightness);
+            Lighting.AddLight(Item.Center, 0.5f * brightness, 0.3f * brightness, 0.05f * brightness);
         }
     }
 }

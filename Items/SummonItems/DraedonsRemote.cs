@@ -3,6 +3,7 @@ using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -17,13 +18,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.rare = ItemRarityID.Yellow;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 28;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.SummonItems
             return !Main.dayTime && !NPC.AnyNPCs(NPCID.TheDestroyer) && !NPC.AnyNPCs(NPCID.SkeletronPrime) && !NPC.AnyNPCs(NPCID.Spazmatism) && !NPC.AnyNPCs(NPCID.Retinazer) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             CalamityGlobalNPC.DraedonMayhem = true;
             CalamityNetcode.SyncWorld();

@@ -9,35 +9,35 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public Color ProjectileColor => Main.hslToRgb(projectile.localAI[0], 1f, 0.5f);
+        public Color ProjectileColor => Main.hslToRgb(Projectile.localAI[0], 1f, 0.5f);
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.minionSlots = 0f;
-            projectile.minion = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.minionSlots = 0f;
+            Projectile.minion = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.White.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Dust rainbowDust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(5f, 5f), 261);
+                    Dust rainbowDust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(5f, 5f), 261);
                     rainbowDust.color = ProjectileColor;
-                    rainbowDust.velocity += projectile.velocity;
+                    rainbowDust.velocity += Projectile.velocity;
                     rainbowDust.noGravity = true;
                 }
             }
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 0; i < 15; i++)
                 {
-                    Dust rainbowDust = Dust.NewDustDirect(projectile.Center + Main.rand.NextVector2Circular(5f, 5f), 40, 40, 261);
+                    Dust rainbowDust = Dust.NewDustDirect(Projectile.Center + Main.rand.NextVector2Circular(5f, 5f), 40, 40, 261);
                     rainbowDust.color = ProjectileColor;
                     rainbowDust.noGravity = true;
                 }

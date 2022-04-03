@@ -18,38 +18,25 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.LightRed;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(900f);
-            item.value = Item.buyPrice(0, 2, 60, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(900f);
+            Item.value = Item.buyPrice(0, 2, 60, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ale);
-            recipe.AddIngredient(ItemID.PixieDust, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 5);
-            recipe.AddIngredient(ItemID.UnicornHorn);
-            recipe.AddTile(TileID.Kegs);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ale);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
-            recipe.AddIngredient(ItemID.CrystalShard);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Ale).AddIngredient(ItemID.PixieDust, 10).AddIngredient(ItemID.CrystalShard, 5).AddIngredient(ItemID.UnicornHorn).AddTile(TileID.Kegs).Register();
+            CreateRecipe(1).AddIngredient(ItemID.Ale).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddIngredient(ItemID.CrystalShard).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

@@ -20,19 +20,19 @@ namespace CalamityMod.Items.Accessories
                 "During the day the player has +3 life regen\n" +
                 "During the night the player has +15 defense\n" +
                 "Both of these bonuses are granted during an eclipse");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 60;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.defense = 10;
-            item.lifeRegen = 1;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 42;
+            Item.height = 60;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.defense = 10;
+            Item.lifeRegen = 1;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,12 +43,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<DarksunFragment>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

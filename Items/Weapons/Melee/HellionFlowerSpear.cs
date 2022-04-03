@@ -17,34 +17,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.damage = 135;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 20;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 64;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<HellionFlowerSpearProjectile>();
-            item.shootSpeed = 8f;
+            Item.width = 64;
+            Item.damage = 135;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 20;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 64;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<HellionFlowerSpearProjectile>();
+            Item.shootSpeed = 8f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

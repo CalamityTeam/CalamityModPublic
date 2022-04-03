@@ -11,52 +11,52 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormlion");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 20;
-            npc.aiStyle = 3;
-            npc.width = 33;
-            npc.height = 31;
-            npc.defense = 8;
-            npc.lifeMax = 80;
-            npc.knockBackResist = 0.2f;
+            NPC.damage = 20;
+            NPC.aiStyle = 3;
+            NPC.width = 33;
+            NPC.height = 31;
+            NPC.defense = 8;
+            NPC.lifeMax = 80;
+            NPC.knockBackResist = 0.2f;
             animationType = NPCID.WalkingAntlion;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
-            npc.HitSound = SoundID.NPCHit31;
-            npc.DeathSound = SoundID.NPCDeath34;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 2, 0);
+            NPC.HitSound = SoundID.NPCHit31;
+            NPC.DeathSound = SoundID.NPCDeath34;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<StormlionBanner>();
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToElectricity = false;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = false;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion3"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StormlionGores/Stormlion4"), npc.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/StormlionGores/Stormlion"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/StormlionGores/Stormlion2"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/StormlionGores/Stormlion3"), NPC.scale);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/StormlionGores/Stormlion4"), NPC.scale);
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -70,8 +70,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<StormjawStaff>(), 0.2f, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<StormlionMandible>(), 1f, 1, 1);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormjawStaff>(), 0.2f, 1, 1);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormlionMandible>(), 1f, 1, 1);
         }
     }
 }

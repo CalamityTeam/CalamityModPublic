@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 95;
-            item.ranged = true;
-            item.width = 74;
-            item.height = 24;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = ItemRarityID.Lime;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FallenStarProj>();
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.FallenStar;
+            Item.damage = 95;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 74;
+            Item.height = 24;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.rare = ItemRarityID.Lime;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FallenStarProj>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.FallenStar;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -61,13 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StarCannon);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.StarCannon).AddIngredient(ModContent.ItemType<AstralJelly>(), 10).AddIngredient(ModContent.ItemType<Stardust>(), 25).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1350;
-            item.knockBack = 5f;
-            item.ranged = true;
-            item.useTime = item.useAnimation = 30;
-            item.autoReuse = true;
-            item.useAmmo = AmmoID.Gel;
-            item.shootSpeed = 14.6f;
-            item.shoot = ModContent.ProjectileType<HalleysComet>();
+            Item.damage = 1350;
+            Item.knockBack = 5f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = Item.useAnimation = 30;
+            Item.autoReuse = true;
+            Item.useAmmo = AmmoID.Gel;
+            Item.shootSpeed = 14.6f;
+            Item.shoot = ModContent.ProjectileType<HalleysComet>();
 
-            item.width = 84;
-            item.height = 34;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 84;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item34;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -49,14 +49,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SniperScope);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SniperScope).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

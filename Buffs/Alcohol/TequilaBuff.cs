@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class TequilaBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tequila");
             Description.SetDefault("Damage, critical strike chance, damage reduction, defense, and knockback boosted during daytime, life regen reduced");

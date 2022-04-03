@@ -12,28 +12,24 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Ancient Bathtub");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Orange;
-            item.consumable = true;
-            item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientBath>();
+            Item.SetNameOverride("Ancient Bathtub");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.consumable = true;
+            Item.value = 0;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientBath>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 14);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AncientAltar>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 14).AddTile(ModContent.TileType<AncientAltar>()).Register();
         }
     }
 }

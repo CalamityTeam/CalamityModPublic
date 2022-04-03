@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientChandelier : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChandelier(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientChandelierFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientChandelierFlame"), i, j);
         }
 
         public override void HitWire(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameX < 54 && tile.frameY == 36)
+            if (tile.TileFrameX < 54 && tile.TileFrameY == 36)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

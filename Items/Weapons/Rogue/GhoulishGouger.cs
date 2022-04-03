@@ -18,30 +18,30 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 74;
-            item.height = 68;
+            Item.width = 74;
+            Item.height = 68;
 
-            item.damage = 166;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = 6;
-            item.useAnimation = 24;
-            item.reuseDelay = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.damage = 166;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 6;
+            Item.useAnimation = 24;
+            Item.reuseDelay = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/GhoulishGougerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/GhoulishGougerGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

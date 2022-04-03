@@ -20,7 +20,7 @@ namespace CalamityMod.World
 
                 int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 500);
 
-                if (Main.tile[x, y].active() && Main.tile[x, y].type == 60)
+                if (Main.tile[x, y].active() && Main.tile[x, y].TileType == 60)
                 {
                     success = true;
                     GenNewTemple(x, y);
@@ -159,7 +159,7 @@ namespace CalamityMod.World
                                 for (int roomPositionY = roomTop; roomPositionY < roomBottom; roomPositionY++)
                                 {
                                     Main.tile[roomPositionX, roomPositionY].active(true);
-                                    Main.tile[roomPositionX, roomPositionY].type = TileID.LihzahrdBrick;
+                                    Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
                                     Main.tile[roomPositionX, roomPositionY].liquid = 0;
                                     Main.tile[roomPositionX, roomPositionY].slope(0);
                                     Main.tile[roomPositionX, roomPositionY].halfBrick(false);
@@ -179,7 +179,7 @@ namespace CalamityMod.World
                     for (int roomPositionY = roomBounds[i].Y; roomPositionY < roomBounds[i].Y + roomBounds[i].Height; roomPositionY++)
                     {
                         Main.tile[roomPositionX, roomPositionY].active(true);
-                        Main.tile[roomPositionX, roomPositionY].type = TileID.LihzahrdBrick;
+                        Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
                         Main.tile[roomPositionX, roomPositionY].liquid = 0;
                         Main.tile[roomPositionX, roomPositionY].slope(0);
                         Main.tile[roomPositionX, roomPositionY].halfBrick(false);
@@ -340,14 +340,14 @@ namespace CalamityMod.World
                 int dy = (int)endPathPosition.Y - yArea;
                 while (dy < endPathPosition.Y + yArea)
                 {
-                    if (Main.tile[(int)endPathPosition.X, dy].wall == WallID.LihzahrdBrickUnsafe || (Main.tile[(int)endPathPosition.X, dy].active() && Main.tile[(int)endPathPosition.X, dy].type == TileID.LihzahrdBrick))
+                    if (Main.tile[(int)endPathPosition.X, dy].WallType == WallID.LihzahrdBrickUnsafe || (Main.tile[(int)endPathPosition.X, dy].active() && Main.tile[(int)endPathPosition.X, dy].TileType == TileID.LihzahrdBrick))
                     {
                         success = false;
                     }
-                    if (Main.tile[(int)endPathPosition.X, dy].active() && Main.tile[(int)endPathPosition.X, dy].type == TileID.LihzahrdBrick)
+                    if (Main.tile[(int)endPathPosition.X, dy].active() && Main.tile[(int)endPathPosition.X, dy].TileType == TileID.LihzahrdBrick)
                     {
                         Main.tile[(int)endPathPosition.X, dy].active(false);
-                        Main.tile[(int)endPathPosition.X, dy].wall = WallID.LihzahrdBrickUnsafe;
+                        Main.tile[(int)endPathPosition.X, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                     dy++;
                 }
@@ -362,7 +362,7 @@ namespace CalamityMod.World
             }
             doorPositionY -= 4;
             int doorTop = doorPositionY;
-            while ((Main.tile[doorPositionX, doorTop].active() && Main.tile[doorPositionX, doorTop].type == TileID.LihzahrdBrick) || Main.tile[doorPositionX, doorTop].wall == WallID.LihzahrdBrickUnsafe)
+            while ((Main.tile[doorPositionX, doorTop].active() && Main.tile[doorPositionX, doorTop].TileType == TileID.LihzahrdBrick) || Main.tile[doorPositionX, doorTop].WallType == WallID.LihzahrdBrickUnsafe)
             {
                 doorTop--;
             }
@@ -372,7 +372,7 @@ namespace CalamityMod.World
                 for (int dy = doorTop; dy <= doorPositionY; dy++)
                 {
                     Main.tile[dx, dy].active(true);
-                    Main.tile[dx, dy].type = TileID.LihzahrdBrick;
+                    Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
                     Main.tile[dx, dy].liquid = 0;
                     Main.tile[dx, dy].slope(0);
                     Main.tile[dx, dy].halfBrick(false);
@@ -383,7 +383,7 @@ namespace CalamityMod.World
                 for (int dy = doorPositionY - 1; dy < doorPositionY + 3; dy++)
                 {
                     Main.tile[dx, dy].active(false);
-                    Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                    Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                 }
             }
             for (int dx = doorPositionX - 1; dx <= doorPositionX + 1; dx++)
@@ -391,7 +391,7 @@ namespace CalamityMod.World
                 for (int dy = doorPositionY - 5; dy <= doorPositionY + 8; dy++)
                 {
                     Main.tile[dx, dy].active(true);
-                    Main.tile[dx, dy].type = TileID.LihzahrdBrick;
+                    Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
                     Main.tile[dx, dy].liquid = 0;
                     Main.tile[dx, dy].slope(0);
                     Main.tile[dx, dy].halfBrick(false);
@@ -402,7 +402,7 @@ namespace CalamityMod.World
                 for (int dy = doorPositionY; dy < doorPositionY + 3; dy++)
                 {
                     Main.tile[dx, dy].active(false);
-                    Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                    Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                 }
             }
 
@@ -435,7 +435,7 @@ namespace CalamityMod.World
                     {
                         for (int dy2 = dy - 1; dy2 <= dy + 1; dy2++)
                         {
-                            if ((!Main.tile[dx2, dy2].active() || Main.tile[dx2, dy2].type != TileID.LihzahrdBrick) && Main.tile[dx2, dy2].wall != WallID.LihzahrdBrickUnsafe)
+                            if ((!Main.tile[dx2, dy2].active() || Main.tile[dx2, dy2].TileType != TileID.LihzahrdBrick) && Main.tile[dx2, dy2].WallType != WallID.LihzahrdBrickUnsafe)
                             {
                                 shouldPlaceWalls = false;
                                 break;
@@ -444,7 +444,7 @@ namespace CalamityMod.World
                     }
                     if (shouldPlaceWalls)
                     {
-                        Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                        Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                 }
             }
@@ -458,7 +458,7 @@ namespace CalamityMod.World
                 int roomToFillIndex = WorldGen.genRand.Next(totalRooms);
                 int randomPointInRoomX = WorldGen.genRand.Next(roomBounds[roomToFillIndex].X, roomBounds[roomToFillIndex].X + roomBounds[roomToFillIndex].Width);
                 int randomPointInRoomY = WorldGen.genRand.Next(roomBounds[roomToFillIndex].Y, roomBounds[roomToFillIndex].Y + roomBounds[roomToFillIndex].Height);
-                if (Main.tile[randomPointInRoomX, randomPointInRoomY].wall == 87 && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
+                if (Main.tile[randomPointInRoomX, randomPointInRoomY].WallType == 87 && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
                 {
                     bool successPlacingSpikes = false;
                     if (WorldGen.genRand.Next(2) == 0)
@@ -476,7 +476,7 @@ namespace CalamityMod.World
                         {
                             for (int dy = randomPointInRoomY - areaToCheck; dy < randomPointInRoomY + areaToCheck; dy++)
                             {
-                                if (Main.tile[dx, dy].active() && Main.tile[dx, dy].type == 10)
+                                if (Main.tile[dx, dy].active() && Main.tile[dx, dy].TileType == 10)
                                 {
                                     noDoorInWay = false;
                                     break;
@@ -489,18 +489,18 @@ namespace CalamityMod.World
                             {
                                 for (int dy = randomPointInRoomY - areaToCheck; dy < randomPointInRoomY + areaToCheck; dy++)
                                 {
-                                    if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].type != TileID.WoodenSpikes && !WorldGen.SolidTile(dx, dy - xMoveDirection))
+                                    if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].TileType != TileID.WoodenSpikes && !WorldGen.SolidTile(dx, dy - xMoveDirection))
                                     {
-                                        Main.tile[dx, dy].type = TileID.WoodenSpikes;
+                                        Main.tile[dx, dy].TileType = TileID.WoodenSpikes;
                                         successPlacingSpikes = true;
                                         if (yMoveDirection == 0)
                                         {
-                                            Main.tile[dx, dy - 1].type = TileID.WoodenSpikes;
+                                            Main.tile[dx, dy - 1].TileType = TileID.WoodenSpikes;
                                             Main.tile[dx, dy - 1].active(true);
                                         }
                                         else
                                         {
-                                            Main.tile[dx, dy + 1].type = TileID.WoodenSpikes;
+                                            Main.tile[dx, dy + 1].TileType = TileID.WoodenSpikes;
                                             Main.tile[dx, dy + 1].active(true);
                                         }
                                         yMoveDirection++;
@@ -533,7 +533,7 @@ namespace CalamityMod.World
                         {
                             for (int dy = randomPointInRoomY - areaToCheck; dy < randomPointInRoomY + areaToCheck; dy++)
                             {
-                                if (Main.tile[dx, dy].active() && Main.tile[dx, dy].type == 10)
+                                if (Main.tile[dx, dy].active() && Main.tile[dx, dy].TileType == 10)
                                 {
                                     noDoorInWay = false;
                                     break;
@@ -546,18 +546,18 @@ namespace CalamityMod.World
                             {
                                 for (int dy = randomPointInRoomY - areaToCheck; dy < randomPointInRoomY + areaToCheck; dy++)
                                 {
-                                    if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].type != TileID.WoodenSpikes && !WorldGen.SolidTile(dx - xMoveDirection, dy))
+                                    if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].TileType != TileID.WoodenSpikes && !WorldGen.SolidTile(dx - xMoveDirection, dy))
                                     {
-                                        Main.tile[dx, dy].type = TileID.WoodenSpikes;
+                                        Main.tile[dx, dy].TileType = TileID.WoodenSpikes;
                                         successPlacingSpikes = true;
                                         if (yMoveDirection == 0)
                                         {
-                                            Main.tile[dx - 1, dy].type = TileID.WoodenSpikes;
+                                            Main.tile[dx - 1, dy].TileType = TileID.WoodenSpikes;
                                             Main.tile[dx - 1, dy].active(true);
                                         }
                                         else
                                         {
-                                            Main.tile[dx + 1, dy].type = TileID.WoodenSpikes;
+                                            Main.tile[dx + 1, dy].TileType = TileID.WoodenSpikes;
                                             Main.tile[dx + 1, dy].active(true);
                                         }
                                         yMoveDirection++;
@@ -637,7 +637,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[dx, dy].active(false);
                         Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
-                        Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                        Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                 }
             }
@@ -666,7 +666,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[dx, dy].active(false);
                         Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
-                        Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                        Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                     }
                 }
             }
@@ -681,7 +681,7 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].active(false);
                     Main.tile[dx, dy].liquid = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
-                    Main.tile[dx, dy].wall = WallID.LihzahrdBrickUnsafe;
+                    Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
                 }
             }
 
@@ -710,10 +710,10 @@ namespace CalamityMod.World
                 for (int y = roomBottom - height; y <= roomBottom; y++)
                 {
                     Main.tile[roomCenterX - dx, y].active(true);
-                    Main.tile[roomCenterX - dx, y].type = TileID.LihzahrdBrick;
+                    Main.tile[roomCenterX - dx, y].TileType = TileID.LihzahrdBrick;
 
                     Main.tile[roomCenterX + dx, y].active(true);
-                    Main.tile[roomCenterX + dx, y].type = TileID.LihzahrdBrick;
+                    Main.tile[roomCenterX + dx, y].TileType = TileID.LihzahrdBrick;
                 }
             }
 
@@ -738,7 +738,7 @@ namespace CalamityMod.World
                 WorldGen.PlaceTile(x, roomBottom - 1, TileID.Tables, style: 9);
 
                 // Try again if the table failed to place.
-                if (Main.tile[x, roomBottom - 1].type != TileID.Tables)
+                if (Main.tile[x, roomBottom - 1].TileType != TileID.Tables)
                 {
                     i--;
                     continue;
@@ -763,7 +763,7 @@ namespace CalamityMod.World
             {
                 int randomPointInRoomX = WorldGen.genRand.Next(templeLeft, templeRight);
                 int randomPointInRoomY = WorldGen.genRand.Next(templeTop, templeBottom);
-                if (Main.tile[randomPointInRoomX, randomPointInRoomY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
+                if (Main.tile[randomPointInRoomX, randomPointInRoomY].WallType == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
                 {
                     if (WorldGen.mayanTrap(randomPointInRoomX, randomPointInRoomY))
                     {
@@ -794,7 +794,7 @@ namespace CalamityMod.World
             {
                 int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
                 int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
-                if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe &&
+                if (Main.tile[randomPointInTempleX, randomPointInTempleY].WallType == WallID.LihzahrdBrickUnsafe &&
                     !Main.tile[randomPointInTempleX, randomPointInTempleY].active() &&
                     WorldGen.AddBuriedChest(randomPointInTempleX, randomPointInTempleY, ItemID.LihzahrdPowerCell, true, 16))
                 {
@@ -813,7 +813,7 @@ namespace CalamityMod.World
                 placementAttempts++;
                 int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
                 int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
-                if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
+                if (Main.tile[randomPointInTempleX, randomPointInTempleY].WallType == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
                 {
                     int statuePlacementPositionY = randomPointInTempleY;
                     while (!Main.tile[randomPointInTempleX, statuePlacementPositionY].active())
@@ -828,7 +828,7 @@ namespace CalamityMod.World
                     if (statuePlacementPositionY <= templeBottom)
                     {
                         WorldGen.PlaceTile(randomPointInTempleX, statuePlacementPositionY, TileID.Statues, true, false, -1, WorldGen.genRand.Next(43, 46));
-                        if (Main.tile[randomPointInTempleX, statuePlacementPositionY].type == TileID.Statues)
+                        if (Main.tile[randomPointInTempleX, statuePlacementPositionY].TileType == TileID.Statues)
                         {
                             totalStatuesToPlace--;
                         }
@@ -844,7 +844,7 @@ namespace CalamityMod.World
                 placementAttempts++;
                 int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
                 int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
-                if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
+                if (Main.tile[randomPointInTempleX, randomPointInTempleY].WallType == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
                 {
                     int furniturePlacementPositionY = randomPointInTempleY;
                     while (!Main.tile[randomPointInTempleX, furniturePlacementPositionY].active())
@@ -862,21 +862,21 @@ namespace CalamityMod.World
                         {
                             case 0:
                                 WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.WorkBenches, true, false, -1, 10);
-                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.WorkBenches)
+                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].TileType == TileID.WorkBenches)
                                 {
                                     totalFurnitureElementsToPlace--;
                                 }
                                 break;
                             case 1:
                                 WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.Tables, true, false, -1, 9);
-                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.Tables)
+                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].TileType == TileID.Tables)
                                 {
                                     totalFurnitureElementsToPlace--;
                                 }
                                 break;
                             case 2:
                                 WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.Chairs, true, false, -1, 12);
-                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.Chairs)
+                                if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].TileType == TileID.Chairs)
                                 {
                                     totalFurnitureElementsToPlace--;
                                 }
@@ -905,16 +905,16 @@ namespace CalamityMod.World
                     int framedAlterPositionX = alterPositionX + i;
                     int framedAlterPositionY = alterPositionY + j;
                     Main.tile[framedAlterPositionX, framedAlterPositionY].active(true);
-                    Main.tile[framedAlterPositionX, framedAlterPositionY].type = TileID.LihzahrdAltar;
-                    Main.tile[framedAlterPositionX, framedAlterPositionY].frameX = (short)(i * 18);
-                    Main.tile[framedAlterPositionX, framedAlterPositionY].frameY = (short)(j * 18);
+                    Main.tile[framedAlterPositionX, framedAlterPositionY].TileType = TileID.LihzahrdAltar;
+                    Main.tile[framedAlterPositionX, framedAlterPositionY].TileFrameX = (short)(i * 18);
+                    Main.tile[framedAlterPositionX, framedAlterPositionY].TileFrameY = (short)(j * 18);
                 }
 
                 // Ensure that the tiles below the altar are active and valid.
                 Main.tile[i, alterPositionY + 2].active(true);
                 Main.tile[i, alterPositionY + 2].slope(0);
                 Main.tile[i, alterPositionY + 2].halfBrick(false);
-                Main.tile[i, alterPositionY + 2].type = TileID.LihzahrdBrick;
+                Main.tile[i, alterPositionY + 2].TileType = TileID.LihzahrdBrick;
             }
         }
     }

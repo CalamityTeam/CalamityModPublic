@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class CinnamonRollBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinnamon Roll");
             Description.SetDefault("Mana regen rate and fire debuff damage boosted, defense reduced");

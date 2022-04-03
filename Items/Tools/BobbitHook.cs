@@ -22,14 +22,14 @@ Pull Velocity: {BobbitHead.PullSpeed}");
         public override void SetDefaults()
         {
             // Instead of copying these values, we can clone and modify the ones we want to copy
-            item.CloneDefaults(ItemID.AmethystHook);
-            item.shootSpeed = BobbitHead.LaunchSpeed; // How quickly the hook is shot.
-            item.shoot = ProjectileType<BobbitHead>();
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = (CalamityRarity)13;
-            item.width = 30;
-            item.height = 32;
+            Item.CloneDefaults(ItemID.AmethystHook);
+            Item.shootSpeed = BobbitHead.LaunchSpeed; // How quickly the hook is shot.
+            Item.shoot = ProjectileType<BobbitHead>();
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = (CalamityRarity)13;
+            Item.width = 30;
+            Item.height = 32;
         }
     }
 }

@@ -9,20 +9,20 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Nightcrawler");
-            Main.npcFrameCount[npc.type] = 2;
-            Main.npcCatchable[npc.type] = true;
+            Main.npcFrameCount[NPC.type] = 2;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.EnchantedNightcrawler); //ID is 484
+            NPC.CloneDefaults(NPCID.EnchantedNightcrawler); //ID is 484
             aiType = NPCID.EnchantedNightcrawler;
             animationType = NPCID.EnchantedNightcrawler;
         }
 
         public override bool PreAI()
         {
-            npc.type = NPCID.EnchantedNightcrawler; //Make it immediately turn into vanilla critter
+            NPC.type = NPCID.EnchantedNightcrawler; //Make it immediately turn into vanilla critter
             return true;
         }
 
@@ -38,11 +38,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral())
+            else if (spawnInfo.Player.InAstral())
             {
                 return SpawnCondition.TownCritter.Chance;
             }

@@ -22,49 +22,49 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
         public BehaviorState CurrentState
         {
-            get => (BehaviorState)(int)npc.ai[0];
-            set => npc.ai[0] = (int)value;
+            get => (BehaviorState)(int)NPC.ai[0];
+            set => NPC.ai[0] = (int)value;
         }
 
-        public ref float StuckCount => ref npc.ai[1];
+        public ref float StuckCount => ref NPC.ai[1];
 
         public bool Initialized
         {
-            get => npc.ai[2] == 1f;
-            set => npc.ai[2] = value.ToInt();
+            get => NPC.ai[2] == 1f;
+            set => NPC.ai[2] = value.ToInt();
         }
         public bool WantsToClimbOnSomeWall
         {
-            get => npc.ai[3] == 1f;
-            set => npc.ai[3] = value.ToInt();
+            get => NPC.ai[3] == 1f;
+            set => NPC.ai[3] = value.ToInt();
         }
 
-        public ref float CurrentFrame => ref npc.localAI[0];
-        public ref float Time => ref npc.localAI[1];
-        public ref float ClimbTime => ref npc.localAI[2];
+        public ref float CurrentFrame => ref NPC.localAI[0];
+        public ref float Time => ref NPC.localAI[1];
+        public ref float ClimbTime => ref NPC.localAI[2];
 
         public const float Gravity = 0.4f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Repair Unit");
-            Main.npcFrameCount[npc.type] = 17;
+            Main.npcFrameCount[NPC.type] = 17;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 20;
-            npc.height = 22;
-            npc.lifeMax = 80;
-            npc.knockBackResist = 0f;
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath44;
+            NPC.damage = 0;
+            NPC.width = 20;
+            NPC.height = 22;
+            NPC.lifeMax = 80;
+            NPC.knockBackResist = 0f;
+            NPC.noGravity = true;
+            NPC.noTileCollide = false;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath44;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -89,11 +89,11 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             if (!Initialized)
             {
-                npc.velocity = Vector2.UnitX * Main.rand.NextBool(2).ToDirectionInt() * 1.5f;
+                NPC.velocity = Vector2.UnitX * Main.rand.NextBool(2).ToDirectionInt() * 1.5f;
                 Initialized = true;
             }
 
-            npc.Calamity().ShouldFallThroughPlatforms = false;
+            NPC.Calamity().ShouldFallThroughPlatforms = false;
             switch (CurrentState)
             {
                 case BehaviorState.WalkAround:
@@ -112,110 +112,110 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             // Fall onto the ground if mid-air.
 
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(npc.Bottom.X / 16f), (int)(npc.Bottom.Y / 16f));
-            bool onSolidGround = WorldGen.SolidTile(tileBelow) || (tileBelow.active() && Main.tileSolidTop[tileBelow.type]);
-            float directionSign = Math.Sign(npc.velocity.X);
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(NPC.Bottom.X / 16f), (int)(NPC.Bottom.Y / 16f));
+            bool onSolidGround = WorldGen.SolidTile(tileBelow) || (tileBelow.active() && Main.tileSolidTop[tileBelow.TileType]);
+            float directionSign = Math.Sign(NPC.velocity.X);
             if (directionSign == 0f)
-                directionSign = npc.spriteDirection;
-            if (Math.Abs(npc.velocity.X) > 0.5f && onSolidGround)
-                npc.velocity.X = MathHelper.Lerp(npc.velocity.X, directionSign * 5f, 0.05f);
+                directionSign = NPC.spriteDirection;
+            if (Math.Abs(NPC.velocity.X) > 0.5f && onSolidGround)
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, directionSign * 5f, 0.05f);
 
             // Using walking frames if on solid ground.
             // If not on solid ground, use the first frame.
             if (onSolidGround)
-                npc.frameCounter += npc.velocity.Length() + 0.4f;
+                NPC.frameCounter += NPC.velocity.Length() + 0.4f;
             else
                 CurrentFrame = 0f;
 
             // Enforce gravity.
-            npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + Gravity, -15f, 15f);
+            NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y + Gravity, -15f, 15f);
 
             // Handle directioning.
-            if (Math.Abs(npc.velocity.X) > 0.4f)
-                npc.spriteDirection = (npc.velocity.X > 0f).ToDirectionInt();
+            if (Math.Abs(NPC.velocity.X) > 0.4f)
+                NPC.spriteDirection = (NPC.velocity.X > 0f).ToDirectionInt();
 
             // Attempt to jump over gaps if they aren't too big.
-            Vector2 checkPosition = npc.Bottom + new Vector2(Math.Sign(npc.velocity.X) * 24f, 12f);
+            Vector2 checkPosition = NPC.Bottom + new Vector2(Math.Sign(NPC.velocity.X) * 24f, 12f);
 
             float? distanceToAheadBelowTile = CalamityUtils.DistanceToTileCollisionHit(checkPosition, Vector2.UnitX * directionSign);
-            if (onSolidGround && distanceToAheadBelowTile.HasValue && distanceToAheadBelowTile.Value >= 2 && distanceToAheadBelowTile.Value < 9 && npc.velocity.Y == Gravity)
+            if (onSolidGround && distanceToAheadBelowTile.HasValue && distanceToAheadBelowTile.Value >= 2 && distanceToAheadBelowTile.Value < 9 && NPC.velocity.Y == Gravity)
             {
-                Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * (distanceToAheadBelowTile.Value * 16f + 12f);
-                npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 10f);
+                Vector2 jumpDestination = NPC.Center + Vector2.UnitX * NPC.spriteDirection * (distanceToAheadBelowTile.Value * 16f + 12f);
+                NPC.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(NPC.Center, jumpDestination, Gravity, 10f);
             }
 
             // Attempt to jump over vertical obstacles.
-            bool obstacleInWay = !Collision.CanHit(npc.Center - Vector2.UnitX * directionSign * 8f, 2, 2, npc.Center + Vector2.UnitX * directionSign * 50f, 8, 8);
+            bool obstacleInWay = !Collision.CanHit(NPC.Center - Vector2.UnitX * directionSign * 8f, 2, 2, NPC.Center + Vector2.UnitX * directionSign * 50f, 8, 8);
             if (onSolidGround && obstacleInWay)
             {
-                Vector2 jumpDestination = npc.Center + Vector2.UnitX * npc.spriteDirection * 132f;
-                float? distanceToObstacle = CalamityUtils.DistanceToTileCollisionHit(npc.Center, Vector2.UnitX * directionSign);
+                Vector2 jumpDestination = NPC.Center + Vector2.UnitX * NPC.spriteDirection * 132f;
+                float? distanceToObstacle = CalamityUtils.DistanceToTileCollisionHit(NPC.Center, Vector2.UnitX * directionSign);
                 float obstacleHeight = 0f;
                 for (int i = 0; i < 10; i++)
                 {
-                    if (WorldGen.SolidTile((int)(npc.Center.X / 16 + (distanceToObstacle ?? 0) * npc.spriteDirection), (int)(npc.Center.Y / 16) - i))
+                    if (WorldGen.SolidTile((int)(NPC.Center.X / 16 + (distanceToObstacle ?? 0) * NPC.spriteDirection), (int)(NPC.Center.Y / 16) - i))
                         obstacleHeight++;
                 }
 
                 // Just turn back if the obstacle is ridiculously tall.
                 if (obstacleHeight >= 10)
-                    npc.velocity.X = -npc.spriteDirection * 3f;
+                    NPC.velocity.X = -NPC.spriteDirection * 3f;
 
                 // Otherwise try to jump over it.
                 else
-                    npc.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(npc.Center, jumpDestination, Gravity, 9f + StuckCount * 0.7f + obstacleHeight * 0.4f);
+                    NPC.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(NPC.Center, jumpDestination, Gravity, 9f + StuckCount * 0.7f + obstacleHeight * 0.4f);
 
-                if (MathHelper.Distance(npc.position.X, npc.oldPosition.X) < 0.2f)
+                if (MathHelper.Distance(NPC.position.X, NPC.oldPosition.X) < 0.2f)
                 {
                     StuckCount++;
                     if (StuckCount > 1f && !WantsToClimbOnSomeWall)
                         WantsToClimbOnSomeWall = true;
                     if (StuckCount > 2f)
                     {
-                        npc.velocity.X *= -0.56f;
+                        NPC.velocity.X *= -0.56f;
                         StuckCount = 0f;
                     }
-                    PreviousStuckPosition = npc.Center;
+                    PreviousStuckPosition = NPC.Center;
                 }
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
-            bool closeObstacleInWay = !Collision.CanHit(npc.Center, 2, 2, npc.Center + Vector2.UnitX * directionSign * 34f, 8, 8);
+            bool closeObstacleInWay = !Collision.CanHit(NPC.Center, 2, 2, NPC.Center + Vector2.UnitX * directionSign * 34f, 8, 8);
             if (onSolidGround && closeObstacleInWay)
             {
-                npc.velocity.X *= -0.7f;
-                npc.netUpdate = true;
+                NPC.velocity.X *= -0.7f;
+                NPC.netUpdate = true;
             }
 
             // Reset the stuck counter if the NPC has become sufficiently far away from the previous stuck postion, indicating that
             // it is in fact, no longer stuck.
-            if (!npc.WithinRange(PreviousStuckPosition, 180f) && StuckCount > 0f)
+            if (!NPC.WithinRange(PreviousStuckPosition, 180f) && StuckCount > 0f)
             {
                 StuckCount = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             // Handle walking frames.
-            if (npc.frameCounter >= 11f && Math.Abs(npc.velocity.Y) < 1f)
+            if (NPC.frameCounter >= 11f && Math.Abs(NPC.velocity.Y) < 1f)
             {
                 CurrentFrame = (CurrentFrame + 1f) % 8f;
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
             }
 
             if (Time % 300f == 299f && !WantsToClimbOnSomeWall)
             {
                 WantsToClimbOnSomeWall = true;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             // If there are walls to clime on and this NPC wants to climb on some, do so.
-            if (WantsToClimbOnSomeWall && CalamityUtils.ParanoidTileRetrieval((int)npc.Center.X / 16, (int)npc.Center.Y / 16).wall > 0)
+            if (WantsToClimbOnSomeWall && CalamityUtils.ParanoidTileRetrieval((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16).WallType > 0)
             {
                 CurrentState = BehaviorState.WalkOnWalls;
                 StuckCount = 0f;
                 WantsToClimbOnSomeWall = false;
-                npc.position.Y -= 10f;
-                npc.netUpdate = true;
+                NPC.position.Y -= 10f;
+                NPC.netUpdate = true;
             }
         }
 
@@ -223,102 +223,102 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             StuckCount = 0f;
             WantsToClimbOnSomeWall = false;
-            npc.Calamity().ShouldFallThroughPlatforms = true;
+            NPC.Calamity().ShouldFallThroughPlatforms = true;
 
             // Generate unusual movement patterns based on sines.
             float offsetAngle = CalamityUtils.AperiodicSin(Time / 360f, 0f, 1f) * 0.006f;
 
-            Vector2 currentDirection = npc.velocity.SafeNormalize((npc.rotation - MathHelper.PiOver2).ToRotationVector2());
+            Vector2 currentDirection = NPC.velocity.SafeNormalize((NPC.rotation - MathHelper.PiOver2).ToRotationVector2());
 
             // Turn much more quickly if there's no wall ahead.
-            Vector2 aheadCheckPosition = npc.Center + currentDirection * 120f;
+            Vector2 aheadCheckPosition = NPC.Center + currentDirection * 120f;
             Tile aheadTile = CalamityUtils.ParanoidTileRetrieval((int)(aheadCheckPosition.X / 16), (int)(aheadCheckPosition.Y / 16));
-            bool aboutToCollideWithSomething = CalamityUtils.DistanceToTileCollisionHit(npc.Center - currentDirection * 5f, currentDirection) < 6f;
+            bool aboutToCollideWithSomething = CalamityUtils.DistanceToTileCollisionHit(NPC.Center - currentDirection * 5f, currentDirection) < 6f;
             bool almostReadyToWalkAgain = ClimbTime > 445f;
 
-            if (((aheadTile.wall == WallID.None || WorldGen.SolidTile(aheadTile)) && !almostReadyToWalkAgain) || aboutToCollideWithSomething)
+            if (((aheadTile.WallType == WallID.None || WorldGen.SolidTile(aheadTile)) && !almostReadyToWalkAgain) || aboutToCollideWithSomething)
             {
-                float distanceToCollisionLeft = CalamityUtils.DistanceToTileCollisionHit(npc.Center - currentDirection.RotatedBy(MathHelper.PiOver2) * 5f, currentDirection.RotatedBy(MathHelper.PiOver2)) ?? 10000f;
-                float distanceToCollisionRight = CalamityUtils.DistanceToTileCollisionHit(npc.Center - currentDirection.RotatedBy(-MathHelper.PiOver2) * 5f, currentDirection.RotatedBy(-MathHelper.PiOver2)) ?? 10000f;
+                float distanceToCollisionLeft = CalamityUtils.DistanceToTileCollisionHit(NPC.Center - currentDirection.RotatedBy(MathHelper.PiOver2) * 5f, currentDirection.RotatedBy(MathHelper.PiOver2)) ?? 10000f;
+                float distanceToCollisionRight = CalamityUtils.DistanceToTileCollisionHit(NPC.Center - currentDirection.RotatedBy(-MathHelper.PiOver2) * 5f, currentDirection.RotatedBy(-MathHelper.PiOver2)) ?? 10000f;
                 float steerRotation = distanceToCollisionLeft > distanceToCollisionRight ? MathHelper.PiOver2 : -MathHelper.PiOver2;
-                Vector2 idealVelocity = npc.velocity.RotatedBy(steerRotation);
-                npc.velocity = npc.velocity.MoveTowards(idealVelocity, 0.15f);
+                Vector2 idealVelocity = NPC.velocity.RotatedBy(steerRotation);
+                NPC.velocity = NPC.velocity.MoveTowards(idealVelocity, 0.15f);
             }
             else
-                npc.velocity = npc.velocity.RotatedBy(offsetAngle);
-            npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * 1.56f;
+                NPC.velocity = NPC.velocity.RotatedBy(offsetAngle);
+            NPC.velocity = NPC.velocity.SafeNormalize(Vector2.Zero) * 1.56f;
 
             // Rebound on collision.
-            if (npc.collideX)
+            if (NPC.collideX)
             {
-                npc.velocity.X *= -0.8f;
-                npc.Center += npc.velocity * 2f;
+                NPC.velocity.X *= -0.8f;
+                NPC.Center += NPC.velocity * 2f;
             }
-            if (npc.collideY)
+            if (NPC.collideY)
             {
-                npc.velocity.Y *= -0.8f;
-                npc.Center += npc.velocity * 2f;
+                NPC.velocity.Y *= -0.8f;
+                NPC.Center += NPC.velocity * 2f;
             }
 
-            if (npc.velocity.Length() > 1.4f)
-                npc.rotation = npc.rotation.AngleLerp(npc.velocity.ToRotation() + MathHelper.PiOver2, 0.2f);
+            if (NPC.velocity.Length() > 1.4f)
+                NPC.rotation = NPC.rotation.AngleLerp(NPC.velocity.ToRotation() + MathHelper.PiOver2, 0.2f);
 
-            if (Collision.SolidCollision(npc.position + Vector2.One * 24f, npc.width - 12, npc.height - 12))
+            if (Collision.SolidCollision(NPC.position + Vector2.One * 24f, NPC.width - 12, NPC.height - 12))
             {
-                npc.velocity *= -1f;
-                npc.position.Y -= 5f;
+                NPC.velocity *= -1f;
+                NPC.position.Y -= 5f;
             }
 
             // Handle climbing frames.
-            npc.frameCounter++;
-            if (npc.frameCounter >= 4f)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 4f)
             {
                 if (CurrentFrame < 9)
                     CurrentFrame = 9f;
                 CurrentFrame++;
-                if (CurrentFrame >= Main.npcFrameCount[npc.type])
+                if (CurrentFrame >= Main.npcFrameCount[NPC.type])
                     CurrentFrame = 9f;
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
             }
 
-            if (CalamityUtils.ParanoidTileRetrieval((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)).wall == WallID.None || ClimbTime > 620f)
+            if (CalamityUtils.ParanoidTileRetrieval((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)).WallType == WallID.None || ClimbTime > 620f)
             {
                 CurrentState = BehaviorState.WalkAround;
-                npc.velocity = new Vector2(Main.rand.NextBool(2).ToDirectionInt() * 1.2f, 3f);
-                npc.rotation = 0f;
-                npc.netUpdate = true;
+                NPC.velocity = new Vector2(Main.rand.NextBool(2).ToDirectionInt() * 1.2f, 3f);
+                NPC.rotation = 0f;
+                NPC.netUpdate = true;
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int i = 0; i < 6; i++)
-                Dust.NewDustDirect(npc.position, npc.width, npc.height, 226);
-            if (npc.life <= 0)
+                Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);
+            if (NPC.life <= 0)
             {
                 for (int i = 1; i <= 3; i++)
-                    Gore.NewGorePerfect(npc.Center, npc.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), mod.GetGoreSlot($"Gores/DraedonLabCritters/RepairUnit{i}"));
+                    Gore.NewGorePerfect(NPC.Center, NPC.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), Mod.GetGoreSlot($"Gores/DraedonLabCritters/RepairUnit{i}"));
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PowerCell>(), 2, 2, 4);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<PowerCell>(), 2, 2, 4);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Y = (int)(CurrentFrame * frameHeight);
+            NPC.frame.Y = (int)(CurrentFrame * frameHeight);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D critterTexture = Main.npcTexture[npc.type];
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/NPCs/DraedonLabThings/RepairUnitCritterGlowmask");
-            Vector2 drawPosition = npc.Center - Main.screenPosition + Vector2.UnitY * npc.gfxOffY;
-            SpriteEffects direction = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(critterTexture, drawPosition, npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() * 0.5f, npc.scale, direction, 0f);
-            spriteBatch.Draw(glowmask, drawPosition, npc.frame, npc.GetAlpha(Color.White), npc.rotation, npc.frame.Size() * 0.5f, npc.scale, direction, 0f);
+            Texture2D critterTexture = Main.npcTexture[NPC.type];
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/DraedonLabThings/RepairUnitCritterGlowmask");
+            Vector2 drawPosition = NPC.Center - Main.screenPosition + Vector2.UnitY * NPC.gfxOffY;
+            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(critterTexture, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);
+            spriteBatch.Draw(glowmask, drawPosition, NPC.frame, NPC.GetAlpha(Color.White), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);
             return false;
         }
     }

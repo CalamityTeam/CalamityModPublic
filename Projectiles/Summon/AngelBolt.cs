@@ -13,27 +13,27 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.extraUpdates = 200;
-            projectile.friendly = true;
-            projectile.timeLeft = 45;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.extraUpdates = 200;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 45;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft % 2f == 0f)
+            if (Projectile.timeLeft % 2f == 0f)
             {
-                Vector2 vector33 = projectile.position;
-                vector33 -= projectile.velocity * 0.25f;
+                Vector2 vector33 = Projectile.position;
+                vector33 -= Projectile.velocity * 0.25f;
                 int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1.25f);
                 Main.dust[num448].position = vector33;
                 Main.dust[num448].noGravity = true;

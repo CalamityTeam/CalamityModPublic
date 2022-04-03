@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 14;
-            item.damage = 90;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
-            item.shootSpeed = 12.5f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 90;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
+            Item.shootSpeed = 12.5f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,18 +51,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Grenade, 20);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 5);
-            recipe.AddIngredient(ItemID.Nanites, 5);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.Grenade, 20).AddIngredient(ItemID.MartianConduitPlating, 5).AddIngredient(ItemID.Nanites, 5).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

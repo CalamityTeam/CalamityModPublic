@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Herring : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Herring");
             Description.SetDefault("The herring will protect you");

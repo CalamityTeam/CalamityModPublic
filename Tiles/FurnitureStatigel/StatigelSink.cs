@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelSink : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSink();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));

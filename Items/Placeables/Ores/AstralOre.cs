@@ -13,18 +13,18 @@ namespace CalamityMod.Items.Placeables.Ores
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Ores.AstralOre>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 36);
-            item.rare = ItemRarityID.Cyan;
+            Item.createTile = ModContent.TileType<Tiles.Ores.AstralOre>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 36);
+            Item.rare = ItemRarityID.Cyan;
         }
     }
 }

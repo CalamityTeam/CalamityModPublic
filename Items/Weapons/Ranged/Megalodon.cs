@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 34;
-            item.ranged = true;
-            item.width = 72;
-            item.height = 32;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 34;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 72;
+            Item.height = 32;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -72,15 +72,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Megashark);
-            recipe.AddIngredient(ModContent.ItemType<Archerfish>());
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Megashark).AddIngredient(ModContent.ItemType<Archerfish>()).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

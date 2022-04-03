@@ -12,31 +12,22 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.RunicProfanedBrick>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.RunicProfanedBrick>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedCrystal>(), 1);
-            recipe.SetResult(this, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RunicProfanedBrickWall>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(5).AddIngredient(ModContent.ItemType<ProfanedRock>(), 4).AddIngredient(ModContent.ItemType<ProfanedCrystal>(), 1).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RunicProfanedBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

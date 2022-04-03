@@ -16,32 +16,27 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.knockBack = 2.5f;
-            item.useTime = 9;
-            item.useAnimation = 16;
-            item.pick = 75;
-            item.tileBoost += 1;
+            Item.damage = 12;
+            Item.knockBack = 2.5f;
+            Item.useTime = 9;
+            Item.useAnimation = 16;
+            Item.pick = 75;
+            Item.tileBoost += 1;
 
-            item.melee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
-            recipe.AddIngredient(ItemID.SunplateBlock, 3);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 7).AddIngredient(ItemID.SunplateBlock, 3).AddTile(TileID.SkyMill).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

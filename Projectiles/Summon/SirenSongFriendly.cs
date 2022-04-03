@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -10,48 +11,48 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Song");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
-            if (projectile.localAI[0] == 0f)
+            Projectile.velocity.X *= 0.985f;
+            Projectile.velocity.Y *= 0.985f;
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.02f;
-                if (projectile.scale >= 1.25f)
+                Projectile.scale += 0.02f;
+                if (Projectile.scale >= 1.25f)
                 {
-                    projectile.localAI[0] = 1f;
+                    Projectile.localAI[0] = 1f;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale -= 0.02f;
-                if (projectile.scale <= 0.75f)
+                Projectile.scale -= 0.02f;
+                if (Projectile.scale <= 0.75f)
                 {
-                    projectile.localAI[0] = 0f;
+                    Projectile.localAI[0] = 0f;
                 }
             }
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
+                Projectile.ai[1] = 1f;
                 float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
                 Main.harpNote = soundPitch;
-                Main.PlaySound(SoundID.Item26, projectile.position);
+                SoundEngine.PlaySound(SoundID.Item26, Projectile.position);
             }
-            Lighting.AddLight(projectile.Center, 0f, 0f, 1.2f);
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 1.2f);
         }
 
         public override Color? GetAlpha(Color lightColor)

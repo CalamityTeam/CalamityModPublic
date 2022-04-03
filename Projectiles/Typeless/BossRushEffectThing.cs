@@ -9,23 +9,23 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BossRushEffectThing : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.aiStyle = -1;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = BossRushEvent.StartEffectTotalTime;
-            projectile.penetrate = -1;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.aiStyle = -1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = BossRushEvent.StartEffectTotalTime;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            projectile.Center = Owner.Center;
+            Projectile.Center = Owner.Center;
             if (Time >= 70f)
                 MoonlordDeathDrama.RequestLight(Utils.InverseLerp(70f, 85f, Time, true), Main.LocalPlayer.Center);
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
                 BossRushEvent.SyncStartTimer((int)Time);
 
             float currentShakePower = MathHelper.Lerp(8f, 12f, Utils.InverseLerp(BossRushEvent.StartEffectTotalTime * 0.6f, BossRushEvent.StartEffectTotalTime, Time, true));
-            currentShakePower *= 1f - Utils.InverseLerp(1500f, 3700f, Main.LocalPlayer.Distance(projectile.Center), true);
+            currentShakePower *= 1f - Utils.InverseLerp(1500f, 3700f, Main.LocalPlayer.Distance(Projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
 
             Time++;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
             {
-                var netMessage = mod.GetPacket();
+                var netMessage = Mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
                 netMessage.Write(BossRushEvent.BossRushStage);
                 netMessage.Send();

@@ -17,23 +17,23 @@ Stealth strikes throw seven at once and last a lot longer");
 
         public override void SafeSetDefaults()
         {
-            item.width = 14;
-            item.damage = 10;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.height = 14;
-            item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<StickyBol>();
-            item.shootSpeed = 8f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 10;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 14;
+            Item.value = Item.buyPrice(0, 0, 1, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<StickyBol>();
+            Item.shootSpeed = 8f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -60,12 +60,7 @@ Stealth strikes throw seven at once and last a lot longer");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 20);
-            recipe.AddIngredient(ItemID.Gel);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 20);
-            recipe.AddRecipe();
+            CreateRecipe(20).AddIngredient(ItemID.SpikyBall, 20).AddIngredient(ItemID.Gel).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

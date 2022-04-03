@@ -15,20 +15,20 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.melee = true;
-            projectile.timeLeft = 180;
-            projectile.extraUpdates = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 180;
+            Projectile.extraUpdates = 1;
         }
 
         // Reduce damage of projectiles if more than the cap are active
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
             int cap = 3;
             int oldDamage = damage;
             if (projectileCount > cap)
@@ -39,23 +39,23 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 for (int num468 = 0; num468 < 3; num468++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 0.75f);
+                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, default, 0.75f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }
             }
 
-            if (projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+            if (Projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -21,24 +22,24 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = Projectile.height = 24;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.timeLeft = Lifetime;
         }
 
-        public override bool CanDamage() => projectile.timeLeft < Lifetime - 30;
+        public override bool CanDamage() => Projectile.timeLeft < Lifetime - 30;
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
                 for (int i = 0; i < 36; i++)
                 {
-                    Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
+                    Dust exoDust = Dust.NewDustPerfect(Projectile.BottomRight, 267);
                     exoDust.color = CalamityUtils.MulticolorLerp(i / 36f, CalamityUtils.ExoPalette);
                     exoDust.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * new Vector2(3f, 1.45f) - Vector2.UnitY * 2f;
                     exoDust.scale = 2.8f;
@@ -48,23 +49,23 @@ namespace CalamityMod.Projectiles.Boss
 
                 for (int i = 0; i < 10; i++)
                 {
-                    Dust exoDust = Dust.NewDustPerfect(projectile.BottomRight, 267);
+                    Dust exoDust = Dust.NewDustPerfect(Projectile.BottomRight, 267);
                     exoDust.color = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
                     exoDust.velocity = Main.rand.NextVector2Circular(2f, 2f);
                     exoDust.scale = 4f;
                     exoDust.fadeIn = 2f;
                     exoDust.noGravity = true;
                 }
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
-            Lighting.AddLight(projectile.Center, Color.White.ToVector3());
-            projectile.scale = Utils.InverseLerp(-1f, 15f, projectile.timeLeft, true) * Utils.InverseLerp(Lifetime + 1f, Lifetime - 15f, projectile.timeLeft, true);
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
+            Projectile.scale = Utils.InverseLerp(-1f, 15f, Projectile.timeLeft, true) * Utils.InverseLerp(Lifetime + 1f, Lifetime - 15f, Projectile.timeLeft, true);
         }
 
         private float PrimitiveWidthFunction(float completionRatio)
         {
-            return Utils.InverseLerp(1f, 0.96f, completionRatio, true) * Utils.InverseLerp(0f, 0.016f, completionRatio, true) * projectile.scale * 20f;
+            return Utils.InverseLerp(1f, 0.96f, completionRatio, true) * Utils.InverseLerp(0f, 0.016f, completionRatio, true) * Projectile.scale * 20f;
         }
 
         private Color PrimitiveColorFunction(float completionRatio)
@@ -81,16 +82,16 @@ namespace CalamityMod.Projectiles.Boss
 
             Vector2[] basePoints = new Vector2[8];
             for (int i = 0; i < basePoints.Length; i++)
-                basePoints[i] = projectile.Center - Vector2.UnitY * i / basePoints.Length * LaserLength;
+                basePoints[i] = Projectile.Center - Vector2.UnitY * i / basePoints.Length * LaserLength;
 
-            Vector2 overallOffset = projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 overallOffset = Projectile.Size * 0.5f - Main.screenPosition;
             RayDrawer.Draw(basePoints, overallOffset, 92);
             return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center - Vector2.UnitY * LaserLength);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center - Vector2.UnitY * LaserLength);
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)

@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 82;
-            item.damage = 531;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 82;
-            item.maxStack = 1;
-            item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
-            item.shootSpeed = 30f;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().rogue = true;
+            Item.width = 82;
+            Item.damage = 531;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 82;
+            Item.maxStack = 1;
+            Item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
+            Item.shootSpeed = 30f;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -55,19 +55,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DayBreak);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DayBreak).AddIngredient(ModContent.ItemType<Lumenite>(), 7).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

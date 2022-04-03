@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 34;
-            item.height = 30;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(silver: 50);
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 34;
+            Item.height = 30;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(silver: 50);
         }
 
         public override bool CanRightClick()
@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Fishing
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
             {
-                DropHelper.DropItemChance(player, thorium.ItemType("Pearl"), 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(player, thorium.ItemType("Opal"), 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(player, thorium.ItemType("Onyx"), 0.25f, gemMin, gemMax);
+                DropHelper.DropItemChance(player, thorium.Find<ModItem>("Pearl").Type, 0.25f, gemMin, gemMax);
+                DropHelper.DropItemChance(player, thorium.Find<ModItem>("Opal").Type, 0.25f, gemMin, gemMax);
+                DropHelper.DropItemChance(player, thorium.Find<ModItem>("Onyx").Type, 0.25f, gemMin, gemMax);
             }
         }
     }

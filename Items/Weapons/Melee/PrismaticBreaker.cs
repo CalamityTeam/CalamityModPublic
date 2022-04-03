@@ -47,26 +47,26 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Fire to charge for a powerful rainbow laser\n" +
                 "Right click to instead swing the sword and fire rainbow colored waves\n" +
                 "The sword is boosted by both melee and ranged damage");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 662;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 13;
-            item.useTurn = true;
-            item.melee = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.width = 50;
-            item.height = 50;
-            item.shoot = ModContent.ProjectileType<PrismaticBeam>();
-            item.shootSpeed = 14f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.damage = 662;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = Item.useAnimation = 13;
+            Item.useTurn = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.width = 50;
+            Item.height = 50;
+            Item.shoot = ModContent.ProjectileType<PrismaticBeam>();
+            Item.shootSpeed = 14f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -76,13 +76,13 @@ namespace CalamityMod.Items.Weapons.Melee
         //all damage boosts should still apply
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
-            add += damageMult - player.meleeDamage + 1f;
+            float damageMult = (player.GetDamage(DamageClass.Melee) + player.GetDamage(DamageClass.Ranged) - 2f) / 2f;
+            add += damageMult - player.GetDamage(DamageClass.Melee) + 1f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -104,21 +104,21 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.UseSound = SoundID.Item1;
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.useTurn = true;
-                item.autoReuse = true;
-                item.noMelee = false;
-                item.channel = false;
+                Item.UseSound = SoundID.Item1;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.useTurn = true;
+                Item.autoReuse = true;
+                Item.noMelee = false;
+                Item.channel = false;
             }
             else
             {
-                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
-                item.useStyle = ItemUseStyleID.HoldingOut;
-                item.useTurn = false;
-                item.autoReuse = false;
-                item.noMelee = true;
-                item.channel = true;
+                Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+                Item.useStyle = ItemUseStyleID.Shoot;
+                Item.useTurn = false;
+                Item.autoReuse = false;
+                Item.noMelee = true;
+                Item.channel = true;
             }
             return base.CanUseItem(player);
         }
@@ -146,15 +146,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmicRainbow>());
-            recipe.AddIngredient(ModContent.ItemType<SolsticeClaymore>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicRainbow>()).AddIngredient(ModContent.ItemType<SolsticeClaymore>()).AddIngredient(ModContent.ItemType<BarofLife>(), 3).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

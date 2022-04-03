@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 48;
-            item.height = 62;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.accessory = true;
+            Item.width = 48;
+            Item.height = 62;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -40,13 +40,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilencingSheath>());
-            recipe.AddIngredient(ModContent.ItemType<RuinMedallion>());
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilencingSheath>()).AddIngredient(ModContent.ItemType<RuinMedallion>()).AddIngredient(ModContent.ItemType<MeldiateBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

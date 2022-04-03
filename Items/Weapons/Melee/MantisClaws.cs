@@ -16,19 +16,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.damage = 88;
-            item.melee = true;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 6;
-            item.useTurn = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.width = 26;
+            Item.damage = 88;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 6;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -7,12 +7,12 @@ namespace CalamityMod.Tiles.AstralDesert
     {
         public override Texture2D GetTexture()
         {
-            return ModContent.GetTexture("CalamityMod/Tiles/AstralDesert/AstralPalmTree");
+            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree");
         }
 
         public override Texture2D GetTopTextures()
         {
-            return ModContent.GetTexture("CalamityMod/Tiles/AstralDesert/AstralPalmTree_Tops");
+            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree_Tops");
         }
 
         public override int DropWood()

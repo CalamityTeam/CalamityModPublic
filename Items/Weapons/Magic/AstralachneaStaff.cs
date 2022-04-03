@@ -13,27 +13,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Astralachnea Staff");
             Tooltip.SetDefault("Fires a spread of homing astral spider fangs");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.magic = true;
-            item.mana = 19;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item46;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralachneaFang>();
-            item.shootSpeed = 13f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 19;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item46;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AstralachneaFang>();
+            Item.shootSpeed = 13f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             int num73 = damage;
             float num74 = knockBack;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

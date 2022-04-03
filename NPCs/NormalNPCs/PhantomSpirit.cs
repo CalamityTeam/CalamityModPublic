@@ -13,35 +13,35 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom Spirit");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[NPC.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.damage = 70;
-            npc.width = 16;
-            npc.height = 16;
-            npc.defense = 10;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0.1f;
+            NPC.aiStyle = -1;
+            NPC.damage = 70;
+            NPC.width = 16;
+            NPC.height = 16;
+            NPC.defense = 10;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0.1f;
             animationType = NPCID.DungeonSpirit;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 20, 0);
-            npc.HitSound = SoundID.NPCHit36;
-            npc.DeathSound = SoundID.NPCDeath39;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 20, 0);
+            NPC.HitSound = SoundID.NPCHit36;
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void AI()
         {
             float speed = CalamityWorld.death ? 22f : 17f;
-            CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
+            CalamityAI.DungeonSpiritAI(NPC, Mod, speed, -MathHelper.PiOver2);
+            int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
@@ -52,13 +52,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int num288 = 0; num288 < 50; num288++)
                 {
-                    int num289 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
+                    int num289 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
                     Dust dust = Main.dust[num289];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>());
+            DropHelper.DropItem(NPC, ModContent.ItemType<Phantoplasm>());
         }
     }
 }

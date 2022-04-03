@@ -17,20 +17,20 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.damage = 4;
-            item.width = 54;
-            item.height = 20;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = false;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MarkRound>();
+            Item.damage = 4;
+            Item.width = 54;
+            Item.height = 20;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = false;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<MarkRound>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             float formula = 5f * (player.allDamage - 1f);
-            formula += player.meleeDamage - 1f;
-            formula += player.rangedDamage - 1f;
-            formula += player.magicDamage - 1f;
-            formula += player.minionDamage - 1f;
+            formula += player.GetDamage(DamageClass.Melee) - 1f;
+            formula += player.GetDamage(DamageClass.Ranged) - 1f;
+            formula += player.GetDamage(DamageClass.Magic) - 1f;
+            formula += player.GetDamage(DamageClass.Summon) - 1f;
             formula += player.Calamity().throwingDamage - 1f;
             add += formula;
         }
@@ -58,13 +58,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 7);
-            recipe.AddIngredient(ItemID.Obsidian, 15);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 7).AddIngredient(ItemID.Obsidian, 15).AddIngredient(ItemID.GlowingMushroom, 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

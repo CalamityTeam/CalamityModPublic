@@ -19,26 +19,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.ranged = true;
-            item.width = 60;
-            item.height = 26;
-            item.useAnimation = 24;
-            item.reuseDelay = 10;
-            item.useTime = 2;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 60;
+            Item.height = 26;
+            Item.useAnimation = 24;
+            Item.reuseDelay = 10;
+            Item.useTime = 2;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAmmo = AmmoID.Bullet;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -56,10 +56,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
-            float sSpeed = item.shootSpeed;
+            float sSpeed = Item.shootSpeed;
             float knockback = knockBack;
-            knockback = player.GetWeaponKnockback(item, knockback);
-            player.itemTime = item.useTime;
+            knockback = player.GetWeaponKnockback(Item, knockback);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -98,15 +98,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SDFMG>());
-            recipe.AddIngredient(ItemID.SoulofMight, 10);
-            recipe.AddIngredient(ItemID.SoulofSight, 10);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SDFMG>()).AddIngredient(ItemID.SoulofMight, 10).AddIngredient(ItemID.SoulofSight, 10).AddIngredient(ItemID.SoulofFright, 10).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

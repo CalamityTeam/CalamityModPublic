@@ -15,20 +15,20 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.width = 22;
-            item.height = 24;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 10f;
+            Item.damage = 1;
+            Item.width = 22;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 10f;
 
-            item.value = Item.buyPrice(gold: 1);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<IceBarrageMain>();
-            item.shootSpeed = 0f;
-            item.ammo = item.type;
+            Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
+            Item.shootSpeed = 0f;
+            Item.ammo = Item.type;
         }
     }
 }

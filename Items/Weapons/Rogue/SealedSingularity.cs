@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 260;
-            item.knockBack = 5f;
-            item.useAnimation = item.useTime = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.Calamity().rogue = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SealedSingularityProj>();
-            item.shootSpeed = 14f;
+            Item.damage = 260;
+            Item.knockBack = 5f;
+            Item.useAnimation = Item.useTime = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.Calamity().rogue = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SealedSingularityProj>();
+            Item.shootSpeed = 14f;
 
-            item.noMelee = item.noUseGraphic = true;
-            item.height = item.width = 34;
-            item.UseSound = SoundID.Item106;
+            Item.noMelee = Item.noUseGraphic = true;
+            Item.height = Item.width = 34;
+            Item.UseSound = SoundID.Item106;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,12 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DuststormInABottle>());
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DuststormInABottle>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

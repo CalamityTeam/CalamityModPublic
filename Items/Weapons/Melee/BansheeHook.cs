@@ -18,32 +18,32 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 120;
-            item.damage = 238;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.melee = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 21;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
-            item.autoReuse = true;
-            item.height = 108;
-            item.shoot = ModContent.ProjectileType<BansheeHookProj>();
-            item.shootSpeed = 42f;
+            Item.width = 120;
+            Item.damage = 238;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 21;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
+            Item.autoReuse = true;
+            Item.height = 108;
+            Item.shoot = ModContent.ProjectileType<BansheeHookProj>();
+            Item.shootSpeed = 42f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"));
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -58,15 +58,15 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 num82 = (float)player.direction;
                 num83 = 0f;
-                num84 = item.shootSpeed;
+                num84 = Item.shootSpeed;
             }
             else
             {
-                num84 = item.shootSpeed / num84;
+                num84 = Item.shootSpeed / num84;
             }
             num82 *= num84;
             num83 *= num84;
-            float ai4 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
+            float ai4 = Main.rand.NextFloat() * Item.shootSpeed * 0.75f * (float)player.direction;
             Vector2 velocity = new Vector2(num82, num83);
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai4, 0.0f);
             return false;

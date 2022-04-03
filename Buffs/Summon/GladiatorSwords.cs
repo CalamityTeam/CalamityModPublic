@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class GladiatorSwords : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gladiator Swords");
             Description.SetDefault("The gladiator swords will protect you");

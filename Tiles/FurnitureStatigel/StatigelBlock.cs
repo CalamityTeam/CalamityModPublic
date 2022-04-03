@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBlock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;

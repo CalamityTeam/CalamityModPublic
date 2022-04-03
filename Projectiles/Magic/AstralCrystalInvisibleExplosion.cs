@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             //KILL VELOCITY
-            projectile.ai[0]++;
-            if (projectile.ai[0] > 10)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] > 10)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

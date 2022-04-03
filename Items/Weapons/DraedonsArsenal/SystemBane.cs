@@ -24,33 +24,33 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SafeSetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.damage = 45;
+            Item.damage = 45;
             modItem.rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 42;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 42;
+            Item.height = 36;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
-            item.UseSound = SoundID.Item1;
+            Item.UseSound = SoundID.Item1;
 
-            item.shootSpeed = 16f;
-            item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 135f;
             modItem.ChargePerUse = 0.085f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < MaxDeployedProjectiles;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < MaxDeployedProjectiles;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -64,14 +64,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 3);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

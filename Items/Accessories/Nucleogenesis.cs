@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,20 +37,12 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.minionKB += 3f;
-            player.minionDamage += 0.15f;
+            player.GetDamage(DamageClass.Summon) += 0.15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StarTaintedGenerator>());
-            recipe.AddIngredient(ModContent.ItemType<StatisCurse>());
-            recipe.AddIngredient(ItemID.LunarBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StarTaintedGenerator>()).AddIngredient(ModContent.ItemType<StatisCurse>()).AddIngredient(ItemID.LunarBar, 8).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

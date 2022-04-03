@@ -51,7 +51,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<ChargingStation>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.TileType == ModContent.TileType<ChargingStation>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         public override void Update()
@@ -204,7 +204,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.ChargingStationStandard);
             packet.Write(ID);
             packet.Write(ChargingTimer);
@@ -269,7 +269,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket(1024);
+            ModPacket packet = Mod.GetPacket(1024);
             packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
             packet.Write(ID);
             packet.WriteItem(PluggedItem, true);

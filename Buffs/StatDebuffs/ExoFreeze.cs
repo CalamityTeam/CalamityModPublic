@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class ExoFreeze : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Freeze");
             Description.SetDefault("Cannot move");

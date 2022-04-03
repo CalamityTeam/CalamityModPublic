@@ -13,19 +13,19 @@ namespace CalamityMod.Items.Potions
         }
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 30;
-            item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Pink;
-            item.maxStack = 30;
-            item.consumable = true;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.UseSound = SoundID.Item2;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.useTurn = true;
-            item.buffType = BuffID.WellFed;
-            item.buffTime = CalamityUtils.SecondsToFrames(1800f);
+            Item.width = 32;
+            Item.height = 30;
+            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.maxStack = 30;
+            Item.consumable = true;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.UseSound = SoundID.Item2;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useTurn = true;
+            Item.buffType = BuffID.WellFed;
+            Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
         }
     }
 }

@@ -32,13 +32,13 @@ namespace CalamityMod.Schematics
             bTileHeader2 = t.bTileHeader2;
             bTileHeader3 = t.bTileHeader3;
             sTileHeader = t.sTileHeader;
-            type = t.type; // This is changed later if it's modded
-            wall = t.wall; // This is changed later if it's modded
+            type = t.TileType; // This is changed later if it's modded
+            wall = t.WallType; // This is changed later if it's modded
             originalType = type; // This is never changed
             originalWall = wall; // This is never changed
             liquid = t.liquid;
-            frameX = t.frameX;
-            frameY = t.frameY;
+            frameX = t.TileFrameX;
+            frameY = t.TileFrameY;
             keepTile = false;
             keepWall = false;
         }
@@ -68,7 +68,7 @@ namespace CalamityMod.Schematics
             else if (keepWall) // wall from original, tile from replacement
             {
                 target.CopyFrom(replacement);
-                target.wall = original.wall;
+                target.WallType = original.WallType;
                 target.wallFrameX(original.wallFrameX());
                 target.wallFrameY(original.wallFrameY());
                 target.wallColor(original.wallColor());
@@ -76,7 +76,7 @@ namespace CalamityMod.Schematics
             else if (keepTile) // tile from original, wall from replacement
             {
                 target.CopyFrom(original);
-                target.wall = replacement.wall;
+                target.WallType = replacement.WallType;
                 target.wallFrameX(replacement.wallFrameX());
                 target.wallFrameY(replacement.wallFrameY());
                 target.wallColor(replacement.wallColor());
@@ -170,16 +170,16 @@ namespace CalamityMod.Schematics
             if (!tileHeadersMatch)
                 return false;
 
-            bool typesMatch = t.type == smt.originalType;
+            bool typesMatch = t.TileType == smt.originalType;
             if (!typesMatch)
                 return false;
 
-            bool wallsMatch = t.wall == smt.originalWall;
+            bool wallsMatch = t.WallType == smt.originalWall;
             if (!wallsMatch)
                 return false;
 
-            bool framesMatch = t.frameX == smt.frameX;
-            framesMatch &= t.frameY == smt.frameY;
+            bool framesMatch = t.TileFrameX == smt.frameX;
+            framesMatch &= t.TileFrameY == smt.frameY;
             // Wall frames are not checked separately because these are computed from binary headers.
             // wallFrameX() => (bTileHeader2 & 0xF) * 36;
             // wallFrameY() => (bTileHeader3 & 7) * 36;
@@ -201,8 +201,8 @@ namespace CalamityMod.Schematics
             return -1;
         }
 
-        private static string GetFullName(this ModTile mt) => $"{mt.mod.Name}/{mt.Name}";
-        private static string GetFullName(this ModWall mw) => $"{mw.mod.Name}/{mw.Name}";
+        private static string GetFullName(this ModTile mt) => $"{mt.Mod.Name}/{mt.Name}";
+        private static string GetFullName(this ModWall mw) => $"{mw.Mod.Name}/{mw.Name}";
 
         private static void ComputeMetaIndices(ref SchematicData schematic, ref SchematicMetaTile smt)
         {
@@ -455,7 +455,7 @@ namespace CalamityMod.Schematics
                     ModContent.SplitName(tileFullName, out string mod, out string tileName);
                     Mod theMod = ModLoader.GetMod(mod);
                     // If that mod isn't loaded, spawn in a MysteryTile instead.
-                    smt.type = (ushort)(theMod is null ? ModContent.TileType<MysteryTile>() : theMod.TileType(tileName));
+                    smt.type = (ushort)(theMod is null ? ModContent.TileType<MysteryTile>() : theMod.Find<ModTile>(tileName).Type);
                 }
             }
             // If this schematic tile has a modded wall, replace the meta index offset with that modded wall's ID.
@@ -470,7 +470,7 @@ namespace CalamityMod.Schematics
                     ModContent.SplitName(wallFullName, out string mod, out string wallName);
                     Mod theMod = ModLoader.GetMod(mod);
                     // tModLoader does not have a MysteryWall, so if that mod isn't loaded, this wall will disappear.
-                    smt.wall = (ushort)(theMod is null ? 0 : theMod.WallType(wallName));
+                    smt.wall = (ushort)(theMod is null ? 0 : theMod.Find<ModWall>(wallName).Type);
                 }
             }
         }

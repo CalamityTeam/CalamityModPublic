@@ -18,29 +18,22 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 30;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<AuricToiletTile>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 12;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<AuricToiletTile>();
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BotanicChair>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteChair>());
-            recipe.AddIngredient(ModContent.ItemType<SilvaChair>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BotanicChair>()).AddIngredient(ModContent.ItemType<CosmiliteChair>()).AddIngredient(ModContent.ItemType<SilvaChair>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

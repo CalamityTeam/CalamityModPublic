@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 36;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 8);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 38;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 8);
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

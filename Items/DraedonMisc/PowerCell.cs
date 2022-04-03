@@ -15,24 +15,24 @@ namespace CalamityMod.Items.DraedonMisc
             DisplayName.SetDefault("Draedon Power Cell");
             Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
                                "Also can be processed by the Extractinator for spare parts");
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+            ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 14;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.maxStack = 999;
+            Item.width = 26;
+            Item.height = 14;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.maxStack = 999;
 
-            item.consumable = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 10;
-            item.useTime = 2;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.value = Item.sellPrice(0, 0, 0, 20);
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 10;
+            Item.useTime = 2;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.value = Item.sellPrice(0, 0, 0, 20);
         }
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)

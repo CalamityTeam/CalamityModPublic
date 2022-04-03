@@ -13,27 +13,23 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.SunkenSea.SeaPrism>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 10);
-            item.rare = ItemRarityID.Green;
+            Item.createTile = ModContent.TileType<Tiles.SunkenSea.SeaPrism>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 10);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

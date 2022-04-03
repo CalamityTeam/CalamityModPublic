@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -98,7 +99,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.localAI[3] >= (600 + Main.rand.Next(1000)))
             {
                 npc.localAI[3] = -Main.rand.Next(200);
-                Main.PlaySound(SoundID.NPCDeath10, (int)npc.position.X, (int)npc.position.Y);
+                SoundEngine.PlaySound(SoundID.NPCDeath10, (int)npc.position.X, (int)npc.position.Y);
             }
 
             // Set whoAmI variable
@@ -228,7 +229,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         // Play roar sound on players nearby
                         if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
-                            Main.PlaySound(SoundID.NPCKilled, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 10, 1f, -0.25f);
+                            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 10, 1f, -0.25f);
                     }
                 }
                 else if (distanceFromTarget < distanceBeforeSlowingDown)

@@ -14,80 +14,80 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Hellblast");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1500;
-            projectile.Opacity = 0f;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1500;
+            Projectile.Opacity = 0f;
             cooldownSlot = 1;
         }
 
         public override void AI()
         {
             // Cal Clone bullet hell projectiles accelerate after a certain time has passed
-            if (projectile.ai[0] == 2f && Main.expertMode && projectile.timeLeft < 1260)
+            if (Projectile.ai[0] == 2f && Main.expertMode && Projectile.timeLeft < 1260)
             {
-                if (projectile.velocity.Length() < ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f))
-                    projectile.velocity *= 1.01f;
+                if (Projectile.velocity.Length() < ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f))
+                    Projectile.velocity *= 1.01f;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 10)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 10)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-                projectile.frame = 0;
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
 
-            if (projectile.timeLeft < 60)
-                projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+            if (Projectile.timeLeft < 60)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
             else
-                projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 1440) / 60f), 0f, 1f);
+                Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - 1440) / 60f), 0f, 1f);
 
-            Lighting.AddLight(projectile.Center, 0.9f * projectile.Opacity, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.9f * Projectile.Opacity, 0f, 0f);
 
-            if (projectile.velocity.X < 0f)
+            if (Projectile.velocity.X < 0f)
             {
-                projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
+                Projectile.spriteDirection = -1;
+                Projectile.rotation = (float)Math.Atan2(-Projectile.velocity.Y, -Projectile.velocity.X);
             }
             else
             {
-                projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int drawStart = frameHeight * projectile.frame;
-            lightColor.R = (byte)(255 * projectile.Opacity);
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int drawStart = frameHeight * Projectile.frame;
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
-        public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.Opacity != 1f)
+            if (Projectile.Opacity != 1f)
                 return;
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);

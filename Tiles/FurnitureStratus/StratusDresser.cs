@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusDresser : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             return true;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.DresserRightClick();
         }

@@ -16,20 +16,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.width = 32;
-            item.height = 32;
-            item.damage = 23;
-            item.melee = true;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.width = 32;
+            Item.height = 32;
+            Item.damage = 23;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -40,12 +40,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

@@ -13,17 +13,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 4;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
             aiType = ProjectileID.NettleBurstEnd;
         }
     }

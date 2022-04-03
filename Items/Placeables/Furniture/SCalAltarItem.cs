@@ -18,28 +18,22 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<SCalAltar>();
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 60;
-            item.height = 48;
-            item.maxStack = 999;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.createTile = ModContent.TileType<SCalAltar>();
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 60;
+            Item.height = 48;
+            Item.maxStack = 999;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

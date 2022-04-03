@@ -28,30 +28,30 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.magic = true;
-            item.mana = 30;
-            item.width = 38;
-            item.height = 40;
-            item.useTime = item.useAnimation = 120;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0f;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 30;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = Item.useAnimation = 120;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<EternityBook>();
-            item.channel = true;
-            item.shootSpeed = 0f;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<EternityBook>();
+            Item.channel = true;
+            Item.shootSpeed = 0f;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
             tt2.text = $"[" + DisoHex + "There's pictures of ponies in the book]";
         }
         public static string DisoHex => "c/" +
@@ -59,18 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
             + 108.ToString("X2") + 251.ToString("X2") + ":";
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeethingDischarge>());
-            recipe.AddIngredient(ModContent.ItemType<SlitheringEels>());
-            recipe.AddIngredient(ModContent.ItemType<GammaFusillade>());
-            recipe.AddIngredient(ModContent.ItemType<PrimordialAncient>());
-            recipe.AddIngredient(ModContent.ItemType<Heresy>());
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 20);
-            recipe.AddIngredient(ItemID.UnicornHorn, 5);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeethingDischarge>()).AddIngredient(ModContent.ItemType<SlitheringEels>()).AddIngredient(ModContent.ItemType<GammaFusillade>()).AddIngredient(ModContent.ItemType<PrimordialAncient>()).AddIngredient(ModContent.ItemType<Heresy>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 20).AddIngredient(ItemID.UnicornHorn, 5).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

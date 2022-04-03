@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles
 {
     public class MonsterBanner : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles
             if (player is null || !player.active || player.dead)
                 return;
 
-            int style = Main.tile[i, j].frameX / 18;
+            int style = Main.tile[i, j].TileFrameX / 18;
             int npc = CalamityUtils.GetBannerNPC(style);
             if (npc != -1)
             {

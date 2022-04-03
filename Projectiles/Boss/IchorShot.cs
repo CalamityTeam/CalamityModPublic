@@ -11,41 +11,41 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ichor Shot");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 420;
-            projectile.penetrate = 1;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 420;
+            Projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-            if (projectile.position.Y > projectile.ai[1])
-                projectile.tileCollide = true;
+            if (Projectile.position.Y > Projectile.ai[1])
+                Projectile.tileCollide = true;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
-                projectile.frame = 0;
+            if (Projectile.frame > 5)
+                Projectile.frame = 0;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 170, 0f, 0f, 100, default, 0.5f);
+            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 170, 0f, 0f, 100, default, 0.5f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            projectile.velocity.Y += 0.06f;
-            projectile.velocity.X *= 0.995f;
+            Projectile.velocity.Y += 0.06f;
+            Projectile.velocity.X *= 0.995f;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 50, projectile.alpha);
+            return new Color(200, 200, 50, Projectile.alpha);
         }
     }
 }

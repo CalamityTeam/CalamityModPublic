@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -20,25 +21,25 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galaxy Smasher");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 62;
-            projectile.height = 62;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = 62;
+            Projectile.height = 62;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = Lifetime;
 
             // Slightly ignores iframes so it can easily hit twice.
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -53,89 +54,89 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int dustType = Main.rand.NextBool(6) ? 112 : 173;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity = Vector2.Zero;
                 Main.dust[idx].scale = scale;
             }
 
             // The hammer makes sound while flying.
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, (int)projectile.position.X, (int)projectile.position.Y);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
 
             // ai[0] stores whether the hammer is returning. If 0, it isn't. If 1, it is.
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= ReboundTime)
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= ReboundTime)
                 {
-                    projectile.ai[0] = 1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 float returnSpeed = GalaxySmasherMelee.Speed;
                 float acceleration = 3.2f;
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
                 // Delete the hammer if it's excessively far away.
                 Vector2 playerCenter = owner.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
+                float xDist = playerCenter.X - Projectile.Center.X;
+                float yDist = playerCenter.Y - Projectile.Center.Y;
                 float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 dist = returnSpeed / dist;
                 xDist *= dist;
                 yDist *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+                if (Projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X + acceleration;
+                    if (Projectile.velocity.X < 0f && xDist > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (Projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X - acceleration;
+                    if (Projectile.velocity.X > 0f && xDist < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (Projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
+                    if (Projectile.velocity.Y < 0f && yDist > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (Projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
+                    if (Projectile.velocity.Y > 0f && yDist < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
             }
 
             // Rotate the hammer as it flies.
-            projectile.rotation += RotationIncrement;
+            Projectile.rotation += RotationIncrement;
             return;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -181,11 +182,11 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Makes an explosion sound.
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
             // Three death lasers (aka "Nebula Shots") swarm the target.
             int laserID = ModContent.ProjectileType<NebulaShot>();
-            int laserDamage = (int)(0.2f * projectile.damage);
+            int laserDamage = (int)(0.2f * Projectile.damage);
             float laserKB = 2.5f;
             int numLasers = 3;
             for (int i = 0; i < numLasers; ++i)
@@ -197,9 +198,9 @@ namespace CalamityMod.Projectiles.Melee
                 float laserSpeed = Main.rand.NextFloat(15f, 18f);
                 Vector2 velocity = startDir * -laserSpeed;
 
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner);
+                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;

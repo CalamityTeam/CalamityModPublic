@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 32;
-            item.rare = ItemRarityID.Blue;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.accessory = true;
+            Item.width = 18;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,12 +30,7 @@ namespace CalamityMod.Items.Accessories
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddRecipeGroup("IronBar", 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddRecipeGroup("IronBar", 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

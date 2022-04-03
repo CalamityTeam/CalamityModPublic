@@ -16,23 +16,23 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.melee = true;
-            item.width = 40;
-            item.height = 60;
-            item.useTime = 50;
-            item.useAnimation = 50;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
-            item.shootSpeed = 18f;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 40;
+            Item.height = 60;
+            Item.useTime = 50;
+            Item.useAnimation = 50;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 10f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
+            Item.shootSpeed = 18f;
         }
     }
 }

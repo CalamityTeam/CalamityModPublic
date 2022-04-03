@@ -19,36 +19,36 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void SetDefaults()
         {
-            item.damage = 500;
-            item.width = 66;
-            item.height = 26;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<GrenadeRound>();
-            item.useAmmo = ModContent.ItemType<GrenadeRounds>();
+            Item.damage = 500;
+            Item.width = 66;
+            Item.height = 26;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 10f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<GrenadeRound>();
+            Item.useAmmo = ModContent.ItemType<GrenadeRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 2;
+                Item.Calamity().timesUsed = 2;
         }
 
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 2;
+                Item.Calamity().timesUsed = 2;
 
             return true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            return item.Calamity().timesUsed < 2;
+            return Item.Calamity().timesUsed < 2;
         }
 
         public override Vector2? HoldoutOffset()
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 0;
+                Item.Calamity().timesUsed = 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 player.HeldItem.Calamity().timesUsed++;
                 for (int i = 0; i < Main.maxInventory; i++)
                 {
-                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+                    if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;
                 }
             }
@@ -78,14 +78,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.IronBar, 20);
-            recipe.anyIronBar = true;
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.IronBar, 20).AddRecipeGroup("AnyAdamantiteBar", 15).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

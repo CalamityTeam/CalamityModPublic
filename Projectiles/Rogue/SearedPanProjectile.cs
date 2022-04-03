@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SearedPanProjectile : ModProjectile
@@ -20,35 +21,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         internal SearedPanTypes PanType
         {
-            get => (SearedPanTypes)(int)projectile.ai[0];
-            set => projectile.ai[0] = (int)value;
+            get => (SearedPanTypes)(int)Projectile.ai[0];
+            set => Projectile.ai[0] = (int)value;
         }
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pan");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
-            projectile.extraUpdates = 2;
+            Projectile.width = Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 420;
+            Projectile.Calamity().rogue = true;
+            Projectile.extraUpdates = 2;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
             OnHitEffects(-1, target.statLife, true);
@@ -69,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects(int targetIndex, int health, bool specialEffects)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             // Don't spawn fireballs or increment the special effects counter if you can't even stealth strike
@@ -91,9 +92,9 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int t = 0; t < 4; t++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(projectile.damage * 0.2), 0f, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(Projectile.damage * 0.2), 0f, Projectile.owner);
                 }
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 // Stealth strikes also cause any existing fireballs to home in on their targets
                 FireballStuff(true);
 
@@ -102,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Stealth strikes then summon five fireballs to circle the hit enemy, they will home in on their own after a second.
                 for (int t = 0; t < 5; t++)
                 {
-                    int i = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
+                    int i = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
                     Main.projectile[i].ModProjectile<NiceCock>().Timer = 61;
                 }
                 FireballPositions(targetIndex);
@@ -110,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             else if (PanType == SearedPanTypes.Golden)
             {
                 modPlayer.searedPanCounter = 0;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)projectile.position.X, (int)projectile.position.Y);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 // Golden pans simply cause all fireballs to home in on their targets
                 FireballStuff(true);
             }
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Summon three fireballs to circle the hit enemy
                 for (int t = 0; t < 3; t++)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, targetIndex);
+                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
                 }
                 FireballPositions(targetIndex);
             }
@@ -127,11 +128,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void FireballStuff(bool activate)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
+                    if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner)
                         continue;
                     if (Main.projectile[i].modProjectile is NiceCock)
                     {
@@ -154,7 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 // Keep the loop as short as possible
-                if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
                 if (Main.projectile[i].modProjectile is NiceCock)
                 {
@@ -168,7 +169,7 @@ namespace CalamityMod.Projectiles.Rogue
             float angle = 0f;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
-                if (!Main.projectile[i].active || Main.projectile[i].owner != projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
                 if (Main.projectile[i].modProjectile is NiceCock)
                 {
@@ -199,7 +200,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

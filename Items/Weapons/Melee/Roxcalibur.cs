@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -27,23 +28,23 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 200;
-            item.knockBack = 13;
-            item.melee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.NPCHit42;
-            item.width = 100;
-            item.height = 100;
-            item.autoReuse = true;
-            item.useAnimation = 45;
-            item.useTime = 45;
+            Item.damage = 200;
+            Item.knockBack = 13;
+            Item.DamageType = DamageClass.Melee;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.NPCHit42;
+            Item.width = 100;
+            Item.height = 100;
+            Item.autoReuse = true;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
 
-            item.shoot = ModContent.ProjectileType<Rox1>();
-            item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<Rox1>();
+            Item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.Calamity().donorItem = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -51,16 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 25);
-            recipe.AddIngredient(ItemID.SoulofNight, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-            recipe.AddIngredient(ItemID.Obsidian, 10);
-            recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddIngredient(ItemID.Amethyst, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 25).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5).AddIngredient(ItemID.Obsidian, 10).AddIngredient(ItemID.StoneBlock, 100).AddIngredient(ItemID.Amethyst, 2).AddTile(TileID.Anvils).Register();
         }
 
         public override void UpdateInventory(Player player)
@@ -77,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = player.Center;
                 }
-                Main.PlaySound(SoundID.Item70, player.position);
+                SoundEngine.PlaySound(SoundID.Item70, player.position);
             }
             // Resets the weapon usage if the alt fire collides with the ground
             if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)
@@ -110,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player)
         {
-            return RoxCanAlt >= item.useAnimation + 5 && player.position.Y != player.oldPosition.Y && !player.mount.Active && player.gravDir != -1;
+            return RoxCanAlt >= Item.useAnimation + 5 && player.position.Y != player.oldPosition.Y && !player.mount.Active && player.gravDir != -1;
         }
 
         public override void UseStyle(Player player)
@@ -120,14 +112,14 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 player.itemLocation.X -= 32f * player.direction;
                 player.itemLocation.Y -= 60f;
-                item.useStyle = ItemUseStyleID.HoldingUp;
+                Item.useStyle = ItemUseStyleID.HoldUp;
                 RoxAlt = true;
             }
             //Modifies to use style and hold out of the main fire mode
             else
             {
                 player.itemLocation += new Vector2(-7.5f * player.direction, 8.5f * player.gravDir).RotatedBy(player.itemRotation);
-                item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.useStyle = ItemUseStyleID.Swing;
                 RoxAlt = false;
             }
         }
@@ -210,11 +202,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
                 //Spawns a projectile on the tip of the sword in the alt fire
                 float positionx;
-                float positiony = position.Y + (item.height / 2) + 23;
+                float positiony = position.Y + (Item.height / 2) + 23;
 
                 int cooldown = 0;
                 //Check if the entire cooldown has passed
@@ -258,7 +250,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
@@ -281,7 +273,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
                 if (player.whoAmI == Main.myPlayer)
                 {

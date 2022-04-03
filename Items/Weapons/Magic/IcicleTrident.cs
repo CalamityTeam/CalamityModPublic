@@ -12,26 +12,26 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Icicle Trident");
             Tooltip.SetDefault("Shoots piercing icicles");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
         public override void SetDefaults()
         {
-            item.damage = 69;
-            item.magic = true;
-            item.mana = 21;
-            item.width = item.height = 44;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TridentIcicle>();
-            item.shootSpeed = 12f;
+            Item.damage = 69;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 21;
+            Item.width = Item.height = 44;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TridentIcicle>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOrigin()

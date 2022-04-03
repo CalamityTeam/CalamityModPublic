@@ -18,31 +18,31 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 333;
-            item.width = 44;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 31;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 31;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
-            item.shootSpeed = 4f;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().rogue = true;
+            Item.damage = 333;
+            Item.width = 44;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 31;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 31;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
+            Item.shootSpeed = 4f;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, item.shootSpeed, 0f);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, Item.shootSpeed, 0f);
                 if (p.WithinBounds(Main.maxProjectiles))
                     Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EpidemicShredder>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EpidemicShredder>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
     }

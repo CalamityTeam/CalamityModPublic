@@ -12,56 +12,56 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lantern");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.sentry = true;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.penetrate = -1;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.sentry = true;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 1f, 0f, 0f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Lighting.AddLight(Projectile.Center, 1f, 0f, 0f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (Projectile.frame >= 4)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (count == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 count += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
-            projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(6.28318548f * projectile.ai[0] / 300f)) * 0.5f);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 300f)
+            Projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(6.28318548f * Projectile.ai[0] / 300f)) * 0.5f);
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 300f)
             {
-                projectile.ai[0] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 0f;
+                Projectile.netUpdate = true;
             }
 
             int num = 0;
@@ -74,18 +74,18 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (num < 20)
             {
-                projectile.ai[1] += (float)Main.rand.Next(2,6) + 1f;
-                if (projectile.ai[1] >= 75f)
+                Projectile.ai[1] += (float)Main.rand.Next(2,6) + 1f;
+                if (Projectile.ai[1] >= 75f)
                 {
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
-                    if (projectile.owner == Main.myPlayer)
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
+                    if (Projectile.owner == Main.myPlayer)
                     {
                         float startOffsetX = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
                         float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
-                        Vector2 startPos = new Vector2(projectile.position.X + startOffsetX, projectile.position.Y + startOffsetY);
+                        Vector2 startPos = new Vector2(Projectile.position.X + startOffsetX, Projectile.position.Y + startOffsetY);
                         Vector2 speed = new Vector2(0f, 0f);
-                        Projectile.NewProjectile(startPos, speed, ModContent.ProjectileType<LanternFlame>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }

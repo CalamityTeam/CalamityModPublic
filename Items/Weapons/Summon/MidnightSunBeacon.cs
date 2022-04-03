@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 191;
-            item.mana = 10;
-            item.width = item.height = 32;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item90;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MidnightSunBeaconProj>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 191;
+            Item.mana = 10;
+            Item.width = Item.height = 32;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item90;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MidnightSunBeaconProj>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -45,13 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.XenoStaff);
-            recipe.AddIngredient(ItemID.MoonlordTurretStaff);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.XenoStaff).AddIngredient(ItemID.MoonlordTurretStaff).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

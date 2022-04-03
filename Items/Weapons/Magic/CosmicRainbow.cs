@@ -17,35 +17,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 105;
-            item.magic = true;
-            item.mana = 30;
-            item.width = 26;
-            item.height = 64;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item67;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.RainbowFront;
-            item.shootSpeed = 18f;
+            Item.damage = 105;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 30;
+            Item.width = 26;
+            Item.height = 64;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item67;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.RainbowFront;
+            Item.shootSpeed = 18f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RainbowGun);
-            recipe.AddIngredient(ItemID.PearlwoodBow);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RainbowGun).AddIngredient(ItemID.PearlwoodBow).AddIngredient(ModContent.ItemType<MeldiateBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -69,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 Main.projectile[rainbow].usesLocalNPCImmunity = true;
                 Main.projectile[rainbow].localNPCHitCooldown = 10;
             }
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

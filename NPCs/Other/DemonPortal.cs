@@ -4,53 +4,54 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Other
 {
     public class DemonPortal : ModNPC
     {
-        public ref float Time => ref npc.ai[0];
+        public ref float Time => ref NPC.ai[0];
         public override void SetStaticDefaults() => DisplayName.SetDefault("Mysterious Portal");
 
         public override void SetDefaults()
         {
-            npc.width = npc.height = 60;
-            npc.damage = 0;
-            npc.defense = 0;
-            npc.lifeMax = 24660;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.value = 0f;
-            npc.knockBackResist = 0f;
-            npc.netAlways = true;
-            npc.aiStyle = -1;
-            npc.Calamity().DoesNotGenerateRage = true;
-            npc.Calamity().DoesNotDisappearInBossRush = true;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.width = NPC.height = 60;
+            NPC.damage = 0;
+            NPC.defense = 0;
+            NPC.lifeMax = 24660;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.value = 0f;
+            NPC.knockBackResist = 0f;
+            NPC.netAlways = true;
+            NPC.aiStyle = -1;
+            NPC.Calamity().DoesNotGenerateRage = true;
+            NPC.Calamity().DoesNotDisappearInBossRush = true;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 24660;
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 24660;
 
         public override void AI()
         {
-            npc.rotation += 0.18f;
-            npc.Opacity = Utils.InverseLerp(0f, 30f, Time, true) * Utils.InverseLerp(420f, 390f, Time, true);
-            npc.velocity = Vector2.Zero;
-            npc.scale = npc.Opacity;
+            NPC.rotation += 0.18f;
+            NPC.Opacity = Utils.InverseLerp(0f, 30f, Time, true) * Utils.InverseLerp(420f, 390f, Time, true);
+            NPC.velocity = Vector2.Zero;
+            NPC.scale = NPC.Opacity;
 
             if (Time == 300f)
             {
-                if (Main.myPlayer == npc.target)
+                if (Main.myPlayer == NPC.target)
                     ReleaseThings();
-                Main.PlaySound(SoundID.DD2_EtherianPortalOpen, npc.Center);
+                SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, NPC.Center);
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && Time >= 420f)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
             }
 
             Time++;
@@ -58,10 +59,10 @@ namespace CalamityMod.NPCs.Other
 
         public void ReleaseThings()
         {
-            bool friendly = npc.life == 1;
+            bool friendly = NPC.life == 1;
             for (int i = 0; i < 6; i++)
             {
-                int demon = Projectile.NewProjectile(npc.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, npc.target);
+                int demon = Projectile.NewProjectile(NPC.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, NPC.target);
                 if (Main.projectile.IndexInRange(demon))
                 {
                     Main.projectile[demon].ai[1] = Main.rand.Next(-40, 0);
@@ -82,13 +83,13 @@ namespace CalamityMod.NPCs.Other
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            bool wouldDie = npc.life - (damage * (crit ? 2D : 1D)) <= 0;
+            bool wouldDie = NPC.life - (damage * (crit ? 2D : 1D)) <= 0;
             if (wouldDie)
             {
-                npc.immortal = true;
+                NPC.immortal = true;
 
                 // Enrage demons if hit when already at 1 health.
-                if (npc.life == 1)
+                if (NPC.life == 1)
                 {
                     int demonType = ModContent.ProjectileType<SuicideBomberDemon>();
                     for (int i = 0; i < Main.maxProjectiles; i++)
@@ -102,7 +103,7 @@ namespace CalamityMod.NPCs.Other
                     }
                 }
 
-                npc.life = 1;
+                NPC.life = 1;
                 damage = 0D;
                 return false;
             }
@@ -111,7 +112,7 @@ namespace CalamityMod.NPCs.Other
 
         public override bool CheckDead()
         {
-            npc.life = 1;
+            NPC.life = 1;
             return false;
         }
 
@@ -119,23 +120,23 @@ namespace CalamityMod.NPCs.Other
         {
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
 
-            Texture2D portalTexture = Main.npcTexture[npc.type];
-            Vector2 drawPosition = npc.Center - Main.screenPosition;
+            Texture2D portalTexture = Main.npcTexture[NPC.type];
+            Vector2 drawPosition = NPC.Center - Main.screenPosition;
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
 
             // Purple-black portal.
-            Color color = Color.Lerp(baseColor, Color.Black, 0.55f) * npc.Opacity * 1.8f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, npc.rotation, origin, npc.scale * 1.2f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, -npc.rotation, origin, npc.scale * 1.2f, SpriteEffects.None, 0f);
+            Color color = Color.Lerp(baseColor, Color.Black, 0.55f) * NPC.Opacity * 1.8f;
+            spriteBatch.Draw(portalTexture, drawPosition, null, color, NPC.rotation, origin, NPC.scale * 1.2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(portalTexture, drawPosition, null, color, -NPC.rotation, origin, NPC.scale * 1.2f, SpriteEffects.None, 0f);
 
             // Purple portal.
-            color = Color.Lerp(Color.Lerp(baseColor, Color.Purple, 0.55f), Color.Black, 0.66f) * npc.Opacity * 1.6f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, npc.rotation * 0.6f, origin, npc.scale * 1.2f, SpriteEffects.None, 0f);
+            color = Color.Lerp(Color.Lerp(baseColor, Color.Purple, 0.55f), Color.Black, 0.66f) * NPC.Opacity * 1.6f;
+            spriteBatch.Draw(portalTexture, drawPosition, null, color, NPC.rotation * 0.6f, origin, NPC.scale * 1.2f, SpriteEffects.None, 0f);
 
             // Red portal.
-            color = Color.Lerp(baseColor, Color.Red, 0.55f) * npc.Opacity * 1.6f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, npc.rotation * -0.6f, origin, npc.scale * 1.2f, SpriteEffects.None, 0f);
+            color = Color.Lerp(baseColor, Color.Red, 0.55f) * NPC.Opacity * 1.6f;
+            spriteBatch.Draw(portalTexture, drawPosition, null, color, NPC.rotation * -0.6f, origin, NPC.scale * 1.2f, SpriteEffects.None, 0f);
 
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

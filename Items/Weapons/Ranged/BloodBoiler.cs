@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 250;
-            item.ranged = true;
-            item.width = 60;
-            item.height = 30;
-            item.useTime = 5;
-            item.useAnimation = 15;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<BloodBoilerFire>();
+            Item.damage = 250;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 60;
+            Item.height = 30;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<BloodBoilerFire>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -53,11 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 6).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -9,26 +9,26 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Black Hawk Bullet");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 0;
-            projectile.extraUpdates = 4;
-            projectile.scale = 1.18f;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 0;
+            Projectile.extraUpdates = 4;
+            Projectile.scale = 1.18f;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);

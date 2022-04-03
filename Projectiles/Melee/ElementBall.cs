@@ -16,23 +16,23 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 150;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 150;
         }
 
         public override void AI()
         {
-            int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            int num250 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
             Main.dust[num250].noGravity = true;
             Main.dust[num250].velocity *= 0f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

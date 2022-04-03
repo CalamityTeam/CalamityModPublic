@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(gold: 60);
-            item.defense = 50;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(gold: 60);
+            Item.defense = 50;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateEquip(Player player)
@@ -35,14 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpookyBreastplate);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddIngredient(ItemID.SoulofFright, 12);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpookyBreastplate).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddIngredient(ItemID.SoulofFright, 12).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

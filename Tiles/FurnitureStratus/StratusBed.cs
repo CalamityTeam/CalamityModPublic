@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.BedRightClick(i, j);
         }

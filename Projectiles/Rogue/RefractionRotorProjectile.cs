@@ -15,36 +15,36 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prism Shuriken");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 16;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 142;
-            projectile.height = 126;
-            projectile.friendly = true;
-            projectile.penetrate = 10;
-            projectile.timeLeft = 300;
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 142;
+            Projectile.height = 126;
+            Projectile.friendly = true;
+            Projectile.penetrate = 10;
+            Projectile.timeLeft = 300;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.alpha = Utils.Clamp(projectile.alpha - 18, 0, 255);
-            projectile.rotation += projectile.velocity.Length() * Math.Sign(projectile.velocity.X) * 0.036f;
+            Projectile.alpha = Utils.Clamp(Projectile.alpha - 18, 0, 255);
+            Projectile.rotation += Projectile.velocity.Length() * Math.Sign(Projectile.velocity.X) * 0.036f;
         }
 
-        public override bool CanDamage() => projectile.alpha <= 128;
+        public override bool CanDamage() => Projectile.alpha <= 128;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.timeLeft > 20)
-                projectile.timeLeft = 20;
+            if (Projectile.timeLeft > 20)
+                Projectile.timeLeft = 20;
         }
 
         public override void Kill(int timeLeft)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < 15; i++)
                 {
-                    Dust rainbowBurst = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust rainbowBurst = Dust.NewDustPerfect(Projectile.Center, 267);
                     rainbowBurst.color = Main.hslToRgb(i / 80f, 0.9f, 0.6f);
                     rainbowBurst.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(3f, 5.5f);
                     rainbowBurst.scale = Main.rand.NextFloat(1.4f, 2.4f);
@@ -63,54 +63,54 @@ namespace CalamityMod.Projectiles.Rogue
                     rainbowBurst.noGravity = true;
                 }
 
-                if (!projectile.Calamity().stealthStrike)
+                if (!Projectile.Calamity().stealthStrike)
                 {
-                    int goreType = mod.GetGoreSlot("Gores/PrismShurikenBlade");
+                    int goreType = Mod.GetGoreSlot("Gores/PrismShurikenBlade");
                     for (int i = 0; i < 6; i++)
                     {
-                        Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
-                        Vector2 spawnPosition = projectile.Center + projectile.Size * 0.5f * projectile.scale * shootDirection * 0.85f;
+                        Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
+                        Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
                         if (!WorldGen.SolidTile((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16))
-                            Gore.NewGorePerfect(spawnPosition, projectile.velocity * 0.5f + shootDirection * 7f, goreType, projectile.scale);
+                            Gore.NewGorePerfect(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, goreType, Projectile.scale);
                     }
                 }
             }
 
             int shootType = ModContent.ProjectileType<PrismRocket>();
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             // Release a circle of damaging blades if this projectile is a stealth strike.
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 int bladeType = ModContent.ProjectileType<PrismShurikenBlade>();
-                int rocketDamage = (int)(projectile.damage * 0.8);
+                int rocketDamage = (int)(Projectile.damage * 0.8);
                 for (int i = 0; i < 6; i++)
                 {
-                    Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
-                    Vector2 spawnPosition = projectile.Center + projectile.Size * 0.5f * projectile.scale * shootDirection * 0.85f;
-                    Projectile.NewProjectile(spawnPosition, projectile.velocity * 0.5f + shootDirection * 7f, bladeType, rocketDamage, projectile.knockBack, projectile.owner);
+                    Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
+                    Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
+                    Projectile.NewProjectile(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, bladeType, rocketDamage, Projectile.knockBack, Projectile.owner);
                 }
             }
 
             if (CalamityUtils.CountProjectiles(shootType) > 24)
                 return;
 
-            int energyDamage = (int)(projectile.damage * 0.495);
+            int energyDamage = (int)(Projectile.damage * 0.495);
             float baseDirectionRotation = Main.rand.NextFloat(MathHelper.TwoPi);
             for (int i = 0; i < EnergyShotCount; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / EnergyShotCount + baseDirectionRotation).ToRotationVector2() * 9f;
-                Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, shootType, energyDamage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center + shootVelocity, shootVelocity, shootType, energyDamage, Projectile.knockBack, Projectile.owner);
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask");
-            Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask");
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             Vector2 origin = glowmask.Size() * 0.5f;
-            spriteBatch.Draw(glowmask, drawPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(glowmask, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }

@@ -15,19 +15,19 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 60;
-            item.maxStack = 1;
-            item.rare = ItemRarityID.Yellow;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 30;
+            Item.height = 60;
+            Item.maxStack = 1;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player) => Main.invasionType == InvasionID.None;
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.StartInvasion(InvasionID.MartianMadness);
             return true;

@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
-            item.damage = 50;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 26;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 38;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 30;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 26;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 38;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -58,14 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeafoamBomb>());
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeafoamBomb>()).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<SulphurousSand>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

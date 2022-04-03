@@ -14,26 +14,21 @@ namespace CalamityMod.Items
         }
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 46;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 38;
+            Item.height = 46;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateInventory(Player player)
         {
-            if (item.favorited)
+            if (Item.favorited)
                 player.Calamity().disableNaturalScourgeSpawns = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 5);
-            recipe.AddIngredient(ItemID.CalmingPotion);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EbonianGel>(), 5).AddIngredient(ItemID.CalmingPotion).AddTile(TileID.Anvils).Register();
         }
     }
 }

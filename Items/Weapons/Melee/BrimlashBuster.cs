@@ -20,31 +20,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 72;
-            item.damage = 126;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<BrimlashProj>();
-            item.shootSpeed = 18f;
+            Item.width = Item.height = 72;
+            Item.damage = 126;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<BrimlashProj>();
+            Item.shootSpeed = 18f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Brimlash>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Brimlash>()).AddIngredient(ModContent.ItemType<CoreofChaos>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

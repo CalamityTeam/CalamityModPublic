@@ -18,23 +18,23 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 450;
-            projectile.height = 450;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = duration;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 450;
+            Projectile.height = 450;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = duration;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.01f;
+            Projectile.rotation += 0.01f;
 
             Player player = Main.player[Main.myPlayer];
-            Vector2 posDiff = player.Center - projectile.Center;
+            Vector2 posDiff = player.Center - Projectile.Center;
             if (posDiff.Length() <= radius)
             {
                 player.statDefense += 6;
@@ -45,37 +45,37 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // Sprite Circle
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[Projectile.type];
             float scaleStep = 0.03f;
             float rotationOffset = 0.03f;
-            Color drawCol = projectile.GetAlpha(lightColor);
+            Color drawCol = Projectile.GetAlpha(lightColor);
             float drawTransparency = 0.1f;
 
-            if (projectile.timeLeft > duration - 10)
+            if (Projectile.timeLeft > duration - 10)
             {
-                drawTransparency = (duration - projectile.timeLeft) * 0.01f;
+                drawTransparency = (duration - Projectile.timeLeft) * 0.01f;
             }
-            else if (projectile.timeLeft < 25)
+            else if (Projectile.timeLeft < 25)
             {
-                drawTransparency = projectile.timeLeft * 0.004f;
+                drawTransparency = Projectile.timeLeft * 0.004f;
             }
 
             // Dust effects
-            Circle dustCircle = new Circle(projectile.Center, radius);
+            Circle dustCircle = new Circle(Projectile.Center, radius);
 
             for (int i = 0; i < 20; i++)
             {
                 // Sprite
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, projectile.rotation + (rotationOffset * i * i), tex.Size() / 2f, projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
+                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, Projectile.rotation + (rotationOffset * i * i), tex.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
 
                 // Dust
                 Vector2 dustPos = dustCircle.RandomPointInCircle();
-                if ((dustPos - projectile.Center).Length() > 48)
+                if ((dustPos - Projectile.Center).Length() > 48)
                 {
                     int dustIndex = Dust.NewDust(dustPos, 1, 1, 32);
                     Main.dust[dustIndex].noGravity = true;
                     Main.dust[dustIndex].fadeIn = 1f;
-                    Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;
+                    Vector2 dustVelocity = Projectile.Center - Main.dust[dustIndex].position;
                     float distToCenter = dustVelocity.Length();
                     dustVelocity.Normalize();
                     dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));
@@ -101,12 +101,12 @@ namespace CalamityMod.Projectiles.Typeless
                 {
                     knockbackMultiplier = 0;
                 }
-                Vector2 trueKnockback = target.Center - projectile.Center;
+                Vector2 trueKnockback = target.Center - Projectile.Center;
                 trueKnockback.Normalize();
                 target.velocity = trueKnockback * knockbackMultiplier;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

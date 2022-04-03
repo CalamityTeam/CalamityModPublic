@@ -19,18 +19,18 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 2;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = Projectile.height = 2;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = Lifetime;
             cooldownSlot = 1;
         }
 
         public override void PostAI()
         {
             MaxRadius = 4200f;
-            Lighting.AddLight(projectile.Center, 0.1f, 0.1f, 0.1f);
+            Lighting.AddLight(Projectile.Center, 0.1f, 0.1f, 0.1f);
         }
     }
 }

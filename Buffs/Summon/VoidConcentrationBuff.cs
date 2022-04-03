@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     class VoidConcentrationBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Concentrated Void");
             Description.SetDefault("The infinite void yearns for more...");
@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.Summon
         {
             CalamityPlayer mp = player.Calamity();
             int count = player.ownedProjectileCounts[ModContent.ProjectileType<VoidConcentrationAura>()];
-            player.minionDamage += 0.05f; //5%
+            player.GetDamage(DamageClass.Summon) += 0.05f; //5%
             mp.voidConcentrationAura = true;
             if (!mp.voidAuraDamage && count == 0)
             {

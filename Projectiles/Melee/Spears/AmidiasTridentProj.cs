@@ -13,18 +13,18 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 70;
-            projectile.aiStyle = 19;
-            projectile.melee = true;
-            projectile.timeLeft = 90;
-            projectile.height = 70;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.hide = true;
+            Projectile.width = 70;
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 90;
+            Projectile.height = 70;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.hide = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.75f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, ModContent.ProjectileType<AmidiasWhirlpool>(), projectile.damage, projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y, Projectile.velocity.X * 0.8f, Projectile.velocity.Y * 0.8f, ModContent.ProjectileType<AmidiasWhirlpool>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
     }
 }

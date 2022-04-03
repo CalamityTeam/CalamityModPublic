@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.defense = 40; //132
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.defense = 40; //132
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -66,21 +66,13 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.rangedDamage += 0.3f;
-            player.rangedCrit += 30;
+            player.GetDamage(DamageClass.Ranged) += 0.3f;
+            player.GetCritChance(DamageClass.Ranged) += 30;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GodSlayerHelmet>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareHornedHelm>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonVisage>());
-            recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerHelmet>()).AddIngredient(ModContent.ItemType<BloodflareHornedHelm>()).AddIngredient(ModContent.ItemType<TarragonVisage>()).AddIngredient(ModContent.ItemType<PsychoticAmulet>()).AddIngredient(ModContent.ItemType<AuricBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 44;
-            item.damage = 120;
-            item.magic = true;
-            item.mana = 22;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-            item.shoot = ModContent.ProjectileType<HolyLaser>();
-            item.shootSpeed = 6f;
+            Item.width = 58;
+            Item.height = 44;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 22;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.shoot = ModContent.ProjectileType<HolyLaser>();
+            Item.shootSpeed = 6f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

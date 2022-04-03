@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -17,51 +18,51 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 300;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 25;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
             float num55 = 40f;
             float num56 = 1.5f;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
                 {
-                    projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = num55;
                 }
             }
             else
             {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(250, 100, 0, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(250, 100, 0, Projectile.alpha);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(40f, 1.5f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(40f, 1.5f, lightColor);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
 
@@ -69,24 +70,24 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 188);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 188);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int d = 0; d < 4; d++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 50, default, 1f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 50, default, 1f);
             }
             for (int d = 0; d < 40; d++)
             {
-                int orange = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 0, default, 1.5f);
+                int orange = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 0, default, 1.5f);
                 Main.dust[orange].noGravity = true;
                 Main.dust[orange].noLight = true;
                 Main.dust[orange].velocity *= 3f;
-                orange = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 50, default, 1f);
+                orange = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 50, default, 1f);
                 Main.dust[orange].velocity *= 2f;
                 Main.dust[orange].noGravity = true;
                 Main.dust[orange].noLight = true;

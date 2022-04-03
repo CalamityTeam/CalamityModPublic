@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 40;
-            item.damage = 47;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 24;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<TalonSmallProj>();
-            item.shootSpeed = 10.5f;
-            item.Calamity().rogue = true;
+            Item.width = 40;
+            Item.damage = 47;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 24;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<TalonSmallProj>();
+            Item.shootSpeed = 10.5f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -57,13 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FeralClaws);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FeralClaws).AddIngredient(ItemID.ChlorophyteBar, 5).AddIngredient(ItemID.SoulofFright, 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class SpiritGeneratorAtkBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spirit Power");
             Description.SetDefault("Minion damage boosted by 10%");
@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
         }
     }
 }

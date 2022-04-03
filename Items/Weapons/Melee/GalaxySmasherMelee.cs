@@ -21,26 +21,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 86;
-            item.height = 72;
-            item.melee = true;
-            item.damage = BaseDamage;
-            item.knockBack = 9f;
-            item.useAnimation = 13;
-            item.useTime = 13;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 86;
+            Item.height = 72;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = BaseDamage;
+            Item.knockBack = 9f;
+            Item.useAnimation = 13;
+            Item.useTime = 13;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.buyPrice(platinum: 1, gold: 80);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.buyPrice(platinum: 1, gold: 80);
 
-            item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
-            item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,12 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            r.AddTile(ModContent.TileType<CosmicAnvil>());
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StellarContemptMelee>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

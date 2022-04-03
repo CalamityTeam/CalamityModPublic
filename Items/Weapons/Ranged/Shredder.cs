@@ -19,24 +19,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 27;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 24;
-            item.useTime = 4;
-            item.reuseDelay = 12;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 27;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 24;
+            Item.useTime = 4;
+            Item.reuseDelay = 12;
+            Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -73,16 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ChargedDartRifle>());
-            recipe.AddIngredient(ModContent.ItemType<FrostbiteBlaster>());
-            recipe.AddIngredient(ItemID.Shotgun);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ChargedDartRifle>()).AddIngredient(ModContent.ItemType<FrostbiteBlaster>()).AddIngredient(ItemID.Shotgun).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

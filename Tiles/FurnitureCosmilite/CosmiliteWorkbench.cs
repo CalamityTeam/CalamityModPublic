@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

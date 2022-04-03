@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class CryonicBar : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(138, 43, 226));
             dustType = 44;

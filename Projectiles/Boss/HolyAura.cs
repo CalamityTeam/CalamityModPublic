@@ -15,32 +15,32 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.aiStyle = -1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.aiStyle = -1;
             aiType = -1;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 210;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 210;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             Vector2 origin = texture.Size() / 2f;
             float time = Main.GlobalTime % 10f / 10f;
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             int drawnAmt = 30;
             float[] posX = new float[drawnAmt];
             float[] posY = new float[drawnAmt];
             float[] hue = new float[drawnAmt];
             float[] size = new float[drawnAmt];
             int totalTime = 210;
-            float colorChangeAmt = Utils.InverseLerp(0f, 60f, projectile.timeLeft, true) * Utils.InverseLerp(totalTime, totalTime - 60, projectile.timeLeft, true);
-            float colorChangeAmt2 = Utils.InverseLerp(0f, 60f, projectile.timeLeft, true) * Utils.InverseLerp(totalTime, 90f, projectile.timeLeft, true);
+            float colorChangeAmt = Utils.InverseLerp(0f, 60f, Projectile.timeLeft, true) * Utils.InverseLerp(totalTime, totalTime - 60, Projectile.timeLeft, true);
+            float colorChangeAmt2 = Utils.InverseLerp(0f, 60f, Projectile.timeLeft, true) * Utils.InverseLerp(totalTime, 90f, Projectile.timeLeft, true);
             colorChangeAmt2 = Utils.InverseLerp(0.2f, 0.5f, colorChangeAmt2, true);
             float sizeScale = 0.8f;
             float sizeScalar = (1f - sizeScale) / drawnAmt;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 Color color = Main.hslToRgb(hue[i] % 1f, 1f, 0.5f) * colorChangeAmt * colorChangeAmt2;
 
-                bool underworld = projectile.ai[0] == 2f;
+                bool underworld = Projectile.ai[0] == 2f;
                 if (Main.dayTime)
                 {
                     color.R = 255;
@@ -84,9 +84,9 @@ namespace CalamityMod.Projectiles.Boss
                 color.A /= 4;
 
                 int fadeTime = 30;
-                if (projectile.timeLeft < fadeTime)
+                if (Projectile.timeLeft < fadeTime)
                 {
-                    float amount2 = projectile.timeLeft / (float)fadeTime;
+                    float amount2 = Projectile.timeLeft / (float)fadeTime;
 
                     if (color.R > 0)
                         color.R = (byte)MathHelper.Lerp(0, color.R, amount2);

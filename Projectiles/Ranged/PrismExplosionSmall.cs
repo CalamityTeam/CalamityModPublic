@@ -10,43 +10,43 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            Main.projFrames[projectile.type] = 7;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 130;
-            projectile.friendly = true;
-            projectile.ignoreWater = false;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 150;
-            projectile.extraUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 11;
-            projectile.scale = 0.5f;
+            Projectile.width = Projectile.height = 130;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 150;
+            Projectile.extraUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 11;
+            Projectile.scale = 0.5f;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 1.15f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 8 == 7)
-                projectile.frame++;
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.15f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 8 == 7)
+                Projectile.frame++;
 
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.Kill();
-            projectile.scale *= 1.0115f;
-            projectile.Opacity = Utils.InverseLerp(5f, 36f, projectile.timeLeft, true);
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.Kill();
+            Projectile.scale *= 1.0115f;
+            Projectile.Opacity = Utils.InverseLerp(5f, 36f, Projectile.timeLeft, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Texture2D lightTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PhotovisceratorLight");
-            Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/PhotovisceratorLight");
+            Rectangle frame = texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = frame.Size() * 0.5f;
 
             spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);

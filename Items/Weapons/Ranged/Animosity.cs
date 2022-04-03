@@ -17,24 +17,24 @@ Right click to fire a burst of bullets");
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.ranged = true;
-            item.width = 70;
-            item.height = 18;
-            item.useTime = 4;
-            item.reuseDelay = 15;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 11f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 70;
+            Item.height = 18;
+            Item.useTime = 4;
+            Item.reuseDelay = 15;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 11f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -51,19 +51,19 @@ Right click to fire a burst of bullets");
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 4;
-                item.reuseDelay = 13;
-                item.useAnimation = 12;
-                item.UseSound = SoundID.Item31;
-                item.shootSpeed = 10f;
+                Item.useTime = 4;
+                Item.reuseDelay = 13;
+                Item.useAnimation = 12;
+                Item.UseSound = SoundID.Item31;
+                Item.shootSpeed = 10f;
             }
             else
             {
-                item.useTime = 35;
-                item.reuseDelay = 0;
-                item.useAnimation = 35;
-                item.UseSound = SoundID.Item40;
-                item.shootSpeed = 15f;
+                Item.useTime = 35;
+                Item.reuseDelay = 0;
+                Item.useAnimation = 35;
+                Item.UseSound = SoundID.Item40;
+                Item.shootSpeed = 15f;
             }
             return base.CanUseItem(player);
         }

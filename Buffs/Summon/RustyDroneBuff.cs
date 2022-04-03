@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class RustyDroneBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rusty Drone");
             Description.SetDefault("A pitifully fragile drone is observing you");

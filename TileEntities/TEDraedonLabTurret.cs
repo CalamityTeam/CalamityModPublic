@@ -52,7 +52,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == TileType && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.TileType == TileType && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         protected override Vector2 ChooseTarget(Vector2 targetingCenter)

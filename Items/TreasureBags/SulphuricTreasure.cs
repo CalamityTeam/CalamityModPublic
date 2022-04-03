@@ -15,11 +15,11 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = ItemRarityID.Green; //Green for thematics
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Green; //Green for thematics
         }
 
         public override bool CanRightClick() => true;

@@ -17,33 +17,27 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.mana = 10;
-            item.width = 58;
-            item.height = 58;
-            item.useTime = item.useAnimation = 30;
-            item.scale = 0.85f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DankCreeperMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 7;
+            Item.mana = 10;
+            Item.width = 58;
+            Item.height = 58;
+            Item.useTime = Item.useAnimation = 30;
+            Item.scale = 0.85f;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DankCreeperMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 3);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 3).AddIngredient(ItemID.DemoniteBar, 8).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7).AddTile(TileID.DemonAltar).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

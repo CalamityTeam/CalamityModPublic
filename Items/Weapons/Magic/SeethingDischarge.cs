@@ -15,22 +15,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 58;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 28;
-            item.height = 32;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6.75f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
-            item.shootSpeed = 6f;
+            Item.damage = 58;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 28;
+            Item.height = 32;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6.75f;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
+            Item.shootSpeed = 6f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

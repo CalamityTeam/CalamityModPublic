@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class PlantationBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plantation");
             Description.SetDefault("The miniature plantera will protect you");

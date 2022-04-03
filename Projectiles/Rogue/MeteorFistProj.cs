@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,18 +16,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 360;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 360;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.velocity.Length() >= 4f)
+            if (Projectile.velocity.Length() >= 4f)
             {
                 for (int num246 = 0; num246 < 2; num246++)
                 {
@@ -34,10 +35,10 @@ namespace CalamityMod.Projectiles.Rogue
                     float num248 = 0f;
                     if (num246 == 1)
                     {
-                        num247 = projectile.velocity.X * 0.5f;
-                        num248 = projectile.velocity.Y * 0.5f;
+                        num247 = Projectile.velocity.X * 0.5f;
+                        num248 = Projectile.velocity.Y * 0.5f;
                     }
-                    int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
+                    int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
                     Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                     Main.dust[num249].velocity *= 0.2f;
                     Main.dust[num249].noGravity = true;
@@ -45,55 +46,55 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Almost instantly accelerate to very high speed
-            if (projectile.velocity.Length() < 12f)
+            if (Projectile.velocity.Length() < 12f)
             {
-                projectile.velocity *= 1.25f;
+                Projectile.velocity *= 1.25f;
             }
             else if (Main.rand.NextBool(2))
             {
-                int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
+                int num252 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+                Main.dust[num252].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
                 Main.rand.Next(2);
-                num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
+                num252 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default) * 1.1f;
+                Main.dust[num252].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2 - 6)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
             }
 
-            projectile.ai[0] += 1f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            if (projectile.ai[0] > 10f || projectile.ai[0] > 5f)
+            Projectile.ai[0] += 1f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.ai[0] > 10f || Projectile.ai[0] > 5f)
             {
-                projectile.ai[0] = 10f;
-                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                Projectile.ai[0] = 10f;
+                if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X *= 0.97f;
-                    if (Math.Abs(projectile.velocity.X) < 0.01f)
+                    Projectile.velocity.X *= 0.97f;
+                    if (Math.Abs(Projectile.velocity.X) < 0.01f)
                     {
-                        projectile.velocity.X = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.velocity.X = 0f;
+                        Projectile.netUpdate = true;
                     }
                 }
 
-                if (!projectile.Calamity().stealthStrike)
-                    projectile.velocity.Y += 0.1f;
+                if (!Projectile.Calamity().stealthStrike)
+                    Projectile.velocity.Y += 0.1f;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
-            projectile.maxPenetrate = projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 32);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int num621 = 0; num621 < 40; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -103,13 +104,13 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 70; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -118,14 +119,14 @@ namespace CalamityMod.Projectiles.Rogue
             float minDist = 999f;
             int index = 0;
             // Get the closest enemy to the fist
-            if (projectile.Calamity().stealthStrike && projectile.ai[1] > 0f && projectile.penetrate != -1)
+            if (Projectile.Calamity().stealthStrike && Projectile.ai[1] > 0f && Projectile.penetrate != -1)
             {
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(projectile, false) && npc != target)
+                    if (npc.CanBeChasedBy(Projectile, false) && npc != target)
                     {
-                        float dist = (projectile.Center - npc.Center).Length();
+                        float dist = (Projectile.Center - npc.Center).Length();
                         if (dist < minDist)
                         {
                             minDist = dist;
@@ -136,16 +137,16 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 newFistVelocity;
                 if (minDist < 999f)
                 {
-                    newFistVelocity = Main.npc[index].Center - projectile.Center;
+                    newFistVelocity = Main.npc[index].Center - Projectile.Center;
                 }
                 else
                 {
-                    newFistVelocity = -projectile.velocity;
+                    newFistVelocity = -Projectile.velocity;
                 }
                 newFistVelocity.Normalize();
                 newFistVelocity *= 10f;
-                float AI1 = projectile.ai[1] - 1f;
-                int p = Projectile.NewProjectile(projectile.position, newFistVelocity, ModContent.ProjectileType<MeteorFistProj>(), projectile.damage, projectile.knockBack, projectile.owner, 0, AI1);
+                float AI1 = Projectile.ai[1] - 1f;
+                int p = Projectile.NewProjectile(Projectile.position, newFistVelocity, ModContent.ProjectileType<MeteorFistProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, AI1);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
         }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class WulfrumDroidBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Droid");
             Description.SetDefault("The wulfrum droid will protect you");

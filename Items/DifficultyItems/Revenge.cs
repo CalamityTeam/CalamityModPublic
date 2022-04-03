@@ -38,15 +38,15 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.expert = true;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item119;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 28;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item119;
+            Item.consumable = false;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -55,11 +55,11 @@ namespace CalamityMod.Items.DifficultyItems
             string adrenKey = CalamityMod.AdrenalineHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
                     line2.text = "Enables the Rage mechanic. When Rage is maxed press " + rageKey + " to activate Rage Mode.";
                 }
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
                 {
                     line2.text = "Enables the Adrenaline mechanic. When Adrenaline is maxed press " + adrenKey + " to activate Adrenaline Mode.";
                 }
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.DifficultyItems
         // Can only be used in Expert worlds. The Revengeance check is a failsafe that allows you to disable rev in normal mode worlds if it gets enabled for whatever reason.
         public override bool CanUseItem(Player player) => Main.expertMode || CalamityWorld.revenge;
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             // This world syncing code should only be run by one entity- the server, to prevent a race condition
             // with the packets.
@@ -121,10 +121,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBookcaseTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();

@@ -13,62 +13,62 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class WaterLeech : ModNPC
     {
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public bool LatchingOntoTarget
         {
-            get => npc.ai[0] == 1f;
-            set => npc.ai[0] = value.ToInt();
+            get => NPC.ai[0] == 1f;
+            set => NPC.ai[0] = value.ToInt();
         }
-        public ref float LackOfWaterDeathTimer => ref npc.ai[2];
+        public ref float LackOfWaterDeathTimer => ref NPC.ai[2];
         public const float ChasePromptDistance = 55f;
         public const float ChaseMaxDistance = 140f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Leech");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 26;
-            npc.height = 14;
+            NPC.width = 26;
+            NPC.height = 14;
 
-            npc.lifeMax = 30;
-            npc.damage = 0;
+            NPC.lifeMax = 30;
+            NPC.damage = 0;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.lifeMax = 1235;
-                npc.defense = 10;
+                NPC.lifeMax = 1235;
+                NPC.defense = 10;
             }
             else if (CalamityWorld.downedAquaticScourge)
-                npc.lifeMax = 90;
+                NPC.lifeMax = 90;
 
-            npc.value = Item.buyPrice(0, 0, 2, 5);
-            npc.lavaImmune = false;
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit33;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 2, 5);
+            NPC.lavaImmune = false;
+            NPC.noGravity = true;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit33;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<WaterLeechBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.dontTakeDamage);
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.dontTakeDamage);
 
-        public override void ReceiveExtraAI(BinaryReader reader) => npc.dontTakeDamage = reader.ReadBoolean();
+        public override void ReceiveExtraAI(BinaryReader reader) => NPC.dontTakeDamage = reader.ReadBoolean();
 
         public override void AI()
         {
-            if (npc.localAI[0] == 0f)
+            if (NPC.localAI[0] == 0f)
             {
-                npc.TargetClosest();
-                npc.localAI[0] = 1f;
+                NPC.TargetClosest();
+                NPC.localAI[0] = 1f;
             }
 
             bool playerAlreadyTargeted = false;
@@ -78,17 +78,17 @@ namespace CalamityMod.NPCs.AcidRain
             // Only one leech is allowed to target one player at a time.
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].type != npc.type || !Main.npc[i].active || Main.npc[i].whoAmI == npc.whoAmI)
+                if (Main.npc[i].type != NPC.type || !Main.npc[i].active || Main.npc[i].whoAmI == NPC.whoAmI)
                     continue;
 
-                if (Main.npc[i].target == npc.target && !playerAlreadyTargeted)
+                if (Main.npc[i].target == NPC.target && !playerAlreadyTargeted)
                     playerAlreadyTargeted = true;
-                if (Main.npc[i].Hitbox.Intersects(npc.Hitbox))
-                    npc.velocity += npc.DirectionFrom(Main.npc[i].Center) * antiStickyAcceleration;
+                if (Main.npc[i].Hitbox.Intersects(NPC.Hitbox))
+                    NPC.velocity += NPC.DirectionFrom(Main.npc[i].Center) * antiStickyAcceleration;
             }
 
             if (!playerAlreadyTargeted || Target.Calamity().waterLeechTarget == -1)
-                Target.Calamity().waterLeechTarget = npc.whoAmI;
+                Target.Calamity().waterLeechTarget = NPC.whoAmI;
 
             if (LatchingOntoTarget)
             {
@@ -96,26 +96,26 @@ namespace CalamityMod.NPCs.AcidRain
                 return;
             }
 
-            npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+            NPC.direction = NPC.spriteDirection = (NPC.velocity.X > 0).ToDirectionInt();
 
             // If the leech is not in water, fall and quickly cease horizontal movement.
             // After some time, if still not in water, die due to a lack of water.
-            if (!npc.wet)
+            if (!NPC.wet)
             {
-                npc.velocity.X *= 0.97f;
-                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.4f, -4f, 16f);
+                NPC.velocity.X *= 0.97f;
+                NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y + 0.4f, -4f, 16f);
                 LackOfWaterDeathTimer++;
                 if (LackOfWaterDeathTimer >= 300f)
                 {
-                    npc.life = 0;
-                    npc.HitEffect();
-                    npc.active = false;
-                    npc.netUpdate = true;
+                    NPC.life = 0;
+                    NPC.HitEffect();
+                    NPC.active = false;
+                    NPC.netUpdate = true;
                 }
             }
 
             // Swim towards the target if they are in water.
-            else if (Target.wet && Target.Calamity().waterLeechTarget == npc.whoAmI)
+            else if (Target.wet && Target.Calamity().waterLeechTarget == NPC.whoAmI)
             {
                 float swimSpeed = Target.wet ? 23f : 17f;
                 float swimIntertia = 24f;
@@ -124,77 +124,77 @@ namespace CalamityMod.NPCs.AcidRain
                     swimSpeed *= 1.6f;
                     swimIntertia = 17f;
                 }
-                npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.SafeDirectionTo(Target.Center, -Vector2.UnitY) * swimSpeed) / swimIntertia;
+                NPC.velocity = (NPC.velocity * (swimIntertia - 1f) + NPC.SafeDirectionTo(Target.Center, -Vector2.UnitY) * swimSpeed) / swimIntertia;
             }
 
             // Rapidly slow down if the target is not in water.
             else if (!Target.wet)
-                npc.velocity *= 0.9f;
+                NPC.velocity *= 0.9f;
 
-            if (npc.WithinRange(Target.Top, ChasePromptDistance) && Target.active && !Target.dead)
+            if (NPC.WithinRange(Target.Top, ChasePromptDistance) && Target.active && !Target.dead)
             {
                 LatchingOntoTarget = true;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             // If the target is not in water, become invincible.
             bool shouldNotTakeDamage = !Target.wet;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.dontTakeDamage != shouldNotTakeDamage)
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.dontTakeDamage != shouldNotTakeDamage)
             {
-                npc.dontTakeDamage = shouldNotTakeDamage;
-                npc.netUpdate = true;
+                NPC.dontTakeDamage = shouldNotTakeDamage;
+                NPC.netUpdate = true;
             }
         }
 
         public void LatchOntoTarget()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.dontTakeDamage)
+            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.dontTakeDamage)
             {
-                npc.dontTakeDamage = false;
-                npc.netUpdate = true;
+                NPC.dontTakeDamage = false;
+                NPC.netUpdate = true;
             }
 
             // If the target moved far enough away, stop attempting to attach to them.
-            if (!npc.WithinRange(Target.Center, ChaseMaxDistance))
+            if (!NPC.WithinRange(Target.Center, ChaseMaxDistance))
             {
                 LatchingOntoTarget = false;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
                 return;
             }
 
             Vector2 destination = (Target.gravDir == 1f ? Target.Top : Target.Bottom) + Target.direction * Vector2.UnitX * 4f;
-            float speed = MathHelper.Lerp(7f, 23f, Utils.InverseLerp(10f, ChaseMaxDistance, npc.Distance(destination), true));
-            npc.velocity = npc.SafeDirectionTo(destination) * speed;
+            float speed = MathHelper.Lerp(7f, 23f, Utils.InverseLerp(10f, ChaseMaxDistance, NPC.Distance(destination), true));
+            NPC.velocity = NPC.SafeDirectionTo(destination) * speed;
 
-            if (npc.WithinRange(destination, 45f))
+            if (NPC.WithinRange(destination, 45f))
             {
                 Target.AddBuff(BuffID.Bleeding, 180, true);
                 Target.AddBuff(ModContent.BuffType<HeavyBleeding>(), 30, true);
             }
 
             // Stop searching if the target is not in water anymore and they're not close.
-            else if (!npc.wet && !npc.WithinRange(destination, 85f))
+            else if (!NPC.wet && !NPC.WithinRange(destination, 85f))
             {
                 LatchingOntoTarget = false;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 4)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 4)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                    npc.frame.Y = 0;
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y >= Main.npcFrameCount[NPC.type] * frameHeight)
+                    NPC.frame.Y = 0;
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !Main.raining)
+            if (spawnInfo.playerSafe || !spawnInfo.Player.Calamity().ZoneSulphur || !Main.raining)
                 return 0f;
 
             return 0.115f;
@@ -203,13 +203,13 @@ namespace CalamityMod.NPCs.AcidRain
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
         }
 
         public override void NPCLoot()
         {
             float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ParasiticSceptor>(), dropChance);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<ParasiticSceptor>(), dropChance);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class HauntedDishesBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Haunted Dishes");
             Description.SetDefault("The haunted dishes will protect you");

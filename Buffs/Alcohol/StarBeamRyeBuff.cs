@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class StarBeamRyeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Beam Rye");
             Description.SetDefault("Max mana and magic damage increased. Defense, mana usage, and life regen reduced");

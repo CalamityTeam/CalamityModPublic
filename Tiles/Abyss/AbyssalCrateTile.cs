@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssalCrateTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = true;
             Main.tileLighted[Type] = true;

@@ -8,29 +8,29 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bone Matter");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 1;
+            Projectile.width = 26;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 9 == 8)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 9 == 8)
             {
-                projectile.frame++;
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }

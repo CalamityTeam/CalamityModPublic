@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 33;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 50;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 33;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 50;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -66,13 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 18);
-            recipe.AddIngredient(ItemID.Gel, 30);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddTile(ModContent.TileType<StaticRefiner>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 18).AddIngredient(ItemID.Gel, 30).AddIngredient(ItemID.HellstoneBar, 5).AddTile(ModContent.TileType<StaticRefiner>()).Register();
         }
     }
 }

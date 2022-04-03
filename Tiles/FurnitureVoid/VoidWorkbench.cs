@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

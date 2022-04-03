@@ -17,29 +17,29 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 5;
-            projectile.alpha = 255;
-            projectile.timeLeft = 200;
-            projectile.extraUpdates = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 5;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 200;
+            Projectile.extraUpdates = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 6f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 6f)
             {
                 for (int d = 0; d < 5; d++)
                 {
-                    Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, projectile.velocity.X, projectile.velocity.Y, 100, CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 1f), 1f)];
+                    Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, Projectile.velocity.X, Projectile.velocity.Y, 100, CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 1f), 1f)];
                     dust.velocity = Vector2.Zero;
-                    dust.position -= projectile.velocity / 5f * d;
+                    dust.position -= Projectile.velocity / 5f * d;
                     dust.noGravity = true;
                     dust.scale = 0.65f;
                     dust.noLight = true;

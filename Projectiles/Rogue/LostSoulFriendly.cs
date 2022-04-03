@@ -10,52 +10,52 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lost Soul");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 240;
-            projectile.Calamity().rogue = true;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 150;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 240;
+            Projectile.Calamity().rogue = true;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 150;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
-        public override bool? CanHitNPC(NPC target) => (projectile.timeLeft < 210 || projectile.ai[0] == 2f) && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => (Projectile.timeLeft < 210 || Projectile.ai[0] == 2f) && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 8)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.frame = 0;
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
-            Lighting.AddLight(projectile.Center, 0.25f, 0.25f, 0.25f);
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0.25f);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-            if (projectile.ai[0] != 1f && (projectile.timeLeft < 210 || projectile.ai[0] == 2f))
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
+            if (Projectile.ai[0] != 1f && (Projectile.timeLeft < 210 || Projectile.ai[0] == 2f))
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
         }
 
         // Reduce damage of projectiles if more than the cap are active
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (!projectile.Calamity().rogue)
+            if (!Projectile.Calamity().rogue)
             {
-                int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+                int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
                 int cap = 5;
                 int oldDamage = damage;
                 if (projectileCount > cap)
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int j = 0; j <= 10; j++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 175, 0f, 0f, 100, default, 1f);
             }
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

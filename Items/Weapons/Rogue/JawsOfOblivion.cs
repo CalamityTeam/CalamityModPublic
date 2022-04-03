@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 42;
-            item.height = 40;
-            item.damage = 159;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<JawsProjectile>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
+            Item.width = 42;
+            Item.height = 40;
+            Item.damage = 159;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<JawsProjectile>();
+            Item.shootSpeed = 25f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -65,14 +65,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LeviathanTeeth>());
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LeviathanTeeth>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 6).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

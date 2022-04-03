@@ -14,27 +14,27 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Night's Ray");
             Tooltip.SetDefault("Fires a dark ray\n" +
                 "When hitting enemies, they are hit by several new beams from their sides");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 50;
-            item.height = 50;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item72;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<NightsRayBeam>();
-            item.shootSpeed = 6f;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 50;
+            Item.height = 50;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item72;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<NightsRayBeam>();
+            Item.shootSpeed = 6f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,16 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vilethorn);
-            recipe.AddIngredient(ItemID.MagicMissile);
-            recipe.AddIngredient(ItemID.WandofSparking);
-            recipe.AddIngredient(ItemID.AmberStaff);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Vilethorn).AddIngredient(ItemID.MagicMissile).AddIngredient(ItemID.WandofSparking).AddIngredient(ItemID.AmberStaff).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

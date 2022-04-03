@@ -14,44 +14,44 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimfire");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 18;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
-            projectile.penetrate = 1;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.alpha = 255;
+            Projectile.width = Projectile.height = 18;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.penetrate = 1;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
-            projectile.Opacity = Utils.InverseLerp(300f, 285f, projectile.timeLeft, true) * Utils.InverseLerp(0f, 15f, projectile.timeLeft, true);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
+            Projectile.Opacity = Utils.InverseLerp(300f, 285f, Projectile.timeLeft, true) * Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (projectile.velocity.Length() < 35f)
-                projectile.velocity *= 1.036f;
+            if (Projectile.velocity.Length() < 35f)
+                Projectile.velocity *= 1.036f;
 
-            Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.75f, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor.R = (byte)(255 * projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

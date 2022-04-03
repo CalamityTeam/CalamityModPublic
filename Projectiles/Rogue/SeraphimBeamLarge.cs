@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,8 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public int OwnerIndex
         {
-            get => (int)projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public override float MaxScale => 1f;
         public override float MaxLaserLength => 1000f;
@@ -26,49 +27,49 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Color c1 = Color.Goldenrod;
                 Color c2 = Color.Orange;
-                Color color = Color.Lerp(c1, c2, projectile.identity % 5f / 5f) * 1.1f;
+                Color color = Color.Lerp(c1, c2, Projectile.identity % 5f / 5f) * 1.1f;
                 color.A = 25;
                 return color;
             }
         }
         public override Color LightCastColor => Color.Transparent;
-        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SeraphimBeamLarge");
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeMiddle");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SeraphimBeamLarge");
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeMiddle");
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/SeraphimBeamLargeEnd");
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Beam");
-            Main.projFrames[projectile.type] = 10;
+            Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
             cooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
-            writer.Write(projectile.scale);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
+            writer.Write(Projectile.scale);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
-            projectile.scale = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
+            Projectile.scale = reader.ReadSingle();
         }
 
         public override void AttachToSomething() { }
@@ -76,17 +77,17 @@ namespace CalamityMod.Projectiles.Rogue
         public override void UpdateLaserMotion()
         {
             // Update the direction and rotation of the laser.
-            projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override float DetermineLaserLength()
         {
             float[] sampledLengths = new float[10];
-            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.width * projectile.scale, MaxLaserLength, sampledLengths);
+            Collision.LaserScan(Projectile.Center, Projectile.velocity, Projectile.width * Projectile.scale, MaxLaserLength, sampledLengths);
             float newLaserLength = sampledLengths.Average();
 
-            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 return MaxLaserLength;
 
             return newLaserLength;
@@ -94,35 +95,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostAI()
         {
-            if (projectile.frameCounter == 0)
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
+            if (Projectile.frameCounter == 0)
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Projectile.Center);
 
             // Determine frames.
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 5f == 4f)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 5f == 4f)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // This should never happen, but just in case-
-            if (projectile.velocity == Vector2.Zero)
+            if (Projectile.velocity == Vector2.Zero)
                 return false;
 
             Color beamColor = LaserOverlayColor;
-            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
 
             // Start texture drawing.
-            Vector2 centerOnLaser = projectile.Center + projectile.velocity * projectile.scale * 116f;
+            Vector2 centerOnLaser = Projectile.Center + Projectile.velocity * Projectile.scale * 116f;
             spriteBatch.Draw(LaserBeginTexture,
                              centerOnLaser - Main.screenPosition,
                              startFrameArea,
                              beamColor,
-                             projectile.rotation,
+                             Projectile.rotation,
                              LaserBeginTexture.Size() / 2f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
 
@@ -132,32 +133,32 @@ namespace CalamityMod.Projectiles.Rogue
             // Body drawing.
             if (laserBodyLength > 0f)
             {
-                float laserOffset = middleFrameArea.Height * projectile.scale;
+                float laserOffset = middleFrameArea.Height * Projectile.scale;
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
-                    centerOnLaser += projectile.velocity * laserOffset;
+                    centerOnLaser += Projectile.velocity * laserOffset;
                     incrementalBodyLength += laserOffset;
                     spriteBatch.Draw(LaserMiddleTexture,
                                      centerOnLaser - Main.screenPosition,
                                      middleFrameArea,
                                      beamColor,
-                                     projectile.rotation,
+                                     Projectile.rotation,
                                      LaserMiddleTexture.Size() * 0.5f,
-                                     projectile.scale,
+                                     Projectile.scale,
                                      SpriteEffects.None,
                                      0f);
                 }
             }
 
-            Vector2 laserEndCenter = centerOnLaser + projectile.velocity * endFrameArea.Height - Main.screenPosition;
+            Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height - Main.screenPosition;
             spriteBatch.Draw(LaserEndTexture,
                              laserEndCenter,
                              endFrameArea,
                              beamColor,
-                             projectile.rotation,
+                             Projectile.rotation,
                              LaserEndTexture.Size() * 0.5f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
             return false;

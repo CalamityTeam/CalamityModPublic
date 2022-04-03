@@ -13,33 +13,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.ranged = true;
-            item.width = 72;
-            item.height = 20;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.25f;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item41;
-            item.autoReuse = true;
-            item.shootSpeed = 22f;
-            item.useAmmo = AmmoID.Bullet;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 72;
+            Item.height = 20;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.25f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item41;
+            Item.autoReuse = true;
+            Item.shootSpeed = 22f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyGoldBar", 7);
-            recipe.AddIngredient(ItemID.Granite, 5);
-            recipe.AddIngredient(ItemID.Marble, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 7).AddIngredient(ItemID.Granite, 5).AddIngredient(ItemID.Marble, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

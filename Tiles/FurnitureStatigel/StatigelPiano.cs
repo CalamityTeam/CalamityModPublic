@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();

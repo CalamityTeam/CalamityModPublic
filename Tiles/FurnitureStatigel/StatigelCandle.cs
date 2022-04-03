@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle();
             ModTranslation name = CreateMapEntryName();
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -59,7 +59,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;
@@ -67,7 +67,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureStatigel/StatigelCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStatigel/StatigelCandleFlame"), i, j);
         }
     }
 }

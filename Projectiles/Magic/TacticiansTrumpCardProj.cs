@@ -14,36 +14,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 300;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 27;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 300;
             aiType = ProjectileID.LightBeam;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.37f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.47f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.37f / 255f, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.47f / 255f);
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 132, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 132, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 295)
+            if (Projectile.timeLeft > 295)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -51,18 +51,18 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 132, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 132, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), projectile.damage / 2, 0f, projectile.owner);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), projectile.damage / 2, 0f, projectile.owner);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }
     }
 }

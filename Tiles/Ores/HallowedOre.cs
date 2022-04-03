@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class HallowedOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;

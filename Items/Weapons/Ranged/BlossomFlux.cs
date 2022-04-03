@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.ranged = true;
-            item.width = 38;
-            item.height = 68;
-            item.useTime = 4;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0.15f;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LeafArrow>();
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 38;
+            Item.height = 68;
+            Item.useTime = 4;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0.15f;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LeafArrow>();
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Arrow;
 
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -46,15 +46,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 25;
-                item.useAnimation = 25;
-                item.UseSound = SoundID.Item77;
+                Item.useTime = 25;
+                Item.useAnimation = 25;
+                Item.UseSound = SoundID.Item77;
             }
             else
             {
-                item.useTime = 2;
-                item.useAnimation = 16;
-                item.UseSound = SoundID.Item5;
+                Item.useTime = 2;
+                Item.useAnimation = 16;
+                Item.UseSound = SoundID.Item5;
             }
             return base.CanUseItem(player);
         }

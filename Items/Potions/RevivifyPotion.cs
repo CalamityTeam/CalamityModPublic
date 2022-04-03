@@ -17,40 +17,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 36;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<Revivify>();
-            item.buffTime = CalamityUtils.SecondsToFrames(180f);
+            Item.width = 28;
+            Item.height = 36;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<Revivify>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(180f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HolyWater, 5);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
-            recipe.AddIngredient(ItemID.CrystalShard, 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.alchemy = true;
-            recipe.SetResult(this, 5);
-            recipe.AddRecipe();
-            // Blood orb recipes no alch table effect
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HolyWater, 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 100);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 5);
-            recipe.AddRecipe();
+            CreateRecipe(5).AddIngredient(ItemID.HolyWater, 5).AddIngredient(ModContent.ItemType<Stardust>(), 20).AddIngredient(ItemID.CrystalShard, 5).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3).AddIngredient(ModContent.ItemType<ScarredAngelfish>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(5).AddIngredient(ItemID.HolyWater, 5).AddIngredient(ModContent.ItemType<BloodOrb>(), 100).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

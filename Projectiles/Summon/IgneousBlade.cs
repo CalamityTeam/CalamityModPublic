@@ -15,25 +15,25 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Igneous Blade");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 86;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 52;
+            Projectile.height = 86;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -45,22 +45,22 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<IgneousBlade>();
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<IgneousBlade>();
             player.AddBuff(ModContent.BuffType<IgneousExaltationBuff>(), 3600);
             if (isProperProjectile)
             {
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.igneousExaltation)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
@@ -78,26 +78,26 @@ namespace CalamityMod.Projectiles.Summon
             if (!Firing)
             {
                 const float outwardPosition = 180f;
-                projectile.Center = player.Center + projectile.ai[0].ToRotationVector2() * outwardPosition;
-                projectile.rotation = projectile.ai[0] + MathHelper.PiOver2 + MathHelper.PiOver4;
-                projectile.ai[0] -= MathHelper.ToRadians(4f);
+                Projectile.Center = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+                Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver2 + MathHelper.PiOver4;
+                Projectile.ai[0] -= MathHelper.ToRadians(4f);
             }
             else
             {
-                if (projectile.penetrate == -1) //limit penetration for worm memes
-                    projectile.penetrate = 3;
+                if (Projectile.penetrate == -1) //limit penetration for worm memes
+                    Projectile.penetrate = 3;
 
-                projectile.ai[0]--;
-                if (projectile.ai[0] == 1)
-                    projectile.Kill();
+                Projectile.ai[0]--;
+                if (Projectile.ai[0] == 1)
+                    Projectile.Kill();
 
-                if (projectile.ai[0] % 10f == 9f)
+                if (Projectile.ai[0] % 10f == 9f)
                 {
                     for (int i = 0; i < 20; i++)
                     {
                         float angle = MathHelper.TwoPi / 20f * i;
-                        Dust dust = Dust.NewDustPerfect(projectile.position + angle.ToRotationVector2().RotatedBy(projectile.rotation) * new Vector2(14f, 21f), DustID.Fire);
-                        dust.velocity = angle.ToRotationVector2().RotatedBy(projectile.rotation) * 2f;
+                        Dust dust = Dust.NewDustPerfect(Projectile.position + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(14f, 21f), DustID.Fire);
+                        dust.velocity = angle.ToRotationVector2().RotatedBy(Projectile.rotation) * 2f;
                         dust.noGravity = true;
                     }
                 }
@@ -107,23 +107,23 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Firing)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    projectile.ai[0] = 50;
+                    Projectile.ai[0] = 50;
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
                         Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
-                            (int)(projectile.damage * 0.666), projectile.knockBack, projectile.owner);
+                            (int)(Projectile.damage * 0.666), Projectile.knockBack, Projectile.owner);
                     }
                     for (int i = 0; i < Main.rand.Next(28, 41); i++)
                     {
                         Dust.NewDustPerfect(
-                            projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                            Projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
                             6,
                             Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
                     }
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
             }
         }
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int j = 0; j < 40; j++)
             {
-                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6);
+                Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6);
                 dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
                 dust.noGravity = true;
             }
@@ -140,29 +140,29 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Firing)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/IgneousBlade");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/IgneousBlade");
 
                 Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 
                 SpriteEffects spriteEffects = SpriteEffects.None;
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
                 if (Lighting.NotRetro)
                 {
-                    for (int i = 0; i < projectile.oldPos.Length; i++)
+                    for (int i = 0; i < Projectile.oldPos.Length; i++)
                     {
-                        Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                        Color color = Color.Lerp(Color.White, Color.Red, i / (float)projectile.oldPos.Length) *
-                            ((projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                        float scale = MathHelper.Lerp(projectile.scale * 1.35f, projectile.scale * 0.6f, i / (float)projectile.oldPos.Length);
+                        Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+                        Color color = Color.Lerp(Color.White, Color.Red, i / (float)Projectile.oldPos.Length) *
+                            ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                        float scale = MathHelper.Lerp(Projectile.scale * 1.35f, Projectile.scale * 0.6f, i / (float)Projectile.oldPos.Length);
                         Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color,
-                            projectile.rotation,
+                            Projectile.rotation,
                             rectangle.Size() / 2f, scale, spriteEffects, 0f);
                     }
                 }
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
-                           projectile.rotation,
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
+                           Projectile.rotation,
                            rectangle.Size() / 2f, 1.35f, spriteEffects, 0f);
                 return false;
             }

@@ -3,47 +3,48 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class MaelstromHoldout : ModProjectile
     {
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        private ref float CurrentChargingFrames => ref projectile.ai[0];
-        private ref float ArrowsLoaded => ref projectile.ai[1];
-        private ref float FramesToLoadNextArrow => ref projectile.localAI[0];
+        private ref float CurrentChargingFrames => ref Projectile.ai[0];
+        private ref float ArrowsLoaded => ref Projectile.ai[1];
+        private ref float FramesToLoadNextArrow => ref Projectile.localAI[0];
 
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/TheMaelstrom";
         public override void SetStaticDefaults() => DisplayName.SetDefault("The Maelstrom");
 
         public override void SetDefaults()
         {
-            projectile.width = 78;
-            projectile.height = 137;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
+            Projectile.width = 78;
+            Projectile.height = 137;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 shootPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
+            Vector2 shootPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
 
             // Destroy the holdout projectile if the owner is no longer eligible to hold it.
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Frame 1 effects: Record how fast the hold item being used is, to determine how fast to load arrows.
             if (FramesToLoadNextArrow == 0f)
             {
-                Main.PlaySound(SoundID.Item20, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 FramesToLoadNextArrow = Owner.ActiveItem().useAnimation;
             }
 
@@ -77,10 +78,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Play a shoot sound.
-            Main.PlaySound(SoundID.Item66, projectile.Center);
-            Main.PlaySound(SoundID.Item96, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item66, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item96, Projectile.Center);
 
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             Item heldItem = Owner.ActiveItem();
@@ -96,40 +97,40 @@ namespace CalamityMod.Projectiles.Ranged
             projectileType = ModContent.ProjectileType<TheMaelstromShark>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
-            Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * shootSpeed;
 
-            Projectile.NewProjectile(shootPosition, shootVelocity, projectileType, arrowDamage, knockback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(shootPosition, shootVelocity, projectileType, arrowDamage, knockback, Projectile.owner, 0f, 0f);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
-                float aimInterpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), aimInterpolant);
-                if (projectile.velocity != oldVelocity)
+                float aimInterpolant = Utils.InverseLerp(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), aimInterpolant);
+                if (Projectile.velocity != oldVelocity)
                 {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity * 24f;
-            projectile.rotation = projectile.velocity.ToRotation();
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += MathHelper.Pi;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity * 24f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.spriteDirection == -1)
+                Projectile.rotation += MathHelper.Pi;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
         }
 
         private void ManipulatePlayerVariables()
         {
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         public override bool CanDamage() => false;

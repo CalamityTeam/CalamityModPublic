@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.accessory = true;
-            item.rare = ItemRarityID.Lime;
+            Item.width = 58;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,12 +33,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RogueEmblem>()).AddIngredient(ModContent.ItemType<SolarVeil>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

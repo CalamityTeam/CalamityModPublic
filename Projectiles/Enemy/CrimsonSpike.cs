@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -14,38 +15,38 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.aiStyle = 1;
-            projectile.penetrate = -1;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.aiStyle = 1;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            if (projectile.alpha == 0 && Main.rand.NextBool(3))
+            if (Projectile.alpha == 0 && Main.rand.NextBool(3))
             {
-                int num67 = Dust.NewDust(projectile.position - projectile.velocity * 3f, projectile.width, projectile.height, 260, 0f, 0f, 50, new Color(255, 136, 78, 150), 1.2f);
+                int num67 = Dust.NewDust(Projectile.position - Projectile.velocity * 3f, Projectile.width, Projectile.height, 260, 0f, 0f, 50, new Color(255, 136, 78, 150), 1.2f);
                 Main.dust[num67].velocity *= 0.3f;
-                Main.dust[num67].velocity += projectile.velocity * 0.3f;
+                Main.dust[num67].velocity += Projectile.velocity * 0.3f;
                 Main.dust[num67].noGravity = true;
             }
-            projectile.alpha -= 50;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 50;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item17, (int)projectile.position.X, (int)projectile.position.Y);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item17, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 5f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 5f)
             {
-                projectile.ai[0] = 5f;
-                projectile.velocity.Y = projectile.velocity.Y + 0.15f;
+                Projectile.ai[0] = 5f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
             }
         }
 
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Enemy
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 260, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 260, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

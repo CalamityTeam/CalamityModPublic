@@ -17,17 +17,17 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.ranged = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.width = 200;
-            projectile.height = 200;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 200;
+            Projectile.height = 200;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MagnomalyRocket>())
+                if (p.identity == Projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MagnomalyRocket>())
                 {
                     parent = p;
                     active = true;
@@ -46,19 +46,19 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (active)
             {
-                projectile.Center = parent.Center;
+                Projectile.Center = parent.Center;
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
             if (!parent.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

@@ -17,25 +17,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 54;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
-            item.shootSpeed = 0.1f;
+            Item.width = Item.height = 54;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
+            Item.shootSpeed = 0.1f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;

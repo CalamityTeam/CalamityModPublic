@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,21 +37,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AnglerHat);
-            recipe.AddIngredient(ItemID.AnglerVest);
-            recipe.AddIngredient(ItemID.AnglerPants);
-            recipe.AddIngredient(ItemID.AnglerTackleBag);
-            recipe.AddIngredient(ItemID.FishingPotion, 5);
-            recipe.AddIngredient(ItemID.CratePotion, 5);
-            recipe.AddIngredient(ItemID.SonarPotion, 5);
-            recipe.AddIngredient(ItemID.MasterBait, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AnglerHat).AddIngredient(ItemID.AnglerVest).AddIngredient(ItemID.AnglerPants).AddIngredient(ItemID.AnglerTackleBag).AddIngredient(ItemID.FishingPotion, 5).AddIngredient(ItemID.CratePotion, 5).AddIngredient(ItemID.SonarPotion, 5).AddIngredient(ItemID.MasterBait, 5).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.SoulofNight, 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

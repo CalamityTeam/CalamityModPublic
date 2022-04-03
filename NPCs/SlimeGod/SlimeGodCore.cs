@@ -20,6 +20,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
@@ -35,83 +36,83 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.GetNPCDamage();
-            npc.npcSlots = 10f;
-            npc.width = 44;
-            npc.height = 44;
-            npc.defense = 6;
-            npc.LifeMaxNERB(2100, 2500, 250000);
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.npcSlots = 10f;
+            NPC.width = 44;
+            NPC.height = 44;
+            NPC.defense = 6;
+            NPC.LifeMaxNERB(2100, 2500, 250000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
-            npc.aiStyle = -1;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPCID.Sets.TrailCacheLength[NPC.type] = 8;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 25, 0, 0);
-            npc.Opacity = 0.8f;
-            npc.boss = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 25, 0, 0);
+            NPC.Opacity = 0.8f;
+            NPC.boss = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<SlimeGodBag>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             writer.Write(buffedSlime);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             buffedSlime = reader.ReadInt32();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
-            CalamityGlobalNPC.slimeGod = npc.whoAmI;
+            CalamityGlobalNPC.slimeGod = NPC.whoAmI;
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            Vector2 vectorCenter = npc.Center;
+            Vector2 vectorCenter = NPC.Center;
 
             // Get a target
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest();
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-                npc.TargetClosest();
+            if (Vector2.Distance(Main.player[NPC.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                NPC.TargetClosest();
 
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
@@ -122,14 +123,14 @@ namespace CalamityMod.NPCs.SlimeGod
 
             // Emit dust
             int randomDust = Main.rand.NextBool(2) ? 173 : 260;
-            int num658 = Dust.NewDust(npc.position, npc.width, npc.height, randomDust, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);
+            int num658 = Dust.NewDust(NPC.position, NPC.width, NPC.height, randomDust, NPC.velocity.X, NPC.velocity.Y, 255, new Color(0, 80, 255, 80), NPC.scale * 1.5f);
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;
 
-            npc.dontTakeDamage = false;
+            NPC.dontTakeDamage = false;
 
             // Set damage
-            npc.damage = npc.defDamage;
+            NPC.damage = NPC.defDamage;
 
             // Enrage based on large slimes
             bool phase2 = lifeRatio < 0.4f || malice;
@@ -164,8 +165,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     else
                         Main.npc[CalamityGlobalNPC.slimeGodRed].localAI[1] = 0f;
 
-                    npc.localAI[2] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.X;
-                    npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
+                    NPC.localAI[2] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.X;
+                    NPC.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
                     redSlimeAlive = true;
                     phase2 = lifeRatio < 0.2f;
@@ -176,17 +177,17 @@ namespace CalamityMod.NPCs.SlimeGod
             // Despawn
             if (!player.active || player.dead)
             {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
+                NPC.TargetClosest(false);
+                player = Main.player[NPC.target];
                 if (!player.active || player.dead)
                 {
-                    if (npc.velocity.Y < -3f)
-                        npc.velocity.Y = -3f;
-                    npc.velocity.Y += 0.2f;
-                    if (npc.velocity.Y > 16f)
-                        npc.velocity.Y = 16f;
+                    if (NPC.velocity.Y < -3f)
+                        NPC.velocity.Y = -3f;
+                    NPC.velocity.Y += 0.2f;
+                    if (NPC.velocity.Y > 16f)
+                        NPC.velocity.Y = 16f;
 
-                    if (npc.position.Y > Main.worldSurface * 16.0)
+                    if (NPC.position.Y > Main.worldSurface * 16.0)
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
@@ -197,51 +198,51 @@ namespace CalamityMod.NPCs.SlimeGod
                                 Main.npc[x].netUpdate = true;
                             }
                         }
-                        npc.active = false;
-                        npc.netUpdate = true;
+                        NPC.active = false;
+                        NPC.netUpdate = true;
                     }
 
-                    if (npc.ai[0] != 0f || npc.ai[1] != 0f)
+                    if (NPC.ai[0] != 0f || NPC.ai[1] != 0f)
                     {
-                        npc.ai[0] = 0f;
-                        npc.ai[1] = 0f;
-                        npc.ai[2] = 0f;
-                        npc.ai[3] = 0f;
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.netUpdate = true;
+                        NPC.ai[0] = 0f;
+                        NPC.ai[1] = 0f;
+                        NPC.ai[2] = 0f;
+                        NPC.ai[3] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
+                        NPC.netUpdate = true;
                     }
                     return;
                 }
             }
-            else if (npc.timeLeft < 1800)
-                npc.timeLeft = 1800;
+            else if (NPC.timeLeft < 1800)
+                NPC.timeLeft = 1800;
 
             float ai1 = malice ? 210f : hyperMode ? 270f : 360f;
 
             // Hide inside large slime
-            if (!hyperMode && npc.ai[1] < ai1)
+            if (!hyperMode && NPC.ai[1] < ai1)
             {
-                if (calamityGlobalNPC.newAI[2] == 0f && npc.life > 0)
+                if (calamityGlobalNPC.newAI[2] == 0f && NPC.life > 0)
                 {
-                    calamityGlobalNPC.newAI[2] = npc.lifeMax;
+                    calamityGlobalNPC.newAI[2] = NPC.lifeMax;
                 }
-                if (npc.life > 0)
+                if (NPC.life > 0)
                 {
-                    int num660 = (int)(npc.lifeMax * 0.05);
-                    if ((npc.life + num660) < calamityGlobalNPC.newAI[2])
+                    int num660 = (int)(NPC.lifeMax * 0.05);
+                    if ((NPC.life + num660) < calamityGlobalNPC.newAI[2])
                     {
-                        calamityGlobalNPC.newAI[2] = npc.life;
+                        calamityGlobalNPC.newAI[2] = NPC.life;
                         calamityGlobalNPC.newAI[3] = 1f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)NPC.position.X, (int)NPC.position.Y);
                     }
                 }
 
                 if (calamityGlobalNPC.newAI[3] == 1f)
                 {
-                    npc.dontTakeDamage = true;
+                    NPC.dontTakeDamage = true;
 
-                    npc.rotation = npc.velocity.X * 0.1f;
+                    NPC.rotation = NPC.velocity.X * 0.1f;
 
                     if (buffedSlime == 0)
                     {
@@ -254,20 +255,20 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
 
                     Vector2 purpleSlimeVector = new Vector2(calamityGlobalNPC.newAI[0], calamityGlobalNPC.newAI[1]);
-                    Vector2 redSlimeVector = new Vector2(npc.localAI[2], npc.localAI[3]);
+                    Vector2 redSlimeVector = new Vector2(NPC.localAI[2], NPC.localAI[3]);
                     Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
                     Vector2 goToPosition = goToVector - vectorCenter;
-                    npc.velocity = Vector2.Normalize(goToPosition) * 24f;
+                    NPC.velocity = Vector2.Normalize(goToPosition) * 24f;
 
                     // Reduce velocity to 0 to avoid spastic movement when inside big slime.
-                    if (Vector2.Distance(npc.Center, goToVector) < 24f)
+                    if (Vector2.Distance(NPC.Center, goToVector) < 24f)
                     {
-                        npc.velocity = Vector2.Zero;
+                        NPC.velocity = Vector2.Zero;
 
-                        npc.Opacity -= 0.2f;
-                        if (npc.Opacity < 0f)
-                            npc.Opacity = 0f;
+                        NPC.Opacity -= 0.2f;
+                        if (NPC.Opacity < 0f)
+                            NPC.Opacity = 0f;
                     }
 
                     bool slimeDead = false;
@@ -276,17 +277,17 @@ namespace CalamityMod.NPCs.SlimeGod
                     else
                         slimeDead = CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active;
 
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 600f || slimeDead)
+                    NPC.ai[2] += 1f;
+                    if (NPC.ai[2] >= 600f || slimeDead)
                     {
-                        npc.TargetClosest();
-                        npc.ai[2] = 0f;
+                        NPC.TargetClosest();
+                        NPC.ai[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
-                        npc.velocity = Vector2.UnitY * -12f;
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)npc.position.X, (int)npc.position.Y);
+                        NPC.velocity = Vector2.UnitY * -12f;
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)NPC.position.X, (int)NPC.position.Y);
                         for (int i = 0; i < 20; i++)
                         {
-                            int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                            int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
                             Main.dust[dust].velocity *= 3f;
                             if (Main.rand.NextBool(2))
                             {
@@ -296,10 +297,10 @@ namespace CalamityMod.NPCs.SlimeGod
                         }
                         for (int j = 0; j < 30; j++)
                         {
-                            int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
+                            int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 3f);
                             Main.dust[dust].noGravity = true;
                             Main.dust[dust].velocity *= 5f;
-                            dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                            dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
                             Main.dust[dust].velocity *= 2f;
                         }
                     }
@@ -307,112 +308,112 @@ namespace CalamityMod.NPCs.SlimeGod
                     return;
                 }
 
-                npc.Opacity += 0.2f;
-                if (npc.Opacity > 0.8f)
-                    npc.Opacity = 0.8f;
+                NPC.Opacity += 0.2f;
+                if (NPC.Opacity > 0.8f)
+                    NPC.Opacity = 0.8f;
 
                 buffedSlime = 0;
             }
-            else if (npc.ai[1] < ai1)
+            else if (NPC.ai[1] < ai1)
             {
-                npc.Opacity += 0.2f;
-                if (npc.Opacity > 0.8f)
-                    npc.Opacity = 0.8f;
+                NPC.Opacity += 0.2f;
+                if (NPC.Opacity > 0.8f)
+                    NPC.Opacity = 0.8f;
             }
 
             // Spin and shoot orbs
             if (phase2)
             {
-                npc.ai[1] += 1f;
+                NPC.ai[1] += 1f;
                 if (revenge)
                 {
-                    if (npc.ai[1] >= ai1)
+                    if (NPC.ai[1] >= ai1)
                     {
-                        if (npc.localAI[1] == 0f)
+                        if (NPC.localAI[1] == 0f)
                         {
                             // Slow down, rotation
-                            npc.rotation = npc.velocity.X * 0.1f;
+                            NPC.rotation = NPC.velocity.X * 0.1f;
 
                             // Set teleport location, turn invisible, spin direction
-                            npc.Opacity -= 0.2f;
-                            if (npc.Opacity <= 0f)
+                            NPC.Opacity -= 0.2f;
+                            if (NPC.Opacity <= 0f)
                             {
-                                npc.Opacity = 0f;
-                                npc.velocity.Normalize();
+                                NPC.Opacity = 0f;
+                                NPC.velocity.Normalize();
 
                                 int teleportX = player.velocity.X < 0f ? -20 : 20;
                                 int teleportY = player.velocity.Y < 0f ? -10 : 10;
                                 int playerPosX = (int)player.Center.X / 16 + teleportX;
                                 int playerPosY = (int)player.Center.Y / 16 - teleportY;
 
-                                npc.ai[2] = playerPosX;
-                                npc.ai[3] = playerPosY;
-                                npc.localAI[1] = 1f;
-                                npc.netUpdate = true;
+                                NPC.ai[2] = playerPosX;
+                                NPC.ai[3] = playerPosY;
+                                NPC.localAI[1] = 1f;
+                                NPC.netUpdate = true;
                             }
                         }
-                        else if (npc.localAI[1] == 1f)
+                        else if (NPC.localAI[1] == 1f)
                         {
                             // Rotation
-                            npc.rotation = npc.velocity.X * 0.1f;
+                            NPC.rotation = NPC.velocity.X * 0.1f;
 
                             // Teleport to location
-                            if (npc.Opacity == 0f)
+                            if (NPC.Opacity == 0f)
                             {
-                                Vector2 position = new Vector2(npc.ai[2] * 16f - (npc.width / 2), npc.ai[3] * 16f - (npc.height / 2));
-                                npc.position = position;
+                                Vector2 position = new Vector2(NPC.ai[2] * 16f - (NPC.width / 2), NPC.ai[3] * 16f - (NPC.height / 2));
+                                NPC.position = position;
                             }
 
                             // Turn visible
-                            npc.Opacity += 0.2f;
-                            if (npc.Opacity >= 0.8f)
+                            NPC.Opacity += 0.2f;
+                            if (NPC.Opacity >= 0.8f)
                             {
-                                npc.Opacity = 0.8f;
-                                npc.localAI[0] = vectorCenter.X - player.Center.X < 0 ? 1f : -1f;
-                                npc.localAI[1] = 2f;
+                                NPC.Opacity = 0.8f;
+                                NPC.localAI[0] = vectorCenter.X - player.Center.X < 0 ? 1f : -1f;
+                                NPC.localAI[1] = 2f;
                             }
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                         else
                         {
                             // No damage while spinning
-                            npc.damage = 0;
+                            NPC.damage = 0;
 
                             // Rotation
-                            npc.rotation += npc.direction * 0.3f;
+                            NPC.rotation += NPC.direction * 0.3f;
 
                             // Velocity boost
-                            if (npc.localAI[1] == 2f)
+                            if (NPC.localAI[1] == 2f)
                             {
-                                npc.localAI[1] = 3f;
-                                npc.velocity *= 12f;
+                                NPC.localAI[1] = 3f;
+                                NPC.velocity *= 12f;
                             }
 
                             // Spin velocity
-                            float velocity = MathHelper.TwoPi / (180f - (npc.ai[1] - ai1));
-                            npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[0]);
+                            float velocity = MathHelper.TwoPi / (180f - (NPC.ai[1] - ai1));
+                            NPC.velocity = NPC.velocity.RotatedBy(-(double)velocity * NPC.localAI[0]);
 
                             // Reset and charge at target
-                            if (npc.ai[1] >= ai1 + 100f)
+                            if (NPC.ai[1] >= ai1 + 100f)
                             {
-                                npc.ai[1] = 0f;
-                                npc.ai[2] = 0f;
-                                npc.ai[3] = 0f;
-                                npc.localAI[0] = 0f;
-                                npc.localAI[1] = 0f;
+                                NPC.ai[1] = 0f;
+                                NPC.ai[2] = 0f;
+                                NPC.ai[3] = 0f;
+                                NPC.localAI[0] = 0f;
+                                NPC.localAI[1] = 0f;
                                 float chargeVelocity = death ? 12f : 9f;
-                                npc.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - vectorCenter) * chargeVelocity;
-                                npc.TargetClosest();
+                                NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - vectorCenter) * chargeVelocity;
+                                NPC.TargetClosest();
                                 return;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float divisor = malice ? 10f : 15f;
-                                if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+                                if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
                                 {
                                     float num179 = expertMode ? 9f : 7.5f;
-                                    Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                    Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                                     float num180 = player.position.X + player.width * 0.5f - value9.X;
                                     float num181 = Math.Abs(num180) * 0.1f;
                                     float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
@@ -421,7 +422,7 @@ namespace CalamityMod.NPCs.SlimeGod
                                     num180 *= num183;
                                     num182 *= num183;
                                     int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
-                                    int damage = npc.GetProjectileDamage(type);
+                                    int damage = NPC.GetProjectileDamage(type);
                                     value9.X += num180;
                                     value9.Y += num182;
                                     num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -441,10 +442,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
                     {
-                        if (npc.ai[1] % 40f == 0f)
+                        if (NPC.ai[1] % 40f == 0f)
                         {
                             float num179 = expertMode ? 12f : 10f;
-                            Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                             float num180 = player.position.X + player.width * 0.5f - value9.X;
                             float num181 = Math.Abs(num180) * 0.1f;
                             float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
@@ -453,7 +454,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             num180 *= num183;
                             num182 *= num183;
                             int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
-                            int damage = npc.GetProjectileDamage(type);
+                            int damage = NPC.GetProjectileDamage(type);
                             value9.X += num180;
                             value9.Y += num182;
                             int totalProjectiles = expertMode ? 3 : 2;
@@ -485,7 +486,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 num1372 *= 1.25f;
             }
 
-            Vector2 vector167 = new Vector2(vectorCenter.X + (npc.direction * 20), vectorCenter.Y + 6f);
+            Vector2 vector167 = new Vector2(vectorCenter.X + (NPC.direction * 20), vectorCenter.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
@@ -493,52 +494,52 @@ namespace CalamityMod.NPCs.SlimeGod
             num1373 *= num1376;
             num1374 *= num1376;
 
-            npc.ai[0] -= 1f;
-            if (num1375 < 200f || npc.ai[0] > 0f)
+            NPC.ai[0] -= 1f;
+            if (num1375 < 200f || NPC.ai[0] > 0f)
             {
                 if (num1375 < 200f)
                 {
-                    npc.ai[0] = 20f;
+                    NPC.ai[0] = 20f;
                 }
-                if (npc.velocity.X < 0f)
+                if (NPC.velocity.X < 0f)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
                 else
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
-                npc.rotation += npc.direction * 0.3f;
+                NPC.rotation += NPC.direction * 0.3f;
                 return;
             }
 
-            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
+            NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
+            NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
             if (num1375 < 350f)
             {
-                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
+                NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
+                NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
             }
             if (num1375 < 300f)
             {
-                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
+                NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
+                NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
             }
-            npc.rotation = npc.velocity.X * 0.1f;
+            NPC.rotation = NPC.velocity.X * 0.1f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Color color24 = npc.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.npcTexture[npc.type];
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
+            Color color24 = NPC.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
+            Texture2D texture2D3 = Main.npcTexture[NPC.type];
+            int num156 = Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type];
+            int y3 = num156 * (int)NPC.frameCounter;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
@@ -546,10 +547,10 @@ namespace CalamityMod.NPCs.SlimeGod
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+            spriteBatch.Draw(texture2D3, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
-                Color color26 = npc.GetAlpha(color25);
+                Color color26 = NPC.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -562,10 +563,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     num164 = (float)(num159 - num161);
                 }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = npc.oldPos[num161];
-                float num165 = npc.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
+                Vector2 value4 = NPC.oldPos[num161];
+                float num165 = NPC.rotation;
+                Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - Main.screenPosition + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
                 goto IL_6881;
             }
             return false;
@@ -584,7 +585,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
             if (!otherSlimeGodsAlive)
-                DropSlimeGodLoot(npc);
+                DropSlimeGodLoot(NPC);
         }
 
         // This loot code is shared with every other Slime God component.
@@ -643,19 +644,19 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                npc.position.X = npc.position.X + (npc.width / 2);
-                npc.position.Y = npc.position.Y + (npc.height / 2);
-                npc.width = 40;
-                npc.height = 40;
-                npc.position.X = npc.position.X - (npc.width / 2);
-                npc.position.Y = npc.position.Y - (npc.height / 2);
+                NPC.position.X = NPC.position.X + (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                NPC.width = 40;
+                NPC.height = 40;
+                NPC.position.X = NPC.position.X - (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -665,10 +666,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -676,7 +677,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

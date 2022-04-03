@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Vitriolic Viper");
             Tooltip.SetDefault("Releases a volley of venomous fangs and spit");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 93;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 60;
-            item.height = 62;
-            item.useTime = item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item46;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VitriolicViperSpit>();
-            item.shootSpeed = 20f;
+            Item.damage = 93;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 60;
+            Item.height = 62;
+            Item.useTime = Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item46;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VitriolicViperSpit>();
+            Item.shootSpeed = 20f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

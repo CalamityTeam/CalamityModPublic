@@ -34,7 +34,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
+            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
 
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }

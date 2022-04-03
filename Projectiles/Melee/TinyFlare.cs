@@ -14,30 +14,30 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
             for (int num468 = 0; num468 < 3; num468++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, 0.75f);
+                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 174, 0f, 0f, 100, default, 0.75f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
 
-            if (projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
+            if (Projectile.timeLeft < 150)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

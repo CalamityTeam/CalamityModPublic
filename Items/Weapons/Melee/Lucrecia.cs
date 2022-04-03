@@ -21,40 +21,33 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.width = 58;
-            item.height = 58;
-            item.damage = 90;
-            item.melee = true;
-            item.knockBack = 8.25f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DNA>();
-            item.shootSpeed = 32f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.width = 58;
+            Item.height = 58;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 8.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DNA>();
+            Item.shootSpeed = 32f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.SoulofNight, 5).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -81,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (!isImmune)
             {
                 player.immune = true;
-                player.immuneTime = item.useTime / 5;
+                player.immuneTime = Item.useTime / 5;
             }
         }
     }

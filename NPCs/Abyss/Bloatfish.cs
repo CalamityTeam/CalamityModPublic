@@ -15,88 +15,88 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloatfish");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.damage = 5;
-            npc.width = 74;
-            npc.height = 94;
-            npc.defense = 100;
-            npc.lifeMax = 7200;
-            npc.aiStyle = -1;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.damage = 5;
+            NPC.width = 74;
+            NPC.height = 94;
+            NPC.defense = 100;
+            NPC.lifeMax = 7200;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 30, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.9f;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 30, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.9f;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<BloatfishBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-            npc.noGravity = true;
-            if (npc.direction == 0)
+            NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
+            NPC.noGravity = true;
+            if (NPC.direction == 0)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            if (npc.wet)
+            if (NPC.wet)
             {
-                npc.TargetClosest(false);
-                if (npc.collideX)
+                NPC.TargetClosest(false);
+                if (NPC.collideX)
                 {
-                    npc.velocity.X = npc.velocity.X * -1f;
-                    npc.direction *= -1;
-                    npc.netUpdate = true;
+                    NPC.velocity.X = NPC.velocity.X * -1f;
+                    NPC.direction *= -1;
+                    NPC.netUpdate = true;
                 }
-                if (npc.collideY)
+                if (NPC.collideY)
                 {
-                    npc.netUpdate = true;
-                    if (npc.velocity.Y > 0f)
+                    NPC.netUpdate = true;
+                    if (NPC.velocity.Y > 0f)
                     {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                        npc.directionY = -1;
-                        npc.ai[0] = -1f;
+                        NPC.velocity.Y = Math.Abs(NPC.velocity.Y) * -1f;
+                        NPC.directionY = -1;
+                        NPC.ai[0] = -1f;
                     }
-                    else if (npc.velocity.Y < 0f)
+                    else if (NPC.velocity.Y < 0f)
                     {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                        npc.directionY = 1;
-                        npc.ai[0] = 1f;
+                        NPC.velocity.Y = Math.Abs(NPC.velocity.Y);
+                        NPC.directionY = 1;
+                        NPC.ai[0] = 1f;
                     }
                 }
-                npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
-                if (npc.velocity.X < -0.2f || npc.velocity.X > 0.2f)
+                NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.1f;
+                if (NPC.velocity.X < -0.2f || NPC.velocity.X > 0.2f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.95f;
+                    NPC.velocity.X = NPC.velocity.X * 0.95f;
                 }
-                if (npc.ai[0] == -1f)
+                if (NPC.ai[0] == -1f)
                 {
-                    npc.velocity.Y = npc.velocity.Y - 0.01f;
-                    if ((double)npc.velocity.Y < -0.3)
+                    NPC.velocity.Y = NPC.velocity.Y - 0.01f;
+                    if ((double)NPC.velocity.Y < -0.3)
                     {
-                        npc.ai[0] = 1f;
+                        NPC.ai[0] = 1f;
                     }
                 }
                 else
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.01f;
-                    if ((double)npc.velocity.Y > 0.3)
+                    NPC.velocity.Y = NPC.velocity.Y + 0.01f;
+                    if ((double)NPC.velocity.Y > 0.3)
                     {
-                        npc.ai[0] = -1f;
+                        NPC.ai[0] = -1f;
                     }
                 }
-                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+                int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
                 if (Main.tile[num258, num259 - 1] == null)
                 {
                     Main.tile[num258, num259 - 1] = new Tile();
@@ -113,43 +113,43 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.tile[num258, num259 + 1].active())
                     {
-                        npc.ai[0] = -1f;
+                        NPC.ai[0] = -1f;
                     }
                     else if (Main.tile[num258, num259 + 2].active())
                     {
-                        npc.ai[0] = -1f;
+                        NPC.ai[0] = -1f;
                     }
                 }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
+                if ((double)NPC.velocity.Y > 0.4 || (double)NPC.velocity.Y < -0.4)
                 {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                    NPC.velocity.Y = NPC.velocity.Y * 0.95f;
                 }
             }
             else
             {
-                if (npc.velocity.Y == 0f)
+                if (NPC.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.94f;
-                    if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
+                    NPC.velocity.X = NPC.velocity.X * 0.94f;
+                    if ((double)NPC.velocity.X > -0.2 && (double)NPC.velocity.X < 0.2)
                     {
-                        npc.velocity.X = 0f;
+                        NPC.velocity.X = 0f;
                     }
                 }
-                npc.velocity.Y = npc.velocity.Y + 0.3f;
-                if (npc.velocity.Y > 3f)
+                NPC.velocity.Y = NPC.velocity.Y + 0.3f;
+                if (NPC.velocity.Y > 3f)
                 {
-                    npc.velocity.Y = 3f;
+                    NPC.velocity.Y = 3f;
                 }
-                npc.ai[0] = 1f;
+                NPC.ai[0] = 1f;
             }
-            npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.2)
+            NPC.rotation = NPC.velocity.Y * (float)NPC.direction * 0.1f;
+            if ((double)NPC.rotation < -0.2)
             {
-                npc.rotation = -0.2f;
+                NPC.rotation = -0.2f;
             }
-            if ((double)npc.rotation > 0.2)
+            if ((double)NPC.rotation > 0.2)
             {
-                npc.rotation = 0.2f;
+                NPC.rotation = 0.2f;
                 return;
             }
         }
@@ -169,20 +169,20 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!npc.wet)
+            if (!NPC.wet)
             {
-                npc.frameCounter = 0.0;
+                NPC.frameCounter = 0.0;
                 return;
             }
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && NPC.CountNPCS(ModContent.NPCType<Bloatfish>()) < 3)
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && NPC.CountNPCS(ModContent.NPCType<Bloatfish>()) < 3)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
@@ -191,28 +191,28 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 10, 20);
+            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 10, 20);
             int minCells = Main.expertMode ? 7 : 5;
             int maxCells = Main.expertMode ? 10 : 7;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
             }
-            if (npc.scale < 2f)
+            if (NPC.scale < 2f)
             {
-                npc.scale += 0.05f;
+                NPC.scale += 0.05f;
             }
         }
     }

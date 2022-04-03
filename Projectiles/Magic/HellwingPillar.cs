@@ -12,57 +12,57 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pillar");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 90;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 90;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            if (projectile.ai[0] > 7f)
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
+            if (Projectile.ai[0] > 7f)
             {
                 float scalar = 1f;
-                if (projectile.ai[0] == 8f)
+                if (Projectile.ai[0] == 8f)
                 {
                     scalar = 0.25f;
                 }
-                else if (projectile.ai[0] == 9f)
+                else if (Projectile.ai[0] == 9f)
                 {
                     scalar = 0.5f;
                 }
-                else if (projectile.ai[0] == 10f)
+                else if (Projectile.ai[0] == 10f)
                 {
                     scalar = 0.75f;
                 }
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
                 int num297 = 127;
                 if (Main.rand.NextBool(3))
                 {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                     Dust dust = Main.dust[num299];
                     if (Main.rand.NextBool(3))
                     {
@@ -82,9 +82,9 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

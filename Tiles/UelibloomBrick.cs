@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles
         private int extraFrameHeight = 36;
         private int extraFrameWidth = 90;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -37,8 +37,8 @@ namespace CalamityMod.Tiles
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if ((Main.tile[i - 1, j - 1].type != Type || Main.tile[i, j - 1].type != Type || Main.tile[i + 1, j - 1].type != Type ||
-                Main.tile[i - 1, j - 2].type != Type || Main.tile[i, j - 2].type != Type || Main.tile[i + 1, j - 2].type != Type) &&
+            if ((Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
+                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type) &&
                 nextSpecialDrawIndex < Main.specX.Length)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j);
-            Texture2D leaves = ModContent.GetTexture("CalamityMod/Tiles/UelibloomBrick_Leaves");
+            Texture2D leaves = ModContent.Request<Texture2D>("CalamityMod/Tiles/UelibloomBrick_Leaves");
 
             DrawExtraTop(i, j, leaves, drawOffset, drawColour);
             DrawExtraWallEnds(i, j, leaves, drawOffset, drawColour);
@@ -183,7 +183,7 @@ namespace CalamityMod.Tiles
         private bool CheckTile(int type, bool equal, int x, int y, int i, int j)
         {
             //Subtract y so that y is vertical for ease of readability
-            return Main.tile[i + x, j - y].type == type == equal;
+            return Main.tile[i + x, j - y].TileType == type == equal;
         }
 
         private Color GetDrawColour(int i, int j)

@@ -20,40 +20,31 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.knockBack = 4.5f;
-            item.melee = true;
-            item.useAnimation = item.useTime = 14;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
-            item.shootSpeed = 12f;
+            Item.damage = 80;
+            Item.knockBack = 4.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 14;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
+            Item.shootSpeed = 12f;
 
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().donorItem = true;
 
-            item.width = item.height = 68;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
+            Item.width = Item.height = 68;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AmidiasTrident>());
-            recipe.AddIngredient(ModContent.ItemType<Atlantis>());
-            recipe.AddIngredient(ItemID.InfluxWaver);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AmidiasTrident>()).AddIngredient(ModContent.ItemType<Atlantis>()).AddIngredient(ItemID.InfluxWaver).AddIngredient(ModContent.ItemType<SeaPrism>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 25).AddIngredient(ModContent.ItemType<Lumenite>(), 50).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

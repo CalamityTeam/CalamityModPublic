@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -20,9 +21,9 @@ namespace CalamityMod.Projectiles.Melee
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
         public float rotation;
-        public ref float SwingMode => ref projectile.ai[0]; //0 = Up-Down small slash, 1 = Down-Up large slash, 2 = Thrust
-        public ref float MaxTime => ref projectile.ai[1];
-        public float Timer => MaxTime - projectile.timeLeft;
+        public ref float SwingMode => ref Projectile.ai[0]; //0 = Up-Down small slash, 1 = Down-Up large slash, 2 = Thrust
+        public ref float MaxTime => ref Projectile.ai[1];
+        public float Timer => MaxTime - Projectile.timeLeft;
 
         public int SwingDirection
         {
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -62,13 +63,13 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 75;
-            projectile.width = projectile.height = 75;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 75;
+            Projectile.width = Projectile.height = 75;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -81,11 +82,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 case 0:
                 case 1:
-                    bladeLenght = 150 * projectile.scale;
+                    bladeLenght = 150 * Projectile.scale;
                     break;
                 case 2:
                     bladeLenght = 225f; //In awe e
-                    bladeLenght *= projectile.scale;
+                    bladeLenght *= Projectile.scale;
                     displace = direction * ThrustDisplaceRatio() * 60f;
                     break;
 
@@ -104,57 +105,57 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization
             {
-                projectile.timeLeft = (int)MaxTime;
+                Projectile.timeLeft = (int)MaxTime;
                 switch (SwingMode)
                 {
                     case 0:
-                        projectile.width = projectile.height = 100;
-                        Main.PlaySound(SoundID.DD2_MonkStaffSwing, projectile.Center);
+                        Projectile.width = Projectile.height = 100;
+                        SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
                         break;
                     case 1:
-                        projectile.width = projectile.height = 100;
-                        projectile.width = projectile.height = 100;
-                        Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_SecondSwingBoost);
+                        Projectile.width = Projectile.height = 100;
+                        Projectile.width = Projectile.height = 100;
+                        SoundEngine.PlaySound(SoundID.DD2_OgreSpit, Projectile.Center);
+                        Projectile.damage = (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_SecondSwingBoost);
                         break;
                     case 2:
-                        projectile.width = projectile.height = 170;
-                        Main.PlaySound(SoundID.DD2_PhantomPhoenixShot, projectile.Center);
-                        projectile.damage = (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_ThirdSwingBoost);
+                        Projectile.width = Projectile.height = 170;
+                        SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot, Projectile.Center);
+                        Projectile.damage = (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_ThirdSwingBoost);
                         break;
                 }
 
                 direction = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 direction.Normalize();
-                projectile.rotation = direction.ToRotation();
+                Projectile.rotation = direction.ToRotation();
 
                 initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
             //Manage position and rotation
-            projectile.Center = Owner.Center + (direction * 30);
+            Projectile.Center = Owner.Center + (direction * 30);
             //rotation = projectile.rotation + MathHelper.SmoothStep(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, Timer / MaxTime);
             float factor = 1 - (float)Math.Pow((double)-(Timer / MaxTime) + 1, 2d);
-            rotation = projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
-            projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
+            rotation = Projectile.rotation + MathHelper.Lerp(SwingWidth / 2 * SwingDirection, -SwingWidth / 2 * SwingDirection, factor);
+            Projectile.scale = 1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f); //SWAGGER
 
             Lighting.AddLight(Owner.MountedCenter, new Vector3(0.75f, 1f, 1f) * (float)Math.Sin(Timer / MaxTime * MathHelper.Pi));
 
             //Add the thrust motion & animation for the third combo state
             if (SwingMode == 2)
             {
-                projectile.scale = 1f + (ThrustScaleRatio() * 0.3f);
-                projectile.Center = Owner.Center + (direction * ThrustDisplaceRatio() * 60);
+                Projectile.scale = 1f + (ThrustScaleRatio() * 0.3f);
+                Projectile.Center = Owner.Center + (direction * ThrustDisplaceRatio() * 60);
 
-                projectile.frameCounter++;
-                if (projectile.frameCounter % 5 == 0 && projectile.frame + 1 < Main.projFrames[projectile.type])
-                    projectile.frame++;
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter % 5 == 0 && Projectile.frame + 1 < Main.projFrames[Projectile.type])
+                    Projectile.frame++;
 
                 if (Main.rand.NextBool() && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile mist = Projectile.NewProjectileDirect(Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
                     mist.velocity = (mist.Center - Owner.Center) * 0.2f + Owner.velocity;
                 }
 
@@ -164,16 +165,16 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.rand.NextFloat(0f, 1f) > 0.75f && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile.NewProjectile(Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
 
-                    Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * projectile.scale);
+                    Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * Projectile.scale);
                     Particle snowflake = new SnowflakeSparkle(particlePosition, rotation.ToRotationVector2() * 3f, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);
                     GeneralParticleHandler.SpawnParticle(snowflake);
                 }
             }
 
             //Make the owner look like theyre holding the sword bla bla
-            Owner.heldProj = projectile.whoAmI;
+            Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Math.Sign(rotation.ToRotationVector2().X);
             Owner.itemRotation = rotation;
             if (Owner.direction != 1)
@@ -208,13 +209,13 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOrigin = new Vector2(0f, handle.Height);
                 Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
 
-                spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
                 //Turn on additive blending
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 //Update the parameters
                 drawOrigin = new Vector2(0f, blade.Height);
-                spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -229,7 +230,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOrigin = new Vector2(0f, handle.Height);
                 Vector2 drawOffset = Owner.Center + drawAngle.ToRotationVector2() * 10f - Main.screenPosition;
 
-                spriteBatch.Draw(handle, drawOffset + thrustDisplace, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(handle, drawOffset + thrustDisplace, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
                 //Turn on additive blending
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -238,7 +239,7 @@ namespace CalamityMod.Projectiles.Melee
                 drawOrigin = new Vector2(0f, blade.Height);
                 //Anim stuff
 
-                spriteBatch.Draw(blade, drawOffset + thrustDisplace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(blade, drawOffset + thrustDisplace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
                 //Back to normal
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

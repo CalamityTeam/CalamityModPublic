@@ -19,17 +19,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 44;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 38;
+            Item.height = 44;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/Affliction"));
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

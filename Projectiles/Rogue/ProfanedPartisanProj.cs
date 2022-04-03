@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,51 +16,51 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Partisan");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 9;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 3;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 9;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 3;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] < 0.4f)
+            if (Projectile.ai[0] < 0.4f)
             {
-                projectile.ai[0] += 0.1f;
+                Projectile.ai[0] += 0.1f;
             }
             else
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
 
             //Backwards projectile fix
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             //Rotating 45 degrees if shooting right
-            if (projectile.spriteDirection == 1)
+            if (Projectile.spriteDirection == 1)
             {
-                projectile.rotation += MathHelper.ToRadians(45f);
+                Projectile.rotation += MathHelper.ToRadians(45f);
                 drawOffsetX = -26;
                 drawOriginOffsetX = 13;
                 drawOriginOffsetY = 2;
             }
             //Rotating 45 degrees if shooting right
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                projectile.rotation -= MathHelper.ToRadians(45f);
+                Projectile.rotation -= MathHelper.ToRadians(45f);
                 drawOffsetX = 2;
                 drawOriginOffsetX = -13;
                 drawOriginOffsetY = 2;
@@ -67,23 +68,23 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Main.rand.NextBool(3))
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
-                Main.dust[d].position = projectile.Center;
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1.1f);
+                Main.dust[d].position = Projectile.Center;
                 Main.dust[d].velocity *= 0.3f;
-                Main.dust[d].velocity += projectile.velocity * 0.85f;
+                Main.dust[d].velocity += Projectile.velocity * 0.85f;
             }
-            Lighting.AddLight(projectile.Center, 1f, 0.8f, 0.2f);
+            Lighting.AddLight(Projectile.Center, 1f, 0.8f, 0.2f);
 
-            if (projectile.Calamity().stealthStrike) //Stealth strike
+            if (Projectile.Calamity().stealthStrike) //Stealth strike
             {
-                Vector2 spearPosition = new Vector2(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f));
-                Vector2 spearSpeed = projectile.velocity;
-                if (projectile.timeLeft % 18 == 0)
+                Vector2 spearPosition = new Vector2(Projectile.Center.X + Main.rand.NextFloat(-15f, 15f), Projectile.Center.Y + Main.rand.NextFloat(-15f, 15f));
+                Vector2 spearSpeed = Projectile.velocity;
+                if (Projectile.timeLeft % 18 == 0)
                 {
                     int projID = ModContent.ProjectileType<ProfanedPartisanSpear>();
-                    int spearDamage = (int)(projectile.damage * 0.4f);
+                    int spearDamage = (int)(Projectile.damage * 0.4f);
                     float spearKB = 1f;
-                    Projectile.NewProjectile(spearPosition, spearSpeed, projID, spearDamage, spearKB, projectile.owner);
+                    Projectile.NewProjectile(spearPosition, spearSpeed, projID, spearDamage, spearKB, Projectile.owner);
                 }
             }
         }
@@ -92,19 +93,19 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 20; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 50, default, 2.6f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 50, default, 2.6f);
             }
-            Main.PlaySound(SoundID.Item45, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item45, Projectile.position);
 
             int projID = ModContent.ProjectileType<PartisanExplosion>();
-            int explosionDamage = (int)(projectile.damage * 0.8f);
+            int explosionDamage = (int)(Projectile.damage * 0.8f);
             float explosionKB = 8f;
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, projectile.owner);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, Projectile.owner);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

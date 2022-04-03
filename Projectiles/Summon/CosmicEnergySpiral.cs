@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicEnergySpiral : ModProjectile
@@ -14,46 +15,46 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Energy");
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 78;
-            projectile.height = 78;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 10f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.extraUpdates = 1;
+            Projectile.width = 78;
+            Projectile.height = 78;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 10f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
-            if (projectile.localAI[0] == 0f)
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
             player.AddBuff(ModContent.BuffType<CosmicEnergy>(), 3600);
             if (flag64)
             {
@@ -63,23 +64,23 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.cEnergy)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             float num633 = 1400f; //700
             float num634 = 1600f; //800
             float num635 = 2400f; //1200
             float num636 = 800f;
-            projectile.rotation += projectile.velocity.X * 0.1f;
-            Vector2 vector46 = projectile.position;
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
+            Vector2 vector46 = Projectile.position;
             bool flag25 = false;
             int target = 0;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
                     if (!flag25 && num646 < num633)
                     {
                         vector46 = npc.Center;
@@ -93,9 +94,9 @@ namespace CalamityMod.Projectiles.Summon
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
+                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
                         if (!flag25 && num646 < num633)
                         {
                             num633 = num646;
@@ -111,27 +112,27 @@ namespace CalamityMod.Projectiles.Summon
             {
                 num647 = num635;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > num647)
+            if (Vector2.Distance(player.Center, Projectile.Center) > num647)
             {
-                projectile.ai[1] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 1f;
+                Projectile.netUpdate = true;
             }
-            if (flag25 && projectile.ai[1] == 0f)
+            if (flag25 && Projectile.ai[1] == 0f)
             {
-                Vector2 vector47 = vector46 - projectile.Center;
+                Vector2 vector47 = vector46 - Projectile.Center;
                 float num648 = vector47.Length();
                 vector47.Normalize();
                 if (num648 > 200f)
                 {
                     float scaleFactor2 = 6f; //6
                     vector47 *= scaleFactor2;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
                 }
                 else
                 {
                     float num649 = 4f; //4
                     vector47 *= -num649;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
                 }
             }
             else
@@ -139,69 +140,69 @@ namespace CalamityMod.Projectiles.Summon
                 bool flag26 = false;
                 if (!flag26)
                 {
-                    flag26 = projectile.ai[1] == 1f;
+                    flag26 = Projectile.ai[1] == 1f;
                 }
                 float num650 = 6f;
                 if (flag26)
                 {
                     num650 = 15f;
                 }
-                Vector2 center2 = projectile.Center;
+                Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2 + new Vector2(0f, -60f);
                 float num651 = vector48.Length();
                 if (num651 > 200f && num650 < 8f)
                 {
                     num650 = 8f;
                 }
-                if (num651 < num636 && flag26 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                if (num651 < num636 && flag26 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 if (num651 > 2000f) //2000
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
                 {
                     vector48.Normalize();
                     vector48 *= num650;
-                    projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector48) / 41f;
                 }
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
-            projectile.scale = num395 + 0.95f;
+            Projectile.scale = num395 + 0.95f;
             if (justSpawned)
             {
                 justSpawned = false;
-                projectile.ai[0] = 100f;
+                Projectile.ai[0] = 100f;
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                if (projectile.ai[0] != 0f)
+                if (Projectile.ai[0] != 0f)
                 {
-                    projectile.ai[0] -= 1f;
+                    Projectile.ai[0] -= 1f;
                     return;
                 }
-                float num396 = projectile.position.X;
-                float num397 = projectile.position.Y;
+                float num396 = Projectile.position.X;
+                float num397 = Projectile.position.Y;
                 float num398 = 1200f;
                 bool flag11 = false;
                 for (int num399 = 0; num399 < Main.maxNPCs; num399++)
                 {
-                    if (Main.npc[num399].CanBeChasedBy(projectile, false))
+                    if (Main.npc[num399].CanBeChasedBy(Projectile, false))
                     {
                         float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                         float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
-                        float num402 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num400) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num401);
+                        float num402 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num400) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num401);
                         if (num402 < num398)
                         {
                             num398 = num402;
@@ -213,22 +214,22 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (flag11)
                 {
-                    Main.PlaySound(SoundID.Item105, (int)projectile.position.X, (int)projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item105, (int)Projectile.position.X, (int)Projectile.position.Y);
                     int blastAmt = Main.rand.Next(5, 8);
                     for (int b = 0; b < blastAmt; b++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
+                        Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
                     }
                     float speed = 15f;
-                    float num404 = num396 - projectile.Center.X;
-                    float num405 = num397 - projectile.Center.Y;
+                    float num404 = num396 - Projectile.Center.X;
+                    float num405 = num397 - Projectile.Center.Y;
                     float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
                     num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), projectile.damage, 3f, projectile.owner, (float)target, 0f);
-                    projectile.ai[0] = 100f;
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
+                    Projectile.ai[0] = 100f;
                 }
             }
         }

@@ -17,19 +17,19 @@ Makes you floaty and reduces defense by 10%");
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Lime;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 5, 30, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 5, 30, 0);
         }
     }
 }

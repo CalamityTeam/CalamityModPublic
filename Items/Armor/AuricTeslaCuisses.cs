@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(1, 8, 0, 0);
-            item.defense = 44;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(1, 8, 0, 0);
+            Item.defense = 44;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UpdateEquip(Player player)
@@ -36,25 +36,8 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ItemID.FlyingCarpet);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
-            recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ItemID.FlyingCarpet);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerLeggings>()).AddIngredient(ModContent.ItemType<BloodflareCuisses>()).AddIngredient(ModContent.ItemType<TarragonLeggings>()).AddIngredient(ItemID.FlyingCarpet).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaLeggings>()).AddIngredient(ModContent.ItemType<BloodflareCuisses>()).AddIngredient(ModContent.ItemType<TarragonLeggings>()).AddIngredient(ItemID.FlyingCarpet).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

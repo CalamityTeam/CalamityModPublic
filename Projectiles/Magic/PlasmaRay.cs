@@ -17,36 +17,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 80;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 80;
         }
 
         public override void AI()
         {
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 65, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            if (projectile.velocity.X != projectile.velocity.X)
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 65, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -projectile.velocity.X;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -Projectile.velocity.X;
             }
-            if (projectile.velocity.Y != projectile.velocity.Y)
+            if (Projectile.velocity.Y != Projectile.velocity.Y)
             {
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -projectile.velocity.Y;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -Projectile.velocity.Y;
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 9f)
             {
                 for (int num447 = 0; num447 < 4; num447++)
                 {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    projectile.alpha = 255;
+                    Vector2 vector33 = Projectile.position;
+                    vector33 -= Projectile.velocity * ((float)num447 * 0.25f);
+                    Projectile.alpha = 255;
                     int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 0.75f);
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
@@ -59,23 +59,23 @@ namespace CalamityMod.Projectiles.Magic
         {
             float random = Main.rand.Next(30, 90);
             float spread = random * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
             int i;
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PlasmaRay2>(), (int)(projectile.damage * 1.75), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PlasmaRay2>(), (int)(projectile.damage * 1.75), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PlasmaRay2>(), (int)(Projectile.damage * 1.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PlasmaRay2>(), (int)(Projectile.damage * 1.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             return false;
         }
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 

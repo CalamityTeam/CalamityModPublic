@@ -16,25 +16,25 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 200;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 200;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 170 && target.CanBeChasedBy(projectile);
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 170 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 100, default, 2f);
+            Dust fire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 2f);
             fire.noGravity = true;
             fire.velocity = Vector2.Zero;
 
-            if (projectile.timeLeft < 170)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 9f, 20f);
+            if (Projectile.timeLeft < 170)
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 9f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicSink : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSink();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));

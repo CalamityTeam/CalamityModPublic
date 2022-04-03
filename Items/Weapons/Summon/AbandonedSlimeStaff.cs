@@ -22,23 +22,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 62;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item44;
+            Item.width = 62;
+            Item.height = 62;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item44;
 
-            item.summon = true;
-            item.mana = 40;
-            item.damage = 56;
-            item.knockBack = 3f;
-            item.useTime = item.useAnimation = 20;
-            item.shoot = ModContent.ProjectileType<AstrageldonSummon>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 40;
+            Item.damage = 56;
+            Item.knockBack = 3f;
+            Item.useTime = Item.useAnimation = 20;
+            Item.shoot = ModContent.ProjectileType<AstrageldonSummon>();
+            Item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.Calamity().donorItem = true;
         }
 
         public override void HoldItem(Player player)

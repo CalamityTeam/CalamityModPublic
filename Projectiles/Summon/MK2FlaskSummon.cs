@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class MK2FlaskSummon : ModProjectile
@@ -12,43 +13,43 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flask");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 240;
+            Projectile.friendly = true;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 240;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.2f;
-            projectile.rotation += 0.1f * (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.velocity.Y += 0.2f;
+            Projectile.rotation += 0.1f * (Projectile.velocity.X > 0).ToDirectionInt();
         }
         public override void Kill(int timeLeft)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 for (int i = 0; i < Main.rand.Next(18, 21); i++)
                 {
-                    Dust.NewDustPerfect(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                    Dust.NewDustPerfect(Projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
                         (int)CalamityDusts.Plague,
                         Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
                 }
-                Main.PlaySound(SoundID.Item107, projectile.Center);
-                int idx = Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), projectile.damage, 4f, projectile.owner);
+                SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
+                int idx = Projectile.NewProjectile(Projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), Projectile.damage, 4f, Projectile.owner);
                 int beeArrayIndex = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<PlaguebringerMK2>())
+                    if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<PlaguebringerMK2>())
                     {
                         Main.projectile[i].ai[1] = beeArrayIndex;
                         beeArrayIndex++;

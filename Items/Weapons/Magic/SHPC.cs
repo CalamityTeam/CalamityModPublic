@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 124;
-            item.height = 52;
-            item.useTime = item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SHPB>();
-            item.shootSpeed = 20f;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 124;
+            Item.height = 52;
+            Item.useTime = Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SHPB>();
+            Item.shootSpeed = 20f;
 
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,11 +50,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+                Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             }
             else
             {
-                item.UseSound = SoundID.Item92;
+                Item.UseSound = SoundID.Item92;
             }
             return base.CanUseItem(player);
         }
@@ -98,13 +98,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PlasmaDriveCore>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<SuspiciousScrap>(), 4);
-            recipe.AddRecipeGroup("AnyMythrilBar", 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlasmaDriveCore>(), 1).AddIngredient(ModContent.ItemType<SuspiciousScrap>(), 4).AddRecipeGroup("AnyMythrilBar", 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

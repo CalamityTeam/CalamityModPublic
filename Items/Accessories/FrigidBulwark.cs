@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 40;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.defense = 13;
-            item.accessory = true;
+            Item.width = 34;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 13;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,14 +36,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PaladinsShield);
-            recipe.AddIngredient(ItemID.FrozenTurtleShell);
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PaladinsShield).AddIngredient(ItemID.FrozenTurtleShell).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<CoreofEleum>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

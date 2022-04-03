@@ -14,28 +14,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Thorn Blossom");
             Tooltip.SetDefault("Every rose has its thorn");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 68;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BeamingBolt>();
-            item.shootSpeed = 20f;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 68;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BeamingBolt>();
+            Item.shootSpeed = 20f;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
@@ -59,13 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArchAmaryllis>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<UnholyEssence>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

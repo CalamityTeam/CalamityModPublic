@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 40;
-            item.damage = 40;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 36;
-            item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<EquanimityProj>();
-            item.shootSpeed = 30f;
-            item.Calamity().rogue = true;
+            Item.width = 40;
+            Item.damage = 40;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 36;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<EquanimityProj>();
+            Item.shootSpeed = 30f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,14 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Flamarang);
-            recipe.AddIngredient(ItemID.IceBoomerang);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Flamarang).AddIngredient(ItemID.IceBoomerang).AddIngredient(ItemID.LightShard).AddIngredient(ItemID.DarkShard).AddTile(TileID.Anvils).Register();
         }
     }
 }

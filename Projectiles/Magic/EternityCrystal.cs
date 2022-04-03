@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -15,30 +16,30 @@ namespace CalamityMod.Projectiles.Magic
         public float DegreesToSpin = 2f;
         public int TargetIndex
         {
-            get => (int)projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public float SpinAngle
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public const int InwardCollapseTime = 70;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 36;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = EternityHex.Lifetime;
-            projectile.alpha = 0;
-            projectile.magic = true;
+            Projectile.width = 34;
+            Projectile.height = 36;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = EternityHex.Lifetime;
+            Projectile.alpha = 0;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -52,29 +53,29 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             // Delete the crystal if any necessary components are incorrect/would cause errors.
-            if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)
+            if (Projectile.localAI[1] >= Main.projectile.Length || Projectile.localAI[0] < 0)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Projectile book = Main.projectile[(int)projectile.localAI[1]];
+            Projectile book = Main.projectile[(int)Projectile.localAI[1]];
 
             if (!book.active)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             if (TargetIndex >= Main.npc.Length || TargetIndex < 0)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
@@ -83,42 +84,42 @@ namespace CalamityMod.Projectiles.Magic
             if (!target.active)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            projectile.localAI[0] += 1f;
-            if (projectile.timeLeft == 1 && !Collapsing)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.timeLeft == 1 && !Collapsing)
             {
-                projectile.velocity = projectile.SafeDirectionTo(target.Center) * 2f;
-                projectile.timeLeft = InwardCollapseTime;
+                Projectile.velocity = Projectile.SafeDirectionTo(target.Center) * 2f;
+                Projectile.timeLeft = InwardCollapseTime;
                 Collapsing = true;
 
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
             SpinAngle -= MathHelper.ToRadians(DegreesToSpin);
-            projectile.rotation = projectile.AngleTo(target.Center) - MathHelper.PiOver2;
-            projectile.position = target.Center + SpinAngle.ToRotationVector2() * TargetOffsetRadius;
+            Projectile.rotation = Projectile.AngleTo(target.Center) - MathHelper.PiOver2;
+            Projectile.position = target.Center + SpinAngle.ToRotationVector2() * TargetOffsetRadius;
             if (!Collapsing)
             {
-                projectile.damage = 0;
+                Projectile.damage = 0;
             }
             else
             {
                 DegreesToSpin *= 1.0425f;
                 TargetOffsetRadius *= 0.95f;
 
-                if (projectile.Hitbox.Intersects(target.Hitbox) && !target.dontTakeDamage)
+                if (Projectile.Hitbox.Intersects(target.Hitbox) && !target.dontTakeDamage)
                     ExplosionEffect(target, player);
-                if (projectile.alpha < 255)
-                    projectile.alpha += 3;
+                if (Projectile.alpha < 255)
+                    Projectile.alpha += 3;
             }
         }
         public void DeathDust()
         {
             for (int i = 0; i < 20; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, Eternity.DustID, newColor: new Color(245, 112, 218));
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Eternity.DustID, newColor: new Color(245, 112, 218));
                 dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(2f, 6f);
                 dust.noGravity = true;
             }
@@ -130,7 +131,7 @@ namespace CalamityMod.Projectiles.Magic
             player.addDPS(damage);
             target.StrikeNPC(damage, 0f, 0, false);
 
-            Vector2 randomCirclePointVector = Vector2.UnitY.RotatedBy(projectile.rotation);
+            Vector2 randomCirclePointVector = Vector2.UnitY.RotatedBy(Projectile.rotation);
 
             // pointsPerStarStrip is basically how many times dust should be drawn to make half of a star point.
             // The amount of dust from the explosion = pointsPerStarStrip * starPoints * 2.
@@ -158,14 +159,14 @@ namespace CalamityMod.Projectiles.Magic
 
                 randomCirclePointVector = randomCirclePointVector.RotatedBy(MathHelper.TwoPi / starPoints);
             }
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
-            projectile.Kill();
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
+            Projectile.Kill();
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D myTexture = ModContent.GetTexture(Texture);
-            Rectangle frame = myTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Color trasparentCrystalColor = projectile.GetAlpha(lightColor) * 0.6f;
+            Texture2D myTexture = ModContent.Request<Texture2D>(Texture);
+            Rectangle frame = myTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color trasparentCrystalColor = Projectile.GetAlpha(lightColor) * 0.6f;
             Vector2 origin = frame.Size() / 2f;
 
             // Determine the offset factor of the crystals via a universal time-based sinusoid incorporated into a linear interpolation.
@@ -174,9 +175,9 @@ namespace CalamityMod.Projectiles.Magic
             for (float i = 0f; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i + MathHelper.PiOver2;
-                Vector2 offset = Vector2.UnitY.RotatedBy(angle).RotatedBy(projectile.rotation);
-                Vector2 drawPosition = projectile.Center - Main.screenPosition + offset * outwardness + Vector2.UnitY * projectile.gfxOffY;
-                spriteBatch.Draw(myTexture, drawPosition, frame, trasparentCrystalColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 offset = Vector2.UnitY.RotatedBy(angle).RotatedBy(Projectile.rotation);
+                Vector2 drawPosition = Projectile.Center - Main.screenPosition + offset * outwardness + Vector2.UnitY * Projectile.gfxOffY;
+                spriteBatch.Draw(myTexture, drawPosition, frame, trasparentCrystalColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return true;
         }

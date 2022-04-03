@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -21,112 +22,112 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = lifeTime;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = 42;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = lifeTime;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 20 == 0 && Main.myPlayer == projectile.owner)
+                if (Projectile.timeLeft % 20 == 0 && Main.myPlayer == Projectile.owner)
                 {
                     for (int i = 0; i < 2; i++)
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(projectile.damage * 0.35), 0f, projectile.owner);
+                        Projectile.NewProjectile(Projectile.Center, Projectile.velocity.RotatedByRandom(0.1f) * -0.6f, ModContent.ProjectileType<ToxicantTwisterDust>(), (int)(Projectile.damage * 0.35), 0f, Projectile.owner);
                 }
-                projectile.rotation += 0.06f * (projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation += 0.06f * (Projectile.velocity.X > 0).ToDirectionInt();
             }
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
             // Boomerang sound
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
-            projectile.ai[1]++;
-            if (projectile.ai[0] != 0f)
+            Projectile.ai[1]++;
+            if (Projectile.ai[0] != 0f)
             {
                 float returnSpeed = 30f;
                 float acceleration = 1.4f;
 
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
-                Vector2 projVector = owner.Center - projectile.Center;
+                Vector2 projVector = owner.Center - Projectile.Center;
                 float dist = projVector.Length();
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 dist = returnSpeed / dist;
                 projVector.X *= dist;
                 projVector.Y *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < projVector.X)
+                if (Projectile.velocity.X < projVector.X)
                 {
-                    projectile.velocity.X += acceleration;
-                    if (projectile.velocity.X < 0f && projVector.X > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X += acceleration;
+                    if (Projectile.velocity.X < 0f && projVector.X > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > projVector.X)
+                else if (Projectile.velocity.X > projVector.X)
                 {
-                    projectile.velocity.X -= acceleration;
-                    if (projectile.velocity.X > 0f && projVector.X < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X -= acceleration;
+                    if (Projectile.velocity.X > 0f && projVector.X < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < projVector.Y)
+                if (Projectile.velocity.Y < projVector.Y)
                 {
-                    projectile.velocity.Y += acceleration;
-                    if (projectile.velocity.Y < 0f && projVector.Y > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y += acceleration;
+                    if (Projectile.velocity.Y < 0f && projVector.Y > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > projVector.Y)
+                else if (Projectile.velocity.Y > projVector.Y)
                 {
-                    projectile.velocity.Y -= acceleration;
-                    if (projectile.velocity.Y > 0f && projVector.Y < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y -= acceleration;
+                    if (Projectile.velocity.Y > 0f && projVector.Y < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
             }
-            else if (projectile.ai[1] > 40f)
+            else if (Projectile.ai[1] > 40f)
             {
-                NPC closestTarget = projectile.Center.ClosestNPCAt(1769f, true, true);
+                NPC closestTarget = Projectile.Center.ClosestNPCAt(1769f, true, true);
                 if (closestTarget != null)
                 {
-                    projectile.extraUpdates = 1;
+                    Projectile.extraUpdates = 1;
                     targetIndex = closestTarget.whoAmI;
                     float inertia = 20f;
-                    float homingVelocity = projectile.Calamity().stealthStrike ? 30f : 20f;
-                    Vector2 moveDirection = projectile.SafeDirectionTo(closestTarget.Center, Vector2.UnitY);
+                    float homingVelocity = Projectile.Calamity().stealthStrike ? 30f : 20f;
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(closestTarget.Center, Vector2.UnitY);
 
-                    projectile.velocity = (projectile.velocity * inertia + moveDirection * homingVelocity) / (inertia + 1f);
+                    Projectile.velocity = (Projectile.velocity * inertia + moveDirection * homingVelocity) / (inertia + 1f);
                 }
             }
             else
             {
-                projectile.velocity *= 0.985f;
+                Projectile.velocity *= 0.985f;
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.ai[1] <= 40f && projectile.ai[0] != 1f)
+            if (Projectile.ai[1] <= 40f && Projectile.ai[0] != 1f)
             {
                 damage /= 3;
             }
@@ -135,21 +136,21 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (targetIndex == target.whoAmI)
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
 
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
     }
 }

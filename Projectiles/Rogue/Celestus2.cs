@@ -11,38 +11,38 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 48;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 4;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
-            projectile.timeLeft = 85;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 4;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
+            Projectile.timeLeft = 85;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += 2f;
-            projectile.velocity.X *= 1.02f;
-            projectile.velocity.Y *= 1.02f;
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Projectile.rotation += 2f;
+            Projectile.velocity.X *= 1.02f;
+            Projectile.velocity.Y *= 1.02f;
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

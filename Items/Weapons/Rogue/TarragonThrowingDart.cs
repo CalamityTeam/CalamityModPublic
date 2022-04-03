@@ -18,25 +18,25 @@ Stealth strikes erupt into thorns on enemy hits");
 
         public override void SafeSetDefaults()
         {
-            item.width = 34;
-            item.damage = 380;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 11;
-            item.knockBack = 4.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 34;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(copper: 30);
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 34;
+            Item.damage = 380;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 11;
+            Item.knockBack = 4.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(copper: 30);
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,11 +53,7 @@ Stealth strikes erupt into thorns on enemy hits");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 333);
-            recipe.AddRecipe();
+            CreateRecipe(333).AddIngredient(ModContent.ItemType<UeliaceBar>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

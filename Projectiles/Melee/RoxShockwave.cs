@@ -7,13 +7,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.penetrate = -1;
-            projectile.width = 450;
-            projectile.height = 450;
-            projectile.melee = true;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 40;
+            Projectile.penetrate = -1;
+            Projectile.width = 450;
+            Projectile.height = 450;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 40;
         }
     }
 }

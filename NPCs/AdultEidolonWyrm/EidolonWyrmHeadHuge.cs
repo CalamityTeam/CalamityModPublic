@@ -16,6 +16,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
@@ -39,8 +40,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public float AIState
         {
-            get => npc.Calamity().newAI[0];
-            set => npc.Calamity().newAI[0] = value;
+            get => NPC.Calamity().newAI[0];
+            set => NPC.Calamity().newAI[0] = value;
         }
 
         // Base distance from the target for most attacks
@@ -81,33 +82,33 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.npcSlots = 50f;
-            npc.GetNPCDamage();
-            npc.width = 254;
-            npc.height = 138;
-            npc.defense = 100;
-            npc.DR_NERD(0.4f);
-            npc.LifeMaxNERB(2415000, 2898000);
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.npcSlots = 50f;
+            NPC.GetNPCDamage();
+            NPC.width = 254;
+            NPC.height = 138;
+            NPC.defense = 100;
+            NPC.DR_NERD(0.4f);
+            NPC.LifeMaxNERB(2415000, 2898000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.aiStyle = -1;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.Opacity = 0f;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(10, 0, 0, 0);
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.netAlways = true;
-            npc.boss = true;
+            NPC.Opacity = 0f;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(10, 0, 0, 0);
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.netAlways = true;
+            NPC.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ?? MusicID.Boss3;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -115,12 +116,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             writer.WriteVector2(chargeDestination);
             writer.Write(rotationDirection);
             writer.Write(chargeVelocityScalar);
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -128,19 +129,19 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             chargeDestination = reader.ReadVector2();
             rotationDirection = reader.ReadInt32();
             chargeVelocityScalar = reader.ReadSingle();
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
-            CalamityGlobalNPC.adultEidolonWyrmHead = npc.whoAmI;
+            CalamityGlobalNPC.adultEidolonWyrmHead = NPC.whoAmI;
 
             // Difficulty modes
             bool malice = CalamityWorld.malice;
@@ -149,7 +150,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool expertMode = Main.expertMode;
 
             // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Phases
             bool phase2 = lifeRatio < 0.8f;
@@ -159,53 +160,53 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool phase6 = lifeRatio < 0.05f;
 
             // Get a target
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest();
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-                npc.TargetClosest();
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                NPC.TargetClosest();
 
             // Target variable
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             bool targetDownDeep = player.Calamity().ZoneAbyssLayer4;
             bool targetOnMount = player.mount.Active;
 
             // Check whether enraged for the sake of the HP bar UI
-            npc.Calamity().CurrentlyEnraged = !targetDownDeep || malice;
+            NPC.Calamity().CurrentlyEnraged = !targetDownDeep || malice;
 
-            if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
             // Play spawn sound
-            if (!TailSpawned && npc.ai[0] == 0f)
+            if (!TailSpawned && NPC.ai[0] == 0f)
             {
-                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), Main.player[Main.myPlayer].Center);
+                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), Main.player[Main.myPlayer].Center);
             }
 
             // Spawn segments
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (!TailSpawned && npc.ai[0] == 0f)
+                if (!TailSpawned && NPC.ai[0] == 0f)
                 {
-                    int Previous = npc.whoAmI;
+                    int Previous = NPC.whoAmI;
                     for (int i = 0; i < maxLength; i++)
                     {
                         int lol;
                         if (i >= 0 && i < minLength)
                         {
                             if (i % 2 == 0)
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), npc.whoAmI);
+                                lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), NPC.whoAmI);
                             else
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), npc.whoAmI);
+                                lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), NPC.whoAmI);
                         }
                         else
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmTailHuge>(), npc.whoAmI);
+                            lol = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTailHuge>(), NPC.whoAmI);
 
-                        Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = npc.whoAmI;
+                        Main.npc[lol].realLife = NPC.whoAmI;
+                        Main.npc[lol].ai[2] = NPC.whoAmI;
                         Main.npc[lol].ai[1] = Previous;
                         Main.npc[Previous].ai[0] = lol;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
@@ -220,31 +221,31 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool targetDead = false;
             if (player.dead)
             {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
+                NPC.TargetClosest(false);
+                player = Main.player[NPC.target];
                 if (player.dead)
                 {
                     targetDead = true;
-                    npc.ai[3] = 0f;
-                    npc.localAI[0] = 0f;
-                    npc.localAI[1] = 0f;
-                    npc.localAI[2] = 0f;
-                    npc.localAI[3] = 0f;
+                    NPC.ai[3] = 0f;
+                    NPC.localAI[0] = 0f;
+                    NPC.localAI[1] = 0f;
+                    NPC.localAI[2] = 0f;
+                    NPC.localAI[3] = 0f;
                     AIState = (float)Phase.ChargeOne;
                     calamityGlobalNPC.newAI[1] = 0f;
                     calamityGlobalNPC.newAI[2] = 0f;
                     chargeVelocityScalar = 0f;
                     rotationDirection = 0;
 
-                    npc.velocity.Y += 3f;
-                    if (npc.position.Y > Main.worldSurface * 16.0)
-                        npc.velocity.Y += 3f;
+                    NPC.velocity.Y += 3f;
+                    if (NPC.position.Y > Main.worldSurface * 16.0)
+                        NPC.velocity.Y += 3f;
 
-                    if (npc.position.Y > Main.rockLayer * 16.0)
+                    if (NPC.position.Y > Main.rockLayer * 16.0)
                     {
                         for (int a = 0; a < Main.maxNPCs; a++)
                         {
-                            if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
+                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
                                 Main.npc[a].active = false;
                         }
                     }
@@ -288,16 +289,16 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
-            npc.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Adjust opacity
             bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);
@@ -305,23 +306,23 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool invisiblePhase = AIState == (float)Phase.LightningRain || AIState == (float)Phase.IceMist || AIState == (float)Phase.AncientDoomSummon;
             if (!invisiblePartOfChargePhase && !invisiblePartOfLightningChargePhase && !invisiblePhase)
             {
-                npc.Opacity += 0.2f;
-                if (npc.Opacity > 1f)
-                    npc.Opacity = 1f;
+                NPC.Opacity += 0.2f;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
             }
             else
             {
-                npc.Opacity -= 0.05f;
-                if (npc.Opacity < 0f)
-                    npc.Opacity = 0f;
+                NPC.Opacity -= 0.05f;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
             }
 
             // Rotation and direction
-            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
-            int direction = npc.direction;
-            npc.direction = npc.spriteDirection = (npc.velocity.X > 0f) ? 1 : (-1);
-            if (direction != npc.direction)
-                npc.netUpdate = true;
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
+            int direction = NPC.direction;
+            NPC.direction = NPC.spriteDirection = (NPC.velocity.X > 0f) ? 1 : (-1);
+            if (direction != NPC.direction)
+                NPC.netUpdate = true;
 
             // Default vector to swim to
             Vector2 destination = player.Center;
@@ -394,12 +395,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             float maxAncientDoomRings = 3f;
 
             // Lightning charge variables
-            Vector2 lightningChargeVector = npc.localAI[2] == 0f ? new Vector2(baseDistance, 0f) : new Vector2(-baseDistance, 0f);
+            Vector2 lightningChargeVector = NPC.localAI[2] == 0f ? new Vector2(baseDistance, 0f) : new Vector2(-baseDistance, 0f);
             float lightningChargeLocationDistance = baseAttackTriggerDistance;
             Vector2 lightningChargeLocation = destination + lightningChargeVector;
             Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
             float lightningSpawnY = 540f;
-            Vector2 lightningSpawnLocation = new Vector2(npc.Center.X, npc.Center.Y - lightningSpawnY);
+            Vector2 lightningSpawnLocation = new Vector2(NPC.Center.X, NPC.Center.Y - lightningSpawnY);
             int numLightningBolts = malice ? 12 : death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
             float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
@@ -425,7 +426,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     {
                         calamityGlobalNPC.newAI[3] = 0f;
 
-                        Main.PlaySound(SoundID.Item117, player.position);
+                        SoundEngine.PlaySound(SoundID.Item117, player.position);
 
                         for (int i = 0; i < 20; i++)
                         {
@@ -471,35 +472,35 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         turnSpeed *= normalChargeTurnSpeedMult;
                         turnDistance = chargeLocationDistance;
 
-                        if ((chargeLocation - npc.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
+                        if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             calamityGlobalNPC.newAI[2] += 1f;
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-                                npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
-                                npc.netUpdate = true;
-                                npc.netSpam -= 5;
+                                NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
+                                NPC.netUpdate = true;
+                                NPC.netSpam -= 5;
                             }
                             else
                             {
                                 // Charge
 
                                 // Become totally visible
-                                npc.Opacity = 1f;
+                                NPC.Opacity = 1f;
 
                                 destination = chargeDestination;
 
-                                if ((destination - npc.Center).Length() < chargeLocationDistance)
+                                if ((destination - NPC.Center).Length() < chargeLocationDistance)
                                 {
-                                    npc.ai[3] += 1f;
+                                    NPC.ai[3] += 1f;
                                     float maxCharges = phase4 ? 1 : phase2 ? 2 : 3;
-                                    if (npc.ai[3] >= maxCharges)
+                                    if (NPC.ai[3] >= maxCharges)
                                     {
-                                        npc.ai[3] = 0f;
+                                        NPC.ai[3] = 0f;
                                         AIState = phase4 ? (float)Phase.ShadowFireballSpin : (float)Phase.LightningRain;
                                     }
                                     else if (phase2)
@@ -512,7 +513,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     calamityGlobalNPC.newAI[2] = 0f;
                                     chargeVelocityScalar = 0f;
                                     FinalPhaseCheck();
-                                    npc.TargetClosest();
+                                    NPC.TargetClosest();
                                 }
                             }
                         }
@@ -539,12 +540,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     baseVelocity *= invisiblePhaseVelocityMult;
                     turnSpeed *= invisiblePhaseTurnSpeedMult;
 
-                    if ((destination - npc.Center).Length() < lightningRainLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
+                    if ((destination - NPC.Center).Length() < lightningRainLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
                     {
                         if (calamityGlobalNPC.newAI[2] % 30f == 0f && calamityGlobalNPC.newAI[2] < lightningRainDuration)
                         {
-                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -560,7 +561,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                         continue;
 
                                     Vector2 playerCenter = Main.player[i].Center;
-                                    float distance = Vector2.Distance(playerCenter, npc.Center);
+                                    float distance = Vector2.Distance(playerCenter, NPC.Center);
                                     if (distance < maxDistance)
                                     {
                                         whoAmIArray[numProjectiles] = i;
@@ -578,26 +579,26 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 for (int i = 0; i < numProjectiles; i++)
                                 {
                                     // Predictive bolt
-                                    Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+                                    Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                     float ai = Main.rand.Next(100);
                                     Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
                                     int type = ProjectileID.CultistBossLightningOrbArc;
-                                    int damage = npc.GetProjectileDamage(type);
-                                    int proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    int damage = NPC.GetProjectileDamage(type);
+                                    int proj = Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
 
                                     // Opposite bolt
-                                    projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+                                    projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                     ai = Main.rand.Next(100);
                                     projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-                                    proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    proj = Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
 
                                     // Normal bolt
-                                    projectileDestination = targetCenterArray[i] - npc.Center;
+                                    projectileDestination = targetCenterArray[i] - NPC.Center;
                                     ai = Main.rand.Next(100);
                                     projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-                                    proj = Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    proj = Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
                                 }
                             }
@@ -605,30 +606,30 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
                         calamityGlobalNPC.newAI[2] += 1f;
 
-                        Lighting.AddLight(npc.Center, 0.4f, 0.85f, 0.9f);
+                        Lighting.AddLight(NPC.Center, 0.4f, 0.85f, 0.9f);
 
                         float rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
-                        Vector2 dustPosition = new Vector2(-npc.width * 0.2f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
-                        int dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 226, (0f - npc.velocity.X) / 3f, (0f - npc.velocity.Y) / 3f, 150, Color.Transparent, 0.7f);
-                        Main.dust[dust].position = npc.Center + dustPosition;
-                        Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - npc.Center) * 2f;
+                        Vector2 dustPosition = new Vector2(-NPC.width * 0.2f * NPC.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(NPC.velocity.ToRotation());
+                        int dust = Dust.NewDust(NPC.Center - Vector2.One * 5f, 10, 10, 226, (0f - NPC.velocity.X) / 3f, (0f - NPC.velocity.Y) / 3f, 150, Color.Transparent, 0.7f);
+                        Main.dust[dust].position = NPC.Center + dustPosition;
+                        Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - NPC.Center) * 2f;
                         Main.dust[dust].noGravity = true;
 
                         rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
-                        dustPosition = new Vector2(-npc.width * 0.6f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
-                        dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 226, (0f - npc.velocity.X) / 3f, (0f - npc.velocity.Y) / 3f, 150, Color.Transparent, 0.7f);
+                        dustPosition = new Vector2(-NPC.width * 0.6f * NPC.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(NPC.velocity.ToRotation());
+                        dust = Dust.NewDust(NPC.Center - Vector2.One * 5f, 10, 10, 226, (0f - NPC.velocity.X) / 3f, (0f - NPC.velocity.Y) / 3f, 150, Color.Transparent, 0.7f);
                         Main.dust[dust].velocity = Vector2.Zero;
-                        Main.dust[dust].position = npc.Center + dustPosition;
+                        Main.dust[dust].position = NPC.Center + dustPosition;
                         Main.dust[dust].noGravity = true;
 
                         if (calamityGlobalNPC.newAI[2] >= lightningRainDuration)
                         {
-                            npc.localAI[0] = 0f;
+                            NPC.localAI[0] = 0f;
                             AIState = (float)Phase.FastCharge;
                             calamityGlobalNPC.newAI[2] = fastChargeGateValue;
                             chargeVelocityScalar = 0f;
                             FinalPhaseCheck();
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
                         }
                     }
 
@@ -650,42 +651,42 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         turnSpeed *= fastChargeTurnSpeedMult;
                         turnDistance = chargeLocationDistance;
 
-                        if ((chargeLocation - npc.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
+                        if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             calamityGlobalNPC.newAI[2] += 1f;
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-                                npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
-                                npc.netUpdate = true;
-                                npc.netSpam -= 5;
+                                NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
+                                NPC.netUpdate = true;
+                                NPC.netSpam -= 5;
                             }
                             else
                             {
                                 // Charge very quickly
 
                                 // Become totally visible
-                                npc.Opacity = 1f;
+                                NPC.Opacity = 1f;
 
                                 destination = chargeDestination;
 
-                                if ((destination - npc.Center).Length() < chargeLocationDistance)
+                                if ((destination - NPC.Center).Length() < chargeLocationDistance)
                                 {
                                     if (!phase5)
                                     {
-                                        AIState = npc.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
+                                        AIState = NPC.localAI[0] == 0f ? (float)Phase.EidolonWyrmSpawn : (float)Phase.EidolistSpawn;
                                         calamityGlobalNPC.newAI[2] = 0f;
                                     }
                                     else
                                     {
-                                        npc.ai[3] += 1f;
-                                        if (npc.ai[3] >= 2f)
+                                        NPC.ai[3] += 1f;
+                                        if (NPC.ai[3] >= 2f)
                                         {
-                                            npc.ai[3] = 0f;
-                                            AIState = npc.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
+                                            NPC.ai[3] = 0f;
+                                            AIState = NPC.localAI[0] == 0f ? (float)Phase.ChargeTwo : (float)Phase.ChargeOne;
                                             calamityGlobalNPC.newAI[2] = 0f;
                                         }
                                         else
@@ -698,7 +699,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
                                     chargeVelocityScalar = 0f;
                                     FinalPhaseCheck();
-                                    npc.TargetClosest();
+                                    NPC.TargetClosest();
                                 }
                             }
                         }
@@ -722,10 +723,10 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         {
                             if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), Main.player[Main.myPlayer].Center);
+                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), Main.player[Main.myPlayer].Center);
 
-                                NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<EidolonWyrmHead>());
+                                NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<EidolonWyrmHead>());
                             }
                         }
                     }
@@ -737,7 +738,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         AIState = (float)Phase.ChargeTwo;
                         calamityGlobalNPC.newAI[2] = 0f;
                         FinalPhaseCheck();
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
                     }
 
                     break;
@@ -758,35 +759,35 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         turnSpeed *= normalChargeTurnSpeedMult;
                         turnDistance = chargeLocationDistance;
 
-                        if ((chargeLocation - npc.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
+                        if ((chargeLocation - NPC.Center).Length() < chargeLocationDistance || calamityGlobalNPC.newAI[2] > chargePhaseGateValue)
                         {
                             calamityGlobalNPC.newAI[2] += 1f;
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
-                                npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
-                                npc.netUpdate = true;
-                                npc.netSpam -= 5;
+                                NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
+                                NPC.netUpdate = true;
+                                NPC.netSpam -= 5;
                             }
                             else
                             {
                                 // Charge
 
                                 // Become totally visible
-                                npc.Opacity = 1f;
+                                NPC.Opacity = 1f;
 
                                 destination = chargeDestination;
 
-                                if ((destination - npc.Center).Length() < chargeLocationDistance)
+                                if ((destination - NPC.Center).Length() < chargeLocationDistance)
                                 {
-                                    npc.ai[3] += 1f;
+                                    NPC.ai[3] += 1f;
                                     float maxCharges = phase4 ? 1 : phase3 ? 2 : 3;
-                                    if (npc.ai[3] >= maxCharges)
+                                    if (NPC.ai[3] >= maxCharges)
                                     {
-                                        npc.ai[3] = 0f;
+                                        NPC.ai[3] = 0f;
                                         AIState = phase4 ? (float)Phase.AncientDoomSummon : (float)Phase.IceMist;
                                     }
                                     else if (phase3)
@@ -799,7 +800,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     calamityGlobalNPC.newAI[2] = 0f;
                                     chargeVelocityScalar = 0f;
                                     FinalPhaseCheck();
-                                    npc.TargetClosest();
+                                    NPC.TargetClosest();
                                 }
                             }
                         }
@@ -826,7 +827,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     baseVelocity *= invisiblePhaseVelocityMult;
                     turnSpeed *= invisiblePhaseTurnSpeedMult;
 
-                    if ((destination - npc.Center).Length() < iceMistLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
+                    if ((destination - NPC.Center).Length() < iceMistLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
                     {
                         if (calamityGlobalNPC.newAI[2] % 60f == 0f && calamityGlobalNPC.newAI[2] < iceMistDuration && Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -842,7 +843,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     continue;
 
                                 Vector2 playerCenter = Main.player[i].Center;
-                                float distance = Vector2.Distance(playerCenter, npc.Center);
+                                float distance = Vector2.Distance(playerCenter, NPC.Center);
                                 if (distance < maxDistance)
                                 {
                                     whoAmIArray[numProjectiles] = i;
@@ -860,50 +861,50 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             for (int i = 0; i < numProjectiles; i++)
                             {
                                 // Predictive mist
-                                Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+                                Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                 Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
                                 int type = ProjectileID.CultistBossIceMist;
-                                int damage = npc.GetProjectileDamage(type);
-                                Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                int damage = NPC.GetProjectileDamage(type);
+                                Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
                                 // Opposite mist
-                                projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - npc.Center;
+                                projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
-                                Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
                                 // Normal bolt
-                                projectileDestination = targetCenterArray[i] - npc.Center;
+                                projectileDestination = targetCenterArray[i] - NPC.Center;
                                 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
-                                Projectile.NewProjectile(npc.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
 
                         calamityGlobalNPC.newAI[2] += 1f;
 
-                        Lighting.AddLight(npc.Center, 0.3f, 0.75f, 0.9f);
+                        Lighting.AddLight(NPC.Center, 0.3f, 0.75f, 0.9f);
 
                         float rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
-                        Vector2 dustPosition = new Vector2(-npc.width * 0.2f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
-                        int dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 197, 0f, 0f, 100, Color.Transparent);
-                        Main.dust[dust].position = npc.Center + dustPosition;
-                        Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - npc.Center) * 2f;
+                        Vector2 dustPosition = new Vector2(-NPC.width * 0.2f * NPC.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(NPC.velocity.ToRotation());
+                        int dust = Dust.NewDust(NPC.Center - Vector2.One * 5f, 10, 10, 197, 0f, 0f, 100, Color.Transparent);
+                        Main.dust[dust].position = NPC.Center + dustPosition;
+                        Main.dust[dust].velocity = Vector2.Normalize(Main.dust[dust].position - NPC.Center) * 2f;
                         Main.dust[dust].noGravity = true;
 
                         rotation = MathHelper.Clamp((float)Main.rand.NextDouble() * 1f - 0.5f, -0.5f, 0.5f);
-                        dustPosition = new Vector2(-npc.width * 0.6f * npc.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(npc.velocity.ToRotation());
-                        dust = Dust.NewDust(npc.Center - Vector2.One * 5f, 10, 10, 197, 0f, 0f, 100, Color.Transparent);
+                        dustPosition = new Vector2(-NPC.width * 0.6f * NPC.scale, 0f).RotatedBy(rotation * ((float)Math.PI * 2f)).RotatedBy(NPC.velocity.ToRotation());
+                        dust = Dust.NewDust(NPC.Center - Vector2.One * 5f, 10, 10, 197, 0f, 0f, 100, Color.Transparent);
                         Main.dust[dust].velocity = Vector2.Zero;
-                        Main.dust[dust].position = npc.Center + dustPosition;
+                        Main.dust[dust].position = NPC.Center + dustPosition;
                         Main.dust[dust].noGravity = true;
 
                         if (calamityGlobalNPC.newAI[2] >= iceMistDuration)
                         {
-                            npc.localAI[0] = 1f;
+                            NPC.localAI[0] = 1f;
                             AIState = (float)Phase.FastCharge;
                             calamityGlobalNPC.newAI[2] = fastChargeGateValue;
                             chargeVelocityScalar = 0f;
                             FinalPhaseCheck();
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
                         }
                     }
 
@@ -925,7 +926,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     turnSpeed *= invisiblePhaseTurnSpeedMult;
 
                     // Spin around target
-                    if ((destination - npc.Center).Length() < spinLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
+                    if ((destination - NPC.Center).Length() < spinLocationDistance || calamityGlobalNPC.newAI[2] > 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 1f;
 
@@ -933,21 +934,21 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (rotationDirection == 0)
                         {
                             // Set spin direction
-                            if (Main.player[npc.target].velocity.X > 0f)
+                            if (Main.player[NPC.target].velocity.X > 0f)
                                 rotationDirection = 1;
-                            else if (Main.player[npc.target].velocity.X < 0f)
+                            else if (Main.player[NPC.target].velocity.X < 0f)
                                 rotationDirection = -1;
                             else
                                 rotationDirection = player.direction;
 
                             // Set spin velocity
-                            npc.velocity.X = MathHelper.Pi * spinRadius / spinVelocityDivisor;
-                            npc.velocity *= -rotationDirection;
-                            npc.netUpdate = true;
+                            NPC.velocity.X = MathHelper.Pi * spinRadius / spinVelocityDivisor;
+                            NPC.velocity *= -rotationDirection;
+                            NPC.netUpdate = true;
                         }
                         else
                         {
-                            npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocityDivisor * -rotationDirection);
+                            NPC.velocity = NPC.velocity.RotatedBy(MathHelper.Pi / spinVelocityDivisor * -rotationDirection);
 
                             if (calamityGlobalNPC.newAI[2] >= spinPhaseDuration)
                             {
@@ -956,7 +957,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 calamityGlobalNPC.newAI[2] = 0f;
                                 chargeVelocityScalar = 0f;
                                 FinalPhaseCheck();
-                                npc.TargetClosest();
+                                NPC.TargetClosest();
                             }
                         }
 
@@ -973,7 +974,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     destination += ancientDoomLocation;
                     turnDistance = ancientDoomLocationDistance;
 
-                    if (npc.localAI[1] < maxAncientDoomRings)
+                    if (NPC.localAI[1] < maxAncientDoomRings)
                     {
                         calamityGlobalNPC.newAI[2] += 1f;
                         if (calamityGlobalNPC.newAI[2] >= ancientDoomPhaseGateValue)
@@ -992,25 +993,25 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     {
                                         float ai2 = i * ancientDoomDegrees;
                                         NPC.NewNPC((int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
-                                            NPCID.AncientDoom, 0, npc.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
+                                            NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                     }
-                                    npc.localAI[1] += 1f;
-                                    npc.TargetClosest();
+                                    NPC.localAI[1] += 1f;
+                                    NPC.TargetClosest();
                                 }
                             }
                         }
                     }
 
-                    if (npc.localAI[1] >= maxAncientDoomRings)
+                    if (NPC.localAI[1] >= maxAncientDoomRings)
                     {
-                        npc.localAI[1] += 1f;
-                        if (npc.localAI[1] >= ancientDoomGateValue + maxAncientDoomRings)
+                        NPC.localAI[1] += 1f;
+                        if (NPC.localAI[1] >= ancientDoomGateValue + maxAncientDoomRings)
                         {
-                            npc.localAI[1] = 0f;
+                            NPC.localAI[1] = 0f;
                             AIState = phase4 ? (float)Phase.LightningCharge : (float)Phase.ChargeTwo;
                             calamityGlobalNPC.newAI[2] = 0f;
                             FinalPhaseCheck();
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
                         }
                     }
 
@@ -1032,42 +1033,42 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         turnSpeed *= fastChargeTurnSpeedMult;
                         turnDistance = lightningChargeLocationDistance;
 
-                        if ((lightningChargeLocation - npc.Center).Length() < lightningChargeLocationDistance || calamityGlobalNPC.newAI[2] > lightningChargePhaseGateValue)
+                        if ((lightningChargeLocation - NPC.Center).Length() < lightningChargeLocationDistance || calamityGlobalNPC.newAI[2] > lightningChargePhaseGateValue)
                         {
                             calamityGlobalNPC.newAI[2] += 1f;
                             if (calamityGlobalNPC.newAI[2] == lightningChargePhaseGateValue + 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + lightningChargeVectorFlipped + player.velocity * chargePredictionAmt;
-                                npc.velocity = Vector2.Normalize(chargeDestination - npc.Center) * baseVelocity;
-                                npc.netUpdate = true;
-                                npc.netSpam -= 5;
+                                NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
+                                NPC.netUpdate = true;
+                                NPC.netSpam -= 5;
                             }
                             else
                             {
                                 // Charge
 
                                 // Become totally visible
-                                npc.Opacity = 1f;
+                                NPC.Opacity = 1f;
 
                                 destination = chargeDestination;
 
                                 // Lightning barrage
-                                if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[3] == 0f)
+                                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[3] == 0f)
                                 {
-                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+                                    if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
 
-                                    npc.localAI[3] = 1f;
+                                    NPC.localAI[3] = 1f;
                                     int type = ProjectileID.CultistBossLightningOrbArc;
-                                    int damage = npc.GetProjectileDamage(type);
+                                    int damage = NPC.GetProjectileDamage(type);
                                     for (int i = 0; i < numLightningBolts; i++)
                                     {
                                         Vector2 projectileDestination = player.Center - lightningSpawnLocation;
                                         float ai = Main.rand.Next(100);
-                                        int proj = Projectile.NewProjectile(lightningSpawnLocation, npc.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                        int proj = Projectile.NewProjectile(lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                         Main.projectile[proj].tileCollide = false;
                                         lightningSpawnLocation.Y += distanceBetweenBolts;
                                         if (i == numLightningBolts / 2)
@@ -1075,19 +1076,19 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     }
                                 }
 
-                                if ((destination - npc.Center).Length() < lightningChargeLocationDistance)
+                                if ((destination - NPC.Center).Length() < lightningChargeLocationDistance)
                                 {
-                                    AIState = npc.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
+                                    AIState = NPC.localAI[2] == 0f ? (float)Phase.LightningRain : (float)Phase.IceMist;
                                     calamityGlobalNPC.newAI[2] = 0f;
 
-                                    npc.localAI[2] += 1f;
-                                    if (npc.localAI[2] > 1f)
-                                        npc.localAI[2] = 0f;
+                                    NPC.localAI[2] += 1f;
+                                    if (NPC.localAI[2] > 1f)
+                                        NPC.localAI[2] = 0f;
 
-                                    npc.localAI[3] = 0f;
+                                    NPC.localAI[3] = 0f;
                                     chargeVelocityScalar = 0f;
                                     FinalPhaseCheck();
-                                    npc.TargetClosest();
+                                    NPC.TargetClosest();
                                 }
                             }
                         }
@@ -1109,15 +1110,15 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     {
                         if (!NPC.AnyNPCs(ModContent.NPCType<Eidolist>()))
                         {
-                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < soundDistance)
-                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/EidolistDeath"), Main.player[Main.myPlayer].Center);
+                            if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/EidolistDeath"), Main.player[Main.myPlayer].Center);
 
                             // Spawn Eidolists randomly around the target
                             for (int i = 0; i < maxEidolists; i++)
                             {
-                                Point npcCenter = npc.Center.ToTileCoordinates();
+                                Point npcCenter = NPC.Center.ToTileCoordinates();
                                 Point playerCenter = player.Center.ToTileCoordinates();
-                                Vector2 distance = player.Center - npc.Center;
+                                Vector2 distance = player.Center - NPC.Center;
 
                                 int baseSpawnDistance = 60;
                                 int minDistance = 3;
@@ -1153,7 +1154,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         AIState = (float)Phase.ChargeOne;
                         calamityGlobalNPC.newAI[2] = 0f;
                         FinalPhaseCheck();
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
                     }
 
                     break;
@@ -1179,13 +1180,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 {
                                     float ai2 = i * ancientDoomDegrees;
                                     NPC.NewNPC((int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
-                                        NPCID.AncientDoom, 0, npc.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
+                                        NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                 }
 
                                 if (calamityGlobalNPC.newAI[2] >= 240f)
                                     calamityGlobalNPC.newAI[2] = -90f;
 
-                                npc.TargetClosest();
+                                NPC.TargetClosest();
                             }
                         }
                     }
@@ -1203,28 +1204,28 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     turnSpeed *= invisiblePhaseTurnSpeedMult;
 
                     // Spin around target
-                    if ((destination - npc.Center).Length() < spinLocationDistance || calamityGlobalNPC.newAI[1] > 0f)
+                    if ((destination - NPC.Center).Length() < spinLocationDistance || calamityGlobalNPC.newAI[1] > 0f)
                     {
                         calamityGlobalNPC.newAI[1] += 1f;
                         float spinVelocityDivisor = targetDownDeep ? 90f : 60f;
                         if (rotationDirection == 0)
                         {
                             // Set spin direction
-                            if (Main.player[npc.target].velocity.X > 0f)
+                            if (Main.player[NPC.target].velocity.X > 0f)
                                 rotationDirection = 1;
-                            else if (Main.player[npc.target].velocity.X < 0f)
+                            else if (Main.player[NPC.target].velocity.X < 0f)
                                 rotationDirection = -1;
                             else
                                 rotationDirection = player.direction;
 
                             // Set spin velocity
-                            npc.velocity.X = MathHelper.Pi * spinRadius / spinVelocityDivisor;
-                            npc.velocity *= -rotationDirection;
-                            npc.netUpdate = true;
+                            NPC.velocity.X = MathHelper.Pi * spinRadius / spinVelocityDivisor;
+                            NPC.velocity *= -rotationDirection;
+                            NPC.netUpdate = true;
                         }
                         else
                         {
-                            npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocityDivisor * -rotationDirection);
+                            NPC.velocity = NPC.velocity.RotatedBy(MathHelper.Pi / spinVelocityDivisor * -rotationDirection);
 
                             // Swim above target again if enough time has passed
                             if (calamityGlobalNPC.newAI[1] >= spinPhaseDuration)
@@ -1234,7 +1235,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 chargeVelocityScalar = 0f;
                                 rotationDirection = 0;
 
-                                npc.TargetClosest();
+                                NPC.TargetClosest();
                             }
                         }
 
@@ -1249,7 +1250,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             {
                 if (phase6)
                 {
-                    npc.localAI[1] = 0f;
+                    NPC.localAI[1] = 0f;
                     AIState = (float)Phase.FinalPhase;
                     calamityGlobalNPC.newAI[1] = 0f;
                     calamityGlobalNPC.newAI[2] = 0f;
@@ -1260,35 +1261,35 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             if (!targetDead)
             {
                 // Increase velocity if velocity is ever zero
-                if (npc.velocity == Vector2.Zero)
-                    npc.velocity = Vector2.Normalize(player.Center - npc.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
+                if (NPC.velocity == Vector2.Zero)
+                    NPC.velocity = Vector2.Normalize(player.Center - NPC.Center).SafeNormalize(Vector2.Zero) * baseVelocity;
 
                 // Acceleration
-                if (!((destination - npc.Center).Length() < turnDistance))
+                if (!((destination - NPC.Center).Length() < turnDistance))
                 {
-                    float targetAngle = npc.AngleTo(destination);
-                    float f = npc.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
-                    npc.velocity = f.ToRotationVector2() * baseVelocity;
+                    float targetAngle = NPC.AngleTo(destination);
+                    float f = NPC.velocity.ToRotation().AngleTowards(targetAngle, turnSpeed);
+                    NPC.velocity = f.ToRotationVector2() * baseVelocity;
                 }
             }
 
             // Velocity upper limit
-            if (npc.velocity.Length() > baseVelocity)
-                npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+            if (NPC.velocity.Length() > baseVelocity)
+                NPC.velocity = NPC.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
         }
 
         private void ChargeDust(int dustAmt, float pie)
         {
             for (int num1474 = 0; num1474 < dustAmt; num1474++)
             {
-                Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f;
-                vector171 = vector171.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)pie / (float)dustAmt) + npc.Center;
+                Vector2 vector171 = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
+                vector171 = vector171.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)pie / (float)dustAmt) + NPC.Center;
                 Vector2 value18 = ((float)(Main.rand.NextDouble() * pie) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                 int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 172, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
                 Main.dust[num1475].noGravity = true;
                 Main.dust[num1475].noLight = true;
                 Main.dust[num1475].velocity /= 4f;
-                Main.dust[num1475].velocity -= npc.velocity;
+                Main.dust[num1475].velocity -= NPC.velocity;
             }
         }
 
@@ -1298,10 +1299,10 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -1311,7 +1312,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 70f && npc.Opacity == 1f;
+            return minDist <= 70f && NPC.Opacity == 1f;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -1322,14 +1323,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpriteEffects spriteEffects = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Vector2 center = npc.Center;
-            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+            SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Vector2 center = NPC.Center;
+            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Width, ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + npc.gfxOffY);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), Color.White, npc.rotation, vector11, 1f, spriteEffects, 0f);
+            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
+            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge"), vector,
+                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -1339,17 +1340,17 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void NPCLoot()
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(npc, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(npc, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(npc, ModContent.ItemType<HalibutCannon>());
+            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 80, 100);
+            DropHelper.DropItem(NPC, ModContent.ItemType<EidolicWail>());
+            DropHelper.DropItem(NPC, ModContent.ItemType<SoulEdge>());
+            DropHelper.DropItem(NPC, ModContent.ItemType<HalibutCannon>());
 
             int minLumenyl = Main.expertMode ? 65 : 50;
             int maxLumenyl = Main.expertMode ? 135 : 108;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
-            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
+            DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
 
             // Mark Adult Eidolon Wyrm as defeated
             CalamityWorld.downedAdultEidolonWyrm = true;
@@ -1359,14 +1360,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
 
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
             }
         }
 
@@ -1374,13 +1375,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (npc.Opacity == 1f)
+            if (NPC.Opacity == 1f)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }

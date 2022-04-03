@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,37 +19,37 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 25;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 25;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.ToRadians(45f);
 
-            projectile.velocity.Y += 0.1f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.velocity.Y += 0.1f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
@@ -56,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.Center, 1, 1, 1, projectile.velocity.X, projectile.velocity.Y);
+                Dust.NewDust(Projectile.Center, 1, 1, 1, Projectile.velocity.X, Projectile.velocity.Y);
             }
         }
     }

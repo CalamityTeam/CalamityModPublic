@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;

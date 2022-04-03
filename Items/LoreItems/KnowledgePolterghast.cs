@@ -17,11 +17,11 @@ namespace CalamityMod.Items.LoreItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Red;
-            item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Red;
+            Item.consumable = false;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,12 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<PolterghastTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<PolterghastTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
         }
     }
 }

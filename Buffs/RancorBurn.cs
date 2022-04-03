@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs
 {
     public class RancorBurn : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rancor Burn");
             Description.SetDefault("Burning");

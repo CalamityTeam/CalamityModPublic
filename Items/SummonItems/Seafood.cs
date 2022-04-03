@@ -5,6 +5,7 @@ using CalamityMod.NPCs.AquaticScourge;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,13 +20,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 26;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.SummonItems
             return modPlayer.ZoneSulphur && !NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -47,13 +48,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
-            recipe.AddIngredient(ItemID.Starfish, 10);
-            recipe.AddIngredient(ItemID.SharkFin, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulphurousSand>(), 20).AddIngredient(ItemID.Starfish, 10).AddIngredient(ItemID.SharkFin, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

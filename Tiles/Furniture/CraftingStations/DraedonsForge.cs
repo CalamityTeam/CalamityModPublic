@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class DraedonsForge : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;

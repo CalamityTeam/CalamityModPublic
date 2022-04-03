@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.defense = 18; //71
+            Item.width = 18;
+            Item.height = 18;
+            Item.defense = 18; //71
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -57,21 +57,14 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().prismaticHelmet = true;
             player.allDamage -= 0.2f;
-            player.magicDamage += 0.2f;
-            player.magicDamage += 0.18f;
-            player.magicCrit += 12;
+            player.GetDamage(DamageClass.Magic) += 0.2f;
+            player.GetDamage(DamageClass.Magic) += 0.18f;
+            player.GetCritChance(DamageClass.Magic) += 12;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 4);
-            recipe.AddIngredient(ItemID.Nanites, 300);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 4).AddIngredient(ItemID.Nanites, 300).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

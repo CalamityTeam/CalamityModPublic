@@ -19,31 +19,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 54;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<BrimlashProj>();
-            item.shootSpeed = 10f;
+            Item.width = Item.height = 54;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<BrimlashProj>();
+            Item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

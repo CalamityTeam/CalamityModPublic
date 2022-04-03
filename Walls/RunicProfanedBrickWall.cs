@@ -8,7 +8,7 @@ namespace CalamityMod.Walls
 {
     public class RunicProfanedBrickWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 
@@ -27,7 +27,7 @@ namespace CalamityMod.Walls
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = ModContent.GetTexture("CalamityMod/Walls/RunicProfanedBrickWall");
+            Texture2D sprite = ModContent.Request<Texture2D>("CalamityMod/Walls/RunicProfanedBrickWall");
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);

@@ -12,28 +12,28 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Duke's Decapitator");
             Tooltip.SetDefault("Throws a hydro axe which shreds enemies when it comes into contact with them\n"
-                              +"The faster itâ€™s spinning, the more times it hits before disappearing\n"
+                              +"The faster it’s spinning, the more times it hits before disappearing\n"
                               +"Stealth Strikes make it emit short-ranged bubbles.");
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 60;
-            item.height = 64;
-            item.damage = 90;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
-            item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
+            Item.width = 60;
+            Item.height = 64;
+            Item.damage = 90;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

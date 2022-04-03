@@ -14,20 +14,20 @@ namespace CalamityMod.Projectiles.Healing
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantomic Heart");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
 
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.alpha = 20;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.width = 28;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.alpha = 20;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -44,11 +44,11 @@ namespace CalamityMod.Projectiles.Healing
         {
             if (floatTimer >= 10)
             {
-                projectile.velocity.Y *= 0.99f;
+                Projectile.velocity.Y *= 0.99f;
             }
             else
             {
-                projectile.velocity.Y *= 1.01f;
+                Projectile.velocity.Y *= 1.01f;
             }
             if (floatTimer >= 20)
                 floatTimer = 0;
@@ -57,41 +57,41 @@ namespace CalamityMod.Projectiles.Healing
 
             for (int i = 0; i < 3; i++)
             {
-                Dust.NewDust(projectile.TopLeft, projectile.width, projectile.height, 5, Main.rand.NextFloat(-3, 3), -5f, 0, new Color(99, 54, 84), Main.rand.NextFloat(0.5f, 1.5f));
+                Dust.NewDust(Projectile.TopLeft, Projectile.width, Projectile.height, 5, Main.rand.NextFloat(-3, 3), -5f, 0, new Color(99, 54, 84), Main.rand.NextFloat(0.5f, 1.5f));
             }
 
-            Player player = Main.player[projectile.owner];
-            Vector2 playerVector = player.Center - projectile.Center;
+            Player player = Main.player[Projectile.owner];
+            Vector2 playerVector = player.Center - Projectile.Center;
             float playerDist = playerVector.Length();
-            if (projectile.timeLeft < 500 && playerDist < 50f && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
+            if (Projectile.timeLeft < 500 && playerDist < 50f && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
                     CalamityPlayer calPlayer = player.Calamity();
                     calPlayer.phantomicHeartRegen = 720;
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            if (player.lifeMagnet && projectile.timeLeft < 510)
+            if (player.lifeMagnet && Projectile.timeLeft < 510)
             {
                 float N = 18f;
                 playerDist = 15f / playerDist;
                 playerVector.X *= playerDist;
                 playerVector.Y *= playerDist;
-                projectile.velocity.X = (projectile.velocity.X * N + playerVector.X) / (N + 1f);
-                projectile.velocity.Y = (projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
+                Projectile.velocity.X = (Projectile.velocity.X * N + playerVector.X) / (N + 1f);
+                Projectile.velocity.Y = (Projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-                if (projectile.frame % 2 == 0)
-                    projectile.netUpdate = true;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+                if (Projectile.frame % 2 == 0)
+                    Projectile.netUpdate = true;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

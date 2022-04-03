@@ -17,39 +17,39 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God's Paranoia");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 15;
-            projectile.height = 15;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 15;
+            Projectile.height = 15;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
+            Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
             if (Main.rand.NextBool(2))
             {
-                Dust flame = Dust.NewDustDirect(projectile.position, 1, 1, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 0.5f);
-                flame.alpha = projectile.alpha;
+                Dust flame = Dust.NewDustDirect(Projectile.position, 1, 1, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 0, default, 0.5f);
+                flame.alpha = Projectile.alpha;
                 flame.velocity = Vector2.Zero;
                 flame.noGravity = true;
             }
 
-            projectile.StickyProjAI(50);
+            Projectile.StickyProjAI(50);
 
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
                 kunaiStabbing++;
                 if (kunaiStabbing >= 20)
@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Rogue
                     kunaiStabbing = 0;
                     float startOffsetX = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
                     float startOffsetY = Main.rand.NextFloat(100f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
-                    Vector2 startPos = new Vector2(projectile.position.X + startOffsetX, projectile.position.Y + startOffsetY);
-                    float dx = projectile.position.X - startPos.X;
-                    float dy = projectile.position.Y - startPos.Y;
+                    Vector2 startPos = new Vector2(Projectile.position.X + startOffsetX, Projectile.position.Y + startOffsetY);
+                    float dx = Projectile.position.X - startPos.X;
+                    float dy = Projectile.position.Y - startPos.Y;
 
                     // Add some randomness / inaccuracy
                     dx += Main.rand.NextFloat(-5f, 5f);
@@ -71,11 +71,11 @@ namespace CalamityMod.Projectiles.Rogue
                     dy *= dist;
                     Vector2 kunaiSp = new Vector2(dx, dy);
                     float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            int idx = Projectile.NewProjectile(startPos, kunaiSp, ModContent.ProjectileType<GodsParanoiaDart>(), projectile.damage / 2, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+                            int idx = Projectile.NewProjectile(startPos, kunaiSp, ModContent.ProjectileType<GodsParanoiaDart>(), Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
                             Main.projectile[idx].rotation = angle;
                         }
                     }
@@ -83,22 +83,22 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.rotation += 0.2f * (float)projectile.direction;
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
+                Projectile.rotation += 0.2f * (float)Projectile.direction;
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, Projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.killSpikyBalls == true)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(10, true);
+            Projectile.ModifyHitNPCSticky(10, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

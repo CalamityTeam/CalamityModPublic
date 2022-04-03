@@ -13,28 +13,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Infernal Rift");
             Tooltip.SetDefault("Summons infernal blades that spawn additional blades on enemy hits");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 16;
-            item.height = 16;
-            item.useAnimation = 16;
-            item.useTime = 4;
-            item.reuseDelay = item.useAnimation + 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<InfernalBlade>();
-            item.shootSpeed = 16f;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useAnimation = 16;
+            Item.useTime = 4;
+            Item.reuseDelay = Item.useAnimation + 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<InfernalBlade>();
+            Item.shootSpeed = 16f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -44,19 +44,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SkyFracture);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SkyFracture).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddIngredient(ItemID.SoulofFright, 10).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float f = Main.rand.NextFloat() * 6.28318548f;

@@ -19,24 +19,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 94;
-            item.scale = 1.5f;
-            item.melee = true;
-            item.damage = 360;
-            item.knockBack = 8.5f;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.width = 94;
+            Item.height = 94;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 360;
+            Item.knockBack = 8.5f;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.autoReuse = true;
+            Item.useTurn = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
-            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, item.knockBack, 1);
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, Item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, Item.knockBack, 1);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -87,14 +87,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<BalefulHarvester>());
-            r.AddIngredient(ItemID.SoulofNight, 30);
-            r.AddIngredient(ModContent.ItemType<ReaperTooth>(), 5);
-            r.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BalefulHarvester>()).AddIngredient(ItemID.SoulofNight, 30).AddIngredient(ModContent.ItemType<ReaperTooth>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

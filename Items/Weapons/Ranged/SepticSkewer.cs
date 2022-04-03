@@ -16,23 +16,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 272;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 24;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item10;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<SepticSkewerHarpoon>();
+            Item.damage = 272;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 24;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item10;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<SepticSkewerHarpoon>();
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

@@ -15,34 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.magic = true;
-            item.mana = 19;
-            item.width = 36;
-            item.height = 42;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SupremeDustProjectile>();
-            item.shootSpeed = 4f;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 19;
+            Item.width = 36;
+            Item.height = 42;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SupremeDustProjectile>();
+            Item.shootSpeed = 4f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DeathValley>());
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DeathValley>()).AddIngredient(ItemID.AncientBattleArmorMaterial, 3).AddIngredient(ItemID.MeteoriteBar, 5).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.Bookcases).Register();
         }
     }
 }

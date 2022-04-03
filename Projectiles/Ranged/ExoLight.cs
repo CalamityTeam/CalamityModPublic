@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -18,35 +19,35 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxRadius = 90f;
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public int DustType
         {
-            get => (int)projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public float YDirection
         {
-            get => projectile.localAI[1];
-            set => projectile.localAI[1] = value;
+            get => Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Light");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 40;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.alpha = 127;
+            Projectile.width = Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.alpha = 127;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -62,23 +63,23 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.DarkSlateGray.ToVector3());
-            projectile.alpha = (int)MathHelper.Lerp(255, 127, Utils.InverseLerp(0f, 25f, Time, true));
-            projectile.scale = MathHelper.Lerp(0.001f, 1f, Utils.InverseLerp(0f, 25f, Time, true));
-            if (projectile.localAI[0] == 0f)
+            Lighting.AddLight(Projectile.Center, Color.DarkSlateGray.ToVector3());
+            Projectile.alpha = (int)MathHelper.Lerp(255, 127, Utils.InverseLerp(0f, 25f, Time, true));
+            Projectile.scale = MathHelper.Lerp(0.001f, 1f, Utils.InverseLerp(0f, 25f, Time, true));
+            if (Projectile.localAI[0] == 0f)
             {
-                InitialCenter = projectile.Center;
-                if (Main.myPlayer == projectile.owner)
+                InitialCenter = Projectile.Center;
+                if (Main.myPlayer == Projectile.owner)
                 {
                     Destination = Main.MouseWorld;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 DustType = Main.rand.NextBool(2) ? 107 : 234;
                 if (Main.rand.NextBool(4))
                 {
                     DustType = 269;
                 }
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             if (Destination == Vector2.Zero)
@@ -86,8 +87,8 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Time <= 90f)
             {
-                projectile.position = Vector2.Lerp(InitialCenter, Destination, Time / 90f);
-                projectile.position.Y += (float)Math.Sin(Time / 90f * MathHelper.TwoPi) * 75f;
+                Projectile.position = Vector2.Lerp(InitialCenter, Destination, Time / 90f);
+                Projectile.position.Y += (float)Math.Sin(Time / 90f * MathHelper.TwoPi) * 75f;
             }
             else if (Time < 180f)
             {
@@ -99,12 +100,12 @@ namespace CalamityMod.Projectiles.Ranged
                 radius *= 1f + (float)Math.Cos(Main.GlobalTime / 24f) * 0.25f;
                 if (radius < 5f)
                     radius = 5f;
-                projectile.Center = Destination + ((Time - 90) / 90f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
+                Projectile.Center = Destination + ((Time - 90) / 90f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
             }
             else if (Time == 180f)
-                projectile.Kill();
+                Projectile.Kill();
 
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Time++;
         }
 
@@ -113,8 +114,8 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 9; i++)
             {
                 float angle = Time / 45f + i / 9f * MathHelper.TwoPi;
-                Vector2 offsetSpan = angle.ToRotationVector2() * projectile.Size * 0.65f * projectile.scale;
-                Vector2 edgePosition = projectile.Center + offsetSpan.RotatedBy(projectile.rotation);
+                Vector2 offsetSpan = angle.ToRotationVector2() * Projectile.Size * 0.65f * Projectile.scale;
+                Vector2 edgePosition = Projectile.Center + offsetSpan.RotatedBy(Projectile.rotation);
                 Dust dust = Dust.NewDustPerfect(edgePosition + Main.rand.NextVector2Circular(4f, 4f), DustType);
                 dust.velocity = Vector2.Zero;
                 dust.noGravity = true;
@@ -129,33 +130,33 @@ namespace CalamityMod.Projectiles.Ranged
                 Color.PaleGreen,
                 Color.Violet,
                 Color.SlateGray
-            }) * projectile.Opacity;
+            }) * Projectile.Opacity;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D lightTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/PhotovisceratorLight");
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/PhotovisceratorLight");
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float colorInterpolation = (float)Math.Cos(projectile.timeLeft / 16f + Main.GlobalTime / 20f + i / (float)projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
+                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTime / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
                 Color color = CalamityUtils.MulticolorLerp(MathHelper.Clamp(colorInterpolation, 0f, 0.99f), new Color[]
                 {
                     Color.PaleGreen,
                     Color.Violet,
                     Color.SlateGray
-                }) * projectile.Opacity;
+                }) * Projectile.Opacity;
                 color.A = 0;
-                Vector2 drawPosition = projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
                 Color outerColor = color;
                 Color innerColor = color * 0.5f;
                 float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTime % 60f * MathHelper.TwoPi);
 
                 // Become smaller the futher along the old positions we are.
-                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)projectile.oldPos.Length);
+                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
 
                 Vector2 outerScale = new Vector2(1.25f) * intensity;
                 Vector2 innerScale = new Vector2(1.25f) * intensity * 0.7f;
-                outerColor *= intensity * projectile.scale;
-                innerColor *= intensity * projectile.scale;
+                outerColor *= intensity * Projectile.scale;
+                innerColor *= intensity * Projectile.scale;
                 spriteBatch.Draw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.6f, SpriteEffects.None, 0);
                 spriteBatch.Draw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.6f, SpriteEffects.None, 0);
             }
@@ -164,14 +165,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int projID = ModContent.ProjectileType<ExoSpark>();
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 16f;
-                    Projectile.NewProjectileDirect(projectile.Center, vel, projID, projectile.damage, projectile.knockBack * 0.3f, projectile.owner);
+                    Projectile.NewProjectileDirect(Projectile.Center, vel, projID, Projectile.damage, Projectile.knockBack * 0.3f, Projectile.owner);
                 }
             }
         }

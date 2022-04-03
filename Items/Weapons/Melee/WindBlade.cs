@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 41;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 5;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 58;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<Cyclone>();
-            item.shootSpeed = 3f;
+            Item.width = 58;
+            Item.damage = 41;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 5;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 58;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<Cyclone>();
+            Item.shootSpeed = 3f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,12 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 9);
-            recipe.AddIngredient(ItemID.SunplateBlock, 3);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 9).AddIngredient(ItemID.SunplateBlock, 3).AddTile(TileID.SkyMill).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

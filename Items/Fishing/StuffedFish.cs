@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 34;
-            item.height = 30;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(silver: 50);
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 34;
+            Item.height = 30;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(silver: 50);
         }
 
         public override bool CanRightClick()
@@ -57,16 +57,16 @@ namespace CalamityMod.Items.Fishing
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
             {
-                DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
-                DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
+                DropHelper.DropItemChance(player, thorium.Find<ModItem>("MarineKelp").Type, 0.25f, herbMin, herbMax);
+                DropHelper.DropItemChance(player, thorium.Find<ModItem>("MarineKelpSeeds").Type, 0.1f, seedMin, seedMax);
             }
             Mod soa = CalamityMod.Instance.soa;
             if (soa != null)
             {
-                DropHelper.DropItemChance(player, soa.ItemType("Welkinbell"), 0.25f, herbMin, herbMax);
-                DropHelper.DropItemChance(player, soa.ItemType("WelkinbellSeeds"), 0.1f, seedMin, seedMax);
-                DropHelper.DropItemCondition(player, soa.ItemType("Illumifern"), Main.hardMode, 0.25f, herbMin, herbMax);
-                DropHelper.DropItemCondition(player, soa.ItemType("IllumifernSeeds"), Main.hardMode, 0.1f, seedMin, seedMax);
+                DropHelper.DropItemChance(player, soa.Find<ModItem>("Welkinbell").Type, 0.25f, herbMin, herbMax);
+                DropHelper.DropItemChance(player, soa.Find<ModItem>("WelkinbellSeeds").Type, 0.1f, seedMin, seedMax);
+                DropHelper.DropItemCondition(player, soa.Find<ModItem>("Illumifern").Type, Main.hardMode, 0.25f, herbMin, herbMax);
+                DropHelper.DropItemCondition(player, soa.Find<ModItem>("IllumifernSeeds").Type, Main.hardMode, 0.1f, seedMin, seedMax);
 
                 // TODO -- There is no way to determine if SoA's Abaddon is dead without reflection.
                 // Dan Yami has confirmed that downed calls will be added to SoA eventually.

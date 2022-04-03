@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 52;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_BetsyFlyingCircleAttack;
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 114;
-            item.knockBack = 2f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<PowerfulRaven>();
-            item.shootSpeed = 13f;
+            Item.width = 54;
+            Item.height = 52;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_BetsyFlyingCircleAttack;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 114;
+            Item.knockBack = 2f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<PowerfulRaven>();
+            Item.shootSpeed = 13f;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,13 +49,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RavenStaff);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RavenStaff).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

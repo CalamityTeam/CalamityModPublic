@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class GelDartProjectile : ModProjectile
@@ -18,25 +19,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 4;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 600;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 4;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 600;
             aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
             {
-                projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-                if (projectile.timeLeft % 8 == 0)
+                Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+                if (Projectile.timeLeft % 8 == 0)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                    int slime = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SlimeGun, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
+                    int slime = Projectile.NewProjectile(Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                     if (slime.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[slime].Calamity().forceRogue = true;
@@ -49,30 +50,30 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
-                    if (projectile.velocity != oldVelocity)
+                    if (Projectile.velocity != oldVelocity)
                     {
-                        projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * 1.35f;
-                        Main.PlaySound(SoundID.Item56, projectile.position); // Minecart bumper sound
+                        Projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * 1.35f;
+                        SoundEngine.PlaySound(SoundID.Item56, Projectile.position); // Minecart bumper sound
                     }
                 }
                 else
                 {
-                    if (projectile.velocity.X != oldVelocity.X)
+                    if (Projectile.velocity.X != oldVelocity.X)
                     {
-                        projectile.velocity.X = -oldVelocity.X;
+                        Projectile.velocity.X = -oldVelocity.X;
                     }
-                    if (projectile.velocity.Y != oldVelocity.Y)
+                    if (Projectile.velocity.Y != oldVelocity.Y)
                     {
-                        projectile.velocity.Y = -oldVelocity.Y;
+                        Projectile.velocity.Y = -oldVelocity.Y;
                     }
                 }
             }
@@ -81,8 +82,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -90,21 +91,21 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<GelDart>());
+                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<GelDart>());
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffID.Slow, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffID.Slow, 120);
         }
     }

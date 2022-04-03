@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class FabsolVodkaBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fab");
             Description.SetDefault("You feel fabulous");

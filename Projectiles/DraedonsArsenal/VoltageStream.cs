@@ -12,14 +12,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public NPC Target
         {
-            get => Main.npc[(int)projectile.ai[1]];
-            set => projectile.ai[1] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[1]];
+            set => Projectile.ai[1] = value.whoAmI;
         }
 
         public override void SetStaticDefaults()
@@ -29,25 +29,25 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 180;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 180;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.SkyBlue.ToVector3());
             if (!Target.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.Center = Target.Center;
+            Projectile.Center = Target.Center;
             if (Time < 90f)
             {
                 float completionRatio = Utils.InverseLerp(0f, 90f, Time, true);
@@ -96,22 +96,22 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     dust.noGravity = true;
                 }
                 Target.AddBuff(BuffID.Electrified, 180);
-                projectile.Kill();
+                Projectile.Kill();
             }
             Time++;
 
-            if (projectile.damage <= 0)
-                projectile.Kill();
+            if (Projectile.damage <= 0)
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.damage = (int)(projectile.damage * 0.75);
+            Projectile.damage = (int)(Projectile.damage * 0.75);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            projectile.damage = (int)(projectile.damage * 0.75);
+            Projectile.damage = (int)(Projectile.damage * 0.75);
         }
     }
 }

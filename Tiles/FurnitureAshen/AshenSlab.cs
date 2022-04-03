@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenSlab : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -505,11 +505,11 @@ namespace CalamityMod.Tiles.FurnitureAshen
             }
             int animationFrameHeight = 90;
             int animationFrameWidth = 234;
-            int xDrawPos = Main.tile[i, j].frameX + (uniqueAnimationFrameX * animationFrameWidth);
-            int yDrawPos = Main.tile[i, j].frameY + (uniqueAnimationFrameY * animationFrameHeight);
+            int xDrawPos = Main.tile[i, j].TileFrameX + (uniqueAnimationFrameX * animationFrameWidth);
+            int yDrawPos = Main.tile[i, j].TileFrameY + (uniqueAnimationFrameY * animationFrameHeight);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow");
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;

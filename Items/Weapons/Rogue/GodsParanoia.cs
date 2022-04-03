@@ -25,25 +25,25 @@ Right click to delete all existing spiky balls");
 
         public override void SafeSetDefaults()
         {
-            item.damage = damage;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.maxStack = 10;
+            Item.damage = damage;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = knockBack;
+            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.maxStack = 10;
 
-            item.shootSpeed = 5f;
-            item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+            Item.shootSpeed = 5f;
+            Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
 
         }
 
@@ -51,15 +51,15 @@ Right click to delete all existing spiky balls");
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
             }
             else
             {
-                item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
-                item.shootSpeed = 5f;
-                int UseMax = item.stack;
+                Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+                Item.shootSpeed = 5f;
+                int UseMax = Item.stack;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
             }
         }
@@ -88,13 +88,7 @@ Right click to delete all existing spiky balls");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ItemID.SpikyBall, 200);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 200).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -18,20 +18,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 106;
-            item.damage = 160;
-            item.melee = true;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 27;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 106;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.shootSpeed = 12f;
+            Item.width = 106;
+            Item.damage = 160;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 27;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 106;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (target.statLife <= 0)
-                OnHitEffects(player, target.Center, item.knockBack, damage, crit);
+                OnHitEffects(player, target.Center, Item.knockBack, damage, crit);
         }
 
         private void OnHitEffects(Player player, Vector2 targetPos, float kBack, int damage, bool crit)
@@ -69,16 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BreakerBlade);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddIngredient(ItemID.SoulofMight, 3);
-            recipe.AddIngredient(ItemID.SoulofSight, 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BreakerBlade).AddIngredient(ItemID.HellstoneBar, 10).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

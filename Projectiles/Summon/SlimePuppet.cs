@@ -4,32 +4,33 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class SlimePuppet : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slime Puppet");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 0;
-            projectile.timeLeft = 300;
-            projectile.penetrate = 1;
-            projectile.minion = true;
-            projectile.tileCollide = false;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 0;
+            Projectile.timeLeft = 300;
+            Projectile.penetrate = 1;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -37,73 +38,73 @@ namespace CalamityMod.Projectiles.Summon
             ResetDamage();
 
             // Prevent clumping of other slime puppets near this one.
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
-            NPC potentialTarget = projectile.Center.MinionHoming(800f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(800f, Owner);
 
             if (potentialTarget is null)
             {
                 // Movement above the player, depending on the index of the projectile in the Main.projectile array.
-                float destinationAngularOffset = (float)Math.Sin(projectile.identity / 6f % 6f * MathHelper.Pi) * MathHelper.Pi / 10f;
+                float destinationAngularOffset = (float)Math.Sin(Projectile.identity / 6f % 6f * MathHelper.Pi) * MathHelper.Pi / 10f;
                 Vector2 destination = Owner.Center - Vector2.UnitY.RotatedBy(destinationAngularOffset) * 160f;
 
-                if (projectile.DistanceSQ(destination) > 18f * 18f)
-                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(destination) * 9f) / 21f;
+                if (Projectile.DistanceSQ(destination) > 18f * 18f)
+                    Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(destination) * 9f) / 21f;
             }
             else
             {
-                float nudgedVelocityDirection = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(potentialTarget.Center), 0.078f);
-                projectile.velocity = nudgedVelocityDirection.ToRotationVector2() * MathHelper.Lerp(projectile.velocity.Length(), 16f, 0.25f);
-                if (projectile.WithinRange(potentialTarget.Center, 240f))
+                float nudgedVelocityDirection = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(potentialTarget.Center), 0.078f);
+                Projectile.velocity = nudgedVelocityDirection.ToRotationVector2() * MathHelper.Lerp(Projectile.velocity.Length(), 16f, 0.25f);
+                if (Projectile.WithinRange(potentialTarget.Center, 240f))
                 {
-                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * 16f, 0.1f);
-                    projectile.Center = projectile.Center.MoveTowards(potentialTarget.Center, 6f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * 16f, 0.1f);
+                    Projectile.Center = Projectile.Center.MoveTowards(potentialTarget.Center, 6f);
                 }
             }
-            if (projectile.ai[0] > 0f)
+            if (Projectile.ai[0] > 0f)
             {
-                projectile.rotation += MathHelper.ToRadians(projectile.velocity.Length() / 4f) * Math.Sign(projectile.velocity.X);
-                projectile.ai[0]--;
+                Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length() / 4f) * Math.Sign(Projectile.velocity.X);
+                Projectile.ai[0]--;
             }
             else if (potentialTarget != null)
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (Vector2.Dot(projectile.oldVelocity.SafeNormalize(Vector2.Zero), projectile.velocity.SafeNormalize(Vector2.Zero)) < 0.87)
-                projectile.ai[0] = 50f;
+            if (Vector2.Dot(Projectile.oldVelocity.SafeNormalize(Vector2.Zero), Projectile.velocity.SafeNormalize(Vector2.Zero)) < 0.87)
+                Projectile.ai[0] = 50f;
         }
 
         public void ResetDamage()
         {
             // Initialize minion damage values the moment the projectile is spawned.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                projectile.damage = trueDamage;
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
+                Projectile.damage = trueDamage;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 100);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
 
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 20; i++)
                 {
                     Vector2 spawnOffset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 36f);
-                    Dust slime = Dust.NewDustPerfect(projectile.Center + spawnOffset, 243);
+                    Dust slime = Dust.NewDustPerfect(Projectile.Center + spawnOffset, 243);
                     slime.velocity = spawnOffset.RotatedBy(MathHelper.PiOver2 * Main.rand.NextBool(2).ToDirectionInt()) * 0.16f;
                     slime.scale = 1.2f;
                 }
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
     }

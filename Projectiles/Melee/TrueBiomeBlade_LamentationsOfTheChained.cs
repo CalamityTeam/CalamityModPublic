@@ -10,6 +10,7 @@ using static Terraria.ModLoader.ModContent;
 using CalamityMod.Particles;
 using CalamityMod.DataStructures;
 using CalamityMod.Items.Weapons.Melee;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -18,9 +19,9 @@ namespace CalamityMod.Projectiles.Melee
         private NPC[] excludedTargets = new NPC[4];
 
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChained";
-        public Player Owner => Main.player[projectile.owner];
-        public ref float ChainSwapTimer => ref projectile.ai[0];
-        public ref float SnapCoyoteTime => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float ChainSwapTimer => ref Projectile.ai[0];
+        public ref float SnapCoyoteTime => ref Projectile.ai[1];
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
         const float MaxTangleReach = 400f; //How long can tangling vines from crits be
@@ -39,13 +40,13 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 80;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 80;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = OmegaBiomeBlade.FlailBladeAttunement_LocalIFrames;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -121,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (crit)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), projectile.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), Projectile.Center);
                 excludedTargets[0] = target;
                 for (int i = 0; i < 3; i++)
                 {
@@ -162,19 +163,19 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
-            projectile.velocity.Normalize();
-            projectile.rotation = projectile.velocity.ToRotation();
-            projectile.Center = Owner.Center + (projectile.velocity * 60);
+            Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+            Projectile.velocity.Normalize();
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.Center = Owner.Center + (Projectile.velocity * 60);
 
             //Make the owner look like theyre holding the sword bla bla
-            Owner.heldProj = projectile.whoAmI;
-            Owner.direction = Math.Sign(projectile.velocity.X);
-            Owner.itemRotation = projectile.rotation;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.itemRotation = Projectile.rotation;
             if (Owner.direction != 1)
             {
                 Owner.itemRotation -= 3.14f;
@@ -182,18 +183,18 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
 
             if (ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime == 1)
             {
-                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_OgreSpit, Projectile.Center);
 
                 Vector2 smearPos = Owner.Center + whip1.X.ToRotationVector2() * OmegaBiomeBlade.FlailBladeAttunement_Reach * Main.rand.NextFloat(0.7f, 1.1f);
                 Vector2 squish = new Vector2(Main.rand.NextFloat(3f, 4f), Main.rand.NextFloat(0.5f, 1f));
 
                 if (smear == null)
                 {
-                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
+                    smear = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip1.X + MathHelper.Pi, Projectile.scale * 1.5f, squish);
                     smear.Lifetime = 2;
                     GeneralParticleHandler.SpawnParticle(smear);
                 }
@@ -210,7 +211,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (smear2 == null)
                 {
-                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, projectile.scale * 1.5f, squish);
+                    smear2 = new SemiCircularSmearVFX(smearPos, Color.PowderBlue * 0.5f, whip2.X + MathHelper.Pi, Projectile.scale * 1.5f, squish);
                     smear2.Lifetime = 2;
                     GeneralParticleHandler.SpawnParticle(smear2);
                 }
@@ -225,14 +226,14 @@ namespace CalamityMod.Projectiles.Melee
 
             if (smear != null)
             {
-                smear.Rotation = smear.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
+                smear.Rotation = smear.Rotation.AngleTowards(Projectile.velocity.ToRotation(), 0.01f);
                 smear.Time = 0;
                 (smear as SemiCircularSmearVFX).Squish.Y *= 0.985f;
                 (smear as SemiCircularSmearVFX).Squish.X *= 1.01f;
             }
             if (smear2 != null)
             {
-                smear2.Rotation = smear2.Rotation.AngleTowards(projectile.velocity.ToRotation(), 0.01f);
+                smear2.Rotation = smear2.Rotation.AngleTowards(Projectile.velocity.ToRotation(), 0.01f);
                 smear2.Time = 0;
                 (smear2 as SemiCircularSmearVFX).Squish.Y *= 0.985f;
                 (smear2 as SemiCircularSmearVFX).Squish.X *= 1.01f;
@@ -250,13 +251,13 @@ namespace CalamityMod.Projectiles.Melee
 
             //float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() +  MathHelper.PiOver4; //Face away from the last point of the bezier curve
 
-            Vector2 drawPos = projectile.Center - projectile.velocity * 55f;
+            Vector2 drawPos = Projectile.Center - Projectile.velocity * 55f;
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
-            float drawRotation = projectile.rotation + MathHelper.PiOver4;
+            float drawRotation = Projectile.rotation + MathHelper.PiOver4;
 
             //lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
-            spriteBatch.Draw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
 
             //Turn on additive blending
@@ -278,7 +279,7 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.Draw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+            spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             //Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -335,7 +336,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
             {
-                whip1.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4 / 16f, -MathHelper.PiOver4 / 16f)).ToRotation(); //X is the orientation
+                whip1.X = Projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4 / 16f, -MathHelper.PiOver4 / 16f)).ToRotation(); //X is the orientation
                 whip1.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
 
                 ChainSwapTimer++;
@@ -343,7 +344,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if ((ChainSwapTimer - 2) % 6 == 0 || whip2.Y == 0)
             {
-                whip2.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
+                whip2.X = Projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
                 whip2.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
 
                 ChainSwapTimer++;
@@ -351,7 +352,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if ((ChainSwapTimer - 4) % 6 == 0 || whip3.Y == 0)
             {
-                whip3.X = projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
+                whip3.X = Projectile.velocity.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16f, -MathHelper.Pi / 16f)).ToRotation(); //X is the orientation
                 whip3.Y = Main.rand.NextFloat(0.2f, 100f);//Y is the "seed"
 
                 ChainSwapTimer++;

@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 64;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TearsofHeavenProjectile>();
-            item.shootSpeed = 5.5f;
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TearsofHeavenProjectile>();
+            Item.shootSpeed = 5.5f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FrigidflashBolt>());
-            recipe.AddIngredient(ItemID.WaterBolt);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrigidflashBolt>()).AddIngredient(ItemID.WaterBolt).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddTile(TileID.Bookcases).Register();
         }
     }
 }

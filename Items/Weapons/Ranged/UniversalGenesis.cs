@@ -23,25 +23,25 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 192;
-            item.ranged = true;
-            item.useTime = item.useAnimation = 26;
-            item.knockBack = 6.5f;
-            item.useAmmo = AmmoID.Bullet;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 20f;
-            item.autoReuse = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 192;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = Item.useAnimation = 26;
+            Item.knockBack = 6.5f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 20f;
+            Item.autoReuse = true;
+            Item.Calamity().canFirePointBlankShots = true;
 
-            item.width = 158;
-            item.height = 60;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item38;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.width = 158;
+            Item.height = 60;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item38;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, -8f);
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 shootVelocity = new Vector2(speedX, speedY);
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Vector2 gunTip = position + shootDirection * item.scale * 100f;
+            Vector2 gunTip = position + shootDirection * Item.scale * 100f;
             gunTip.Y -= 10f;
             float tightness = 1f;
             if (type == ProjectileID.Bullet)
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
 
             // Stars from above
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 spawnPos = player.RotatedRelativePoint(player.MountedCenter, true);
             int starAmt = 6;
             int starDmg = (int)(damage * 0.4);
@@ -98,25 +98,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Interfacer>());
-            recipe.AddIngredient(ItemID.StarCloak, 3); // and that's how you know it's a donor item
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            // but why
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Interfacer>());
-            recipe.AddIngredient(ItemID.StarCloak, 3); // and that's how you know it's a donor item
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<NebulousCore>());
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Interfacer>()).AddIngredient(ItemID.StarCloak, 3).AddIngredient(ModContent.ItemType<ArmoredShell>(), 2).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Interfacer>()).AddIngredient(ItemID.StarCloak, 3).AddIngredient(ModContent.ItemType<ArmoredShell>(), 2).AddIngredient(ModContent.ItemType<NebulousCore>()).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

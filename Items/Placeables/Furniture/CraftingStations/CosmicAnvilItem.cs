@@ -18,33 +18,25 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 32;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<CosmicAnvil>();
+            Item.width = 62;
+            Item.height = 32;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<CosmicAnvil>();
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.sellPrice(platinum: 2, gold: 50);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.sellPrice(platinum: 2, gold: 50);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("HardmodeAnvil");
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("HardmodeAnvil").AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ItemID.LunarBar, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 12).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

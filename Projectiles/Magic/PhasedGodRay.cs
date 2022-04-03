@@ -16,40 +16,40 @@ namespace CalamityMod.Projectiles.Magic
         // They are extremely carefully chosen and barely work as is!
         private const float WaveTheta = 0.09f;
         private const int WaveTwistFrames = 9;
-        private ref float WaveFrameState => ref projectile.localAI[1];
+        private ref float WaveFrameState => ref Projectile.localAI[1];
 
         public override string Texture => "CalamityMod/Projectiles/LaserProj";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phased God Ray");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
-            projectile.MaxUpdates = 3;
-            projectile.timeLeft = 280;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
+            Projectile.MaxUpdates = 3;
+            Projectile.timeLeft = 280;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             // Very rapidly fade into existence.
-            if (projectile.alpha > 0)
-                projectile.alpha -= 25;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 25;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
             float waveSign = WaveFrameState < 0f ? -1f : 1f;
 
@@ -62,10 +62,10 @@ namespace CalamityMod.Projectiles.Magic
                 WaveFrameState = dirToUse * WaveTwistFrames * 0.5f;
 
                 // Backfill old rotations to prevent visual glitches.
-                float iterRotation = projectile.velocity.ToRotation();
-                for (int i = 0; i < projectile.oldRot.Length; ++i)
+                float iterRotation = Projectile.velocity.ToRotation();
+                for (int i = 0; i < Projectile.oldRot.Length; ++i)
                 {
-                    projectile.oldRot[i] = iterRotation;
+                    Projectile.oldRot[i] = iterRotation;
                     iterRotation += waveSign * WaveTheta;
                 }
             }
@@ -76,28 +76,28 @@ namespace CalamityMod.Projectiles.Magic
                 WaveFrameState += waveSign;
 
             // Apply a constant, rapid wave to the laser's motion.
-            projectile.velocity = projectile.velocity.RotatedBy(waveSign * WaveTheta);
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.velocity = Projectile.velocity.RotatedBy(waveSign * WaveTheta);
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Emit light.
-            Lighting.AddLight(projectile.Center, 0.87f, 0.65f, 0.1725f);
+            Lighting.AddLight(Projectile.Center, 0.87f, 0.65f, 0.1725f);
 
             // Laser length shenanigans. If the laser is still growing, increase localAI 0 to indicate it is getting longer.
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += 10f; // LaserLengthChangeRate;
+                Projectile.localAI[0] += 10f; // LaserLengthChangeRate;
 
                 // Cap it at max length.
-                if (projectile.localAI[0] > LaserLength)
-                    projectile.localAI[0] = LaserLength;
+                if (Projectile.localAI[0] > LaserLength)
+                    Projectile.localAI[0] = LaserLength;
             }
 
             // Otherwise it's shrinking. Once it reaches zero length it dies for good.
             else
             {
-                projectile.localAI[0] -= LaserLengthChangeRate;
-                if (projectile.localAI[0] <= 0f)
-                    projectile.Kill();
+                Projectile.localAI[0] -= LaserLengthChangeRate;
+                if (Projectile.localAI[0] <= 0f)
+                    Projectile.Kill();
             }
         }
 
@@ -107,14 +107,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor) => new Color(222, 166, 44, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(LaserLength, 2f, lightColor, curve: true);
 
         public override void Kill(int timeLeft)
         {
             int dustID = 269;
             int dustAmt = 4;
-            Vector2 dustPos = projectile.Center - projectile.velocity / 2f;
-            Vector2 dustVel = projectile.velocity / 4f;
+            Vector2 dustPos = Projectile.Center - Projectile.velocity / 2f;
+            Vector2 dustVel = Projectile.velocity / 4f;
             for (int i = 0; i < dustAmt; ++i)
             {
                 Dust d = Dust.NewDustDirect(dustPos, 0, 0, dustID, 0f, 0f, Scale: 2.5f);

@@ -13,42 +13,38 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Shimmerspark");
             Tooltip.SetDefault("Fires stars when enemies are near\n" +
             "A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 36;
-            item.melee = true;
-            item.damage = 41;
-            item.knockBack = 3.5f;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.autoReuse = true;
+            Item.width = 50;
+            Item.height = 36;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 41;
+            Item.knockBack = 3.5f;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<ShimmersparkYoyo>();
-            item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<ShimmersparkYoyo>();
+            Item.shootSpeed = 12f;
 
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.buyPrice(gold: 36);
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(gold: 36);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

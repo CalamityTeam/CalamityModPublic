@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.AstralSnow
 {
     public class AstralIceStalactite : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoFail[Type] = true;
@@ -24,11 +24,11 @@ namespace CalamityMod.Tiles.AstralSnow
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY <= 18 || tile.frameY == 72)
+            if (tile.TileFrameY <= 18 || tile.TileFrameY == 72)
             {
                 offsetY = -2;
             }
-            else if ((tile.frameY >= 36 && tile.frameY <= 54) || tile.frameY == 90)
+            else if ((tile.TileFrameY >= 36 && tile.TileFrameY <= 54) || tile.TileFrameY == 90)
             {
                 offsetY = 2;
             }

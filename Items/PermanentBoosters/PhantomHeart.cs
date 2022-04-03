@@ -16,15 +16,15 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
-            item.consumable = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item29;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
@@ -54,12 +54,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RuinousSoul>(), 10).AddIngredient(ModContent.ItemType<Phantoplasm>(), 100).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

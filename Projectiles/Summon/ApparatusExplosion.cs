@@ -8,35 +8,35 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            Main.projFrames[projectile.type] = 10;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 42;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
             // Bluish cyan light
-            Lighting.AddLight(projectile.Center, 0.1f, 0.5f, 1f);
+            Lighting.AddLight(Projectile.Center, 0.1f, 0.5f, 1f);
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

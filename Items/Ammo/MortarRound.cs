@@ -16,27 +16,22 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.ranged = true;
-            item.width = 20;
-            item.height = 14;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 7.5f;
-            item.value = Item.sellPrice(copper: 20);
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.ammo = AmmoID.Bullet;
-            item.shoot = ModContent.ProjectileType<MortarRoundProj>();
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 20;
+            Item.height = 14;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 7.5f;
+            Item.value = Item.sellPrice(copper: 20);
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.ammo = AmmoID.Bullet;
+            Item.shoot = ModContent.ProjectileType<MortarRoundProj>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RocketIV, 100);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.RocketIV, 100).AddIngredient(ModContent.ItemType<UeliaceBar>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

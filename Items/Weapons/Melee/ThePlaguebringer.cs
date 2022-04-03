@@ -12,33 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Pandemic");
             Tooltip.SetDefault("Fires plague seekers when enemies are near\n" +
             "A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 32;
-            item.melee = true;
-            item.damage = 66;
-            item.knockBack = 2.5f;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.autoReuse = true;
+            Item.width = 30;
+            Item.height = 32;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 66;
+            Item.knockBack = 2.5f;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<PandemicYoyo>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<PandemicYoyo>();
+            Item.shootSpeed = 14f;
 
-            item.rare = ItemRarityID.Yellow;
-            item.value = Item.buyPrice(gold: 80);
+            Item.rare = ItemRarityID.Yellow;
+            Item.value = Item.buyPrice(gold: 80);
         }
     }
 }

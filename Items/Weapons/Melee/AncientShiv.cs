@@ -16,20 +16,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.width = 30;
-            item.height = 30;
-            item.damage = 35;
-            item.melee = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.width = 30;
+            Item.height = 30;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -40,12 +40,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

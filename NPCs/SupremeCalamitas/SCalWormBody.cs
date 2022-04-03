@@ -10,8 +10,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SCalWormBody : ModNPC
     {
         private bool setAlpha = false;
-        public NPC AheadSegment => Main.npc[(int)npc.ai[1]];
-        public NPC HeadSegment => Main.npc[(int)npc.ai[2]];
+        public NPC AheadSegment => Main.npc[(int)NPC.ai[1]];
+        public NPC HeadSegment => Main.npc[(int)NPC.ai[2]];
 
         public override void SetStaticDefaults()
         {
@@ -20,41 +20,41 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 0; //70
-            npc.npcSlots = 5f;
-            npc.width = npc.height = 48;
-            npc.defense = 0;
-            CalamityGlobalNPC global = npc.Calamity();
+            NPC.damage = 0; //70
+            NPC.npcSlots = 5f;
+            NPC.width = NPC.height = 48;
+            NPC.defense = 0;
+            CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
-            npc.aiStyle = -1; //new
+            NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
+            NPC.aiStyle = -1; //new
             aiType = -1; //new
-            npc.knockBackResist = 0f;
-            npc.scale = 1.2f;
+            NPC.knockBackResist = 0f;
+            NPC.scale = 1.2f;
             if (Main.expertMode)
             {
-                npc.scale = 1.35f;
+                NPC.scale = 1.35f;
             }
-            npc.alpha = 255;
-            npc.chaseable = false;
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
-            npc.netAlways = true;
-            npc.dontCountMe = true;
+            NPC.alpha = 255;
+            NPC.chaseable = false;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.localAI[3]);
             writer.Write(setAlpha);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             setAlpha = reader.ReadBoolean();
         }
 
@@ -65,52 +65,52 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-            if (npc.ai[2] > 0f)
+            if (NPC.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[2];
+                NPC.realLife = (int)NPC.ai[2];
             }
 
             bool shouldDie = false;
-            if (npc.ai[1] <= 0f)
+            if (NPC.ai[1] <= 0f)
                 shouldDie = true;
-            else if (AheadSegment.life <= 0 || !AheadSegment.active || npc.life <= 0)
+            else if (AheadSegment.life <= 0 || !AheadSegment.active || NPC.life <= 0)
                 shouldDie = true;
 
             if (shouldDie)
             {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
+                NPC.life = 0;
+                NPC.HitEffect(0, 10.0);
+                NPC.checkDead();
             }
 
             if (AheadSegment.alpha < 128 && !setAlpha)
             {
-                if (npc.alpha != 0)
+                if (NPC.alpha != 0)
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        Dust fire = Dust.NewDustDirect(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                        Dust fire = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 182, 0f, 0f, 100, default, 2f);
                         fire.noGravity = true;
                         fire.noLight = true;
                     }
                 }
-                npc.alpha -= 42;
-                if (npc.alpha <= 0)
+                NPC.alpha -= 42;
+                if (NPC.alpha <= 0)
                 {
                     setAlpha = true;
-                    npc.alpha = 0;
+                    NPC.alpha = 0;
                 }
             }
             else
-                npc.alpha = HeadSegment.alpha;
+                NPC.alpha = HeadSegment.alpha;
 
-            if (Main.npc.IndexInRange((int)npc.ai[1]))
+            if (Main.npc.IndexInRange((int)NPC.ai[1]))
             {
-                Vector2 offsetToAheadSegment = AheadSegment.Center - npc.Center;
-                npc.rotation = offsetToAheadSegment.ToRotation() + MathHelper.PiOver2;
-                npc.velocity = Vector2.Zero;
-                npc.Center = AheadSegment.Center - offsetToAheadSegment.SafeNormalize(Vector2.UnitY) * 52f;
-                npc.spriteDirection = (offsetToAheadSegment.X > 0f).ToDirectionInt();
+                Vector2 offsetToAheadSegment = AheadSegment.Center - NPC.Center;
+                NPC.rotation = offsetToAheadSegment.ToRotation() + MathHelper.PiOver2;
+                NPC.velocity = Vector2.Zero;
+                NPC.Center = AheadSegment.Center - offsetToAheadSegment.SafeNormalize(Vector2.UnitY) * 52f;
+                NPC.spriteDirection = (offsetToAheadSegment.X > 0f).ToDirectionInt();
             }
         }
 
@@ -132,16 +132,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = npc.localAI[3] / 2f % 2f == 0f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+            Texture2D texture2D15 = NPC.localAI[3] / 2f % 2f == 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / 2));
 
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -158,9 +158,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                int variant = (int)(npc.localAI[3] / 2f % 2f);
+                int variant = (int)(NPC.localAI[3] / 2f % 2f);
                 if (variant == 0)
                 {
                     for (int i = 1; i <= 9; i++)
@@ -168,8 +168,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         if (!Main.rand.NextBool(3))
                             continue;
 
-                        Vector2 goreSpawnPosition = npc.Center;
-                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody1_Gore{i}"), npc.scale);
+                        Vector2 goreSpawnPosition = NPC.Center;
+                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody1_Gore{i}"), NPC.scale);
                     }
                 }
                 else
@@ -179,8 +179,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         if (!Main.rand.NextBool(3))
                             continue;
 
-                        Vector2 goreSpawnPosition = npc.Center;
-                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody2_Gore{i}"), npc.scale);
+                        Vector2 goreSpawnPosition = NPC.Center;
+                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody2_Gore{i}"), NPC.scale);
                     }
                 }
             }

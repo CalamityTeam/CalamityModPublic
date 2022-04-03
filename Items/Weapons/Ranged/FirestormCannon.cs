@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 28;
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Flare;
-            item.shootSpeed = 5.5f;
-            item.useAmmo = AmmoID.Flare;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 28;
+            Item.useTime = 9;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Flare;
+            Item.shootSpeed = 5.5f;
+            Item.useAmmo = AmmoID.Flare;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -89,14 +89,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FlareGun);
-            recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddRecipeGroup("AnyGoldBar", 10);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FlareGun).AddIngredient(ItemID.Boomstick).AddRecipeGroup("AnyGoldBar", 10).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

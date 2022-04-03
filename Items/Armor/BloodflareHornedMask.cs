@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.defense = 22; //85
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.defense = 22; //85
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -54,19 +54,14 @@ namespace CalamityMod.Items.Armor
             player.manaCost *= 0.83f;
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.magicDamage += 0.2f;
-            player.magicCrit += 10;
+            player.GetDamage(DamageClass.Magic) += 0.2f;
+            player.GetCritChance(DamageClass.Magic) += 10;
             player.statManaMax2 += 100;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

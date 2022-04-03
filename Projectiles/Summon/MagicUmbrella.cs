@@ -12,50 +12,50 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Umbrella");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 180;
-            projectile.penetrate = 10;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.alpha = 255;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 180;
+            Projectile.penetrate = 10;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.075f;
-            projectile.alpha -= 50;
+            Projectile.rotation += 0.075f;
+            Projectile.alpha -= 50;
             counter++;
             if (counter == 30)
             {
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
             else if (counter < 30)
             {
                 return;
             }
 
-            projectile.ChargingMinionAI(MagicHat.Range, 1600f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+            Projectile.ChargingMinionAI(MagicHat.Range, 1600f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(75, 255, 255, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(75, 255, 255, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 10; i++)
             {
                 Vector2 dspeed = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                int dust = Dust.NewDust(projectile.Center, 1, 1, 66, dspeed.X, dspeed.Y, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, 66, dspeed.X, dspeed.Y, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
                 Main.dust[dust].noGravity = true;
             }
         }
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Summon
                 targetDist = speed / targetDist;
                 velocity.X *= targetDist;
                 velocity.Y *= targetDist;
-                Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(Projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner, 0f, 0f);
             }
         }
     }

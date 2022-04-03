@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -19,46 +20,46 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.GetNPCDamage();
-            npc.defense = 2;
-            npc.width = 60;
-            npc.height = 60;
-            npc.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
-            npc.aiStyle = -1;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.defense = 2;
+            NPC.width = 60;
+            NPC.height = 60;
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.alpha = 255;
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.netAlways = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.netAlways = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void AI()
         {
-            if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest(true);
 
-            npc.alpha -= 42;
-            if (npc.alpha < 0)
-                npc.alpha = 0;
+            NPC.alpha -= 42;
+            if (NPC.alpha < 0)
+                NPC.alpha = 0;
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned)
                 {
-                    npc.ai[2] = (float)npc.whoAmI;
-                    npc.realLife = npc.whoAmI;
-                    int num2 = npc.whoAmI;
+                    NPC.ai[2] = (float)NPC.whoAmI;
+                    NPC.realLife = NPC.whoAmI;
+                    int num2 = NPC.whoAmI;
                     int num3 = maxLength;
                     for (int j = 0; j <= num3; j++)
                     {
@@ -67,9 +68,9 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             num4 = ModContent.NPCType<DesertNuisanceTail>();
                         }
-                        int num5 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), num4, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num5].ai[2] = (float)npc.whoAmI;
-                        Main.npc[num5].realLife = npc.whoAmI;
+                        int num5 = NPC.NewNPC((int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[num5].ai[2] = (float)NPC.whoAmI;
+                        Main.npc[num5].realLife = NPC.whoAmI;
                         Main.npc[num5].ai[1] = (float)num2;
                         Main.npc[num2].ai[0] = (float)num5;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
@@ -78,10 +79,10 @@ namespace CalamityMod.NPCs.DesertScourge
                     TailSpawned = true;
                 }
             }
-            int num12 = (int)(npc.position.X / 16f) - 1;
-            int num13 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
-            int num14 = (int)(npc.position.Y / 16f) - 1;
-            int num15 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+            int num12 = (int)(NPC.position.X / 16f) - 1;
+            int num13 = (int)((NPC.position.X + (float)NPC.width) / 16f) + 2;
+            int num14 = (int)(NPC.position.Y / 16f) - 1;
+            int num15 = (int)((NPC.position.Y + (float)NPC.height) / 16f) + 2;
             if (num12 < 0)
             {
                 num12 = 0;
@@ -105,12 +106,12 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     for (int l = num14; l < num15; l++)
                     {
-                        if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[(int)Main.tile[k, l].type] || (Main.tileSolidTop[(int)Main.tile[k, l].type] && Main.tile[k, l].frameY == 0))) || Main.tile[k, l].liquid > 64))
+                        if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[(int)Main.tile[k, l].TileType] || (Main.tileSolidTop[(int)Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].liquid > 64))
                         {
                             Vector2 vector2;
                             vector2.X = (float)(k * 16);
                             vector2.Y = (float)(l * 16);
-                            if (npc.position.X + (float)npc.width > vector2.X && npc.position.X < vector2.X + 16f && npc.position.Y + (float)npc.height > vector2.Y && npc.position.Y < vector2.Y + 16f)
+                            if (NPC.position.X + (float)NPC.width > vector2.X && NPC.position.X < vector2.X + 16f && NPC.position.Y + (float)NPC.height > vector2.Y && NPC.position.Y < vector2.Y + 16f)
                             {
                                 flag2 = true;
                                 break;
@@ -121,11 +122,11 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (!flag2)
             {
-                npc.localAI[1] = 1f;
-                Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+                NPC.localAI[1] = 1f;
+                Rectangle rectangle = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
                 int num16 = 1000;
                 bool flag3 = true;
-                if (npc.position.Y > Main.player[npc.target].position.Y)
+                if (NPC.position.Y > Main.player[NPC.target].position.Y)
                 {
                     for (int m = 0; m < 255; m++)
                     {
@@ -147,19 +148,19 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             else
             {
-                npc.localAI[1] = 0f;
+                NPC.localAI[1] = 0f;
             }
             float num17 = 16f;
-            if (Main.player[npc.target].dead)
+            if (Main.player[NPC.target].dead)
             {
                 flag2 = false;
-                npc.velocity.Y = npc.velocity.Y + 1f;
-                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                NPC.velocity.Y = NPC.velocity.Y + 1f;
+                if ((double)NPC.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 1f;
+                    NPC.velocity.Y = NPC.velocity.Y + 1f;
                     num17 = 32f;
                 }
-                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                if ((double)NPC.position.Y > Main.rockLayer * 16.0)
                 {
                     for (int a = 0; a < 200; a++)
                     {
@@ -173,9 +174,9 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             float num18 = speed;
             float num19 = turnSpeed;
-            Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
             num20 = (float)((int)(num20 / 16f) * 16);
             num21 = (float)((int)(num21 / 16f) * 16);
             vector3.X = (float)((int)(vector3.X / 16f) * 16);
@@ -185,49 +186,49 @@ namespace CalamityMod.NPCs.DesertScourge
             float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
             if (!flag2)
             {
-                npc.TargetClosest(true);
-                npc.velocity.Y = npc.velocity.Y + 0.15f;
-                if (npc.velocity.Y > num17)
+                NPC.TargetClosest(true);
+                NPC.velocity.Y = NPC.velocity.Y + 0.15f;
+                if (NPC.velocity.Y > num17)
                 {
-                    npc.velocity.Y = num17;
+                    NPC.velocity.Y = num17;
                 }
-                if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num17 * 0.4)
+                if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.4)
                 {
-                    if (npc.velocity.X < 0f)
+                    if (NPC.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X + num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
                     }
                 }
-                else if (npc.velocity.Y == num17)
+                else if (NPC.velocity.Y == num17)
                 {
-                    if (npc.velocity.X < num20)
+                    if (NPC.velocity.X < num20)
                     {
-                        npc.velocity.X = npc.velocity.X + num18;
+                        NPC.velocity.X = NPC.velocity.X + num18;
                     }
-                    else if (npc.velocity.X > num20)
+                    else if (NPC.velocity.X > num20)
                     {
-                        npc.velocity.X = npc.velocity.X - num18;
+                        NPC.velocity.X = NPC.velocity.X - num18;
                     }
                 }
-                else if (npc.velocity.Y > 4f)
+                else if (NPC.velocity.Y > 4f)
                 {
-                    if (npc.velocity.X < 0f)
+                    if (NPC.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num18 * 0.9f;
+                        NPC.velocity.X = NPC.velocity.X + num18 * 0.9f;
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X - num18 * 0.9f;
+                        NPC.velocity.X = NPC.velocity.X - num18 * 0.9f;
                     }
                 }
             }
             else
             {
-                if (npc.soundDelay == 0)
+                if (NPC.soundDelay == 0)
                 {
                     float num24 = num22 / 40f;
                     if (num24 < 10f)
@@ -238,8 +239,8 @@ namespace CalamityMod.NPCs.DesertScourge
                     {
                         num24 = 20f;
                     }
-                    npc.soundDelay = (int)num24;
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    NPC.soundDelay = (int)num24;
+                    SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 1, 1f, 0f);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);
@@ -247,131 +248,131 @@ namespace CalamityMod.NPCs.DesertScourge
                 float num27 = num17 / num22;
                 num20 *= num27;
                 num21 *= num27;
-                if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+                if (((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f)) && ((NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f)))
                 {
-                    if (npc.velocity.X < num20)
+                    if (NPC.velocity.X < num20)
                     {
-                        npc.velocity.X = npc.velocity.X + num19;
+                        NPC.velocity.X = NPC.velocity.X + num19;
                     }
-                    else if (npc.velocity.X > num20)
+                    else if (NPC.velocity.X > num20)
                     {
-                        npc.velocity.X = npc.velocity.X - num19;
+                        NPC.velocity.X = NPC.velocity.X - num19;
                     }
-                    if (npc.velocity.Y < num21)
+                    if (NPC.velocity.Y < num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num19;
+                        NPC.velocity.Y = NPC.velocity.Y + num19;
                     }
-                    else if (npc.velocity.Y > num21)
+                    else if (NPC.velocity.Y > num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num19;
+                        NPC.velocity.Y = NPC.velocity.Y - num19;
                     }
                 }
-                if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
+                if ((NPC.velocity.X > 0f && num20 > 0f) || (NPC.velocity.X < 0f && num20 < 0f) || (NPC.velocity.Y > 0f && num21 > 0f) || (NPC.velocity.Y < 0f && num21 < 0f))
                 {
-                    if (npc.velocity.X < num20)
+                    if (NPC.velocity.X < num20)
                     {
-                        npc.velocity.X = npc.velocity.X + num18;
+                        NPC.velocity.X = NPC.velocity.X + num18;
                     }
-                    else if (npc.velocity.X > num20)
+                    else if (NPC.velocity.X > num20)
                     {
-                        npc.velocity.X = npc.velocity.X - num18;
+                        NPC.velocity.X = NPC.velocity.X - num18;
                     }
-                    if (npc.velocity.Y < num21)
+                    if (NPC.velocity.Y < num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num18;
+                        NPC.velocity.Y = NPC.velocity.Y + num18;
                     }
-                    else if (npc.velocity.Y > num21)
+                    else if (NPC.velocity.Y > num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num18;
+                        NPC.velocity.Y = NPC.velocity.Y - num18;
                     }
-                    if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
+                    if ((double)Math.Abs(num21) < (double)num17 * 0.2 && ((NPC.velocity.X > 0f && num20 < 0f) || (NPC.velocity.X < 0f && num20 > 0f)))
                     {
-                        if (npc.velocity.Y > 0f)
+                        if (NPC.velocity.Y > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num18 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y + num18 * 2f;
                         }
                         else
                         {
-                            npc.velocity.Y = npc.velocity.Y - num18 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y - num18 * 2f;
                         }
                     }
-                    if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
+                    if ((double)Math.Abs(num20) < (double)num17 * 0.2 && ((NPC.velocity.Y > 0f && num21 < 0f) || (NPC.velocity.Y < 0f && num21 > 0f)))
                     {
-                        if (npc.velocity.X > 0f)
+                        if (NPC.velocity.X > 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X + num18 * 2f;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X - num18 * 2f;
+                            NPC.velocity.X = NPC.velocity.X - num18 * 2f;
                         }
                     }
                 }
                 else if (num25 > num26)
                 {
-                    if (npc.velocity.X < num20)
+                    if (NPC.velocity.X < num20)
                     {
-                        npc.velocity.X = npc.velocity.X + num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X + num18 * 1.1f;
                     }
-                    else if (npc.velocity.X > num20)
+                    else if (NPC.velocity.X > num20)
                     {
-                        npc.velocity.X = npc.velocity.X - num18 * 1.1f;
+                        NPC.velocity.X = NPC.velocity.X - num18 * 1.1f;
                     }
-                    if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num17 * 0.5)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
                     {
-                        if (npc.velocity.Y > 0f)
+                        if (NPC.velocity.Y > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num18;
+                            NPC.velocity.Y = NPC.velocity.Y + num18;
                         }
                         else
                         {
-                            npc.velocity.Y = npc.velocity.Y - num18;
+                            NPC.velocity.Y = NPC.velocity.Y - num18;
                         }
                     }
                 }
                 else
                 {
-                    if (npc.velocity.Y < num21)
+                    if (NPC.velocity.Y < num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num18 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y + num18 * 1.1f;
                     }
-                    else if (npc.velocity.Y > num21)
+                    else if (NPC.velocity.Y > num21)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num18 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y - num18 * 1.1f;
                     }
-                    if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num17 * 0.5)
+                    if ((double)(Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < (double)num17 * 0.5)
                     {
-                        if (npc.velocity.X > 0f)
+                        if (NPC.velocity.X > 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + num18;
+                            NPC.velocity.X = NPC.velocity.X + num18;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X - num18;
+                            NPC.velocity.X = NPC.velocity.X - num18;
                         }
                     }
                 }
             }
-            npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+            NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
             if (flag2)
             {
-                if (npc.localAI[0] != 1f)
+                if (NPC.localAI[0] != 1f)
                 {
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                npc.localAI[0] = 1f;
+                NPC.localAI[0] = 1f;
             }
             else
             {
-                if (npc.localAI[0] != 0f)
+                if (NPC.localAI[0] != 0f)
                 {
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
-                npc.localAI[0] = 0f;
+                NPC.localAI[0] = 0f;
             }
-            if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+            if (((NPC.velocity.X > 0f && NPC.oldVelocity.X < 0f) || (NPC.velocity.X < 0f && NPC.oldVelocity.X > 0f) || (NPC.velocity.Y > 0f && NPC.oldVelocity.Y < 0f) || (NPC.velocity.Y < 0f && NPC.oldVelocity.Y > 0f)) && !NPC.justHit)
             {
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -381,22 +382,22 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeHead"), 0.65f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeHead2"), 0.65f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScourgeHead"), 0.65f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScourgeHead2"), 0.65f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

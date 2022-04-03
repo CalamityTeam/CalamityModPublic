@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -17,40 +18,40 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 0;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.extraUpdates = 1;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().rogue = true;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.1f;
-            projectile.rotation += 0.05f * projectile.direction;
+            Projectile.velocity.Y += 0.1f;
+            Projectile.rotation += 0.05f * Projectile.direction;
 
             // Damage Scaling
-            if (projectile.velocity.Y > 0 && projectile.ai[0] < 2f)
+            if (Projectile.velocity.Y > 0 && Projectile.ai[0] < 2f)
             {
-                projectile.ai[0] += 0.015f;
+                Projectile.ai[0] += 0.015f;
             }
-            if (projectile.ai[0] > 2f)
+            if (Projectile.ai[0] > 2f)
             {
-                projectile.ai[0] = 2f;
+                Projectile.ai[0] = 2f;
             }
 
-            projectile.damage = (int)(projectile.ai[1] * projectile.ai[0]);
+            Projectile.damage = (int)(Projectile.ai[1] * Projectile.ai[0]);
 
             // Dust Effects
-            Vector2 dustLeft = (new Vector2(-1, 0)).RotatedBy(projectile.rotation);
-            Vector2 dustRight = (new Vector2(1, 0)).RotatedBy(projectile.rotation);
-            Vector2 dustUp = (new Vector2(0, -1)).RotatedBy(projectile.rotation);
-            Vector2 dustDown = (new Vector2(0, 1) * 2f).RotatedBy(projectile.rotation);
+            Vector2 dustLeft = (new Vector2(-1, 0)).RotatedBy(Projectile.rotation);
+            Vector2 dustRight = (new Vector2(1, 0)).RotatedBy(Projectile.rotation);
+            Vector2 dustUp = (new Vector2(0, -1)).RotatedBy(Projectile.rotation);
+            Vector2 dustDown = (new Vector2(0, 1) * 2f).RotatedBy(Projectile.rotation);
 
             float minSpeed = 1.5f;
             float maxSpeed = 5f;
@@ -58,68 +59,68 @@ namespace CalamityMod.Projectiles.Rogue
             float maxScale = 1.4f;
 
             int dustType = 175;
-            int dustCount = (int)(5 * (projectile.ai[0] - 1f));
+            int dustCount = (int)(5 * (Projectile.ai[0] - 1f));
 
             for (int i = 0; i < dustCount; i++)
             {
-                int left = Dust.NewDust(projectile.Center, 1, 1, dustType, 0f, 0f);
+                int left = Dust.NewDust(Projectile.Center, 1, 1, dustType, 0f, 0f);
                 Main.dust[left].noGravity = true;
-                Main.dust[left].position = projectile.Center;
-                Main.dust[left].velocity = dustLeft * Main.rand.NextFloat(minSpeed, maxSpeed) + projectile.velocity;
+                Main.dust[left].position = Projectile.Center;
+                Main.dust[left].velocity = dustLeft * Main.rand.NextFloat(minSpeed, maxSpeed) + Projectile.velocity;
                 Main.dust[left].scale = Main.rand.NextFloat(minScale, maxScale);
 
-                int right = Dust.NewDust(projectile.Center, 1, 1, dustType, 0f, 0f);
+                int right = Dust.NewDust(Projectile.Center, 1, 1, dustType, 0f, 0f);
                 Main.dust[right].noGravity = true;
-                Main.dust[right].position = projectile.Center;
-                Main.dust[right].velocity = dustRight * Main.rand.NextFloat(minSpeed, maxSpeed) + projectile.velocity;
+                Main.dust[right].position = Projectile.Center;
+                Main.dust[right].velocity = dustRight * Main.rand.NextFloat(minSpeed, maxSpeed) + Projectile.velocity;
                 Main.dust[right].scale = Main.rand.NextFloat(minScale, maxScale);
 
-                int up = Dust.NewDust(projectile.Center, 1, 1, dustType, 0f, 0f);
+                int up = Dust.NewDust(Projectile.Center, 1, 1, dustType, 0f, 0f);
                 Main.dust[up].noGravity = true;
-                Main.dust[up].position = projectile.Center;
-                Main.dust[up].velocity = dustUp * Main.rand.NextFloat(minSpeed, maxSpeed) + projectile.velocity;
+                Main.dust[up].position = Projectile.Center;
+                Main.dust[up].velocity = dustUp * Main.rand.NextFloat(minSpeed, maxSpeed) + Projectile.velocity;
                 Main.dust[up].scale = Main.rand.NextFloat(minScale, maxScale);
 
-                int down = Dust.NewDust(projectile.Center, 1, 1, dustType, 0f, 0f);
+                int down = Dust.NewDust(Projectile.Center, 1, 1, dustType, 0f, 0f);
                 Main.dust[down].noGravity = true;
-                Main.dust[down].position = projectile.Center;
-                Main.dust[down].velocity = dustDown * Main.rand.NextFloat(minSpeed, maxSpeed) + projectile.velocity;
+                Main.dust[down].position = Projectile.Center;
+                Main.dust[down].velocity = dustDown * Main.rand.NextFloat(minSpeed, maxSpeed) + Projectile.velocity;
                 Main.dust[down].scale = Main.rand.NextFloat(minScale, maxScale);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.Center);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            Projectile.Kill();
             return true;
         }
 
         public override void Kill(int timeLeft)
         {
             //Crystal smash sound
-            Main.PlaySound(SoundID.Item27, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
             // Light burst
-            int p = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(projectile.damage * 0.8f), 0, projectile.owner, projectile.ai[0] - 1f, 0);
-            Main.projectile[p].rotation = projectile.rotation;
+            int p = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(Projectile.damage * 0.8f), 0, Projectile.owner, Projectile.ai[0] - 1f, 0);
+            Main.projectile[p].rotation = Projectile.rotation;
             // Stars
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 int numStars = Main.rand.Next(4, 7);
                 for (int i = 0; i < numStars; i++)
                 {
-                    Vector2 pos = new Vector2(projectile.Center.X + (float)projectile.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-                    float speedX = (projectile.Center.X - pos.X) / 20f;
-                    float speedY = (projectile.Center.Y - pos.Y) / 20f;
-                    Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), projectile.damage / 2, 3, projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
+                    Vector2 pos = new Vector2(Projectile.Center.X + (float)Projectile.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                    float speedX = (Projectile.Center.X - pos.X) / 20f;
+                    float speedY = (Projectile.Center.Y - pos.Y) / 20f;
+                    Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), Projectile.damage / 2, 3, Projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
                 }
             }
         }

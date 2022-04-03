@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         int animationFrame = 0;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.5f;
@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenCandelabraFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenCandelabraFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameX < 35)
+            if (Main.tile[i, j].TileFrameX < 35)
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
         }
     }

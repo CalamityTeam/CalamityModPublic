@@ -18,10 +18,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Blue;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Blue;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,12 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<DesertScourgeTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<DesertScourgeTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
         }
     }
 }

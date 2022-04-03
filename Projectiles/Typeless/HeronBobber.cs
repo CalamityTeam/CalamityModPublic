@@ -13,16 +13,16 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 61;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            return projectile.DrawFishingLine(ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));
+            return Projectile.DrawFishingLine(ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));
         }
     }
 }

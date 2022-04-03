@@ -17,24 +17,24 @@ Fire rate and range increase the longer it targets an enemy");
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.mana = 10;
-            item.summon = true;
-            item.sentry = true;
-            item.width = 82;
-            item.height = 84;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.knockBack = 4f;
+            Item.damage = 50;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.width = 82;
+            Item.height = 84;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.knockBack = 4f;
 
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<IceSentry>();
+            Item.UseSound = SoundID.Item78;
+            Item.shoot = ModContent.ProjectileType<IceSentry>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

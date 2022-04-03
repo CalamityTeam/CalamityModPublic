@@ -6,7 +6,7 @@ namespace CalamityMod.Walls.DraedonStructures
     public class HazardChevronWall : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 19;
             drop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.HazardChevronWall>();

@@ -16,28 +16,24 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 29;
-            item.ranged = true;
-            item.width = 14;
-            item.height = 36;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 3.5f;
-            item.value = Item.sellPrice(copper: 24);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
-            item.shootSpeed = 10f;
-            item.ammo = AmmoID.Arrow;
+            Item.damage = 29;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 14;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 3.5f;
+            Item.value = Item.sellPrice(copper: 24);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
+            Item.shootSpeed = 10f;
+            Item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 333);
-            recipe.AddRecipe();
+            CreateRecipe(333).AddIngredient(ModContent.ItemType<BloodstoneCore>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

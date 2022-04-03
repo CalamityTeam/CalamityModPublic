@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 84;
-            item.height = 90;
-            item.scale = 1.5f;
-            item.damage = 480;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.knockBack = 7.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shootSpeed = 12f;
+            Item.width = 84;
+            Item.height = 90;
+            Item.scale = 1.5f;
+            Item.damage = 480;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.knockBack = 7.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -42,14 +43,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (player.whoAmI == Main.myPlayer)
-                SpawnFlares(player, item.knockBack, damage, crit);
+                SpawnFlares(player, Item.knockBack, damage, crit);
         }
 
         private void SpawnFlares(Player player, float knockBack, int damage, bool crit)
         {
-            Main.PlaySound(SoundID.Item88, player.position);
+            SoundEngine.PlaySound(SoundID.Item88, player.position);
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -110,12 +111,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CometQuasher>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CometQuasher>()).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

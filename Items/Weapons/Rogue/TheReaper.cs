@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 106;
-            item.damage = 122;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 22;
-            item.useTime = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 104;
-            item.shoot = ModContent.ProjectileType<ReaperProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 106;
+            Item.damage = 122;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 22;
+            Item.useTime = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 104;
+            Item.shoot = ModContent.ProjectileType<ReaperProjectile>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

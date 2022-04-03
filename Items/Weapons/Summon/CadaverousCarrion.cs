@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 384;
-            item.mana = 10;
-            item.summon = true;
-            item.sentry = true;
-            item.width = 54;
-            item.height = 56;
-            item.useTime = item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.NPCDeath13;
-            item.shoot = ModContent.ProjectileType<OldDukeHeadCorpse>();
+            Item.damage = 384;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.width = 54;
+            Item.height = 56;
+            Item.useTime = Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.NPCDeath13;
+            Item.shoot = ModContent.ProjectileType<OldDukeHeadCorpse>();
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

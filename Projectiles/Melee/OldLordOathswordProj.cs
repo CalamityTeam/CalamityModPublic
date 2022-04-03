@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -23,12 +24,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public int Direction = 1;
         public SwingState CurrentState;
-        public ref float ChargeTime => ref projectile.ai[0];
-        public ref float GeneralTime => ref projectile.ai[1];
-        public ref float PostSwingRepositionDelay => ref projectile.localAI[0];
+        public ref float ChargeTime => ref Projectile.ai[0];
+        public ref float GeneralTime => ref Projectile.ai[1];
+        public ref float PostSwingRepositionDelay => ref Projectile.localAI[0];
         public ref bool RMBChannel => ref (Owner.HeldItem.modItem as OldLordOathsword).RMBchannel;
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
-        public ref float ChargePower => ref projectile.localAI[1];
+        public ref float ChargePower => ref Projectile.localAI[1];
 
         public const int MaxChargeTime = 60;
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
@@ -39,22 +40,22 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Lord Oathsword");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 70;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 90000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
-            projectile.noEnchantments = true;
-            projectile.Calamity().trueMelee = true;
+            Projectile.width = Projectile.height = 70;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90000;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
+            Projectile.noEnchantments = true;
+            Projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SafeAI()
         {
             // Handle right click behaviors.
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
                 Owner.Calamity().rightClickListener = true;
 
             if (!Owner.Calamity().mouseRight)
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             DecideCurrentState();
 
             // Glue the sword to its owner.
-            projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
+            Projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - Projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
 
             // Use the direction of the owner when not spinning.
             if (CurrentState != SwingState.Spinning)
@@ -133,8 +134,8 @@ namespace CalamityMod.Projectiles.Melee
                 // Emit fire dust.
                 for (int i = 0; i < 4; i++)
                 {
-                    Vector2 dustSpawnPosition = projectile.Center + (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(projectile.width) + Main.rand.NextVector2Circular(6f, 6f);
-                    Vector2 dustVelocity = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(6f) + Main.rand.NextVector2Circular(2.4f, 2.4f);
+                    Vector2 dustSpawnPosition = Projectile.Center + (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(Projectile.width) + Main.rand.NextVector2Circular(6f, 6f);
+                    Vector2 dustVelocity = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(6f) + Main.rand.NextVector2Circular(2.4f, 2.4f);
 
                     Dust fire = Dust.NewDustPerfect(dustSpawnPosition, 6, dustVelocity);
                     fire.scale = 1.7f;
@@ -142,10 +143,10 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 // Release flames.
-                if (Main.myPlayer == projectile.owner && GeneralTime % 6f == 5f)
-                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
+                if (Main.myPlayer == Projectile.owner && GeneralTime % 6f == 5f)
+                    Projectile.NewProjectile(Projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
 
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     Owner.velocity = Vector2.Lerp(Owner.velocity, Owner.SafeDirectionTo(Main.MouseWorld) * 23f, 0.125f);
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
@@ -162,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
             // Hold the blade upwards if not firing.
             if (CurrentState == SwingState.Default)
             {
-                projectile.Opacity = 0f;
+                Projectile.Opacity = 0f;
 
                 if (PostSwingRepositionDelay > 0f)
                     PostSwingRepositionDelay--;
@@ -170,14 +171,14 @@ namespace CalamityMod.Projectiles.Melee
                     baseRotation = (MathHelper.PiOver2 + 0.36f) * -Direction;
 
                 // Disable afterimages.
-                projectile.oldPos = new Vector2[projectile.oldPos.Length];
+                Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
             }
             else
             {
                 PostSwingRepositionDelay = PostSwingRepositionDelay == -1f ? 0f : 12f;
 
                 // See the Bladecrest Oathsword Projectile code.
-                projectile.Opacity = 1f;
+                Projectile.Opacity = 1f;
             }
 
             // Raise the blade and do charge effects upwards if channeling.
@@ -194,7 +195,7 @@ namespace CalamityMod.Projectiles.Melee
                 ChargePower = MathHelper.Clamp(ChargePower + 1f, 0f, MaxChargeTime);
 
                 // Disable afterimages.
-                projectile.oldPos = new Vector2[projectile.oldPos.Length];
+                Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
 
                 ChargeTime++;
             }
@@ -209,7 +210,7 @@ namespace CalamityMod.Projectiles.Melee
                 idealRotation += MathHelper.Pi;
 
             // Define rotation.
-            projectile.rotation = projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
+            Projectile.rotation = Projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
 
             // Decide how far out the blade should go.
             float bladeOffsetFactor = 0.5f + chargeInterpolant * 0.3f;
@@ -217,10 +218,10 @@ namespace CalamityMod.Projectiles.Melee
                 bladeOffsetFactor += Utils.InverseLerp(0.5f, 0.7f, swingCompletion, true) * Utils.InverseLerp(1f, 0.7f, swingCompletion, true) * 0.45f;
 
             // Offset the blade so that the handle is attached to the owner's hand.
-            Vector2 bladeOffset = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * projectile.width * bladeOffsetFactor;
+            Vector2 bladeOffset = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Projectile.width * bladeOffsetFactor;
             if (Owner.itemAnimation <= 0 || chargeInterpolant > 0f)
                 bladeOffset += new Vector2(Direction * horizontalBladeOffset, 8f).RotatedBy(Owner.fullRotation) * (1f - PostSwingRepositionDelay / 12f);
-            projectile.position += bladeOffset;
+            Projectile.position += bladeOffset;
 
             // Create charge dust.
             if (CurrentState == SwingState.Channeling)
@@ -231,7 +232,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 for (int i = 0; i < chargeDustCount; i++)
                 {
-                    Vector2 dustSpawnPosition = projectile.Center + (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(projectile.width) + Main.rand.NextVector2Circular(6f, 6f);
+                    Vector2 dustSpawnPosition = Projectile.Center + (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(Projectile.width) + Main.rand.NextVector2Circular(6f, 6f);
                     Vector2 dustVelocity = bladeOffset.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(6f) + Main.rand.NextVector2Circular(2.4f, 2.4f);
 
                     Dust dust = Dust.NewDustPerfect(dustSpawnPosition, 267, dustVelocity);
@@ -243,10 +244,10 @@ namespace CalamityMod.Projectiles.Melee
                 // Create a burst of charge dust before becoming fully charged.
                 if (ChargePower == MaxChargeTime - 1f)
                 {
-                    Main.PlaySound(SoundID.Item74, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
                     for (int i = 0; i < 30; i++)
                     {
-                        Vector2 dustSpawnPosition = projectile.Center;
+                        Vector2 dustSpawnPosition = Projectile.Center;
                         Vector2 dustVelocity = (MathHelper.TwoPi * i / 30f).ToRotationVector2() * 5f;
                         Dust dust = Dust.NewDustPerfect(dustSpawnPosition, 267, dustVelocity);
                         dust.color = Color.Violet;
@@ -283,19 +284,19 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (CurrentState != SwingState.Spinning)
                 {
-                    Main.PlaySound(SoundID.DD2_BookStaffCast, Owner.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_BookStaffCast, Owner.Center);
                     CurrentState = SwingState.Spinning;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.Opacity <= 0f)
+            if (Projectile.Opacity <= 0f)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, 2, lightColor);
 
             spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
@@ -304,9 +305,9 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTime * 30) % 30f / 60f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            var texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
+            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, projectile.Size / 2f, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             spriteBatch.ExitShaderRegion();
 
             return false;

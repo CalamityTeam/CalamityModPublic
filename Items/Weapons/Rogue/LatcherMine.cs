@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.height = 32;
-            item.width = 26;
-            item.damage = BaseDamage;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = item.useTime = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 3, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<LatcherMineProjectile>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.height = 32;
+            Item.width = 26;
+            Item.damage = BaseDamage;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 3, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<LatcherMineProjectile>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

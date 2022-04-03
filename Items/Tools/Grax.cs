@@ -20,25 +20,25 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 472;
-            item.knockBack = 8f;
-            item.useTime = 4;
-            item.useAnimation = 16;
-            item.hammer = HammerPower;
-            item.axe = AxePower;
-            item.tileBoost += 5;
+            Item.damage = 472;
+            Item.knockBack = 8f;
+            Item.useTime = 4;
+            Item.useAnimation = 16;
+            Item.hammer = HammerPower;
+            Item.axe = AxePower;
+            Item.tileBoost += 5;
 
-            item.width = 62;
-            item.height = 62;
-            item.scale = 1.5f;
-            item.melee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 62;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -47,28 +47,20 @@ namespace CalamityMod.Items.Tools
         {
             if (player.altFunctionUse == 2)
             {
-                item.axe = 0;
-                item.hammer = 0;
+                Item.axe = 0;
+                Item.hammer = 0;
             }
             else
             {
-                item.axe = AxePower;
-                item.hammer = HammerPower;
+                Item.axe = AxePower;
+                Item.hammer = HammerPower;
             }
             return base.CanUseItem(player);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<InfernaCutter>());
-            recipe.AddRecipeGroup("LunarHamaxe");
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<InfernaCutter>()).AddRecipeGroup("LunarHamaxe").AddIngredient(ModContent.ItemType<MolluskHusk>(), 10).AddIngredient(ModContent.ItemType<DraedonBar>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

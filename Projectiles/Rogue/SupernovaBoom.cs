@@ -20,22 +20,22 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 408;
-            projectile.height = 410;
-            projectile.scale = 2f;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 5;
+            Projectile.width = 408;
+            Projectile.height = 410;
+            Projectile.scale = 2f;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 5;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % frameLength == frameLength - 1)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % frameLength == frameLength - 1)
             {
                 frameY++;
                 if (frameY >= verticalFrames)
@@ -45,11 +45,11 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (frameX >= horizontalFrames)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
 
             /*float dustSpeed = (float)Main.rand.Next(12, 36);
             Vector2 dustVel = CalamityUtils.RandomVelocity(40f, dustSpeed, dustSpeed, 1f);
@@ -68,17 +68,17 @@ namespace CalamityMod.Projectiles.Rogue
             dust.velocity = dustVel;*/
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             int length = texture.Width / horizontalFrames;
             int height = texture.Height / verticalFrames;
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Rectangle frame = new Rectangle(frameX * length, frameY * height, length, height);
             Vector2 origin = new Vector2(length / 2f, height / 2f);
-            spriteBatch.Draw(texture, drawPos, frame, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

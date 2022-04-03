@@ -15,26 +15,26 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
                 "Projectile hits grant buffs to the weapon and the player\n" +
                 "Buffs are removed on hit");
-            Item.staff[item.type] = true; //so it doesn't look weird af when holding it
+            Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.ranged = true;
-            item.width = 38;
-            item.height = 34;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"); //pew pew
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PolarStar>();
-            item.shootSpeed = 15f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 38;
+            Item.height = 34;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"); //pew pew
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PolarStar>();
+            Item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

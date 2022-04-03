@@ -10,9 +10,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RadiantResolutionAura : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float AllocatedSlots => ref projectile.ai[0];
-        public ref float GeneralTimer => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float AllocatedSlots => ref Projectile.ai[0];
+        public ref float GeneralTimer => ref Projectile.ai[1];
 
         public const float TargetCheckDistance = 1600f;
         public const int RadiantOrbAppearRateLowerBound = 7;
@@ -20,27 +20,27 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiant Aura");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 66;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
+            Projectile.width = Projectile.height = 66;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
             // Emit some light.
-            Lighting.AddLight(projectile.Center, Vector3.One * 1.2f);
+            Lighting.AddLight(Projectile.Center, Vector3.One * 1.2f);
 
             // Ensure that the projectile using this AI is the correct projectile and that the owner has the appropriate buffs.
             VerifyIdentityOfCaller();
@@ -50,11 +50,11 @@ namespace CalamityMod.Projectiles.Summon
 
             // Store the allocated slots in the minionSlots field so that the amount of slots the projectile is holding
             // is always correct.
-            projectile.minionSlots = projectile.ai[0];
+            Projectile.minionSlots = Projectile.ai[0];
 
             // Stay near the target and spin around.
-            projectile.Center = Owner.Center - Vector2.UnitY * 16f;
-            projectile.rotation += MathHelper.ToRadians(AllocatedSlots * 0.85f + 3f);
+            Projectile.Center = Owner.Center - Vector2.UnitY * 16f;
+            Projectile.rotation += MathHelper.ToRadians(AllocatedSlots * 0.85f + 3f);
 
             float damageMultiplier = (float)Math.Log(AllocatedSlots, 3D) + 1f;
 
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
             if (softcappedDamageMultiplier > 3f)
                 softcappedDamageMultiplier = ((damageMultiplier - 3f) * 0.1f) + 3f;
 
-            int radiantOrbDamage = (int)(projectile.damage * softcappedDamageMultiplier);
+            int radiantOrbDamage = (int)(Projectile.damage * softcappedDamageMultiplier);
             int radiantOrbAppearRate = (int)(130 * Math.Pow(0.9, AllocatedSlots));
 
             // Hard-cap the orb appear rate and damage.
@@ -76,39 +76,39 @@ namespace CalamityMod.Projectiles.Summon
 
             // Attack nearby targets.
             GeneralTimer++;
-            NPC potentialTarget = projectile.Center.MinionHoming(TargetCheckDistance, Owner);
-            if (potentialTarget != null && Main.myPlayer == projectile.owner)
+            NPC potentialTarget = Projectile.Center.MinionHoming(TargetCheckDistance, Owner);
+            if (potentialTarget != null && Main.myPlayer == Projectile.owner)
                 AttackTarget(potentialTarget, radiantOrbAppearRate, radiantOrbDamage);
         }
 
         public void VerifyIdentityOfCaller()
         {
             Owner.AddBuff(ModContent.BuffType<RadiantResolutionBuff>(), 3600);
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
             if (isCorrectProjectile)
             {
                 if (Owner.dead)
                     Owner.Calamity().radiantResolution = false;
 
                 if (Owner.Calamity().radiantResolution)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
         }
 
         public void HandleDynamicMinionDamage()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Owner.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
         }
 
@@ -119,21 +119,21 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 2; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
-                    Vector2 fireVelocity = projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
-                    Projectile.NewProjectile(projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
+                    Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
+                    Projectile.NewProjectile(Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
 
             if (GeneralTimer % radiantOrbAppearRate == radiantOrbAppearRate - 1)
             {
-                Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
-                Vector2 bootlegRadianceOrbVelocity = projectile.SafeDirectionTo(target.Center) * 2f;
-                Projectile.NewProjectile(spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, projectile.knockBack * 4f, projectile.owner);
+                Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
+                Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
+                Projectile.NewProjectile(spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
-                    Vector2 fireVelocity = projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
-                    Projectile.NewProjectile(projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
+                    Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
+                    Projectile.NewProjectile(Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -142,12 +142,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D currentTexture = ModContent.GetTexture(Texture);
+            Texture2D currentTexture = ModContent.Request<Texture2D>(Texture);
             spriteBatch.Draw(currentTexture,
-                projectile.Center - Main.screenPosition,
+                Projectile.Center - Main.screenPosition,
                 null,
                 lightColor,
-                projectile.rotation + MathHelper.PiOver2,
+                Projectile.rotation + MathHelper.PiOver2,
                 currentTexture.Size() / 2f,
                 1f,
                 SpriteEffects.None,

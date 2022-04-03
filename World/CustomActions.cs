@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -23,7 +23,7 @@ namespace CalamityMod.World
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
                 Tile tile = GenBase._tiles[x, y];
-                if (tile.active() && Main.tileSolid[tile.type])
+                if (tile.active() && Main.tileSolid[tile.TileType])
                 {
                     _count++;
                 }

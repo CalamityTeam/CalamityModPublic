@@ -18,33 +18,33 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Spark");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 28;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.frame = Main.rand.Next(3);
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.frame = Main.rand.Next(3);
+                Projectile.localAI[0] = 1f;
+                Projectile.netUpdate = true;
             }
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetDistance);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(MaxTargetDistance);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
+                Projectile.velocity = (Projectile.velocity * (HomingInertia - 1) + Projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
 
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
             if (!Main.dedServ)
             {
                 GenerateCircularDust();
@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 12; i++)
             {
                 float angle = i / 12f * MathHelper.TwoPi;
-                Vector2 spawnPosition = projectile.Center + angle.ToRotationVector2().RotatedBy(projectile.rotation) * new Vector2(10f, 6f);
-                Dust dust = Dust.NewDustPerfect(spawnPosition, FrameToDustIDTable[projectile.frame]);
+                Vector2 spawnPosition = Projectile.Center + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(10f, 6f);
+                Dust dust = Dust.NewDustPerfect(spawnPosition, FrameToDustIDTable[Projectile.frame]);
                 dust.velocity = Vector2.Zero;
                 dust.scale = 0.5f;
                 dust.noGravity = true;

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.LivingFire
 {
     public class LivingGodSlayerFireBlockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             soundType = SoundID.Dig;
@@ -58,7 +58,7 @@ namespace CalamityMod.Tiles.LivingFire
 
             //return true; //temporary for testing purposes
 
-            if (Main.tile[i, j].wall != WallID.None)
+            if (Main.tile[i, j].WallType != WallID.None)
             {
                 return true;
             }
@@ -66,7 +66,7 @@ namespace CalamityMod.Tiles.LivingFire
             for (int k = 0; k < around.Count; ++k)
             {
                 Tile tile = Main.tile[around[k][0], around[k][1]];
-                if (tile.active() && (Main.tileSolid[tile.type] || CalamityLists.livingFireBlockList.Contains(tile.type)))
+                if (tile.active() && (Main.tileSolid[tile.TileType] || CalamityLists.livingFireBlockList.Contains(tile.TileType)))
                 {
                     return true;
                 }

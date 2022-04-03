@@ -11,29 +11,22 @@ namespace CalamityMod.Items.Placeables.FurnitureAstral
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Monolith Clock");
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAstral.MonolithClock>();
+            Item.SetNameOverride("Monolith Clock");
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAstral.MonolithClock>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
-            recipe.AddIngredient(ItemID.IronBar, 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Glass, 6);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<MonolithCrafting>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 10).AddIngredient(ItemID.IronBar, 3).AddIngredient(ItemID.Glass, 6).AddTile(ModContent.TileType<MonolithCrafting>()).Register();
         }
     }
 }

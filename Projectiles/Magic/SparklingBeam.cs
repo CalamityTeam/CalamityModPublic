@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -25,15 +26,15 @@ namespace CalamityMod.Projectiles.Magic
         // By making a property to handle this it makes our life easier, and the accessibility more readable
         public float Distance
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         // The actual charge value is stored in the localAI0 field
         public float Charge
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
 
         // Are we at max charge? With c#6 you can simply use => which indicates this is a get only property
@@ -44,18 +45,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 19;
-            projectile.Calamity().PierceResistHarshness = 0.06f;
-            projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 19;
+            Projectile.Calamity().PierceResistHarshness = 0.06f;
+            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -63,8 +64,8 @@ namespace CalamityMod.Projectiles.Magic
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)
             {
-                DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center,
-                    projectile.velocity, 10, projectile.damage, -1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
+                DrawLaser(spriteBatch, Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center,
+                    Projectile.velocity, 10, Projectile.damage, -1.57f, 1f, 1000f, Color.White, (int)MOVE_DISTANCE);
             }
             return false;
         }
@@ -100,8 +101,8 @@ namespace CalamityMod.Projectiles.Magic
             if (!IsAtMaxCharge)
                 return false;
 
-            Player player = Main.player[projectile.owner];
-            Vector2 unit = projectile.velocity;
+            Player player = Main.player[Projectile.owner];
+            Vector2 unit = Projectile.velocity;
             float point = 0f;
             // Run an AABB versus Line check to look for collisions, look up AABB collision first to see how it works
             // It will look for collisions on the given line using AABB
@@ -113,15 +114,15 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (target.life <= 0 && target.lifeMax > 5)
             {
-                Player player = Main.player[projectile.owner];
-                int shardDamage = projectile.damage / 5;
+                Player player = Main.player[Projectile.owner];
+                int shardDamage = Projectile.damage / 5;
                 int shardAmt = Main.rand.Next(2, 4);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int s = 0; s < shardAmt; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, projectile.owner);
+                        int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, Projectile.owner);
                         if (shard.WithinBounds(Main.maxProjectiles))
                             Main.projectile[shard].Calamity().forceMagic = true;
                     }
@@ -132,9 +133,9 @@ namespace CalamityMod.Projectiles.Magic
         // The AI of the projectile
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.position = player.Center + projectile.velocity * MOVE_DISTANCE;
-            projectile.timeLeft = 2;
+            Player player = Main.player[Projectile.owner];
+            Projectile.position = player.Center + Projectile.velocity * MOVE_DISTANCE;
+            Projectile.timeLeft = 2;
 
             // By separating large AI into methods it becomes very easy to see the flow of the AI in a broader sense
             // First we update player variables that are needed to channel the laser
@@ -152,7 +153,7 @@ namespace CalamityMod.Projectiles.Magic
             //Play cool sound when fully charged
             if (!playedSound)
             {
-                Main.PlaySound(SoundID.Item68, projectile.position);
+                SoundEngine.PlaySound(SoundID.Item68, Projectile.position);
                 playedSound = true;
             }
 
@@ -163,18 +164,18 @@ namespace CalamityMod.Projectiles.Magic
 
         private void SpawnDusts(Player player)
         {
-            Vector2 unit = projectile.velocity * -1;
-            Vector2 dustPos = player.Center + projectile.velocity * Distance;
+            Vector2 unit = Projectile.velocity * -1;
+            Vector2 dustPos = player.Center + Projectile.velocity * Distance;
 
             for (int i = 0; i < 2; ++i)
             {
-                float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
+                float num1 = Projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
                 float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
                 Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
                 Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 226, dustVel.X, dustVel.Y)];
                 dust.noGravity = true;
                 dust.scale = 1.2f;
-                dust = Dust.NewDustDirect(Main.player[projectile.owner].Center, 0, 0, 31,
+                dust = Dust.NewDustDirect(Main.player[Projectile.owner].Center, 0, 0, 31,
                     -unit.X * Distance, -unit.Y * Distance);
                 dust.fadeIn = 0f;
                 dust.noGravity = true;
@@ -184,13 +185,13 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 offset = projectile.velocity.RotatedBy(1.57f) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+                Vector2 offset = Projectile.velocity.RotatedBy(1.57f) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
                 Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, 31, 0.0f, 0.0f, 100, new Color(), 1.5f)];
                 dust.velocity *= 0.5f;
                 dust.velocity.Y = -Math.Abs(dust.velocity.Y);
-                unit = dustPos - Main.player[projectile.owner].Center;
+                unit = dustPos - Main.player[Projectile.owner].Center;
                 unit.Normalize();
-                dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + 55 * unit, 8, 8, 31, 0.0f, 0.0f, 100, new Color(), 1.5f)];
+                dust = Main.dust[Dust.NewDust(Main.player[Projectile.owner].Center + 55 * unit, 8, 8, 31, 0.0f, 0.0f, 100, new Color(), 1.5f)];
                 dust.velocity = dust.velocity * 0.5f;
                 dust.velocity.Y = -Math.Abs(dust.velocity.Y);
             }
@@ -202,8 +203,8 @@ namespace CalamityMod.Projectiles.Magic
         private void SetLaserPosition(Player player)
         {
             float[] samplingPoints = new float[12];
-            Collision.LaserScan(player.Center + projectile.velocity * MOVE_DISTANCE, projectile.velocity, projectile.width * 0.5f, 2200f, samplingPoints);
-            Distance = MathHelper.Max(samplingPoints.Average() + projectile.height * 2f, 40f);
+            Collision.LaserScan(player.Center + Projectile.velocity * MOVE_DISTANCE, Projectile.velocity, Projectile.width * 0.5f, 2200f, samplingPoints);
+            Distance = MathHelper.Max(samplingPoints.Average() + Projectile.height * 2f, 40f);
         }
 
         private void ChargeLaser(Player player)
@@ -211,15 +212,15 @@ namespace CalamityMod.Projectiles.Magic
             // Kill the projectile if the player stops channeling
             if (!player.channel)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else {
                 // Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-                if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem(), -1, true))
+                if (Main.player[Projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem(), -1, true))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
-                Vector2 offset = projectile.velocity;
+                Vector2 offset = Projectile.velocity;
                 offset *= MOVE_DISTANCE - 20;
                 Vector2 pos = player.Center + offset - new Vector2(10, 10);
                 if (Charge < MAX_CHARGE)
@@ -228,12 +229,12 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 int chargeFact = (int)(Charge / 20f);
                 Vector2 dustVelocity = Vector2.UnitX * 18f;
-                dustVelocity = dustVelocity.RotatedBy(projectile.rotation - 1.57f);
-                Vector2 spawnPos = projectile.Center + dustVelocity;
+                dustVelocity = dustVelocity.RotatedBy(Projectile.rotation - 1.57f);
+                Vector2 spawnPos = Projectile.Center + dustVelocity;
                 for (int k = 0; k < chargeFact + 1; k++)
                 {
                     Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
-                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, 226, projectile.velocity.X / 2f, projectile.velocity.Y / 2f)];
+                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, 226, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f)];
                     dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
                     dust.noGravity = true;
                     dust.scale = Main.rand.Next(10, 20) * 0.05f;
@@ -244,27 +245,27 @@ namespace CalamityMod.Projectiles.Magic
         private void UpdatePlayer(Player player)
         {
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 Vector2 diff = Main.MouseWorld - player.Center;
                 diff.Normalize();
-                projectile.velocity = diff;
-                projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
-                projectile.netUpdate = true;
+                Projectile.velocity = diff;
+                Projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
+                Projectile.netUpdate = true;
             }
-            int dir = projectile.direction;
+            int dir = Projectile.direction;
             player.ChangeDir(dir); // Set player direction to where we are shooting
-            player.heldProj = projectile.whoAmI; // Update player's held projectile
+            player.heldProj = Projectile.whoAmI; // Update player's held projectile
             player.itemTime = 2; // Set item time to 2 frames while we are used
             player.itemAnimation = 2; // Set item animation time to 2 frames while we are used
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * dir, projectile.velocity.X * dir); // Set the item rotation to where we are shooting
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * dir, Projectile.velocity.X * dir); // Set the item rotation to where we are shooting
         }
 
         private void CastLights()
         {
             // Cast a light along the line of the laser
             DelegateMethods.v3_1 = new Vector3(0.8f, 0.8f, 1f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE), 26, DelegateMethods.CastLight);
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE), 26, DelegateMethods.CastLight);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -275,8 +276,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * Distance, (projectile.width + 16) * projectile.scale, DelegateMethods.CutTiles);
+            Vector2 unit = Projectile.velocity;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Distance, (Projectile.width + 16) * Projectile.scale, DelegateMethods.CutTiles);
         }
     }
 }

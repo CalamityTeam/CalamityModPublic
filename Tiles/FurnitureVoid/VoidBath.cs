@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidBath : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

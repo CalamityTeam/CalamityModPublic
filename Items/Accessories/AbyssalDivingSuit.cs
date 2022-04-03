@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 18;
+            Item.height = 18;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -49,18 +49,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssalDivingGear>());
-            recipe.AddIngredient(ModContent.ItemType<AnechoicPlating>());
-            recipe.AddIngredient(ModContent.ItemType<IronBoots>());
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 15);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalDivingGear>()).AddIngredient(ModContent.ItemType<AnechoicPlating>()).AddIngredient(ModContent.ItemType<IronBoots>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 40).AddIngredient(ModContent.ItemType<DepthCells>(), 40).AddIngredient(ModContent.ItemType<Tenebris>(), 15).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 

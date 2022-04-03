@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,14 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyGoldBar", 4);
-            recipe.AddRecipeGroup("AnyCopperBar", 8);
-            // So you make fake coins out of wood, nobody will judge you
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 4).AddRecipeGroup("AnyCopperBar", 8).AddIngredient(ModContent.ItemType<Acidwood>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

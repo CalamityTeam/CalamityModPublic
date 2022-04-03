@@ -15,24 +15,24 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hermit Crab");
-            Main.projFrames[projectile.type] = 9;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 9;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 36;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 38;
+            Projectile.height = 36;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -43,29 +43,29 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (spawnDust)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 20;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 33, 0f, 0f, 0, default, 1f);
+                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 33, 0f, 0f, 0, default, 1f);
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
                 spawnDust = false;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<HermitCrabMinion>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<HermitCrabMinion>();
             player.AddBuff(ModContent.BuffType<HermitCrab>(), 3600);
             if (flag64)
             {
@@ -75,36 +75,36 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.hCrab)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            Vector2 vector46 = projectile.position;
+            Vector2 vector46 = Projectile.position;
             if (!fly)
             {
-                Vector2 center2 = projectile.Center;
+                Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2;
                 float playerDistance = vector48.Length();
-                if (projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 205f && projectile.position.X == projectile.oldPosition.X)))
+                if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 205f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
-                    projectile.velocity.Y = -10f;
+                    Projectile.velocity.Y = -10f;
                 }
-                projectile.velocity.Y += 0.6f;
-                if (projectile.velocity.X != 0f)
+                Projectile.velocity.Y += 0.6f;
+                if (Projectile.velocity.X != 0f)
                 {
-                    projectile.frameCounter++;
+                    Projectile.frameCounter++;
                 }
                 else
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
-                if (projectile.frameCounter > 4)
+                if (Projectile.frameCounter > 4)
                 {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    Projectile.frameCounter = 0;
                 }
-                if (projectile.frame >= 5)
+                if (Projectile.frame >= 5)
                 {
-                    projectile.frame = 1;
+                    Projectile.frame = 1;
                 }
                 float num633 = 600f;
                 bool chaseNPC = false;
@@ -112,9 +112,9 @@ namespace CalamityMod.Projectiles.Summon
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                        float num646 = Vector2.Distance(npc.Center, Projectile.Center);
                         if (!chaseNPC && num646 < num633)
                         {
                             num633 = num646;
@@ -129,9 +129,9 @@ namespace CalamityMod.Projectiles.Summon
                     for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                     {
                         NPC npcTarget = Main.npc[num645];
-                        if (npcTarget.CanBeChasedBy(projectile, false))
+                        if (npcTarget.CanBeChasedBy(Projectile, false))
                         {
-                            float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
+                            float num646 = Vector2.Distance(npcTarget.Center, Projectile.Center);
                             if (!chaseNPC && num646 < num633)
                             {
                                 num633 = num646;
@@ -144,23 +144,23 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (chaseNPC)
                 {
-                    if (npcPositionX - projectile.position.X > 0f)
+                    if (npcPositionX - Projectile.position.X > 0f)
                     {
                         switch (Main.rand.Next(1, 2))
                         {
 
                             case 1:
-                                projectile.velocity.X += 0.10f;
+                                Projectile.velocity.X += 0.10f;
                                 break;
 
                             case 2:
-                                projectile.velocity.X += 0.15f;
+                                Projectile.velocity.X += 0.15f;
                                 break;
                         }
 
-                        if (projectile.velocity.X > 9f)
+                        if (Projectile.velocity.X > 9f)
                         {
-                            projectile.velocity.X = 9f;
+                            Projectile.velocity.X = 9f;
                         }
                     }
                     else
@@ -169,26 +169,26 @@ namespace CalamityMod.Projectiles.Summon
                         {
 
                             case 1:
-                                projectile.velocity.X -= 0.10f;
+                                Projectile.velocity.X -= 0.10f;
                                 break;
 
                             case 2:
-                                projectile.velocity.X -= 0.15f;
+                                Projectile.velocity.X -= 0.15f;
                                 break;
                         }
 
-                        if (projectile.velocity.X < -9f)
+                        if (Projectile.velocity.X < -9f)
                         {
-                            projectile.velocity.X = -9f;
+                            Projectile.velocity.X = -9f;
                         }
                     }
                     if (playerDistance > 1000f)
                     {
                         fly = true;
                         chaseNPC = false;
-                        projectile.velocity.X = 0f;
-                        projectile.velocity.Y = 0f;
-                        projectile.tileCollide = false;
+                        Projectile.velocity.X = 0f;
+                        Projectile.velocity.Y = 0f;
+                        Projectile.tileCollide = false;
                     }
                 }
                 else
@@ -196,32 +196,32 @@ namespace CalamityMod.Projectiles.Summon
                     if (playerDistance > 600f)
                     {
                         fly = true;
-                        projectile.velocity.X = 0f;
-                        projectile.velocity.Y = 0f;
-                        projectile.tileCollide = false;
+                        Projectile.velocity.X = 0f;
+                        Projectile.velocity.Y = 0f;
+                        Projectile.tileCollide = false;
                     }
                     if (playerDistance > 200f)
                     {
-                        if (player.position.X - projectile.position.X > 0f)
+                        if (player.position.X - Projectile.position.X > 0f)
                         {
                             switch (Main.rand.Next(1, 3))
                             {
                                 case 1:
-                                    projectile.velocity.X += 0.05f;
+                                    Projectile.velocity.X += 0.05f;
                                     break;
 
                                 case 2:
-                                    projectile.velocity.X += 0.10f;
+                                    Projectile.velocity.X += 0.10f;
                                     break;
 
                                 case 3:
-                                    projectile.velocity.X += 0.15f;
+                                    Projectile.velocity.X += 0.15f;
                                     break;
                             }
 
-                            if (projectile.velocity.X > 9f)
+                            if (Projectile.velocity.X > 9f)
                             {
-                                projectile.velocity.X = 9f;
+                                Projectile.velocity.X = 9f;
                             }
                         }
                         else
@@ -229,65 +229,65 @@ namespace CalamityMod.Projectiles.Summon
                             switch (Main.rand.Next(1, 3))
                             {
                                 case 1:
-                                    projectile.velocity.X -= 0.05f;
+                                    Projectile.velocity.X -= 0.05f;
                                     break;
 
                                 case 2:
-                                    projectile.velocity.X -= 0.10f;
+                                    Projectile.velocity.X -= 0.10f;
                                     break;
 
                                 case 3:
-                                    projectile.velocity.X -= 0.15f;
+                                    Projectile.velocity.X -= 0.15f;
                                     break;
                             }
 
-                            if (projectile.velocity.X < -9f)
+                            if (Projectile.velocity.X < -9f)
                             {
-                                projectile.velocity.X = -9f;
+                                Projectile.velocity.X = -9f;
                             }
                         }
                     }
                     if (playerDistance < 200f)
                     {
-                        if (projectile.velocity.X != 0f)
+                        if (Projectile.velocity.X != 0f)
                         {
-                            if (projectile.velocity.X > 0.5f)
+                            if (Projectile.velocity.X > 0.5f)
                             {
                                 switch (Main.rand.Next(1, 3))
                                 {
                                     case 1:
-                                        projectile.velocity.X -= 0.05f;
+                                        Projectile.velocity.X -= 0.05f;
                                         break;
 
                                     case 2:
-                                        projectile.velocity.X -= 0.10f;
+                                        Projectile.velocity.X -= 0.10f;
                                         break;
 
                                     case 3:
-                                        projectile.velocity.X -= 0.15f;
+                                        Projectile.velocity.X -= 0.15f;
                                         break;
                                 }
                             }
-                            else if (projectile.velocity.X < -0.5f)
+                            else if (Projectile.velocity.X < -0.5f)
                             {
                                 switch (Main.rand.Next(1, 3))
                                 {
                                     case 1:
-                                        projectile.velocity.X += 0.05f;
+                                        Projectile.velocity.X += 0.05f;
                                         break;
 
                                     case 2:
-                                        projectile.velocity.X += 0.10f;
+                                        Projectile.velocity.X += 0.10f;
                                         break;
 
                                     case 3:
-                                        projectile.velocity.X += 0.15f;
+                                        Projectile.velocity.X += 0.15f;
                                         break;
                                 }
                             }
-                            else if (projectile.velocity.X < 0.5f && projectile.velocity.X > -0.5f)
+                            else if (Projectile.velocity.X < 0.5f && Projectile.velocity.X > -0.5f)
                             {
-                                projectile.velocity.X = 0f;
+                                Projectile.velocity.X = 0f;
                             }
                         }
                     }
@@ -295,29 +295,29 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (fly)
             {
-                Vector2 center2 = projectile.Center;
+                Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2 + new Vector2(0f, 0f);
                 float playerDistance = vector48.Length();
                 vector48.Normalize();
                 vector48 *= 8f;
-                projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
+                Projectile.velocity = (Projectile.velocity * 40f + vector48) / 41f;
 
-                projectile.rotation = projectile.velocity.X * 0.03f;
-                projectile.frameCounter++;
-                if (projectile.frameCounter > 3)
+                Projectile.rotation = Projectile.velocity.X * 0.03f;
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter > 3)
                 {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    Projectile.frameCounter = 0;
                 }
-                if (projectile.frame >= 9)
+                if (Projectile.frame >= 9)
                 {
-                    projectile.frame = 5;
+                    Projectile.frame = 5;
                 }
                 if (playerDistance > 2000f)
                 {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 if (playerDistance < 100f)
                 {
@@ -329,33 +329,33 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         playerStill = 0;
                     }
-                    if (playerStill > 30 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                    if (playerStill > 30 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                     {
                         fly = false;
-                        projectile.tileCollide = true;
-                        projectile.rotation = 0;
+                        Projectile.tileCollide = true;
+                        Projectile.rotation = 0;
                     }
                 }
             }
-            if (projectile.velocity.X > 0.25f)
+            if (Projectile.velocity.X > 0.25f)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
-            else if (projectile.velocity.X < -0.25f)
+            else if (Projectile.velocity.X < -0.25f)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
         }
 
         private bool HoleBelow()
         {
             int tileWidth = 4;
-            int tileX = (int)(projectile.Center.X / 16f) - tileWidth;
-            if (projectile.velocity.X > 0)
+            int tileX = (int)(Projectile.Center.X / 16f) - tileWidth;
+            if (Projectile.velocity.X > 0)
             {
                 tileX += tileWidth;
             }
-            int tileY = (int)((projectile.position.Y + projectile.height) / 16f);
+            int tileY = (int)((Projectile.position.Y + Projectile.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)

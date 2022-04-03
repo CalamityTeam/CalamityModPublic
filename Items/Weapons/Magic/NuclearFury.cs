@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 114;
-            item.magic = true;
-            item.mana = 13;
-            item.width = 38;
-            item.height = 40;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item84;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<NuclearFuryProjectile>();
-            item.shootSpeed = 16f;
+            Item.damage = 114;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 13;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item84;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<NuclearFuryProjectile>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,16 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RazorbladeTyphoon);
-            recipe.AddIngredient(ModContent.ItemType<Poseidon>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 10);
-            recipe.AddIngredient(ItemID.UnicornHorn, 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RazorbladeTyphoon).AddIngredient(ModContent.ItemType<Poseidon>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.SoulofSight, 10).AddIngredient(ItemID.UnicornHorn, 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.Bookcases).Register();
         }
     }
 }

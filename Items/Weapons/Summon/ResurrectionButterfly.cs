@@ -20,33 +20,33 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
+            Item.damage = 65;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PinkButterfly>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PinkButterfly>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -79,14 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.Silk, 40);
-            r.AddIngredient(ItemID.Ectoplasm, 20);
-            r.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            r.AddIngredient(ItemID.ButterflyDust, 2);
-            r.AddTile(TileID.Loom);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Silk, 40).AddIngredient(ItemID.Ectoplasm, 20).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.ButterflyDust, 2).AddTile(TileID.Loom).Register();
         }
     }
 }

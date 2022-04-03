@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp();
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureStatigel/StatigelLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStatigel/StatigelLampFlame"), i, j);
         }
     }
 }

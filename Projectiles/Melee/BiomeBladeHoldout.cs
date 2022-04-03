@@ -9,17 +9,18 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Melee;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class BiomeBladeHoldout : ModProjectile //Visuals
     {
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as TrueBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && Owner.CheckSolidGround(1, 3);
-        public ref float ChanneledState => ref projectile.ai[0];
-        public ref float ChannelTimer => ref projectile.ai[1];
-        public ref float Initialized => ref projectile.localAI[0];
+        public ref float ChanneledState => ref Projectile.ai[0];
+        public ref float ChannelTimer => ref Projectile.ai[1];
+        public ref float Initialized => ref Projectile.localAI[0];
 
         private Item associatedItem;
         const int ChannelTime = 120;
@@ -32,13 +33,13 @@ namespace CalamityMod.Projectiles.Melee
         public bool drawIndrawHeldProjInFrontOfHeldItemAndArms = true;
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 36;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
+            Projectile.width = Projectile.height = 36;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
         }
 
         public CurveSegment anticipation = new CurveSegment(EasingType.SineOut, 0f, 1f, 0.35f);
@@ -54,12 +55,12 @@ namespace CalamityMod.Projectiles.Melee
                 //If dropped, kill it instantly
                 if (Owner.HeldItem.type != ItemType<TrueBiomeBlade>())
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
 
                 if (Owner.whoAmI == Main.myPlayer)
-                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact);
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
@@ -71,25 +72,25 @@ namespace CalamityMod.Projectiles.Melee
 
             if (!OwnerMayChannel && ChanneledState == 0f) //IF the channeling gets interrupted for any reason
             {
-                projectile.Center = Owner.Top + new Vector2(18f, 0f);
+                Projectile.Center = Owner.Top + new Vector2(18f, 0f);
                 ChanneledState = 1f;
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
                 return;
             }
 
             if (ChanneledState == 0f)
             {
-                Owner.heldProj = projectile.whoAmI;
+                Owner.heldProj = Projectile.whoAmI;
 
-                projectile.Center = Owner.Center + new Vector2(16f * Owner.direction + Owner.direction < 0 ? -26f : 16f, -30 * SwordHeight() + 10f);
-                projectile.rotation = MathHelper.PiOver4 + MathHelper.PiOver2; // No more silly turnaround with the repaired one?
+                Projectile.Center = Owner.Center + new Vector2(16f * Owner.direction + Owner.direction < 0 ? -26f : 16f, -30 * SwordHeight() + 10f);
+                Projectile.rotation = MathHelper.PiOver4 + MathHelper.PiOver2; // No more silly turnaround with the repaired one?
                 ChannelTimer++;
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
 
                 if (ChannelTimer >= ChannelTime)
                 {
                     Attune((TrueBiomeBlade)associatedItem.modItem);
-                    projectile.timeLeft = 120;
+                    Projectile.timeLeft = 120;
                     ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
 
                     Color particleColor = (associatedItem.modItem as TrueBiomeBlade).mainAttunement.tooltipColor;
@@ -110,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (ChanneledState == 1f)
-                projectile.position += Vector2.UnitY * -0.3f * (1f + projectile.timeLeft / 60f);
+                Projectile.position += Vector2.UnitY * -0.3f * (1f + Projectile.timeLeft / 60f);
         }
 
         public void Attune(TrueBiomeBlade item)
@@ -145,13 +146,13 @@ namespace CalamityMod.Projectiles.Melee
             //If the owner already had the attunement , break out of it (And unswap)
             if (item.secondaryAttunement == attunement)
             {
-                Main.PlaySound(SoundID.DD2_LightningBugZap, projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, Projectile.Center);
                 item.secondaryAttunement = item.mainAttunement;
                 item.mainAttunement = attunement;
                 return;
             }
 
-            Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, projectile.Center);
+            SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Projectile.Center);
             item.mainAttunement = attunement;
         }
 
@@ -177,9 +178,9 @@ namespace CalamityMod.Projectiles.Melee
             else if (ChanneledState == 1f)
             {
                 Texture2D tex = GetTexture(Texture);
-                Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * projectile.timeLeft / 30f)), 1f);
-                SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                spriteBatch.Draw(tex, projectile.position - Main.screenPosition, null, lightColor * (projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (projectile.timeLeft / 60f)), flip, 0);
+                Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f)), 1f);
+                SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                spriteBatch.Draw(tex, Projectile.position - Main.screenPosition, null, lightColor * (Projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (Projectile.timeLeft / 60f)), flip, 0);
 
                 return false;
             }

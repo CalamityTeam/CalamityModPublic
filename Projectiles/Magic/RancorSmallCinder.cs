@@ -6,53 +6,53 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorSmallCinder : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
-        public ref float Lifetime => ref projectile.ai[1];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float Lifetime => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 4;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.timeLeft = 300;
-            projectile.ignoreWater = true;
+            Projectile.width = Projectile.height = 4;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 300;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             // Decide a frame to use on the first frame this projectile exists.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
-                projectile.localAI[0] = 1f;
+                Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
+                Projectile.localAI[0] = 1f;
             }
 
             // Make a decision for the lifetime for the cinder if one has not yet been made.
             if (Lifetime == 0f)
             {
                 Lifetime = Main.rand.Next(60, 210);
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
 
             // Calculate scale of the cinder.
             else
             {
-                projectile.scale = Utils.InverseLerp(0f, 20f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 20f, Time, true);
-                projectile.scale *= MathHelper.Lerp(0.5f, 1f, projectile.identity % 6f / 6f);
+                Projectile.scale = Utils.InverseLerp(0f, 20f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 20f, Time, true);
+                Projectile.scale *= MathHelper.Lerp(0.5f, 1f, Projectile.identity % 6f / 6f);
             }
 
             if (Time >= Lifetime)
-                projectile.Kill();
+                Projectile.Kill();
 
             Time++;
         }
 
-        public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
     }
 }

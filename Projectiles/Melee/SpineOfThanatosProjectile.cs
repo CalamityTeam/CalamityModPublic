@@ -6,23 +6,24 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class SpineOfThanatosProjectile : ModProjectile
     {
         public List<Vector2> WhipPoints = new List<Vector2>();
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public float CurrentBendFactor => MaximumBendFactor * CalamityUtils.Convert01To010(Time / Lifetime);
-        public Vector2 WhipEnd => projectile.Center + WhipOutwardness;
+        public Vector2 WhipEnd => Projectile.Center + WhipOutwardness;
 
         // This wrapper exists solely for clarity as to the definition of velocity in the context of this projectile.
         // You may notice that the Center property of this projectile is constantly set to be near the player. However, since
         // ShouldUpdatePosition is not overriden to false, it still gains its velocity as usual for 1 frame before being reset again.
-        public ref Vector2 WhipOutwardness => ref projectile.velocity;
-        public ref float Time => ref projectile.ai[0];
-        public ref float SwingDirection => ref projectile.ai[1];
-        public ref float InitialDirectionRotation => ref projectile.localAI[0];
+        public ref Vector2 WhipOutwardness => ref Projectile.velocity;
+        public ref float Time => ref Projectile.ai[0];
+        public ref float SwingDirection => ref Projectile.ai[1];
+        public ref float InitialDirectionRotation => ref Projectile.localAI[0];
         public const int Lifetime = 125;
         public const int FlyBackTime = 40;
         public const int FinalWhipRayShootRate = 10;
@@ -32,18 +33,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 70;
-            projectile.scale = 0.75f;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = Lifetime;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 22;
+            Projectile.width = 58;
+            Projectile.height = 70;
+            Projectile.scale = 0.75f;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = Lifetime;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 22;
         }
 
         public void DetermineWhipPoints()
@@ -63,13 +64,13 @@ namespace CalamityMod.Projectiles.Melee
                 bendOffset *= CurrentBendFactor * CalamityUtils.Convert01To010(i / 12f);
 
                 // Smoothly zero out the bending effects if the current position is near the owner.
-                bendOffset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(startingPosition, projectile.Center, i / 12f) + bendOffset), true);
-                initialPoints.Add(Vector2.Lerp(startingPosition, projectile.Center, i / 12f) + bendOffset);
+                bendOffset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(startingPosition, Projectile.Center, i / 12f) + bendOffset), true);
+                initialPoints.Add(Vector2.Lerp(startingPosition, Projectile.Center, i / 12f) + bendOffset);
             }
-            initialPoints.Add(projectile.Center);
+            initialPoints.Add(Projectile.Center);
 
             BezierCurve bezierCurve = new BezierCurve(initialPoints.ToArray());
-            int totalChains = (int)(projectile.Distance(startingPosition) / 24f / projectile.scale);
+            int totalChains = (int)(Projectile.Distance(startingPosition) / 24f / Projectile.scale);
             totalChains = (int)MathHelper.Clamp(totalChains, 40f, 440f);
 
             WhipPoints = bezierCurve.GetPoints(totalChains);
@@ -83,19 +84,19 @@ namespace CalamityMod.Projectiles.Melee
             // It uses vector transformation on a Z rotation matrix based on said rotation under the hood.
             // This is essentially just the pure mathematical definition of the RotatedBy method.
             Vector2 playerRotatedPosition = Owner.RotatedRelativePoint(Owner.MountedCenter);
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (!Owner.noItems && !Owner.CCed)
                     HandleChannelMovement(playerRotatedPosition);
                 else
-                    projectile.Kill();
+                    Projectile.Kill();
             }
 
             ManipulatePlayerValues();
 
             // Create a bunch of prismatic lasers outward from the non-arcing whip right before it comes back
             // to its owner.
-            if (SwingDirection == 0f && projectile.timeLeft == FlyBackTime)
+            if (SwingDirection == 0f && Projectile.timeLeft == FlyBackTime)
                 CreateBadassPrismExplosion();
             Time++;
         }
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
             if (InitialDirectionRotation == 0f)
                 InitialDirectionRotation = WhipOutwardness.ToRotation() - MathHelper.PiOver2;
 
-            float attackCompletionRatio = Utils.InverseLerp(Lifetime, FlyBackTime, projectile.timeLeft, true);
+            float attackCompletionRatio = Utils.InverseLerp(Lifetime, FlyBackTime, Projectile.timeLeft, true);
 
             // Normally swing from a "cone" to a collision area that causes both whips to collide.
             float baseSwingAngle = MathHelper.Lerp(-1.1f, 1.57f, 1f - attackCompletionRatio);
@@ -115,7 +116,7 @@ namespace CalamityMod.Projectiles.Melee
             swingDirection = swingDirection.RotatedBy(InitialDirectionRotation);
 
             // If the whip is ready to return to its owner, have its outwardness approach the player again.
-            if (projectile.timeLeft < FlyBackTime)
+            if (Projectile.timeLeft < FlyBackTime)
                 WhipOutwardness = Vector2.Lerp(WhipOutwardness, InitialDirectionRotation.ToRotationVector2(), 0.1f);
             else
             {
@@ -125,8 +126,8 @@ namespace CalamityMod.Projectiles.Melee
                     swingSpeedIncrement *= 0.84f;
                 WhipOutwardness += swingSpeedIncrement;
             }
-            projectile.Center = playerRotatedPosition;
-            projectile.rotation = WhipOutwardness.ToRotation();
+            Projectile.Center = playerRotatedPosition;
+            Projectile.rotation = WhipOutwardness.ToRotation();
         }
 
         public void ManipulatePlayerValues()
@@ -135,31 +136,31 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemAnimation = 2;
             if (SwingDirection == 0f)
             {
-                Owner.itemRotation = WhipOutwardness.ToRotation() * projectile.direction;
-                Owner.ChangeDir(projectile.direction);
+                Owner.itemRotation = WhipOutwardness.ToRotation() * Projectile.direction;
+                Owner.ChangeDir(Projectile.direction);
             }
         }
 
         public void CreateBadassPrismExplosion()
         {
-            var sound = Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
+            var sound = SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
             if (sound != null)
                 sound.Pitch = MathHelper.Clamp(sound.Pitch + 0.15f, 0f, 1f);
 
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), projectile.damage * 2, 0f, projectile.owner);
+            Projectile.NewProjectile(WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), Projectile.damage * 2, 0f, Projectile.owner);
 
             // Fire a bunch of rays rays.
-            int rayDamage = (int)(projectile.damage * 1.5);
+            int rayDamage = (int)(Projectile.damage * 1.5);
             NPC potentialTarget = WhipEnd.ClosestNPCAt(700f);
             for (int i = 0; i < LaserRayCount; i++)
             {
-                float rayRotation = projectile.rotation + MathHelper.Lerp(-0.57f, 0.57f, i / (float)LaserRayCount);
+                float rayRotation = Projectile.rotation + MathHelper.Lerp(-0.57f, 0.57f, i / (float)LaserRayCount);
                 float targetAimDisparity = 0f;
                 if (potentialTarget != null)
-                    targetAimDisparity = projectile.rotation.ToRotationVector2().AngleBetween((potentialTarget.Center - projectile.Center).SafeNormalize(Vector2.Zero));
+                    targetAimDisparity = Projectile.rotation.ToRotationVector2().AngleBetween((potentialTarget.Center - Projectile.Center).SafeNormalize(Vector2.Zero));
 
                 // By default, make the prism rays go outward a good amount based on their rotation
                 // to give a fan look.
@@ -171,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (potentialTarget != null && targetAimDisparity < MathHelper.Pi * 0.27f)
                     prismEndPosition = potentialTarget.Center + potentialTarget.velocity * 4f;
 
-                int prismRay = Projectile.NewProjectile(prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, projectile.knockBack * 0.2f, projectile.owner);
+                int prismRay = Projectile.NewProjectile(prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, Projectile.knockBack * 0.2f, Projectile.owner);
                 if (Main.projectile.IndexInRange(prismRay))
                 {
                     Main.projectile[prismRay].ModProjectile<PrismRay>().RayHue = i / (float)LaserRayCount;
@@ -191,15 +192,15 @@ namespace CalamityMod.Projectiles.Melee
                     whipTexturePath = "CalamityMod/Projectiles/Melee/SpineOfThanatosTail";
                 else
                     whipTexturePath = $"CalamityMod/Projectiles/Melee/SpineOfThanatosBody{i % 2 + 1}";
-                Texture2D whipSegmentTexture = ModContent.GetTexture(whipTexturePath);
-                Texture2D whipSegmentGlowmaskTexture = ModContent.GetTexture($"{whipTexturePath}Glowmask");
+                Texture2D whipSegmentTexture = ModContent.Request<Texture2D>(whipTexturePath);
+                Texture2D whipSegmentGlowmaskTexture = ModContent.Request<Texture2D>($"{whipTexturePath}Glowmask");
 
                 Vector2 origin = whipSegmentTexture.Size() * 0.5f;
                 float rotation = (WhipPoints[i + 1] - WhipPoints[i]).ToRotation() + MathHelper.PiOver2;
                 Vector2 drawPosition = WhipPoints[i] - Main.screenPosition;
-                Color color = projectile.GetAlpha(Lighting.GetColor((int)WhipPoints[i].X / 16, (int)WhipPoints[i].Y / 16));
-                spriteBatch.Draw(whipSegmentTexture, drawPosition, null, color, rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-                spriteBatch.Draw(whipSegmentGlowmaskTexture, drawPosition, null, Color.White, rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                Color color = Projectile.GetAlpha(Lighting.GetColor((int)WhipPoints[i].X / 16, (int)WhipPoints[i].Y / 16));
+                spriteBatch.Draw(whipSegmentTexture, drawPosition, null, color, rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(whipSegmentGlowmaskTexture, drawPosition, null, Color.White, rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             return false;
@@ -210,7 +211,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WhipPoints.Count <= 1)
                 return false;
 
-            float width = projectile.scale * 38f;
+            float width = Projectile.scale * 38f;
             for (int i = 0; i < WhipPoints.Count - 1; i++)
             {
                 float _ = 0f;

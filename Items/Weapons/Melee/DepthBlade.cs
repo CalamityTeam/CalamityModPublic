@@ -20,21 +20,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 36;
-            item.knockBack = 5.25f;
-            item.useTime = 17;
-            item.useAnimation = 22;
-            item.hammer = HammerPower;
+            Item.damage = 36;
+            Item.knockBack = 5.25f;
+            Item.useTime = 17;
+            Item.useAnimation = 22;
+            Item.hammer = HammerPower;
 
-            item.melee = true;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 56;
-            item.height = 50;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 56;
+            Item.height = 50;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -43,11 +43,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.hammer = 0;
+                Item.hammer = 0;
             }
             else
             {
-                item.hammer = HammerPower;
+                Item.hammer = HammerPower;
             }
             return base.CanUseItem(player);
         }

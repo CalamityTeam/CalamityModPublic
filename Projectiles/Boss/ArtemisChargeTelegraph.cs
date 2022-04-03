@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)Projectile.ai[1]) ? Main.npc[(int)Projectile.ai[1]] : null;
 
         public Vector2 OldVelocity;
         public PrimitiveTrail TelegraphDrawer = null;
@@ -24,14 +24,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 45;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 45;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -47,35 +47,35 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             // Determine the relative opacities for each player based on their distance.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = 1f;
+                Projectile.netUpdate = true;
             }
 
             // Die if the thing to attach to disappears.
             if (ThingToAttachTo is null || !ThingToAttachTo.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Set start of telegraph to the npc center.
-            projectile.Center = ThingToAttachTo.Center + projectile.velocity * 50f;
+            Projectile.Center = ThingToAttachTo.Center + Projectile.velocity * 50f;
 
             // Determine opacity
-            projectile.Opacity = Utils.InverseLerp(0f, 8f, projectile.timeLeft, true);
+            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public Color TelegraphPrimitiveColor(float completionRatio)
         {
             float colorInterpolant = (completionRatio * 1.2f + Main.GlobalTime * 0.26f) % 1f;
-            float opacity = MathHelper.Lerp(0.2f, 0.425f, projectile.Opacity) * Utils.InverseLerp(30f, 24f, projectile.timeLeft, true);
+            float opacity = MathHelper.Lerp(0.2f, 0.425f, Projectile.Opacity) * Utils.InverseLerp(30f, 24f, Projectile.timeLeft, true);
             return CalamityUtils.MulticolorLerp(colorInterpolant, Color.Orange, Color.Red, Color.Crimson, Color.Red) * opacity;
         }
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             // Used to determine the degree to which the ends of the telegraph should smoothen away.
             float endSmoothenFactor = Utils.InverseLerp(1f, 0.995f, completionRatio, true);
-            return endSmoothenFactor * projectile.Opacity * 22f;
+            return endSmoothenFactor * Projectile.Opacity * 22f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -95,11 +95,11 @@ namespace CalamityMod.Projectiles.Boss
             GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.28f);
             Vector2[] drawPositions = new Vector2[]
             {
-                projectile.Center,
-                projectile.Center + projectile.velocity.SafeNormalize(Vector2.UnitY) * TelegraphWidth
+                Projectile.Center,
+                Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * TelegraphWidth
             };
 
-            TelegraphDrawer.Draw(drawPositions, projectile.Size * 0.5f - Main.screenPosition, 87);
+            TelegraphDrawer.Draw(drawPositions, Projectile.Size * 0.5f - Main.screenPosition, 87);
             return false;
         }
     }

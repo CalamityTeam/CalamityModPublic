@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Melee;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -28,20 +29,20 @@ namespace CalamityMod.NPCs.AcidRain
         public bool Walking = false;
         public float JumpTimer = 0f;
         public Vector2 ShootPosition;
-        public Player Target => Main.player[npc.target];
-        public ref float AttackTime => ref npc.ai[0];
-        public ref float TeleportCountdown => ref npc.ai[1];
+        public Player Target => Main.player[NPC.target];
+        public ref float AttackTime => ref NPC.ai[0];
+        public ref float TeleportCountdown => ref NPC.ai[1];
         public Vector2 TeleportLocation
         {
-            get => new Vector2(npc.ai[2], npc.ai[3]);
+            get => new Vector2(NPC.ai[2], NPC.ai[3]);
             set
             {
-                npc.ai[2] = value.X;
-                npc.ai[3] = value.Y;
+                NPC.ai[2] = value.X;
+                NPC.ai[3] = value.Y;
             }
         }
-        public ref float HorizontalCollisionCounterDelay => ref npc.localAI[0];
-        public ref float HorizontalCollisionSpamCounter => ref npc.localAI[1];
+        public ref float HorizontalCollisionCounterDelay => ref NPC.localAI[0];
+        public ref float HorizontalCollisionSpamCounter => ref NPC.localAI[1];
         public static readonly SpecialAttackState[] PhaseArray = new SpecialAttackState[]
         {
             SpecialAttackState.ShotgunBurstOfBullets,
@@ -70,38 +71,38 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Terror");
-            Main.npcFrameCount[npc.type] = 14;
-            NPCID.Sets.TrailCacheLength[npc.type] = 6;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 14;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
+            NPC.Calamity().canBreakPlayerDefense = true;
 
-            npc.width = 176;
-            npc.height = 138;
-            npc.aiStyle = aiType = -1;
+            NPC.width = 176;
+            NPC.height = 138;
+            NPC.aiStyle = aiType = -1;
 
-            npc.lifeMax = 90000;
-            npc.defense = 50;
-            npc.damage = 135;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 20, 0, 0);
-            npc.DR_NERD(0.3f);
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit56;
-            npc.DeathSound = SoundID.NPCDeath60;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.lifeMax = 90000;
+            NPC.defense = 50;
+            NPC.damage = 135;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 20, 0, 0);
+            NPC.DR_NERD(0.3f);
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit56;
+            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.dontTakeDamage);
+            writer.Write(NPC.dontTakeDamage);
             writer.Write(Dying);
             writer.Write(Walking);
             writer.Write(AttackIndex);
@@ -111,7 +112,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.dontTakeDamage = reader.ReadBoolean();
+            NPC.dontTakeDamage = reader.ReadBoolean();
             Dying = reader.ReadBoolean();
             Walking = reader.ReadBoolean();
             AttackIndex = reader.ReadInt32();
@@ -122,31 +123,31 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, (Dying ? Color.Lime.ToVector3() : Color.White.ToVector3()) * 2f);
+            Lighting.AddLight(NPC.Center, (Dying ? Color.Lime.ToVector3() : Color.White.ToVector3()) * 2f);
             if (Dying)
                 return;
 
-            bool phase2 = npc.life / (float)npc.lifeMax < 0.5f;
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.5f;
             if (DelayTime > 0)
             {
                 DelayTime--;
-                npc.velocity.X *= 0.9f;
-                if (npc.velocity.Y < 18f)
-                    npc.velocity.Y += 0.35f;
+                NPC.velocity.X *= 0.9f;
+                if (NPC.velocity.Y < 18f)
+                    NPC.velocity.Y += 0.35f;
                 return;
             }
 
-            if (npc.target < 0 || npc.target >= 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (NPC.target < 0 || NPC.target >= 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(false);
-                npc.netUpdate = true;
+                NPC.TargetClosest(false);
+                NPC.netUpdate = true;
             }
 
             if (TeleportCountdown > -TeleportCooldown)
                 TeleportEffects();
 
-            npc.defDamage = 170;
-            npc.damage = Dying ? 0 : npc.defDamage;
+            NPC.defDamage = 170;
+            NPC.damage = Dying ? 0 : NPC.defDamage;
             TeleportCheck();
 
             AttackTime++;
@@ -155,7 +156,7 @@ namespace CalamityMod.NPCs.AcidRain
             Walking = false;
 
             // Teleport if spam-collisions are done, they are pretty good indicators of being stuck.
-            if (npc.collideX)
+            if (NPC.collideX)
             {
                 if (HorizontalCollisionCounterDelay > 0)
                     HorizontalCollisionSpamCounter++;
@@ -167,56 +168,56 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (wrappedAttackTime < 240f)
             {
-                if (npc.velocity.Y == 0f)
+                if (NPC.velocity.Y == 0f)
                 {
                     JumpTimer++;
-                    npc.velocity.X *= 0.8f;
+                    NPC.velocity.X *= 0.8f;
 
                     // Jump towards the target if enough time has passed or they're not in this enemy's line of sight.
-                    if (JumpTimer >= 70f || !Collision.CanHit(npc.position, npc.width, npc.height, Target.position, Target.width, Target.height))
+                    if (JumpTimer >= 70f || !Collision.CanHit(NPC.position, NPC.width, NPC.height, Target.position, Target.width, Target.height))
                     {
                         JumpTimer = 0f;
-                        npc.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - npc.Center.Y) / 12.5f, 8f, 18f);
-                        npc.velocity.X = npc.SafeDirectionTo(Target.Center).X * 18f;
-                        npc.netUpdate = true;
+                        NPC.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - NPC.Center.Y) / 12.5f, 8f, 18f);
+                        NPC.velocity.X = NPC.SafeDirectionTo(Target.Center).X * 18f;
+                        NPC.netUpdate = true;
                     }
                     else
                     {
-                        if (Walking != Math.Abs(npc.velocity.X) > 4f)
+                        if (Walking != Math.Abs(NPC.velocity.X) > 4f)
                         {
-                            Walking = Math.Abs(npc.velocity.X) > 4f;
-                            npc.netUpdate = true;
+                            Walking = Math.Abs(NPC.velocity.X) > 4f;
+                            NPC.netUpdate = true;
                         }
 
                         // Force a jump the next frame to overcome any horizontal obstacles if they exist.
-                        if (npc.collideX)
+                        if (NPC.collideX)
                         {
                             JumpTimer = 50;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
 
                         // Otherwise walk towards the target if they're not super close.
-                        else if (Math.Abs(Target.Center.X - npc.Center.X) > 125f)
+                        else if (Math.Abs(Target.Center.X - NPC.Center.X) > 125f)
                         {
-                            npc.velocity.X += Math.Sign(npc.SafeDirectionTo(Target.Center).X) * 3f;
-                            npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -28f, 28f);
+                            NPC.velocity.X += Math.Sign(NPC.SafeDirectionTo(Target.Center).X) * 3f;
+                            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -28f, 28f);
                         }
 
                         // If they are close though, slow down horizontally.
                         else
-                            npc.velocity.X *= 0.99f;
+                            NPC.velocity.X *= 0.99f;
                     }
                 }
-                npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
+                NPC.spriteDirection = (NPC.velocity.X < 0).ToDirectionInt();
             }
             else
             {
-                npc.velocity.X *= 0.96f;
+                NPC.velocity.X *= 0.96f;
                 if (wrappedAttackTime == 255f)
                 {
                     ShootPosition = Target.Center;
-                    npc.netUpdate = true;
-                    npc.spriteDirection = (ShootPosition.X - npc.Center.X < 0).ToDirectionInt();
+                    NPC.netUpdate = true;
+                    NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();
                 }
 
                 PerformSpecialAttack(wrappedAttackTime);
@@ -231,16 +232,16 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public void TeleportCheck()
         {
-            float distanceFromTarget = npc.Distance(Target.Center);
+            float distanceFromTarget = NPC.Distance(Target.Center);
             bool targetIsFarOff = distanceFromTarget > 900f;
-            bool targetNotInLineOfSight = !Collision.CanHit(npc.position, npc.width, npc.height, Target.position, Target.width, Target.height);
+            bool targetNotInLineOfSight = !Collision.CanHit(NPC.position, NPC.width, NPC.height, Target.position, Target.width, Target.height);
             if (TeleportCountdown <= -TeleportCooldown)
             {
-                if (distanceFromTarget <= 2700f && !(targetIsFarOff && targetNotInLineOfSight) && !StuckOnPlatform() && !npc.wet && HorizontalCollisionSpamCounter <= 5f)
+                if (distanceFromTarget <= 2700f && !(targetIsFarOff && targetNotInLineOfSight) && !StuckOnPlatform() && !NPC.wet && HorizontalCollisionSpamCounter <= 5f)
                     return;
 
                 Point playerPositionTileCoords = Target.position.ToTileCoordinates();
-                Point npcPositionTileCoords = npc.position.ToTileCoordinates();
+                Point npcPositionTileCoords = NPC.position.ToTileCoordinates();
 
                 for (int tries = 0; tries < 250; tries++)
                 {
@@ -257,7 +258,7 @@ namespace CalamityMod.NPCs.AcidRain
                         Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
                         bool veryCloseToTarget = Math.Abs(y - playerPositionTileCoords.Y) < 12 || Math.Abs(x - playerPositionTileCoords.X) < 12;
                         bool veryCloseToSelf = Math.Abs(y - npcPositionTileCoords.Y) < 12 || Math.Abs(x - npcPositionTileCoords.X) < 12;
-                        bool solidGround = (Main.tileSolid[tileBelow.type] || Main.tileSolidTop[tileBelow.type]) && tileBelow.active();
+                        bool solidGround = (Main.tileSolid[tileBelow.TileType] || Main.tileSolidTop[tileBelow.TileType]) && tileBelow.active();
                         if (!veryCloseToTarget && !veryCloseToSelf && solidGround)
                         {
                             // If the below tile has lava, skip it.
@@ -278,7 +279,7 @@ namespace CalamityMod.NPCs.AcidRain
                             TeleportCountdown = TeleportTime;
                             TeleportLocation = new Vector2(x, y - 6f);
                             HorizontalCollisionSpamCounter = 0f;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
 
                             return;
                         Continue:
@@ -298,27 +299,27 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (TeleportCountdown == 0f && TeleportLocation != Vector2.Zero)
                 {
-                    npc.position = TeleportLocation.ToWorldCoordinates(8f, 0f) - npc.Size;
-                    npc.netUpdate = true;
-                    npc.velocity = Vector2.Zero;
+                    NPC.position = TeleportLocation.ToWorldCoordinates(8f, 0f) - NPC.Size;
+                    NPC.netUpdate = true;
+                    NPC.velocity = Vector2.Zero;
                 }
                 else
                 {
-                    npc.Opacity = TeleportCountdown / TeleportTime;
+                    NPC.Opacity = TeleportCountdown / TeleportTime;
 
-                    int totalDust = (int)(30 * npc.alpha / 255f);
+                    int totalDust = (int)(30 * NPC.alpha / 255f);
                     for (int i = 0; i < totalDust; i++)
                     {
-                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid);
+                        Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid);
                         dust.noGravity = true;
-                        dust.velocity = npc.DirectionFrom(dust.position) * 2f;
+                        dust.velocity = NPC.DirectionFrom(dust.position) * 2f;
                         dust.scale = 1.6f;
                     }
 
                     // Fall and slow down horizontally.
-                    npc.velocity.X *= 0.95f;
-                    if (npc.velocity.Y < 18f)
-                        npc.velocity.Y += 0.35f;
+                    NPC.velocity.X *= 0.95f;
+                    if (NPC.velocity.Y < 18f)
+                        NPC.velocity.Y += 0.35f;
                 }
                 return;
             }
@@ -326,14 +327,14 @@ namespace CalamityMod.NPCs.AcidRain
             // Release some dust before going back to normal.
             if (TeleportCountdown >= -TeleportFadeinTime)
             {
-                npc.Opacity = TeleportCountdown / -TeleportFadeinTime;
+                NPC.Opacity = TeleportCountdown / -TeleportFadeinTime;
                 if (TeleportCountdown == -TeleportFadeinTime)
                 {
                     for (int i = 0; i < 48; i++)
                     {
-                        Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid);
+                        Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid);
                         dust.noGravity = true;
-                        dust.velocity = npc.DirectionFrom(dust.position) * Main.rand.NextFloat(2f, 3.6f);
+                        dust.velocity = NPC.DirectionFrom(dust.position) * Main.rand.NextFloat(2f, 3.6f);
                         dust.scale = 1.8f;
                     }
                 }
@@ -344,8 +345,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             for (int i = -12; i < 12; i++)
             {
-                Point bottom = (npc.Bottom + Vector2.UnitY * i).ToTileCoordinates();
-                if (TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(bottom.X, bottom.Y).type] && Target.Top.Y > npc.Bottom.Y + 48)
+                Point bottom = (NPC.Bottom + Vector2.UnitY * i).ToTileCoordinates();
+                if (TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(bottom.X, bottom.Y).TileType] && Target.Top.Y > NPC.Bottom.Y + 48)
                     return true;
             }
             return false;
@@ -353,16 +354,16 @@ namespace CalamityMod.NPCs.AcidRain
 
         public void PerformSpecialAttack(float wrappedAttackTime)
         {
-            Vector2 mouthPosition = npc.Center - Vector2.UnitY * 26f;
-            mouthPosition.X += npc.spriteDirection * -54f;
+            Vector2 mouthPosition = NPC.Center - Vector2.UnitY * 26f;
+            mouthPosition.X += NPC.spriteDirection * -54f;
 
             TeleportCountdown = -TeleportCooldown;
-            Vector2 directionToTarget = (Target.Center - mouthPosition).SafeNormalize(Vector2.UnitX * npc.spriteDirection);
-            Vector2 directionToShootPosition = (ShootPosition - mouthPosition).SafeNormalize(Vector2.UnitX * npc.spriteDirection);
+            Vector2 directionToTarget = (Target.Center - mouthPosition).SafeNormalize(Vector2.UnitX * NPC.spriteDirection);
+            Vector2 directionToShootPosition = (ShootPosition - mouthPosition).SafeNormalize(Vector2.UnitX * NPC.spriteDirection);
             switch (PhaseArray[AttackIndex])
             {
                 case SpecialAttackState.DivergingBullets:
-                    npc.velocity.X *= 0.9f;
+                    NPC.velocity.X *= 0.9f;
                     float shootAdjustedTime = wrappedAttackTime - (AttackCycleTime - SpecialAttackTime);
                     bool shouldShoot = shootAdjustedTime >= 20f;
                     shouldShoot &= (shootAdjustedTime - 20f) % 30f < 12f;
@@ -377,8 +378,8 @@ namespace CalamityMod.NPCs.AcidRain
                             int bullet = Projectile.NewProjectile(mouthPosition, directionToShootPosition.RotatedBy(angle) * 14f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4f);
                             Main.projectile[bullet].localAI[0] = angle;
                         }
-                        npc.spriteDirection = (ShootPosition.X - npc.Center.X < 0).ToDirectionInt();
-                        Main.PlaySound(SoundID.NPCDeath13, mouthPosition);
+                        NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();
+                        SoundEngine.PlaySound(SoundID.NPCDeath13, mouthPosition);
                     }
                     if (wrappedAttackTime >= (AttackCycleTime - SpecialAttackTime + 35f) && AttackTime % 10f == 9f)
                         Projectile.NewProjectile(mouthPosition, directionToTarget * 12f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 3f);
@@ -392,7 +393,7 @@ namespace CalamityMod.NPCs.AcidRain
                             Projectile.NewProjectile(mouthPosition, directionToTarget.RotatedBy(angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
                             Projectile.NewProjectile(mouthPosition, directionToTarget.RotatedBy(-angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
                         }
-                        npc.spriteDirection = (Target.Center.X - npc.Center.X < 0).ToDirectionInt();
+                        NPC.spriteDirection = (Target.Center.X - NPC.Center.X < 0).ToDirectionInt();
                     }
                     break;
                 case SpecialAttackState.ShotgunBurstOfBullets:
@@ -406,7 +407,7 @@ namespace CalamityMod.NPCs.AcidRain
                                 Projectile.NewProjectile(mouthPosition, directionToShootPosition.RotatedBy(angle) * 13f, ModContent.ProjectileType<NuclearBulletMedium>(), 48, 4f);
                             }
                         }
-                        npc.spriteDirection = (ShootPosition.X - npc.Center.X < 0).ToDirectionInt();
+                        NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();
                     }
                     break;
             }
@@ -414,26 +415,26 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.85f);
         }
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
+            NPC.frameCounter++;
             int frameChangeRate = Dying ? 7 : 6;
 
             // Walk faster the faster this thing is moving.
             if (Walking)
-                frameChangeRate = 8 - (int)Math.Ceiling(Math.Abs(npc.velocity.X) / 5f);
+                frameChangeRate = 8 - (int)Math.Ceiling(Math.Abs(NPC.velocity.X) / 5f);
 
-            if (npc.frameCounter >= frameChangeRate)
+            if (NPC.frameCounter >= frameChangeRate)
             {
-                npc.frame.Y += frameHeight;
-                npc.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                NPC.frameCounter = 0;
             }
             if (Dying)
             {
-                if (npc.frame.Y < frameHeight * 8)
+                if (NPC.frame.Y < frameHeight * 8)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -441,33 +442,33 @@ namespace CalamityMod.NPCs.AcidRain
                         {
                             int type = Main.rand.NextBool(4) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<NuclearBulletLarge>();
                             float angle = MathHelper.TwoPi / 16f * i;
-                            Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 11f), type, 48, 3f);
+                            Projectile.NewProjectile(NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 11f), type, 48, 3f);
                         }
                     }
                     for (int i = 0; i < 60; i++)
                     {
-                        Dust dust = Dust.NewDustDirect(npc.Center, 45, 45, (int)CalamityDusts.SulfurousSeaAcid);
+                        Dust dust = Dust.NewDustDirect(NPC.Center, 45, 45, (int)CalamityDusts.SulfurousSeaAcid);
                         dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(4f, 15f);
                         dust.noGravity = true;
                         dust.scale = Main.rand.NextFloat(2f, 3f);
                     }
-                    npc.frame.Y = frameHeight * 8;
+                    NPC.frame.Y = frameHeight * 8;
                 }
-                if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
-                    npc.StrikeNPCNoInteraction(9999, 0f, 0);
+                if (NPC.frame.Y >= frameHeight * Main.npcFrameCount[NPC.type])
+                    NPC.StrikeNPCNoInteraction(9999, 0f, 0);
             }
-            else if (npc.frame.Y >= (Walking ? 8 : 4) * frameHeight)
-                npc.frame.Y = Walking ? 4 * frameHeight : 0;
+            else if (NPC.frame.Y >= (Walking ? 8 : 4) * frameHeight)
+                NPC.frame.Y = Walking ? 4 * frameHeight : 0;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (npc.velocity.Length() > 0f)
+            if (NPC.velocity.Length() > 0f)
             {
                 Color endColor = Color.DarkOliveGreen;
                 endColor.A = Color.Transparent.A;
-                CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, endColor, directioning: true, invertedDirection: true);
+                CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, endColor, directioning: true, invertedDirection: true);
             }
-            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, null, true);
+            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, null, true);
             return false;
         }
 
@@ -476,11 +477,11 @@ namespace CalamityMod.NPCs.AcidRain
             if (!Dying)
             {
                 Dying = true;
-                npc.active = true;
-                npc.life = 1;
-                npc.dontTakeDamage = true;
-                npc.velocity = Vector2.Zero;
-                npc.netUpdate = true;
+                NPC.active = true;
+                NPC.life = 1;
+                NPC.dontTakeDamage = true;
+                NPC.velocity = Vector2.Zero;
+                NPC.netUpdate = true;
                 return false;
             }
             return Dying;
@@ -489,15 +490,15 @@ namespace CalamityMod.NPCs.AcidRain
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<GammaHeart>(), 3);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PhosphorescentGauntlet>(), 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<GammaHeart>(), 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<PhosphorescentGauntlet>(), 3);
         }
     }
 }

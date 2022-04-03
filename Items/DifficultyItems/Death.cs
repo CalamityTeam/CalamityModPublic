@@ -37,21 +37,21 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.expert = true;
-            item.rare = ItemRarityID.Purple;
-            item.width = 28;
-            item.height = 28;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item119;
-            item.consumable = false;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Purple;
+            Item.width = 28;
+            Item.height = 28;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item119;
+            Item.consumable = false;
         }
 
         // Can only be used in Revengeance Mode.
         public override bool CanUseItem(Player player) => CalamityWorld.revenge || CalamityWorld.death;
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             // This world syncing code should only be run by one entity- the server, to prevent a race condition
             // with the packets.
@@ -95,10 +95,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

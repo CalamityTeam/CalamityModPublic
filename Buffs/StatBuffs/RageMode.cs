@@ -1,12 +1,13 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
     public class RageMode : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rage Mode");
             Description.SetDefault("35% damage boost.");
@@ -32,7 +33,7 @@ namespace CalamityMod.Buffs.StatBuffs
             // Otherwise, Rage Mode ends instantly.
             else
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
                 player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
                 mp.rageModeActive = false;
                 mp.rage = 0f;

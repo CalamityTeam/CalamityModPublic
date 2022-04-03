@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneHellfireball : ModProjectile
@@ -12,89 +13,89 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Hellfireball");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 34;
-            projectile.height = 34;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.alpha = 255;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.alpha = 255;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
             // Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 9)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 9)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 6)
-                projectile.frame = 0;
+            if (Projectile.frame >= 6)
+                Projectile.frame = 0;
 
             // Fade in
-            if (projectile.alpha > 5)
-                projectile.alpha -= 15;
-            if (projectile.alpha < 5)
-                projectile.alpha = 5;
+            if (Projectile.alpha > 5)
+                Projectile.alpha -= 15;
+            if (Projectile.alpha < 5)
+                Projectile.alpha = 5;
 
-            if (projectile.ai[0] != 0f && projectile.ai[1] != 0f)
+            if (Projectile.ai[0] != 0f && Projectile.ai[1] != 0f)
             {
                 bool flag15 = false;
                 bool flag16 = false;
-                if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
+                if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
                     flag15 = true;
-                if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
+                if (Projectile.velocity.X > 0f && Projectile.position.X > Projectile.ai[0])
                     flag15 = true;
-                if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
+                if (Projectile.velocity.Y < 0f && Projectile.position.Y < Projectile.ai[1])
                     flag16 = true;
-                if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
+                if (Projectile.velocity.Y > 0f && Projectile.position.Y > Projectile.ai[1])
                     flag16 = true;
                 if (flag15 & flag16)
-                    projectile.Kill();
+                    Projectile.Kill();
             }
 
             // Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90f) * projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90f) * Projectile.direction;
 
-            if (projectile.velocity.Length() < 16f)
-                projectile.velocity *= 1.01f;
+            if (Projectile.velocity.Length() < 16f)
+                Projectile.velocity *= 1.01f;
 
-            Lighting.AddLight(projectile.Center, 0.5f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0f, 0f);
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                projectile.localAI[0] += 1f;
+                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
+                Projectile.localAI[0] += 1f;
             }
 
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
+            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += projectile.velocity * 0.1f;
+            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(250, 50, 50, projectile.alpha);
+            return new Color(250, 50, 50, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (Projectile.owner == Main.myPlayer)
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -104,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

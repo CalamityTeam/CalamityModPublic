@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodTableTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpTable();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));

@@ -14,20 +14,20 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.maxStack = 20;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.bait = 4444;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
+            Item.width = 28;
+            Item.height = 28;
+            Item.maxStack = 20;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.bait = 4444;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
         }
     }
 }

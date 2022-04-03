@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 123;
-            item.melee = true;
-            item.useAnimation = 36;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 36;
-            item.useTurn = true;
-            item.knockBack = 5;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.scale = 1.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<DarkBeam>();
-            item.shootSpeed = 25f;
+            Item.width = 58;
+            Item.damage = 123;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 36;
+            Item.useTurn = true;
+            Item.knockBack = 5;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 60;
+            Item.scale = 1.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<DarkBeam>();
+            Item.shootSpeed = 25f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,14 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(ItemID.SoulofNight);
-            recipe.AddIngredient(ItemID.SoulofLight);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12).AddIngredient(ItemID.FallenStar, 5).AddIngredient(ItemID.SoulofNight).AddIngredient(ItemID.SoulofLight).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

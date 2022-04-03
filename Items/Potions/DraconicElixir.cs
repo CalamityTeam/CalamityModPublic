@@ -22,58 +22,42 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 44;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.rare = ItemRarityID.Purple;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<DraconicSurgeBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 50;
+            Item.height = 44;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ItemRarityID.Purple;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<DraconicSurgeBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.DraconicElixir.ID);
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Potions/DraconicElixir_Animated");
-            spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 10), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Potions/DraconicElixir_Animated");
+            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 10), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Potions/DraconicElixir_Animated");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 10), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Potions/DraconicElixir_Animated");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 10), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
-            recipe.AddIngredient(ItemID.Daybloom);
-            recipe.AddIngredient(ItemID.Moonglow);
-            recipe.AddIngredient(ItemID.Fireblossom);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.alchemy = true;
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            // Blood orb recipes don't get the Alchemy Table effect
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<HellcasterFragment>()).AddIngredient(ItemID.Daybloom).AddIngredient(ItemID.Moonglow).AddIngredient(ItemID.Fireblossom).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 50).AddIngredient(ModContent.ItemType<HellcasterFragment>()).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

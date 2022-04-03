@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class SwirlingCosmicFlameDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CosmicFlameShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CosmicFlameShader").Value), "DyePass").
             UseColor(new Color(52, 212, 229)).UseSecondaryColor(new Color(255, 115, 221)).UseImage("Images/Misc/Noise").UseSaturation(1f);
         public override void SafeSetStaticDefaults()
         {
@@ -18,19 +18,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.sellPrice(0, 7, 50, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.sellPrice(0, 7, 50, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlueCosmicFlameDye>());
-            recipe.AddIngredient(ModContent.ItemType<PinkCosmicFlameDye>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ModContent.ItemType<BlueCosmicFlameDye>()).AddIngredient(ModContent.ItemType<PinkCosmicFlameDye>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

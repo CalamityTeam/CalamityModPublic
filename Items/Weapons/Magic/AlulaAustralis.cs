@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Alula Australis");
             Tooltip.SetDefault("Fires a beautiful aurora trailed by a star shower");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 99;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 17;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AuroraAustralis>();
-            item.shootSpeed = 13f;
+            Item.damage = 99;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 17;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AuroraAustralis>();
+            Item.shootSpeed = 13f;
         }
 
         public override Vector2? HoldoutOrigin()

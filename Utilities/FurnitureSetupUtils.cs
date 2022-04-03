@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 namespace CalamityMod
 {
@@ -29,10 +30,10 @@ namespace CalamityMod
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
-            int spawnX = i - tile.frameX / 18;
+            int spawnX = i - tile.TileFrameX / 18;
             int spawnY = j + 2;
-            spawnX += tile.frameX >= 72 ? 5 : 2;
-            if (tile.frameY % 38 != 0)
+            spawnX += tile.TileFrameX >= 72 ? 5 : 2;
+            if (tile.TileFrameY % 38 != 0)
             {
                 spawnY--;
             }
@@ -57,24 +58,24 @@ namespace CalamityMod
             Main.mouseRightRelease = false;
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
             if (player.sign >= 0)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 player.sign = -1;
                 Main.editSign = false;
                 Main.npcChatText = "";
             }
             if (Main.editChest)
             {
-                Main.PlaySound(SoundID.MenuTick);
+                SoundEngine.PlaySound(SoundID.MenuTick);
                 Main.editChest = false;
                 Main.npcChatText = "";
             }
@@ -90,7 +91,7 @@ namespace CalamityMod
                 {
                     player.chest = -1;
                     Recipe.FindRecipes();
-                    Main.PlaySound(SoundID.MenuClose);
+                    SoundEngine.PlaySound(SoundID.MenuClose);
                 }
                 else
                 {
@@ -107,7 +108,7 @@ namespace CalamityMod
                     if (chest == player.chest)
                     {
                         player.chest = -1;
-                        Main.PlaySound(SoundID.MenuClose);
+                        SoundEngine.PlaySound(SoundID.MenuClose);
                     }
                     else
                     {
@@ -116,7 +117,7 @@ namespace CalamityMod
                         Main.recBigList = false;
                         player.chestX = left;
                         player.chestY = top;
-                        Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+                        SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
                     }
                     Recipe.FindRecipes();
                 }
@@ -130,11 +131,11 @@ namespace CalamityMod
             Tile tile = Main.tile[i, j];
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
@@ -220,24 +221,24 @@ namespace CalamityMod
         public static bool DresserRightClick()
         {
             Player player = Main.LocalPlayer;
-            if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0)
+            if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY == 0)
             {
                 Main.CancelClothesWindow(true);
 
-                int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
+                int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameX / 18);
                 left %= 3;
                 left = Player.tileTargetX - left;
-                int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY / 18);
+                int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY / 18);
                 if (player.sign > -1)
                 {
-                    Main.PlaySound(SoundID.MenuClose);
+                    SoundEngine.PlaySound(SoundID.MenuClose);
                     player.sign = -1;
                     Main.editSign = false;
                     Main.npcChatText = string.Empty;
                 }
                 if (Main.editChest)
                 {
-                    Main.PlaySound(SoundID.MenuTick);
+                    SoundEngine.PlaySound(SoundID.MenuTick);
                     Main.editChest = false;
                     Main.npcChatText = string.Empty;
                 }
@@ -252,7 +253,7 @@ namespace CalamityMod
                     {
                         player.chest = -1;
                         Recipe.FindRecipes();
-                        Main.PlaySound(SoundID.MenuClose);
+                        SoundEngine.PlaySound(SoundID.MenuClose);
                     }
                     else
                     {
@@ -272,14 +273,14 @@ namespace CalamityMod
                         {
                             player.chest = -1;
                             Recipe.FindRecipes();
-                            Main.PlaySound(SoundID.MenuClose);
+                            SoundEngine.PlaySound(SoundID.MenuClose);
                         }
                         else if (num213 != player.chest && player.chest == -1)
                         {
                             player.chest = num213;
                             Main.playerInventory = true;
                             Main.recBigList = false;
-                            Main.PlaySound(SoundID.MenuOpen);
+                            SoundEngine.PlaySound(SoundID.MenuOpen);
                             player.chestX = left;
                             player.chestY = top;
                         }
@@ -288,7 +289,7 @@ namespace CalamityMod
                             player.chest = num213;
                             Main.playerInventory = true;
                             Main.recBigList = false;
-                            Main.PlaySound(SoundID.MenuTick);
+                            SoundEngine.PlaySound(SoundID.MenuTick);
                             player.chestX = left;
                             player.chestY = top;
                         }
@@ -317,8 +318,8 @@ namespace CalamityMod
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
             int left = Player.tileTargetX;
             int top = Player.tileTargetY;
-            left -= (int)(tile.frameX % 54 / 18);
-            if (tile.frameY % 36 != 0)
+            left -= (int)(tile.TileFrameX % 54 / 18);
+            if (tile.TileFrameY % 36 != 0)
             {
                 top--;
             }
@@ -359,8 +360,8 @@ namespace CalamityMod
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
             int left = Player.tileTargetX;
             int top = Player.tileTargetY;
-            left -= (int)(tile.frameX % 54 / 18);
-            if (tile.frameY % 36 != 0)
+            left -= (int)(tile.TileFrameX % 54 / 18);
+            if (tile.TileFrameY % 36 != 0)
             {
                 top--;
             }
@@ -388,7 +389,7 @@ namespace CalamityMod
             }
             player.noThrow = 2;
             player.showItemIcon = true;
-            if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0)
+            if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY > 0)
             {
                 player.showItemIcon2 = ItemID.FamiliarShirt;
             }
@@ -401,7 +402,7 @@ namespace CalamityMod
             // If the player right clicked the chest while editing a sign, finish that up
             if (player.sign >= 0)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 player.sign = -1;
                 Main.editSign = false;
                 Main.npcChatText = "";
@@ -410,7 +411,7 @@ namespace CalamityMod
             // If the player right clicked the chest while editing a chest, finish that up
             if (Main.editChest)
             {
-                Main.PlaySound(SoundID.MenuTick);
+                SoundEngine.PlaySound(SoundID.MenuTick);
                 Main.editChest = false;
                 Main.npcChatText = "";
             }
@@ -428,7 +429,7 @@ namespace CalamityMod
                 {
                     player.chest = -1;
                     Recipe.FindRecipes();
-                    Main.PlaySound(SoundID.MenuClose);
+                    SoundEngine.PlaySound(SoundID.MenuClose);
                 }
 
                 // Right clicking this chest opens it if it's not already open. This counts as interaction.
@@ -465,7 +466,7 @@ namespace CalamityMod
                         if (chest == player.chest)
                         {
                             player.chest = -1;
-                            Main.PlaySound(SoundID.MenuClose);
+                            SoundEngine.PlaySound(SoundID.MenuClose);
                         }
 
                         // If you right click this chest when you have a different chest selected, that one closes and this one opens. This counts as interaction.
@@ -476,7 +477,7 @@ namespace CalamityMod
                             Main.recBigList = false;
                             player.chestX = left;
                             player.chestY = top;
-                            Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+                            SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
                         }
 
                         Recipe.FindRecipes();
@@ -496,11 +497,11 @@ namespace CalamityMod
             Tile tile = Main.tile[i, j];
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
@@ -516,7 +517,7 @@ namespace CalamityMod
                 if (player.showItemIconText == chestName)
                 {
                     player.showItemIcon2 = ItemType<C>();
-                    if (Main.tile[left, top].frameX / 36 == 1)
+                    if (Main.tile[left, top].TileFrameX / 36 == 1)
                         player.showItemIcon2 = ItemType<K>();
                     player.showItemIconText = "";
                 }

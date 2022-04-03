@@ -19,26 +19,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.height = 66;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.damage = BaseDamage;
-            item.knockBack = 4f;
-            item.useAnimation = 25;
-            item.useTime = 5;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.width = 66;
+            Item.height = 66;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = BaseDamage;
+            Item.knockBack = 4f;
+            Item.useAnimation = 25;
+            Item.useTime = 5;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
 
-            item.Calamity().trueMelee = true;
-            item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
-            item.shootSpeed = 24f;
+            Item.Calamity().trueMelee = true;
+            Item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
+            Item.shootSpeed = 24f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.Arkhalis);
-            r.AddIngredient(ModContent.ItemType<DemonicBoneAsh>(), 10);
-            r.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 25);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Arkhalis).AddIngredient(ModContent.ItemType<DemonicBoneAsh>(), 10).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 25).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

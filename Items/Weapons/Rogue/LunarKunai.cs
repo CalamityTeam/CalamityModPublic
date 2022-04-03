@@ -19,29 +19,29 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
-            item.damage = 120;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(copper: 24);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<LunarKunaiProj>();
-            item.shootSpeed = 22f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.height = 38;
+            Item.damage = 120;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 10;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.value = Item.sellPrice(copper: 24);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<LunarKunaiProj>();
+            Item.shootSpeed = 22f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -105,11 +105,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 333);
-            recipe.AddRecipe();
+            CreateRecipe(333).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

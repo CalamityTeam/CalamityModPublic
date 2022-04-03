@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -22,40 +23,40 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 30;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
+            Projectile.width = Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
             cooldownSlot = 1;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
-            projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
+            Projectile.Calamity().canBreakPlayerDefense = true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
-                projectile.velocity *= 1.25f;
+            if (Projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+                Projectile.velocity *= 1.25f;
 
-            if (projectile.ai[0] < 240f)
+            if (Projectile.ai[0] < 240f)
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
 
-                if (projectile.timeLeft < 160)
-                    projectile.timeLeft = 160;
+                if (Projectile.timeLeft < 160)
+                    Projectile.timeLeft = 160;
             }
 
-            if (projectile.velocity.Length() < 16f)
-                projectile.velocity *= 1.01f;
+            if (Projectile.velocity.Length() < 16f)
+                Projectile.velocity *= 1.01f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            float lerpMult = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
+            float lerpMult = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
 
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Color baseColor = (Main.dayTime && !CalamityWorld.malice) ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
             baseColor *= 0.5f;
             baseColor.A = 0;
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 scale = new Vector2(0.5f, 1.5f) * lerpMult;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             float upRight = MathHelper.PiOver4;
@@ -88,12 +89,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 50);
             int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int d = 0; d < 5; d++)
             {
-                int holy = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                int holy = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[holy].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -103,10 +104,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int d = 0; d < 8; d++)
             {
-                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
         }
@@ -115,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 180);
-            projectile.Kill();
+            Projectile.Kill();
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

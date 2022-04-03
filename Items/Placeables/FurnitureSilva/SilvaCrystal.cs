@@ -13,38 +13,23 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaCrystal>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaCrystal>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalBlock, 200);
-            recipe.AddRecipeGroup("AnyGoldBar", 25);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
-            recipe.SetResult(this, 400);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
-            recipe.AddRecipe();
+            CreateRecipe(400).AddIngredient(ItemID.CrystalBlock, 200).AddRecipeGroup("AnyGoldBar", 25).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<DarksunFragment>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaWall>(), 4).AddTile(ModContent.TileType<SilvaBasin>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2).AddTile(ModContent.TileType<SilvaBasin>()).Register();
         }
     }
 }

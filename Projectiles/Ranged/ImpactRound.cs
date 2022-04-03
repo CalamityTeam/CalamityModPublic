@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -18,36 +19,36 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 7;
-            projectile.scale = 1.18f;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 7;
+            Projectile.scale = 1.18f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            if (!initialized && projectile.ranged) //Ranged check prevents quiver splits triggering the sound
+            if (!initialized && Projectile.ranged) //Ranged check prevents quiver splits triggering the sound
             {
                 initialized = true;
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+                    var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
                     sound = sound.WithVolume(sound.Volume * 0.45f);
-                    Main.PlaySound(sound, projectile.Center);
+                    SoundEngine.PlaySound(sound, Projectile.Center);
                 }
             }
         }
@@ -60,6 +61,6 @@ namespace CalamityMod.Projectiles.Ranged
             damage = (int)(damage * damageMult);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft < 600;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.timeLeft < 600;
     }
 }

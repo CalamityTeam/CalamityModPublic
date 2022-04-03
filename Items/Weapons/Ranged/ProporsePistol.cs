@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 20;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<ProBolt>();
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 20;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<ProBolt>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

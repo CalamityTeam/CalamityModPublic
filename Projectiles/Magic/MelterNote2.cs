@@ -11,33 +11,33 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 16;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.99f;
+            Projectile.velocity *= 0.99f;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.02f;
-                if (projectile.scale >= 1.25f)
-                    projectile.localAI[0] = 1f;
+                Projectile.scale += 0.02f;
+                if (Projectile.scale >= 1.25f)
+                    Projectile.localAI[0] = 1f;
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale -= 0.02f;
-                if (projectile.scale <= 0.75f)
-                    projectile.localAI[0] = 0f;
+                Projectile.scale -= 0.02f;
+                if (Projectile.scale <= 0.75f)
+                    Projectile.localAI[0] = 0f;
             }
         }
 

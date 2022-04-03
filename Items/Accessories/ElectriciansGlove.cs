@@ -17,11 +17,11 @@ Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal 
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 40;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.accessory = true;
-            item.rare = ItemRarityID.Pink;
+            Item.width = 24;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,20 +34,8 @@ Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal 
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FilthyGlove>());
-            recipe.AddIngredient(ItemID.Wire, 100);
-            recipe.AddRecipeGroup("AnyMythrilBar", 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstainedGlove>());
-            recipe.AddIngredient(ItemID.Wire, 100);
-            recipe.AddRecipeGroup("AnyMythrilBar", 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FilthyGlove>()).AddIngredient(ItemID.Wire, 100).AddRecipeGroup("AnyMythrilBar", 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstainedGlove>()).AddIngredient(ItemID.Wire, 100).AddRecipeGroup("AnyMythrilBar", 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -16,14 +16,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.rare = ItemRarityID.Lime;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item122;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.rare = ItemRarityID.Lime;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item122;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {

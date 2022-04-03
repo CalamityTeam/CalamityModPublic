@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileValue[Type] = 450;
             Main.tileSolid[Type] = true;

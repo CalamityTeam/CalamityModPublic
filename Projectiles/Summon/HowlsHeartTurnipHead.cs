@@ -11,25 +11,25 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Turnip-Head");
-            Main.projFrames[projectile.type] = 5;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 70;
-            projectile.height = 82;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.tileCollide = true;
+            Projectile.netImportant = true;
+            Projectile.width = 70;
+            Projectile.height = 82;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.tileCollide = true;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            Player player = Main.player[projectile.owner];
-            Vector2 center2 = projectile.Center;
+            Player player = Main.player[Projectile.owner];
+            Vector2 center2 = Projectile.Center;
             Vector2 vector48 = player.Center - center2;
             float playerDistance = vector48.Length();
             fallThrough = playerDistance > 200f;
@@ -38,14 +38,14 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             //If the correct minion, set bools
-            bool correctMinion = projectile.type == ModContent.ProjectileType<HowlsHeartTurnipHead>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<HowlsHeartTurnipHead>();
             if (!modPlayer.howlsHeart && !modPlayer.howlsHeartVanity || !player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (correctMinion)
@@ -56,73 +56,73 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.howlTrio)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            Vector2 vector46 = projectile.position;
+            Vector2 vector46 = Projectile.position;
             if (!fly)
             {
-                projectile.rotation = 0;
-                Vector2 playerVec = player.Center - projectile.Center;
+                Projectile.rotation = 0;
+                Vector2 playerVec = player.Center - Projectile.Center;
                 float playerDistance = playerVec.Length();
-                if (projectile.velocity.Y == 0f)
+                if (Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.Y = -3f;
+                    Projectile.velocity.Y = -3f;
                 }
-                projectile.velocity.Y += 0.2f;
-                if (projectile.velocity.Y > 7f)
+                Projectile.velocity.Y += 0.2f;
+                if (Projectile.velocity.Y > 7f)
                 {
-                    projectile.velocity.Y = 7f;
+                    Projectile.velocity.Y = 7f;
                 }
                 if (playerDistance > 600f)
                 {
                     fly = true;
-                    projectile.velocity.X = 0f;
+                    Projectile.velocity.X = 0f;
                 }
                 if (playerDistance > 100f)
                 {
-                    if (player.position.X - projectile.position.X > 0f)
+                    if (player.position.X - Projectile.position.X > 0f)
                     {
-                        projectile.velocity.X += 0.10f;
-                        if (projectile.velocity.X > 7f)
+                        Projectile.velocity.X += 0.10f;
+                        if (Projectile.velocity.X > 7f)
                         {
-                            projectile.velocity.X = 7f;
+                            Projectile.velocity.X = 7f;
                         }
                     }
                     else
                     {
-                        projectile.velocity.X -= 0.10f;
-                        if (projectile.velocity.X < -7f)
+                        Projectile.velocity.X -= 0.10f;
+                        if (Projectile.velocity.X < -7f)
                         {
-                            projectile.velocity.X = -7f;
+                            Projectile.velocity.X = -7f;
                         }
                     }
                 }
                 if (playerDistance < 100f)
                 {
-                    if (projectile.velocity.X != 0f)
+                    if (Projectile.velocity.X != 0f)
                     {
-                        if (projectile.velocity.X > 0.5f)
+                        if (Projectile.velocity.X > 0.5f)
                         {
-                            projectile.velocity.X -= 0.15f;
+                            Projectile.velocity.X -= 0.15f;
                         }
-                        else if (projectile.velocity.X < -0.5f)
+                        else if (Projectile.velocity.X < -0.5f)
                         {
-                            projectile.velocity.X += 0.15f;
+                            Projectile.velocity.X += 0.15f;
                         }
-                        else if (projectile.velocity.X < 0.5f && projectile.velocity.X > -0.5f)
+                        else if (Projectile.velocity.X < 0.5f && Projectile.velocity.X > -0.5f)
                         {
-                            projectile.velocity.X = 0f;
+                            Projectile.velocity.X = 0f;
                         }
                     }
                 }
@@ -130,31 +130,31 @@ namespace CalamityMod.Projectiles.Summon
             else if (fly)
             {
                 //still hopping
-                if (projectile.velocity.Y == 0f)
+                if (Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.Y = -3f;
+                    Projectile.velocity.Y = -3f;
                 }
-                projectile.velocity.Y += 0.2f;
-                if (projectile.velocity.Y > 7f)
+                Projectile.velocity.Y += 0.2f;
+                if (Projectile.velocity.Y > 7f)
                 {
-                    projectile.velocity.Y = 7f;
+                    Projectile.velocity.Y = 7f;
                 }
-                projectile.alpha += 15;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.position.X = player.position.X;
-                    projectile.position.Y = player.position.Y - 5f;
+                    Projectile.position.X = player.position.X;
+                    Projectile.position.Y = player.position.Y - 5f;
                     fly = false;
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                 }
             }
-            if (projectile.velocity.X > 0.25f)
+            if (Projectile.velocity.X > 0.25f)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            else if (projectile.velocity.X < -0.25f)
+            else if (Projectile.velocity.X < -0.25f)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
         }
 

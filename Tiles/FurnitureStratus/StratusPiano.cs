@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();

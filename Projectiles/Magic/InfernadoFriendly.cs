@@ -11,27 +11,27 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
-            Main.projFrames[projectile.type] = 12;
+            Main.projFrames[Projectile.type] = 12;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 320;
-            projectile.height = 88;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 500;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.magic = true;
+            Projectile.width = 320;
+            Projectile.height = 88;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 500;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 intersectingSomething = true;
 
             float scaleBase = 44f;
@@ -41,85 +41,85 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Main.rand.NextBool(25))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            if (projectile.velocity.X != 0f)
+            if (Projectile.velocity.X != 0f)
             {
-                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
+                Projectile.direction = Projectile.spriteDirection = -Math.Sign(Projectile.velocity.X);
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 2)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 2)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = 1f;
+                Projectile.scale = (scaleBase - Projectile.ai[1]) * scaleMult / scaleBase;
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
+                Projectile.netUpdate = true;
             }
-            if (projectile.ai[1] != -1f)
+            if (Projectile.ai[1] != -1f)
             {
-                projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
-                projectile.width = (int)(baseWidth * projectile.scale);
-                projectile.height = (int)(baseHeight * projectile.scale);
+                Projectile.scale = (scaleBase - Projectile.ai[1]) * scaleMult / scaleBase;
+                Projectile.width = (int)(baseWidth * Projectile.scale);
+                Projectile.height = (int)(baseHeight * Projectile.scale);
             }
             if (!intersectingSomething)
             {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 100)
+                Projectile.alpha -= 30;
+                if (Projectile.alpha < 100)
                 {
-                    projectile.alpha = 100;
+                    Projectile.alpha = 100;
                 }
             }
             else
             {
-                projectile.alpha += 30;
-                if (projectile.alpha > 200)
+                Projectile.alpha += 30;
+                if (Projectile.alpha > 200)
                 {
-                    projectile.alpha = 200;
+                    Projectile.alpha = 200;
                 }
             }
-            if (projectile.ai[0] > 0f)
+            if (Projectile.ai[0] > 0f)
             {
-                projectile.ai[0] -= 1f;
+                Projectile.ai[0] -= 1f;
             }
-            if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
+            if (Projectile.ai[0] == 1f && Projectile.ai[1] > 0f && Projectile.owner == Main.myPlayer)
             {
-                projectile.netUpdate = true;
-                Vector2 center = projectile.Center;
-                center.Y -= baseHeight * projectile.scale / 2f;
-                float num618 = (scaleBase - projectile.ai[1] + 1f) * scaleMult / scaleBase;
+                Projectile.netUpdate = true;
+                Vector2 center = Projectile.Center;
+                center.Y -= baseHeight * Projectile.scale / 2f;
+                float num618 = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
-                Projectile segment = Projectile.NewProjectileDirect(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                Projectile segment = Projectile.NewProjectileDirect(center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
                 //Defaults to magic
                 if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
-                    segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
-                    segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
-                    segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
-                    segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
-                    segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
-                    segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
+                    segment.Calamity().forceMelee = Projectile.Calamity().forceMelee;
+                    segment.Calamity().forceRanged = Projectile.Calamity().forceRanged;
+                    segment.Calamity().forceMinion = Projectile.Calamity().forceMinion;
+                    segment.Calamity().forceRogue = Projectile.Calamity().forceRogue;
+                    segment.Calamity().forceTypeless = Projectile.Calamity().forceTypeless;
+                    segment.Calamity().forceHostile = Projectile.Calamity().forceHostile;
                 }
             }
-            if (projectile.ai[0] <= 0f)
+            if (Projectile.ai[0] <= 0f)
             {
                 float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 5f;
+                float num623 = (float)Projectile.width / 5f;
                 num623 *= 2f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X -= num624 * -projectile.direction;
-                projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X += num624 * -projectile.direction;
+                float num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
+                Projectile.position.X -= num624 * -Projectile.direction;
+                Projectile.ai[0] -= 1f;
+                num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
+                Projectile.position.X += num624 * -Projectile.direction;
                 return;
             }
         }
@@ -128,17 +128,17 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (!intersectingSomething)
             {
-                return new Color(95, 95, 19, 255 - projectile.alpha);
+                return new Color(95, 95, 19, 255 - Projectile.alpha);
             }
-            return new Color(64, 64, 13, 255 - projectile.alpha);
+            return new Color(64, 64, 13, 255 - Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

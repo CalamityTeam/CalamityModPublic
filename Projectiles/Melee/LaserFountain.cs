@@ -13,33 +13,33 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 60;
-            projectile.melee = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 60;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
+            Projectile.localAI[0] += 1f;
             float SpeedX = (float)Main.rand.Next(-15, 15);
             float SpeedY = (float)Main.rand.Next(-20, -10);
-            if (projectile.localAI[0] >= 12f)
+            if (Projectile.localAI[0] >= 12f)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), (int)(350f * Main.player[projectile.owner].MeleeDamage()), projectile.knockBack, projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), (int)(350f * Main.player[Projectile.owner].MeleeDamage()), Projectile.knockBack, Projectile.owner, 0f, 0f);
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile1].Calamity().forceMelee = true;
                         Main.projectile[projectile1].aiStyle = 1;
                     }
                 }
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
             }
         }
     }

@@ -45,190 +45,190 @@ namespace CalamityMod.CalPlayer
         #region Creating and Sending Packets
         private void SyncExactLevel(bool server, int levelType)
         {
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             switch (levelType)
             {
                 case 0:
                     packet.Write((byte)CalamityModMessageType.ExactMeleeLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(exactMeleeLevel);
                     break;
                 case 1:
                     packet.Write((byte)CalamityModMessageType.ExactRangedLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(exactRangedLevel);
                     break;
                 case 2:
                     packet.Write((byte)CalamityModMessageType.ExactMagicLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(exactMagicLevel);
                     break;
                 case 3:
                     packet.Write((byte)CalamityModMessageType.ExactSummonLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(exactSummonLevel);
                     break;
                 case 4:
                     packet.Write((byte)CalamityModMessageType.ExactRogueLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(exactRogueLevel);
                     break;
             }
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         private void SyncLevel(bool server, int levelType)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             switch (levelType)
             {
                 case 0:
                     packet.Write((byte)CalamityModMessageType.MeleeLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(meleeLevel);
                     break;
                 case 1:
                     packet.Write((byte)CalamityModMessageType.RangedLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(rangedLevel);
                     break;
                 case 2:
                     packet.Write((byte)CalamityModMessageType.MagicLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(magicLevel);
                     break;
                 case 3:
                     packet.Write((byte)CalamityModMessageType.SummonLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(summonLevel);
                     break;
                 case 4:
                     packet.Write((byte)CalamityModMessageType.RogueLevelSync);
-                    packet.Write(player.whoAmI);
+                    packet.Write(Player.whoAmI);
                     packet.Write(rogueLevel);
                     break;
             }
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncMoveSpeed(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.MoveSpeedStatSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(moveSpeedStat);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncDefenseDamage(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.DefenseDamageSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(totalDefenseDamage);
             packet.Write(defenseDamageRecoveryFrames);
             packet.Write(totalDefenseDamageRecoveryFrames);
             packet.Write(defenseDamageDelayFrames);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncRage(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.RageSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(rage);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncAdrenaline(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.AdrenalineSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(adrenaline);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncCooldownAddition(bool server, CooldownInstance cd)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownAddition);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             cd.Write(packet);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncCooldownRemoval(bool server, IList<string> cooldownIDs)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.CooldownRemoval);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(cooldownIDs.Count);
             foreach (string id in cooldownIDs)
                 packet.Write(CooldownRegistry.Get(id).netID);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncCooldownDictionary(bool server)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
-            ModPacket packet = mod.GetPacket(1024);
+            ModPacket packet = Mod.GetPacket(1024);
             packet.Write((byte)CalamityModMessageType.SyncCooldownDictionary);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(cooldowns.Count);
             foreach (CooldownInstance cd in cooldowns.Values)
                 cd.Write(packet);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         private void SyncDeathCount(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.DeathCountSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(deathCount);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncItemTypeLastReforged(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.ItemTypeLastReforgedSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(itemTypeLastReforged);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncReforgeTierSafety(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.ReforgeTierSafetySync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(reforgeTierSafety);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         public void SyncRightClick(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.RightClickSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.Write(mouseRight);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
         public void SyncMousePosition(bool server)
         {
-            ModPacket packet = mod.GetPacket(256);
+            ModPacket packet = Mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.MousePositionSync);
-            packet.Write(player.whoAmI);
+            packet.Write(Player.whoAmI);
             packet.WriteVector2(mouseWorld);
-            player.SendPacket(packet, server);
+            Player.SendPacket(packet, server);
         }
 
         #endregion

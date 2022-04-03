@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
@@ -13,49 +14,49 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plagueshell");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 2f;
-            npc.damage = 80;
-            npc.aiStyle = 39;
-            npc.width = 46;
-            npc.height = 32;
-            npc.defense = 32;
-            npc.lifeMax = 800;
-            npc.knockBackResist = 0.2f;
+            NPC.npcSlots = 2f;
+            NPC.damage = 80;
+            NPC.aiStyle = 39;
+            NPC.width = 46;
+            NPC.height = 32;
+            NPC.defense = 32;
+            NPC.lifeMax = 800;
+            NPC.knockBackResist = 0.2f;
             animationType = NPCID.GiantTortoise;
-            npc.value = Item.buyPrice(0, 0, 20, 0);
-            npc.HitSound = SoundID.NPCHit24;
-            npc.noGravity = false;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 20, 0);
+            NPC.HitSound = SoundID.NPCHit24;
+            NPC.noGravity = false;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<PlagueshellBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), npc.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PlagueBoom" + Main.rand.Next(1, 5)), NPC.Center);
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -69,7 +70,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
+            DropHelper.DropItem(NPC, ModContent.ItemType<PlagueCellCluster>(), 3, 4);
         }
     }
 }

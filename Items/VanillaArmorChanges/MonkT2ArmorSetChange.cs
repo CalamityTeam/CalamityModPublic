@@ -26,22 +26,22 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyBodyPieceEffect(Player player)
         {
-            player.minionDamage -= 0.1f;
-            player.meleeDamage -= 0.1f;
+            player.GetDamage(DamageClass.Summon) -= 0.1f;
+            player.GetDamage(DamageClass.Melee) -= 0.1f;
         }
 
         public override void ApplyLegPieceEffect(Player player)
         {
-            player.minionDamage -= 0.05f;
-            player.meleeCrit -= 10;
+            player.GetDamage(DamageClass.Summon) -= 0.05f;
+            player.GetCritChance(DamageClass.Melee) -= 10;
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
-            player.minionDamage += 0.15f;
-            player.meleeDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage(DamageClass.Melee) += 0.1f;
             player.meleeSpeed += 0.1f;
-            player.meleeCrit += 10;
+            player.GetCritChance(DamageClass.Melee) += 10;
         }
     }
 }

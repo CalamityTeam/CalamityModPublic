@@ -69,38 +69,38 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player is null)
                 return;
 
-            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             comboTooltip.text = ComboTooltip;
             comboTooltip.overrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
 
-            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
             parryTooltip.text = ParryTooltip;
             parryTooltip.overrideColor = Color.Lerp(Color.Cyan, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.75f);
 
-            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.mod == "Terraria");
+            var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
             blastTooltip.text = BlastTooltip;
             blastTooltip.overrideColor = Color.Lerp(Color.HotPink, Color.Crimson, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.625f);
         }
 
         public override void SetDefaults()
         {
-            item.width = item.height = 136;
-            item.damage = 2000;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 9.5f;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 28f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = Item.height = 136;
+            Item.damage = 2000;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 9.5f;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 28f;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -113,10 +113,10 @@ namespace CalamityMod.Items.Weapons.Melee
             player.Calamity().mouseWorldListener = true;
 
             if (CanUseItem(player) && Combo != 4)
-                item.channel = false;
+                Item.channel = false;
 
             if (Combo == 4)
-                item.channel = true;
+                Item.channel = true;
         }
         public override bool CanUseItem(Player player)
         {
@@ -172,13 +172,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<FourSeasonsGalaxia>());
-            recipe.AddIngredient(ItemType<ArkoftheElements>());
-            recipe.AddIngredient(ItemType<AuricBar>(), 5);
-            recipe.AddTile(TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<FourSeasonsGalaxia>()).AddIngredient(ItemType<ArkoftheElements>()).AddIngredient(ItemType<AuricBar>(), 5).AddTile(TileType<CosmicAnvil>()).Register();
         }
 
         public override ModItem Clone(Item item)
@@ -203,7 +197,7 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(Charge);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             Charge = reader.ReadSingle();
         }

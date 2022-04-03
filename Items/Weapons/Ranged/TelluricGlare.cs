@@ -16,27 +16,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 176;
-            item.ranged = true;
-            item.width = 54;
-            item.height = 92;
-            item.useTime = 5;
-            item.useAnimation = 20;
-            item.reuseDelay = 23;
-            item.knockBack = 7.5f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
+            Item.damage = 176;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 54;
+            Item.height = 92;
+            Item.useTime = 5;
+            Item.useAnimation = 20;
+            Item.reuseDelay = 23;
+            Item.knockBack = 7.5f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
 
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TelluricGlareArrow>();
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TelluricGlareArrow>();
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-14f, 0f);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // Always fires Radiant Arrows regardless of ammo used
-            type = item.shoot;
+            type = Item.shoot;
 
             // The arrow appears from a random location "on the bow".
             // They are also moved backwards so that they have some time to build up past positions. This helps make them not appear out of thin air.

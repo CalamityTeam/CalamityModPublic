@@ -17,29 +17,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 60;
-            item.damage = 30;
-            item.scale = 1.05f;
-            item.melee = true;
-            item.useAnimation = item.useTime = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 56;
+            Item.height = 60;
+            Item.damage = 30;
+            Item.scale = 1.05f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 30);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 12).AddIngredient(ModContent.ItemType<Acidwood>(), 30).AddTile(TileID.Anvils).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

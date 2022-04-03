@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class TimeBoltKnife : ModProjectile
@@ -19,21 +20,21 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Time Bolt");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = penetrationAmt;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = penetrationAmt;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (!initialized)
             {
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
                     maxPenetrate = 11;
                     penetrationAmt = maxPenetrate;
@@ -58,24 +59,24 @@ namespace CalamityMod.Projectiles.Rogue
                 initialized = true;
             }
 
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.03f;
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.03f;
 
             // If projectile hasn't hit anything yet
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.tileCollide = true;
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 7f)
+                Projectile.tileCollide = true;
+                Projectile.localAI[0] += 1f;
+                if (Projectile.localAI[0] > 7f)
                 {
                     int dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         226,
                         229
                     });
-                    Vector2 center = projectile.Center;
+                    Vector2 center = Projectile.Center;
                     Vector2 vector74 = new Vector2(-4f, 4f);
                     vector74 += new Vector2(-4f, 4f);
-                    vector74 = vector74.RotatedBy((double)projectile.rotation, default);
+                    vector74 = vector74.RotatedBy((double)Projectile.rotation, default);
                     int dust = Dust.NewDust(center + vector74 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 1f);
                     Dust dust2 = Main.dust[dust];
                     dust2.velocity *= 0.1f;
@@ -86,58 +87,58 @@ namespace CalamityMod.Projectiles.Rogue
                 int alphaAmt = 5;
                 int alphaCeiling = alphaAmt * 15;
                 int alphaFloor = 0;
-                if (projectile.localAI[0] > 7f)
+                if (Projectile.localAI[0] > 7f)
                 {
-                    if (projectile.localAI[1] == 0f)
+                    if (Projectile.localAI[1] == 0f)
                     {
-                        projectile.scale -= scalar;
+                        Projectile.scale -= scalar;
 
-                        projectile.alpha += alphaAmt;
-                        if (projectile.alpha > alphaCeiling)
+                        Projectile.alpha += alphaAmt;
+                        if (Projectile.alpha > alphaCeiling)
                         {
-                            projectile.alpha = alphaCeiling;
-                            projectile.localAI[1] = 1f;
+                            Projectile.alpha = alphaCeiling;
+                            Projectile.localAI[1] = 1f;
                         }
                     }
-                    else if (projectile.localAI[1] == 1f)
+                    else if (Projectile.localAI[1] == 1f)
                     {
-                        projectile.scale += scalar;
+                        Projectile.scale += scalar;
 
-                        projectile.alpha -= alphaAmt;
-                        if (projectile.alpha <= alphaFloor)
+                        Projectile.alpha -= alphaAmt;
+                        if (Projectile.alpha <= alphaFloor)
                         {
-                            projectile.alpha = alphaFloor;
-                            projectile.localAI[1] = 0f;
+                            Projectile.alpha = alphaFloor;
+                            Projectile.localAI[1] = 0f;
                         }
                     }
                 }
             }
 
             // If projectile has hit an enemy and has 'split'
-            else if (projectile.ai[0] >= 1f && projectile.ai[0] < (float)(1 + penetrationAmt))
+            else if (Projectile.ai[0] >= 1f && Projectile.ai[0] < (float)(1 + penetrationAmt))
             {
-                projectile.tileCollide = false;
-                projectile.alpha += 15;
-                projectile.velocity *= 0.98f;
-                projectile.localAI[0] = 0f;
+                Projectile.tileCollide = false;
+                Projectile.alpha += 15;
+                Projectile.velocity *= 0.98f;
+                Projectile.localAI[0] = 0f;
 
-                if (projectile.alpha >= 255)
+                if (Projectile.alpha >= 255)
                 {
-                    if (projectile.ai[0] == 1f)
+                    if (Projectile.ai[0] == 1f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                         return;
                     }
 
                     int whoAmI = -1;
-                    Vector2 targetSpot = projectile.Center;
+                    Vector2 targetSpot = Projectile.Center;
                     float detectRange = 1000f;
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
-                            float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                            float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                             if (targetDist < detectRange)
                             {
                                 detectRange = targetDist;
@@ -149,13 +150,13 @@ namespace CalamityMod.Projectiles.Rogue
 
                     if (whoAmI >= 0)
                     {
-                        projectile.netUpdate = true;
-                        projectile.ai[0] += (float)penetrationAmt;
-                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
-                        projectile.velocity = Vector2.Normalize(targetSpot - projectile.Center) * 18f;
+                        Projectile.netUpdate = true;
+                        Projectile.ai[0] += (float)penetrationAmt;
+                        Projectile.position = targetSpot + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * 100f - new Vector2((float)Projectile.width, (float)Projectile.height) / 2f;
+                        Projectile.velocity = Vector2.Normalize(targetSpot - Projectile.Center) * 18f;
                     }
                     else
-                        projectile.Kill();
+                        Projectile.Kill();
                 }
 
                 if (Main.rand.NextBool(3))
@@ -165,10 +166,10 @@ namespace CalamityMod.Projectiles.Rogue
                         226,
                         229
                     });
-                    Vector2 center = projectile.Center;
+                    Vector2 center = Projectile.Center;
                     Vector2 vector75 = new Vector2(-4f, 4f);
                     vector75 += new Vector2(-4f, 4f);
-                    vector75 = vector75.RotatedBy((double)projectile.rotation, default);
+                    vector75 = vector75.RotatedBy((double)Projectile.rotation, default);
                     int dust = Dust.NewDust(center + vector75 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
                     Dust dust2 = Main.dust[dust];
                     dust2.velocity *= 0.1f;
@@ -177,64 +178,64 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // If 'split' projectile has a target
-            else if (projectile.ai[0] >= (float)(1 + penetrationAmt) && projectile.ai[0] < (float)(1 + penetrationAmt * 2))
+            else if (Projectile.ai[0] >= (float)(1 + penetrationAmt) && Projectile.ai[0] < (float)(1 + penetrationAmt * 2))
             {
-                projectile.scale = 0.9f;
-                projectile.tileCollide = false;
+                Projectile.scale = 0.9f;
+                Projectile.tileCollide = false;
 
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 15f)
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= 15f)
                 {
-                    projectile.alpha += 51;
-                    projectile.velocity *= 0.8f;
+                    Projectile.alpha += 51;
+                    Projectile.velocity *= 0.8f;
 
-                    if (projectile.alpha >= 255)
-                        projectile.Kill();
+                    if (Projectile.alpha >= 255)
+                        Projectile.Kill();
                 }
                 else
                 {
-                    projectile.alpha -= 125;
-                    if (projectile.alpha < 0)
-                        projectile.alpha = 0;
+                    Projectile.alpha -= 125;
+                    if (Projectile.alpha < 0)
+                        Projectile.alpha = 0;
 
-                    projectile.velocity *= 0.98f;
+                    Projectile.velocity *= 0.98f;
                 }
 
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
 
                 int dustType = Utils.SelectRandom(Main.rand, new int[]
                 {
                     226,
                     229
                 });
-                Vector2 center = projectile.Center;
+                Vector2 center = Projectile.Center;
                 Vector2 vector76 = new Vector2(-4f, 4f);
                 vector76 += new Vector2(-4f, 4f);
-                vector76 = vector76.RotatedBy((double)projectile.rotation, default);
+                vector76 = vector76.RotatedBy((double)Projectile.rotation, default);
                 int dust = Dust.NewDust(center + vector76 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
                 Dust dust2 = Main.dust[dust];
                 dust2.velocity *= 0.1f;
                 dust2.noGravity = true;
             }
 
-            float colorScale = (float)projectile.alpha / 255f;
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3f * colorScale, 0.4f * colorScale, 1f * colorScale);
+            float colorScale = (float)Projectile.alpha / 255f;
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0.3f * colorScale, 0.4f * colorScale, 1f * colorScale);
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200) * ((255f - (float)projectile.alpha) / 255f);
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200) * ((255f - (float)Projectile.alpha) / 255f);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0] = 1f;
-            projectile.ai[1] = 0f;
-            projectile.netUpdate = true;
-            projectile.velocity = oldVelocity / 2f;
+            Projectile.ai[0] = 1f;
+            Projectile.ai[1] = 0f;
+            Projectile.netUpdate = true;
+            Projectile.velocity = oldVelocity / 2f;
 
             if (penetrationAmt == maxPenetrate)
                 SlowTime();
@@ -247,7 +248,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool CanDamage()
         {
             // Do not do damage if a tile is hit OR if projectile has 'split' and hasn't been live for more than 5 frames
-            if ((((int)(projectile.ai[0] - 1f) / penetrationAmt == 0 && penetrationAmt < 3) || projectile.ai[1] < 5f) && projectile.ai[0] != 0f)
+            if ((((int)(Projectile.ai[0] - 1f) / penetrationAmt == 0 && penetrationAmt < 3) || Projectile.ai[1] < 5f) && Projectile.ai[0] != 0f)
                 return false;
             return true;
         }
@@ -258,8 +259,8 @@ namespace CalamityMod.Projectiles.Rogue
                 SlowTime();
 
             // If 'split' projectile hits an enemy
-            if (projectile.ai[0] >= (float)(1 + penetrationAmt) && projectile.ai[0] < (float)(1 + penetrationAmt * 2))
-                projectile.ai[0] = 0f;
+            if (Projectile.ai[0] >= (float)(1 + penetrationAmt) && Projectile.ai[0] < (float)(1 + penetrationAmt * 2))
+                Projectile.ai[0] = 0f;
 
             // Becomes 5 on first hit, then 4, and so on
             penetrationAmt--;
@@ -267,20 +268,20 @@ namespace CalamityMod.Projectiles.Rogue
             // Hits enemy, ai[0] = 0f + 4f = 4f on first hit
             // ai[0] = 4f - 1f = 3f on second hit
             // ai[0] = 3f - 1f = 2f on third hit
-            if (projectile.ai[0] == 0f)
-                projectile.ai[0] += (float)penetrationAmt;
+            if (Projectile.ai[0] == 0f)
+                Projectile.ai[0] += (float)penetrationAmt;
             else
-                projectile.ai[0] -= (float)(penetrationAmt + 1);
+                Projectile.ai[0] -= (float)(penetrationAmt + 1);
 
-            projectile.ai[1] = 0f;
-            projectile.netUpdate = true;
+            Projectile.ai[1] = 0f;
+            Projectile.netUpdate = true;
         }
 
         private void SlowTime()
         {
-            Main.PlaySound(SoundID.Item114, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item114, Projectile.Center);
 
-            float radius = projectile.Calamity().stealthStrike ? 500f : 300f;
+            float radius = Projectile.Calamity().stealthStrike ? 500f : 300f;
             int numDust = (int)(0.2f * MathHelper.TwoPi * radius);
             float angleIncrement = MathHelper.TwoPi / (float)numDust;
             Vector2 dustOffset = new Vector2(radius, 0f);
@@ -293,8 +294,8 @@ namespace CalamityMod.Projectiles.Rogue
                     226,
                     229
                 });
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
-                Main.dust[dust].position = projectile.Center + dustOffset;
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType);
+                Main.dust[dust].position = Projectile.Center + dustOffset;
                 if (Main.rand.Next(6) != 0)
                     Main.dust[dust].noGravity = true;
                 Main.dust[dust].fadeIn = 1f;
@@ -307,7 +308,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= radius)
+                if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(Projectile.Center, npc.Center) <= radius)
                 {
                     if (npc.FindBuffIndex(buffType) == -1)
                         npc.AddBuff(buffType, 60, false);
@@ -317,7 +318,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
                 target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
         }
     }

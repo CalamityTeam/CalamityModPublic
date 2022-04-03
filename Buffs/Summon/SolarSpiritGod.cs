@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SolarSpiritGod : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar God Spirit");
             Description.SetDefault("The solar god spirit will protect you");

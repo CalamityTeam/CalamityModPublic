@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class CalamitousDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CalamitousDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CalamitousDyeShader").Value), "DyePass").
             UseColor(new Color(227, 79, 79)).UseSecondaryColor(new Color(145, 27, 135)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
@@ -19,19 +19,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 3);
-            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ItemID.BottledWater, 3).AddIngredient(ModContent.ItemType<CalamitousEssence>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

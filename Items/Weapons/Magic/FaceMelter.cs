@@ -20,40 +20,32 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 140;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 56;
-            item.height = 50;
-            item.useTime = 5;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
+            Item.damage = 140;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 56;
+            Item.height = 50;
+            Item.useTime = 5;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<MelterNote1>();
-            item.UseSound = SoundID.Item47;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<MelterNote1>();
+            Item.UseSound = SoundID.Item47;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TheAxe);
-            recipe.AddIngredient(ItemID.MagicalHarp);
-            recipe.AddIngredient(ModContent.ItemType<SirensSong>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.TheAxe).AddIngredient(ItemID.MagicalHarp).AddIngredient(ModContent.ItemType<SirensSong>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -62,13 +54,13 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 20;
-                item.useAnimation = 20;
+                Item.useTime = 20;
+                Item.useAnimation = 20;
             }
             else
             {
-                item.useTime = 5;
-                item.useAnimation = 10;
+                Item.useTime = 5;
+                Item.useAnimation = 10;
             }
             return base.CanUseItem(player);
         }

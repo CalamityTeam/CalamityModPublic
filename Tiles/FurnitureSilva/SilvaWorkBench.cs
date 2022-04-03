@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaWorkBench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

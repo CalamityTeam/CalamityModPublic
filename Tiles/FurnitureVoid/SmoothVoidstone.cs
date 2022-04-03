@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class SmoothVoidstone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -126,8 +126,8 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
             int xOffset = 0;
             int relativeXPos = i % 4;
             int relativeYPos = j % 4;
@@ -216,7 +216,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             }
             xOffset *= 288;
             xPos += xOffset;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureVoid/SmoothVoidstoneGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureVoid/SmoothVoidstoneGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

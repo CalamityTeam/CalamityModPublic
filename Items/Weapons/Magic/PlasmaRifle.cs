@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 160;
-            item.mana = 40;
-            item.magic = true;
-            item.width = 72;
-            item.height = 20;
-            item.useTime = item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<PlasmaShot>();
+            Item.damage = 160;
+            Item.mana = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 72;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<PlasmaShot>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+                Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             }
             else
             {
-                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+                Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             }
             return base.CanUseItem(player);
         }
@@ -80,20 +80,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ToxicFlask);
-            recipe.AddIngredient(ItemID.Musket);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ToxicFlask);
-            recipe.AddIngredient(ItemID.TheUndertaker);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.Musket).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.TheUndertaker).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

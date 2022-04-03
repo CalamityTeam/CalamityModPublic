@@ -13,28 +13,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Phantasmal Fury");
             Tooltip.SetDefault("Casts a phantasmal bolt that explodes into more bolts");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 182;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 62;
-            item.height = 60;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PhantasmalFuryProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 182;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 62;
+            Item.height = 60;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PhantasmalFuryProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,13 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpectreStaff);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpectreStaff).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

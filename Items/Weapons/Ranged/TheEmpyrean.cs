@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.ranged = true;
-            item.width = 70;
-            item.height = 24;
-            item.useTime = 6;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CosmicFire>();
-            item.shootSpeed = 9f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 70;
+            Item.height = 24;
+            Item.useTime = 6;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CosmicFire>();
+            Item.shootSpeed = 9f;
+            Item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()
@@ -49,11 +49,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MeldiateBar>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

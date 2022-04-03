@@ -16,20 +16,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 42;
-            item.melee = true;
-            item.width = 66;
-            item.height = 80;
-            item.scale = 1.25f;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.75f;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 42;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 66;
+            Item.height = 80;
+            Item.scale = 1.25f;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.75f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -52,15 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 15);
-            recipe.AddIngredient(ItemID.EbonstoneBlock, 50);
-            recipe.AddIngredient(ItemID.ShadowScale, 5);
-            recipe.AddIngredient(ItemID.IronBar, 4);
-            recipe.anyIronBar = true;
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EbonianGel>(), 15).AddIngredient(ItemID.EbonstoneBlock, 50).AddIngredient(ItemID.ShadowScale, 5).AddIngredient(ItemID.IronBar, 4).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

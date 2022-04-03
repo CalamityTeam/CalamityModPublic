@@ -18,11 +18,11 @@ You are encased in an ice barrier for 3 seconds when revived");
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.width = 36;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
+            Item.width = 36;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

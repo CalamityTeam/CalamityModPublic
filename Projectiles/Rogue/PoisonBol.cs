@@ -17,37 +17,37 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 1200;
-            projectile.Calamity().rogue = true;
-            projectile.aiStyle = 14;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 45;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 1200;
+            Projectile.Calamity().rogue = true;
+            Projectile.aiStyle = 14;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 45;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(20))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 44, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
-            if (projectile.timeLeft < 20)
-                projectile.alpha += 13;
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.timeLeft < 20)
+                Projectile.alpha += 13;
+            if (Projectile.Calamity().stealthStrike)
             {
-                projectile.localAI[1]++;
-                if (projectile.localAI[1] % 35f == 0f)
+                Projectile.localAI[1]++;
+                if (Projectile.localAI[1] % 35f == 0f)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 20f);
                     if (Main.rand.NextBool(3))
                         velocity *= 2f;
-                    velocity += projectile.velocity * 0.25f;
+                    velocity += Projectile.velocity * 0.25f;
                     velocity *= 0.8f;
-                    int proj = Projectile.NewProjectile(projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceRogue = true;
@@ -57,12 +57,12 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.killSpikyBalls)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
             }
         }
 

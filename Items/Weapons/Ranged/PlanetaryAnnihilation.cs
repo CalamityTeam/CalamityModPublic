@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 58;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 102;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item75;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PlanetaryAnnihilationProj>();
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 58;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 102;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item75;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PlanetaryAnnihilationProj>();
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -105,14 +105,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmicBolter>());
-            recipe.AddIngredient(ItemID.DaedalusStormbow);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicBolter>()).AddIngredient(ItemID.DaedalusStormbow).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

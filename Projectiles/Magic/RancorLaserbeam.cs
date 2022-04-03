@@ -9,21 +9,21 @@ using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class RancorLaserbeam : ModProjectile
     {
         public PrimitiveTrail RayDrawer = null;
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public Projectile MagicCircle
         {
             get
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].identity != projectile.ai[0] || !Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
+                    if (Main.projectile[i].identity != Projectile.ai[0] || !Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner)
                         continue;
 
                     return Main.projectile[i];
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
                 return null;
             }
         }
-        public ref float LaserLength => ref projectile.ai[1];
+        public ref float LaserLength => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public const float MaxLaserLength = 3330f;
@@ -40,17 +40,17 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 32;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.hide = true;
-            projectile.Calamity().PierceResistHarshness = 0.06f;
-            projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.width = Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+            Projectile.Calamity().PierceResistHarshness = 0.06f;
+            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()
@@ -58,63 +58,63 @@ namespace CalamityMod.Projectiles.Magic
             // If the owner is no longer able to cast the beam, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed || MagicCircle is null)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Grow bigger up to a point.
-            projectile.scale = MathHelper.Clamp(projectile.scale + 0.15f, 0.05f, 2f);
+            Projectile.scale = MathHelper.Clamp(Projectile.scale + 0.15f, 0.05f, 2f);
 
             // Decide where to position the laserbeam.
-            Vector2 circlePointDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-            projectile.Center = MagicCircle.Center;
+            Vector2 circlePointDirection = Projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
+            Projectile.Center = MagicCircle.Center;
 
             // Update the laser length.
             float[] laserLengthSamplePoints = new float[24];
-            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale * 8f, MaxLaserLength, laserLengthSamplePoints);
+            Collision.LaserScan(Projectile.Center, Projectile.velocity, Projectile.scale * 8f, MaxLaserLength, laserLengthSamplePoints);
             LaserLength = laserLengthSamplePoints.Average();
 
             // Update aim.
             UpdateAim();
 
             // Adjust damage every frame. This is necessary to ensure that mana sickness and such are applied.
-            projectile.damage = (int)(MagicCircle.damage * Owner.MagicDamage());
+            Projectile.damage = (int)(MagicCircle.damage * Owner.MagicDamage());
 
             // Create arms on surfaces.
-            if (Main.myPlayer == projectile.owner && Main.rand.NextBool(8))
+            if (Main.myPlayer == Projectile.owner && Main.rand.NextBool(8))
                 CreateArmsOnSurfaces();
 
             // Create hit effects at the end of the beam.
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
                 CreateTileHitEffects();
 
             // Make the beam cast light along its length. The brightness of the light is reliant on the scale of the beam.
-            DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * projectile.scale * 0.4f;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, DelegateMethods.CastLight);
+            DelegateMethods.v3_1 = Color.DarkViolet.ToVector3() * Projectile.scale * 0.4f;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, Projectile.width * Projectile.scale, DelegateMethods.CastLight);
         }
 
         public void UpdateAim()
         {
             // Only execute the aiming code for the owner.
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             Vector2 newAimDirection = MagicCircle.velocity.SafeNormalize(Vector2.UnitY);
 
             // Sync if the direction is different from the old one.
             // Spam caps are ignored due to the frequency of this happening.
-            if (newAimDirection != projectile.velocity)
+            if (newAimDirection != Projectile.velocity)
             {
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
-            projectile.velocity = newAimDirection;
+            Projectile.velocity = newAimDirection;
         }
 
         public void CreateArmsOnSurfaces()
         {
-            Vector2 endOfLaser = projectile.Center + projectile.velocity * LaserLength + Main.rand.NextVector2Circular(80f, 8f);
+            Vector2 endOfLaser = Projectile.Center + Projectile.velocity * LaserLength + Main.rand.NextVector2Circular(80f, 8f);
             Vector2 idealCenter = endOfLaser;
             if (WorldUtils.Find(idealCenter.ToTileCoordinates(), Searches.Chain(new Searches.Down(5), new CustomConditions.SolidOrPlatform()), out Point result))
             {
@@ -123,17 +123,17 @@ namespace CalamityMod.Projectiles.Magic
             Point endOfLaserTileCoords = idealCenter.ToTileCoordinates();
             Tile endTile = CalamityUtils.ParanoidTileRetrieval(endOfLaserTileCoords.X, endOfLaserTileCoords.Y);
 
-            if (endTile.nactive() && (Main.tileSolid[endTile.type] || Main.tileSolidTop[endTile.type]) && !endTile.halfBrick() && endTile.slope() == 0)
+            if (endTile.nactive() && (Main.tileSolid[endTile.TileType] || Main.tileSolidTop[endTile.TileType]) && !endTile.halfBrick() && endTile.slope() == 0)
             {
                 Vector2 armSpawnPosition = endOfLaserTileCoords.ToWorldCoordinates();
-                Projectile.NewProjectile(armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), projectile.damage * 2 / 3, 0f, projectile.owner);
+                Projectile.NewProjectile(armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), Projectile.damage * 2 / 3, 0f, Projectile.owner);
             }
         }
 
         public void CreateTileHitEffects()
         {
-            Vector2 endOfLaser = projectile.Center + projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
-            Projectile.NewProjectile(endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, projectile.owner);
+            Vector2 endOfLaser = Projectile.Center + Projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
+            Projectile.NewProjectile(endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Projectile.owner);
 
             if (Main.rand.NextBool(2))
             {
@@ -143,22 +143,22 @@ namespace CalamityMod.Projectiles.Magic
                 if (Main.rand.NextBool(11))
                 {
                     type = ModContent.ProjectileType<RancorLargeCinder>();
-                    damage = projectile.damage / 3;
+                    damage = Projectile.damage / 3;
                     cinderSpeed *= 1.2f;
                 }
-                Vector2 cinderVelocity = Vector2.Lerp(-projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * cinderSpeed;
-                Projectile.NewProjectile(endOfLaser, cinderVelocity, type, damage, 0f, projectile.owner);
+                Vector2 cinderVelocity = Vector2.Lerp(-Projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * cinderSpeed;
+                Projectile.NewProjectile(endOfLaser, cinderVelocity, type, damage, 0f, Projectile.owner);
             }
 
-            FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + projectile.velocity * 40f, 135f);
+            FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + Projectile.velocity * 40f, 135f);
         }
 
-        private float PrimitiveWidthFunction(float completionRatio) => projectile.scale * 20f;
+        private float PrimitiveWidthFunction(float completionRatio) => Projectile.scale * 20f;
 
         private Color PrimitiveColorFunction(float completionRatio)
         {
             Color vibrantColor = Color.Lerp(Color.Blue, Color.Red, (float)Math.Cos(Main.GlobalTime * 0.67f - completionRatio / LaserLength * 29f) * 0.5f + 0.5f);
-            float opacity = projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true) *
+            float opacity = Projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true) *
                 Utils.InverseLerp(0f, MathHelper.Clamp(15f / LaserLength, 0f, 0.5f), completionRatio, true) *
                 (float)Math.Pow(Utils.InverseLerp(60f, 270f, LaserLength, true), 3D);
             return Color.Lerp(vibrantColor, Color.White, 0.5f) * opacity * 2f;
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2[] basePoints = new Vector2[24];
             for (int i = 0; i < basePoints.Length; i++)
-                basePoints[i] = projectile.Center + projectile.velocity * i / (basePoints.Length - 1f) * LaserLength;
+                basePoints[i] = Projectile.Center + Projectile.velocity * i / (basePoints.Length - 1f) * LaserLength;
 
             Vector2 overallOffset = -Main.screenPosition;
             RayDrawer.Draw(basePoints, overallOffset, 92);
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength);
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)

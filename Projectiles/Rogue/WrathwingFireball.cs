@@ -11,69 +11,69 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrathwing Fireball");
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.aiStyle = 1;
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.DD2BetsyFireball;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             // Cancel out the first ten frames of Betsy fireball gravity, and half of all gravity thereafter
-            projectile.velocity.Y -= 0.1f;
+            Projectile.velocity.Y -= 0.1f;
 
             // Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.frame = 0;
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
             // Keep the fireball rotated the correct way because the sheet faces down, not up
-            projectile.rotation += MathHelper.Pi;
+            Projectile.rotation += MathHelper.Pi;
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int i = 0; i < projectile.oldPos.Length; i++)
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {
-                    Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                    Color color2 = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                    Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                    Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+                    Color color2 = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
+                    Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, Projectile.rotation, rectangle.Size() / 2f, Projectile.scale, spriteEffects, 0f);
                 }
             }
 
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
                 new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)),
-                projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+                Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), Projectile.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -81,24 +81,24 @@ namespace CalamityMod.Projectiles.Rogue
         // Expand hitbox and explode on hit.
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);
 
             // Allow infinite piercing and ignoring iframes for this one extra AoE hit
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Damage();
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Damage();
 
             for (int i = 0; i < 2; i++)
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0f, 0f, 50, default, 1.5f);
 
             for (int i = 0; i < 20; i++)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
+                int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0f, 0f, 0, default, 2.5f);
                 Main.dust[d].noGravity = true;
                 Main.dust[d].velocity *= 3f;
-                d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
+                d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0f, 0f, 50, default, 1.5f);
                 Main.dust[d].velocity *= 2f;
                 Main.dust[d].noGravity = true;
             }

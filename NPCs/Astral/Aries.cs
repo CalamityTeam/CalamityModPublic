@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -18,96 +19,96 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aries");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
             if (!Main.dedServ)
-                glowmask = ModContent.GetTexture("CalamityMod/NPCs/Astral/AriesGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AriesGlow");
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 50;
-            npc.width = 66;
-            npc.height = 64;
-            npc.aiStyle = 41;
-            npc.defense = 14;
-            npc.DR_NERD(0.15f);
-            npc.lifeMax = 300;
-            npc.knockBackResist = 0.6f;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            banner = npc.type;
+            NPC.damage = 50;
+            NPC.width = 66;
+            NPC.height = 64;
+            NPC.aiStyle = 41;
+            NPC.defense = 14;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 300;
+            NPC.knockBackResist = 0.6f;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<AriesBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
-                npc.damage = 85;
-                npc.defense = 24;
-                npc.knockBackResist = 0.5f;
-                npc.lifeMax = 450;
+                NPC.damage = 85;
+                NPC.defense = 24;
+                NPC.knockBackResist = 0.5f;
+                NPC.lifeMax = 450;
             }
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            CalamityGlobalNPC.SpawnDustOnNPC(npc, 66, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 18, 12, 12));
-            if (npc.velocity.Y == 0f)
+            CalamityGlobalNPC.SpawnDustOnNPC(NPC, 66, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 18, 12, 12));
+            if (NPC.velocity.Y == 0f)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
-            else if ((double)npc.velocity.Y < -1.5)
+            else if ((double)NPC.velocity.Y < -1.5)
             {
-                npc.frame.Y = frameHeight * 7;
+                NPC.frame.Y = frameHeight * 7;
             }
-            else if ((double)npc.velocity.Y < 0)
+            else if ((double)NPC.velocity.Y < 0)
             {
-                npc.frame.Y = frameHeight * 4;
+                NPC.frame.Y = frameHeight * 4;
             }
-            else if ((double)npc.velocity.Y > 1.5)
+            else if ((double)NPC.velocity.Y > 1.5)
             {
-                npc.frame.Y = frameHeight * 6;
+                NPC.frame.Y = frameHeight * 6;
             }
             else
             {
-                npc.frame.Y = frameHeight * 5;
+                NPC.frame.Y = frameHeight * 5;
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (NPC.soundDelay == 0)
             {
-                npc.soundDelay = 15;
+                NPC.soundDelay = 15;
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), NPC.Center);
                         break;
                     case 1:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), NPC.Center);
                         break;
                     case 2:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), NPC.Center);
                         break;
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //draw glowmask
-            spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition, npc.frame, Color.White * 0.6f, npc.rotation, new Vector2(33, 31), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(glowmask, NPC.Center - Main.screenPosition, NPC.frame, Color.White * 0.6f, NPC.rotation, new Vector2(33, 31), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral(1))
+            else if (spawnInfo.Player.InAstral(1))
             {
                 return 0.15f;
             }
@@ -121,9 +122,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<StellarKnife>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarKnife>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

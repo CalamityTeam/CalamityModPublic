@@ -10,23 +10,23 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spout");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 150;
-            projectile.height = 42;
-            projectile.scale = 0.6f;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 60;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 150;
+            Projectile.height = 42;
+            Projectile.scale = 0.6f;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 60;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -36,86 +36,86 @@ namespace CalamityMod.Projectiles.Ranged
             float num615 = 1f;
             int num616 = 150;
             int num617 = 42;
-            if (projectile.velocity.X != 0f)
+            if (Projectile.velocity.X != 0f)
             {
-                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
+                Projectile.direction = Projectile.spriteDirection = -Math.Sign(Projectile.velocity.X);
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 2)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 2)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 6)
+            if (Projectile.frame >= 6)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = 1f;
+                Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+                Projectile.scale = ((float)(num613 + num614) - Projectile.ai[1]) * num615 / (float)(num614 + num613);
+                Projectile.width = (int)((float)num616 * Projectile.scale);
+                Projectile.height = (int)((float)num617 * Projectile.scale);
+                Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                Projectile.netUpdate = true;
             }
-            if (projectile.ai[1] != -1f)
+            if (Projectile.ai[1] != -1f)
             {
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
+                Projectile.scale = ((float)(num613 + num614) - Projectile.ai[1]) * num615 / (float)(num614 + num613);
+                Projectile.width = (int)((float)num616 * Projectile.scale);
+                Projectile.height = (int)((float)num617 * Projectile.scale);
             }
-            if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            if (!Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 60)
+                Projectile.alpha -= 30;
+                if (Projectile.alpha < 60)
                 {
-                    projectile.alpha = 60;
+                    Projectile.alpha = 60;
                 }
             }
             else
             {
-                projectile.alpha += 30;
-                if (projectile.alpha > 150)
+                Projectile.alpha += 30;
+                if (Projectile.alpha > 150)
                 {
-                    projectile.alpha = 150;
+                    Projectile.alpha = 150;
                 }
             }
-            if (projectile.ai[0] > 0f)
+            if (Projectile.ai[0] > 0f)
             {
-                projectile.ai[0] -= 1f;
+                Projectile.ai[0] -= 1f;
             }
-            if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
+            if (Projectile.ai[0] == 1f && Projectile.ai[1] > 0f && Projectile.owner == Main.myPlayer)
             {
-                projectile.netUpdate = true;
-                Vector2 center = projectile.Center;
-                center.Y -= (float)num617 * projectile.scale / 2f;
-                float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
+                Projectile.netUpdate = true;
+                Vector2 center = Projectile.Center;
+                center.Y -= (float)num617 * Projectile.scale / 2f;
+                float num618 = ((float)(num613 + num614) - Projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
                 center.Y -= (float)num617 * num618 / 2f;
                 center.Y += 2f;
-                Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                Projectile.NewProjectile(center.X, center.Y, Projectile.velocity.X, Projectile.velocity.Y, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
             }
-            if (projectile.ai[0] <= 0f)
+            if (Projectile.ai[0] <= 0f)
             {
                 float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 5f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X - num624 * (float)-(float)projectile.direction;
-                projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
+                float num623 = (float)Projectile.width / 5f;
+                float num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
+                Projectile.position.X = Projectile.position.X - num624 * (float)-(float)Projectile.direction;
+                Projectile.ai[0] -= 1f;
+                num624 = (float)(Math.Cos((double)(num622 * -(double)Projectile.ai[0])) - 0.5) * num623;
+                Projectile.position.X = Projectile.position.X + num624 * (float)-(float)Projectile.direction;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

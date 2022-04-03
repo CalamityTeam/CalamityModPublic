@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class AstrageldonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Jelly");
             Description.SetDefault("The mini astrageldon slime will protect you");

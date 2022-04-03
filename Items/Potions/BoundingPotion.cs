@@ -16,36 +16,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<BoundingBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<BoundingBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(300f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.Frog);
-            recipe.AddIngredient(ItemID.Vine);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ItemID.BottledWater).AddIngredient(ItemID.Frog).AddIngredient(ItemID.Vine).AddTile(TileID.Bottles).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 20).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

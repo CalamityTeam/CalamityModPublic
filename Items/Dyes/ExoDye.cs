@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Dyes
     {
         public override ArmorShaderData ShaderDataToBind
         {
-            get => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ExoDyeShader")), "DyePass").UseImage("Images/Misc/Perlin");
+            get => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ExoDyeShader").Value), "DyePass").UseImage("Images/Misc/Perlin");
         }
 
         public override void SafeSetStaticDefaults()
@@ -21,19 +21,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 3);
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ItemID.BottledWater, 3).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

@@ -10,40 +10,40 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn Ball");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 300;
-            projectile.minion = true;
-            projectile.aiStyle = 14;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.extraUpdates = 1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 300;
+            Projectile.minion = true;
+            Projectile.aiStyle = 14;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(12))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 44, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X * 1.001f;
+                Projectile.velocity.X = -oldVelocity.X * 1.001f;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y * 1.001f;
+                Projectile.velocity.Y = -oldVelocity.Y * 1.001f;
             }
             return false;
         }
@@ -51,14 +51,14 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 180);
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
                 target.AddBuff(BuffID.Venom, 90);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 180);
-            if (projectile.ai[1] == 1f)
+            if (Projectile.ai[1] == 1f)
                 target.AddBuff(BuffID.Venom, 90);
         }
     }

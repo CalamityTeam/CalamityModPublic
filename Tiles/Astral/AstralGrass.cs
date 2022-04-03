@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralGrass : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.Astral
         {
             if (fail && !effectOnly)
             {
-                Main.tile[i, j].type = (ushort)ModContent.TileType<AstralDirt>();
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<AstralDirt>();
             }
         }
 

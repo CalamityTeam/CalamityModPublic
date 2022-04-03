@@ -15,24 +15,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.damage = 37;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 9;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 38;
-            item.maxStack = 999;
-            item.value = 2000;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<TitaniumShurikenProjectile>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.damage = 37;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 9;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 38;
+            Item.maxStack = 999;
+            Item.value = 2000;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<TitaniumShurikenProjectile>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -57,11 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumBar);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.TitaniumBar).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

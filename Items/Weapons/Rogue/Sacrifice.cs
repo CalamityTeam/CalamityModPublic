@@ -20,25 +20,25 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 290;
-            item.width = item.height = 68;
-            item.useAnimation = item.useTime = 9;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.damage = 290;
+            Item.width = Item.height = 68;
+            Item.useAnimation = Item.useTime = 9;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
 
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 
-        public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[item.shoot] > 0;
+        public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

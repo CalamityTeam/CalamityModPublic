@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 16;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 30;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WaywasherProj>();
-            item.shootSpeed = 12f;
+            Item.damage = 16;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 30;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WaywasherProj>();
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -14,53 +14,53 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom Lance");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void AI()
         {
-            if (!projectile.Calamity().stealthStrike)
+            if (!Projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft <= 255)
-                    projectile.alpha += 1;
-                if (projectile.timeLeft >= 75)
+                if (Projectile.timeLeft <= 255)
+                    Projectile.alpha += 1;
+                if (Projectile.timeLeft >= 75)
                 {
-                    projectile.velocity.X *= 0.995f;
-                    projectile.velocity.Y *= 0.995f;
+                    Projectile.velocity.X *= 0.995f;
+                    Projectile.velocity.Y *= 0.995f;
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default, 0.85f);
-            projectile.ai[0]++;
-            if (projectile.ai[0] % 18f == 0f)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 175, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, 0, default, 0.85f);
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] % 18f == 0f)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    float damageMult = projectile.timeLeft * 0.7f / 300f;
-                    if (projectile.Calamity().stealthStrike)
+                    float damageMult = Projectile.timeLeft * 0.7f / 300f;
+                    if (Projectile.Calamity().stealthStrike)
                         damageMult = 0.7f;
-                    int soulDamage = (int)(projectile.damage * damageMult);
-                    int soul = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, projectile.knockBack, projectile.owner);
+                    int soulDamage = (int)(Projectile.damage * damageMult);
+                    int soul = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, Projectile.knockBack, Projectile.owner);
                     if (soul.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[soul].Calamity().forceRogue = true;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i <= 10; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 175, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

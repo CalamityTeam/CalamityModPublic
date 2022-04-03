@@ -14,16 +14,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.minionDamage += 0.07f;
+            player.GetDamage(DamageClass.Summon) += 0.07f;
         }
     }
 }

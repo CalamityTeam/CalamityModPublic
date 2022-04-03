@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,24 +20,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 26;
-            item.damage = 92;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = 2;
-            item.useAnimation = 10;
-            item.reuseDelay = 1;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.height = 48;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
-            item.shootSpeed = 28f;
-            item.Calamity().rogue = true;
+            Item.width = 26;
+            Item.damage = 92;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 2;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
+            Item.shootSpeed = 28f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 damage = (int)(damage * 3.21);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.PlaySound(SoundID.Item73, player.position);
+                SoundEngine.PlaySound(SoundID.Item73, player.position);
                 for (float i = 0; i < 5; i++)
                 {
                     float angle = MathHelper.TwoPi / 5f * i;
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 
             counter++;
-            if (counter >= item.useAnimation / item.useTime)
+            if (counter >= Item.useAnimation / Item.useTime)
                 counter = 0;
             return false;
         }

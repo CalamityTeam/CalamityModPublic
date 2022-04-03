@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
 {
     public class MonolithClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -36,9 +36,9 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAstral/MonolithClockGlow");
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithClockGlow");
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
@@ -58,7 +58,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             return colour;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

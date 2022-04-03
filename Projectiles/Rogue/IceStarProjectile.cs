@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class IceStarProjectile : ModProjectile
@@ -21,45 +22,45 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 280;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 280;
             aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
-            projectile.coldDamage = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            if (!initStealth && projectile.Calamity().stealthStrike)
+            if (!initStealth && Projectile.Calamity().stealthStrike)
             {
-                projectile.penetrate = -1;
-                projectile.usesLocalNPCImmunity = true;
-                projectile.localNPCHitCooldown = 9;
-                projectile.tileCollide = false;
-                initialVelocity = projectile.velocity;
+                Projectile.penetrate = -1;
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = 9;
+                Projectile.tileCollide = false;
+                initialVelocity = Projectile.velocity;
                 initStealth = true;
             }
 
-            projectile.rotation += 0.5f;
+            Projectile.rotation += 0.5f;
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            Vector2 center = projectile.Center;
-            float maxDistance = projectile.Calamity().stealthStrike ? 800f : 400f;
+            Vector2 center = Projectile.Center;
+            float maxDistance = Projectile.Calamity().stealthStrike ? 800f : 400f;
             bool homeIn = false;
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].CanBeChasedBy(projectile, false))
+                if (Main.npc[i].CanBeChasedBy(Projectile, false))
                 {
                     float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-                    if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                    if (Vector2.Distance(Main.npc[i].Center, Projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
                     {
                         center = Main.npc[i].Center;
                         homeIn = true;
@@ -70,25 +71,25 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (homeIn)
             {
-                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-                projectile.velocity = (projectile.velocity * 20f + moveDirection * 14f) / (21f);
+                Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                Projectile.velocity = (Projectile.velocity * 20f + moveDirection * 14f) / (21f);
             }
-            projectile.velocity = initStealth && !homeIn ? initialVelocity : projectile.velocity;
+            Projectile.velocity = initStealth && !homeIn ? initialVelocity : Projectile.velocity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
@@ -96,10 +97,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (initStealth)
             {
-                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+                if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
                 {
                     float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
@@ -107,11 +108,11 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
 
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -121,10 +122,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (initStealth)
             {
-                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+                if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
                 {
                     float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
@@ -132,11 +133,11 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
 
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage / 8, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                     }
                 }
             }

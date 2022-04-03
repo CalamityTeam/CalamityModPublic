@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class TableCoral : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

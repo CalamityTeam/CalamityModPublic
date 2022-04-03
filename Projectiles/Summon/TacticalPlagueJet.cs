@@ -16,24 +16,24 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Jet");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 32;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 52;
+            Projectile.height = 32;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
 
         // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
@@ -43,73 +43,73 @@ namespace CalamityMod.Projectiles.Summon
             int p90ID = ModContent.ItemType<Items.Weapons.Ranged.P90>();
             FalseGun = new Item();
             FalseGun.SetDefaults(p90ID, true);
-            FalseGun.ranged = false;
-            FalseGun.summon = true;
+            // FalseGun.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            FalseGun.DamageType = DamageClass.Summon;
         }
 
         public override bool CanDamage() => false;
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             // Frame 1 spawning effects.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
 
                 // Spawn dust.
                 for (int i = 0; i < 45; i++)
                 {
                     float angle = MathHelper.TwoPi / 45f * i;
                     Vector2 velocity = angle.ToRotationVector2() * 4f;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + velocity * 2f, (int)CalamityDusts.Plague, velocity);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2f, (int)CalamityDusts.Plague, velocity);
                     dust.noGravity = true;
                 }
 
                 // Construct a fake item to use with vanilla code for the sake of firing bullets.
                 if (FalseGun is null)
                     DefineFalseGun();
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             // Animation handling.
-            if (projectile.frameCounter++ > 6f)
+            if (Projectile.frameCounter++ > 6f)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.frame = 0;
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
             // Correct for minion damage changes every single frame.
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
 
             player.AddBuff(ModContent.BuffType<TacticalPlagueEngineBuff>(), 3600);
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<TacticalPlagueJet>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<TacticalPlagueJet>();
             if (isCorrectProjectile)
             {
                 if (player.dead)
                     modPlayer.plagueEngine = false;
                 if (modPlayer.plagueEngine)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
 
             // Pick a target and possibly fire at them.
-            NPC potentialTarget = projectile.Center.MinionHoming(1560f, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(1560f, player);
 
             // If the jet has no target or is out of ammo, passively fly around the player.
             if (potentialTarget is null || !player.HasAmmo(FalseGun, false))
             {
-                float distanceToOwner = (player.Center - projectile.Center).Length();
+                float distanceToOwner = (player.Center - Projectile.Center).Length();
                 float acceleration = 0.1f;
 
                 // Reduce acceleration significantly if close to the player.
@@ -121,56 +121,56 @@ namespace CalamityMod.Projectiles.Summon
                 // Push away from the player constantly, but only if more than 100 pixels away. (What???)
                 if (distanceToOwner > 100f)
                 {
-                    if (Math.Abs(player.Center.X - projectile.Center.X) > 20f)
-                        projectile.velocity.X += acceleration * Math.Sign(player.Center.X - projectile.Center.X);
-                    if (Math.Abs(player.Center.Y - projectile.Center.Y) > 10f)
-                        projectile.velocity.Y += acceleration * Math.Sign(player.Center.Y - projectile.Center.Y);
+                    if (Math.Abs(player.Center.X - Projectile.Center.X) > 20f)
+                        Projectile.velocity.X += acceleration * Math.Sign(player.Center.X - Projectile.Center.X);
+                    if (Math.Abs(player.Center.Y - Projectile.Center.Y) > 10f)
+                        Projectile.velocity.Y += acceleration * Math.Sign(player.Center.Y - Projectile.Center.Y);
                 }
 
                 // If the jet is moving too fast, start giving it air friction.
-                else if (projectile.velocity.Length() > 4f)
-                    projectile.velocity *= 0.95f;
+                else if (Projectile.velocity.Length() > 4f)
+                    Projectile.velocity *= 0.95f;
 
                 // The jet vertically sticks to the player.
-                if (Math.Abs(projectile.velocity.Y) < 2f)
-                    projectile.velocity.Y += 0.1f * Math.Sign(player.Center.Y - projectile.Center.Y);
+                if (Math.Abs(Projectile.velocity.Y) < 2f)
+                    Projectile.velocity.Y += 0.1f * Math.Sign(player.Center.Y - Projectile.Center.Y);
 
                 // If the jet is moving WAY too fast, clamp its velocity.
-                if (projectile.velocity.Length() > 9f)
-                    projectile.velocity = Vector2.Normalize(projectile.velocity) * 9f;
+                if (Projectile.velocity.Length() > 9f)
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 9f;
 
                 // Change the sprite direction of the jet if it's moving more than a tiny bit in either direction.
-                if (projectile.velocity.X > 0.25f)
-                    projectile.spriteDirection = 1;
-                else if (projectile.velocity.X < -0.25f)
-                    projectile.spriteDirection = -1;
+                if (Projectile.velocity.X > 0.25f)
+                    Projectile.spriteDirection = 1;
+                else if (Projectile.velocity.X < -0.25f)
+                    Projectile.spriteDirection = -1;
 
                 // Angle the jet as it moves.
-                projectile.rotation = projectile.rotation.AngleTowards(0f, 0.2f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.2f);
 
                 // If the jet is absurdly far away, teleport directly onto the player.
                 if (distanceToOwner > 2700f)
                 {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
             }
 
             // The jet has ammo and has a target. Open fire.
             else
             {
-                projectile.spriteDirection = 1;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center - Vector2.UnitY * 195f) * 17f, 0.035f);
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center), 0.1f);
+                Projectile.spriteDirection = 1;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center - Vector2.UnitY * 195f) * 17f, 0.035f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center), 0.1f);
 
-                if (projectile.ai[0]++ % 75f == 24f)
+                if (Projectile.ai[0]++ % 75f == 24f)
                 {
                     int projID = ProjectileID.Bullet;
                     float shootSpeed = FalseGun.shootSpeed;
                     bool canShoot = true;
-                    int damage = FalseGun.damage = projectile.damage;
-                    float kb = projectile.knockBack;
-                    bool shootRocket = ++projectile.ai[1] % 20f == 0f;
+                    int damage = FalseGun.damage = Projectile.damage;
+                    float kb = Projectile.knockBack;
+                    bool shootRocket = ++Projectile.ai[1] % 20f == 0f;
                     // Rockets never consume ammo.
                     bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
                     int projIndex;
@@ -183,12 +183,12 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int rocketDamage = (int)(damage * 1.5f);
                         float rocketKB = kb + 5f;
-                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, Projectile.owner);
                     }
 
                     // Fire the selected bullet, nothing special.
                     else
-                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 // Prevent minion clumping while firing.
-                projectile.MinionAntiClump(0.25f);
+                Projectile.MinionAntiClump(0.25f);
             }
         }
     }

@@ -19,35 +19,28 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.damage = 80;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 7.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 94;
-            item.shoot = ModContent.ProjectileType<DracoBeam>();
-            item.shootSpeed = 14f;
+            Item.width = 94;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.knockBack = 7.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 94;
+            Item.shoot = ModContent.ProjectileType<DracoBeam>();
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCinder>(), 3).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

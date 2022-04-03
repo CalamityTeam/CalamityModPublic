@@ -7,7 +7,7 @@ namespace CalamityMod.Walls
 {
     public class ProfanedRockWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 

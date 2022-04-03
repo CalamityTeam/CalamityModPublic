@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 {
     public class AgedLaboratoryElectricPanel : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;

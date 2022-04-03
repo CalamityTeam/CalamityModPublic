@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.accessory = true;
-            item.rare = ItemRarityID.Pink;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.MomentumCapacitatorHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
                 {
                     line2.text = "Press " + hotkey + " to consume 30% of your maximum stealth to create an energy field at the cursor position";
                 }

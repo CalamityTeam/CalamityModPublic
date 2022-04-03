@@ -8,24 +8,24 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class LittleLightProj : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public Color LightColor => new Color(160, 251, 255);
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Little Light");
-            Main.projFrames[projectile.type] = 9;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.LightPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 9;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.LightPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
-            projectile.friendly = true;
-            projectile.netImportant = true;
-            projectile.penetrate = -1;
+            Projectile.width = Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.netImportant = true;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
@@ -38,11 +38,11 @@ namespace CalamityMod.Projectiles.Pets
             HoverTowardsOwnersShoulder();
 
             // Look in the same direction as the projectile's owner.
-            projectile.spriteDirection = Owner.direction;
+            Projectile.spriteDirection = Owner.direction;
 
             // Emit light.
             // Suspicious Looking Tentacle uses 1.5f as a brightness factor, for reference.
-            Lighting.AddLight(projectile.Center, LightColor.ToVector3() * 2.5f);
+            Lighting.AddLight(Projectile.Center, LightColor.ToVector3() * 2.5f);
 
             Time++;
         }
@@ -52,31 +52,31 @@ namespace CalamityMod.Projectiles.Pets
             // No logic should be run if the player is no longer active in the game.
             if (!Owner.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return true;
             }
 
             if (Owner.dead)
                 Owner.Calamity().littleLightPet = false;
             if (Owner.Calamity().littleLightPet)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
 
             return false;
         }
 
         public void HandleFrames()
         {
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
         }
 
         public void DoSpinEffect()
         {
             // Spin around from time to time.
-            if (projectile.frameCounter % 180f > 150f)
-                projectile.rotation += MathHelper.TwoPi / 30f;
+            if (Projectile.frameCounter % 180f > 150f)
+                Projectile.rotation += MathHelper.TwoPi / 30f;
             else
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
         }
 
         public void HoverTowardsOwnersShoulder()
@@ -88,13 +88,13 @@ namespace CalamityMod.Projectiles.Pets
             // Hover in the air a little bit over time so that the pet doesn't seem static.
             destination.Y += (float)Math.Sin(MathHelper.TwoPi * Time / 45f) * 5f;
 
-            projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.125f);
-            if (projectile.WithinRange(destination, 10f))
-                projectile.Center = destination;
+            Projectile.Center = Vector2.Lerp(Projectile.Center, destination, 0.125f);
+            if (Projectile.WithinRange(destination, 10f))
+                Projectile.Center = destination;
             else
-                projectile.Center += projectile.SafeDirectionTo(destination) * 4f;
+                Projectile.Center += Projectile.SafeDirectionTo(destination) * 4f;
 
-            projectile.Center = destination;
+            Projectile.Center = destination;
         }
     }
 }

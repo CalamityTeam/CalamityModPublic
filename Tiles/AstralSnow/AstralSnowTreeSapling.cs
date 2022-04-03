@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.AstralSnow
         //All of this code is taken directly from Example Mod.
         //Cheers Blushie
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorValidTiles = new[] { mod.TileType("AstralSnow") };
+            TileObjectData.newTile.AnchorValidTiles = new[] { Mod.Find<ModTile>("AstralSnow") .Type};
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.DrawFlipHorizontal = true;
             TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.AstralSnow
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
-            dustType = mod.DustType("AstralBasic");
+            dustType = Mod.Find<ModDust>("AstralBasic").Type;
             adjTiles = new int[] { TileID.Saplings };
         }
 

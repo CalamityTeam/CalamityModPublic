@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -23,11 +24,11 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         internal PrimitiveTrail TrailDrawer = null;
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public PartyCannonExplosionType RocketType
         {
-            get => (PartyCannonExplosionType)(int)projectile.ai[1];
-            set => projectile.ai[1] = (int)value;
+            get => (PartyCannonExplosionType)(int)Projectile.ai[1];
+            set => Projectile.ai[1] = (int)value;
         }
         public const float SwerveAngle = 0.02f;
         public const float SwerveAngleOffsetMax = 0.04f;
@@ -36,58 +37,58 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rainbow Rocket");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 52;
+            Projectile.width = 28;
+            Projectile.height = 52;
 
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.magic = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         #region AI
         public override void AI()
         {
             Time++;
-            Lighting.AddLight(projectile.Center, Main.hslToRgb((float)Math.Sin(Time / 20f) * 0.5f + 0.5f, 0.9f, 0.9f).ToVector3());
+            Lighting.AddLight(Projectile.Center, Main.hslToRgb((float)Math.Sin(Time / 20f) * 0.5f + 0.5f, 0.9f, 0.9f).ToVector3());
 
-            projectile.tileCollide = Time > 60f;
+            Projectile.tileCollide = Time > 60f;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 4 == 3)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 4 == 3)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
 
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(2300f, true, true);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(2300f, true, true);
             if (Time < SwerveTime)
                 DoMovement_IdleSwerveFly();
             else if (potentialTarget != null)
                 DoMovement_FlyToTarget(potentialTarget);
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         private void DoMovement_IdleSwerveFly()
         {
             float swerveAngleOffset = MathHelper.Lerp(-SwerveAngleOffsetMax, SwerveAngleOffsetMax, (float)RocketType / ((float)PartyCannonExplosionType.Count));
-            projectile.velocity = projectile.velocity.RotatedBy(swerveAngleOffset + SwerveAngle);
+            Projectile.velocity = Projectile.velocity.RotatedBy(swerveAngleOffset + SwerveAngle);
         }
 
         private void DoMovement_FlyToTarget(NPC target)
         {
-            float angleToTarget = projectile.AngleTo(target.Center);
-            float angleOffset = MathHelper.WrapAngle(angleToTarget - projectile.velocity.ToRotation());
-            projectile.velocity = projectile.velocity.RotatedBy(MathHelper.Clamp(angleOffset, -0.2f, 0.2f));
-            projectile.velocity = projectile.velocity.SafeNormalize(-Vector2.UnitY) * (projectile.velocity.Length() + HomingAcceleration);
+            float angleToTarget = Projectile.AngleTo(target.Center);
+            float angleOffset = MathHelper.WrapAngle(angleToTarget - Projectile.velocity.ToRotation());
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.Clamp(angleOffset, -0.2f, 0.2f));
+            Projectile.velocity = Projectile.velocity.SafeNormalize(-Vector2.UnitY) * (Projectile.velocity.Length() + HomingAcceleration);
 
-            if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.SafeDirectionTo(target.Center)) < 0.75f)
-                projectile.velocity *= 0.75f;
+            if (Vector2.Dot(Projectile.velocity.SafeNormalize(Vector2.Zero), Projectile.SafeDirectionTo(target.Center)) < 0.75f)
+                Projectile.velocity *= 0.75f;
         }
         #endregion
 
@@ -117,8 +118,8 @@ namespace CalamityMod.Projectiles.Magic
 
         internal Color ColorFunction(float completionRatio)
         {
-            Color baseColor = Main.hslToRgb((projectile.identity * 0.33f + completionRatio + Main.GlobalTime * 2f) % 1f, 1f, 0.54f);
-            return Color.Lerp(GetRocketColor(), baseColor, MathHelper.Clamp(completionRatio * 0.8f, 0f, 1f)) * projectile.Opacity;
+            Color baseColor = Main.hslToRgb((Projectile.identity * 0.33f + completionRatio + Main.GlobalTime * 2f) % 1f, 1f, 0.54f);
+            return Color.Lerp(GetRocketColor(), baseColor, MathHelper.Clamp(completionRatio * 0.8f, 0f, 1f)) * Projectile.Opacity;
         }
 
         internal float WidthFunction(float completionRatio)
@@ -129,7 +130,7 @@ namespace CalamityMod.Projectiles.Magic
                 width = (float)Math.Sin(completionRatio / 0.1f * MathHelper.PiOver2) * maxWidthOutwardness + 0.1f;
             else
                 width = MathHelper.Lerp(maxWidthOutwardness, 0f, Utils.InverseLerp(0.1f, 1f, completionRatio, true));
-            return width * projectile.Opacity;
+            return width * Projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -137,17 +138,17 @@ namespace CalamityMod.Projectiles.Magic
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction);
 
-            projectile.oldPos[0] = projectile.position + projectile.velocity.SafeNormalize(Vector2.Zero) * 50f;
-            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity, 80);
+            Projectile.oldPos[0] = Projectile.position + Projectile.velocity.SafeNormalize(Vector2.Zero) * 50f;
+            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + Projectile.velocity, 80);
 
-            Texture2D rocketTexture = ModContent.GetTexture(Texture);
+            Texture2D rocketTexture = ModContent.Request<Texture2D>(Texture);
             spriteBatch.Draw(rocketTexture,
-                             projectile.Center - Main.screenPosition,
-                             rocketTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame),
+                             Projectile.Center - Main.screenPosition,
+                             rocketTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              GetRocketColor(),
-                             projectile.rotation,
+                             Projectile.rotation,
                              rocketTexture.Size() * 0.5f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
             return false;
@@ -157,26 +158,26 @@ namespace CalamityMod.Projectiles.Magic
         #region Kill Effects
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                for (int i = 1; i < projectile.oldPos.Length; i++)
+                for (int i = 1; i < Projectile.oldPos.Length; i++)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        float offsetAngle = MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / (float)projectile.oldPos.Length);
-                        Vector2 spawnPosition = projectile.oldPos[i] + projectile.Size * 0.5f;
-                        Vector2 spawnVelocity = (projectile.oldPos[i - 1] - projectile.oldPos[i]).SafeNormalize(Vector2.Zero);
+                        float offsetAngle = MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / (float)Projectile.oldPos.Length);
+                        Vector2 spawnPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f;
+                        Vector2 spawnVelocity = (Projectile.oldPos[i - 1] - Projectile.oldPos[i]).SafeNormalize(Vector2.Zero);
                         spawnVelocity = spawnVelocity.RotatedBy(offsetAngle);
                         spawnVelocity *= Main.rand.NextFloat(12f, 18f);
-                        Projectile.NewProjectile(spawnPosition, spawnVelocity, ModContent.ProjectileType<PartySparkle>(), projectile.damage, 2f, projectile.owner);
+                        Projectile.NewProjectile(spawnPosition, spawnVelocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 2f, Projectile.owner);
                     }
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 350);
-            projectile.Damage();
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 350);
+            Projectile.Damage();
 
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             // There's no need to spawn dust from the server.
             if (Main.dedServ)
@@ -213,18 +214,18 @@ namespace CalamityMod.Projectiles.Magic
         public void PinkMarkExplosionDust()
         {
             // Spawn the main balloon.
-            BalloonExplosionDust(projectile.Center, Main.rand.NextFloat(8f, 15f), Color.Yellow);
+            BalloonExplosionDust(Projectile.Center, Main.rand.NextFloat(8f, 15f), Color.Yellow);
 
             // Spawn the two smaller balloons.
             float absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f) * -1f;
             Vector2 offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle) * 120f;
             offset += Vector2.UnitX * 40f;
-            BalloonExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f), Color.DeepPink, absoluteOffsetAngle);
+            BalloonExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f), Color.DeepPink, absoluteOffsetAngle);
 
             absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f);
             offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle) * 120f;
             offset -= Vector2.UnitX * 40f;
-            BalloonExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f), Color.DeepPink, absoluteOffsetAngle);
+            BalloonExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f), Color.DeepPink, absoluteOffsetAngle);
         }
         public void BalloonExplosionDust(Vector2 center, float petalBurstSpeed, Color balloonColor, float absoluteOffsetAngle = 0)
         {
@@ -282,18 +283,18 @@ namespace CalamityMod.Projectiles.Magic
         public void OrangeMarkExplosionDust()
         {
             // Spawn the main apple.
-            AppleExplosionDust(projectile.Center, Main.rand.NextFloat(8f, 15f));
+            AppleExplosionDust(Projectile.Center, Main.rand.NextFloat(8f, 15f));
 
             // Spawn two other apples to the side.
             float absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f) * -1f;
             Vector2 offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle) * 120f;
             offset += Vector2.UnitX * 70f;
-            AppleExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f), absoluteOffsetAngle);
+            AppleExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f), absoluteOffsetAngle);
 
             absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f);
             offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle) * 120f;
             offset -= Vector2.UnitX * 70f;
-            AppleExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f), absoluteOffsetAngle);
+            AppleExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f), absoluteOffsetAngle);
         }
         public void AppleExplosionDust(Vector2 center, float appleBurstSpeed, float offsetAngle = 0f)
         {
@@ -361,15 +362,15 @@ namespace CalamityMod.Projectiles.Magic
         public void YellowMarkExplosionDust()
         {
             // Spawn three butterflies.
-            ButterflyExplosionDust(projectile.Center, Main.rand.NextFloat(8f, 12f));
+            ButterflyExplosionDust(Projectile.Center, Main.rand.NextFloat(8f, 12f));
 
             Vector2 offset = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.4f, 0.7f) * -1f) * 120f;
             offset += Vector2.UnitX * 84f;
-            ButterflyExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
+            ButterflyExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
 
             offset = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.4f, 0.7f)) * 120f;
             offset -= Vector2.UnitX * 84f;
-            ButterflyExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
+            ButterflyExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
         }
         public void ButterflyExplosionDust(Vector2 center, float butterflyBurstSpeed, float offsetAngle = 0f)
         {
@@ -428,17 +429,17 @@ namespace CalamityMod.Projectiles.Magic
         public void WhiteMarkExplosionDust()
         {
             // Spawn three diamonds.
-            DiamondExplosionDust(projectile.Center, Main.rand.NextFloat(8f, 12f));
+            DiamondExplosionDust(Projectile.Center, Main.rand.NextFloat(8f, 12f));
 
             float absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f);
             Vector2 offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle * -1f) * 120f;
             offset += Vector2.UnitX * 84f;
-            DiamondExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
+            DiamondExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
 
             absoluteOffsetAngle = Main.rand.NextFloat(0.4f, 0.7f);
             offset = Vector2.UnitY.RotatedBy(absoluteOffsetAngle) * 120f;
             offset -= Vector2.UnitX * 84f;
-            DiamondExplosionDust(projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
+            DiamondExplosionDust(Projectile.Center + offset, Main.rand.NextFloat(6f, 11f));
         }
         public void DiamondExplosionDust(Vector2 center, float diamondBurstSpeed, float offsetAngle = 0f)
         {
@@ -485,7 +486,7 @@ namespace CalamityMod.Projectiles.Magic
         #region Sky Blue Mark
         public void SkyBlueMarkExplosionDust()
         {
-            RainbowBoltExplosionDust(projectile.Center, Main.rand.NextFloat(-0.2f, 0.2f));
+            RainbowBoltExplosionDust(Projectile.Center, Main.rand.NextFloat(-0.2f, 0.2f));
         }
         public void RainbowBoltExplosionDust(Vector2 center, float offsetAngle = 0f)
         {
@@ -579,12 +580,12 @@ namespace CalamityMod.Projectiles.Magic
         #region Purple Mark
         public void PurpleMarkExplosionDust()
         {
-            TwilightStarExplosionDust(projectile.Center, 14f, Color.Magenta);
+            TwilightStarExplosionDust(Projectile.Center, 14f, Color.Magenta);
             for (int i = 0; i < 6; i++)
             {
                 float angle = MathHelper.TwoPi * i / 6f;
                 Vector2 offset = angle.ToRotationVector2() * Main.rand.NextFloat(140f, 180f);
-                TwilightStarExplosionDust(projectile.Center + offset, 4f, Color.White, Main.rand.NextFloat(-0.2f, 0.2f));
+                TwilightStarExplosionDust(Projectile.Center + offset, 4f, Color.White, Main.rand.NextFloat(-0.2f, 0.2f));
             }
         }
         public void TwilightStarExplosionDust(Vector2 center, float petalBurstSpeed, Color starColor, float absoluteOffsetAngle = 0f)
@@ -615,8 +616,8 @@ namespace CalamityMod.Projectiles.Magic
         #region Pale Pink Mark
         public void PalePinkMarkExplosionDust()
         {
-            StarlightMarkExplosionDust(projectile.Center);
-            StarlightStarExplosionDust(projectile.Center + new Vector2(16f, 36f), 2f);
+            StarlightMarkExplosionDust(Projectile.Center);
+            StarlightStarExplosionDust(Projectile.Center + new Vector2(16f, 36f), 2f);
         }
         public void StarlightMarkExplosionDust(Vector2 center)
         {

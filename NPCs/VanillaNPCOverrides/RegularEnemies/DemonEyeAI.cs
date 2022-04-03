@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 {
@@ -108,7 +109,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
         {
             // Randomly play pigron noises if the NPC is a pigron.
             if (Pigrons.Contains(npc.type) && Main.rand.NextBool(1000))
-                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 9, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 9, 1f, 0f);
 
             // Disable gravity.
             npc.noGravity = true;

@@ -21,33 +21,33 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 320;
-            projectile.height = 1020;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 360000;
+            Projectile.width = 320;
+            Projectile.height = 1020;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 360000;
             cooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
                 return;
             }
         }
@@ -62,8 +62,8 @@ namespace CalamityMod.Projectiles.Boss
             float _ = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(),
                 targetHitbox.Size(),
-                projectile.Bottom,
-                projectile.Bottom - Vector2.UnitY * TornadoHeight,
+                Projectile.Bottom,
+                Projectile.Bottom - Vector2.UnitY * TornadoHeight,
                 72,
                 ref _);
         }
@@ -71,15 +71,15 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TornadoDrawer is null)
-                TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
+                TornadoDrawer = new PrimitiveTrail(_ => Projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
 
             GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
-            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.GetTexture("Terraria/Misc/Perlin"));
+            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Misc/Perlin"));
             Vector2[] drawPoints = new Vector2[5];
             Vector2 upwardAscent = Vector2.UnitY * TornadoHeight;
-            Vector2 downwardOffset = Vector2.UnitY * projectile.height / (drawPoints.Length + 1);
+            Vector2 downwardOffset = Vector2.UnitY * Projectile.height / (drawPoints.Length + 1);
 
-            Vector2 bottom = projectile.Bottom + downwardOffset;
+            Vector2 bottom = Projectile.Bottom + downwardOffset;
             Vector2 top = bottom - upwardAscent;
             for (int i = 0; i < drawPoints.Length - 1; i++)
                 drawPoints[i] = Vector2.Lerp(top, bottom, i / (float)(drawPoints.Length - 1));
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Boss
             drawPoints[drawPoints.Length - 1] = bottom;
             TornadoDrawer.Draw(drawPoints, -Main.screenPosition, 85);
 
-            Texture2D vortexTexture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/OldDukeVortex");
+            Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex");
             for (int i = 0; i < 110; i++)
             {
                 float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTime * MathHelper.TwoPi;

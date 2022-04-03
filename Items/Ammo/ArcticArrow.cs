@@ -16,27 +16,23 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 36;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.5f;
-            item.value = Item.sellPrice(copper: 12);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<ArcticArrowProj>();
-            item.shootSpeed = 13f;
-            item.ammo = AmmoID.Arrow;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.sellPrice(copper: 12);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ArcticArrowProj>();
+            Item.shootSpeed = 13f;
+            Item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this, 250);
-            recipe.AddRecipe();
+            CreateRecipe(250).AddIngredient(ModContent.ItemType<VerstaltiteBar>()).AddTile(TileID.IceMachine).Register();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace CalamityMod.Particles
                     particle.CustomDraw(Main.spriteBatch, basePosition);
                 else
                 {
-                    var tex = ModContent.GetTexture(particle.Texture);
+                    var tex = ModContent.Request<Texture2D>(particle.Texture);
 
                     Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
                     Color particleColor = particle.Color;

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Cooldowns
 {
     public class Withered : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Withered");
             Description.SetDefault("Holding withered weapons causes you to suffer but makes your weapons strong");

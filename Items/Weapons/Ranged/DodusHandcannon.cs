@@ -18,34 +18,34 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 34;
-            item.damage = 857;
-            item.ranged = true;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
+            Item.width = 62;
+            Item.height = 34;
+            Item.damage = 857;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
 
             // Reduce volume to 30% so it stops destroying people's ears.
-            var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
-            item.UseSound = sound?.WithVolume(0.3f);
+            var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+            Item.UseSound = sound?.WithVolume(0.3f);
 
-            item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
-            item.shootSpeed = 13f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
+            Item.shootSpeed = 13f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = item.shoot;
+            type = Item.shoot;
             return true;
         }
 
@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PearlGod>());
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PearlGod>()).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ItemID.LunarBar, 15).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

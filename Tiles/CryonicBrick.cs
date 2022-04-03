@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles
     {
         int subsheetHeight = 90;
         int subsheetWidth = 234;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

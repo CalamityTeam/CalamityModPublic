@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicWorkBench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

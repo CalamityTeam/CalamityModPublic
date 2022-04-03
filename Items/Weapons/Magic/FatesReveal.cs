@@ -14,33 +14,33 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Fate's Reveal");
             Tooltip.SetDefault("Spawns ghostly fireballs that follow the player");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 80;
-            item.height = 86;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
-            item.shootSpeed = 1f;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 80;
+            Item.height = 86;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
+            Item.shootSpeed = 1f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -57,11 +57,11 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 num78 = (float)player.direction;
                 num79 = 0f;
-                num80 = item.shootSpeed;
+                num80 = Item.shootSpeed;
             }
             else
             {
-                num80 = item.shootSpeed / num80;
+                num80 = Item.shootSpeed / num80;
             }
             vector += new Vector2(num78, num79);
 

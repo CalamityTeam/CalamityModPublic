@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class MadAlchemistsCocktailAlt : ModProjectile
@@ -15,26 +16,26 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 90f)
+            Projectile.rotation += Math.Abs(Projectile.velocity.X) * 0.04f * (float)Projectile.direction;
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 90f)
             {
-                projectile.velocity.Y = projectile.velocity.Y + 0.4f;
-                projectile.velocity.X = projectile.velocity.X * 0.97f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.4f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.97f;
             }
-            if (projectile.velocity.Y > 16f)
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
@@ -54,45 +55,45 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item20, projectile.Center);
-            Main.PlaySound(SoundID.Item107, projectile.Center);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
+            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
 
             // This previously did double damage. It now does half damage.
             int blastWidth = 120;
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = blastWidth;
-            projectile.Center = projectile.position;
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.damage /= 2;
-            projectile.Damage();
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = blastWidth;
+            Projectile.Center = Projectile.position;
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.damage /= 2;
+            Projectile.Damage();
 
             // I don't even know what this dust code does
             float num51 = 1.8f;
             float num52 = 2.5f;
             Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
-            Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
+            Vector2 value4 = value3 * Projectile.velocity.Length() * (float)Projectile.MaxUpdates;
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
-                int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 200, default, num52);
-                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 200, default, num52);
+                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                 Main.dust[num54].noGravity = true;
                 Dust dust = Main.dust[num54];
                 dust.velocity *= 4f;
                 dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
-                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, num51);
-                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 174, 0f, 0f, 100, default, num51);
+                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                 dust = Main.dust[num54];
                 dust.velocity *= 3f;
                 Main.dust[num54].noGravity = true;
-                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, num51);
-                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, num51);
+                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                 dust = Main.dust[num54];
                 dust.velocity *= 2f;
                 Main.dust[num54].noGravity = true;
@@ -104,8 +105,8 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num55 = 0; num55 < 20; num55 = num3 + 1)
             {
-                int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 0, default, num52);
-                Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 3f;
+                int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 206, 0f, 0f, 0, default, num52);
+                Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 3f;
                 Main.dust[num56].noGravity = true;
                 Dust dust = Main.dust[num56];
                 dust.velocity *= 0.5f;

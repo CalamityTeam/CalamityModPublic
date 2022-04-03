@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class SirenBobs : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Elemental");
             Description.SetDefault("You are a water elemental now");

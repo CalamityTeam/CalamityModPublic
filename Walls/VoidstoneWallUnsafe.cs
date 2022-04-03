@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class VoidstoneWallUnsafe : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 187;
             AddMapEntry(new Color(0, 0, 0));

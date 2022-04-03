@@ -3,57 +3,58 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class PrismComet : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/Melee/Exocomet";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet");
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.scale = 0.86f;
-            projectile.width = projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 50;
+            Projectile.scale = 0.86f;
+            Projectile.width = Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 50;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.LightSeaGreen.ToVector3());
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 5)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Lighting.AddLight(Projectile.Center, Color.LightSeaGreen.ToVector3());
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6 == 5)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
 
-            projectile.alpha = Utils.Clamp(projectile.alpha - 25, 30, 255);
+            Projectile.alpha = Utils.Clamp(Projectile.alpha - 25, 30, 255);
 
-            if (projectile.alpha < 40)
+            if (Projectile.alpha < 40)
                 ReleaseIdleDust();
 
             // Home onto any targets after a short amount of time.
             if (Time >= 25f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(1050f);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1050f);
                 if (potentialTarget != null)
-                    projectile.velocity = (projectile.velocity * 12f + projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 13f;
+                    Projectile.velocity = (Projectile.velocity * 12f + Projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 13f;
             }
             else
-                projectile.velocity *= 1.05f;
+                Projectile.velocity *= 1.05f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             Time++;
         }
@@ -62,41 +63,41 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.dedServ)
                 return;
 
-            Dust prismEnergy = Dust.NewDustDirect(projectile.position - projectile.velocity * 4f, 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
+            Dust prismEnergy = Dust.NewDustDirect(Projectile.position - Projectile.velocity * 4f, 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
             prismEnergy.velocity *= -0.25f;
-            prismEnergy.velocity -= projectile.velocity * 0.3f;
+            prismEnergy.velocity -= Projectile.velocity * 0.3f;
 
-            prismEnergy = Dust.NewDustDirect(projectile.position - projectile.velocity * 4f, 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
+            prismEnergy = Dust.NewDustDirect(Projectile.position - Projectile.velocity * 4f, 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
             prismEnergy.velocity *= -0.25f;
-            prismEnergy.position -= projectile.velocity * 0.5f;
-            prismEnergy.velocity -= projectile.velocity * 0.3f;
+            prismEnergy.position -= Projectile.velocity * 0.5f;
+            prismEnergy.velocity -= Projectile.velocity * 0.3f;
         }
 
         public override bool CanDamage() => Time >= 20f;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            Color color = Color.Honeydew * projectile.Opacity;
+            Color color = Color.Honeydew * Projectile.Opacity;
             color.A = 0;
             return color;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 103, 1f, 0f);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
-            projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 103, 1f, 0f);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
+            Projectile.Damage();
 
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PrismExplosionSmall>(), projectile.damage, 0f, projectile.owner);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PrismExplosionSmall>(), Projectile.damage, 0f, Projectile.owner);
         }
     }
 }

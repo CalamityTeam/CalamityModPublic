@@ -16,24 +16,24 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Endo Fire");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 10;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
-            projectile.timeLeft = 300;
-            projectile.tileCollide = false;
-            projectile.coldDamage = true;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 10;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -50,24 +50,24 @@ namespace CalamityMod.Projectiles.Summon
                 speedY = Main.rand.NextBool(2) ? 1.03f : 0.97f;
                 speedYChoice = true;
             }
-            projectile.velocity.X *= speedX;
-            projectile.velocity.X *= speedY;
-            if (projectile.ai[0] > 20f)
+            Projectile.velocity.X *= speedX;
+            Projectile.velocity.X *= speedY;
+            if (Projectile.ai[0] > 20f)
             {
                 float num296 = 1f;
-                if (projectile.ai[0] == 21f)
+                if (Projectile.ai[0] == 21f)
                 {
                     num296 = 0.25f;
                 }
-                else if (projectile.ai[0] == 22f)
+                else if (Projectile.ai[0] == 22f)
                 {
                     num296 = 0.5f;
                 }
-                else if (projectile.ai[0] == 23f)
+                else if (Projectile.ai[0] == 23f)
                 {
                     num296 = 0.75f;
                 }
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
                 int num297 = Main.rand.NextBool(2) ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.rand.NextBool(2))
                 {
 
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.8f);
+                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 0.8f);
                     Dust dust = Main.dust[num299];
                     if (Main.rand.NextBool(3))
                     {
@@ -92,14 +92,14 @@ namespace CalamityMod.Projectiles.Summon
                     dust.velocity.X *= 0.8f;
                     dust.velocity.Y *= 0.8f;
                     dust.scale *= num296;
-                    dust.velocity += projectile.velocity;
+                    dust.velocity += Projectile.velocity;
                     dust.noLight = true;
 
                 }
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
         }
 

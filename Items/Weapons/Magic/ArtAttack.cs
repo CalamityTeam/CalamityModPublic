@@ -19,36 +19,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 52;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 70;
-            item.height = 70;
-            item.useTime = item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item28;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<ArtAttackHoldout>();
-            item.channel = true;
-            item.shootSpeed = 12f;
-            item.Calamity().donorItem = true;
+            Item.damage = 52;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 70;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item28;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<ArtAttackHoldout>();
+            Item.channel = true;
+            Item.shootSpeed = 12f;
+            Item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RainbowRod);
-            recipe.AddIngredient(ItemID.LargeRuby);
-            recipe.AddIngredient(ItemID.CrystalShard);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RainbowRod).AddIngredient(ItemID.LargeRuby).AddIngredient(ItemID.CrystalShard).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

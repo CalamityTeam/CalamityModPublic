@@ -22,24 +22,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.ranged = true;
-            item.width = 100;
-            item.height = 46;
-            item.useTime = 3;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PristineFire>();
-            item.shootSpeed = 11f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 100;
+            Item.height = 46;
+            Item.useTime = 3;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item34;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PristineFire>();
+            Item.shootSpeed = 11f;
+            Item.useAmmo = AmmoID.Gel;
 
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
@@ -50,13 +50,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 5;
-                item.useAnimation = 20;
+                Item.useTime = 5;
+                Item.useAnimation = 20;
             }
             else
             {
-                item.useTime = 3;
-                item.useAnimation = 15;
+                Item.useTime = 3;
+                Item.useAnimation = 15;
             }
             return base.CanUseItem(player);
         }
@@ -84,22 +84,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
-            spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
+            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFuryGlow");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFuryGlow");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
     }
 }

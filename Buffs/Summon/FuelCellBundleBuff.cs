@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class FuelCellBundleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mini Plaguebringer");
             Description.SetDefault("A small plague bee is following you");

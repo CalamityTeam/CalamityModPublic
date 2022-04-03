@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class StaticRefiner : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;

@@ -21,23 +21,23 @@ Stealth strikes throw five at once");
 
         public override void SafeSetDefaults()
         {
-            item.width = 20;
-            item.damage = BaseDamage;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = ItemRarityID.White;
-            item.shoot = ModContent.ProjectileType<NastyChollaBol>();
-            item.shootSpeed = 8f;
-            item.Calamity().rogue = true;
+            Item.width = 20;
+            Item.damage = BaseDamage;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 0, 0, 50);
+            Item.rare = ItemRarityID.White;
+            Item.shoot = ModContent.ProjectileType<NastyChollaBol>();
+            Item.shootSpeed = 8f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -60,11 +60,7 @@ Stealth strikes throw five at once");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cactus, 3);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 15);
-            recipe.AddRecipe();
+            CreateRecipe(15).AddIngredient(ItemID.Cactus, 3).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

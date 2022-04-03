@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.ranged = true;
-            item.width = 62;
-            item.height = 26;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<SandstormBullet>();
-            item.useAmmo = AmmoID.Sand;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 62;
+            Item.height = 26;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<SandstormBullet>();
+            Item.useAmmo = AmmoID.Sand;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -57,14 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Sandgun);
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ItemID.Amber, 5);
-            recipe.AddIngredient(ItemID.SandBlock, 50);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Sandgun).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ItemID.Amber, 5).AddIngredient(ItemID.SandBlock, 50).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

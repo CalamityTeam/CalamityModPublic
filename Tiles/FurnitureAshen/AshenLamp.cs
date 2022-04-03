@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp(true);
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.5f;
@@ -58,13 +58,13 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenLampFlame"), i, j);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 0 && tile.frameX < 18)
+            if (tile.TileFrameY == 0 && tile.TileFrameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

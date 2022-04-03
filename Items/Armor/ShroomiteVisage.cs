@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 11; //62
+            Item.width = 24;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 11; //62
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,11 +43,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShroomiteBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ShroomiteBar, 12).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

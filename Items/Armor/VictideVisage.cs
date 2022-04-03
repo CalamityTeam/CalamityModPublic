@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 1, 50, 0);
-            item.rare = ItemRarityID.Green;
-            item.defense = 3; //10
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 1, 50, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 3; //10
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,23 +40,19 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.rangedDamage += 0.1f;
+                player.GetDamage(DamageClass.Ranged) += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.05f;
+            player.GetDamage(DamageClass.Ranged) += 0.05f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 3).AddTile(TileID.Anvils).Register();
         }
     }
 }

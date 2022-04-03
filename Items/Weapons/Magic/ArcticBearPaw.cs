@@ -15,23 +15,23 @@ Fires spiritual claws that ignore walls and confuse enemies");
         }
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 28;
-            item.height = 24;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ArcticBearPawProj>();
-            item.shootSpeed = 27f;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 28;
+            Item.height = 24;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 10f;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ArcticBearPawProj>();
+            Item.shootSpeed = 27f;
         }
     }
 }

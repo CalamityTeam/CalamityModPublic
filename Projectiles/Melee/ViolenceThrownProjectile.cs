@@ -6,80 +6,81 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class ViolenceThrownProjectile : ModProjectile
     {
         internal PrimitiveTrail StreakDrawer = null;
-        internal Player Owner => Main.player[projectile.owner];
-        internal ref float Time => ref projectile.ai[0];
+        internal Player Owner => Main.player[Projectile.owner];
+        internal ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Violence";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Violence");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 36;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 142;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 90000;
-            projectile.ignoreWater = true;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
-            projectile.tileCollide = false;
+            Projectile.width = Projectile.height = 142;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90000;
+            Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
             // Fade in.
-            projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
+            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
 
             if (Owner.channel)
             {
                 HomeTowardsMouse();
-                projectile.rotation += 0.45f / projectile.MaxUpdates;
+                Projectile.rotation += 0.45f / Projectile.MaxUpdates;
             }
             else
             {
                 ReturnToOwner();
 
-                float idealAngle = projectile.AngleTo(Owner.Center) - MathHelper.PiOver4;
-                projectile.rotation = projectile.rotation.AngleLerp(idealAngle, 0.1f);
-                projectile.rotation = projectile.rotation.AngleTowards(idealAngle, 0.25f);
+                float idealAngle = Projectile.AngleTo(Owner.Center) - MathHelper.PiOver4;
+                Projectile.rotation = Projectile.rotation.AngleLerp(idealAngle, 0.1f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(idealAngle, 0.25f);
             }
             ManipulatePlayerFields();
 
             // Create some demonic light at the tip of the spear.
-            Lighting.AddLight(projectile.Center + (projectile.rotation + MathHelper.PiOver4).ToRotationVector2() * projectile.height * 0.45f, Color.Red.ToVector3() * 0.4f);
+            Lighting.AddLight(Projectile.Center + (Projectile.rotation + MathHelper.PiOver4).ToRotationVector2() * Projectile.height * 0.45f, Color.Red.ToVector3() * 0.4f);
             Time++;
         }
 
         internal void HomeTowardsMouse()
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
-            if (projectile.WithinRange(Main.MouseWorld, projectile.velocity.Length() * 0.7f))
-                projectile.Center = Main.MouseWorld;
+            if (Projectile.WithinRange(Main.MouseWorld, Projectile.velocity.Length() * 0.7f))
+                Projectile.Center = Main.MouseWorld;
             else
-                projectile.velocity = (projectile.velocity * 3f + projectile.DirectionTo(Main.MouseWorld) * 19f) / 4f;
-            projectile.netSpam = 0;
-            projectile.netUpdate = true;
+                Projectile.velocity = (Projectile.velocity * 3f + Projectile.DirectionTo(Main.MouseWorld) * 19f) / 4f;
+            Projectile.netSpam = 0;
+            Projectile.netUpdate = true;
         }
 
         internal void ReturnToOwner()
         {
-            projectile.Center = Vector2.Lerp(projectile.Center, Owner.Center, 0.02f);
-            projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 22f;
-            if (projectile.Hitbox.Intersects(Owner.Hitbox))
+            Projectile.Center = Vector2.Lerp(Projectile.Center, Owner.Center, 0.02f);
+            Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 22f;
+            if (Projectile.Hitbox.Intersects(Owner.Hitbox))
             {
                 for (int i = 0; i < 75; i++)
                 {
@@ -88,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
                     fire.scale = 1.4f;
                     fire.noGravity = true;
                 }
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.netMode != NetmodeID.Server)
             {
                 // Play a splatter and impact sound.
-                Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, Projectile.Center);
 
                 float damageInterpolant = Utils.InverseLerp(950f, 2000f, damage, true);
                 float impactAngularVelocity = MathHelper.Lerp(0.08f, 0.2f, damageInterpolant);
@@ -111,14 +112,14 @@ namespace CalamityMod.Projectiles.Melee
                 impactAngularVelocity *= Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(0.75f, 1.25f);
 
                 Color impactColor = Color.Lerp(Color.Silver, Color.Gold, Main.rand.NextFloat(0.5f));
-                Vector2 impactPoint = Vector2.Lerp(projectile.Center, target.Center, 0.65f);
+                Vector2 impactPoint = Vector2.Lerp(Projectile.Center, target.Center, 0.65f);
                 Vector2 bloodSpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
-                Vector2 splatterDirection = (projectile.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
+                Vector2 splatterDirection = (Projectile.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
 
                 // Emit blood if the target is organic.
                 if (target.Organic())
                 {
-                    Main.PlaySound(SoundID.NPCHit18, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.NPCHit18, Projectile.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         int bloodLifetime = Main.rand.Next(22, 36);
@@ -179,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
 
         internal Color PrimitiveColorFunction(float completionRatio)
         {
-            float fadeInterpolant = (float)Math.Cos(Main.GlobalTime * -9f + completionRatio * 6f + projectile.identity * 2f) * 0.5f + 0.5f;
+            float fadeInterpolant = (float)Math.Cos(Main.GlobalTime * -9f + completionRatio * 6f + Projectile.identity * 2f) * 0.5f + 0.5f;
 
             // Adjust the fade interpolant to be on a different scale via a linear interpolation.
             fadeInterpolant = MathHelper.Lerp(0.15f, 0.75f, fadeInterpolant);
@@ -189,7 +190,7 @@ namespace CalamityMod.Projectiles.Melee
             frontFade = Color.Lerp(frontFade, Color.DarkRed, 0.5f);
             Color backFade = new Color(255, 145, 115);
 
-            return Color.Lerp(frontFade, backFade, (float)Math.Pow(completionRatio, 1.2D)) * (float)Math.Pow(1f - completionRatio, 1.1D) * projectile.Opacity;
+            return Color.Lerp(frontFade, backFade, (float)Math.Pow(completionRatio, 1.2D)) * (float)Math.Pow(1f - completionRatio, 1.1D) * Projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -197,35 +198,35 @@ namespace CalamityMod.Projectiles.Melee
             if (StreakDrawer is null)
                 StreakDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/FabstaffStreak"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
 
-            Texture2D spearProjectile = Main.projectileTexture[projectile.type];
+            Texture2D spearProjectile = Main.projectileTexture[Projectile.type];
 
             // Not cloning the points causes the below operations to be applied to the original oldPos value by reference
             // and thus causes it to be consistently added over and over, which is not intended behavior.
-            Vector2[] drawPoints = (Vector2[])projectile.oldPos.Clone();
-            Vector2 aimAheadDirection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
+            Vector2[] drawPoints = (Vector2[])Projectile.oldPos.Clone();
+            Vector2 aimAheadDirection = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
 
             if (Owner.channel)
             {
                 drawPoints[0] += aimAheadDirection * -12f;
-                drawPoints[1] = drawPoints[0] - (projectile.rotation + MathHelper.PiOver4).ToRotationVector2() * Vector2.Distance(drawPoints[0], drawPoints[1]);
+                drawPoints[1] = drawPoints[0] - (Projectile.rotation + MathHelper.PiOver4).ToRotationVector2() * Vector2.Distance(drawPoints[0], drawPoints[1]);
             }
             for (int i = 0; i < drawPoints.Length; i++)
-                drawPoints[i] -= (projectile.oldRot[i] + MathHelper.PiOver4).ToRotationVector2() * projectile.height * 0.5f;
+                drawPoints[i] -= (Projectile.oldRot[i] + MathHelper.PiOver4).ToRotationVector2() * Projectile.height * 0.5f;
 
-            if (Time > projectile.oldPos.Length)
-                StreakDrawer.Draw(drawPoints, projectile.Size * 0.5f - Main.screenPosition, 88);
+            if (Time > Projectile.oldPos.Length)
+                StreakDrawer.Draw(drawPoints, Projectile.Size * 0.5f - Main.screenPosition, 88);
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             for (int i = 0; i < 6; i++)
             {
-                float rotation = projectile.oldRot[i] - MathHelper.PiOver2;
+                float rotation = Projectile.oldRot[i] - MathHelper.PiOver2;
                 if (Owner.channel)
                     rotation += 0.2f;
 
-                Color afterimageColor = Color.Lerp(lightColor, Color.Transparent, 1f - (float)Math.Pow(Utils.InverseLerp(0, 6, i), 1.4D)) * projectile.Opacity;
-                spriteBatch.Draw(spearProjectile, drawPosition, null, afterimageColor, rotation, spearProjectile.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                Color afterimageColor = Color.Lerp(lightColor, Color.Transparent, 1f - (float)Math.Pow(Utils.InverseLerp(0, 6, i), 1.4D)) * Projectile.Opacity;
+                spriteBatch.Draw(spearProjectile, drawPosition, null, afterimageColor, rotation, spearProjectile.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             return false;

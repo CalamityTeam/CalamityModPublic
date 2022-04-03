@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 44;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 44;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.SandCloakHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
                     line2.text = "Press " + hotkey + " to consume 25% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen";
                 }

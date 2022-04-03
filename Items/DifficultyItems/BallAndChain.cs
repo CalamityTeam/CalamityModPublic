@@ -15,28 +15,22 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 50;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 32;
+            Item.height = 50;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override bool CanUseItem(Player player) => false;
 
         public override void UpdateInventory(Player player)
         {
-            if (item.favorited)
+            if (Item.favorited)
                 player.Calamity().blockAllDashes = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Chain);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.IronBar, 10).AddIngredient(ItemID.Chain).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 72;
-            item.height = 72;
-            item.scale = 1.2f;
-            item.damage = 108;
-            item.melee = true;
-            item.useAnimation = item.useTime = 15;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 14f;
+            Item.width = 72;
+            Item.height = 72;
+            Item.scale = 1.2f;
+            Item.damage = 108;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -43,15 +43,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.noMelee = true;
-                item.UseSound = SoundID.Item73;
-                item.shoot = ModContent.ProjectileType<AegisBeam>();
+                Item.noMelee = true;
+                Item.UseSound = SoundID.Item73;
+                Item.shoot = ModContent.ProjectileType<AegisBeam>();
             }
             else
             {
-                item.noMelee = false;
-                item.UseSound = SoundID.Item1;
-                item.shoot = ProjectileID.None;
+                Item.noMelee = false;
+                Item.UseSound = SoundID.Item1;
+                Item.shoot = ProjectileID.None;
             }
             return base.CanUseItem(player);
         }
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, Item.knockBack, Main.myPlayer);
         }
     }
 }

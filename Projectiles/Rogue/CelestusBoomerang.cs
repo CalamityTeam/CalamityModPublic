@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -16,117 +17,117 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 94;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
-            projectile.Calamity().rogue = true;
+            Projectile.width = Projectile.height = 94;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             if (!initialized)
             {
-                speed = projectile.velocity.Length();
+                speed = Projectile.velocity.Length();
                 initialized = true;
             }
 
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
-            projectile.rotation += 1f;
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Projectile.rotation += 1f;
 
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
-            switch (projectile.ai[0])
+            switch (Projectile.ai[0])
             {
                 case 0f:
-                    projectile.ai[1] += 1f;
-                    if (projectile.ai[1] >= 40f)
+                    Projectile.ai[1] += 1f;
+                    if (Projectile.ai[1] >= 40f)
                     {
-                        projectile.ai[0] = 1f;
-                        projectile.ai[1] = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.ai[0] = 1f;
+                        Projectile.ai[1] = 0f;
+                        Projectile.netUpdate = true;
                     }
                     break;
                 case 1f:
                     float returnSpeed = 25f;
                     float acceleration = 5f;
-                    Vector2 playerVec = player.Center - projectile.Center;
+                    Vector2 playerVec = player.Center - Projectile.Center;
                     if (playerVec.Length() > 4000f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                     playerVec.Normalize();
                     playerVec *= returnSpeed;
-                    if (projectile.velocity.X < playerVec.X)
+                    if (Projectile.velocity.X < playerVec.X)
                     {
-                        projectile.velocity.X += acceleration;
-                        if (projectile.velocity.X < 0f && playerVec.X > 0f)
+                        Projectile.velocity.X += acceleration;
+                        if (Projectile.velocity.X < 0f && playerVec.X > 0f)
                         {
-                            projectile.velocity.X += acceleration;
+                            Projectile.velocity.X += acceleration;
                         }
                     }
-                    else if (projectile.velocity.X > playerVec.X)
+                    else if (Projectile.velocity.X > playerVec.X)
                     {
-                        projectile.velocity.X -= acceleration;
-                        if (projectile.velocity.X > 0f && playerVec.X < 0f)
+                        Projectile.velocity.X -= acceleration;
+                        if (Projectile.velocity.X > 0f && playerVec.X < 0f)
                         {
-                            projectile.velocity.X -= acceleration;
+                            Projectile.velocity.X -= acceleration;
                         }
                     }
-                    if (projectile.velocity.Y < playerVec.Y)
+                    if (Projectile.velocity.Y < playerVec.Y)
                     {
-                        projectile.velocity.Y += acceleration;
-                        if (projectile.velocity.Y < 0f && playerVec.Y > 0f)
+                        Projectile.velocity.Y += acceleration;
+                        if (Projectile.velocity.Y < 0f && playerVec.Y > 0f)
                         {
-                            projectile.velocity.Y += acceleration;
+                            Projectile.velocity.Y += acceleration;
                         }
                     }
-                    else if (projectile.velocity.Y > playerVec.Y)
+                    else if (Projectile.velocity.Y > playerVec.Y)
                     {
-                        projectile.velocity.Y -= acceleration;
-                        if (projectile.velocity.Y > 0f && playerVec.Y < 0f)
+                        Projectile.velocity.Y -= acceleration;
+                        if (Projectile.velocity.Y > 0f && playerVec.Y < 0f)
                         {
-                            projectile.velocity.Y -= acceleration;
+                            Projectile.velocity.Y -= acceleration;
                         }
                     }
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        Rectangle projHitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+                        Rectangle projHitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
                         Rectangle playerHitbox = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
                         if (projHitbox.Intersects(playerHitbox))
                         {
-                            if (projectile.Calamity().stealthStrike)
+                            if (Projectile.Calamity().stealthStrike)
                             {
-                                projectile.velocity *= -1f;
-                                projectile.timeLeft = 600;
-                                projectile.penetrate = 1;
-                                projectile.localNPCHitCooldown = -1;
-                                projectile.ai[0] = 2f;
-                                projectile.netUpdate = true;
+                                Projectile.velocity *= -1f;
+                                Projectile.timeLeft = 600;
+                                Projectile.penetrate = 1;
+                                Projectile.localNPCHitCooldown = -1;
+                                Projectile.ai[0] = 2f;
+                                Projectile.netUpdate = true;
                             }
                             else
-                                projectile.Kill();
+                                Projectile.Kill();
                         }
                     }
                     break;
                 case 2f:
-                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, speed, 20f);
+                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, speed, 20f);
                     break;
                 default:
                     break;
@@ -149,25 +150,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
                 for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage * 0.7), projectile.knockBack, projectile.owner);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage * 0.7), projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
                 }
             }
-            Main.PlaySound(SoundID.Item122, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

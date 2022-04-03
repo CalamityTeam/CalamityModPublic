@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 namespace CalamityMod
 {
@@ -31,8 +32,8 @@ namespace CalamityMod
         {
             // Find the top left corner of the FrameImportant tile that the player clicked on in the world.
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (width * sheetSquare) / sheetSquare;
-            int top = j - t.frameY % (height * sheetSquare) / sheetSquare;
+            int left = i - t.TileFrameX % (width * sheetSquare) / sheetSquare;
+            int top = j - t.TileFrameY % (height * sheetSquare) / sheetSquare;
 
             byte chargerType = GetInstance<T>().type;
             bool exists = TileEntity.ByPosition.TryGetValue(new Point16(left, top), out TileEntity te);
@@ -50,14 +51,14 @@ namespace CalamityMod
             // If a sign or chest was in use previously, close those GUIs.
             if (player.sign >= 0)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 player.sign = -1;
                 Main.editSign = false;
                 Main.npcChatText = "";
             }
             if (Main.editChest)
             {
-                Main.PlaySound(SoundID.MenuTick);
+                SoundEngine.PlaySound(SoundID.MenuTick);
                 Main.editChest = false;
                 Main.npcChatText = "";
             }

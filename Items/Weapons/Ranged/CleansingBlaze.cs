@@ -19,28 +19,28 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 130;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 32;
-            item.useTime = 3;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EssenceFire>();
-            item.shootSpeed = 14f;
-            item.useAmmo = AmmoID.Gel;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 130;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 32;
+            Item.useTime = 3;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<EssenceFire>();
+            Item.shootSpeed = 14f;
+            Item.useAmmo = AmmoID.Gel;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -69,11 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

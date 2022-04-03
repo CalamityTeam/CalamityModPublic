@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.damage = 150;
-            item.melee = true;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 28;
-            item.useTurn = true;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 74;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<TrueCausticEdgeProjectile>();
-            item.shootSpeed = 16f;
+            Item.width = 64;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 28;
+            Item.useTurn = true;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 74;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<TrueCausticEdgeProjectile>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,14 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CausticEdge>());
-            recipe.AddRecipeGroup("AnyEvilFlask", 5);
-            recipe.AddIngredient(ItemID.FlaskofPoison, 5);
-            recipe.AddIngredient(ItemID.Deathweed, 3);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CausticEdge>()).AddRecipeGroup("AnyEvilFlask", 5).AddIngredient(ItemID.FlaskofPoison, 5).AddIngredient(ItemID.Deathweed, 3).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -25,12 +25,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -81,12 +81,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ItemID.SoulofFlight, 30);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ItemID.SoulofFlight, 30).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

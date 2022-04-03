@@ -22,27 +22,27 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.shootSpeed = 10f;
-            item.damage = 310;
-            item.mana = 12;
-            item.width = 38;
-            item.height = 24;
-            item.useTime = item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 8f;
+            Item.shootSpeed = 10f;
+            Item.damage = 310;
+            Item.mana = 12;
+            Item.width = 38;
+            Item.height = 24;
+            Item.useTime = Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
-            item.UseSound = SoundID.Item15;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PoleWarperSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.UseSound = SoundID.Item15;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PoleWarperSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 250f;
@@ -87,14 +87,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 5);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

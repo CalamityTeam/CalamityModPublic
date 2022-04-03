@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -28,20 +28,14 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().rangedAmmoCost *= 0.8f;
             player.lifeRegen += 2;
             player.statDefense += 5;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 5;
+            player.GetDamage(DamageClass.Ranged) += 0.1f;
+            player.GetCritChance(DamageClass.Ranged) += 5;
             player.pickSpeed -= 0.15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CelestialStone);
-            recipe.AddIngredient(ItemID.RangerEmblem);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.CelestialStone).AddIngredient(ItemID.RangerEmblem).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

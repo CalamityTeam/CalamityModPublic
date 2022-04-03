@@ -11,17 +11,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
-            projectile.timeLeft = 25;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.alpha = 0;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 6;
+            Projectile.timeLeft = 25;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 0;
         }
 
         public override void AI()
@@ -29,24 +29,24 @@ namespace CalamityMod.Projectiles.Melee
             drawOffsetX = -5;
             drawOriginOffsetY = -1;
             drawOriginOffsetX = 0;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Slow down exponentially and fade away
-            projectile.velocity *= 0.93f;
-            projectile.alpha += 5;
+            Projectile.velocity *= 0.93f;
+            Projectile.alpha += 5;
 
             // Light which scales down as it fades
-            float lightFactor = (255f - (float)projectile.alpha) / 255f;
-            Lighting.AddLight(projectile.Center, 0.3f * lightFactor, 0.05f * lightFactor, 0.2f * lightFactor);
+            float lightFactor = (255f - (float)Projectile.alpha) / 255f;
+            Lighting.AddLight(Projectile.Center, 0.3f * lightFactor, 0.05f * lightFactor, 0.2f * lightFactor);
 
             // Spawn dust, with less dust as it fades away
-            if (Main.rand.Next(256) > projectile.alpha - 60)
+            if (Main.rand.Next(256) > Projectile.alpha - 60)
             {
-                int idx = Dust.NewDust(projectile.Center, 1, 1, 71);
-                Main.dust[idx].position = projectile.Center - projectile.velocity * 0.7f;
+                int idx = Dust.NewDust(Projectile.Center, 1, 1, 71);
+                Main.dust[idx].position = Projectile.Center - Projectile.velocity * 0.7f;
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 0.3f;
-                Main.dust[idx].velocity += projectile.velocity * 0.4f;
+                Main.dust[idx].velocity += Projectile.velocity * 0.4f;
                 Main.dust[idx].scale = Main.rand.NextFloat(0.5f, 1.0f);
                 Main.dust[idx].alpha = Main.rand.Next(80, 200);
             }

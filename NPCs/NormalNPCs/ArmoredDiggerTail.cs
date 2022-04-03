@@ -16,26 +16,26 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.width = 34;
-            npc.height = 34;
-            npc.defense = 30;
-            npc.DR_NERD(0.3f);
-            npc.lifeMax = 20000;
-            npc.knockBackResist = 0f;
-            npc.aiStyle = -1;
+            NPC.damage = 55;
+            NPC.width = 34;
+            NPC.height = 34;
+            NPC.defense = 30;
+            NPC.DR_NERD(0.3f);
+            NPC.lifeMax = 20000;
+            NPC.knockBackResist = 0f;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
-            npc.dontCountMe = true;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
             banner = ModContent.NPCType<ArmoredDiggerHead>();
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -45,32 +45,32 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            if (npc.ai[3] > 0f)
+            if (NPC.ai[3] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                NPC.realLife = (int)NPC.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
             bool flag = false;
-            if (npc.ai[1] <= 0f)
+            if (NPC.ai[1] <= 0f)
             {
                 flag = true;
             }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
+            else if (Main.npc[(int)NPC.ai[1]].life <= 0)
             {
                 flag = true;
             }
             if (flag)
             {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.checkDead();
+                NPC.life = 0;
+                NPC.HitEffect(0, 10.0);
+                NPC.checkDead();
             }
-            Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
             num20 = (float)((int)(num20 / 16f) * 16);
             num21 = (float)((int)(num21 / 16f) * 16);
             vector3.X = (float)((int)(vector3.X / 16f) * 16);
@@ -78,25 +78,25 @@ namespace CalamityMod.NPCs.NormalNPCs
             num20 -= vector3.X;
             num21 -= vector3.Y;
             float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-            if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+            if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
             {
                 try
                 {
-                    vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    num20 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector3.X;
-                    num21 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector3.Y;
+                    vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    num20 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector3.X;
+                    num21 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector3.Y;
                 } catch
                 {
                 }
-                npc.rotation = (float)Math.Atan2((double)num21, (double)num20) + 1.57f;
+                NPC.rotation = (float)Math.Atan2((double)num21, (double)num20) + 1.57f;
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                int num23 = (int)(44f * npc.scale);
+                int num23 = (int)(44f * NPC.scale);
                 num22 = (num22 - (float)num23) / num22;
                 num20 *= num22;
                 num21 *= num22;
-                npc.velocity = Vector2.Zero;
-                npc.position.X = npc.position.X + num20;
-                npc.position.Y = npc.position.Y + num21;
+                NPC.velocity = Vector2.Zero;
+                NPC.position.X = NPC.position.X + num20;
+                NPC.position.Y = NPC.position.Y + num21;
             }
         }
 
@@ -114,13 +114,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

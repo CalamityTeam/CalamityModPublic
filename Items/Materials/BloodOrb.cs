@@ -13,18 +13,18 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 1, copper: 20);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 10;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 1, copper: 20);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (item.width / 2)) / 16f), (int)((item.position.Y + (item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
+            Lighting.AddLight((int)((Item.position.X + (Item.width / 2)) / 16f), (int)((Item.position.Y + (Item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
         }
     }
 }

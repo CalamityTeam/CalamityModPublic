@@ -17,15 +17,15 @@ Consuming it does something that cannot be reversed");
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.rare = ItemRarityID.Red;
-            item.maxStack = 99;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item4;
-            item.consumable = true;
+            Item.width = 28;
+            Item.height = 28;
+            Item.rare = ItemRarityID.Red;
+            Item.maxStack = 99;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item4;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -38,7 +38,7 @@ Consuming it does something that cannot be reversed");
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (player.itemAnimation > 0 && !modPlayer.extraAccessoryML && player.itemTime == 0)

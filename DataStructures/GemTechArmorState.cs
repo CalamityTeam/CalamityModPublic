@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.DataStructures
 {
@@ -260,7 +261,7 @@ namespace CalamityMod.DataStructures
 
             if (gemWasLost)
             {
-                Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
+                SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
                 Vector2 gemPosition = CalculateGemPosition(GemThatShouldBeLost);
 
                 // Softcap the damage. This is done primarily to dampen stealth interactions.
@@ -298,27 +299,27 @@ namespace CalamityMod.DataStructures
             // The melee speed boost code is present in the Player Misc Effects file.
             if (IsYellowGemActive)
             {
-                Owner.meleeCrit += (int)(GemTechHeadgear.MeleeCritBoost * 100f);
-                Owner.meleeDamage += GemTechHeadgear.MeleeDamageBoost;
+                Owner.GetCritChance(DamageClass.Melee) += (int)(GemTechHeadgear.MeleeCritBoost * 100f);
+                Owner.GetDamage(DamageClass.Melee) += GemTechHeadgear.MeleeDamageBoost;
             }
 
             if (IsGreenGemActive)
             {
-                Owner.rangedCrit += (int)(GemTechHeadgear.RangedCritBoost * 100f);
-                Owner.rangedDamage += GemTechHeadgear.RangedDamageBoost;
+                Owner.GetCritChance(DamageClass.Ranged) += (int)(GemTechHeadgear.RangedCritBoost * 100f);
+                Owner.GetDamage(DamageClass.Ranged) += GemTechHeadgear.RangedDamageBoost;
             }
 
             if (IsBlueGemActive)
             {
                 Owner.maxMinions += GemTechHeadgear.SummonMinionCountBoost;
-                Owner.minionDamage += GemTechHeadgear.SummonDamageBoost;
+                Owner.GetDamage(DamageClass.Summon) += GemTechHeadgear.SummonDamageBoost;
             }
 
             if (IsPurpleGemActive)
             {
                 Owner.statManaMax2 += GemTechHeadgear.MagicManaBoost;
-                Owner.magicCrit += (int)(GemTechHeadgear.MagicCritBoost * 100f);
-                Owner.magicDamage += GemTechHeadgear.MagicDamageBoost;
+                Owner.GetCritChance(DamageClass.Magic) += (int)(GemTechHeadgear.MagicCritBoost * 100f);
+                Owner.GetDamage(DamageClass.Magic) += GemTechHeadgear.MagicDamageBoost;
             }
 
             if (IsPinkGemActive)
@@ -360,7 +361,7 @@ namespace CalamityMod.DataStructures
         public void CreateRegenerationEffect(GemTechArmorGemType gemType)
         {
             // Create a little visual effect to accompany the return of the gem and play a magic sound.
-            Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
+            SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
 
             for (int i = 0; i < 12; i++)
             {

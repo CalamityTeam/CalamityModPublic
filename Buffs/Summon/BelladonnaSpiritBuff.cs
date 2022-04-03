@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BelladonnaSpiritBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belladonna Spirit");
             Description.SetDefault("A cute forest spirit is following you");

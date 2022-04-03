@@ -17,40 +17,34 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 48;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.summon = true;
-            item.UseSound = SoundID.Item89;
-            item.noMelee = true;
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.autoReuse = true;
+            Item.width = 44;
+            Item.height = 48;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.DamageType = DamageClass.Summon;
+            Item.UseSound = SoundID.Item89;
+            Item.noMelee = true;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.autoReuse = true;
 
-            item.knockBack = 4f;
-            item.mana = 10;
-            item.damage = 28;
-            item.useTime = item.useAnimation = 25;
-            item.shoot = ModContent.ProjectileType<ApexShark>();
-            item.shootSpeed = 12f;
+            Item.knockBack = 4f;
+            Item.mana = 10;
+            Item.damage = 28;
+            Item.useTime = Item.useAnimation = 25;
+            Item.shoot = ModContent.ProjectileType<ApexShark>();
+            Item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddIngredient(ItemID.Amethyst, 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddIngredient(ItemID.Amethyst, 4).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 vector2.X = Main.mouseX + Main.screenPosition.X;
                 vector2.Y = Main.mouseY + Main.screenPosition.Y;

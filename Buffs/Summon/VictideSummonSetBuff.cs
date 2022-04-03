@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class VictideSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Urchin");
             Description.SetDefault("The urchin will protect you");

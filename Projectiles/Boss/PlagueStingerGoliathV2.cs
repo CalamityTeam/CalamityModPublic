@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -19,23 +20,23 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.scale = 1.5f;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.scale = 1.5f;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
-            if (projectile.position.Y > projectile.ai[1])
-                projectile.tileCollide = true;
+            if (Projectile.position.Y > Projectile.ai[1])
+                Projectile.tileCollide = true;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -46,33 +47,33 @@ namespace CalamityMod.Projectiles.Boss
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == 1)
+            if (Projectile.spriteDirection == 1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D glow = ModContent.GetTexture("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow");
-            Vector2 origin = new Vector2(glow.Width / 2, glow.Height / Main.projFrames[projectile.type] / 2);
-            Vector2 drawPos = projectile.Center - Main.screenPosition;
-            drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[projectile.type]) * 1f / 2f;
-            drawPos += origin * 1f + new Vector2(0f, 0f + 4f + projectile.gfxOffY);
-            Color color = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Color.Red);
-            Main.spriteBatch.Draw(glow, drawPos, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            Texture2D glow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow");
+            Vector2 origin = new Vector2(glow.Width / 2, glow.Height / Main.projFrames[Projectile.type] / 2);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition;
+            drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[Projectile.type]) * 1f / 2f;
+            drawPos += origin * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);
+            Color color = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Color.Red);
+            Main.spriteBatch.Draw(glow, drawPos, null, color, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                float scale = 1.5f + projectile.ai[0] * 0.015f;
+                float scale = 1.5f + Projectile.ai[0] * 0.015f;
                 int baseWidthAndHeight = 20;
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].scale = scale;
                 Main.projectile[proj].width = (int)(baseWidthAndHeight * scale);
                 Main.projectile[proj].height = (int)(baseWidthAndHeight * scale);
-                Main.projectile[proj].position.X = projectile.Center.X - Main.projectile[proj].width * 0.5f;
-                Main.projectile[proj].position.Y = projectile.Center.Y - Main.projectile[proj].height * 0.5f;
+                Main.projectile[proj].position.X = Projectile.Center.X - Main.projectile[proj].width * 0.5f;
+                Main.projectile[proj].position.Y = Projectile.Center.Y - Main.projectile[proj].height * 0.5f;
             }
         }
     }

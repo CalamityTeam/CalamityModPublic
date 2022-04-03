@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 44;
-            item.damage = 16;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<CrystallineProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 44;
+            Item.damage = 16;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<CrystallineProj>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -40,13 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumKnife>(), 50);
-            recipe.AddIngredient(ItemID.Diamond, 3);
-            recipe.AddIngredient(ItemID.FallenStar, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumKnife>(), 50).AddIngredient(ItemID.Diamond, 3).AddIngredient(ItemID.FallenStar, 3).AddTile(TileID.Anvils).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

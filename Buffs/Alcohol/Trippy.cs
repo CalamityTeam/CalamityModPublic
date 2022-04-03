@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class Trippy : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trippy");
             Description.SetDefault("You see the world for what it truly is... and you also have a 50% increase to all damage");

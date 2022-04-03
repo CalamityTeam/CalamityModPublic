@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,29 +18,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 84;
-            item.damage = 180;
-            item.melee = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 84;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.width = 84;
+            Item.damage = 180;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 84;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 8);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FieryGreatsword).AddIngredient(ModContent.ItemType<DraedonBar>(), 8).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -51,13 +47,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 300);
-            player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, 0, false);
             float num50 = 1.7f;
             float num51 = 0.8f;
             float num52 = 2f;
             Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            Main.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
@@ -94,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 300);
-            Main.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
         }
     }
 }

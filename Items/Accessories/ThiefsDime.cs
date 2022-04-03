@@ -10,17 +10,17 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thief's Dime");
-            Tooltip.SetDefault("Those scurvy dogs donâ€™t know the first thing about making bank\n" +
+            Tooltip.SetDefault("Those scurvy dogs don’t know the first thing about making bank\n" +
             "Summons a coin that revolves around you and steals money from enemies");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

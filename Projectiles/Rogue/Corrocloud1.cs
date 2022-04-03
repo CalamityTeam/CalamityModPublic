@@ -10,31 +10,31 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrocloud");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.penetrate = 4;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.99f;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] % 7f == 6f)
+            Projectile.velocity *= 0.99f;
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] % 7f == 6f)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= 8)
-                projectile.Kill();
+            if (Projectile.frame >= 8)
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 8; i++)
             {
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid);
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid);
             }
         }
     }

@@ -17,36 +17,36 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eclipse's Fall");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 25;
-            projectile.height = 25;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 25;
+            Projectile.height = 25;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
         }
 
         // Uses localAI[1] to decide how many frames until the next spear drops.
         public override void AI()
         {
             // Behavior when not sticking to anything
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 // Keep the spear oriented in the correct direction
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
                 // Spawn dust while flying
                 if (Main.rand.NextBool(8))
-                    Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 138, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
             // Behavior when having impaled a target
@@ -55,40 +55,40 @@ namespace CalamityMod.Projectiles.Rogue
                 // Eclipse's Fall is guaranteed to impale for 10 seconds, no more, no less
                 if (!changedTimeLeft)
                 {
-                    projectile.timeLeft = 600;
+                    Projectile.timeLeft = 600;
                     changedTimeLeft = true;
                 }
 
                 // Spawn spears. As this uses local AI, it's done client-side only.
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    projectile.localAI[1] -= 1f;
+                    Projectile.localAI[1] -= 1f;
 
-                    if (projectile.localAI[1] <= 0f)
+                    if (Projectile.localAI[1] <= 0f)
                     {
                         // Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.
-                        projectile.localAI[1] = Main.rand.Next(8, 14); // 8 to 13 frames between each spearfall
+                        Projectile.localAI[1] = Main.rand.Next(8, 14); // 8 to 13 frames between each spearfall
 
                         int type = ModContent.ProjectileType<EclipsesSmol>();
-                        int smolDamage = (int)(projectile.damage * 0.22f);
+                        int smolDamage = (int)(Projectile.damage * 0.22f);
                         float smolKB = 3f;
                         // Used to be a 50% chance each spearfall for 1 or 2. Now is consistent.
                         int numSpears = spawnTwoSpears ? 2 : 1;
                         spawnTwoSpears = !spawnTwoSpears;
                         for (int i = 0; i < numSpears; ++i)
-                            CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, projectile.owner);
+                            CalamityUtils.ProjectileRain(Projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, Projectile.owner);
                     }
                 }
             }
 
             // Sticky behavior. Lets the projectile impale enemies and sticks to its impaled enemy automatically.
-            projectile.StickyProjAI(10);
+            Projectile.StickyProjAI(10);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             // Impale the enemy on contact ("sticky behavior").
-            projectile.ModifyHitNPCSticky(1, true);
+            Projectile.ModifyHitNPCSticky(1, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -102,19 +102,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
                 return false;
             }
             return null;
         }
 
-        public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
+        public override bool CanHitPvp(Player target) => Projectile.ai[0] != 1f;
     }
 }

@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 42;
-            item.height = 20;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item12;
-            item.autoReuse = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<SolarBeam2>();
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 42;
+            Item.height = 20;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item12;
+            Item.autoReuse = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<SolarBeam2>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -46,14 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HeatRay);
-            recipe.AddIngredient(ModContent.ItemType<Zapper>());
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HeatRay).AddIngredient(ModContent.ItemType<Zapper>()).AddIngredient(ItemID.FragmentSolar, 10).AddIngredient(ItemID.ChlorophyteBar, 6).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

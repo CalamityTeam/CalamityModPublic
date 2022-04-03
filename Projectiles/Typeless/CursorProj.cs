@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class CursorProj : ModProjectile
@@ -12,29 +13,29 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aestheticus Crystal");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 300;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
-                projectile.alpha -= 15;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 15;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
 
-            if (projectile.timeLeft > 285)
+            if (Projectile.timeLeft > 285)
                 return;
 
             float num29 = 5f;
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Typeless
             float scaleFactor = 6f;
             Vector2 value7 = new Vector2(10f, 20f);
             //float num31 = 1f;
-            int num32 = 3 * projectile.MaxUpdates;
+            int num32 = 3 * Projectile.MaxUpdates;
             int num33 = Utils.SelectRandom(Main.rand, new int[]
             {
                 246,
@@ -52,22 +53,22 @@ namespace CalamityMod.Projectiles.Typeless
                 247
             });
             int num34 = 255;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                projectile.localAI[0] = (float)-(float)Main.rand.Next(48);
+                Projectile.ai[1] = 1f;
+                Projectile.localAI[0] = (float)-(float)Main.rand.Next(48);
             }
-            else if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer)
+            else if (Projectile.ai[1] == 1f && Projectile.owner == Main.myPlayer)
             {
                 int num35 = -1;
                 float num36 = num30;
                 for (int num37 = 0; num37 < 200; num37++)
                 {
-                    if (Main.npc[num37].active && Main.npc[num37].CanBeChasedBy(projectile, false))
+                    if (Main.npc[num37].active && Main.npc[num37].CanBeChasedBy(Projectile, false))
                     {
                         Vector2 center3 = Main.npc[num37].Center;
-                        float num38 = Vector2.Distance(center3, projectile.Center);
-                        if (num38 < num36 && num35 == -1 && Collision.CanHitLine(projectile.Center, 1, 1, center3, 1, 1))
+                        float num38 = Vector2.Distance(center3, Projectile.Center);
+                        if (num38 < num36 && num35 == -1 && Collision.CanHitLine(Projectile.Center, 1, 1, center3, 1, 1))
                         {
                             num36 = num38;
                             num35 = num37;
@@ -76,33 +77,33 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 if (num36 < 4f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 if (num35 != -1)
                 {
-                    projectile.ai[1] = num29 + 1f;
-                    projectile.ai[0] = (float)num35;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = num29 + 1f;
+                    Projectile.ai[0] = (float)num35;
+                    Projectile.netUpdate = true;
                 }
             }
-            else if (projectile.ai[1] > num29)
+            else if (Projectile.ai[1] > num29)
             {
-                projectile.ai[1] += 1f;
-                int num39 = (int)projectile.ai[0];
-                if (!Main.npc[num39].active || !Main.npc[num39].CanBeChasedBy(projectile, false))
+                Projectile.ai[1] += 1f;
+                int num39 = (int)Projectile.ai[0];
+                if (!Main.npc[num39].active || !Main.npc[num39].CanBeChasedBy(Projectile, false))
                 {
-                    projectile.ai[1] = 1f;
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 1f;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 else
                 {
-                    projectile.velocity.ToRotation();
-                    Vector2 vector6 = Main.npc[num39].Center - projectile.Center;
+                    Projectile.velocity.ToRotation();
+                    Vector2 vector6 = Main.npc[num39].Center - Projectile.Center;
                     if (vector6.Length() < 10f)
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                         return;
                     }
                     if (vector6 != Vector2.Zero)
@@ -111,36 +112,36 @@ namespace CalamityMod.Projectiles.Typeless
                         vector6 *= scaleFactor;
                     }
                     float num40 = 30f;
-                    projectile.velocity = (projectile.velocity * (num40 - 1f) + vector6) / num40;
+                    Projectile.velocity = (Projectile.velocity * (num40 - 1f) + vector6) / num40;
                 }
             }
-            if (projectile.ai[1] >= 1f && projectile.ai[1] < num29)
+            if (Projectile.ai[1] >= 1f && Projectile.ai[1] < num29)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] == num29)
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] == num29)
                 {
-                    projectile.ai[1] = 1f;
+                    Projectile.ai[1] = 1f;
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 48f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] == 48f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
             }
             if (Main.rand.NextBool(12))
             {
-                Vector2 value9 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num44 = Dust.NewDust(projectile.position, projectile.width, projectile.height, num34, 0f, 0f, 160, default, 1f);
+                Vector2 value9 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int num44 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, num34, 0f, 0f, 160, default, 1f);
                 Main.dust[num44].velocity *= 0.1f;
-                Main.dust[num44].position = projectile.Center + value9 * (float)projectile.width / 2f + projectile.velocity * 2f;
+                Main.dust[num44].position = Projectile.Center + value9 * (float)Projectile.width / 2f + Projectile.velocity * 2f;
                 Main.dust[num44].fadeIn = 0.9f;
             }
             if (Main.rand.NextBool(18))
             {
-                Vector2 value10 = -Vector2.UnitX.RotatedByRandom(0.39269909262657166).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num46 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 155, default, 0.8f);
+                Vector2 value10 = -Vector2.UnitX.RotatedByRandom(0.39269909262657166).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int num46 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, 0f, 0f, 155, default, 0.8f);
                 Main.dust[num46].velocity *= 0.3f;
-                Main.dust[num46].position = projectile.Center + value10 * (float)projectile.width / 2f;
+                Main.dust[num46].position = Projectile.Center + value10 * (float)Projectile.width / 2f;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num46].fadeIn = 1.4f;
@@ -148,11 +149,11 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Main.rand.NextBool(8))
             {
-                Vector2 value11 = -Vector2.UnitX.RotatedByRandom(0.78539818525314331).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num48 = Dust.NewDust(projectile.position, projectile.width, projectile.height, num33, 0f, 0f, 0, default, 1f);
+                Vector2 value11 = -Vector2.UnitX.RotatedByRandom(0.78539818525314331).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int num48 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, num33, 0f, 0f, 0, default, 1f);
                 Main.dust[num48].velocity *= 0.3f;
                 Main.dust[num48].noGravity = true;
-                Main.dust[num48].position = projectile.Center + value11 * (float)projectile.width / 2f;
+                Main.dust[num48].position = Projectile.Center + value11 * (float)Projectile.width / 2f;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num48].fadeIn = 1.4f;
@@ -160,32 +161,32 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Main.rand.NextBool(6))
             {
-                Vector2 value13 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num50 = Dust.NewDust(projectile.position, projectile.width, projectile.height, num34, 0f, 0f, 100, default, 1f);
+                Vector2 value13 = -Vector2.UnitX.RotatedByRandom(0.19634954631328583).RotatedBy((double)Projectile.velocity.ToRotation(), default);
+                int num50 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, num34, 0f, 0f, 100, default, 1f);
                 Main.dust[num50].velocity *= 0.3f;
-                Main.dust[num50].position = projectile.Center + value13 * (float)projectile.width / 2f;
+                Main.dust[num50].position = Projectile.Center + value13 * (float)Projectile.width / 2f;
                 Main.dust[num50].fadeIn = 1.2f;
                 Main.dust[num50].scale = 1.5f;
                 Main.dust[num50].noGravity = true;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.2f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.2f / 255f);
             int num154 = 14;
-            int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 234, 0f, 0f, 100, default, 0.8f);
+            int num155 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 234, 0f, 0f, 100, default, 0.8f);
             Main.dust[num155].velocity *= 0.1f;
-            Main.dust[num155].velocity += projectile.velocity * 0.5f;
+            Main.dust[num155].velocity += Projectile.velocity * 0.5f;
             Main.dust[num155].noGravity = true;
             if (Main.rand.NextBool(12))
             {
                 int num156 = 16;
-                int num157 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 159, 0f, 0f, 100, default, 1f);
+                int num157 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num156 * 2, Projectile.height - num156 * 2, 159, 0f, 0f, 100, default, 1f);
                 Main.dust[num157].velocity *= 0.25f;
-                Main.dust[num157].velocity += projectile.velocity * 0.5f;
+                Main.dust[num157].velocity += Projectile.velocity * 0.5f;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -201,7 +202,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            Vector2 velocity = projectile.velocity;
+            Vector2 velocity = Projectile.velocity;
             velocity.Normalize();
             velocity *= 4f;
 
@@ -216,11 +217,11 @@ namespace CalamityMod.Projectiles.Typeless
             for (int i = 0; i < numProj; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle),
-                    ModContent.ProjectileType<CursorProjSplit>(), projectile.damage / 3, projectile.knockBack * 0.33f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle),
+                    ModContent.ProjectileType<CursorProjSplit>(), Projectile.damage / 3, Projectile.knockBack * 0.33f, Projectile.owner, 0f, 0f);
             }
 
-            Main.PlaySound(SoundID.Item110, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
         }
     }
 }

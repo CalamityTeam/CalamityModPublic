@@ -23,29 +23,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 62;
-            item.damage = BaseDamage;
-            item.knockBack = 5f;
-            item.useAnimation = item.useTime = 22;
+            Item.width = 42;
+            Item.height = 62;
+            Item.damage = BaseDamage;
+            Item.knockBack = 5f;
+            Item.useAnimation = Item.useTime = 22;
 
-            item.noUseGraphic = true;
-            item.melee = true;
-            item.noMelee = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.useTurn = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
-            item.shootSpeed = ShootSpeed;
-            item.Calamity().trueMelee = true;
+            Item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
+            Item.shootSpeed = ShootSpeed;
+            Item.Calamity().trueMelee = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -62,16 +62,16 @@ namespace CalamityMod.Items.Weapons.Melee
             // Spear
             if (player.altFunctionUse == 2)
             {
-                item.channel = false;
-                item.autoReuse = true;
+                Item.channel = false;
+                Item.autoReuse = true;
             }
             // Flail
             else
             {
-                item.channel = true;
-                item.autoReuse = false;
+                Item.channel = true;
+                Item.autoReuse = false;
             }
-            return player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<YateveoBloomSpear>()] <= 0;
+            return player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<YateveoBloomSpear>()] <= 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -86,15 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.JungleRose);
-            recipe.AddIngredient(ItemID.RichMahogany, 15);
-            recipe.AddIngredient(ItemID.JungleSpores, 12);
-            recipe.AddIngredient(ItemID.Stinger, 4);
-            recipe.AddIngredient(ItemID.Vine, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.JungleRose).AddIngredient(ItemID.RichMahogany, 15).AddIngredient(ItemID.JungleSpores, 12).AddIngredient(ItemID.Stinger, 4).AddIngredient(ItemID.Vine, 2).AddTile(TileID.Anvils).Register();
         }
     }
 }

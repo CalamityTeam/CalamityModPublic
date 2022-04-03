@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class ClamCrusherFlail : ModProjectile
@@ -17,118 +18,118 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 74;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
+            Projectile.width = 58;
+            Projectile.height = 74;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] == 1f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] == 1f)
             {
-                finalDamage = projectile.damage * 4;
+                finalDamage = Projectile.damage * 4;
             }
-            if (projectile.ai[1] >= 5f && (projectile.ai[1] <= 10f))
+            if (Projectile.ai[1] >= 5f && (Projectile.ai[1] <= 10f))
             {
                 for (int num105 = 0; num105 < 10; num105++)
                 {
-                    float num99 = projectile.velocity.X / 3f * (float)num105;
-                    float num100 = projectile.velocity.Y / 3f * (float)num105;
+                    float num99 = Projectile.velocity.X / 3f * (float)num105;
+                    float num100 = Projectile.velocity.Y / 3f * (float)num105;
                     int num101 = 4;
-                    int waterDust = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
+                    int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)num101, Projectile.position.Y + (float)num101), Projectile.width - num101 * 2, Projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
                     Dust waterdust = Main.dust[waterDust];
                     waterdust.noGravity = true;
                     waterdust.velocity *= 0.1f;
-                    waterdust.velocity += projectile.velocity * 0.1f;
+                    waterdust.velocity += Projectile.velocity * 0.1f;
                     waterdust.position.X -= num99;
                     waterdust.position.Y -= num100;
                 }
             }
-            if (projectile.ai[1] == 5f)
+            if (Projectile.ai[1] == 5f)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
-            projectile.rotation = vector62.ToRotation() - 1.57f;
-            if (Main.player[projectile.owner].dead)
+            Vector2 vector62 = Main.player[Projectile.owner].Center - Projectile.Center;
+            Projectile.rotation = vector62.ToRotation() - 1.57f;
+            if (Main.player[Projectile.owner].dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            Main.player[projectile.owner].itemAnimation = 10;
-            Main.player[projectile.owner].itemTime = 10;
+            Main.player[Projectile.owner].itemAnimation = 10;
+            Main.player[Projectile.owner].itemTime = 10;
             if (vector62.X < 0f)
             {
-                Main.player[projectile.owner].ChangeDir(1);
-                projectile.direction = 1;
+                Main.player[Projectile.owner].ChangeDir(1);
+                Projectile.direction = 1;
             }
             else
             {
-                Main.player[projectile.owner].ChangeDir(-1);
-                projectile.direction = -1;
+                Main.player[Projectile.owner].ChangeDir(-1);
+                Projectile.direction = -1;
             }
-            Main.player[projectile.owner].itemRotation = (vector62 * -1f * (float)projectile.direction).ToRotation();
-            projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
-            if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
+            Main.player[Projectile.owner].itemRotation = (vector62 * -1f * (float)Projectile.direction).ToRotation();
+            Projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
+            if (Projectile.ai[1] >= 45f && (Projectile.ai[0] != 1f || Projectile.ai[0] != 2f))
             {
-                projectile.velocity.Y += 1f;
-                projectile.velocity.X *= 0.995f;
-                projectile.damage = finalDamage;
+                Projectile.velocity.Y += 1f;
+                Projectile.velocity.X *= 0.995f;
+                Projectile.damage = finalDamage;
             }
-            if (projectile.ai[0] == 0f && vector62.Length() > 1000f)
+            if (Projectile.ai[0] == 0f && vector62.Length() > 1000f)
             {
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
             }
-            if (projectile.ai[0] == 1f || projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 1f || Projectile.ai[0] == 2f)
             {
                 float num693 = vector62.Length();
                 if (num693 > 1500f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 if (num693 > 600f)
                 {
-                    projectile.ai[0] = 2f;
+                    Projectile.ai[0] = 2f;
                 }
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 float num694 = 20f;
-                if (projectile.ai[0] == 2f)
+                if (Projectile.ai[0] == 2f)
                 {
                     num694 = 40f;
                 }
-                projectile.velocity = Vector2.Normalize(vector62) * num694;
+                Projectile.velocity = Vector2.Normalize(vector62) * num694;
                 if (vector62.Length() < num694)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 5f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] > 5f)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.ai[1] >= 5f)
+            if (Projectile.ai[1] >= 5f)
             {
-                Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
+                Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 for (int num105 = 0; num105 < 50; num105++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int waterDust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width / 2, projectile.height / 2, 33, velocity.X, velocity.Y, 0, new Color(0, 142, 255), 1.5f);
+                    int waterDust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width / 2, Projectile.height / 2, 33, velocity.X, velocity.Y, 0, new Color(0, 142, 255), 1.5f);
                     Main.dust[waterDust].velocity *= 2f;
                 }
             }
@@ -137,10 +138,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/ClamCrusherChain");
-            Vector2 vector17 = projectile.Center;
+            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/ClamCrusherChain");
+            Vector2 vector17 = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
             float num91 = (float)texture2D2.Height;
@@ -176,14 +177,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
+            if (Projectile.ai[1] >= 45f && (Projectile.ai[0] != 1f || Projectile.ai[0] != 2f))
                 target.AddBuff(ModContent.BuffType<Eutrophication>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
 
-            projectile.ai[0] = 1f;
-            projectile.netUpdate = true;
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
+            Projectile.ai[0] = 1f;
+            Projectile.netUpdate = true;
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
         }
     }
 }

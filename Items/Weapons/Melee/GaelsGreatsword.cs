@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -41,23 +41,23 @@ namespace CalamityMod.Items.Weapons.Melee
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.height = 84;
-            item.damage = BaseDamage;
-            item.melee = true;
-            item.useAnimation = item.useTime = 12;
-            item.useTurn = true;
-            item.knockBack = 9;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.width = 88;
+            Item.height = 84;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 12;
+            Item.useTurn = true;
+            Item.knockBack = 9;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().devItem = true;
 
-            item.shoot = ModContent.ProjectileType<GaelSkull>();
-            item.shootSpeed = 15f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.shoot = ModContent.ProjectileType<GaelSkull>();
+            Item.shootSpeed = 15f;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
@@ -86,8 +86,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     {
                         float r = (float)Math.Sqrt(Main.rand.NextDouble());
                         float t = Main.rand.NextFloat() * MathHelper.TwoPi;
-                        Vector2 dustSpawn = t.ToRotationVector2() * r * item.Size;
-                        if (dustSpawn.X > item.width / 2)
+                        Vector2 dustSpawn = t.ToRotationVector2() * r * Item.Size;
+                        if (dustSpawn.X > Item.width / 2)
                         {
                             Dust.NewDustPerfect(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, 218, Vector2.Zero).noGravity = true;
                         }
@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Melee
                             Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
                                                      Vector2.Zero,
                                                      ModContent.ProjectileType<GaelExplosion>(),
-                                                     (int)(item.damage * player.MeleeDamage()),
+                                                     (int)(Item.damage * player.MeleeDamage()),
                                                      0f,
                                                      player.whoAmI);
                         }

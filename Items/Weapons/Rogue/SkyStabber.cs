@@ -23,23 +23,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = damage;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 4;
+            Item.damage = damage;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = knockBack;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 4;
 
-            item.shootSpeed = 2f;
-            item.shoot = ModContent.ProjectileType<SkyStabberProj>();
+            Item.shootSpeed = 2f;
+            Item.shoot = ModContent.ProjectileType<SkyStabberProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -49,15 +49,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] > 0;
             }
             else
             {
-                item.shoot = ModContent.ProjectileType<SkyStabberProj>();
-                item.shootSpeed = 2f;
-                int UseMax = item.stack;
+                Item.shoot = ModContent.ProjectileType<SkyStabberProj>();
+                Item.shootSpeed = 2f;
+                int UseMax = Item.stack;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] < UseMax;
             }
         }
@@ -85,14 +85,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ItemID.SpikyBall, 100);
-            recipe.AddIngredient(ItemID.Cloud, 10);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 100).AddIngredient(ItemID.Cloud, 10).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddTile(TileID.SkyMill).Register();
         }
 
     }

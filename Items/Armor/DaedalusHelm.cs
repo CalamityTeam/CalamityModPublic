@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 21; //51
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 21; //51
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -45,26 +45,20 @@ namespace CalamityMod.Items.Armor
                 "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
-            player.meleeDamage += 0.05f;
+            player.GetDamage(DamageClass.Melee) += 0.05f;
             player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.meleeSpeed += 0.15f;
-            player.meleeDamage += 0.1f;
-            player.meleeCrit += 10;
+            player.GetDamage(DamageClass.Melee) += 0.1f;
+            player.GetCritChance(DamageClass.Melee) += 10;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ItemID.CrystalShard, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.CrystalShard, 3).AddIngredient(ModContent.ItemType<EssenceofEleum>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

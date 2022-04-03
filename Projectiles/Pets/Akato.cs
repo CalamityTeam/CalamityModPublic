@@ -8,26 +8,26 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Akato");
-            Main.projFrames[projectile.type] = 6;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
+            Projectile.netImportant = true;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -37,18 +37,18 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.akato)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-            projectile.FloatingPetAI(true, 0.02f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.FloatingPetAI(true, 0.02f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
+            if (Projectile.frame > 5)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

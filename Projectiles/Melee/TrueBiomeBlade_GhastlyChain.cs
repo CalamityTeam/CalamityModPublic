@@ -12,20 +12,20 @@ namespace CalamityMod.Projectiles.Melee
     public class GhastlyChain : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain";
-        public Player Owner => Main.player[projectile.owner];
-        public float Timer => 20 - projectile.timeLeft;
+        public Player Owner => Main.player[Projectile.owner];
+        public float Timer => 20 - Projectile.timeLeft;
 
         public float Gravity;
 
         public NPC NPCfrom
         {
-            get => Main.npc[(int)projectile.ai[0]];
-            set => projectile.ai[0] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[0]];
+            set => Projectile.ai[0] = value.whoAmI;
         }
         public NPC Target
         {
-            get => Main.npc[(int)projectile.ai[1]];
-            set => projectile.ai[1] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[1]];
+            set => Projectile.ai[1] = value.whoAmI;
         }
 
         public override void SetStaticDefaults()
@@ -34,21 +34,21 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 8;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
-            projectile.timeLeft = 20;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 8;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
+            Projectile.timeLeft = 20;
         }
 
         public override bool? CanHitNPC(NPC target) => target == Target;
 
         public override void AI()
         {
-            projectile.Center = Target.Center;
+            Projectile.Center = Target.Center;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Melee
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            float opacity = projectile.timeLeft > 10 ? 1 : projectile.timeLeft / 10f;
-            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
+            float opacity = Projectile.timeLeft > 10 ? 1 : Projectile.timeLeft / 10f;
+            Vector2 Shake = Projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - Projectile.timeLeft / 5f) * 0.5f;
 
             BezierCurve curve = new BezierCurve(new Vector2[] { Target.Center, Target.Center + Vector2.UnitY * Gravity, NPCfrom.Center + Vector2.UnitY * Gravity, NPCfrom.Center });
             int numPoints = 20;

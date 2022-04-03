@@ -28,18 +28,18 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 32;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<CrateTile>();
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.createTile = ModContent.TileType<CrateTile>();
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
         public override bool CanRightClick() => true;

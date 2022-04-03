@@ -12,62 +12,62 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moray Eel");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.damage = 55;
-            npc.width = 136;
-            npc.height = 40;
-            npc.defense = 8;
-            npc.lifeMax = 360;
-            npc.aiStyle = -1;
+            NPC.noGravity = true;
+            NPC.damage = 55;
+            NPC.width = 136;
+            NPC.height = 40;
+            NPC.defense = 8;
+            NPC.lifeMax = 360;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 1, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.75f;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 1, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.75f;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<MorayEelBanner>();
-            npc.chaseable = false;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.chaseable = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.chaseable);
+            writer.Write(NPC.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.chaseable = reader.ReadBoolean();
+            NPC.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            CalamityAI.PassiveSwimmingAI(npc, mod, 0, Main.player[npc.target].Calamity().GetAbyssAggro(300f, 250f), 0.15f, 0.1f, 6f, 4f, 0.1f);
+            CalamityAI.PassiveSwimmingAI(NPC, Mod, 0, Main.player[NPC.target].Calamity().GetAbyssAggro(300f, 250f), 0.15f, 0.1f, 6f, 4f, 0.1f);
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
-                return npc.chaseable;
+                return NPC.chaseable;
             }
             return null;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += npc.chaseable ? 0.15f : 0.075f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += NPC.chaseable ? 0.15f : 0.075f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -77,11 +77,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
+            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
             {
                 return 0f;
             }
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer1 && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer1 && spawnInfo.water)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }
@@ -90,21 +90,21 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
-            DropHelper.DropItemChance(npc, ItemID.Flipper, 20);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
+            DropHelper.DropItemChance(NPC, ItemID.Flipper, 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

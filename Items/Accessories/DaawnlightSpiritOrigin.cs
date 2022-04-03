@@ -55,13 +55,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 38;
-            item.accessory = true;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            item.Calamity().donorItem = true;
+            Item.width = 22;
+            Item.height = 38;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.Calamity().donorItem = true;
         }
 
         // The pet is purely visual and does not affect the functionality of the item.
@@ -85,15 +85,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DaedalusEmblem>());
-            recipe.AddIngredient(ModContent.ItemType<LeadCore>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DaedalusEmblem>()).AddIngredient(ModContent.ItemType<LeadCore>(), 3).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

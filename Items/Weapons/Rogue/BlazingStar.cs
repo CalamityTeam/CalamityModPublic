@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 129;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 4;
+            Item.damage = 129;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 4;
 
-            item.shootSpeed = Speed;
-            item.shoot = ModContent.ProjectileType<BlazingStarProj>();
+            Item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<BlazingStarProj>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -45,13 +45,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                if (item.stack != 1)
+                if (Item.stack != 1)
                 {
                     damage = (int)(damage * 1.55f);
 
-                    for (int i = 0; i < item.stack; i++)
+                    for (int i = 0; i < Item.stack; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
+                        Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(Item.stack - 1)));
                         Projectile proj = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
                         if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
                             proj.Calamity().stealthStrike = true;
@@ -70,16 +70,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < Item.stack;
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Glaive>(), 1);
-            recipe.AddIngredient(ItemID.HellstoneBar, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Glaive>(), 1).AddIngredient(ItemID.HellstoneBar, 3).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4).AddTile(TileID.Anvils).Register();
         }
     }
 }

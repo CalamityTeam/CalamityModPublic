@@ -20,16 +20,16 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.height = 52;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Pink;
-            item.useTime = item.useAnimation = 15;
+            Item.width = 52;
+            Item.height = 52;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Pink;
+            Item.useTime = Item.useAnimation = 15;
         }
 
-        public override bool UseItem(Player player) => true;
+        public override bool? UseItem(Player player) => true;
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.DraedonMisc
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placeTileCoords.X, placeTileCoords.Y);
             float checkDistance = ((Player.tileRangeX + Player.tileRangeY) / 2f + player.blockRange) * 16f;
 
-            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.type == ModContent.TileType<CodebreakerTile>())
+            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsSensorArray)
@@ -55,14 +55,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 2);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddRecipeGroup("AnyMythrilBar", 10);
-            recipe.AddIngredient(ItemID.Wire, 50);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddRecipeGroup("AnyMythrilBar", 10).AddIngredient(ItemID.Wire, 50).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

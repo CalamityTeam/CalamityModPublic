@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.ranged = true;
-            item.width = 34;
-            item.height = 50;
-            item.useTime = 7;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = SoundID.Item122;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Bolt>();
-            item.shootSpeed = 28f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 34;
+            Item.height = 50;
+            Item.useTime = 7;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = SoundID.Item122;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Bolt>();
+            Item.shootSpeed = 28f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             int i = Main.myPlayer;
             float num72 = Main.rand.Next(25, 30);
             float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

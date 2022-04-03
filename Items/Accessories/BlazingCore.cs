@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Accessories
                                "The sun will slowly drag enemies into it\n" +
                                "Only one sun can be active at once\n" +
                                "Provides a moderate amount of light in the Abyss");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 46;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 42;
+            Item.height = 46;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

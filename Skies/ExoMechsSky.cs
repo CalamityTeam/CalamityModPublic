@@ -9,6 +9,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Skies
 {
@@ -84,7 +85,7 @@ namespace CalamityMod.Skies
 
             if (playSound && !Main.gamePaused)
             {
-                var lightningSound = Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                var lightningSound = SoundEngine.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
                 if (lightningSound != null)
                     lightningSound.Volume *= 0.5f;
             }
@@ -119,7 +120,7 @@ namespace CalamityMod.Skies
 
                 if (!Main.gamePaused)
                 {
-                    var lightningSound = Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                    var lightningSound = SoundEngine.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
                     if (lightningSound != null)
                         lightningSound.Volume *= 0.5f;
                 }

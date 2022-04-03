@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 20;
+            Item.height = 22;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -29,19 +29,12 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().voltaicJelly = true;
             player.Calamity().starbusterCore = true;
             player.Calamity().starTaintedGenerator = true;
-            player.minionDamage += 0.07f;
+            player.GetDamage(DamageClass.Summon) += 0.07f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<JellyChargedBattery>());
-            recipe.AddIngredient(ModContent.ItemType<NuclearRod>());
-            recipe.AddIngredient(ModContent.ItemType<StarbusterCore>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<JellyChargedBattery>()).AddIngredient(ModContent.ItemType<NuclearRod>()).AddIngredient(ModContent.ItemType<StarbusterCore>()).AddIngredient(ModContent.ItemType<BarofLife>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

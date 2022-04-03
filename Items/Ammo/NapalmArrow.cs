@@ -15,29 +15,23 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 14;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 36;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.5f;
-            item.value = Item.sellPrice(copper: 12);
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
-            item.shootSpeed = 13f;
-            item.ammo = AmmoID.Arrow;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.sellPrice(copper: 12);
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
+            Item.shootSpeed = 13f;
+            Item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodenArrow, 250);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
-            recipe.AddIngredient(ItemID.Torch);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 250);
-            recipe.AddRecipe();
+            CreateRecipe(250).AddIngredient(ItemID.WoodenArrow, 250).AddIngredient(ModContent.ItemType<EssenceofChaos>()).AddIngredient(ItemID.Torch).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         int animationFrame = 0;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             Tile tile = Main.tile[i, j];
             //227 79 79
-            if (tile.frameX < 54)
+            if (tile.TileFrameX < 54)
             {
                 r = 1f;
                 g = 0.5f;
@@ -73,13 +73,13 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenBasinFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenBasinFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18 && tile.frameX < 54)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 54)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

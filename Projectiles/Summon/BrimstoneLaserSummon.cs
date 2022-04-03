@@ -12,30 +12,30 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.aiStyle = 1;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.DeathLaser;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = 1;
-            projectile.alpha = 120;
-            projectile.timeLeft = 300;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 120;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            projectile.velocity.X *= 1.05f;
-            projectile.velocity.Y *= 1.05f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
+            Projectile.velocity.X *= 1.05f;
+            Projectile.velocity.Y *= 1.05f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -48,6 +48,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 50, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 50, Projectile.alpha);
     }
 }

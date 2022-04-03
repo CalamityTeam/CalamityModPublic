@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BlackHawkBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Black Hawk");
             Description.SetDefault("The fighter jet will protect you");

@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultSofa : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();

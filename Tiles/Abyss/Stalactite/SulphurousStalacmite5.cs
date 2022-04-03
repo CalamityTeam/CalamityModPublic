@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
 {
     public class SulphurousStalacmite5 : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.Width = 1;

@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 357;
-            item.ranged = true;
-            item.width = 84;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 9.5f;
-            item.UseSound = SoundID.Item11;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.Rocket;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 357;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 84;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 9.5f;
+            Item.UseSound = SoundID.Item11;
+            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Rocket;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -60,15 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ThePack>());
-            recipe.AddIngredient(ModContent.ItemType<ScorchedEarth>()); // This weapon has two donor weapons
-            recipe.AddIngredient(ModContent.ItemType<AethersWhisper>());
-            recipe.AddIngredient(ItemID.ElectrosphereLauncher);
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ThePack>()).AddIngredient(ModContent.ItemType<ScorchedEarth>()).AddIngredient(ModContent.ItemType<AethersWhisper>()).AddIngredient(ItemID.ElectrosphereLauncher).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

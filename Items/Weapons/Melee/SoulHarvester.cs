@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,32 +20,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 98;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.height = 64;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<SoulScythe>();
-            item.shootSpeed = 18f;
+            Item.width = 62;
+            Item.damage = 98;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.height = 64;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<SoulScythe>();
+            Item.shootSpeed = 18f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DeathSickle);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
-            recipe.AddIngredient(ItemID.CursedFlame, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DeathSickle).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10).AddIngredient(ItemID.CursedFlame, 20).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -61,8 +56,8 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.CursedInferno, 120);
             if (target.life <= (target.lifeMax * 0.15f))
             {
-                Main.PlaySound(SoundID.Item14, target.position);
-                player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
+                player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, 0, false);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
@@ -90,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.CursedInferno, 120);
             if (target.statLife <= (target.statLifeMax * 0.15f))
             {
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);

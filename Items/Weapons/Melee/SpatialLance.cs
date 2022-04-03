@@ -17,37 +17,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.damage = 160;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 30;
-            item.knockBack = 9.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 88;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<SpatialLanceProjectile>();
-            item.shootSpeed = 12f;
+            Item.width = 88;
+            Item.damage = 160;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 30;
+            Item.knockBack = 9.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 88;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<SpatialLanceProjectile>();
+            Item.shootSpeed = 12f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TerraLance>());
-            recipe.AddIngredient(ItemID.NorthPole);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TerraLance>()).AddIngredient(ItemID.NorthPole).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

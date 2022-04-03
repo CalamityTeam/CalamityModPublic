@@ -5,6 +5,7 @@ using CalamityMod.NPCs.StormWeaver;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -24,57 +25,57 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = lifetime;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.extraUpdates = 1;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = lifetime;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.05f * projectile.direction;
+            Projectile.rotation += 0.05f * Projectile.direction;
 
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                if (projectile.ai[0] > finalVelocity)
+                if (Projectile.ai[0] > finalVelocity)
                 {
-                    projectile.ai[0] -= decelerationRate;
-                    if (projectile.ai[0] < finalVelocity)
+                    Projectile.ai[0] -= decelerationRate;
+                    if (Projectile.ai[0] < finalVelocity)
                     {
-                        projectile.ai[0] = finalVelocity;
+                        Projectile.ai[0] = finalVelocity;
                     }
 
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= projectile.ai[0];
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= Projectile.ai[0];
                 }
-                if (projectile.timeLeft < lifetime - 30 && projectile.timeLeft % 15 == 0 && projectile.ai[0] <= finalVelocity)
+                if (Projectile.timeLeft < lifetime - 30 && Projectile.timeLeft % 15 == 0 && Projectile.ai[0] <= finalVelocity)
                 {
                     int projID = ModContent.ProjectileType<AlphaSeeker>();
-                    int damage = (int)(projectile.damage * 0.125f);
+                    int damage = (int)(Projectile.damage * 0.125f);
                     float kb = 1f;
                     float ai0 = 1f; // Stealth strike spawned seekers set ai[0] to 1, which makes them cling to the parent projectile.
                     Vector2 vel = Main.rand.NextVector2CircularEdge(5f, 5f);
-                    Projectile.NewProjectile(projectile.Center, vel, projID, damage, kb, projectile.owner, ai0, projectile.identity);
+                    Projectile.NewProjectile(Projectile.Center, vel, projID, damage, kb, Projectile.owner, ai0, Projectile.identity);
                 }
             }
             else
             {
-                projectile.timeLeft--;
+                Projectile.timeLeft--;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+            float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
+            float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
+            float dist3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
+            float dist4 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -84,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (dist4 < minDist)
                 minDist = dist4;
 
-            if (minDist <= projectile.width)
+            if (minDist <= Projectile.width)
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 120);
             }
@@ -92,10 +93,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+            float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
+            float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
+            float dist3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
+            float dist4 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -105,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (dist4 < minDist)
                 minDist = dist4;
 
-            if (minDist <= projectile.width)
+            if (minDist <= Projectile.width)
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 120);
             }
@@ -118,10 +119,10 @@ namespace CalamityMod.Projectiles.Rogue
                 damage /= 5;
             }
 
-            float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+            float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
+            float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
+            float dist3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
+            float dist4 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -131,7 +132,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (dist4 < minDist)
                 minDist = dist4;
 
-            if (minDist > projectile.width)
+            if (minDist > Projectile.width)
             {
                 damage /= 5;
                 knockback = 0f;
@@ -141,85 +142,85 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // Aura effect
-            Texture2D aura = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/AlphaVirusAura");
+            Texture2D aura = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/AlphaVirusAura");
             float scaleStep = 0.03f;
             float rotationOffset = 0.03f;
             float drawTransparency = 0.1f;
 
-            if (projectile.timeLeft > lifetime - 10)
+            if (Projectile.timeLeft > lifetime - 10)
             {
-                drawTransparency = (lifetime - projectile.timeLeft) * (drawTransparency / 10);
+                drawTransparency = (lifetime - Projectile.timeLeft) * (drawTransparency / 10);
             }
-            else if (projectile.timeLeft < 25)
+            else if (Projectile.timeLeft < 25)
             {
-                drawTransparency = projectile.timeLeft * (drawTransparency / 25);
+                drawTransparency = Projectile.timeLeft * (drawTransparency / 25);
             }
 
             Color drawCol = Color.White;
 
             for (int i = 0; i < 10; i++)
             {
-                spriteBatch.Draw(aura, projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, -(projectile.rotation * 0.2f) + (rotationOffset * i * i), aura.Size() / 2f, projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
+                spriteBatch.Draw(aura, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, -(Projectile.rotation * 0.2f) + (rotationOffset * i * i), aura.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
             }
 
             // Dust
-            for (int i = 0; i < (lifetime - projectile.timeLeft) / 30; i++)
+            for (int i = 0; i < (lifetime - Projectile.timeLeft) / 30; i++)
             {
-                float min = projectile.width / 2;
+                float min = Projectile.width / 2;
                 float max = radius;
 
                 Vector2 pos = new Vector2(0f, -Main.rand.NextFloat(min, max));
                 pos = pos.RotatedByRandom(MathHelper.TwoPi);
                 Vector2 velocity = -pos * 0.02f;
-                pos += projectile.Center;
+                pos += Projectile.Center;
 
                 int dust = Dust.NewDust(pos, 1, 1, 89, 0f, 0f, 100, default, 1f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity = velocity + projectile.velocity;
+                Main.dust[dust].velocity = velocity + Projectile.velocity;
             }
 
             // Main sprite
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             int numSeekers = 6;
-            int damage = projectile.damage;
+            int damage = Projectile.damage;
             float kb = 1f;
             float speed = 10f;
             for (int i = 0; i < numSeekers; i++)
             {
                 Vector2 velocity = (MathHelper.Pi * i / 3f).ToRotationVector2() * speed;
-                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, kb, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, kb, Projectile.owner, 0f, 0f);
             }
 
             int numDust = 20;
             for (int i = 0; i < numDust; i++)
             {
-                float min = projectile.width / 2;
+                float min = Projectile.width / 2;
                 float max = radius;
 
                 Vector2 velocity = new Vector2(0f, -Main.rand.NextFloat(min, max));
                 velocity = velocity.RotatedByRandom(MathHelper.TwoPi);
                 velocity *= 0.1f;
 
-                int dust = Dust.NewDust(projectile.Center, 1, 1, 89, 0f, 0f, 100, default, 1f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, 89, 0f, 0f, 100, default, 1f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity = velocity + projectile.velocity;
+                Main.dust[dust].velocity = velocity + Projectile.velocity;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

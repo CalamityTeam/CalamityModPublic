@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -16,56 +17,56 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barrel");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 48;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 480;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 480;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
         }
-        public bool CollideX => projectile.oldPosition.X == projectile.position.X;
+        public bool CollideX => Projectile.oldPosition.X == Projectile.position.X;
         public override void AI()
         {
-            bool stealthS = projectile.Calamity().stealthStrike;
-            if (projectile.localAI[0] == 0f)
+            bool stealthS = Projectile.Calamity().stealthStrike;
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.ai[1] = stealthS.ToInt() == 0 ? 1 : 3;
-                projectile.localAI[0] = 1f;
+                Projectile.ai[1] = stealthS.ToInt() == 0 ? 1 : 3;
+                Projectile.localAI[0] = 1f;
             }
-            projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
-            if (projectile.velocity.Y < 15f)
+            Projectile.rotation += Math.Sign(Projectile.velocity.X) * MathHelper.ToRadians(8f);
+            if (Projectile.velocity.Y < 15f)
             {
-                projectile.velocity.Y += 0.3f;
+                Projectile.velocity.Y += 0.3f;
             }
             if (CollideX && cooldown == 0)
             {
                 BounceEffects();
-                projectile.velocity.X = -oldVelocityX;
+                Projectile.velocity.X = -oldVelocityX;
             }
             else if (cooldown > 0)
             {
                 cooldown -= 1f;
             }
-            if (projectile.velocity.X != 0f)
+            if (Projectile.velocity.X != 0f)
             {
-                oldVelocityX = Math.Sign(projectile.velocity.X) * 12f;
+                oldVelocityX = Math.Sign(Projectile.velocity.X) * 12f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public void BounceEffects()
         {
-            bool stealthS = projectile.Calamity().stealthStrike;
+            bool stealthS = Projectile.Calamity().stealthStrike;
             int projectileCount = 8;
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             if (stealthS)
             {
                 projectileCount += 5; //more shit the closer we are to death
@@ -75,15 +76,15 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(3))
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                        ModContent.ProjectileType<AcidShrapnel>(), projectile.damage, 3f, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center, Projectile.velocity + shrapnelVelocity,
+                        ModContent.ProjectileType<AcidShrapnel>(), Projectile.damage, 3f, Projectile.owner);
                 }
                 else
                 {
                     Vector2 acidVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int acidIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + acidVelocity,
+                    int acidIndex = Projectile.NewProjectile(Projectile.Center, Projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
-                        (int)(projectile.damage * 0.75f), 1f, projectile.owner);
+                        (int)(Projectile.damage * 0.75f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[acidIndex].Calamity().forceRogue = true;
@@ -99,9 +100,9 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 6; i++)
                 {
                     Vector2 acidVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int acidIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + acidVelocity,
+                    int acidIndex = Projectile.NewProjectile(Projectile.Center, Projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
-                        (int)(projectile.damage * 0.667f), 1f, projectile.owner);
+                        (int)(Projectile.damage * 0.667f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[acidIndex].Calamity().forceRogue = true;
@@ -110,16 +111,16 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            projectile.ai[1]--;
+            Projectile.ai[1]--;
             cooldown = 15;
-            if (projectile.ai[1] <= 0)
+            if (Projectile.ai[1] <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

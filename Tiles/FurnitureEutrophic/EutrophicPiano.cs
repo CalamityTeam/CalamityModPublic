@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();

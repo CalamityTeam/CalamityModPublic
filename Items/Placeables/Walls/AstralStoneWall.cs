@@ -13,26 +13,21 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            item.createWall = ModContent.WallType<WallTiles.AstralStoneWallSafe>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
+            Item.createWall = ModContent.WallType<WallTiles.AstralStoneWallSafe>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 999;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddIngredient(ModContent.ItemType<AstralStone>());
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
-            base.AddRecipes();
+            CreateRecipe(4).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<AstralStone>()).Register();
         }
     }
 }

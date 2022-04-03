@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenPlatform : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));

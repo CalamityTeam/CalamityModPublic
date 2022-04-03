@@ -13,34 +13,34 @@ namespace CalamityMod.Projectiles.Melee
     {
         internal PrimitiveTrail TrailDrawer;
         public const int Lifetime = 80;
-        public Player Owner => Main.player[projectile.owner];
-        public ref float ShootReach => ref projectile.ai[0];
-        public ref float Time => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float ShootReach => ref Projectile.ai[0];
+        public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photon Ripper");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 36;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 52;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 5;
-            projectile.usesIDStaticNPCImmunity = true;
+            Projectile.width = 30;
+            Projectile.height = 52;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 5;
+            Projectile.usesIDStaticNPCImmunity = true;
             // THIS IS INTENTIONALLY VERY LOW. Do not increase this; it is essential for Photon Ripper to function properly.
-            projectile.idStaticNPCHitCooldown = 4;
-            projectile.timeLeft = Lifetime;
-            projectile.melee = true;
+            Projectile.idStaticNPCHitCooldown = 4;
+            Projectile.timeLeft = Lifetime;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi * Time / Lifetime;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi * Time / Lifetime;
 
             Vector2 baseDirection = (MathHelper.TwoPi * Time / Lifetime - MathHelper.PiOver2).ToRotationVector2();
             baseDirection.X *= 0.25f;
@@ -58,32 +58,32 @@ namespace CalamityMod.Projectiles.Melee
 
             // In this context, the velocity is simply the initial direction as a unit vector- it does not
             // actually influence movement in any way.
-            positionOffset = positionOffset.RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
+            positionOffset = positionOffset.RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
-            projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + projectile.velocity * 42f + positionOffset;
-            projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Lifetime - projectile.timeLeft, true);
+            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + Projectile.velocity * 42f + positionOffset;
+            Projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Lifetime - Projectile.timeLeft, true);
 
             // Destroy trees within the range of the past 20 oldPos positions.
             for (int i = 0; i < 20; i++)
             {
-                Point pointToCheck = (projectile.oldPos[i] + projectile.Size * 0.5f).ToTileCoordinates();
+                Point pointToCheck = (Projectile.oldPos[i] + Projectile.Size * 0.5f).ToTileCoordinates();
                 AbsolutelyFuckingAnnihilateTrees(pointToCheck.X, pointToCheck.Y);
             }
 
             // Emit light.
-            Lighting.AddLight(projectile.Center, Vector3.One * 0.7f);
+            Lighting.AddLight(Projectile.Center, Vector3.One * 0.7f);
 
             Time++;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
 
         public void AbsolutelyFuckingAnnihilateTrees(int x, int y)
         {
             Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
 
             // Ignore tiles that are not active and are not breakable by axes.
-            if (!tileAtPosition.active() || !Main.tileAxe[tileAtPosition.type])
+            if (!tileAtPosition.active() || !Main.tileAxe[tileAtPosition.TileType])
                 return;
 
             // Don't attempt to mine the tile if for whatever reason it's not supposed to be broken.
@@ -101,12 +101,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor) => Color.White;
 
-        internal float WidthFunction(float completionRatio) => projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true)) + 1f;
+        internal float WidthFunction(float completionRatio) => Projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true)) + 1f;
 
         internal Color ColorFunction(float completionRatio)
         {
-            float hue = (projectile.identity % 9f / 9f + completionRatio * 0.7f) % 1f;
-            return Color.Lerp(Color.White, Main.hslToRgb(hue, 0.95f, 0.55f), 0.35f) * projectile.Opacity;
+            float hue = (Projectile.identity % 9f / 9f + completionRatio * 0.7f) % 1f;
+            return Color.Lerp(Color.White, Main.hslToRgb(hue, 0.95f, 0.55f), 0.35f) * Projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -120,21 +120,21 @@ namespace CalamityMod.Projectiles.Melee
             // Variable adjustment vector used to prevent the trail for starting somewhat that isn't behind
             // the crystal. This may appear in small amounts, with offsets of a few pixels, but at the speed
             // these crystals go, it's probably not something to worry too much about.
-            Vector2 generalOffset = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * 15f;
-            generalOffset += projectile.rotation.ToRotationVector2() * -5f * (float)Math.Sin(projectile.rotation);
+            Vector2 generalOffset = Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * 15f;
+            generalOffset += Projectile.rotation.ToRotationVector2() * -5f * (float)Math.Sin(Projectile.rotation);
 
             // Mess with the oldPos array so that the trail always points towards the crystal.
-            Vector2 oldPosition = projectile.oldPos[1];
-            projectile.oldPos[1] = projectile.oldPos[0] - projectile.rotation.ToRotationVector2() * Vector2.Distance(projectile.oldPos[0], projectile.oldPos[1]);
+            Vector2 oldPosition = Projectile.oldPos[1];
+            Projectile.oldPos[1] = Projectile.oldPos[0] - Projectile.rotation.ToRotationVector2() * Vector2.Distance(Projectile.oldPos[0], Projectile.oldPos[1]);
 
             // Revert back if the above calculations caused any NaNs.
-            if (projectile.oldPos[1].HasNaNs())
-                projectile.oldPos[1] = oldPosition;
+            if (Projectile.oldPos[1].HasNaNs())
+                Projectile.oldPos[1] = oldPosition;
 
             spriteBatch.EnterShaderRegion();
-            GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
-            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
+            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
             spriteBatch.ExitShaderRegion();
             return true;
         }

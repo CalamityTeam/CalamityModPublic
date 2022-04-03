@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 33;
-            item.mana = 10;
-            item.width = item.height = 42;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.NPCHit8;
-            item.shoot = ModContent.ProjectileType<DeathstareEyeball>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 33;
+            Item.mana = 10;
+            Item.width = Item.height = 42;
+            Item.useTime = Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.NPCHit8;
+            Item.shoot = ModContent.ProjectileType<DeathstareEyeball>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);

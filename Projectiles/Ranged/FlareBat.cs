@@ -8,78 +8,78 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bat");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 300;
-            projectile.light = 0.25f;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 300;
+            Projectile.light = 0.25f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
+            int num103 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] < 110f && Projectile.ai[1] > 30f)
             {
-                float scaleFactor2 = projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+                float scaleFactor2 = Projectile.velocity.Length();
+                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
                 vector11.Normalize();
                 vector11 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= scaleFactor2;
+                Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= scaleFactor2;
             }
-            if (projectile.ai[0] < 0f)
+            if (Projectile.ai[0] < 0f)
             {
-                if (projectile.velocity.Length() < 18f)
+                if (Projectile.velocity.Length() < 18f)
                 {
-                    projectile.velocity *= 1.02f;
+                    Projectile.velocity *= 1.02f;
                 }
             }
-            int num192 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 0, default, 1f);
+            int num192 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 1f);
             Main.dust[num192].noGravity = true;
             Main.dust[num192].velocity *= 0.2f;
-            Main.dust[num192].position = (Main.dust[num192].position + projectile.Center) / 2f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 2)
+            Main.dust[num192].position = (Main.dust[num192].position + Projectile.Center) / 2f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 2)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame >= 5)
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame >= 5)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) * projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) * Projectile.direction;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.Kill();
+            Projectile.Kill();
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 6, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 54, 0, 0);
-            item.defense = 39;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 22;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 54, 0, 0);
+            Item.defense = 39;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateEquip(Player player)
@@ -36,14 +36,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 7);
-            recipe.AddRecipeGroup("AnyGoldBar", 7);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 7).AddRecipeGroup("AnyGoldBar", 7).AddIngredient(ModContent.ItemType<Tenebris>(), 9).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

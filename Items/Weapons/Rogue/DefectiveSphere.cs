@@ -21,37 +21,37 @@ Stealth strikes launch all 4 sphere types at once");
 
         public override void SafeSetDefaults()
         {
-            item.width = 42;
-            item.height = 44;
-            item.damage = BaseDamage;
-            item.knockBack = 5f;
-            item.useAnimation = 13;
-            item.useTime = 13;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.maxStack = 5;
+            Item.width = 42;
+            Item.height = 44;
+            Item.damage = BaseDamage;
+            Item.knockBack = 5f;
+            Item.useAnimation = 13;
+            Item.useTime = 13;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.maxStack = 5;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item15; //phaseblade sound effect
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item15; //phaseblade sound effect
 
-            item.value = Item.buyPrice(0, 16, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.value = Item.buyPrice(0, 16, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
 
-            item.Calamity().rogue = true;
-            item.shoot = ProjectileType<SphereSpiked>();
-            item.shootSpeed = Speed;
+            Item.Calamity().rogue = true;
+            Item.shoot = ProjectileType<SphereSpiked>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool CanUseItem(Player player)
         {
-            int UseMax = item.stack;
+            int UseMax = Item.stack;
 
             if (player.Calamity().StealthStrikeAvailable())
             {
                 return true;
             }
-            else if ((player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
+            else if ((player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
             {
                 return false;
             }

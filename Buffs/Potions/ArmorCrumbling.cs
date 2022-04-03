@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class ArmorCrumbling : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Armor Crumbling");
             Description.SetDefault("Melee and rogue attacks break enemy armor");

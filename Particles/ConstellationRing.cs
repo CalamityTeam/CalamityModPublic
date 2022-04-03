@@ -42,9 +42,9 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D ringTexture = GeneralParticleHandler.GetTexture(Type);
-            Texture2D starTexture = ModContent.GetTexture("CalamityMod/Particles/Sparkle");
-            Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D ringTexture = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
+            Texture2D starTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/Sparkle");
+            Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
 
             spriteBatch.Draw(ringTexture, Position - Main.screenPosition, null, Color * Opacity, Rotation, ringTexture.Size() / 2f, Squish * Scale, SpriteEffects.None, 0);
 

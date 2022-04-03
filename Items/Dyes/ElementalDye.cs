@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class ElementalDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ElementalDyeShader")), "DyePass").UseImage("Images/Misc/Perlin");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ElementalDyeShader").Value), "DyePass").UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Dye");
@@ -17,21 +17,13 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(0, 2, 50, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(0, 2, 50, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SolarDye);
-            recipe.AddIngredient(ItemID.VortexDye);
-            recipe.AddIngredient(ItemID.StardustDye);
-            recipe.AddIngredient(ItemID.NebulaDye);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 5);
-            recipe.AddRecipe();
+            CreateRecipe(5).AddIngredient(ItemID.SolarDye).AddIngredient(ItemID.VortexDye).AddIngredient(ItemID.StardustDye).AddIngredient(ItemID.NebulaDye).AddIngredient(ModContent.ItemType<GalacticaSingularity>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

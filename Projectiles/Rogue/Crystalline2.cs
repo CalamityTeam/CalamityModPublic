@@ -16,30 +16,30 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
             //projectile.aiStyle = 113;
-            projectile.timeLeft = 30;
+            Projectile.timeLeft = 30;
             //aiType = ProjectileID.BoneJavelin;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.localAI[0]++;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
-            if (projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
+            Projectile.localAI[0]++;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            if (Projectile.localAI[0] == 10f && Projectile.ai[1] == 1f)
             {
                 int numProj = 2;
                 float rotation = MathHelper.ToRadians(50);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < numProj + 1; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        int proj = Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 2f);
+                        Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X * 0.8f, Projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        int proj = Projectile.NewProjectile(Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, 0f, 2f);
                         Main.projectile[proj].timeLeft = 20;
                     }
                 }
@@ -48,10 +48,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft == (projectile.ai[1] == 2f ? 20 : 30))
+            if (Projectile.timeLeft == (Projectile.ai[1] == 2f ? 20 : 30))
                 return false;
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -59,14 +59,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 154, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 154, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-            if (projectile.ai[1] >= 1f)
+            if (Projectile.ai[1] >= 1f)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-                    int shard = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner);
+                    int shard = Projectile.NewProjectile(Projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(Projectile.damage * 0.4f), 2f, Projectile.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
                         Main.projectile[shard].Calamity().forceRogue = true;
                 }

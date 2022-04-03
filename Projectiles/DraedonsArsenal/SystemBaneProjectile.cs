@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public SoundEffectInstance ShittyMicrowaveMemeSound = null;
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public const int LightningFireRate = 60;
         public const int FieldLightningFireRate = 45;
@@ -27,58 +27,58 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 480;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 480;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.StickToTiles(false, true);
+            Projectile.StickToTiles(false, true);
 
             Time++;
-            projectile.rotation = projectile.velocity.ToRotation();
-            if (projectile.velocity.Y < 15f)
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.velocity.Y < 15f)
             {
-                projectile.velocity.Y += 0.5f;
+                Projectile.velocity.Y += 0.5f;
             }
             // Generate idle sparks.
             if (Time % 15f == 0f)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 229);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 229);
                 dust.velocity = Main.rand.NextVector2Circular(10f, 10f);
                 dust.fadeIn = 1.05f;
                 dust.noGravity = true;
             }
             // Every so often, generate some lightning at a nearby enemy, if one exists.
-            if (Time % LightningFireRate == 0f && Main.myPlayer == projectile.owner)
+            if (Time % LightningFireRate == 0f && Main.myPlayer == Projectile.owner)
             {
-                int lightningDamage = projectile.damage;
-                int totalSystemBanes = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+                int lightningDamage = Projectile.damage;
+                int totalSystemBanes = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
 
                 // Make the damage of the lightning have diminishing returns depending on how many systems are present.
                 lightningDamage = (int)Math.Ceiling(lightningDamage / Math.Pow(totalSystemBanes, 1D / 3D));
 
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(900f);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(900f);
                 if (potentialTarget != null)
-                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), lightningDamage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), lightningDamage, Projectile.knockBack, Projectile.owner);
             }
 
             // Sometimes generate lightning from the outside of the energy field if the projectile was spawned by a stealth strike.
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(FieldRadius);
-                if (Time % FieldLightningFireRate == 0f && potentialTarget != null && Main.myPlayer == projectile.owner)
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(FieldRadius);
+                if (Time % FieldLightningFireRate == 0f && potentialTarget != null && Main.myPlayer == Projectile.owner)
                 {
-                    Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2CircularEdge(FieldRadius, FieldRadius);
-                    Projectile.NewProjectile(spawnPosition, potentialTarget.DirectionFrom(spawnPosition) * 14f, ModContent.ProjectileType<SystemBaneLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(FieldRadius, FieldRadius);
+                    Projectile.NewProjectile(spawnPosition, potentialTarget.DirectionFrom(spawnPosition) * 14f, ModContent.ProjectileType<SystemBaneLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -87,15 +87,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void PlayMicrowaveSounds()
         {
-            if (ShittyMicrowaveMemeSound is null && projectile.Calamity().stealthStrike)
+            if (ShittyMicrowaveMemeSound is null && Projectile.Calamity().stealthStrike)
             {
                 ShittyMicrowaveMemeSound = ModContent.GetSound("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").CreateInstance();
                 ShittyMicrowaveMemeSound.IsLooped = true;
-                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, projectile.Center);
+                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, Projectile.Center);
                 Main.PlaySoundInstance(ShittyMicrowaveMemeSound);
             }
             else if (ShittyMicrowaveMemeSound != null && !ShittyMicrowaveMemeSound.IsDisposed)
-                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, projectile.Center);
+                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, Projectile.Center);
         }
 
         public override void Kill(int timeLeft)
@@ -106,18 +106,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (!projectile.Calamity().stealthStrike)
+            if (!Projectile.Calamity().stealthStrike)
                 return;
             int totalCirclePoints = 55;
-            float generalOpacity = Utils.InverseLerp(0f, 30f, projectile.timeLeft, true) * Utils.InverseLerp(480f, 450f, projectile.timeLeft, true);
-            Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/Projectiles/LightningProj");
+            float generalOpacity = Utils.InverseLerp(0f, 30f, Projectile.timeLeft, true) * Utils.InverseLerp(480f, 450f, Projectile.timeLeft, true);
+            Texture2D lightningTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj");
             for (int i = 0; i < totalCirclePoints; i++)
             {
                 float angle = MathHelper.TwoPi * i / totalCirclePoints;
                 float nextAngle = angle + MathHelper.TwoPi / totalCirclePoints;
                 float radiusOffset = (float)Math.Cos(Main.GlobalTime * 65f);
-                Vector2 start = projectile.Center + angle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
-                Vector2 end = projectile.Center + nextAngle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
+                Vector2 start = Projectile.Center + angle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
+                Vector2 end = Projectile.Center + nextAngle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
 
                 DelegateMethods.f_1 = SystemBaneLightning.InnerLightningOpacity * generalOpacity;
                 DelegateMethods.c_1 = SystemBaneLightning.InnerLightningColor;
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity.X *= 0.8f;
+            Projectile.velocity.X *= 0.8f;
             return false;
         }
     }

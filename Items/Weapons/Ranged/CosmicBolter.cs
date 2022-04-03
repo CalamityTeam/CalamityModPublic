@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 39;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 76;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.75f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item75;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LunarBolt2>();
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 39;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 76;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.75f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item75;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LunarBolt2>();
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -66,14 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LunarianBow>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LunarianBow>()).AddIngredient(ModContent.ItemType<LivingShard>(), 5).AddIngredient(ItemID.HallowedBar, 5).AddIngredient(ItemID.SoulofSight, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

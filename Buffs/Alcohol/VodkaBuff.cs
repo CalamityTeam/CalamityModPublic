@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class VodkaBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vodka");
             Description.SetDefault("Damage and critical stike chance boosted, defense and life regen reduced");

@@ -11,42 +11,42 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Chunk");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 80;
-            projectile.extraUpdates = 4;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = false;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 80;
+            Projectile.extraUpdates = 4;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
             //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-            Lighting.AddLight(projectile.Center, 0.1f, 0f, 0.5f);
-            if (projectile.ai[0] < 0.2f)
+            Lighting.AddLight(Projectile.Center, 0.1f, 0f, 0.5f);
+            if (Projectile.ai[0] < 0.2f)
             {
-                projectile.ai[0] += 0.1f;
+                Projectile.ai[0] += 0.1f;
             }
             else
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
 
             if (Main.rand.NextBool(10))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 191, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }
         }
 
@@ -54,20 +54,20 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i <= 3; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 191, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 int numSplits = Main.rand.NextBool() ? 4 : 3;
                 int type = ModContent.ProjectileType<HypothermiaShard>();
-                int shardDamage = (int)(projectile.damage * 0.5f);
-                float shardKB = projectile.knockBack * 0.75f;
+                int shardDamage = (int)(Projectile.damage * 0.5f);
+                float shardKB = Projectile.knockBack * 0.75f;
 
                 for (int i = 0; i < numSplits; ++i)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int texID = Main.rand.Next(4);
-                    Projectile.NewProjectile(projectile.Center, velocity, type, shardDamage, shardKB, Main.myPlayer, texID, 1f);
+                    Projectile.NewProjectile(Projectile.Center, velocity, type, shardDamage, shardKB, Main.myPlayer, texID, 1f);
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

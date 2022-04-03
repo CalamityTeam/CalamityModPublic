@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 48;
-            item.height = 48;
-            item.damage = 43;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 22;
-            item.useTime = 22;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<GreenDonkeyKongReference>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.width = 48;
+            Item.height = 48;
+            Item.damage = 43;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 22;
+            Item.useTime = 22;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<GreenDonkeyKongReference>();
+            Item.shootSpeed = 14f;
+            Item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -47,13 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlastBarrel>());
-            recipe.AddIngredient(ModContent.ItemType<ContaminatedBile>());
-            recipe.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlastBarrel>()).AddIngredient(ModContent.ItemType<ContaminatedBile>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

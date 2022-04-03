@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class BendyBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dreamfog");
             Description.SetDefault("Xi believes in Yuu");

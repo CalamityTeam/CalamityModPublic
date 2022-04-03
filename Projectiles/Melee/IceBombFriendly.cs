@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -18,50 +19,50 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.scale = 0.5f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.scale = 0.5f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
         }
 
-        public override bool CanDamage() => projectile.ai[0] >= 120f;
+        public override bool CanDamage() => Projectile.ai[0] >= 120f;
 
         public override void AI()
         {
-            projectile.velocity *= 0.98f;
+            Projectile.velocity *= 0.98f;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 50;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.01f;
+                Projectile.alpha -= 50;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.alpha = 0;
+                    Projectile.localAI[0] = 1f;
+                    Projectile.alpha = 0;
                 }
             }
             else
             {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 50;
-                if (projectile.alpha >= 255)
+                Projectile.scale -= 0.01f;
+                Projectile.alpha += 50;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.localAI[0] = 0f;
-                    projectile.alpha = 255;
+                    Projectile.localAI[0] = 0f;
+                    Projectile.alpha = 255;
                 }
             }
 
-            if (projectile.ai[0] < 120f)
+            if (Projectile.ai[0] < 120f)
             {
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] == 120f)
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] == 120f)
                 {
                     for (int num621 = 0; num621 < 8; num621++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[num622].velocity *= 3f;
                         if (Main.rand.NextBool(2))
                         {
@@ -71,45 +72,45 @@ namespace CalamityMod.Projectiles.Melee
                     }
                     for (int num623 = 0; num623 < 14; num623++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 3f);
+                        int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 3f);
                         Main.dust[num624].noGravity = true;
                         Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[num624].velocity *= 2f;
                     }
 
-                    projectile.scale = 1f;
-                    CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(30f * projectile.scale));
-                    Main.PlaySound(SoundID.Item30, projectile.Center);
+                    Projectile.scale = 1f;
+                    CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(30f * Projectile.scale));
+                    SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
                 }
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return Main.dayTime ? new Color(50, 50, 255, projectile.alpha) : new Color(255, 255, 255, projectile.alpha);
+            return Main.dayTime ? new Color(50, 50, 255, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             float spread = 90f * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
             int i;
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile1].Calamity().forceMelee = true;
                         Main.projectile[projectile1].penetrate = 2;
                     }
-                    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    int projectile2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile2.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile2].Calamity().forceMelee = true;
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             for (int k = 0; k < 3; k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

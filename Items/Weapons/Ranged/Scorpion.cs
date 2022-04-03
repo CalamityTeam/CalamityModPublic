@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 26;
-            item.useTime = 13;
-            item.reuseDelay = 30;
-            item.useAnimation = 39;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6.5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<MiniRocket>();
-            item.useAmmo = AmmoID.Rocket;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 26;
+            Item.useTime = 13;
+            Item.reuseDelay = 30;
+            Item.useAnimation = 39;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<MiniRocket>();
+            Item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()
@@ -75,14 +75,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SnowmanCannon);
-            recipe.AddIngredient(ItemID.GrenadeLauncher);
-            recipe.AddIngredient(ItemID.RocketLauncher);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SnowmanCannon).AddIngredient(ItemID.GrenadeLauncher).AddIngredient(ItemID.RocketLauncher).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

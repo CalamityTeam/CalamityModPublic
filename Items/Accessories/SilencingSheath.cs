@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,13 +33,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyEvilBar", 8);
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.AddRecipeGroup("Boss2Material", 3);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyEvilBar", 8).AddIngredient(ItemID.Silk, 10).AddRecipeGroup("Boss2Material", 3).AddTile(TileID.TinkerersWorkbench).Register();
         }
     }
 }

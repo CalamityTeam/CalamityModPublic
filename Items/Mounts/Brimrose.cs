@@ -14,18 +14,18 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 64;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item3;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<PhuppersChair>();
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item3;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<PhuppersChair>();
 
-            item.value = Item.buyPrice(platinum: 1, gold: 50);
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().devItem = true;
+            Item.value = Item.buyPrice(platinum: 1, gold: 50);
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().devItem = true;
         }
     }
 }

@@ -13,25 +13,19 @@ namespace CalamityMod.Items
         }
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 32;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
         }
         public override void UpdateInventory(Player player)
         {
-            if (item.favorited)
+            if (Item.favorited)
                 player.Calamity().noStupidNaturalARSpawns = true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddIngredient(ItemID.IronBar, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

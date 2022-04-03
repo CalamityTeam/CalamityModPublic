@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Mana Rose");
             Tooltip.SetDefault("Casts a mana flower that explodes into petals");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 38;
-            item.height = 38;
-            item.useTime = 38;
-            item.useAnimation = 38;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ManaBolt>();
-            item.shootSpeed = 10f;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 38;
+            Item.height = 38;
+            Item.useTime = 38;
+            Item.useAnimation = 38;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ManaBolt>();
+            Item.shootSpeed = 10f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -42,13 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NaturesGift);
-            recipe.AddIngredient(ItemID.JungleRose);
-            recipe.AddIngredient(ItemID.Moonglow, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NaturesGift).AddIngredient(ItemID.JungleRose).AddIngredient(ItemID.Moonglow, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

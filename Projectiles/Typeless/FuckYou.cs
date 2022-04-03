@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -12,72 +13,72 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.ignoreWater = false;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60; // Lasts so long due to visuals.
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 600; // Under absolutely no circumstances should this explosion hit more than once.
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60; // Lasts so long due to visuals.
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 600; // Under absolutely no circumstances should this explosion hit more than once.
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.9f, 0.8f, 0.6f);
-            projectile.ai[1] += 0.01f;
-            projectile.scale = projectile.ai[1] * 0.5f;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= (float)(3 * Main.projFrames[projectile.type]))
+            Lighting.AddLight(Projectile.Center, 0.9f, 0.8f, 0.6f);
+            Projectile.ai[1] += 0.01f;
+            Projectile.scale = Projectile.ai[1] * 0.5f;
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= (float)(3 * Main.projFrames[Projectile.type]))
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            int incrementer = projectile.frameCounter + 1;
-            projectile.frameCounter = incrementer;
+            int incrementer = Projectile.frameCounter + 1;
+            Projectile.frameCounter = incrementer;
             if (incrementer >= 3)
             {
-                projectile.frameCounter = 0;
-                incrementer = projectile.frame + 1;
-                projectile.frame = incrementer;
-                if (incrementer >= Main.projFrames[projectile.type])
+                Projectile.frameCounter = 0;
+                incrementer = Projectile.frame + 1;
+                Projectile.frame = incrementer;
+                if (incrementer >= Main.projFrames[Projectile.type])
                 {
-                    projectile.hide = true;
+                    Projectile.hide = true;
                 }
             }
-            projectile.alpha -= 63;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 63;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.position = projectile.Center;
-                projectile.width = projectile.height = (int)(52f * projectile.scale);
-                projectile.Center = projectile.position;
-                Main.PlaySound(SoundID.Item14, projectile.position);
+                Projectile.position = Projectile.Center;
+                Projectile.width = Projectile.height = (int)(52f * Projectile.scale);
+                Projectile.Center = Projectile.position;
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 for (int dustIndexA = 0; dustIndexA < 4; dustIndexA = incrementer + 1)
                 {
-                    int num992 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num992].position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                    int num992 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 1.5f);
+                    Main.dust[num992].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                     incrementer = dustIndexA;
                 }
                 for (int dustIndexB = 0; dustIndexB < 10; dustIndexB = incrementer + 1)
                 {
-                    int fireDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 200, default, 2.7f);
+                    int fireDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 200, default, 2.7f);
                     Dust dust = Main.dust[fireDust];
-                    dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                    dust.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                     dust.noGravity = true;
                     dust.velocity *= 3f;
-                    fireDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1.5f);
-                    dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                    fireDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1.5f);
+                    dust.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                     dust.fadeIn = 2.5f;
@@ -85,18 +86,18 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 for (int dustIndexC = 0; dustIndexC < 5; dustIndexC = incrementer + 1)
                 {
-                    int fireDust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 0, default, 2.7f);
+                    int fireDust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 2.7f);
                     Dust dust = Main.dust[fireDust2];
-                    dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                    dust.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
                     dust.noGravity = true;
                     dust.velocity *= 3f;
                     incrementer = dustIndexC;
                 }
                 for (int dustIndexD = 0; dustIndexD < 10; dustIndexD = incrementer + 1)
                 {
-                    int num998 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 0, default, 1.5f);
+                    int num998 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 0, default, 1.5f);
                     Dust dust = Main.dust[num998];
-                    dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                    dust.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 2f;
                     dust.noGravity = true;
                     dust.velocity *= 3f;
                     incrementer = dustIndexD;
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            return projectile.ai[0] > 1f;
+            return Projectile.ai[0] > 1f;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -117,13 +118,13 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 180);
-            projectile.direction = Main.player[projectile.owner].direction;
+            Projectile.direction = Main.player[Projectile.owner].direction;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 180);
-            projectile.direction = Main.player[projectile.owner].direction;
+            Projectile.direction = Main.player[Projectile.owner].direction;
         }
     }
 }

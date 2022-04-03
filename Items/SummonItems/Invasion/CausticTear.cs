@@ -19,14 +19,14 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.maxStack = 1;
-            item.rare = ItemRarityID.Green;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 18;
+            Item.maxStack = 1;
+            Item.rare = ItemRarityID.Green;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             return !CalamityWorld.rainingAcid;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             CalamityNetcode.SyncWorld();
             AcidRainEvent.TryStartEvent(true);
@@ -42,11 +42,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 5);
-            recipe.needWater = true;
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 5).Register();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -25,37 +26,37 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Black Hole");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 80; //32 base, 2.5x the normal (for hitbox purposes)
-            projectile.height = 85; //34 base, 2.5x the normal (for hitbox purposes)
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 1800;
-            projectile.penetrate = -1;
+            Projectile.width = 80; //32 base, 2.5x the normal (for hitbox purposes)
+            Projectile.height = 85; //34 base, 2.5x the normal (for hitbox purposes)
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 1800;
+            Projectile.penetrate = -1;
 
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.scale = 0.01f;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.scale = 0.01f;
         }
 
         private void ApplySucc(NPC npc)
         {
-            float succStrength = 4f / projectile.scale;
-            succStrength *= projectile.scale;
-            Vector2 velocity = projectile.Center - npc.Center;
+            float succStrength = 4f / Projectile.scale;
+            succStrength *= Projectile.scale;
+            Vector2 velocity = Projectile.Center - npc.Center;
             velocity *= 2f;
             velocity.SafeNormalize(Vector2.Zero);
-            float num550 = 5f * projectile.scale;
+            float num550 = 5f * Projectile.scale;
             Vector2 vector43 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num551 = projectile.Center.X - vector43.X;
-            float num552 = projectile.Center.Y - vector43.Y;
+            float num551 = Projectile.Center.X - vector43.X;
+            float num552 = Projectile.Center.Y - vector43.Y;
             float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
             if (num553 < 100f)
             {
@@ -71,20 +72,20 @@ namespace CalamityMod.Projectiles.Summon
 
         private void Death()
         {
-            if (projectile.scale >= 2.5f) //it's boom o' clock
+            if (Projectile.scale >= 2.5f) //it's boom o' clock
             {
-                projectile.height *= 2;
-                projectile.width *= 2;
-                projectile.maxPenetrate = -1;
-                projectile.penetrate = -1;
-                projectile.usesLocalNPCImmunity = true;
-                projectile.localNPCHitCooldown = 10;
-                projectile.damage = damage;
-                projectile.Damage();
-                projectile.friendly = false;
-                projectile.Damage();
-                Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-                projectile.Kill();
+                Projectile.height *= 2;
+                Projectile.width *= 2;
+                Projectile.maxPenetrate = -1;
+                Projectile.penetrate = -1;
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = 10;
+                Projectile.damage = damage;
+                Projectile.Damage();
+                Projectile.friendly = false;
+                Projectile.Damage();
+                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 14);
+                Projectile.Kill();
             }
         }
 
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int d = 0; d < 6; d++)
             {
-                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 4f);
+                int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 4f);
                 Main.dust[shadow].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -102,10 +103,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int d = 0; d < 18; d++)
             {
-                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 4f);
+                int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 4f);
                 Main.dust[shadow].noGravity = true;
                 Main.dust[shadow].velocity *= 5f;
-                shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f);
+                shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f);
                 Main.dust[shadow].velocity *= 2f;
             }
         }
@@ -114,70 +115,70 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (damage == 0)
             {
-                damage = projectile.damage;
-                projectile.damage = 0;
-                projectile.position = Main.player[projectile.owner].position;
+                damage = Projectile.damage;
+                Projectile.damage = 0;
+                Projectile.position = Main.player[Projectile.owner].position;
             }
             return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int frameHeight = height * projectile.frame;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
             Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void AI()
         {
 
-            projectile.scale += 0.01f;
-            if (projectile.scale % 0.02f == 0)
+            Projectile.scale += 0.01f;
+            if (Projectile.scale % 0.02f == 0)
             {
-                projectile.scale += 0.01f; //speeds up the projectile's growth to prevent it being too long
+                Projectile.scale += 0.01f; //speeds up the projectile's growth to prevent it being too long
             }
-            int radius = (int)(projectile.scale * 100f); //0.01f; to a max of 2.5f; so radius of 1 to 250 by default
-            if (projectile.scale >= 2f)
+            int radius = (int)(Projectile.scale * 100f); //0.01f; to a max of 2.5f; so radius of 1 to 250 by default
+            if (Projectile.scale >= 2f)
                 radius *= 2;
 
             int baseWidth = 32;
             int baseHeight = 34;
-            int newWidth = (int)(baseWidth * projectile.scale);
-            int newHeight = (int)(baseHeight * projectile.scale);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, newWidth, newHeight);
+            int newWidth = (int)(baseWidth * Projectile.scale);
+            int newHeight = (int)(baseHeight * Projectile.scale);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, newWidth, newHeight);
 
 
 
-            if (projectile.frameCounter > 6)
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type] - 1)
+            if (Projectile.frame >= Main.projFrames[Projectile.type] - 1)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.frameCounter++;
+            Projectile.frameCounter++;
 
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].friendly /*&& CalamityGlobalNPC.ShouldAffectNPC(Main.npc[i])*/) //TODO - REMOVE COMMENT BEFORE MERGE
                     {
-                        if (Vector2.Distance(projectile.Center, Main.npc[i].Center) <= radius)
+                        if (Vector2.Distance(Projectile.Center, Main.npc[i].Center) <= radius)
                             ApplySucc(Main.npc[i]);
                     }
                 }
 
 
-            if (projectile.scale >= 2.5f) //it's boom o' clock
+            if (Projectile.scale >= 2.5f) //it's boom o' clock
             {
                 Death();
             }

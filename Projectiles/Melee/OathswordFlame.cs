@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -14,25 +15,25 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 240;
-            projectile.Opacity = 0f;
-            projectile.melee = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 240;
+            Projectile.Opacity = 0f;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.08f, 0f, 1f);
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 700f, 15f, 10f);
+            Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.08f, 0f, 1f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 700f, 15f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha) * projectile.Opacity;
+            return new Color(200, 200, 200, Projectile.alpha) * Projectile.Opacity;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -42,11 +43,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 100);
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.oldVelocity.X * 2.5f, projectile.oldVelocity.Y * 2.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 73, Projectile.oldVelocity.X * 2.5f, Projectile.oldVelocity.Y * 2.5f);
         }
     }
 }

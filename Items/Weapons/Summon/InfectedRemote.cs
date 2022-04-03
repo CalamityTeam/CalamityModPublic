@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -23,22 +23,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 75;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 28;
-            item.useTime = item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item15; //phaseblade sound effect
-            item.shoot = ModContent.ProjectileType<PlaguePrincess>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 75;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item15; //phaseblade sound effect
+            Item.shoot = ModContent.ProjectileType<PlaguePrincess>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
         }
 
         public override void HoldItem(Player player)
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player)
         {
-            return viruliSlots >= 1 && player.ownedProjectileCounts[item.shoot] <= 0;
+            return viruliSlots >= 1 && player.ownedProjectileCounts[Item.shoot] <= 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

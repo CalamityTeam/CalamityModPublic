@@ -13,28 +13,23 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Orange;
-            item.value = 0;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.AshenAltar>();
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = 0;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.AshenAltar>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 10);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 10).AddIngredient(ModContent.ItemType<UnholyCore>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -18,26 +18,26 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 21;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 42;
-            item.height = 42;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item66;
-            item.shoot = ModContent.ProjectileType<ShadeNimbus>();
-            item.shootSpeed = 16f;
+            Item.damage = 21;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 42;
+            Item.height = 42;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item66;
+            Item.shoot = ModContent.ProjectileType<ShadeNimbus>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -66,13 +66,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 2);
-            recipe.AddIngredient(ItemID.DemoniteBar, 3);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 12);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 2).AddIngredient(ItemID.DemoniteBar, 3).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 12).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

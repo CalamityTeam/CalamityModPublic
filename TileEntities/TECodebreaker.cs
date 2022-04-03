@@ -1,4 +1,4 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonSummoner;
 using Microsoft.Xna.Framework;
@@ -118,7 +118,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
-            return tile.active() && tile.type == ModContent.TileType<CodebreakerTile>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         // This code is called as a hook when the player places the Codebreaker tile so that the tile entity may be placed.
@@ -176,7 +176,7 @@ namespace CalamityMod.TileEntities
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
 
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             BitsByte containmentFlagWrapper = new BitsByte();
             containmentFlagWrapper[0] = ContainsDecryptionComputer;
             containmentFlagWrapper[1] = ContainsSensorArray;
@@ -234,7 +234,7 @@ namespace CalamityMod.TileEntities
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
 
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.UpdateCodebreakerContainedStuff);
             packet.Write(ID);
             packet.Write(InputtedCellCount);
@@ -274,7 +274,7 @@ namespace CalamityMod.TileEntities
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
 
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)CalamityModMessageType.UpdateCodebreakerDecryptCountdown);
             packet.Write(ID);
             packet.Write(DecryptionCountdown);

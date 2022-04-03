@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles.Astral
         public const int Width = 5;
         public const int Height = 4;
         public static readonly Color FailColor = new Color(237, 93, 83);
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -44,12 +45,12 @@ namespace CalamityMod.Tiles.Astral
             Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
 
-            int left = i - tile.frameX / 18;
-            int top = j - tile.frameY / 18;
+            int left = i - tile.TileFrameX / 18;
+            int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<TitanHeart>()) &&
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
@@ -72,7 +73,7 @@ namespace CalamityMod.Tiles.Astral
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
             Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)

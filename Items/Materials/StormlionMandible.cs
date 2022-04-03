@@ -10,16 +10,16 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormlion Mandible");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 38;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 1, copper: 40);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 36;
+            Item.height = 38;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 1, copper: 40);
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

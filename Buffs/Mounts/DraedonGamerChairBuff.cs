@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class DraedonGamerChairBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Chair");
             Description.SetDefault("Riding a physics defying gamer chair");

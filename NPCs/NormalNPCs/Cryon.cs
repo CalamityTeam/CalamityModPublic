@@ -12,67 +12,67 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryon");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 42;
-            npc.width = 50;
-            npc.height = 64;
-            npc.defense = 10;
-            npc.DR_NERD(0.1f);
-            npc.lifeMax = 300;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.HitSound = SoundID.NPCHit5;
-            npc.DeathSound = SoundID.NPCDeath7;
-            banner = npc.type;
+            NPC.damage = 42;
+            NPC.width = 50;
+            NPC.height = 64;
+            NPC.defense = 10;
+            NPC.DR_NERD(0.1f);
+            NPC.lifeMax = 300;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.HitSound = SoundID.NPCHit5;
+            NPC.DeathSound = SoundID.NPCDeath7;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
-            npc.coldDamage = true;
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = false;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.coldDamage = true;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = false;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 5f, CalamityWorld.death ? 0.15f : 0.1f);
+            CalamityAI.UnicornAI(NPC, Mod, false, CalamityWorld.death ? 6f : 4f, 5f, CalamityWorld.death ? 0.15f : 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.velocity.Y > 0f || npc.velocity.Y < 0f)
+            if (NPC.velocity.Y > 0f || NPC.velocity.Y < 0f)
             {
-                npc.spriteDirection = npc.direction;
-                npc.frame.Y = frameHeight * 5;
-                npc.frameCounter = 0.0;
+                NPC.spriteDirection = NPC.direction;
+                NPC.frame.Y = frameHeight * 5;
+                NPC.frameCounter = 0.0;
             }
             else
             {
-                npc.spriteDirection = npc.direction;
-                npc.frameCounter += (double)(npc.velocity.Length() / 2f);
-                if (npc.frameCounter > 12.0)
+                NPC.spriteDirection = NPC.direction;
+                NPC.frameCounter += (double)(NPC.velocity.Length() / 2f);
+                if (NPC.frameCounter > 12.0)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
                 }
-                if (npc.frame.Y >= frameHeight * 4)
+                if (NPC.frame.Y >= frameHeight * 4)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow &&
-                !spawnInfo.player.PillarZone() &&
-                !spawnInfo.player.ZoneDungeon &&
-                !spawnInfo.player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
+            return spawnInfo.Player.ZoneSnow &&
+                !spawnInfo.Player.PillarZone() &&
+                !spawnInfo.Player.ZoneDungeon &&
+                !spawnInfo.Player.InSunkenSea() &&
+                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -85,20 +85,20 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 92, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofEleum>(), 0.5f);
         }
     }
 }

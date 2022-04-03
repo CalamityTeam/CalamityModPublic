@@ -17,45 +17,45 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = 60;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.arrow = true;
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = 60;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 25;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
             float num55 = 100f;
             float num56 = 3f;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
                 {
-                    projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = num55;
                 }
             }
             else
             {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
@@ -69,15 +69,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 0;
+            target.immune[Projectile.owner] = 0;
 
             target.AddBuff(BuffID.Daybreak, 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             target.ExoDebuffs();
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(250, 25, 0, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(250, 25, 0, Projectile.alpha);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(100f, 3f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(100f, 3f, lightColor);
     }
 }

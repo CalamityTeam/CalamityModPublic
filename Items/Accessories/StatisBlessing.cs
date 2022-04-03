@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,20 +31,12 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.holyMinions = true;
             player.minionKB += 2.5f;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PapyrusScarab);
-            recipe.AddIngredient(ItemID.PygmyNecklace);
-            recipe.AddIngredient(ItemID.SummonerEmblem);
-            recipe.AddIngredient(ItemID.HolyWater, 30);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PapyrusScarab).AddIngredient(ItemID.PygmyNecklace).AddIngredient(ItemID.SummonerEmblem).AddIngredient(ItemID.HolyWater, 30).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

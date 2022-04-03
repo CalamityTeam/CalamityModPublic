@@ -32,8 +32,8 @@ namespace CalamityMod.UI
                 Reset();
                 return;
             }
-            Texture2D edgeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeterBorder");
-            Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargeMeter");
+            Texture2D edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeterBorder");
+            Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeter");
             float uiScale = Main.UIScale;
             spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 

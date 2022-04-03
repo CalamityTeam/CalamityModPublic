@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class RSSolarFlare : ModProjectile
@@ -12,97 +13,97 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.alpha = 150;
-            projectile.melee = true;
-            projectile.timeLeft = 120;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 150;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 120;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 60)
+            if (Projectile.timeLeft < 60)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 15;
-                if (projectile.alpha >= 150)
+                Projectile.scale -= 0.02f;
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 150)
                 {
-                    projectile.alpha = 150;
-                    projectile.localAI[0] = 1f;
+                    Projectile.alpha = 150;
+                    Projectile.localAI[0] = 1f;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 15;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.02f;
+                Projectile.alpha -= 15;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
+                    Projectile.alpha = 0;
+                    Projectile.localAI[0] = 0f;
                 }
             }
-            projectile.velocity.X *= 0.975f;
-            projectile.velocity.Y *= 0.975f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.velocity.X *= 0.975f;
+            Projectile.velocity.Y *= 0.975f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            Lighting.AddLight(projectile.Center, 0.75f, 0.75f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.75f, 0.75f, 0f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             float spread = 180f * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+            double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
             int i;
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (i = 0; i < 1; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<SandFire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<SandFire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<SandFire>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<SandFire>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 20; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 159, 0f, 0f, 100, default, 0.5f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 159, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -112,10 +113,10 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int num623 = 0; num623 < 35; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 32, 0f, 0f, 100, default, 1f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 32, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 159, 0f, 0f, 100, default, 0.5f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 159, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

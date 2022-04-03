@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public const int TalkingFrames = 8;
         public const int FrameCount = IdleFrames + TalkingFrames;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -64,15 +65,15 @@ namespace CalamityMod.Tiles.DraedonStructures
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<LabHologramProjectorItem>());
 
             Tile tile = Main.tile[i, j];
-            int left = i - tile.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - tile.frameY % (Height * SheetSquare) / SheetSquare;
+            int left = i - tile.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - tile.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
             // Kill the hosted tile entity directly and immediately.
             TELabHologramProjector hologramTileEntity = CalamityUtils.FindTileEntity<TELabHologramProjector>(i, j, Width, Height, SheetSquare);
             hologramTileEntity?.Kill(left, top);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             CalamityPlayer mp = player.Calamity();
@@ -83,7 +84,7 @@ namespace CalamityMod.Tiles.DraedonStructures
                 mp.CurrentlyViewedHologramID = projector?.ID ?? -1;
                 if (mp.CurrentlyViewedHologramID != -1)
                 {
-                    Main.PlaySound(SoundID.Chat, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Chat, -1, -1, 1, 1f, 0f);
                     player.talkNPC = -1;
                 }
             }
@@ -119,14 +120,14 @@ namespace CalamityMod.Tiles.DraedonStructures
                     frame -= IdleFrames - 2;
             }
 
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
 
             // Accomodation for X frames textures.
             xPos += frame / 8 * 96;
             yPos += frame % 8 * 112;
 
-            Texture2D tileTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/LabHologramProjector");
+            Texture2D tileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/LabHologramProjector");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class ChibiiBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chibii Devourer");
             Description.SetDefault("What? Were you expecting someone else?");

@@ -18,20 +18,20 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = ModContent.ProjectileType<BendyPet>();
-            item.buffType = ModContent.BuffType<BendyBuff>();
+            Item.CloneDefaults(ItemID.WispinaBottle);
+            Item.shoot = ModContent.ProjectileType<BendyPet>();
+            Item.buffType = ModContent.BuffType<BendyBuff>();
 
-            item.value = Item.sellPrice(gold: 3);
-            item.rare = ItemRarityID.Cyan;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 3);
+            Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

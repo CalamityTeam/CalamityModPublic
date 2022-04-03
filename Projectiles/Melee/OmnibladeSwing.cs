@@ -7,65 +7,65 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class OmnibladeSwing : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omniblade");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 246;
-            projectile.height = 184;
-            projectile.scale = 1.15f;
+            Projectile.width = 246;
+            Projectile.height = 184;
+            Projectile.scale = 1.15f;
 
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 3;
-            projectile.Calamity().trueMelee = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 3;
+            Projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 3;
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.Kill();
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 3;
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.Kill();
 
             Vector2 playerRotatedPoint = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (Owner.channel && !Owner.noItems && !Owner.CCed)
                     HandleChannelMovement(playerRotatedPoint);
                 else
-                    projectile.Kill();
+                    Projectile.Kill();
             }
 
             // Rotation and directioning.
-            projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
 
             // Sprite and player directioning.
-            projectile.spriteDirection = -projectile.direction;
-            if (projectile.direction == 1)
-                projectile.Left = Owner.Center;
+            Projectile.spriteDirection = -Projectile.direction;
+            if (Projectile.direction == 1)
+                Projectile.Left = Owner.Center;
             else
-                projectile.Right = Owner.Center;
-            projectile.position.X += projectile.spriteDirection == -1 ? -116f : 88f;
-            projectile.position.Y -= projectile.scale * 66f;
-            Owner.ChangeDir(projectile.direction);
+                Projectile.Right = Owner.Center;
+            Projectile.position.X += Projectile.spriteDirection == -1 ? -116f : 88f;
+            Projectile.position.Y -= Projectile.scale * 66f;
+            Owner.ChangeDir(Projectile.direction);
 
             // Prevents the projectile from dying
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
 
             // Player item-based field manipulation.
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
-            Owner.heldProj = projectile.whoAmI;
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
         }
@@ -75,10 +75,10 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 newVelocity = Vector2.UnitX * (Main.MouseWorld.X > playerRotatedPoint.X).ToDirectionInt();
 
             // Sync if a velocity component changes.
-            if (projectile.velocity.X != newVelocity.X || projectile.velocity.Y != newVelocity.Y)
-                projectile.netUpdate = true;
+            if (Projectile.velocity.X != newVelocity.X || Projectile.velocity.Y != newVelocity.Y)
+                Projectile.netUpdate = true;
 
-            projectile.velocity = newVelocity;
+            Projectile.velocity = newVelocity;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -94,6 +94,6 @@ namespace CalamityMod.Projectiles.Melee
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 170);
 
         // Don't suffer from the same issues Murasama did in the past; encouraging people to kill their wrists for some extra DPS is bad lmao
-        public override bool CanDamage() => projectile.frameCounter > 6;
+        public override bool CanDamage() => Projectile.frameCounter > 6;
     }
 }

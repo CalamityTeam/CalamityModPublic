@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -55,7 +56,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (respawnHands && calamityGlobalNPC.newAI[0] == 0f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
                 {
                     calamityGlobalNPC.newAI[0] = 1f;
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, -0.25f);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, -0.25f);
                     SpawnHands();
 
                     npc.netUpdate = true;
@@ -114,7 +115,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Main.dayTime && !BossRushEvent.BossRushActive && npc.ai[1] != 3f && npc.ai[1] != 2f)
             {
                 npc.ai[1] = 2f;
-                Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
             }
 
             // Hand immunity
@@ -138,7 +139,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.ai[3] = 0f;
 
-                    Main.PlaySound(SoundID.Item66, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item66, npc.position);
 
                     Vector2 vector10 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 
@@ -395,7 +396,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 calamityGlobalNPC.newAI[1] += 1f;
                 if (calamityGlobalNPC.newAI[1] == 2f)
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
                 if (npc.ai[2] >= 300f)
                 {

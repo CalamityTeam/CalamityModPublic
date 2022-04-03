@@ -2,13 +2,14 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class RainbowPartyCannonProjectile : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
         public const float ChargeDelay = 60f;
         public override void SetStaticDefaults()
         {
@@ -17,25 +18,25 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 92;
-            projectile.height = 66;
-            projectile.penetrate = -1;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 92;
+            Projectile.height = 66;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             Item heldItem = Owner.ActiveItem();
-            projectile.damage = (int)((heldItem?.damage ?? 0) * Owner.MagicDamage());
+            Projectile.damage = (int)((heldItem?.damage ?? 0) * Owner.MagicDamage());
 
             UpdatePlayerVisuals(Owner.Center);
 
             bool stillUsingCannon = Owner.channel && !Owner.noItems && !Owner.CCed;
             if (!stillUsingCannon)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
@@ -47,16 +48,16 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Vector2 velocityDirection = projectile.velocity.RotatedByRandom(0.1f);
-                    Vector2 shotOffset = velocityDirection * projectile.Size * 0.5f;
-                    Dust.NewDustPerfect(projectile.Center + shotOffset, Main.rand.Next(139, 143), velocityDirection * Main.rand.NextFloat(5f, 9f));
+                    Vector2 velocityDirection = Projectile.velocity.RotatedByRandom(0.1f);
+                    Vector2 shotOffset = velocityDirection * Projectile.Size * 0.5f;
+                    Dust.NewDustPerfect(Projectile.Center + shotOffset, Main.rand.Next(139, 143), velocityDirection * Main.rand.NextFloat(5f, 9f));
                 }
             }
 
             Time++;
 
             // Forces the cannon to disappear immediately if anything goes wrong.
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
         }
 
         public void ConsumeManaAndFireProjectile(Item heldItem)
@@ -66,41 +67,41 @@ namespace CalamityMod.Projectiles.Magic
 
             if (!Owner.CheckMana(heldItem.mana, true))
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Main.PlaySound(heldItem.UseSound, projectile.Center);
-            Vector2 spawnPosition = projectile.Center + projectile.velocity * 150f;
+            SoundEngine.PlaySound(heldItem.UseSound, Projectile.Center);
+            Vector2 spawnPosition = Projectile.Center + Projectile.velocity * 150f;
 
             // Shoot farther back if the cannon is shoved into a bunch of tiles.
             if (!Collision.CanHitLine(Owner.MountedCenter, 16, 16, spawnPosition, 16, 16))
-                spawnPosition = projectile.Center + projectile.velocity * 50f;
+                spawnPosition = Projectile.Center + Projectile.velocity * 50f;
 
-            Projectile.NewProjectile(spawnPosition, projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<RainbowComet>(), projectile.damage, projectile.knockBack, Owner.whoAmI);
+            Projectile.NewProjectile(spawnPosition, Projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<RainbowComet>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI);
         }
 
         public void UpdatePlayerVisuals(Vector2 center)
         {
             // Place the cannon directly into the player's hand at all times.
-            projectile.Center = center;
+            Projectile.Center = center;
 
             // Set the direction of the cannon if it hasn't been set yet.
-            if (projectile.velocity == Vector2.Zero || projectile.velocity.Length() != 1f)
-                projectile.velocity = (Main.MouseWorld - center).SafeNormalize(Vector2.UnitX * projectile.direction);
+            if (Projectile.velocity == Vector2.Zero || Projectile.velocity.Length() != 1f)
+                Projectile.velocity = (Main.MouseWorld - center).SafeNormalize(Vector2.UnitX * Projectile.direction);
 
-            projectile.rotation = projectile.velocity.ToRotation();
-            projectile.direction = projectile.spriteDirection = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.direction = Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
 
             // The cannon is a holdout projectile. Change the player's channel and direction values to reflect this.
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += MathHelper.Pi;
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+            if (Projectile.spriteDirection == -1)
+                Projectile.rotation += MathHelper.Pi;
         }
 
         public override bool CanDamage() => false;

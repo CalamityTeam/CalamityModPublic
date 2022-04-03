@@ -18,28 +18,28 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item76;
-            item.shoot = ModContent.ProjectileType<GastricBelcher>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.autoReuse = true;
+            Item.damage = 60;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item76;
+            Item.shoot = ModContent.ProjectileType<GastricBelcher>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.autoReuse = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
                 float directionX = Main.mouseX + Main.screenPosition.X - playerPos.X;
                 float directionY = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     spinningpoint.X = player.direction;
                     spinningpoint.Y = 0f;
-                    dist = item.shootSpeed;
+                    dist = Item.shootSpeed;
                 }
                 else
                 {
-                    dist = item.shootSpeed / dist;
+                    dist = Item.shootSpeed / dist;
                 }
                 spinningpoint.X *= dist;
                 spinningpoint.Y *= dist;

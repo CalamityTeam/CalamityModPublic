@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class ScrewdriverBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Screwdriver");
             Description.SetDefault("Piercing projectile damage boosted, life regen reduced");

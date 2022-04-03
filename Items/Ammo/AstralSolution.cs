@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.ammo = AmmoID.Solution;
-            item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
-            item.width = 10;
-            item.height = 12;
-            item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = ItemRarityID.Orange;
-            item.maxStack = 999;
-            item.consumable = true;
+            Item.ammo = AmmoID.Solution;
+            Item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
+            Item.width = 10;
+            Item.height = 12;
+            Item.value = Item.buyPrice(0, 0, 5, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.maxStack = 999;
+            Item.consumable = true;
             return;
         }
 

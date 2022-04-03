@@ -11,66 +11,66 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 24;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
+            Projectile.width = 54;
+            Projectile.height = 24;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 8)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] >= 7200f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] >= 7200f)
             {
-                projectile.alpha += 5;
-                if (projectile.alpha > 255)
+                Projectile.alpha += 5;
+                if (Projectile.alpha > 255)
                 {
-                    projectile.alpha = 255;
-                    projectile.Kill();
+                    Projectile.alpha = 255;
+                    Projectile.Kill();
                 }
             }
             else
             {
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] > 8f)
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] > 8f)
                 {
-                    projectile.ai[0] = 0f;
-                    if (projectile.owner == Main.myPlayer)
+                    Projectile.ai[0] = 0f;
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
-                        int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
-                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Shaderain>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
+                        int num415 = (int)(Projectile.position.Y + (float)Projectile.height + 4f);
+                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Shaderain>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 10f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 10f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 int projCount = 0;
                 int oldestCloud = 0;
                 float cloudAge = 0f;
-                int projType = projectile.type;
+                int projType = Projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
                     Projectile proj = Main.projectile[projIndex];
-                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
+                    if (proj.active && proj.owner == Projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
                         projCount++;
                         if (proj.ai[1] > cloudAge)

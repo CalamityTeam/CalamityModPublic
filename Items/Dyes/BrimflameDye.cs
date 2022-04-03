@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class BrimflameDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/BrimflameDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/BrimflameDyeShader").Value), "DyePass").
             UseColor(new Color(252, 147, 34)).UseSecondaryColor(new Color(216, 41, 26)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
@@ -19,18 +19,13 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 0, 75, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 0, 75, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 3);
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 3).AddTile(TileID.DyeVat).Register();
         }
     }
 }

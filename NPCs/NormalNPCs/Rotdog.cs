@@ -10,33 +10,33 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rotdog");
-            Main.npcFrameCount[npc.type] = 10;
+            Main.npcFrameCount[NPC.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 26;
-            npc.damage = 18;
-            npc.width = 46;
-            npc.height = 30;
-            npc.defense = 4;
-            npc.lifeMax = 60;
-            npc.knockBackResist = 0.3f;
+            NPC.aiStyle = 26;
+            NPC.damage = 18;
+            NPC.width = 46;
+            NPC.height = 30;
+            NPC.defense = 4;
+            NPC.lifeMax = 60;
+            NPC.knockBackResist = 0.3f;
             animationType = NPCID.Hellhound;
             aiType = NPCID.Wolf;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath5;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 2, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath5;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<PitbullBanner>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedBoss1 || spawnInfo.player.Calamity().ZoneSulphur)
+            if (spawnInfo.playerSafe || !NPC.downedBoss1 || spawnInfo.Player.Calamity().ZoneSulphur)
             {
                 return 0f;
             }
@@ -52,13 +52,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -66,8 +66,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             float bandageDropRate = Main.expertMode ? 0.02f : 0.01f;
-            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<RottenDogtooth>(), 8);
+            DropHelper.DropItemChance(NPC, ItemID.AdhesiveBandage, bandageDropRate);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<RottenDogtooth>(), 8);
         }
     }
 }

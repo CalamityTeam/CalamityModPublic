@@ -15,30 +15,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 32;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.healLife = 300;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.potion = true;
-            item.value = Item.buyPrice(0, 7, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 24;
+            Item.height = 32;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.healLife = 300;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.potion = true;
+            Item.value = Item.buyPrice(0, 7, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SupremeHealingPotion>());
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SupremeHealingPotion>()).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

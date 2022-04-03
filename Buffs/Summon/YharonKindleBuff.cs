@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class YharonKindleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fiery Draconid");
             Description.SetDefault("The fiery draconid will protect you");

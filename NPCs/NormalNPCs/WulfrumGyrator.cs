@@ -13,14 +13,14 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public float TimeSpentStuck
         {
-            get => npc.ai[0];
-            set => npc.ai[0] = value;
+            get => NPC.ai[0];
+            set => NPC.ai[0] = value;
         }
 
         public float SuperchargeTimer
         {
-            get => npc.ai[3];
-            set => npc.ai[3] = value;
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
         }
 
         public bool Supercharged => SuperchargeTimer > 0;
@@ -35,114 +35,114 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Gyrator");
-            Main.npcFrameCount[npc.type] = 10;
+            Main.npcFrameCount[NPC.type] = 10;
         }
 
         public override void SetDefaults()
         {
             aiType = -1;
-            npc.aiStyle = -1;
-            npc.damage = 15;
-            npc.width = 40;
-            npc.height = 40;
-            npc.defense = 5;
-            npc.lifeMax = 18;
-            npc.knockBackResist = 0.15f;
-            npc.value = Item.buyPrice(0, 0, 1, 15);
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            banner = npc.type;
+            NPC.aiStyle = -1;
+            NPC.damage = 15;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.defense = 5;
+            NPC.lifeMax = 18;
+            NPC.knockBackResist = 0.15f;
+            NPC.value = Item.buyPrice(0, 0, 1, 15);
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<WulfrumGyratorBanner>();
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            int frame = (int)(npc.frameCounter / 5) % (Main.npcFrameCount[npc.type] / 2);
+            NPC.frameCounter++;
+            int frame = (int)(NPC.frameCounter / 5) % (Main.npcFrameCount[NPC.type] / 2);
             if (Supercharged)
-                frame += Main.npcFrameCount[npc.type] / 2;
+                frame += Main.npcFrameCount[NPC.type] / 2;
 
-            npc.frame.Y = frame * frameHeight;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             if (Supercharged)
             {
                 float chargeJumpSpeed = -12f;
-                float maxHeight = chargeJumpSpeed * chargeJumpSpeed * (float)Math.Pow(Math.Sin(npc.AngleTo(player.Center)), 2) / (4f * NPCGravity);
-                bool jumpWouldHitPlayer = maxHeight > Math.Abs(player.Center.Y - npc.Center.Y) && maxHeight < Math.Abs(player.Center.Y - npc.Center.Y) + player.height;
+                float maxHeight = chargeJumpSpeed * chargeJumpSpeed * (float)Math.Pow(Math.Sin(NPC.AngleTo(player.Center)), 2) / (4f * NPCGravity);
+                bool jumpWouldHitPlayer = maxHeight > Math.Abs(player.Center.Y - NPC.Center.Y) && maxHeight < Math.Abs(player.Center.Y - NPC.Center.Y) + player.height;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && jumpWouldHitPlayer && npc.collideY && npc.velocity.Y == 0f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && jumpWouldHitPlayer && NPC.collideY && NPC.velocity.Y == 0f)
                 {
-                    npc.velocity.Y = chargeJumpSpeed;
-                    npc.netSpam = 0;
-                    npc.netUpdate = true;
+                    NPC.velocity.Y = chargeJumpSpeed;
+                    NPC.netSpam = 0;
+                    NPC.netUpdate = true;
                 }
 
                 SuperchargeTimer--;
             }
 
             // Jump if there's an obstacle ahead.
-            if (Main.netMode != NetmodeID.MultiplayerClient && HoleAtPosition(npc.Center.X + npc.velocity.X * 4f) && npc.collideY && npc.velocity.Y == 0f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && HoleAtPosition(NPC.Center.X + NPC.velocity.X * 4f) && NPC.collideY && NPC.velocity.Y == 0f)
             {
-                npc.velocity.Y = JumpSpeed;
-                npc.netSpam = 0;
-                npc.netUpdate = true;
+                NPC.velocity.Y = JumpSpeed;
+                NPC.netSpam = 0;
+                NPC.netUpdate = true;
             }
 
-            if (Collision.CanHitLine(player.position, player.width, player.height, npc.position, npc.width, npc.height) &&
-                Math.Abs(player.Center.X - npc.Center.X) < PlayerSearchDistance &&
-                Math.Abs(player.Center.X - npc.Center.X) > PlayerTargetingThreshold)
+            if (Collision.CanHitLine(player.position, player.width, player.height, NPC.position, NPC.width, NPC.height) &&
+                Math.Abs(player.Center.X - NPC.Center.X) < PlayerSearchDistance &&
+                Math.Abs(player.Center.X - NPC.Center.X) > PlayerTargetingThreshold)
             {
-                int direction = Math.Sign(player.Center.X - npc.Center.X) * (npc.confused ? -1 : 1);
-                if (npc.direction != direction)
+                int direction = Math.Sign(player.Center.X - NPC.Center.X) * (NPC.confused ? -1 : 1);
+                if (NPC.direction != direction)
                 {
-                    npc.direction = direction;
-                    npc.netSpam = 0;
-                    npc.netUpdate = true;
+                    NPC.direction = direction;
+                    NPC.netSpam = 0;
+                    NPC.netUpdate = true;
                 }
             }
-            else if (Main.netMode != NetmodeID.MultiplayerClient && npc.collideX && npc.collideY && npc.velocity.Y == 0f)
+            else if (Main.netMode != NetmodeID.MultiplayerClient && NPC.collideX && NPC.collideY && NPC.velocity.Y == 0f)
             {
-                npc.velocity.Y = JumpSpeed;
-                npc.netSpam = 0;
-                npc.netUpdate = true;
+                NPC.velocity.Y = JumpSpeed;
+                NPC.netSpam = 0;
+                NPC.netUpdate = true;
             }
 
-            if (npc.oldPosition == npc.position)
+            if (NPC.oldPosition == NPC.position)
             {
                 TimeSpentStuck++;
                 if (Main.netMode != NetmodeID.MultiplayerClient && TimeSpentStuck > StuckJumpPromptTime)
                 {
-                    npc.velocity.Y = JumpSpeed;
+                    NPC.velocity.Y = JumpSpeed;
                     TimeSpentStuck = 0f;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
             else
                 TimeSpentStuck = 0f;
 
-            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, MaxMovementSpeedX * npc.direction * (Supercharged ? 1.25f : 1f), Supercharged ? 0.02f : 0.0125f);
-            Vector4 adjustedVectors = Collision.WalkDownSlope(npc.position, npc.velocity, npc.width, npc.height, NPCGravity);
-            npc.position = adjustedVectors.XY();
-            npc.velocity = adjustedVectors.ZW();
+            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MaxMovementSpeedX * NPC.direction * (Supercharged ? 1.25f : 1f), Supercharged ? 0.02f : 0.0125f);
+            Vector4 adjustedVectors = Collision.WalkDownSlope(NPC.position, NPC.velocity, NPC.width, NPC.height, NPCGravity);
+            NPC.position = adjustedVectors.XY();
+            NPC.velocity = adjustedVectors.ZW();
         }
 
         private bool HoleAtPosition(float xPosition)
         {
-            int tileWidth = npc.width / 16;
+            int tileWidth = NPC.width / 16;
             xPosition = (int)(xPosition / 16f) - tileWidth;
-            if (npc.velocity.X > 0)
+            if (NPC.velocity.X > 0)
                 xPosition += tileWidth;
 
-            int tileY = (int)((npc.position.Y + npc.height) / 16f);
+            int tileY = (int)((NPC.position.Y + NPC.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = (int)xPosition; x < xPosition + tileWidth; x++)
@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
+            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.020f : 0.115f) * pylonMult;
         }
@@ -169,13 +169,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 for (int k = 0; k < 5; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hitDirection, -1f, 0, default, 1f);
                 }
-                if (npc.life <= 0)
+                if (NPC.life <= 0)
                 {
                     for (int k = 0; k < 20; k++)
                     {
-                        Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hitDirection, -1f, 0, default, 1f);
                     }
                 }
             }
@@ -183,9 +183,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 1, 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
+            DropHelper.DropItem(NPC, ModContent.ItemType<WulfrumShard>(), 1, 2);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EnergyCore>(), Supercharged);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

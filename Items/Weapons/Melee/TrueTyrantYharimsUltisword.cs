@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 102;
-            item.damage = 112;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 102;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
-            item.shootSpeed = 12f;
+            Item.width = 102;
+            Item.damage = 112;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 102;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -61,13 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TyrantYharimsUltisword>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TyrantYharimsUltisword>()).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 15).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

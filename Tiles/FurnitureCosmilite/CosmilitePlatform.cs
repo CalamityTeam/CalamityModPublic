@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmilitePlatform : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));

@@ -19,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.width = 28;
-            item.height = 20;
-            item.useTime = item.useAnimation = 34;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item15; // Phaseblade sound effect
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RustyDrone>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.mana = 10;
+            Item.width = 28;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 34;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item15; // Phaseblade sound effect
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<RustyDrone>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -44,12 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);;
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddRecipeGroup("IronBar", 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddRecipeGroup("IronBar", 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

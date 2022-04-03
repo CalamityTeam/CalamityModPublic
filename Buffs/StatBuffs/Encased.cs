@@ -1,12 +1,13 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
     public class Encased : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Encased");
             Description.SetDefault("30 defense and +30% damage reduction, but...");
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.StatBuffs
             player.Calamity().encased = true;
             if (player.buffTime[buffIndex] == 2)
             {
-                Main.PlaySound(SoundID.Item27, player.position);
+                SoundEngine.PlaySound(SoundID.Item27, player.position);
                 player.GiveIFrames(90, true);
             }
         }

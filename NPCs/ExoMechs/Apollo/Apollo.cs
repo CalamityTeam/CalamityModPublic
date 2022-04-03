@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System.Collections.Generic;
 using CalamityMod.Skies;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
@@ -46,8 +47,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public float AIState
         {
-            get => npc.Calamity().newAI[0];
-            set => npc.Calamity().newAI[0] = value;
+            get => NPC.Calamity().newAI[0];
+            set => NPC.Calamity().newAI[0] = value;
         }
 
         public enum SecondaryPhase
@@ -59,8 +60,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public float SecondaryAIState
         {
-            get => npc.Calamity().newAI[1];
-            set => npc.Calamity().newAI[1] = value;
+            get => NPC.Calamity().newAI[1];
+            set => NPC.Calamity().newAI[1] = value;
         }
 
         // Variable used to scale up velocity if too far from destination
@@ -120,44 +121,44 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(NameToDisplay);
-            NPCID.Sets.TrailingMode[npc.type] = 3;
-            NPCID.Sets.TrailCacheLength[npc.type] = 15;
+            NPCID.Sets.TrailingMode[NPC.type] = 3;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 15;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.npcSlots = 5f;
-            npc.GetNPCDamage();
-            npc.width = 204;
-            npc.height = 226;
-            npc.defense = 80;
-            npc.DR_NERD(0.25f);
-            npc.LifeMaxNERB(1250000, 1495000, 500000);
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.npcSlots = 5f;
+            NPC.GetNPCDamage();
+            NPC.width = 204;
+            NPC.height = 226;
+            NPC.defense = 80;
+            NPC.DR_NERD(0.25f);
+            NPC.LifeMaxNERB(1250000, 1495000, 500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.aiStyle = -1;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.Opacity = 0f;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(15, 0, 0, 0);
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
-            npc.boss = true;
+            NPC.Opacity = 0f;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(15, 0, 0, 0);
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.netAlways = true;
+            NPC.boss = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<DraedonTreasureBag>();
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
         }
 
         public override void BossHeadSlot(ref int index)
         {
             if (SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune)
                 index = -1;
-            else if (npc.life / (float)npc.lifeMax < 0.6f)
+            else if (NPC.life / (float)NPC.lifeMax < 0.6f)
                 index = phase2IconIndex;
             else
                 index = phase1IconIndex;
@@ -169,14 +170,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             writer.Write(frameX);
             writer.Write(frameY);
             writer.Write(pickNewLocation);
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.dontTakeDamage);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
             {
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
                 writer.WriteVector2(chargeLocations[i]);
             }
         }
@@ -187,25 +188,25 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             frameX = reader.ReadInt32();
             frameY = reader.ReadInt32();
             pickNewLocation = reader.ReadBoolean();
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.dontTakeDamage = reader.ReadBoolean();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
             {
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
                 chargeLocations[i] = reader.ReadVector2();
             }
         }
 
         public override void AI()
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
-            CalamityGlobalNPC.draedonExoMechTwinGreen = npc.whoAmI;
+            CalamityGlobalNPC.draedonExoMechTwinGreen = NPC.whoAmI;
 
-            npc.frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
+            NPC.frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
 
             // Difficulty modes
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -214,15 +215,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             // Get a target
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest();
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-                npc.TargetClosest();
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                NPC.TargetClosest();
 
             // Target variable
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             // Check if the other exo mechs are alive
             int otherExoMechsAlive = 0;
@@ -236,8 +237,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     exoMechTwinRedAlive = true;
 
                     // Link the HP of both twins
-                    if (npc.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
-                        npc.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
+                    if (NPC.life > Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life)
+                        NPC.life = Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].life;
                 }
             }
             if (CalamityGlobalNPC.draedonExoMechWorm != -1)
@@ -264,7 +265,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             }
 
             // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // These are 5 by default to avoid triggering passive phases after the other mechs are dead
             float exoWormLifeRatio = defaultLifeRatio;
@@ -311,17 +312,17 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             // Prevent mechs from being respawned
             if (otherExoMechWasFirst)
             {
-                if (npc.ai[3] < 1f)
-                    npc.ai[3] = 1f;
+                if (NPC.ai[3] < 1f)
+                    NPC.ai[3] = 1f;
             }
 
             // Decrement the timer used to stop Artemis from firing lasers
-            if (npc.ai[3] > 1f)
-                npc.ai[3] -= 1f;
+            if (NPC.ai[3] > 1f)
+                NPC.ai[3] -= 1f;
 
             // Phases
             bool phase2 = lifeRatio < 0.6f;
-            bool spawnOtherExoMechs = lifeRatio < 0.7f && npc.ai[3] == 0f;
+            bool spawnOtherExoMechs = lifeRatio < 0.7f && NPC.ai[3] == 0f;
             bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
             bool lastMechAlive = berserk && otherExoMechsAlive == 0;
 
@@ -332,18 +333,18 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool shouldGetBuffedByBerserkPhase = berserk && !otherMechIsBerserk;
 
             // Spawn Artemis if it doesn't exist after the first 10 frames have passed
-            if (npc.ai[0] < 10f)
+            if (NPC.ai[0] < 10f)
             {
-                npc.ai[0] += 1f;
-                if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
+                NPC.ai[0] += 1f;
+                if (NPC.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Artemis.Artemis>());
             }
             else
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<Artemis.Artemis>()))
                 {
-                    npc.active = false;
-                    npc.netUpdate = true;
+                    NPC.active = false;
+                    NPC.netUpdate = true;
                 }
             }
 
@@ -423,11 +424,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             int numRockets = nerfedAttacks ? 2 : 3;
 
             // Default vector to fly to
-            bool flyRight = npc.ai[0] % 2f == 0f || npc.ai[0] < 10f || !revenge;
+            bool flyRight = NPC.ai[0] % 2f == 0f || NPC.ai[0] < 10f || !revenge;
             float destinationX = flyRight ? 750f : -750f;
             float destinationY = player.Center.Y;
             float chargeComboXOffset = flyRight ? -500f : 500f;
-            float chargeComboYOffset = npc.ai[2] % 2f == 0f ? 400f : -400f;
+            float chargeComboYOffset = NPC.ai[2] % 2f == 0f ? 400f : -400f;
             Vector2 destination = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune ? new Vector2(player.Center.X + destinationX * 1.6f, destinationY) :
                 SecondaryAIState == (float)SecondaryPhase.Passive ? new Vector2(player.Center.X + destinationX, destinationY + 360f) :
                 AIState == (float)Phase.LineUpChargeCombo ? new Vector2(player.Center.X + destinationX, destinationY + chargeComboYOffset) :
@@ -438,26 +439,26 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             {
                 pickNewLocation = false;
 
-                npc.localAI[0] = Main.rand.Next(-50, 51);
-                npc.localAI[1] = Main.rand.Next(-250, 251);
+                NPC.localAI[0] = Main.rand.Next(-50, 51);
+                NPC.localAI[1] = Main.rand.Next(-250, 251);
                 if (AIState == (float)Phase.RocketBarrage || SecondaryAIState == (float)SecondaryPhase.Passive)
                 {
-                    npc.localAI[0] *= 0.5f;
-                    npc.localAI[1] *= 0.5f;
+                    NPC.localAI[0] *= 0.5f;
+                    NPC.localAI[1] *= 0.5f;
                 }
 
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
 
             // Add a bit of randomness to the destination, but only in specific phases where it's necessary
             if (AIState == (float)Phase.Normal || AIState == (float)Phase.RocketBarrage || AIState == (float)Phase.PhaseTransition)
             {
-                destination.X += npc.localAI[0];
-                destination.Y += npc.localAI[1];
+                destination.X += NPC.localAI[0];
+                destination.Y += NPC.localAI[1];
             }
 
             // Scale up velocity over time if too far from destination
-            Vector2 distanceFromDestination = destination - npc.Center;
+            Vector2 distanceFromDestination = destination - NPC.Center;
             if (distanceFromDestination.Length() > movementDistanceGateValue && AIState != (float)Phase.ChargeCombo)
             {
                 if (velocityBoostMult < 1f)
@@ -471,66 +472,66 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             baseVelocity *= 1f + velocityBoostMult;
 
             // If Apollo can fire projectiles, cannot fire if too close to the target
-            bool canFire = Vector2.Distance(npc.Center, player.Center) > 320f;
+            bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f;
 
             // Rotation
             Vector2 predictionVector = player.velocity * predictionAmt;
-            Vector2 aimedVector = player.Center + predictionVector - npc.Center;
+            Vector2 aimedVector = player.Center + predictionVector - NPC.Center;
             float rateOfRotation = 0.1f;
-            Vector2 rotateTowards = player.Center - npc.Center;
-            bool readyToCharge = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(npc.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
+            Vector2 rotateTowards = player.Center - NPC.Center;
+            bool readyToCharge = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(NPC.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
             if (AIState == (int)Phase.ChargeCombo)
             {
                 rateOfRotation = 0f;
-                npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+                NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
             }
             else if (AIState == (float)Phase.LineUpChargeCombo && chargeLocations[1] != default)
             {
-                float x = chargeLocations[1].X - npc.Center.X;
-                float y = chargeLocations[1].Y - npc.Center.Y;
+                float x = chargeLocations[1].X - NPC.Center.X;
+                float y = chargeLocations[1].Y - NPC.Center.Y;
                 rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
             }
             else
             {
-                float x = player.Center.X + predictionVector.X - npc.Center.X;
-                float y = player.Center.Y + predictionVector.Y - npc.Center.Y;
+                float x = player.Center.X + predictionVector.X - NPC.Center.X;
+                float y = player.Center.Y + predictionVector.Y - NPC.Center.Y;
                 rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
             }
 
             // Do not set this during charge or deathray phases
             if (rateOfRotation != 0f)
-                npc.rotation = npc.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
+                NPC.rotation = NPC.rotation.AngleTowards((float)Math.Atan2(rotateTowards.Y, rotateTowards.X) + MathHelper.PiOver2, rateOfRotation);
 
             // Light
-            Lighting.AddLight(npc.Center, 0.05f * npc.Opacity, 0.25f * npc.Opacity, 0.15f * npc.Opacity);
+            Lighting.AddLight(NPC.Center, 0.05f * NPC.Opacity, 0.25f * NPC.Opacity, 0.15f * NPC.Opacity);
 
             // Despawn if target is dead
             if (player.dead)
             {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
+                NPC.TargetClosest(false);
+                player = Main.player[NPC.target];
                 if (player.dead)
                 {
                     AIState = (float)Phase.Normal;
-                    npc.localAI[0] = 0f;
-                    npc.localAI[1] = 0f;
-                    npc.localAI[2] = 0f;
+                    NPC.localAI[0] = 0f;
+                    NPC.localAI[1] = 0f;
+                    NPC.localAI[2] = 0f;
                     calamityGlobalNPC.newAI[2] = 0f;
                     calamityGlobalNPC.newAI[3] = 0f;
                     for (int i = 0; i < maxCharges; i++)
                         chargeLocations[i] = default;
 
-                    npc.dontTakeDamage = true;
+                    NPC.dontTakeDamage = true;
 
-                    npc.velocity.Y -= 1f;
-                    if ((double)npc.position.Y < Main.topWorld + 16f)
-                        npc.velocity.Y -= 1f;
+                    NPC.velocity.Y -= 1f;
+                    if ((double)NPC.position.Y < Main.topWorld + 16f)
+                        NPC.velocity.Y -= 1f;
 
-                    if ((double)npc.position.Y < Main.topWorld + 16f)
+                    if ((double)NPC.position.Y < Main.topWorld + 16f)
                     {
                         for (int a = 0; a < Main.maxNPCs; a++)
                         {
-                            if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
+                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<Artemis.Artemis>() || Main.npc[a].type == ModContent.NPCType<AresBody>() ||
                                 Main.npc[a].type == ModContent.NPCType<AresLaserCannon>() || Main.npc[a].type == ModContent.NPCType<AresPlasmaFlamethrower>() ||
                                 Main.npc[a].type == ModContent.NPCType<AresTeslaCannon>() || Main.npc[a].type == ModContent.NPCType<AresGaussNuke>() ||
                                 Main.npc[a].type == ModContent.NPCType<ThanatosHead>() || Main.npc[a].type == ModContent.NPCType<ThanatosBody1>() ||
@@ -552,16 +553,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 ChargeComboFlash = MathHelper.Clamp(ChargeComboFlash - 0.1f, 0f, 1f);
 
             // Set to transition to phase 2 if it hasn't happened yet
-            if (phase2 && npc.localAI[3] == 0f)
+            if (phase2 && NPC.localAI[3] == 0f)
             {
                 AIState = (float)Phase.PhaseTransition;
-                npc.localAI[3] = 1f;
+                NPC.localAI[3] = 1f;
                 calamityGlobalNPC.newAI[2] = 0f;
                 calamityGlobalNPC.newAI[3] = 0f;
 
                 // Set frames to phase transition frames, which begin on frame 30
                 // Reset the frame counter
-                npc.frameCounter = 0D;
+                NPC.frameCounter = 0D;
 
                 // X = 3 sets to frame 27
                 frameX = 3;
@@ -614,23 +615,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             }
 
                             // Reset everything
-                            if (npc.ai[0] < 10f)
-                                npc.ai[0] = 10f;
-                            npc.ai[0] += 1f;
+                            if (NPC.ai[0] < 10f)
+                                NPC.ai[0] = 10f;
+                            NPC.ai[0] += 1f;
 
-                            if (npc.ai[3] < 1f)
-                                npc.ai[3] = 1f;
+                            if (NPC.ai[3] < 1f)
+                                NPC.ai[3] = 1f;
 
                             SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-                            npc.localAI[0] = 0f;
-                            npc.localAI[1] = 0f;
-                            npc.localAI[2] = 0f;
+                            NPC.localAI[0] = 0f;
+                            NPC.localAI[1] = 0f;
+                            NPC.localAI[2] = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
                             calamityGlobalNPC.newAI[3] = 0f;
                             for (int i = 0; i < maxCharges; i++)
                                 chargeLocations[i] = default;
 
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
 
                             // Draedon text for the start of phase 2
                             if (draedonAlive)
@@ -669,15 +670,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
                             // Tells Apollo to return to the battle in passive state and reset everything
                             SecondaryAIState = (float)SecondaryPhase.Passive;
-                            npc.localAI[0] = 0f;
-                            npc.localAI[1] = 0f;
-                            npc.localAI[2] = 0f;
+                            NPC.localAI[0] = 0f;
+                            NPC.localAI[1] = 0f;
+                            NPC.localAI[2] = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
                             calamityGlobalNPC.newAI[3] = 0f;
                             for (int i = 0; i < maxCharges; i++)
                                 chargeLocations[i] = default;
 
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
                         }
 
                         // Go passive and immune if one of the other mechs is berserk
@@ -716,20 +717,20 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             }
 
                             // Reset everything
-                            if (npc.ai[0] < 10f)
-                                npc.ai[0] = 10f;
-                            npc.ai[0] += 1f;
+                            if (NPC.ai[0] < 10f)
+                                NPC.ai[0] = 10f;
+                            NPC.ai[0] += 1f;
 
                             SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-                            npc.localAI[0] = 0f;
-                            npc.localAI[1] = 0f;
-                            npc.localAI[2] = 0f;
+                            NPC.localAI[0] = 0f;
+                            NPC.localAI[1] = 0f;
+                            NPC.localAI[2] = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
                             calamityGlobalNPC.newAI[3] = 0f;
                             for (int i = 0; i < maxCharges; i++)
                                 chargeLocations[i] = default;
 
-                            npc.TargetClosest();
+                            NPC.TargetClosest();
 
                             // Phase 6, when 1 mech goes berserk and the other one leaves
                             if (draedonAlive)
@@ -786,20 +787,20 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         }
 
                         // Reset everything
-                        if (npc.ai[0] < 10f)
-                            npc.ai[0] = 10f;
-                        npc.ai[0] += 1f;
+                        if (NPC.ai[0] < 10f)
+                            NPC.ai[0] = 10f;
+                        NPC.ai[0] += 1f;
 
                         SecondaryAIState = (float)SecondaryPhase.PassiveAndImmune;
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
+                        NPC.localAI[2] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
 
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
                     }
 
                     // If Artemis and Apollo are the first mechs to go berserk
@@ -819,15 +820,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         }
 
                         // Reset everything
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
+                        NPC.localAI[2] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
 
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
 
                         // Never be passive if berserk
                         SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -876,15 +877,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         // Tells Artemis and Apollo to return to the battle in passive state and reset everything
                         // Return to normal phases if one or more mechs have been downed
                         SecondaryAIState = totalOtherExoMechLifeRatio > 5f ? (float)SecondaryPhase.Nothing : (float)SecondaryPhase.Passive;
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
+                        NPC.localAI[2] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
 
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
 
                         // Phase 3, when all 3 mechs attack at the same time
                         if (exoWormAlive && exoPrimeAlive)
@@ -914,15 +915,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         }
 
                         // Reset everything
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
+                        NPC.localAI[2] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
 
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
 
                         // Never be passive if berserk
                         SecondaryAIState = (float)SecondaryPhase.Nothing;
@@ -933,18 +934,18 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
             // Adjust opacity
             bool invisiblePhase = SecondaryAIState == (float)SecondaryPhase.PassiveAndImmune;
-            npc.dontTakeDamage = invisiblePhase || AIState == (float)Phase.PhaseTransition;
+            NPC.dontTakeDamage = invisiblePhase || AIState == (float)Phase.PhaseTransition;
             if (!invisiblePhase)
             {
-                npc.Opacity += 0.2f;
-                if (npc.Opacity > 1f)
-                    npc.Opacity = 1f;
+                NPC.Opacity += 0.2f;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
             }
             else
             {
-                npc.Opacity -= 0.05f;
-                if (npc.Opacity < 0f)
-                    npc.Opacity = 0f;
+                NPC.Opacity -= 0.05f;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
             }
 
             // Attacking phases
@@ -954,7 +955,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.Normal:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
                     // Default animation for 60 frames and then go to telegraph animation
                     // newAI[3] tells Apollo what animation state it's currently in
@@ -975,15 +976,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             if (plasmaTimer % divisor == 0f && canFire)
                             {
                                 pickNewLocation = true;
-                                npc.ai[2] += 1f;
+                                NPC.ai[2] += 1f;
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ApolloFireball>();
-                                    int damage = npc.GetProjectileDamage(type);
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), npc.Center);
+                                    int damage = NPC.GetProjectileDamage(type);
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
                                     Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
                                     Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
-                                    Projectile.NewProjectile(npc.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                                    Projectile.NewProjectile(NPC.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
                                 }
                             }
                         }
@@ -1004,16 +1005,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 for (int i = 0; i < maxCharges; i++)
                                     chargeLocations[i] = default;
 
-                                npc.TargetClosest();
+                                NPC.TargetClosest();
                             }
                             else if (doBigAttack)
                             {
-                                pickNewLocation = npc.localAI[2] == 0f;
+                                pickNewLocation = NPC.localAI[2] == 0f;
                                 calamityGlobalNPC.newAI[2] = 0f;
                                 calamityGlobalNPC.newAI[3] = 0f;
 
                                 if (phase2)
-                                    AIState = npc.localAI[2] == 1f ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
+                                    AIState = NPC.localAI[2] == 1f ? (float)Phase.LineUpChargeCombo : (float)Phase.RocketBarrage;
                                 else
                                     AIState = (float)Phase.RocketBarrage;
                             }
@@ -1026,7 +1027,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.RocketBarrage:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
@@ -1035,11 +1036,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int type = ModContent.ProjectileType<ApolloRocket>();
-                            int damage = npc.GetProjectileDamage(type);
-                            Main.PlaySound(SoundID.Item36, npc.Center);
+                            int damage = NPC.GetProjectileDamage(type);
+                            SoundEngine.PlaySound(SoundID.Item36, NPC.Center);
                             Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
                             Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
-                            Projectile.NewProjectile(npc.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                            Projectile.NewProjectile(NPC.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                         }
                     }
 
@@ -1048,9 +1049,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     {
                         // Go back to normal phase
                         AIState = (float)Phase.Normal;
-                        npc.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
+                        NPC.localAI[2] = shouldGetBuffedByBerserkPhase ? 1f : 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
                     }
 
                     break;
@@ -1063,7 +1064,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     if (!readyToCharge)
                     {
                         // Smooth movement towards the location Apollo is meant to be at
-                        CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                        CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
                     }
                     else
                     {
@@ -1077,7 +1078,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 switch (i)
                                 {
                                     case 0:
-                                        chargeLocations[i] = npc.Center;
+                                        chargeLocations[i] = NPC.Center;
                                         break;
                                     case 1:
                                         chargeLocations[i] = chargeLocations[0] + new Vector2(chargeComboXOffset, -chargeComboYOffset * 2f);
@@ -1097,7 +1098,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     // Draw telegraph beams
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                                        int telegraph = Projectile.NewProjectile(chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                         if (Main.projectile.IndexInRange(telegraph))
                                         {
                                             Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
@@ -1106,13 +1107,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     }
 
                                     // Play a charge sound
-                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), npc.Center);
+                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), NPC.Center);
                                 }
                             }
                         }
 
                         // Don't move
-                        npc.velocity = Vector2.Zero;
+                        NPC.velocity = Vector2.Zero;
 
                         // Go to charge phase, create lightning bolts in the sky, and reset
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -1121,7 +1122,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             ExoMechsSky.CreateLightningBolt(10);
 
                             AIState = (float)Phase.ChargeCombo;
-                            npc.localAI[2] = 0f;
+                            NPC.localAI[2] = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
                         }
                     }
@@ -1132,13 +1133,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.ChargeCombo:
 
                     // Set charge velocity and fire halos of plasma bolts
-                    if (npc.localAI[2] == 0f)
+                    if (NPC.localAI[2] == 0f)
                     {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), npc.Center);
-                        npc.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
-                        npc.localAI[2] = 1f;
-                        npc.netUpdate = true;
-                        npc.netSpam -= 5;
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), NPC.Center);
+                        NPC.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
+                        NPC.localAI[2] = 1f;
+                        NPC.netUpdate = true;
+                        NPC.netSpam -= 5;
 
                         // Plasma bolts on charge
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1146,7 +1147,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             int totalProjectiles = CalamityWorld.malice ? 12 : 8;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<AresPlasmaBolt>();
-                            int damage = (int)(npc.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
+                            int damage = (int)(NPC.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
                             float velocity = 1f;
                             double angleA = radians * 0.5;
                             double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -1155,7 +1156,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(npc.Center, velocity2, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.Center, velocity2, type, damage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -1170,7 +1171,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             if (i < 50)
                                 dustVelocity = 4f;
 
-                            int dust1 = Dust.NewDust(npc.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
+                            int dust1 = Dust.NewDust(NPC.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
                             float dustVelX = Main.dust[dust1].velocity.X;
                             float dustVelY = Main.dust[dust1].velocity.Y;
 
@@ -1215,15 +1216,15 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     if (calamityGlobalNPC.newAI[3] >= chargeTime)
                     {
                         // Set Apollo's location to the next charge location
-                        npc.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
+                        NPC.Center = chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1];
 
                         // Reset velocity to 0
-                        npc.velocity = Vector2.Zero;
+                        NPC.velocity = Vector2.Zero;
 
                         // Increase newAI[2] whenever a charge ends
                         calamityGlobalNPC.newAI[2] += 1f;
                         calamityGlobalNPC.newAI[3] = 0f;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[2] = 0f;
                     }
 
                     // Reset phase and variables
@@ -1231,25 +1232,25 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     {
                         pickNewLocation = true;
                         AIState = (float)Phase.Normal;
-                        npc.localAI[2] = 0f;
+                        NPC.localAI[2] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         for (int i = 0; i < maxCharges; i++)
                             chargeLocations[i] = default;
                         ChargeComboFlash = 0f;
 
                         // Tell Apollo and Artemis to swap positions
-                        if (npc.ai[0] < 10f)
-                            npc.ai[0] = 10f;
-                        npc.ai[0] += 1f;
+                        if (NPC.ai[0] < 10f)
+                            NPC.ai[0] = 10f;
+                        NPC.ai[0] += 1f;
 
                         // Change Y offset for the next charge combo
-                        npc.ai[2] = Main.rand.Next(2);
+                        NPC.ai[2] = Main.rand.Next(2);
 
                         // Tell Artemis to not fire lasers for a short time while swapping positions
-                        npc.ai[3] = 61f;
+                        NPC.ai[3] = 61f;
 
-                        npc.TargetClosest();
-                        npc.netUpdate = true;
+                        NPC.TargetClosest();
+                        NPC.netUpdate = true;
                     }
 
                     break;
@@ -1258,17 +1259,17 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.PhaseTransition:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
 
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(npc.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenApolloLens>(), 0, 0f);
+                            Projectile.NewProjectile(NPC.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenApolloLens>(), 0, 0f);
                     }
 
                     // Reset phase and variables
@@ -1277,11 +1278,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     {
                         pickNewLocation = true;
                         AIState = (float)Phase.Normal;
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
+                        NPC.localAI[0] = 0f;
+                        NPC.localAI[1] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
-                        npc.TargetClosest();
+                        NPC.TargetClosest();
                     }
 
                     break;
@@ -1294,10 +1295,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -1307,7 +1308,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 100f && npc.Opacity == 1f && AIState == (float)Phase.ChargeCombo;
+            return minDist <= 100f && NPC.Opacity == 1f && AIState == (float)Phase.ChargeCombo;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -1319,14 +1320,14 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         public override void FindFrame(int frameHeight)
         {
             // Use telegraph frames before each attack
-            bool phase2 = npc.life / (float)npc.lifeMax < 0.6f;
-            npc.frameCounter += 1D;
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.6f;
+            NPC.frameCounter += 1D;
             if (AIState == (float)Phase.PhaseTransition)
             {
-                if (npc.frameCounter >= 6D)
+                if (NPC.frameCounter >= 6D)
                 {
                     // Reset frame counter
-                    npc.frameCounter = 0D;
+                    NPC.frameCounter = 0D;
 
                     // Increment the Y frame
                     frameY++;
@@ -1343,13 +1344,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             {
                 if (AIState == (float)Phase.Normal)
                 {
-                    int frameLimit = phase2 ? (npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase2 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase2 : attackFrameLimit_Phase2) :
-                        (npc.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase1 : npc.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase1 : attackFrameLimit_Phase1);
+                    int frameLimit = phase2 ? (NPC.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase2 : NPC.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase2 : attackFrameLimit_Phase2) :
+                        (NPC.Calamity().newAI[3] == 0f ? normalFrameLimit_Phase1 : NPC.Calamity().newAI[3] == 1f ? chargeUpFrameLimit_Phase1 : attackFrameLimit_Phase1);
 
-                    if (npc.frameCounter >= 6D)
+                    if (NPC.frameCounter >= 6D)
                     {
                         // Reset frame counter
-                        npc.frameCounter = 0D;
+                        NPC.frameCounter = 0D;
 
                         // Increment the Y frame
                         frameY++;
@@ -1364,16 +1365,16 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         // Reset the frames
                         int currentFrame = (frameX * maxFramesY) + frameY;
                         if (currentFrame > frameLimit)
-                            frameX = frameY = phase2 ? (npc.Calamity().newAI[3] == 0f ? 6 : npc.Calamity().newAI[3] == 1f ? 7 : 8) : (npc.Calamity().newAI[3] == 0f ? 0 : npc.Calamity().newAI[3] == 1f ? 1 : 2);
+                            frameX = frameY = phase2 ? (NPC.Calamity().newAI[3] == 0f ? 6 : NPC.Calamity().newAI[3] == 1f ? 7 : 8) : (NPC.Calamity().newAI[3] == 0f ? 0 : NPC.Calamity().newAI[3] == 1f ? 1 : 2);
                     }
                 }
                 else if (AIState == (float)Phase.RocketBarrage || AIState == (float)Phase.LineUpChargeCombo || AIState == (float)Phase.ChargeCombo)
                 {
                     int frameLimit = phase2 ? attackFrameLimit_Phase2 : attackFrameLimit_Phase1;
-                    if (npc.frameCounter >= 6D)
+                    if (NPC.frameCounter >= 6D)
                     {
                         // Reset frame counter
-                        npc.frameCounter = 0D;
+                        NPC.frameCounter = 0D;
 
                         // Increment the Y frame
                         frameY++;
@@ -1429,7 +1430,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
         {
             Color startingColor = new Color(34, 40, 48);
             Color endColor = new Color(40, 160, 32);
-            return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * npc.Opacity;
+            return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * NPC.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -1445,13 +1446,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 RibbonTrail = new PrimitiveTrail(RibbonTrailWidthFunction, RibbonTrailColorFunction);
 
             // Prepare the flame trail shader with its map texture.
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
             int numAfterimages = ChargeComboFlash > 0f ? 0 : 5;
-            Texture2D texture = Main.npcTexture[npc.type];
-            Rectangle frame = new Rectangle(npc.width * frameX, npc.height * frameY, npc.width, npc.height);
-            Vector2 origin = npc.Size * 0.5f;
-            Vector2 center = npc.Center - Main.screenPosition;
+            Texture2D texture = Main.npcTexture[NPC.type];
+            Rectangle frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
+            Vector2 origin = NPC.Size * 0.5f;
+            Vector2 center = NPC.Center - Main.screenPosition;
             Color afterimageBaseColor = Color.White;
 
             // Draws a single instance of a regular, non-glowmask based Artemis.
@@ -1464,42 +1465,42 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     {
                         Color afterimageColor = baseColor;
                         afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
-                        afterimageColor = npc.GetAlpha(afterimageColor);
+                        afterimageColor = NPC.GetAlpha(afterimageColor);
                         afterimageColor *= (numAfterimages - i) / 15f;
-                        Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-                        afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
-                        afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
+                        Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                        afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
+                        afterimageCenter += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         afterimageCenter += drawOffset;
-                        spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(texture, afterimageCenter, NPC.frame, afterimageColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
                     }
                 }
 
-                spriteBatch.Draw(texture, center + drawOffset, frame, npc.GetAlpha(baseColor), npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, center + drawOffset, frame, NPC.GetAlpha(baseColor), NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
             }
 
             // Draw ribbons near the main thruster
             for (int direction = -1; direction <= 1; direction += 2)
             {
-                Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(npc.rotation) * 14f;
-                ribbonOffset += Vector2.UnitX.RotatedBy(npc.rotation) * direction * 26f;
+                Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(NPC.rotation) * 14f;
+                ribbonOffset += Vector2.UnitX.RotatedBy(NPC.rotation) * direction * 26f;
 
-                float currentSegmentRotation = npc.rotation;
+                float currentSegmentRotation = NPC.rotation;
                 List<Vector2> ribbonDrawPositions = new List<Vector2>();
                 for (int i = 0; i < 12; i++)
                 {
                     float ribbonCompletionRatio = i / 12f;
-                    float wrappedAngularOffset = MathHelper.WrapAngle(npc.oldRot[i + 1] - currentSegmentRotation) * 0.3f;
+                    float wrappedAngularOffset = MathHelper.WrapAngle(NPC.oldRot[i + 1] - currentSegmentRotation) * 0.3f;
                     float segmentRotationOffset = MathHelper.Clamp(wrappedAngularOffset, -0.12f, 0.12f);
 
                     // Add a sinusoidal offset that goes based on time and completion ratio to create a waving-flag-like effect.
                     // This is dampened for the first few points to prevent weird offsets. It is also dampened by high velocity.
                     float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 2.22f + Main.GlobalTime * 3.4f) * 1.36f;
                     float sinusoidalRotationOffsetFactor = Utils.InverseLerp(0f, 0.37f, ribbonCompletionRatio, true) * direction * 24f;
-                    sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, npc.velocity.Length(), true);
+                    sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, NPC.velocity.Length(), true);
 
-                    Vector2 sinusoidalOffset = Vector2.UnitY.RotatedBy(npc.rotation + sinusoidalRotationOffset) * sinusoidalRotationOffsetFactor;
+                    Vector2 sinusoidalOffset = Vector2.UnitY.RotatedBy(NPC.rotation + sinusoidalRotationOffset) * sinusoidalRotationOffsetFactor;
                     Vector2 ribbonSegmentOffset = Vector2.UnitY.RotatedBy(currentSegmentRotation) * ribbonCompletionRatio * 540f + sinusoidalOffset;
-                    ribbonDrawPositions.Add(npc.Center + ribbonSegmentOffset + ribbonOffset);
+                    ribbonDrawPositions.Add(NPC.Center + ribbonSegmentOffset + ribbonOffset);
 
                     currentSegmentRotation += segmentRotationOffset;
                 }
@@ -1524,23 +1525,23 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 }
             }
 
-            texture = ModContent.GetTexture("CalamityMod/NPCs/ExoMechs/Apollo/ApolloGlow");
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Apollo/ApolloGlow");
             if (CalamityConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < numAfterimages; i += 2)
                 {
                     Color afterimageColor = drawColor;
                     afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
-                    afterimageColor = npc.GetAlpha(afterimageColor);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
                     afterimageColor *= (numAfterimages - i) / 15f;
-                    Vector2 afterimageCenter = npc.oldPos[i] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-                    afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * npc.scale / 2f;
-                    afterimageCenter += origin * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture, afterimageCenter, npc.frame, afterimageColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
+                    afterimageCenter += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture, afterimageCenter, NPC.frame, afterimageColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
                 }
             }
 
-            spriteBatch.Draw(texture, center, frame, Color.White * npc.Opacity, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, center, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
 
             spriteBatch.ExitShaderRegion();
 
@@ -1549,12 +1550,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             {
                 for (int direction = -1; direction <= 1; direction++)
                 {
-                    Vector2 baseDrawOffset = new Vector2(0f, direction == 0f ? 18f : 60f).RotatedBy(npc.rotation);
-                    baseDrawOffset += new Vector2(direction * 64f, 0f).RotatedBy(npc.rotation);
+                    Vector2 baseDrawOffset = new Vector2(0f, direction == 0f ? 18f : 60f).RotatedBy(NPC.rotation);
+                    baseDrawOffset += new Vector2(direction * 64f, 0f).RotatedBy(NPC.rotation);
 
                     float backFlameLength = direction == 0f ? 700f : 190f;
-                    Vector2 drawStart = npc.Center + baseDrawOffset;
-                    Vector2 drawEnd = drawStart - (npc.rotation - MathHelper.PiOver2).ToRotationVector2() * ChargeComboFlash * backFlameLength;
+                    Vector2 drawStart = NPC.Center + baseDrawOffset;
+                    Vector2 drawEnd = drawStart - (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * ChargeComboFlash * backFlameLength;
                     Vector2[] drawPositions = new Vector2[]
                     {
                         drawStart,
@@ -1579,10 +1580,10 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public override bool SpecialNPCLoot()
         {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+            int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<Artemis.Artemis>(),
                 ModContent.NPCType<Apollo>());
-            npc.position = Main.npc[closestSegmentID].position;
+            NPC.position = Main.npc[closestSegmentID].position;
             return false;
         }
 
@@ -1637,36 +1638,36 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
             // Mark Exo Mechs as dead and drop loot
             else
-                AresBody.DropExoMechLoot(npc, (int)AresBody.MechType.ArtemisAndApollo);
+                AresBody.DropExoMechLoot(NPC, (int)AresBody.MechType.ArtemisAndApollo);
         }
 
         // Needs edits
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
-                Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+                Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int num193 = 0; num193 < 2; num193++)
                 {
-                    Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                    Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
                 }
                 for (int num194 = 0; num194 < 20; num194++)
                 {
-                    int num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                    int num195 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
                     Main.dust[num195].noGravity = true;
                     Main.dust[num195].velocity *= 3f;
-                    num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                    num195 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
                     Main.dust[num195].velocity *= 2f;
                     Main.dust[num195].noGravity = true;
                 }
 
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apollo/Apollo5"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Apollo/Apollo1"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Apollo/Apollo2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Apollo/Apollo3"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Apollo/Apollo4"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Apollo/Apollo5"), 1f);
             }
         }
 
@@ -1691,8 +1692,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
     }
 }

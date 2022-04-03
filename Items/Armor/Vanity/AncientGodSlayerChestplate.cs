@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.Calamity().customRarity = (CalamityRarity)14;
-            item.vanity = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.width = 28;
+            Item.height = 20;
+            Item.Calamity().customRarity = (CalamityRarity)14;
+            Item.vanity = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
         }
     }
 }

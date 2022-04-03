@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class EndoCooperBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Endo Cooper");
             Description.SetDefault("The ascened Cooper will protect you");

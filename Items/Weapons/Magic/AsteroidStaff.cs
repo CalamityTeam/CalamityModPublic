@@ -13,35 +13,35 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Asteroid Staff");
             Tooltip.SetDefault("Summons asteroids from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 145;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 50;
-            item.height = 50;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6.75f;
-            item.UseSound = SoundID.Item88;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Asteroid>();
-            item.shootSpeed = 20f;
+            Item.damage = 145;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 50;
+            Item.height = 50;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6.75f;
+            Item.UseSound = SoundID.Item88;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Asteroid>();
+            Item.shootSpeed = 20f;
 
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(2, 2);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -90,12 +90,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteorStaff);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MeteorStaff).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

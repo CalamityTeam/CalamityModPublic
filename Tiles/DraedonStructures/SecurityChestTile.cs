@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 {
     public class SecurityChestTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.ChestRightClick(i, j);
 
         public override void MouseOver(int i, int j)
         {

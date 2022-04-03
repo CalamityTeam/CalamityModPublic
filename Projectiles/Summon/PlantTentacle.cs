@@ -16,81 +16,81 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tentacle");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 24;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 12;
+            Projectile.width = 22;
+            Projectile.height = 24;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.ai[1] < 0 || projectile.ai[1] >= Main.maxProjectiles)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.ai[1] < 0 || Projectile.ai[1] >= Main.maxProjectiles)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             // If something has gone wrong with either the tentacle or the host plant, destroy the proj.
-            Projectile hostPlant = Main.projectile[(int)projectile.ai[1]];
-            if (projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
+            Projectile hostPlant = Main.projectile[(int)Projectile.ai[1]];
+            if (Projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            if (projectile.frameCounter++ % 6 == 0)
+            if (Projectile.frameCounter++ % 6 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             if (!initialized)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 initialized = true;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                projectile.damage = trueDamage;
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
+                Projectile.damage = trueDamage;
             }
 
             if (player.Calamity().plantera)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
 
-            projectile.rotation = (projectile.Center - hostPlant.Center).ToRotation() + MathHelper.Pi;
+            Projectile.rotation = (Projectile.Center - hostPlant.Center).ToRotation() + MathHelper.Pi;
 
-            projectile.MinionAntiClump(1f);
+            Projectile.MinionAntiClump(1f);
 
             counter++;
             if (counter % 30 == 0) //changes every half second
             {
                 desiredDistance = Main.rand.NextFloat(175f, 225f);
             }
-            Vector2 targetPos = hostPlant.Center - projectile.Center;
+            Vector2 targetPos = hostPlant.Center - Projectile.Center;
             float targetDist = targetPos.Length();
             targetPos.Normalize();
             if (targetDist > desiredDistance)
@@ -98,49 +98,49 @@ namespace CalamityMod.Projectiles.Summon
                 float speedMult = 10f;
                 speedMult += (targetDist - desiredDistance) * 0.2f; //+0.2f for every 1f away from the desired distance
                 targetPos *= speedMult;
-                projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
+                Projectile.velocity = (Projectile.velocity * 40f + targetPos) / 41f;
             }
             else
             {
                 float reverseSpeedMult = 5f;
                 targetPos *= -reverseSpeedMult;
-                projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
+                Projectile.velocity = (Projectile.velocity * 40f + targetPos) / 41f;
             }
 
             if (targetDist > 2000f)
             {
-                projectile.position.X = hostPlant.Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = hostPlant.Center.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
+                Projectile.position.X = hostPlant.Center.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = hostPlant.Center.Y - (float)(Projectile.height / 2);
+                Projectile.netUpdate = true;
             }
 
-            if (projectile.ai[0] >= 3f)
+            if (Projectile.ai[0] >= 3f)
             {
-                if (hostPlant.Center.X - projectile.Center.X > 0)
+                if (hostPlant.Center.X - Projectile.Center.X > 0)
                 {
-                    projectile.velocity.X += 0.05f;
+                    Projectile.velocity.X += 0.05f;
                 }
             }
             else
             {
-                if (hostPlant.Center.X - projectile.Center.X < 0)
+                if (hostPlant.Center.X - Projectile.Center.X < 0)
                 {
-                    projectile.velocity.X -= 0.05f;
+                    Projectile.velocity.X -= 0.05f;
                 }
             }
 
-            if (projectile.ai[0] % 2f == 0f)
+            if (Projectile.ai[0] % 2f == 0f)
             {
-                if (hostPlant.Center.Y - projectile.Center.Y > 0)
+                if (hostPlant.Center.Y - Projectile.Center.Y > 0)
                 {
-                    projectile.velocity.Y += 0.05f;
+                    Projectile.velocity.Y += 0.05f;
                 }
             }
             else
             {
-                if (hostPlant.Center.Y - projectile.Center.Y < 0)
+                if (hostPlant.Center.Y - Projectile.Center.Y < 0)
                 {
-                    projectile.velocity.Y -= 0.05f;
+                    Projectile.velocity.Y -= 0.05f;
                 }
             }
         }
@@ -149,28 +149,28 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 107);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.ai[1] < 0 || projectile.ai[1] >= Main.maxProjectiles)
+            if (Projectile.ai[1] < 0 || Projectile.ai[1] >= Main.maxProjectiles)
             {
                 return false;
             }
 
             // If something has gone wrong with either the tentacle or the host plant, return.
-            Projectile hostPlant = Main.projectile[(int)projectile.ai[1]];
-            if (projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
+            Projectile hostPlant = Main.projectile[(int)Projectile.ai[1]];
+            if (Projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
             {
                 return false;
             }
 
             Vector2 source = hostPlant.Center;
             Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D chain = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/PlantationChain");
-            Vector2 goal = projectile.Center;
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PlantationChain");
+            Vector2 goal = Projectile.Center;
             Rectangle? sourceRectangle = null;
             float textureHeight = (float)chain.Height;
             Vector2 drawVector = source - goal;
@@ -207,19 +207,19 @@ namespace CalamityMod.Projectiles.Summon
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Only 1 tentacle needs to draw this, the last one spawned because it's latest in the projectile array.
-            if (projectile.ai[0] < 5)
+            if (Projectile.ai[0] < 5)
             {
                 return;
             }
 
-            if (projectile.ai[1] < 0 || projectile.ai[1] >= Main.maxProjectiles)
+            if (Projectile.ai[1] < 0 || Projectile.ai[1] >= Main.maxProjectiles)
             {
                 return;
             }
 
             // If something has gone wrong with either the tentacle or the host plant, return.
-            Projectile hostPlant = Main.projectile[(int)projectile.ai[1]];
-            if (projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
+            Projectile hostPlant = Main.projectile[(int)Projectile.ai[1]];
+            if (Projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
             {
                 return;
             }

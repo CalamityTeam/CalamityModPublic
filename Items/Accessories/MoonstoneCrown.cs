@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 40;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.accessory = true;
+            Item.width = 46;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -44,13 +44,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FeatherCrown>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FeatherCrown>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 

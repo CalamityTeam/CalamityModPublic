@@ -17,32 +17,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.damage = 95;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<Flarefrost>();
-            item.shootSpeed = 11f;
+            Item.width = 64;
+            Item.damage = 95;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<Flarefrost>();
+            Item.shootSpeed = 11f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ItemID.HellstoneBar, 8);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.HellstoneBar, 8).AddIngredient(ItemID.SoulofLight, 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

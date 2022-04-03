@@ -20,42 +20,32 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.damage = 84;
-            item.melee = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 17;
-            item.useTurn = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item105;
-            item.autoReuse = true;
-            item.height = 58;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<GalacticaComet>();
-            item.shootSpeed = 23f;
+            Item.width = 60;
+            Item.damage = 84;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 17;
+            Item.useTurn = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item105;
+            Item.autoReuse = true;
+            Item.height = 58;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<GalacticaComet>();
+            Item.shootSpeed = 23f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StarWrath);
-            recipe.AddIngredient(ItemID.SoulofMight, 20);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.StarWrath).AddIngredient(ItemID.SoulofMight, 20).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.DarkShard).AddIngredient(ItemID.LightShard).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.rare = ItemRarityID.Orange;
-            item.knockBack = Knockback;
-            item.autoReuse = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 32;
-            item.height = 32;
-            item.UseSound = SoundID.Item1;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<CinquedeaProj>();
-            item.shootSpeed = Speed;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.rare = ItemRarityID.Orange;
+            Item.knockBack = Knockback;
+            Item.autoReuse = true;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 32;
+            Item.height = 32;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<CinquedeaProj>();
+            Item.shootSpeed = Speed;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

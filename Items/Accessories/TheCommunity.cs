@@ -16,17 +16,17 @@ namespace CalamityMod.Items.Accessories
                 "The stat buffs become more powerful as you progress\n" +
                 "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
                 "Thank you to all of my supporters who made this mod a reality");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 10));
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 64;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.width = 34;
+            Item.height = 64;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

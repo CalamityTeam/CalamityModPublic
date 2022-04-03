@@ -7,6 +7,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -23,15 +24,15 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item44;
-            item.consumable = false;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item44;
+            Item.consumable = false;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanUseItem(Player player)
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
                 CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (player.ZoneDungeon)
@@ -71,13 +72,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 40);
-            recipe.AddIngredient(ItemID.FragmentSolar, 5);
-            recipe.AddIngredient(ItemID.LunarBar, 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyEssence>(), 40).AddIngredient(ItemID.FragmentSolar, 5).AddIngredient(ItemID.LunarBar, 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

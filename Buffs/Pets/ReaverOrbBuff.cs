@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class ReaverOrbBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Orb");
             Description.SetDefault("The reaver orb will light your way");

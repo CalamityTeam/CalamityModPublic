@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class GlacialState : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glacial State");
             Description.SetDefault("Cannot move");

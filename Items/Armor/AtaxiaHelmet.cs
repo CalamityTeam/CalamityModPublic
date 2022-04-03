@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 6; //40
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 6; //40
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -58,13 +58,13 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 38f, 0f);
                 }
             }
-            player.minionDamage += 0.4f;
+            player.GetDamage(DamageClass.Summon) += 0.4f;
             player.maxMinions += 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.05f;
+            player.GetDamage(DamageClass.Summon) += 0.05f;
             player.minionKB += 1.5f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
@@ -72,13 +72,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 7);
-            recipe.AddIngredient(ItemID.HellstoneBar, 4);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 7).AddIngredient(ItemID.HellstoneBar, 4).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

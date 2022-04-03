@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 14;
-            item.ranged = true;
-            item.width = 62;
-            item.height = 26;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item61;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Aquashard>();
-            item.shootSpeed = 22f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 14;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 62;
+            Item.height = 26;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item61;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Aquashard>();
+            Item.shootSpeed = 22f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -63,15 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Boomstick).AddIngredient(ModContent.ItemType<AerialiteBar>(), 2).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<PrismShard>(), 15).AddIngredient(ModContent.ItemType<VictideBar>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

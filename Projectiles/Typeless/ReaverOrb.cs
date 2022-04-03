@@ -16,26 +16,26 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 50;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 18000;
-            projectile.alpha = 50;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
+            Projectile.width = 48;
+            Projectile.height = 50;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 18000;
+            Projectile.alpha = 50;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            bool correctMinion = projectile.type == ModContent.ProjectileType<ReaverOrb>();
-            Player player = Main.player[projectile.owner];
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<ReaverOrb>();
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.reaverExplore)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (correctMinion)
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 if (modPlayer.rOrb)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             dust--;
@@ -55,26 +55,26 @@ namespace CalamityMod.Projectiles.Typeless
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
-                    int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 157, 0f, 0f, 0, default, 1f);
+                    int idx = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 157, 0f, 0f, 0, default, 1f);
                     Main.dust[idx].velocity *= 2f;
                     Main.dust[idx].scale *= 1.15f;
                 }
             }
 
-            Lighting.AddLight(projectile.Center, 0.5f, 2f, 0.5f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 2f, 0.5f);
 
-            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y += 120f;
-                projectile.rotation = MathHelper.Pi;
+                Projectile.position.Y += 120f;
+                Projectile.rotation = MathHelper.Pi;
             }
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
         }
 
         public override bool CanDamage() => false;

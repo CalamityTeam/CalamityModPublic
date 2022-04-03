@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicDoorClosed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDoorClosed(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));

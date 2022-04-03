@@ -15,24 +15,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 12;
-            item.damage = 40;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.knockBack = 1.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = 1100;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<MythrilKnifeProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 12;
+            Item.damage = 40;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 10;
+            Item.knockBack = 1.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = 1100;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<MythrilKnifeProjectile>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,11 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MythrilBar);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.MythrilBar).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

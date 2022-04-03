@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -13,8 +14,8 @@ namespace CalamityMod.Projectiles.Enemy
         // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.
         public float TrailLength
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public const int MaxTrailPoints = 50;
         public override void SetStaticDefaults()
@@ -24,31 +25,31 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.hostile = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = 240;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.hostile = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = 240;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
-                var sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
+                var sound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Projectile.Center);
                 if (sound != null)
                     sound.Volume *= 0.35f;
 
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
-            projectile.alpha = (int)(Math.Sin(projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
-            if (projectile.alpha > 255)
-                projectile.alpha = 255;
+            Projectile.alpha = (int)(Math.Sin(Projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
+            if (Projectile.alpha > 255)
+                Projectile.alpha = 255;
             TrailLength += 1.5f;
             if (TrailLength > MaxTrailPoints)
             {
@@ -58,6 +59,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 190, 255, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
     }
 }

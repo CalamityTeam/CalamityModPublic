@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.height = 70;
-            item.damage = 248;
-            item.knockBack = 7f;
-            item.magic = true;
-            item.useAnimation = item.useTime = 12;
-            item.mana = 20;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shootSpeed = 13.5f;
-            item.shoot = ModContent.ProjectileType<TacticiansTrumpCardProj>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.width = 74;
+            Item.height = 70;
+            Item.damage = 248;
+            Item.knockBack = 7f;
+            Item.DamageType = DamageClass.Magic;
+            Item.useAnimation = Item.useTime = 12;
+            Item.mana = 20;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 13.5f;
+            Item.shoot = ModContent.ProjectileType<TacticiansTrumpCardProj>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -53,28 +53,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CopperShortsword);
-            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
-            recipe.AddIngredient(ModContent.ItemType<FlareBolt>());
-            recipe.AddIngredient(ModContent.ItemType<Tradewinds>());
-            recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TinShortsword);
-            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
-            recipe.AddIngredient(ModContent.ItemType<FlareBolt>());
-            recipe.AddIngredient(ModContent.ItemType<Tradewinds>());
-            recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.CopperShortsword).AddIngredient(ModContent.ItemType<TomeofFates>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<Tradewinds>()).AddIngredient(ModContent.ItemType<NuclearFury>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ItemID.TinShortsword).AddIngredient(ModContent.ItemType<TomeofFates>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<Tradewinds>()).AddIngredient(ModContent.ItemType<NuclearFury>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

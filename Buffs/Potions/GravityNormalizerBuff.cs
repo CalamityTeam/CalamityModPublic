@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class GravityNormalizerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gravity Normalizer");
             Description.SetDefault("Gravity is now normal in space, immunity to distorted");

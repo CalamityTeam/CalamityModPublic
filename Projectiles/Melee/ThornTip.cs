@@ -11,15 +11,15 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.aiStyle = 4;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
             aiType = ProjectileID.VilethornTip;
         }
     }

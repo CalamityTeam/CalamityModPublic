@@ -14,27 +14,27 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 100;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 32;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 100;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 50)
-                projectile.alpha += 5;
-            if (projectile.timeLeft < 75)
+            if (Projectile.timeLeft < 50)
+                Projectile.alpha += 5;
+            if (Projectile.timeLeft < 75)
             {
-                projectile.velocity *= 0.95f;
-                projectile.scale += 0.002f;
+                Projectile.velocity *= 0.95f;
+                Projectile.scale += 0.002f;
             }
         }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 8; i++)
             {
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid);
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid);
             }
         }
     }

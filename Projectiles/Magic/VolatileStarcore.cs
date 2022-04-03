@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class VolatileStarcore : ModProjectile
@@ -15,18 +16,18 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Volatile Starcore");
-            Main.projFrames[projectile.type] = NumAnimationFrames;
+            Main.projFrames[Projectile.type] = NumAnimationFrames;
         }
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.magic = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = Lifetime;
-            projectile.alpha = 48;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = Lifetime;
+            Projectile.alpha = 48;
         }
 
         public override void AI()
@@ -37,33 +38,33 @@ namespace CalamityMod.Projectiles.Magic
             drawOriginOffsetX = 0;
 
             // Play sound and set rotation on frame 1
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                Main.PlaySound(SoundID.NPCDeath56, projectile.Center);
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
+                Projectile.localAI[0] = 1f;
+                SoundEngine.PlaySound(SoundID.NPCDeath56, Projectile.Center);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             }
 
             // Dust only shows up after the first few frames
-            if (projectile.localAI[0] >= 5f)
+            if (Projectile.localAI[0] >= 5f)
                 SpawnDust();
 
             // Lighting and spin
-            Lighting.AddLight(projectile.Center, 1.8f, 1.6f, 0.5f);
-            projectile.rotation += 0.11f;
+            Lighting.AddLight(Projectile.Center, 1.8f, 1.6f, 0.5f);
+            Projectile.rotation += 0.11f;
 
             // Increment frame counter
-            projectile.localAI[0] += 1f;
+            Projectile.localAI[0] += 1f;
 
             // Update animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > AnimationFrameTime)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > AnimationFrameTime)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= NumAnimationFrames)
-                projectile.frame = 0;
+            if (Projectile.frame >= NumAnimationFrames)
+                Projectile.frame = 0;
         }
 
         private void SpawnDust()
@@ -73,9 +74,9 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < coreDustCount; ++i)
             {
                 float scale = Main.rand.NextFloat(1.0f, 1.4f);
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, coreDustType);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, coreDustType);
                 Main.dust[idx].velocity *= 0.7f;
-                Main.dust[idx].velocity += projectile.velocity * 1.4f;
+                Main.dust[idx].velocity += Projectile.velocity * 1.4f;
                 Main.dust[idx].scale = scale;
                 Main.dust[idx].noGravity = true;
             }
@@ -85,8 +86,8 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < trailDustCount; ++i)
             {
                 float scale = Main.rand.NextFloat(1.0f, 1.4f);
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, trailDustType, 0f, 0f);
-                Main.dust[idx].velocity = projectile.velocity * 0.8f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, trailDustType, 0f, 0f);
+                Main.dust[idx].velocity = Projectile.velocity * 0.8f;
                 Main.dust[idx].scale = scale;
                 Main.dust[idx].noGravity = true;
             }
@@ -106,14 +107,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner != Main.myPlayer)
+            if (Projectile.owner != Main.myPlayer)
                 return;
 
             // Spawn a Helium Flash on impact
             int type = ModContent.ProjectileType<HeliumFlashBlast>();
-            int damage = (int)(HeliumFlash.ExplosionDamageMultiplier * projectile.damage);
+            int damage = (int)(HeliumFlash.ExplosionDamageMultiplier * Projectile.damage);
             float kb = 9.5f;
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, damage, kb, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, type, damage, kb, Projectile.owner, 0f, 0f);
         }
     }
 }

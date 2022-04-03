@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenMonolith : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             b = 0.5f;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }
@@ -66,9 +66,9 @@ namespace CalamityMod.Tiles.FurnitureAshen
             //This is used to draw the eye, where the frame is changed depending on the player's position relative to the eye's centre.
             Tile currentTile = Main.tile[i, j];
             Vector2 eyeCentre = new Vector2(i * 16, j * 16);
-            if (currentTile.frameX == 0)
+            if (currentTile.TileFrameX == 0)
             { eyeCentre += new Vector2(16f, 0f); }
-            if (currentTile.frameY == 0)
+            if (currentTile.TileFrameY == 0)
             { eyeCentre += new Vector2(0f, 16f); }
             //The eye should track the closest player
             Vector2 playerPos = eyeCentre;
@@ -131,12 +131,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
             frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D eyeSheet = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye");
+            Texture2D eyeSheet = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye");
             spriteBatch.Draw
             (
                 eyeSheet,
                 drawOffset,
-                new Rectangle(frameX + currentTile.frameX, frameY + currentTile.frameY, 16, 16),
+                new Rectangle(frameX + currentTile.TileFrameX, frameY + currentTile.TileFrameY, 16, 16),
                 new Color(255, 255, 255, 255),
                 0,
                 new Vector2(0f, 0f),

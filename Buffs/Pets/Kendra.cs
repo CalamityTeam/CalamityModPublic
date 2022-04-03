@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class Kendra : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kendra");
             Description.SetDefault("A loyal friend accompanies you.");

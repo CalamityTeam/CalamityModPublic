@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             return false;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

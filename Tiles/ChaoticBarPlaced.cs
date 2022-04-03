@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class ChaoticBarPlaced : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(255, 165, 0));
             dustType = 87;

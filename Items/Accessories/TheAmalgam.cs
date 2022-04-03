@@ -19,17 +19,17 @@ namespace CalamityMod.Items.Accessories
                             "15% increased damage\n" +
                             "Shade rains down when you are hit\n" +
                             "Nearby enemies receive a variety of debuffs when you are hit");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 34;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 34;
+            Item.height = 34;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -58,17 +58,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<AmalgamatedBrain>());
-            recipe.AddIngredient(ItemType<UnholyCore>(), 5);
-            recipe.AddIngredient(ItemType<MolluskHusk>(), 10);
-            recipe.AddIngredient(ItemType<SulfuricScale>(), 15);
-            recipe.AddIngredient(ItemType<PlagueCellCluster>(), 15);
-            recipe.AddIngredient(ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<AmalgamatedBrain>()).AddIngredient(ItemType<UnholyCore>(), 5).AddIngredient(ItemType<MolluskHusk>(), 10).AddIngredient(ItemType<SulfuricScale>(), 15).AddIngredient(ItemType<PlagueCellCluster>(), 15).AddIngredient(ItemType<CosmiliteBar>(), 5).AddIngredient(ItemType<AscendantSpiritEssence>(), 4).AddTile(TileType<CosmicAnvil>()).Register();
         }
     }
 }

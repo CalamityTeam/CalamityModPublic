@@ -13,102 +13,102 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venusian Cinder");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 120;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 120;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             //Rotation
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.rotation = -projectile.velocity.X * 0.05f + MathHelper.PiOver2;
+                Projectile.rotation = -Projectile.velocity.X * 0.05f + MathHelper.PiOver2;
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.rotation = Projectile.velocity.ToRotation();
             }
-            projectile.ai[1]--;
+            Projectile.ai[1]--;
 
             //frames
             if (!initialized)
             {
                 initialized = true;
-                projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+                Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             //movement
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X *= -0.1f;
+                Projectile.velocity.X *= -0.1f;
             }
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X *= -0.5f;
+                Projectile.velocity.X *= -0.5f;
             }
-            if (projectile.velocity.Y != projectile.velocity.Y && projectile.velocity.Y > 1f)
+            if (Projectile.velocity.Y != Projectile.velocity.Y && Projectile.velocity.Y > 1f)
             {
-                projectile.velocity.Y *= -0.5f;
+                Projectile.velocity.Y *= -0.5f;
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 5f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 5f)
             {
-                projectile.ai[0] = 5f;
-                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                Projectile.ai[0] = 5f;
+                if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X *= 0.97f;
-                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+                    Projectile.velocity.X *= 0.97f;
+                    if (Projectile.velocity.X > -0.01f && Projectile.velocity.X < 0.01f)
                     {
-                        projectile.velocity.X = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.velocity.X = 0f;
+                        Projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y += 0.2f;
+                Projectile.velocity.Y += 0.2f;
             }
-            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
+            if (Projectile.velocity.Y < 0.25f && Projectile.velocity.Y > 0.15f)
             {
-                projectile.velocity.X *= 0.8f;
+                Projectile.velocity.X *= 0.8f;
             }
-            if (projectile.velocity.Y > 16f)
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
-            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
+            if (Projectile.velocity.Y < 0.25f && Projectile.velocity.Y > 0.15f)
             {
-                projectile.velocity.X *= 0.8f;
+                Projectile.velocity.X *= 0.8f;
             }
-            if (projectile.velocity.Y > 16f)
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
 
             //Dust
             if (Main.rand.NextBool(4))
             {
-                int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1f);
+                int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[num199];
                 dust.position.X -= 2f;
                 dust.position.Y += 2f;
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.rand.NextBool(10))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1f);
+                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 55, 0f, 0f, 100, default, 1f);
                 Dust dust2 = Main.dust[num200];
                 dust2.position.X -= 2f;
                 dust2.position.Y += 2f;
@@ -135,13 +135,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[1] = 10f;
+            Projectile.ai[1] = 10f;
             return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

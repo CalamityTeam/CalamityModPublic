@@ -14,21 +14,21 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 10;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 10;
         }
 
         public override void AI()
         {
-            projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5.5f, 15f);
+            Projectile.HealingProjectile((int)Projectile.ai[1], (int)Projectile.ai[0], 5.5f, 15f);
             for (int num493 = 0; num493 < 3; num493++)
             {
-                float num494 = projectile.velocity.X * 0.334f * (float)num493;
-                float num495 = -(projectile.velocity.Y * 0.334f) * (float)num493;
-                int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default, 1.1f);
+                float num494 = Projectile.velocity.X * 0.334f * (float)num493;
+                float num495 = -(Projectile.velocity.Y * 0.334f) * (float)num493;
+                int num496 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.1f);
                 Dust dust = Main.dust[num496];
                 dust.noGravity = true;
                 dust.position.X -= num494;
@@ -36,9 +36,9 @@ namespace CalamityMod.Projectiles.Healing
             }
             for (int num497 = 0; num497 < 5; num497++)
             {
-                float num498 = projectile.velocity.X * 0.2f * (float)num497;
-                float num499 = -(projectile.velocity.Y * 0.2f) * (float)num497;
-                int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default, 1.3f);
+                float num498 = Projectile.velocity.X * 0.2f * (float)num497;
+                float num499 = -(Projectile.velocity.Y * 0.2f) * (float)num497;
+                int num500 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1.3f);
                 Dust dust2 = Main.dust[num500];
                 dust2.noGravity = true;
                 dust2.position.X -= num498;

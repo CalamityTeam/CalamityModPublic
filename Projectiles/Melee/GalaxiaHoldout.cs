@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxiaHoldout : ModProjectile //Visuals. Now much simpler than before!
     {
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
         public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as FourSeasonsGalaxia).CanUseItem(Owner) : false;
-        public ref float Initialized => ref projectile.ai[0];
-        public ref float CycleDirection => ref projectile.ai[1];
+        public ref float Initialized => ref Projectile.ai[0];
+        public ref float CycleDirection => ref Projectile.ai[1];
 
         private Item associatedItem;
 
@@ -25,13 +26,13 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 2;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 40;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
+            Projectile.width = Projectile.height = 2;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 40;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
         }
 
         public override void AI()
@@ -42,11 +43,11 @@ namespace CalamityMod.Projectiles.Melee
                 //If dropped, kill it instantly
                 if (Owner.HeldItem.type != ItemType<FourSeasonsGalaxia>())
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
 
-                projectile.Center = Owner.Center;
+                Projectile.Center = Owner.Center;
                 associatedItem = Owner.HeldItem;
 
                 //Switch up the attunements
@@ -183,7 +184,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Chunger
-            var Sound = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), projectile.Center);
+            var Sound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), Projectile.Center);
             CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;

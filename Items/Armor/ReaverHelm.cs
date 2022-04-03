@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 30;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
+            Item.width = 28;
+            Item.height = 30;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -68,13 +68,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 6);
-            recipe.AddIngredient(ItemID.JungleSpores, 4);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 6).AddIngredient(ItemID.JungleSpores, 4).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

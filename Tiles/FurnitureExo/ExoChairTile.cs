@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoChairTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -61,9 +61,9 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xFrameOffset = Main.tile[i, j].frameX;
-            int yFrameOffset = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureExo/ExoChairGlow");
+            int xFrameOffset = Main.tile[i, j].TileFrameX;
+            int yFrameOffset = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoChairGlow");
             Vector2 drawOffest = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffest;
             Color drawColour = Color.White;

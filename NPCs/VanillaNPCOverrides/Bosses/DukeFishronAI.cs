@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -285,7 +286,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
                 }
 
                 npc.ai[2] += 1f;
@@ -449,11 +450,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 if (npc.ai[2] % bubbleBelchPhaseDivisor == 0f)
                 {
-                    Main.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -492,7 +493,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound and spawn sharknadoes
                 if (npc.ai[2] == (sharknadoPhaseTimer - 30))
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
                 {
@@ -529,7 +530,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Sound
                 if (npc.ai[2] == phaseTransitionTimer - 60)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= phaseTransitionTimer)
@@ -698,11 +699,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 if (npc.ai[2] % bubbleSpinPhaseDivisor == 0f)
                 {
-                    Main.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -745,7 +746,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound and spawn cthulhunado
                 if (npc.ai[2] == sharknadoPhaseTimer - 30)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
                     Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
@@ -790,7 +791,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound
                 if (npc.ai[2] == phaseTransitionTimer - 60)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= phaseTransitionTimer)
@@ -979,7 +980,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound
                 if (npc.ai[2] == teleportPhaseTimer / 2)
-                    Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == teleportPhaseTimer / 2)
                 {

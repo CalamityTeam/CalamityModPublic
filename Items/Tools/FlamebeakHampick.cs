@@ -21,23 +21,23 @@ Right click to use as a hammer");
 
         public override void SetDefaults()
         {
-            item.damage = 58;
-            item.knockBack = 8f;
-            item.useTime = 6;
-            item.useAnimation = 15;
-            item.pick = PickPower;
-            item.hammer = HammerPower;
-            item.tileBoost += 2;
+            Item.damage = 58;
+            Item.knockBack = 8f;
+            Item.useTime = 6;
+            Item.useAnimation = 15;
+            Item.pick = PickPower;
+            Item.hammer = HammerPower;
+            Item.tileBoost += 2;
 
-            item.melee = true;
-            item.width = 52;
-            item.height = 50;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 52;
+            Item.height = 50;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -49,24 +49,20 @@ Right click to use as a hammer");
         {
             if (player.altFunctionUse == 2)
             {
-                item.pick = 0;
-                item.hammer = HammerPower;
+                Item.pick = 0;
+                Item.hammer = HammerPower;
             }
             else
             {
-                item.pick = PickPower;
-                item.hammer = 0;
+                Item.pick = PickPower;
+                Item.hammer = 0;
             }
             return base.CanUseItem(player);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

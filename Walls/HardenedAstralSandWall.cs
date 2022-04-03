@@ -12,7 +12,7 @@ namespace CalamityMod.Walls
             return base.Autoload(ref name, ref texture);
         }*/
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Hardened Astral Sand.
             dustType = DustID.Shadowflame;

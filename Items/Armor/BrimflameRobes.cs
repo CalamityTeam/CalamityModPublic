@@ -17,29 +17,23 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 15;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 15;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.05f;
-            player.magicCrit += 5;
+            player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetCritChance(DamageClass.Magic) += 5;
             player.lavaRose = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ObsidianRose);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<CalamityDust>(), 8).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

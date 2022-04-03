@@ -14,17 +14,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 56;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 56;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
+            Projectile.width = 56;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.timeLeft = 90;
+            Projectile.height = 56;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 1.6f, projectile.velocity.Y * 1.6f, ModContent.ProjectileType<UrchinSpikeFugu>(), projectile.damage, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
+                        Projectile.velocity.X * 1.6f, Projectile.velocity.Y * 1.6f, ModContent.ProjectileType<UrchinSpikeFugu>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

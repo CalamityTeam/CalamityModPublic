@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ChargedBlast : ModProjectile
@@ -16,44 +17,44 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 3;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 3;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 25;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0f, 0.3f, 0.7f);
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0f, 0.3f, 0.7f);
             float num55 = 100f;
             float num56 = 3f;
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
+                Projectile.localAI[0] += num56;
+                if (Projectile.localAI[0] > num55)
                 {
-                    projectile.localAI[0] = num55;
+                    Projectile.localAI[0] = num55;
                 }
             }
             else
             {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
+                Projectile.localAI[0] -= num56;
+                if (Projectile.localAI[0] <= 0f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
@@ -61,18 +62,18 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override Color? GetAlpha(Color lightColor) => new Color(100, 100, 255, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(100f, 3f, lightColor);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.DrawBeam(100f, 3f, lightColor);
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item62, (int)projectile.position.X, (int)projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item62, (int)Projectile.position.X, (int)Projectile.position.Y);
             int projectiles = Main.rand.Next(2, 5);
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int k = 0; k < projectiles; k++)
                 {
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, ModContent.ProjectileType<ChargedBlast2>(),
-                    (int)((double)projectile.damage * 0.85), (float)(int)((double)projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, ModContent.ProjectileType<ChargedBlast2>(),
+                    (int)((double)Projectile.damage * 0.85), (float)(int)((double)Projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
                 }
             }
         }

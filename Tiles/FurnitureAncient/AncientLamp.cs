@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp(true);
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
@@ -49,13 +49,13 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientLampFlame"), i, j);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18 && tile.frameX < 18)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

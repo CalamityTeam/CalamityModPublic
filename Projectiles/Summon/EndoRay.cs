@@ -11,33 +11,33 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 265;
-            projectile.coldDamage = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 100;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 265;
+            Projectile.coldDamage = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 100;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 5f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 5f)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 spawnPosition = projectile.position;
-                    spawnPosition -= projectile.velocity * i * 0.25f;
+                    Vector2 spawnPosition = Projectile.position;
+                    spawnPosition -= Projectile.velocity * i * 0.25f;
                     int idx = Dust.NewDust(spawnPosition, 1, 1, 113, 0f, 0f, 0, default, 1.25f);
                     Main.dust[idx].position = spawnPosition;
                     Main.dust[idx].scale = Main.rand.NextFloat(0.71f, 0.93f);

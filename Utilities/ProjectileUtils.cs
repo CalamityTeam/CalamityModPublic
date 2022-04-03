@@ -336,7 +336,7 @@ namespace CalamityMod
                 {
                     Vector2 explodeArea = new Vector2(Math.Abs(x - projectile.position.X / 16f), Math.Abs(y - projectile.position.Y / 16f));
                     float distance = explodeArea.Length();
-                    if (distance < explosionRadius && Main.tile[x, y] != null && Main.tile[x, y].wall == WallID.None)
+                    if (distance < explosionRadius && Main.tile[x, y] != null && Main.tile[x, y].WallType == WallID.None)
                     {
                         canKillWalls = true;
                         break;
@@ -387,7 +387,7 @@ namespace CalamityMod
                         {
                             if (checkExplosions)
                             {
-                                if (Main.tileDungeon[tile.type] || explosionCheckList.Contains(tile.type))
+                                if (Main.tileDungeon[tile.TileType] || explosionCheckList.Contains(tile.TileType))
                                 {
                                     canKillTile = false;
                                 }
@@ -396,11 +396,11 @@ namespace CalamityMod
                                     canKillTile = false;
                                 }
                             }
-                            if (Main.tileContainer[tile.type])
+                            if (Main.tileContainer[tile.TileType])
                                 canKillTile = false;
-                            if (!TileLoader.CanKillTile(i, j, tile.type, ref t) || !TileLoader.CanKillTile(i, j, tile.type, ref f))
+                            if (!TileLoader.CanKillTile(i, j, tile.TileType, ref t) || !TileLoader.CanKillTile(i, j, tile.TileType, ref f))
                                 canKillTile = false;
-                            if (tileExcludeList.Contains(tile.type))
+                            if (tileExcludeList.Contains(tile.TileType))
                                 canKillTile = false;
 
                             if (canKillTile)
@@ -420,13 +420,13 @@ namespace CalamityMod
                                 {
                                     bool canExplode = true;
                                     if (checkExplosions)
-                                        canExplode = WallLoader.CanExplode(x, y, Main.tile[x, y].wall);
-                                    if (wallExcludeList.Any() && wallExcludeList.Contains(Main.tile[x, y].wall))
+                                        canExplode = WallLoader.CanExplode(x, y, Main.tile[x, y].WallType);
+                                    if (wallExcludeList.Any() && wallExcludeList.Contains(Main.tile[x, y].WallType))
                                         canKillWalls = false;
-                                    if (Main.tile[x, y] != null && Main.tile[x, y].wall > WallID.None && canKillWalls && canExplode)
+                                    if (Main.tile[x, y] != null && Main.tile[x, y].WallType > WallID.None && canKillWalls && canExplode)
                                     {
                                         WorldGen.KillWall(x, y, false);
-                                        if (Main.tile[x, y].wall == WallID.None && Main.netMode != NetmodeID.SinglePlayer)
+                                        if (Main.tile[x, y].WallType == WallID.None && Main.netMode != NetmodeID.SinglePlayer)
                                         {
                                             NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, x, y, 0f, 0, 0, 0);
                                         }

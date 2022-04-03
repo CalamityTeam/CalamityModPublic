@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -14,54 +15,54 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.extraUpdates = 1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0.5f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
+                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + Projectile.Center;
+                    Vector2 vector7 = vector6 - Projectile.Center;
                     int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 180, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].velocity = vector7;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<PhantomGuy>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<PhantomGuy>();
             player.AddBuff(ModContent.BuffType<Phantom>(), 3600);
             if (flag64)
             {
@@ -71,22 +72,22 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.pGuy)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
             float num633 = 3000f;
             float num634 = 3500f;
             float num635 = 4000f;
             float num636 = 600f;
-            Vector2 vector46 = projectile.position;
+            Vector2 vector46 = Projectile.position;
             bool flag25 = false;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
                     if (!flag25 && num646 < num633)
                     {
                         num633 = num646;
@@ -100,9 +101,9 @@ namespace CalamityMod.Projectiles.Summon
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
+                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
                         if (!flag25 && num646 < num633)
                         {
                             num633 = num646;
@@ -117,27 +118,27 @@ namespace CalamityMod.Projectiles.Summon
             {
                 num647 = num635;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > num647)
+            if (Vector2.Distance(player.Center, Projectile.Center) > num647)
             {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
             }
-            if (flag25 && projectile.ai[0] == 0f)
+            if (flag25 && Projectile.ai[0] == 0f)
             {
-                Vector2 vector47 = vector46 - projectile.Center;
+                Vector2 vector47 = vector46 - Projectile.Center;
                 float num648 = vector47.Length();
                 vector47.Normalize();
                 if (num648 > 200f)
                 {
                     float scaleFactor2 = 18f;
                     vector47 *= scaleFactor2;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
                 }
                 else
                 {
                     float num649 = 12f;
                     vector47 *= -num649;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
                 }
             }
             else
@@ -145,14 +146,14 @@ namespace CalamityMod.Projectiles.Summon
                 bool flag26 = false;
                 if (!flag26)
                 {
-                    flag26 = projectile.ai[0] == 1f;
+                    flag26 = Projectile.ai[0] == 1f;
                 }
                 float num650 = 12f;
                 if (flag26)
                 {
                     num650 = 30f;
                 }
-                Vector2 center2 = projectile.Center;
+                Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2 + new Vector2(0f, -120f);
                 float num651 = vector48.Length();
                 if (num651 > 200f && num650 < 16f)
@@ -161,59 +162,59 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 < num636 && flag26)
                 {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 if (num651 > 3500f)
                 {
-                    projectile.position.X = player.Center.X - (projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = player.Center.X - (Projectile.width / 2);
+                    Projectile.position.Y = player.Center.Y - (Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
                 {
                     vector48.Normalize();
                     vector48 *= num650;
-                    projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vector48) / 41f;
                 }
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
             if (flag25)
             {
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46), 0.1f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(vector46), 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.rotation = Projectile.velocity.ToRotation();
             }
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += Main.rand.Next(1, 3);
+                Projectile.ai[1] += Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 75f)
+            if (Projectile.ai[1] > 75f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 6f;
                 int num658 = ModContent.ProjectileType<GhostFire>();
-                if (flag25 && projectile.ai[1] == 0f)
+                if (flag25 && Projectile.ai[1] == 0f)
                 {
-                    Main.PlaySound(SoundID.Item20, projectile.position);
-                    projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner)
+                    SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+                    Projectile.ai[1] += 1f;
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        Vector2 value19 = vector46 - projectile.Center;
+                        Vector2 value19 = vector46 - Projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        projectile.netUpdate = true;
+                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value19.X, value19.Y, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.netUpdate = true;
                     }
                 }
             }
@@ -221,7 +222,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(100, 250, 250, projectile.alpha);
+            return new Color(100, 250, 250, Projectile.alpha);
         }
 
         public override bool CanDamage()

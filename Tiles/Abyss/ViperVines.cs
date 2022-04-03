@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class ViperVines : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (Main.tile[i, j + 1].active())
                 {
-                    if (Main.tile[i, j + 1].type == ModContent.TileType<ViperVines>())
+                    if (Main.tile[i, j + 1].TileType == ModContent.TileType<ViperVines>())
                     {
                         WorldGen.KillTile(i, j + 1, false, false, false);
                         if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -52,7 +52,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid >= 128 && !Main.tile[i, j + 1].lava())
                     {
@@ -74,11 +74,11 @@ namespace CalamityMod.Tiles.Abyss
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<ViperVines>();
-                            Main.tile[num53, num54].frameX = (short)(WorldGen.genRand.Next(8) * 18);
-                            Main.tile[num53, num54].frameY = (short)(4 * 18);
-                            Main.tile[num53, num54 - 1].frameX = (short)(WorldGen.genRand.Next(12) * 18);
-                            Main.tile[num53, num54 - 1].frameY = (short)(WorldGen.genRand.Next(4) * 18);
+                            Main.tile[num53, num54].TileType = (ushort)ModContent.TileType<ViperVines>();
+                            Main.tile[num53, num54].TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
+                            Main.tile[num53, num54].TileFrameY = (short)(4 * 18);
+                            Main.tile[num53, num54 - 1].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
+                            Main.tile[num53, num54 - 1].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
                             WorldGen.SquareTileFrame(num53, num54 - 1, true);

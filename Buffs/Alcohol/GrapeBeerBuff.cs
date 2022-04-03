@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class GrapeBeerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grape Beer");
             Description.SetDefault("Defense and movement speed reduced");

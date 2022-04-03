@@ -17,28 +17,22 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 11;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 11;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedCrit += 3;
+            player.GetCritChance(DamageClass.Ranged) += 3;
             player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NecroGreaves);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 21);
-            recipe.AddIngredient(ItemID.Nanites, 17);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NecroGreaves).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 21).AddIngredient(ItemID.Nanites, 17).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

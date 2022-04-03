@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 44;
-            item.height = 66;
-            item.damage = 333;
-            item.Calamity().rogue = true;
-            item.knockBack = 8f;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.reuseDelay = 15;
-            item.useAnimation = 45;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<Fork>();
-            item.shootSpeed = 12f;
+            Item.width = 44;
+            Item.height = 66;
+            Item.damage = 333;
+            Item.Calamity().rogue = true;
+            Item.knockBack = 8f;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.reuseDelay = 15;
+            Item.useAnimation = 45;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<Fork>();
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -55,13 +55,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                int utensil = item.shoot;
+                int utensil = Item.shoot;
                 double dmgMult = 1D;
                 float kbMult = 1f;
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        utensil = item.shoot;
+                        utensil = Item.shoot;
                         dmgMult = 1.1;
                         kbMult = 2f;
                         break;

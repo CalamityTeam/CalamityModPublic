@@ -12,25 +12,25 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Energy Staff");
             Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 128;
-            item.summon = true;
-            item.sentry = true;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 68;
-            item.useTime = item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
+            Item.damage = 128;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 68;
+            Item.useTime = Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

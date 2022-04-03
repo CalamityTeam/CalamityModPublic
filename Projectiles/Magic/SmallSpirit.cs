@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SmallSpirit : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public Projectile ProjectileOwner
         {
             get
@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Magic
                 int spiritType = ModContent.ProjectileType<SpiritCongregation>();
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].type != spiritType || Main.projectile[i].identity != projectile.ai[0] ||
-                        Main.projectile[i].owner != projectile.owner)
+                    if (Main.projectile[i].type != spiritType || Main.projectile[i].identity != Projectile.ai[0] ||
+                        Main.projectile[i].owner != Projectile.owner)
                     {
                         continue;
                     }
@@ -33,26 +33,26 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Small Angry Spirit");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 28;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 360;
+            Projectile.width = Projectile.height = 28;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 360;
         }
 
         public override void AI()
         {
-            float radius = MathHelper.SmoothStep(84f, 44f, (float)Math.Sqrt(1f - projectile.timeLeft / 360f));
+            float radius = MathHelper.SmoothStep(84f, 44f, (float)Math.Sqrt(1f - Projectile.timeLeft / 360f));
 
             // Handle frames.
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
 
             float maxOpacity = 1f;
 
@@ -61,11 +61,11 @@ namespace CalamityMod.Projectiles.Magic
             float flySpeed = 8f;
             float flyInertia = 54f;
 
-            projectile.hostile = true;
-            projectile.friendly = false;
-            if (ProjectileOwner != null && (ProjectileOwner.ModProjectile<SpiritCongregation>().CurrentPower > 0.97f || projectile.timeLeft < 95))
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            if (ProjectileOwner != null && (ProjectileOwner.ModProjectile<SpiritCongregation>().CurrentPower > 0.97f || Projectile.timeLeft < 95))
             {
-                projectile.hostile = false;
+                Projectile.hostile = false;
 
                 radius += 54f;
 
@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Magic
                 flyInertia = 5f;
 
                 // Die if close to the owner projectile, effectively being absorbed.
-                projectile.Center = projectile.Center.MoveTowards(target.Center, 8.5f);
-                if (projectile.WithinRange(target.Center, 80f))
-                    projectile.Kill();
+                Projectile.Center = Projectile.Center.MoveTowards(target.Center, 8.5f);
+                if (Projectile.WithinRange(target.Center, 80f))
+                    Projectile.Kill();
 
                 // Become translucent when returning to the projectile owner.
                 maxOpacity = 0.4f;
@@ -85,39 +85,39 @@ namespace CalamityMod.Projectiles.Magic
             // Die if no valid target exists or the projectile owner is absent.
             if (target is null || ProjectileOwner is null || !ProjectileOwner.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // If not close to the target, redirect towards them.
-            if (!projectile.WithinRange(target.Center, 260f))
+            if (!Projectile.WithinRange(target.Center, 260f))
             {
-                Vector2 idealVelocity = projectile.SafeDirectionTo(target.Center) * flySpeed;
-                projectile.velocity = (projectile.velocity * (flyInertia - 1f) + idealVelocity) / flyInertia;
+                Vector2 idealVelocity = Projectile.SafeDirectionTo(target.Center) * flySpeed;
+                Projectile.velocity = (Projectile.velocity * (flyInertia - 1f) + idealVelocity) / flyInertia;
             }
 
             // Otherwise accelerate.
             else
-                projectile.velocity *= 1.01f;
+                Projectile.velocity *= 1.01f;
 
             // Rapidly fade in.
-            projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.075f, 0f, maxOpacity);
+            Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.075f, 0f, maxOpacity);
 
             // Decide rotation.
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
             // Emit particles.
-            Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
+            Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
             FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, radius);
         }
 
-        public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 6; i++)
             {
-                Dust phantoplasm = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(12f, 12f), 261);
+                Dust phantoplasm = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(12f, 12f), 261);
                 phantoplasm.color = Color.Lerp(Color.LightPink, Color.Red, Main.rand.NextFloat(0.67f));
                 phantoplasm.scale = 1.2f;
                 phantoplasm.fadeIn = 0.55f;

@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 20;
-            item.damage = 60;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.height = 20;
-            item.value = Item.buyPrice(gold: 36);
-            item.rare = ItemRarityID.Pink;
-            item.Calamity().donorItem = true;
-            item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
-            item.shootSpeed = 8f;
-            item.Calamity().rogue = true;
+            Item.width = 20;
+            Item.damage = 60;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 20;
+            Item.value = Item.buyPrice(gold: 36);
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().donorItem = true;
+            Item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
+            Item.shootSpeed = 8f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,17 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<IceStar>(), 100);
-            recipe.AddIngredient(ModContent.ItemType<Avalanche>());
-            recipe.AddIngredient(ModContent.ItemType<EffluviumBow>());
-            recipe.AddIngredient(ModContent.ItemType<GlacialCrusher>());
-            recipe.AddIngredient(ModContent.ItemType<Icebreaker>());
-            recipe.AddIngredient(ModContent.ItemType<SnowstormStaff>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<IceStar>(), 100).AddIngredient(ModContent.ItemType<Avalanche>()).AddIngredient(ModContent.ItemType<EffluviumBow>()).AddIngredient(ModContent.ItemType<GlacialCrusher>()).AddIngredient(ModContent.ItemType<Icebreaker>()).AddIngredient(ModContent.ItemType<SnowstormStaff>()).AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10).AddTile(TileID.IceMachine).Register();
         }
     }
 }

@@ -13,51 +13,51 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 100;
-            projectile.height = 2;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1200;
+            Projectile.width = 100;
+            Projectile.height = 2;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1200;
         }
 
         public override void AI()
         {
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] >= 7200f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] >= 7200f)
             {
-                projectile.alpha += 5;
-                if (projectile.alpha > 255)
+                Projectile.alpha += 5;
+                if (Projectile.alpha > 255)
                 {
-                    projectile.alpha = 255;
-                    projectile.Kill();
+                    Projectile.alpha = 255;
+                    Projectile.Kill();
                 }
             }
             else
             {
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] > 12f)
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] > 12f)
                 {
-                    projectile.ai[0] = 0f;
-                    if (projectile.owner == Main.myPlayer)
+                    Projectile.ai[0] = 0f;
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
-                        int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
-                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 10f, ModContent.ProjectileType<WhiterainBlah>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
+                        int num415 = (int)(Projectile.position.Y + (float)Projectile.height + 4f);
+                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 10f, ModContent.ProjectileType<WhiterainBlah>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 10f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 10f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 int num416 = 0;
                 int num417 = 0;
                 float num418 = 0f;
-                int num419 = projectile.type;
+                int num419 = Projectile.type;
                 for (int num420 = 0; num420 < 1000; num420++)
                 {
-                    if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+                    if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
                     {
                         num416++;
                         if (Main.projectile[num420].ai[1] > num418)

@@ -14,27 +14,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Crystal Flare Staff");
             Tooltip.SetDefault("Fires blue frost flames that explode");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 44;
-            item.height = 46;
-            item.useTime = 10;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.25f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SpiritFlameCurse>();
-            item.shootSpeed = 14f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 44;
+            Item.height = 46;
+            Item.useTime = 10;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.25f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SpiritFlameCurse>();
+            Item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,15 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrostStaff);
-            recipe.AddIngredient(ItemID.FrostCore);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FrostStaff).AddIngredient(ItemID.FrostCore).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.IceMachine).Register();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class GammaHeadBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Hydra");
             Description.SetDefault("...");

@@ -17,18 +17,18 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = ModContent.ProjectileType<BabyGhostBell>();
-            item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
-            item.value = Item.sellPrice(gold: 5);
-            item.rare = ItemRarityID.Orange;
+            Item.CloneDefaults(ItemID.WispinaBottle);
+            Item.shoot = ModContent.ProjectileType<BabyGhostBell>();
+            Item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
+            Item.value = Item.sellPrice(gold: 5);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

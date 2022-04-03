@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ApexSharkBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient Mineral Shark");
             Description.SetDefault("Ancient yet so dangerous");

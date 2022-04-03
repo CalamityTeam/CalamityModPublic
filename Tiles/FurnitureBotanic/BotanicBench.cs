@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicBench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();

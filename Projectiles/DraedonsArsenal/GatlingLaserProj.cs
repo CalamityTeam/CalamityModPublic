@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -20,49 +21,49 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 58;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
+            Projectile.width = 24;
+            Projectile.height = 58;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float num = MathHelper.PiOver2;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
+            if (Projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
             {
-                if (projectile.ai[0] < 5f)
-                    projectile.ai[0] += 1f;
+                if (Projectile.ai[0] < 5f)
+                    Projectile.ai[0] += 1f;
 
-                if (projectile.ai[0] > 4f)
-                    projectile.ai[0] = 2f;
+                if (Projectile.ai[0] > 4f)
+                    Projectile.ai[0] = 2f;
 
                 // The Gatling Laser shoots every other frame (effective use time of 2).
                 int fireRate = 2;
-                projectile.ai[1] += 1f;
+                Projectile.ai[1] += 1f;
                 bool shootThisFrame = false;
-                if (projectile.ai[1] >= fireRate)
+                if (Projectile.ai[1] >= fireRate)
                 {
-                    projectile.ai[1] = 0f;
+                    Projectile.ai[1] = 0f;
                     shootThisFrame = true;
                 }
 
-                if (projectile.soundDelay <= 0)
+                if (Projectile.soundDelay <= 0)
                 {
-                    projectile.soundDelay = fireRate * 6;
-                    if (projectile.ai[0] != 1f)
+                    Projectile.soundDelay = fireRate * 6;
+                    if (Projectile.ai[0] != 1f)
                     {
                         fireLasers = true;
-                        projectile.soundDelay *= 6;
-                        gatlingLaserLoop = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireLoop"), (int)projectile.position.X, (int)projectile.position.Y);
+                        Projectile.soundDelay *= 6;
+                        gatlingLaserLoop = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireLoop"), (int)Projectile.position.X, (int)Projectile.position.Y);
                     }
                 }
-                if (shootThisFrame && Main.myPlayer == projectile.owner && fireLasers)
+                if (shootThisFrame && Main.myPlayer == Projectile.owner && fireLasers)
                 {
                     Item gatling = player.ActiveItem();
 
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                     if (stillInUse && hasMana && hasCharge)
                     {
-                        float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
+                        float scaleFactor = player.ActiveItem().shootSpeed * Projectile.scale;
                         Vector2 value2 = vector;
                         Vector2 value3 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value2;
                         if (player.gravDir == -1f)
@@ -94,15 +95,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             vector3 = -Vector2.UnitY;
                         }
                         vector3 *= scaleFactor;
-                        if (vector3.X != projectile.velocity.X || vector3.Y != projectile.velocity.Y)
+                        if (vector3.X != Projectile.velocity.X || vector3.Y != Projectile.velocity.Y)
                         {
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.velocity = vector3;
+                        Projectile.velocity = vector3;
                         int type = ModContent.ProjectileType<GatlingLaserShot>();
                         float velocity = 3f;
-                        value2 = projectile.Center;
-                        Vector2 spinningpoint = Vector2.Normalize(projectile.velocity) * velocity;
+                        value2 = Projectile.Center;
+                        Vector2 spinningpoint = Vector2.Normalize(Projectile.velocity) * velocity;
 
                         double spread = Math.PI / 32D;
                         spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 2D * spread - spread);
@@ -119,31 +120,31 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         }
                         float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
                         float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
-                        float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
+                        float ai0 = Projectile.ai[0] - 2f; // 0, 1, or 2
 
                         // Use charge when firing a laser.
                         modItem.Charge -= GatlingLaser.HoldoutChargeUse;
-                        Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, projectile.knockBack, projectile.owner, ai0, 0f);
+                        Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, Projectile.knockBack, Projectile.owner, ai0, 0f);
                     }
                     else
                     {
                         if (gatlingLaserLoop != null)
                             gatlingLaserLoop.Stop();
 
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireEnd"), (int)projectile.position.X, (int)projectile.position.Y);
-                        projectile.Kill();
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireEnd"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                        Projectile.Kill();
                     }
                 }
             }
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
         }
 
         public override bool CanDamage() => false;

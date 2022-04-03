@@ -21,12 +21,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 38;
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 22;
+            Item.height = 38;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,14 +37,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WarriorEmblem);
-            recipe.AddIngredient(ModContent.ItemType<NecklaceofVexation>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.WarriorEmblem).AddIngredient(ModContent.ItemType<NecklaceofVexation>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

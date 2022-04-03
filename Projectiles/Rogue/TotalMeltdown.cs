@@ -8,25 +8,25 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            Main.projFrames[projectile.type] = 13;
+            Main.projFrames[Projectile.type] = 13;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 120;
-            projectile.height = 122;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = Main.projFrames[projectile.type] * 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            Projectile.width = 120;
+            Projectile.height = 122;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = Main.projFrames[Projectile.type] * 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft % 5f == 4f)
-                projectile.frame++;
+            if (Projectile.timeLeft % 5f == 4f)
+                Projectile.frame++;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

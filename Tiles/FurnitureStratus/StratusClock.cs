@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             return false;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

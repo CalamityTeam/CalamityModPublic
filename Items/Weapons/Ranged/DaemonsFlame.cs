@@ -17,33 +17,33 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 135;
-            item.width = 62;
-            item.height = 128;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item5;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DaemonsFlameBow>();
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 135;
+            Item.width = 62;
+            Item.height = 128;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item5;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DaemonsFlameBow>();
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DaemonsFlameGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DaemonsFlameGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

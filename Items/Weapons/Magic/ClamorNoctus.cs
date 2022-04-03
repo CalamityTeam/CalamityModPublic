@@ -16,28 +16,28 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Clamor Noctus");
             Tooltip.SetDefault(@"Let the sky fall
 Fires night wyverns and stars from the sky that stick to enemies and tiles and explode");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 270;
-            item.magic = true;
-            item.mana = 12;
-            item.width = 52;
-            item.height = 74;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.2f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.UseSound = SoundID.Item105;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ClamorNoctusStar>();
-            item.shootSpeed = 25f;
+            Item.damage = 270;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
+            Item.width = 52;
+            Item.height = 74;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.2f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.UseSound = SoundID.Item105;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ClamorNoctusStar>();
+            Item.shootSpeed = 25f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -47,7 +47,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -107,14 +107,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WyvernsCall>());
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WyvernsCall>()).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

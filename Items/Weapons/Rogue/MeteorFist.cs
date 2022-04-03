@@ -17,32 +17,28 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 22;
-            item.damage = 15;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 30;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.height = 28;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<MeteorFistProj>();
-            item.shootSpeed = 5f;
-            item.Calamity().rogue = true;
+            Item.width = 22;
+            Item.damage = 15;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 30;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.height = 28;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<MeteorFistProj>();
+            Item.shootSpeed = 5f;
+            Item.Calamity().rogue = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 10).AddTile(TileID.Anvils).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

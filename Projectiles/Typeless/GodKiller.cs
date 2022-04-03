@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GodKiller : ModProjectile
@@ -12,44 +13,44 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Killer");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = 22;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
-                projectile.alpha -= 5;
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 5;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            if (Projectile.owner == Main.myPlayer && Projectile.timeLeft <= 3)
             {
-                projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
-                projectile.alpha = 255;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 100;
-                projectile.height = 100;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.knockBack = 5f;
+                Projectile.tileCollide = false;
+                Projectile.ai[1] = 0f;
+                Projectile.alpha = 255;
+                Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+                Projectile.width = 100;
+                Projectile.height = 100;
+                Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                Projectile.knockBack = 5f;
             }
             else
             {
-                if (Math.Abs(projectile.velocity.X) >= 2f || Math.Abs(projectile.velocity.Y) >= 2f)
+                if (Math.Abs(Projectile.velocity.X) >= 2f || Math.Abs(Projectile.velocity.Y) >= 2f)
                 {
                     for (int num246 = 0; num246 < 2; num246++)
                     {
@@ -57,34 +58,34 @@ namespace CalamityMod.Projectiles.Typeless
                         float num248 = 0f;
                         if (num246 == 1)
                         {
-                            num247 = projectile.velocity.X * 0.5f;
-                            num248 = projectile.velocity.Y * 0.5f;
+                            num247 = Projectile.velocity.X * 0.5f;
+                            num248 = Projectile.velocity.Y * 0.5f;
                         }
-                        int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 173, 0f, 0f, 100, default, 1f);
+                        int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 173, 0f, 0f, 100, default, 1f);
                         Main.dust[num249].scale *= 1f + (float)Main.rand.Next(5) * 0.1f;
                         Main.dust[num249].velocity *= 0.2f;
                         Main.dust[num249].noGravity = true;
-                        num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 199, 0f, 0f, 100, default, 0.1f);
+                        num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 199, 0f, 0f, 100, default, 0.1f);
                         Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                         Main.dust[num249].velocity *= 0.05f;
                     }
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(11f, 23f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/GodKillerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GodKillerGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item89, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item89, Projectile.position);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 199, 0f, 0f, 100, default, 1.5f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 199, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -94,10 +95,10 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int num623 = 0; num623 < 10; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.5f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num624].velocity *= 2f;
             }
         }
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

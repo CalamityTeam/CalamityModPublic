@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.magic = true;
-            item.mana = 9;
-            item.width = 42;
-            item.height = 28;
-            item.useTime = item.useAnimation = 45;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<AcidGunStream>();
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 9;
+            Item.width = 42;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<AcidGunStream>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -49,12 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 35);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 10).AddIngredient(ModContent.ItemType<Acidwood>(), 35).AddTile(TileID.Anvils).Register();
         }
     }
 }

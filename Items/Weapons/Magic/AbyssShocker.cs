@@ -16,30 +16,30 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 28;
-            item.noMelee = true;
-            item.magic = true;
-            item.channel = true;
-            item.width = 86;
-            item.height = 32;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.UseSound = SoundID.Item13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.mana = 10;
+            Item.damage = 28;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Magic;
+            Item.channel = true;
+            Item.width = 86;
+            Item.height = 32;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.UseSound = SoundID.Item13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.mana = 10;
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
 
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LightningArc>();
-            item.shootSpeed = 14f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LightningArc>();
+            Item.shootSpeed = 14f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/AbyssShocker_mask"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/AbyssShocker_mask"));
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-14, 0);

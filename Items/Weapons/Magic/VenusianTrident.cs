@@ -15,28 +15,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Venusian Trident");
             Tooltip.SetDefault("Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 70;
-            item.height = 68;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 9f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item45;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VenusianBolt>();
-            item.shootSpeed = 19f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 70;
+            Item.height = 68;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 9f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item45;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VenusianBolt>();
+            Item.shootSpeed = 19f;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -46,13 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.InfernoFork);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.InfernoFork).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddIngredient(ModContent.ItemType<TwistingNether>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

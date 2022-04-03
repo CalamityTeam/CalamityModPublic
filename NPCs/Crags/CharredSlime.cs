@@ -14,38 +14,38 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Charred Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
+            NPC.aiStyle = 1;
             aiType = NPCID.LavaSlime;
-            npc.damage = 40;
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 10;
-            npc.lifeMax = 250;
-            npc.knockBackResist = 0f;
+            NPC.damage = 40;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 10;
+            NPC.lifeMax = 250;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = true;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = true;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 80;
-                npc.defense = 20;
-                npc.lifeMax = 3500;
+                NPC.damage = 80;
+                NPC.defense = 20;
+                NPC.lifeMax = 3500;
             }
-            banner = npc.type;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<CharredSlimeBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Crags
             {
                 return 0f;
             }
-            return spawnInfo.player.Calamity().ZoneCalamity ? 0.08f : 0f;
+            return spawnInfo.Player.Calamity().ZoneCalamity ? 0.08f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -66,22 +66,22 @@ namespace CalamityMod.NPCs.Crags
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<CharredOre>(), 10, 26);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
+            DropHelper.DropItem(NPC, ModContent.ItemType<CharredOre>(), 10, 26);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 10; //47 +10 underwater
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 10; //47 +10 underwater
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,17 +41,17 @@ namespace CalamityMod.Items.Armor
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;
             player.maxMinions += 2;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.minionDamage += 0.3f;
+                player.GetDamage(DamageClass.Summon) += 0.3f;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.minionDamage += 0.05f;
+            player.GetDamage(DamageClass.Summon) += 0.05f;
             if (player.breath <= player.breathMax + 2 && !modPlayer.ZoneAbyss)
             {
                 player.breath = player.breathMax + 3;
@@ -66,15 +66,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpiderMask);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<PlantyMush>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 11);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpiderMask).AddIngredient(ModContent.ItemType<VictideBar>(), 5).AddIngredient(ModContent.ItemType<PlantyMush>(), 6).AddIngredient(ModContent.ItemType<AbyssGravel>(), 11).AddIngredient(ModContent.ItemType<DepthCells>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class AlicornBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alicorn");
             Description.SetDefault("You beat DoG while drunk, you are truly fabulous!");

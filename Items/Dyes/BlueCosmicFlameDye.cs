@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class BlueCosmicFlameDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CosmicFlameShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CosmicFlameShader").Value), "DyePass").
             UseColor(new Color(52, 212, 229)).UseSecondaryColor(new Color(52, 212, 229)).UseImage("Images/Misc/Noise").UseSaturation(0f);
         public override void SafeSetStaticDefaults()
         {
@@ -19,19 +19,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 2);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ItemID.BottledWater, 2).AddIngredient(ModContent.ItemType<CosmiliteBar>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

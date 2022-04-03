@@ -23,33 +23,28 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 82;
-            item.height = 82;
-            item.damage = 300;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 13;
-            item.useTime = 13;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.shoot = ModContent.ProjectileType<SeraphimProjectile>();
-            item.shootSpeed = SeraphimProjectile.InitialSpeed;
-            item.Calamity().rogue = true;
+            Item.width = 82;
+            Item.height = 82;
+            Item.damage = 300;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 13;
+            Item.useTime = 13;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.shoot = ModContent.ProjectileType<SeraphimProjectile>();
+            Item.shootSpeed = SeraphimProjectile.InitialSpeed;
+            Item.Calamity().rogue = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShatteredSun>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShatteredSun>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

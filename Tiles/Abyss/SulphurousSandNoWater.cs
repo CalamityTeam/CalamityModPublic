@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousSandNoWater : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

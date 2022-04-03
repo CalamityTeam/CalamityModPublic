@@ -22,26 +22,26 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 46;
-            item.height = 32;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item7;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
+            Item.width = 46;
+            Item.height = 32;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item7;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
 
-            item.damage = 200;
-            item.useAnimation = 21;
-            item.useTime = 3;
-            item.reuseDelay = 1;
-            item.knockBack = 3f;
-            item.shoot = ModContent.ProjectileType<HypothermiaShard>();
-            item.shootSpeed = 8f;
+            Item.damage = 200;
+            Item.useAnimation = 21;
+            Item.useTime = 3;
+            Item.reuseDelay = 1;
+            Item.knockBack = 3f;
+            Item.shoot = ModContent.ProjectileType<HypothermiaShard>();
+            Item.shootSpeed = 8f;
 
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().rogue = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -81,14 +81,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceBlock, 100);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.IceBlock, 100).AddIngredient(ModContent.ItemType<RuinousSoul>(), 6).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

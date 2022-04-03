@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();

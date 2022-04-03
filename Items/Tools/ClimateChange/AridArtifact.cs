@@ -16,13 +16,13 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item66;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item66;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         }
 
         // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (Terraria.GameContent.Events.Sandstorm.Happening)
                 CalamityUtils.StopSandstorm();
@@ -42,14 +42,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SandBlock, 50);
-            recipe.anySand = true;
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 10);
-            recipe.AddIngredient(ItemID.AncientCloth, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SandBlock, 50).AddRecipeGroup("AnyAdamantiteBar", 10).AddIngredient(ItemID.AncientCloth, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -21,25 +21,25 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         }
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.damage = 25;
-            item.melee = true;
-            item.width = 26;
-            item.height = 26;
-            item.scale = 1.5f;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.knockBack = 7f;
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 26;
+            Item.height = 26;
+            Item.scale = 1.5f;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 50f;
@@ -66,14 +66,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5).AddIngredient(ModContent.ItemType<DubiousPlating>(), 7).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
         }
     }
 }

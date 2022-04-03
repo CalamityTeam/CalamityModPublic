@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class MoonshineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moonshine");
             Description.SetDefault("Defense and damage reduction boosted, life regen reduced");

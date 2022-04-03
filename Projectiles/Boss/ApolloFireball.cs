@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -18,61 +19,61 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Volatile Plasma Blast");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 48;
-            projectile.height = 48;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.Opacity = 0f;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.Opacity = 0f;
             cooldownSlot = 1;
-            projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft;
-            projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
+            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft;
+            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-            if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-                projectile.tileCollide = true;
+            Vector2 targetLocation = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+            if (Vector2.Distance(targetLocation, Projectile.Center) < 80f)
+                Projectile.tileCollide = true;
 
             int fadeInTime = 3;
-            projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - (((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - (((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
-            Lighting.AddLight(projectile.Center, 0f, 0.6f * projectile.Opacity, 0f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.6f * Projectile.Opacity, 0f);
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
-                projectile.frame = 0;
+            if (Projectile.frame > 5)
+                Projectile.frame = 0;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - MathHelper.PiOver2;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
 
                 float speed1 = 1.8f;
                 float speed2 = 2.8f;
@@ -81,21 +82,21 @@ namespace CalamityMod.Projectiles.Boss
                 for (int num53 = 0; num53 < 40; num53++)
                 {
                     float dustSpeed = Main.rand.NextFloat(speed1, speed2);
-                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
+                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
                     int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
 
-                    int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
-                    Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * projectile.width / 2f;
+                    int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
+                    Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
                     Main.dust[num54].noGravity = true;
 
                     Dust dust = Main.dust[num54];
                     dust.velocity *= 3f;
                     dust = Main.dust[num54];
 
-                    num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
-                    Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * projectile.width / 2f;
+                    num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
+                    Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
 
                     dust = Main.dust[num54];
                     dust.velocity *= 2f;
@@ -109,13 +110,13 @@ namespace CalamityMod.Projectiles.Boss
                 for (int num55 = 0; num55 < 20; num55++)
                 {
                     float dustSpeed = Main.rand.NextFloat(speed1, speed2);
-                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
+                    Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(Projectile.velocity.ToRotation());
                     dustVel = dustVel.RotatedBy(-angleRandom);
                     dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
                     int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
 
-                    int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
-                    Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(projectile.velocity.ToRotation()) * projectile.width / 3f;
+                    int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
+                    Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 3f;
                     Main.dust[num56].noGravity = true;
 
                     Dust dust = Main.dust[num56];
@@ -125,11 +126,11 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.Opacity != 1f)
+            if (Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(BuffID.OnFire, 360);
@@ -138,24 +139,24 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor.R = (byte)(255 * projectile.Opacity);
-            lightColor.G = (byte)(255 * projectile.Opacity);
-            lightColor.B = (byte)(255 * projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             int height = 90;
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = height;
-            projectile.Center = projectile.position;
-            projectile.Damage();
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = height;
+            Projectile.Center = Projectile.position;
+            Projectile.Damage();
 
-            Main.PlaySound(SoundID.Item93, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item93, Projectile.Center);
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 bool splitNormal = true;
                 if (CalamityGlobalNPC.draedonExoMechTwinGreen != -1)
@@ -176,7 +177,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int k = 0; k < totalProjectiles; k++)
                 {
                     Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                    Projectile.NewProjectile(projectile.Center, velocity2, type, (int)Math.Round(projectile.damage * 0.8), 0f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer);
                 }
             }
 
@@ -190,7 +191,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (num640 < 50)
                     num641 = 4f;
 
-                int num643 = Dust.NewDust(projectile.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
+                int num643 = Dust.NewDust(Projectile.Center, 6, 6, Main.rand.NextBool(2) ? 107 : 110, 0f, 0f, 100, default, 1f);
                 float num644 = Main.dust[num643].velocity.X;
                 float num645 = Main.dust[num643].velocity.Y;
 

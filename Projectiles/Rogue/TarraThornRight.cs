@@ -15,59 +15,59 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.aiStyle = 4;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.aiStyle = 4;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
-            if (projectile.ai[0] == 0f)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + MathHelper.PiOver2;
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.alpha -= 50;
-                if (projectile.alpha > 0)
+                Projectile.alpha -= 50;
+                if (Projectile.alpha > 0)
                     return;
-                projectile.alpha = 0;
-                projectile.ai[0] = 1f;
-                if (projectile.ai[1] == 0f)
+                Projectile.alpha = 0;
+                Projectile.ai[0] = 1f;
+                if (Projectile.ai[1] == 0f)
                 {
-                    projectile.ai[1] += 1f;
-                    projectile.position += projectile.velocity * 1f;
+                    Projectile.ai[1] += 1f;
+                    Projectile.position += Projectile.velocity * 1f;
                 }
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    int type = projectile.type;
-                    if (projectile.ai[1] >= 10f)
+                    int type = Projectile.type;
+                    if (Projectile.ai[1] >= 10f)
                         type = ModContent.ProjectileType<TarraThornTip>();
-                    int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[number].ai[1] = projectile.ai[1] + 1f;
+                    int number = Projectile.NewProjectile(Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Main.projectile[number].ai[1] = Projectile.ai[1] + 1f;
                 }
             }
             else
             {
-                if (projectile.alpha < 170 && projectile.alpha + 5 >= 170)
+                if (Projectile.alpha < 170 && Projectile.alpha + 5 >= 170)
                 {
                     for (int index1 = 0; index1 < 8; ++index1)
                     {
-                        int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 7, projectile.velocity.X * 0.025f, projectile.velocity.Y * 0.025f, 200, new Color(), 1.3f);
+                        int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 7, Projectile.velocity.X * 0.025f, Projectile.velocity.Y * 0.025f, 200, new Color(), 1.3f);
                         Dust dust = Main.dust[index2];
                         dust.noGravity = true;
                         dust.velocity *= 0.5f;
                     }
                 }
-                projectile.alpha += 3;
-                if (projectile.alpha < 255)
+                Projectile.alpha += 3;
+                if (Projectile.alpha < 255)
                     return;
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

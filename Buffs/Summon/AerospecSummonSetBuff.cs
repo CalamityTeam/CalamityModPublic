@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class AerospecSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Valkyrie");
             Description.SetDefault("The valkyrie will protect you");

@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.rare = ItemRarityID.Blue;
-            item.vanity = true;
+            Item.width = 28;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
 
         public override bool DrawHead()

@@ -15,21 +15,21 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Energy");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 80;
-            projectile.height = 80;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
-            projectile.Opacity = 0f;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 80;
+            Projectile.height = 80;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
+            Projectile.Opacity = 0f;
             cooldownSlot = 1;
         }
 
@@ -37,64 +37,64 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
                 return;
             }
 
-            if (Vector2.Distance(projectile.Center, Main.npc[CalamityGlobalNPC.voidBoss].Center) < 80f)
-                projectile.Kill();
+            if (Vector2.Distance(Projectile.Center, Main.npc[CalamityGlobalNPC.voidBoss].Center) < 80f)
+                Projectile.Kill();
 
-            if (projectile.velocity.Length() < 10f)
-                projectile.velocity *= 1.05f;
+            if (Projectile.velocity.Length() < 10f)
+                Projectile.velocity *= 1.05f;
 
-            if (projectile.timeLeft < 30)
-                projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
+            if (Projectile.timeLeft < 30)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 30f, 0f, 1f);
             else
-                projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 570) / 30f), 0f, 1f);
+                Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - 570) / 30f), 0f, 1f);
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
-                projectile.frame = 0;
+            if (Projectile.frame > 5)
+                Projectile.frame = 0;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = Color.Lerp(Color.White, Color.Fuchsia, 0.5f) * projectile.Opacity;
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int drawStart = height * projectile.frame;
-            Vector2 origin = projectile.Size / 2;
+            Color color = Color.Lerp(Color.White, Color.Fuchsia, 0.5f) * Projectile.Opacity;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int drawStart = height * Projectile.frame;
+            Vector2 origin = Projectile.Size / 2;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
 
-            color = Color.Lerp(Color.White, Color.Cyan, 0.5f) * projectile.Opacity;
+            color = Color.Lerp(Color.White, Color.Cyan, 0.5f) * Projectile.Opacity;
 
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow2"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow2"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
 
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 35f, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 35f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.Opacity == 1f)
+            if (Projectile.Opacity == 1f)
                 target.AddBuff(BuffID.VortexDebuff, 60);
         }
 
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             for (int num621 = 0; num621 < 3; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 Main.dust[num622].noGravity = true;
                 if (Main.rand.NextBool(2))
@@ -113,10 +113,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 5; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 2f;
             }

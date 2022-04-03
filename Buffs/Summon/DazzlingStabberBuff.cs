@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DazzlingStabberBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dazzling Stabber");
             Description.SetDefault("En garde");

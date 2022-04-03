@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

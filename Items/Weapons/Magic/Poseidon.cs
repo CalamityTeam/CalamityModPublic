@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 48;
-            item.magic = true;
-            item.mana = 12;
-            item.width = 28;
-            item.height = 32;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.UseSound = SoundID.Item84;
-            item.rare = ItemRarityID.Pink;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
-            item.shootSpeed = 10f;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
+            Item.width = 28;
+            Item.height = 32;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.UseSound = SoundID.Item84;
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
+            Item.shootSpeed = 10f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

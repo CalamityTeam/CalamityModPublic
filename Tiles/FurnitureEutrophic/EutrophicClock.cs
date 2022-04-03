@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.5f;
                 g = 1f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             num = fail ? 1 : 3;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

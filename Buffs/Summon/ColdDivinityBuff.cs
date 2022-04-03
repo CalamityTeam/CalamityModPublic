@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ColdDivinityBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cold Divinity");
             Description.SetDefault("The magic of the ancient ice castle will aid you");

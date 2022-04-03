@@ -116,10 +116,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
 
-            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
-            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
-            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.mod == "Terraria");
-            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.mod == "Terraria");
+            var effectDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            var passiveDescTooltip = list.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+            var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
+            var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip5" && x.Mod == "Terraria");
 
             //Default stuff
             effectDescTooltip.text = "Does nothing..yet\nIt seems that upgrading the blade expanded the scope of the previous attunements";
@@ -159,32 +159,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 92;
-            item.damage = BaseDamage;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 15f;
+            Item.width = Item.height = 92;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<TrueBiomeBlade>());
-            recipe.AddIngredient(ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemType<AstralBar>(), 3);
-            recipe.AddIngredient(ItemType<BarofLife>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemType<TrueBiomeBlade>()).AddIngredient(ItemType<CoreofCalamity>()).AddIngredient(ItemType<AstralBar>(), 3).AddIngredient(ItemType<BarofLife>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         #region Saving and syncing attunements
@@ -242,7 +235,7 @@ namespace CalamityMod.Items.Weapons.Melee
             writer.Write(secondaryAttunement != null ? (byte)secondaryAttunement.id : Attunement.attunementArray.Length - 1);
         }
 
-        public override void NetRecieve(BinaryReader reader)
+        public override void NetReceive(BinaryReader reader)
         {
             mainAttunement = Attunement.attunementArray[reader.ReadInt32()];
             secondaryAttunement = Attunement.attunementArray[reader.ReadInt32()];
@@ -285,17 +278,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (mainAttunement == null)
             {
-                item.noUseGraphic = false;
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.noMelee = false;
-                item.channel = false;
-                item.shoot = ProjectileID.PurificationPowder;
-                item.shootSpeed = 12f;
-                item.UseSound = SoundID.Item1;
+                Item.noUseGraphic = false;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.noMelee = false;
+                Item.channel = false;
+                Item.shoot = ProjectileID.PurificationPowder;
+                Item.shootSpeed = 12f;
+                Item.UseSound = SoundID.Item1;
             }
 
             else
-                mainAttunement.ApplyStats(item);
+                mainAttunement.ApplyStats(Item);
 
 
             if (player.whoAmI != Main.myPlayer)
@@ -358,7 +351,7 @@ namespace CalamityMod.Items.Weapons.Melee
             position.Y -= 6f * scale;
 
             Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
-            Rectangle itemFrame = (Main.itemAnimations[item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[item.type].GetFrame(itemTexture);
+            Rectangle itemFrame = (Main.itemAnimations[Item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[Item.type].GetFrame(itemTexture);
 
             // Draw all particles.
 
@@ -389,7 +382,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             //Draw the charged version if you can
             Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
-            spriteBatch.Draw(itemTexture, item.Center - Main.screenPosition, null, lightColor, rotation, item.Size * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }
     }

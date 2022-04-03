@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void SetDefaults()
         {
-            item.damage = 400;
-            item.width = 50;
-            item.height = 28;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MagnumRound>();
-            item.useAmmo = ModContent.ItemType<MagnumRounds>();
+            Item.damage = 400;
+            Item.width = 50;
+            Item.height = 28;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<MagnumRound>();
+            Item.useAmmo = ModContent.ItemType<MagnumRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 3;
+                Item.Calamity().timesUsed = 3;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -44,19 +44,19 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 3;
+                Item.Calamity().timesUsed = 3;
 
             return true;
         }
 
-        public override bool CanUseItem(Player player) => item.Calamity().timesUsed < 3;
+        public override bool CanUseItem(Player player) => Item.Calamity().timesUsed < 3;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-                item.Calamity().timesUsed = 0;
+                Item.Calamity().timesUsed = 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 player.HeldItem.Calamity().timesUsed++;
                 for (int i = 0; i < Main.maxInventory; i++)
                 {
-                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+                    if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;
                 }
             }
@@ -75,16 +75,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Magnum>());
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.SoulofMight, 20);
-            recipe.AddIngredient(ItemID.SoulofSight, 20);
-            recipe.AddIngredient(ItemID.SoulofFright, 20);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Magnum>()).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.SoulofMight, 20).AddIngredient(ItemID.SoulofSight, 20).AddIngredient(ItemID.SoulofFright, 20).AddIngredient(ItemID.HallowedBar, 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

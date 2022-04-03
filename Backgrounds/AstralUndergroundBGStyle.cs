@@ -11,7 +11,7 @@ namespace CalamityMod.Backgrounds
         {
             for (int i = 0; i <= 3; i++)
             {
-                textureSlots[i] = mod.GetBackgroundSlot("Backgrounds/AstralUG" + i.ToString());
+                textureSlots[i] = Mod.GetBackgroundSlot("Backgrounds/AstralUG" + i.ToString());
             }
         }
     }

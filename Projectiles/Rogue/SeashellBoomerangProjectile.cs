@@ -15,20 +15,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 240;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 240;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.Calamity().stealthStrike)
-                CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 20f, 5, ModContent.ProjectileType<Seashell>());
+            if (Projectile.Calamity().stealthStrike)
+                CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 10f, 20f, 5, ModContent.ProjectileType<Seashell>());
         }
     }
 }

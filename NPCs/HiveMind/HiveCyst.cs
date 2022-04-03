@@ -11,45 +11,45 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Cyst");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0f;
-            npc.aiStyle = -1;
+            NPC.npcSlots = 0f;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 30; //324
-            npc.height = 30; //216
-            npc.defense = 0;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0f;
-            npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.rarity = 2;
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
+            NPC.damage = 0;
+            NPC.width = 30; //324
+            NPC.height = 30; //216
+            NPC.defense = 0;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0f;
+            NPC.chaseable = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.rarity = 2;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
                 return 0f;
-            if (spawnInfo.player.Calamity().disableHiveCystSpawns)
+            if (spawnInfo.Player.Calamity().disableHiveCystSpawns)
                 return 0f;
 
             bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
-            bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.player.ZoneCorrupt;
+            bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
             if (anyBossElements || spawnInfo.playerSafe || !corrupt)
                 return 0f;
 
@@ -61,25 +61,25 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 2000;
-            npc.damage = 0;
+            NPC.lifeMax = 2000;
+            NPC.damage = 0;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<HiveMind>()) < 1)
                 {
-                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                    Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
                     NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
                 }
             }

@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 46;
-            item.height = 22;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item12;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurpleLaser;
-            item.shootSpeed = 20f;
+            Item.damage = 55;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 46;
+            Item.height = 22;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item12;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurpleLaser;
+            Item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,16 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpaceGun);
-            recipe.AddIngredient(ItemID.LaserRifle);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 5);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpaceGun).AddIngredient(ItemID.LaserRifle).AddIngredient(ModContent.ItemType<VictoryShard>(), 5).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

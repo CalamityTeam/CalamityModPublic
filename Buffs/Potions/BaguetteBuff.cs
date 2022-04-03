@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class BaguetteBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baguette");
             Description.SetDefault("If only I knew... ~Cirrus");

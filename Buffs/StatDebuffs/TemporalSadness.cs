@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class TemporalSadness : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Temporal Sadness");
             Description.SetDefault("You are crying");

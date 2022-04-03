@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class ChaoticBrickWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             drop = ModContent.ItemType<Items.Placeables.Walls.ChaoticBrickWall>();

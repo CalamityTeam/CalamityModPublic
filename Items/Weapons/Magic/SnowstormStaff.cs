@@ -15,22 +15,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 53;
-            item.magic = true;
-            item.channel = true;
-            item.mana = 13;
-            item.width = 66;
-            item.height = 66;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item46;
-            item.shoot = ModContent.ProjectileType<Snowflake>();
-            item.shootSpeed = 7f;
+            Item.damage = 53;
+            Item.DamageType = DamageClass.Magic;
+            Item.channel = true;
+            Item.mana = 13;
+            Item.width = 66;
+            Item.height = 66;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item46;
+            Item.shoot = ModContent.ProjectileType<Snowflake>();
+            Item.shootSpeed = 7f;
         }
     }
 }

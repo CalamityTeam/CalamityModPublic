@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 52;
-            item.damage = 26;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 52;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
-            item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 52;
+            Item.damage = 26;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 52;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,13 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 7);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 7).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.SoulofFright, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

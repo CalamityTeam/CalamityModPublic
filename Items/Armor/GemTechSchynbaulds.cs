@@ -17,26 +17,20 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 26;
-            item.defense = 24;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 28;
+            Item.height = 26;
+            Item.defense = 24;
+            Item.rare = ItemRarityID.Purple;
 
             // Exact worth of the armor piece's constituents.
-            item.value = Item.sellPrice(platinum: 7, gold: 35, silver: 84);
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(platinum: 7, gold: 35, silver: 84);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrism>(), 12).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

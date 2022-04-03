@@ -18,31 +18,31 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
-            item.height = 28;
-            item.damage = 26;
-            item.thrown = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.maxStack = 2;
-            item.knockBack = 3.5f;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<SandDollarProj>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.width = 30;
+            Item.height = 28;
+            Item.damage = 26;
+            Item.DamageType = DamageClass.Throwing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.maxStack = 2;
+            Item.knockBack = 3.5f;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<SandDollarProj>();
+            Item.shootSpeed = 14f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            int UseMax = item.stack - 1;
+            int UseMax = Item.stack - 1;
 
-            if (player.ownedProjectileCounts[item.shoot] > UseMax && !player.Calamity().StealthStrikeAvailable())
+            if (player.ownedProjectileCounts[Item.shoot] > UseMax && !player.Calamity().StealthStrikeAvailable())
             {
                 return false;
             }

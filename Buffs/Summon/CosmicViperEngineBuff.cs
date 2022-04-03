@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CosmicViperEngineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Viper");
             Description.SetDefault("The cosmic gunship will protect you");

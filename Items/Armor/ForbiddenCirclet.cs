@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.defense = 1;
+            Item.width = 18;
+            Item.height = 18;
+            Item.defense = 1;
             // This item has the same rarity and sell price as Forbidden Mask
-            item.value = Item.buyPrice(gold: 25);
-            item.rare = ItemRarityID.Pink;
-            item.Calamity().donorItem = true;
+            Item.value = Item.buyPrice(gold: 25);
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -60,19 +60,14 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
             player.Calamity().throwingVelocity += 0.15f;
         }
 
         public override void AddRecipes()
         {
             //Same recipe as Forbidden Mask
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 10);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 10).AddIngredient(ItemID.AncientBattleArmorMaterial).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

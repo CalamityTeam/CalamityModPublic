@@ -12,8 +12,8 @@ namespace CalamityMod.Projectiles.Melee
     public class PolarisGazeDash : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public Player Owner => Main.player[projectile.owner];
-        public float Timer => 20 - projectile.timeLeft;
+        public Player Owner => Main.player[Projectile.owner];
+        public float Timer => 20 - Projectile.timeLeft;
 
         public Vector2 DashStart;
         public Vector2 DashEnd;
@@ -24,14 +24,14 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 8;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
-            projectile.timeLeft = 20;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 8;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
+            Projectile.timeLeft = 20;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
             //Explode into cosmic bolts
             for (int i = 0; i < 3; i++)
             {
-                Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.meleeDamage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
+                Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee)), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
                 {
                     blast.timeLeft = 100;
                 }
@@ -73,9 +73,9 @@ namespace CalamityMod.Projectiles.Melee
 
             Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
 
-            Vector2 Shake = projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - projectile.timeLeft / 5f) * 0.5f;
-            float bump = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.Pi);
-            float raise = (float)Math.Sin(((20f - projectile.timeLeft) / 20f) * MathHelper.PiOver2);
+            Vector2 Shake = Projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - Projectile.timeLeft / 5f) * 0.5f;
+            float bump = (float)Math.Sin(((20f - Projectile.timeLeft) / 20f) * MathHelper.Pi);
+            float raise = (float)Math.Sin(((20f - Projectile.timeLeft) / 20f) * MathHelper.PiOver2);
 
             float rot = (DashEnd - DashStart).ToRotation() + MathHelper.PiOver2;
             Vector2 origin = new Vector2(lineTex.Width / 2f, lineTex.Height);

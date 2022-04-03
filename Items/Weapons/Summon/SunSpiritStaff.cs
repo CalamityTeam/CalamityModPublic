@@ -18,31 +18,26 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.mana = 10;
-            item.width = 44;
-            item.height = 48;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1.15f;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<SolarPixie>();
-            item.summon = true;
+            Item.damage = 12;
+            Item.mana = 10;
+            Item.width = 44;
+            Item.height = 48;
+            Item.useTime = Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1.15f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<SolarPixie>();
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SandstoneBrick, 20);
-            recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SandstoneBrick, 20).AddIngredient(ModContent.ItemType<DesertFeather>(), 2).AddTile(TileID.Anvils).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

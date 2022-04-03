@@ -22,44 +22,38 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useTime = item.useAnimation = 20;
-            item.shoot = ModContent.ProjectileType<RotomPet>();
-            item.buffType = ModContent.BuffType<RotomBuff>();
+            Item.damage = 0;
+            Item.useTime = Item.useAnimation = 20;
+            Item.shoot = ModContent.ProjectileType<RotomPet>();
+            Item.buffType = ModContent.BuffType<RotomBuff>();
 
-            item.width = 30;
-            item.height = 34;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item113;
+            Item.width = 30;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item113;
 
-            item.value = Item.buyPrice(gold: 4);
-            item.rare = ItemRarityID.Orange;
-            item.Calamity().devItem = true;
+            Item.value = Item.buyPrice(gold: 4);
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Pets/RotomRemoteGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Pets/RotomRemoteGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
-            recipe.AddRecipeGroup("AnyGoldBar", 8);
-            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddRecipeGroup("AnyGoldBar", 8).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddTile(TileID.Anvils).Register();
         }
     }
 }

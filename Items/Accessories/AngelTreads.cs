@@ -23,11 +23,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
-            item.accessory = true;
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -46,17 +46,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrostsparkBoots);
-            recipe.AddIngredient(ItemID.LavaWaders);
-            recipe.AddIngredient(ModContent.ItemType<HarpyRing>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FrostsparkBoots).AddIngredient(ItemID.LavaWaders).AddIngredient(ModContent.ItemType<HarpyRing>()).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

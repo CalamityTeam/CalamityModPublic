@@ -17,27 +17,22 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 20;
-            item.shootSpeed = 13f;
-            item.shoot = ModContent.ProjectileType<NavyBobber>();
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 20;
+            Item.shootSpeed = 13f;
+            Item.shoot = ModContent.ProjectileType<NavyBobber>();
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 8).AddTile(TileID.Anvils).Register();
         }
     }
 }

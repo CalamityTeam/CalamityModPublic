@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 62;
-            item.scale = 1.5f;
-            item.damage = 110;
-            item.melee = true;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shootSpeed = 5f;
+            Item.width = 50;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.damage = 110;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shootSpeed = 5f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

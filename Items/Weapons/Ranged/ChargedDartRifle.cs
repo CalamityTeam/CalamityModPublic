@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.ranged = true;
-            item.width = 74;
-            item.height = 40;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-            item.autoReuse = true;
-            item.shootSpeed = 22f;
-            item.shoot = ModContent.ProjectileType<ChargedBlast>();
-            item.useAmmo = AmmoID.Dart;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 74;
+            Item.height = 40;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.autoReuse = true;
+            Item.shootSpeed = 22f;
+            Item.shoot = ModContent.ProjectileType<ChargedBlast>();
+            Item.useAmmo = AmmoID.Dart;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -70,22 +70,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DartRifle);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 25);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ItemID.FragmentVortex, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DartPistol);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 25);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ItemID.FragmentVortex, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DartRifle).AddIngredient(ItemID.MartianConduitPlating, 25).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ItemID.FragmentVortex, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ItemID.DartPistol).AddIngredient(ItemID.MartianConduitPlating, 25).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ItemID.FragmentVortex, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

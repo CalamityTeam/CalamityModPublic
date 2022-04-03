@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteCandelabra : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.6f;

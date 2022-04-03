@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -21,24 +22,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 500;
-            item.ranged = true;
-            item.useTime = 8;
-            item.useAnimation = 32; // 4 shots in just over half a second
-            item.reuseDelay = 60; // 1 second recharge
-            item.width = 104;
-            item.height = 44;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8.7f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.autoReuse = true;
-            item.shootSpeed = 12.6f;
-            item.shoot = ModContent.ProjectileType<ScorchedEarthRocket>();
-            item.useAmmo = AmmoID.Rocket;
-            item.Calamity().donorItem = true;
+            Item.damage = 500;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 8;
+            Item.useAnimation = 32; // 4 shots in just over half a second
+            Item.reuseDelay = 60; // 1 second recharge
+            Item.width = 104;
+            Item.height = 44;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8.7f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12.6f;
+            Item.shoot = ModContent.ProjectileType<ScorchedEarthRocket>();
+            Item.useAmmo = AmmoID.Rocket;
+            Item.Calamity().donorItem = true;
         }
 
         // Consume two ammo per fire
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (counter == 0)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
             }
 
             counter++;
@@ -63,14 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlissfulBombardier>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ItemID.FragmentSolar, 50);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 15);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlissfulBombardier>()).AddIngredient(ModContent.ItemType<DarksunFragment>(), 10).AddIngredient(ItemID.FragmentSolar, 50).AddRecipeGroup("AnyAdamantiteBar", 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

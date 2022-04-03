@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.damage = 563;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 33;
-            item.useAnimation = 33;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.height = 54;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<EradicatorProjectile>();
-            item.shootSpeed = Speed;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.damage = 563;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 33;
+            Item.useAnimation = 33;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.shoot = ModContent.ProjectileType<EradicatorProjectile>();
+            Item.shootSpeed = Speed;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"));
         }
     }
 }

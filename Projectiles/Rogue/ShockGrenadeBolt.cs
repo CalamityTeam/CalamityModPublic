@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,50 +16,50 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 120;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 120;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
-            }
-
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-
-            if (projectile.timeLeft < 55)
-            {
-                projectile.tileCollide = true;
+                Projectile.frame = 0;
             }
 
-            if (projectile.ai[1] == 1f)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+
+            if (Projectile.timeLeft < 55)
+            {
+                Projectile.tileCollide = true;
+            }
+
+            if (Projectile.ai[1] == 1f)
             {
                 float minDist = 999f;
                 int index = 0;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float dist = (projectile.Center - npc.Center).Length();
+                        float dist = (Projectile.Center - npc.Center).Length();
                         if (dist < minDist)
                         {
                             minDist = dist;
@@ -70,14 +71,14 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocityNew;
                 if (minDist < 999f)
                 {
-                    velocityNew = Main.npc[index].Center - projectile.Center;
+                    velocityNew = Main.npc[index].Center - Projectile.Center;
                     velocityNew.Normalize();
                     velocityNew *= 2f;
-                    projectile.velocity += velocityNew;
-                    if (projectile.velocity.Length() > 10f)
+                    Projectile.velocity += velocityNew;
+                    if (Projectile.velocity.Length() > 10f)
                     {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= 10f;
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= 10f;
                     }
                 }
             }
@@ -96,25 +97,25 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D sprite;
-            if (projectile.ai[0] == 0f)
-                sprite = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt");
+            if (Projectile.ai[0] == 0f)
+                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt");
             else
-                sprite = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt2");
+                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt2");
             Color drawColour = Color.White;
 
             Vector2 origin = new Vector2(frameWidth / 2, frameHeight / 2);
-            spriteBatch.Draw(sprite, projectile.Center - Main.screenPosition, new Rectangle(0, frameHeight * projectile.frame, frameWidth, frameHeight), drawColour, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(sprite, Projectile.Center - Main.screenPosition, new Rectangle(0, frameHeight * Projectile.frame, frameWidth, frameHeight), drawColour, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 93, 0.25f, 0f);
+            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 93, 0.25f, 0f);
 
             for (int i = 0; i < 5; i++)
             {
                 int dustType = 132;
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 0.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 0.5f);
                 Main.dust[dust].noGravity = true;
             }
         }

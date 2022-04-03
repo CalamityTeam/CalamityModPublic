@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AuricOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;

@@ -21,25 +21,25 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 193;
-            item.knockBack = 1f;
-            item.mana = 99;
-            item.useTime = item.useAnimation = 10;
-            item.summon = true;
-            item.shootSpeed = 0f;
-            item.shoot = ModContent.ProjectileType<MagicHat>();
+            Item.damage = 193;
+            Item.knockBack = 1f;
+            Item.mana = 99;
+            Item.useTime = Item.useAnimation = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.shootSpeed = 0f;
+            Item.shoot = ModContent.ProjectileType<MagicHat>();
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 74;
-            item.height = 72;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item68;
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 74;
+            Item.height = 72;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item68;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,15 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpikecragStaff>());
-            recipe.AddIngredient(ModContent.ItemType<SarosPossession>());
-            recipe.AddIngredient(ItemID.Umbrella);
-            recipe.AddIngredient(ItemID.TopHat);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpikecragStaff>()).AddIngredient(ModContent.ItemType<SarosPossession>()).AddIngredient(ItemID.Umbrella).AddIngredient(ItemID.TopHat).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

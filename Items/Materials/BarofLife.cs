@@ -13,22 +13,16 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 3);
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 30;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 3);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>());
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>()).AddIngredient(ModContent.ItemType<DraedonBar>()).AddIngredient(ModContent.ItemType<CruptixBar>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

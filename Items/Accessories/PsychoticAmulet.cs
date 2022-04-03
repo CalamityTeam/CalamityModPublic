@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Accessories
             player.shroomiteStealth = true;
             modPlayer.throwingDamage += 0.05f;
             modPlayer.throwingCrit += 5;
-            player.rangedDamage += 0.05f;
-            player.rangedCrit += 5;
+            player.GetDamage(DamageClass.Ranged) += 0.05f;
+            player.GetCritChance(DamageClass.Ranged) += 5;
         }
     }
 }

@@ -19,24 +19,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.damage = 300;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item82;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<CrescentMoonFlail>();
+            Item.width = 16;
+            Item.height = 16;
+            Item.damage = 300;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item82;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<CrescentMoonFlail>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,13 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 16);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 16).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

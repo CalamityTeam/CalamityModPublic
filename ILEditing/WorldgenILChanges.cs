@@ -5,7 +5,7 @@ using MonoMod.Cil;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.ILEditing
 {

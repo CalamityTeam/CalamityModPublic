@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 64;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 34;
-            item.height = 36;
-            item.useTime = item.useAnimation = 4;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LightBead>();
-            item.shootSpeed = 25f;
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 34;
+            Item.height = 36;
+            Item.useTime = Item.useAnimation = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LightBead>();
+            Item.shootSpeed = 25f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,17 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadecrystalTome>());
-            recipe.AddIngredient(ModContent.ItemType<AbyssalTome>());
-            recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 30);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShadecrystalTome>()).AddIngredient(ModContent.ItemType<AbyssalTome>()).AddIngredient(ItemID.HolyWater, 10).AddIngredient(ItemID.SoulofLight, 30).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.Bookcases).Register();
         }
     }
 }

@@ -20,17 +20,17 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, summoning a burning sigil around it\n" +
                 "Enemies touching the sigil take immense damage and are inflicted with Vulnerability Hex\n" +
                 "Equip in a vanity slot to change the cursor without dealing damage");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 108;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.accessory = true;
+            Item.width = 44;
+            Item.height = 108;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

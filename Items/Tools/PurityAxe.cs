@@ -19,28 +19,28 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 75;
-            item.knockBack = 5f;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.axe = AxePower;
+            Item.damage = 75;
+            Item.knockBack = 5f;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.axe = AxePower;
 
-            item.melee = true;
-            item.width = 58;
-            item.height = 54;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 58;
+            Item.height = 54;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int powderDamage = (int)(0.85f * damage);
             int idx = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, powderDamage, knockBack, player.whoAmI, 0f, 0f);
-            Main.projectile[idx].melee = true;
+            Main.projectile[idx].DamageType = DamageClass.Melee;
             return false;
         }
 
@@ -50,15 +50,15 @@ namespace CalamityMod.Items.Tools
         {
             if (player.altFunctionUse == 2)
             {
-                item.axe = 0;
-                item.shoot = ProjectileID.PurificationPowder;
-                item.shootSpeed = PowderSpeed;
+                Item.axe = 0;
+                Item.shoot = ProjectileID.PurificationPowder;
+                Item.shootSpeed = PowderSpeed;
             }
             else
             {
-                item.axe = AxePower;
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.axe = AxePower;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
             }
             return base.CanUseItem(player);
         }
@@ -73,14 +73,7 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FellerofEvergreens>());
-            recipe.AddIngredient(ItemID.PurificationPowder, 20);
-            recipe.AddIngredient(ItemID.PixieDust, 20);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FellerofEvergreens>()).AddIngredient(ItemID.PurificationPowder, 20).AddIngredient(ItemID.PixieDust, 20).AddIngredient(ItemID.CrystalShard, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

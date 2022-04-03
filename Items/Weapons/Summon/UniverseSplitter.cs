@@ -23,32 +23,32 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Attempting to use this item during the cooldown will cause it to short circuit and do damage to you.\n" +
                                "An ancient artifact from a previous age, it waits for your command...\n" +
                                "This is a terrible idea, but it isn't yours anyways... right?");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 14));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
         }
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 76;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item122;
+            Item.width = 54;
+            Item.height = 76;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item122;
 
-            item.summon = true;
-            item.mana = 300;
-            item.damage = 18000;
-            item.knockBack = 7f;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<UniverseSplitterField>();
-            item.shootSpeed = 10f;
-            item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 300;
+            Item.damage = 18000;
+            Item.knockBack = 7f;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<UniverseSplitterField>();
+            Item.shootSpeed = 10f;
+            Item.noUseGraphic = true;
 
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -77,13 +77,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonsRemote>());
-            recipe.AddIngredient(ModContent.ItemType<Abomination>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonsRemote>()).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

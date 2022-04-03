@@ -16,37 +16,31 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = item.height = 48;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.channel = true;
-            item.noMelee = true;
-            item.damage = 1;
-            item.knockBack = 1f;
-            item.autoReuse = false;
-            item.useTurn = false;
-            item.magic = true;
+            Item.width = Item.height = 48;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.damage = 1;
+            Item.knockBack = 1f;
+            Item.autoReuse = false;
+            Item.useTurn = false;
+            Item.DamageType = DamageClass.Magic;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
-            item.mana = 200;
-            item.shootSpeed = 0f;
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
+            Item.mana = 200;
+            Item.shootSpeed = 0f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SapphireStaff);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SapphireStaff).AddIngredient(ModContent.ItemType<Phantoplasm>(), 10).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

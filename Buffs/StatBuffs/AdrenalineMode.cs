@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class AdrenalineMode : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adrenaline Mode");
             Description.SetDefault("200% damage boost. Can be boosted by other items up to 245%.");

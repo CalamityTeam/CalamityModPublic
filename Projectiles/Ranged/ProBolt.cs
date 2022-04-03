@@ -11,38 +11,38 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
             //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) *projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) *Projectile.direction;
 
-            Lighting.AddLight(projectile.Center, new Vector3(158, 240, 240) * (1.5f / 255));
+            Lighting.AddLight(Projectile.Center, new Vector3(158, 240, 240) * (1.5f / 255));
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
-                Vector2 dspeed = -projectile.velocity * 0.8f;
-                float x = projectile.Center.X - projectile.velocity.X / 10f;
-                float y = projectile.Center.Y - projectile.velocity.Y / 10f;
+                Vector2 dspeed = -Projectile.velocity * 0.8f;
+                float x = Projectile.Center.X - Projectile.velocity.X / 10f;
+                float y = Projectile.Center.Y - Projectile.velocity.Y / 10f;
                 int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default, 1.25f);
-                Main.dust[num135].alpha = projectile.alpha;
+                Main.dust[num135].alpha = Projectile.alpha;
                 Main.dust[num135].position.X = x;
                 Main.dust[num135].position.Y = y;
                 Main.dust[num135].velocity = dspeed;
@@ -52,26 +52,26 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;
@@ -81,13 +81,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 160, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f); //206 160 226
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 160, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f); //206 160 226
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
+            target.immune[Projectile.owner] = 7;
         }
     }
 }

@@ -14,35 +14,35 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame Pillar");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.GetNPCDamage();
-            npc.width = 40;
-            npc.height = 150;
-            npc.defense = 35;
-            npc.DR_NERD(0.2f);
-            npc.chaseable = false;
-            npc.canGhostHeal = false;
-            npc.lifeMax = CalamityWorld.downedProvidence ? 14000 : 3500;
-            npc.alpha = 255;
-            npc.aiStyle = -1;
+            NPC.GetNPCDamage();
+            NPC.width = 40;
+            NPC.height = 150;
+            NPC.defense = 35;
+            NPC.DR_NERD(0.2f);
+            NPC.chaseable = false;
+            NPC.canGhostHeal = false;
+            NPC.lifeMax = CalamityWorld.downedProvidence ? 14000 : 3500;
+            NPC.alpha = 255;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.HitSound = SoundID.NPCHit41;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.knockBackResist = 0f;
+            NPC.HitSound = SoundID.NPCHit41;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void AI()
@@ -52,55 +52,55 @@ namespace CalamityMod.NPCs.Ravager
 
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.life = 0;
-                HitEffect(npc.direction, 9999);
-                npc.netUpdate = true;
+                NPC.life = 0;
+                HitEffect(NPC.direction, 9999);
+                NPC.netUpdate = true;
                 return;
             }
 
-            if (npc.timeLeft < 1800)
-                npc.timeLeft = 1800;
+            if (NPC.timeLeft < 1800)
+                NPC.timeLeft = 1800;
 
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.5f, 0.5f);
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0f, 0.5f, 0.5f);
 
-            if (npc.alpha > 0)
+            if (NPC.alpha > 0)
             {
-                npc.damage = 0;
+                NPC.damage = 0;
 
-                npc.alpha -= 5;
-                if (npc.alpha < 0)
-                    npc.alpha = 0;
+                NPC.alpha -= 5;
+                if (NPC.alpha < 0)
+                    NPC.alpha = 0;
             }
             else
             {
                 if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
-                    npc.damage = (int)(npc.defDamage * 1.5);
+                    NPC.damage = (int)(NPC.defDamage * 1.5);
                 else
-                    npc.damage = npc.defDamage;
+                    NPC.damage = NPC.defDamage;
             }
 
-            if (npc.ai[0] == 0f)
+            if (NPC.ai[0] == 0f)
             {
-                npc.ai[1] += 1f;
-                if (npc.ai[1] >= 60f)
+                NPC.ai[1] += 1f;
+                if (NPC.ai[1] >= 60f)
                 {
-                    npc.ai[0] = 1f;
-                    npc.ai[1] = 180f;
+                    NPC.ai[0] = 1f;
+                    NPC.ai[1] = 180f;
                 }
             }
-            else if (npc.ai[0] == 1f)
+            else if (NPC.ai[0] == 1f)
             {
-                if (npc.ai[1] >= 0f)
+                if (NPC.ai[1] >= 0f)
                 {
-                    npc.ai[1] -= 1f;
-                    npc.localAI[0] += 1f;
-                    if (npc.localAI[0] % (death ? 45f : 60f) == 0f)
+                    NPC.ai[1] -= 1f;
+                    NPC.localAI[0] += 1f;
+                    if (NPC.localAI[0] % (death ? 45f : 60f) == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float speedY = -12f;
                             float speedX = 0f;
-                            switch ((int)npc.ai[2])
+                            switch ((int)NPC.ai[2])
                             {
                                 case 0:
                                     break;
@@ -115,19 +115,19 @@ namespace CalamityMod.NPCs.Ravager
                             }
                             Vector2 velocity = new Vector2(speedX, speedY);
                             int type = ModContent.ProjectileType<RavagerFlame>();
-                            int damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(npc.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            int damage = NPC.GetProjectileDamage(type);
+                            Projectile.NewProjectile(NPC.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
-                        npc.ai[2] += 1f;
-                        npc.localAI[0] = 0f;
-                        npc.netUpdate = true;
+                        NPC.ai[2] += 1f;
+                        NPC.localAI[0] = 0f;
+                        NPC.netUpdate = true;
                     }
                 }
                 else
                 {
-                    npc.life = 0;
-                    HitEffect(npc.direction, 9999);
-                    npc.netUpdate = true;
+                    NPC.life = 0;
+                    HitEffect(NPC.direction, 9999);
+                    NPC.netUpdate = true;
                 }
             }
         }
@@ -135,21 +135,21 @@ namespace CalamityMod.NPCs.Ravager
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Ravager/FlamePillarGlow");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/FlamePillarGlow");
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -160,17 +160,17 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                npc.position.X = npc.position.X + (npc.width / 2);
-                npc.position.Y = npc.position.Y + (npc.height / 2);
-                npc.width = 50;
-                npc.height = 180;
-                npc.position.X = npc.position.X - (npc.width / 2);
-                npc.position.Y = npc.position.Y - (npc.height / 2);
+                NPC.position.X = NPC.position.X + (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                NPC.width = 50;
+                NPC.height = 180;
+                NPC.position.X = NPC.position.X - (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 30; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 135, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 135, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -180,10 +180,10 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 for (int num623 = 0; num623 < 30; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 for (int num621 = 0; num621 < 2; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -201,10 +201,10 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 for (int num623 = 0; num623 < 2; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

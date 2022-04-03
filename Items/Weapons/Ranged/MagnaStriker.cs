@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.width = 72;
-            item.height = 38;
-            item.useTime = 5;
-            item.reuseDelay = 6;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<OpalStrike>();
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 72;
+            Item.height = 38;
+            Item.useTime = 5;
+            Item.reuseDelay = 6;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -58,14 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<OpalStriker>());
-            recipe.AddIngredient(ModContent.ItemType<MagnaCannon>());
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 6);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<OpalStriker>()).AddIngredient(ModContent.ItemType<MagnaCannon>()).AddRecipeGroup("AnyAdamantiteBar", 6).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     class PhantomicRestorationBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantomic Regen");
             Description.SetDefault("Regenerating life");

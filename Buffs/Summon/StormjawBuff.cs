@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class StormjawBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Stormlion");
             Description.SetDefault("The baby stormlion will protect you");

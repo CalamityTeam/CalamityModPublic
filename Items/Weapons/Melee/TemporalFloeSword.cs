@@ -21,21 +21,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.damage = 95;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.knockBack = 6;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
-            item.shootSpeed = 16f;
+            Item.width = 52;
+            Item.damage = 95;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.knockBack = 6;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 60;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,13 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.IceMachine).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

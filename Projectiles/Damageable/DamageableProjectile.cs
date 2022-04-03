@@ -153,27 +153,27 @@ namespace CalamityMod.Projectiles.Damageable
             {
                 if (HitSound != null)
                 {
-                    Main.PlaySound(HitSound, projectile.Center);
+                    SoundEngine.PlaySound(HitSound, Projectile.Center);
                 }
             }
             else if (Life <= 0)
             {
                 if (DeathSound != null)
                 {
-                    Main.PlaySound(DeathSound, projectile.Center);
+                    SoundEngine.PlaySound(DeathSound, Projectile.Center);
                 }
                 DamageKillEffect();
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public virtual bool NPCCollisionCheck()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].damage > 0 && DamageSources.HasFlag(DamageSourceType.HostileNPCs))
                 {
-                    if (Main.npc[i].Hitbox.Intersects(projectile.Hitbox) && !NPCsToIgnore.Contains(Main.npc[i].type))
+                    if (Main.npc[i].Hitbox.Intersects(Projectile.Hitbox) && !NPCsToIgnore.Contains(Main.npc[i].type))
                     {
                         int damage = Main.DamageVar(Main.npc[i].damage);
                         int bannerBuffId = Item.NPCtoBanner(Main.npc[i].BannerID());
@@ -188,7 +188,7 @@ namespace CalamityMod.Projectiles.Damageable
                                 damage = (int)(damage * ItemID.Sets.BannerStrength[Item.BannerToItem(bannerBuffId)].NormalDamageReceived);
                             }
                         }
-                        CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), CombatText.DamagedFriendly, damage);
+                        CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), CombatText.DamagedFriendly, damage);
                         Life -= damage;
                         HitEffectNPC(damage, Main.npc[i]);
                         DamageImmunityFrames = MaxDamageImmunityFrames;
@@ -205,21 +205,21 @@ namespace CalamityMod.Projectiles.Damageable
             {
                 bool canBeHit = (Main.projectile[i].friendly && DamageSources.HasFlag(DamageSourceType.FriendlyProjectiles) ||
                                  Main.projectile[i].hostile && DamageSources.HasFlag(DamageSourceType.HostileProjectiles)) &&
-                                 i != projectile.whoAmI;
+                                 i != Projectile.whoAmI;
                 if (Main.projectile[i].active && canBeHit && Main.projectile[i].damage > 0)
                 {
-                    if (Main.projectile[i].Colliding(Main.projectile[i].Hitbox, projectile.Hitbox))
+                    if (Main.projectile[i].Colliding(Main.projectile[i].Hitbox, Projectile.Hitbox))
                     {
                         int damage = Main.DamageVar(Main.projectile[i].damage) * 2;
                         damage = Main.expertMode ? (int)(damage * Main.expertDamage) : damage;
-                        CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), CombatText.DamagedFriendly, damage);
+                        CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), CombatText.DamagedFriendly, damage);
                         Life -= damage;
                         HitEffectProjectile(damage, Main.projectile[i]);
                         DamageImmunityFrames = MaxDamageImmunityFrames;
-                        if (projectile.usesIDStaticNPCImmunity)
-                            DamageImmunityFrames = projectile.idStaticNPCHitCooldown;
-                        if (projectile.usesLocalNPCImmunity)
-                            DamageImmunityFrames = projectile.localNPCHitCooldown;
+                        if (Projectile.usesIDStaticNPCImmunity)
+                            DamageImmunityFrames = Projectile.idStaticNPCHitCooldown;
+                        if (Projectile.usesLocalNPCImmunity)
+                            DamageImmunityFrames = Projectile.localNPCHitCooldown;
                         NetUpdate(true);
                         return true;
                     }
@@ -278,11 +278,11 @@ namespace CalamityMod.Projectiles.Damageable
             {
                 if (forceCondition())
                 {
-                    NetMessage.SendData(MessageID.SyncProjectile, number: projectile.whoAmI);
+                    NetMessage.SendData(MessageID.SyncProjectile, number: Projectile.whoAmI);
                 }
             }
             else
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
         }
         /// <summary>
         /// Does things when the projectile is hit.
@@ -315,13 +315,13 @@ namespace CalamityMod.Projectiles.Damageable
                 {
                     mouseRectangle.Y = (int)Main.screenPosition.Y + Main.screenHeight - Main.mouseY;
                 }
-                if (projectile.Hitbox.Intersects(mouseRectangle))
+                if (Projectile.Hitbox.Intersects(mouseRectangle))
                 {
                     if (LifeMax > 1)
                     {
                         string lifeDataText = string.Concat(new object[]
                         {
-                            projectile.Name,
+                            Projectile.Name,
                             ": ",
                             Life,
                             "/",
@@ -343,7 +343,7 @@ namespace CalamityMod.Projectiles.Damageable
                 return;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, null, null, Main.UIScaleMatrix);
-            Main.instance.DrawHealthBar(projectile.Bottom.X, projectile.Bottom.Y, Life, LifeMax, 1f, 1f);
+            Main.instance.DrawHealthBar(Projectile.Bottom.X, Projectile.Bottom.Y, Life, LifeMax, 1f, 1f);
         }
         #endregion
     }

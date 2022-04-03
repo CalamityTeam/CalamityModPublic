@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class FireballBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
             Description.SetDefault("Fire debuff damage boosted, life regen reduced");

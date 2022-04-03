@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 13;
-            item.magic = true;
-            item.mana = 2;
-            item.width = 44;
-            item.height = 46;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WulfrumBolt>();
-            item.shootSpeed = 9f;
+            Item.damage = 13;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 2;
+            Item.width = 44;
+            Item.height = 46;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WulfrumBolt>();
+            Item.shootSpeed = 9f;
         }
 
         //public override Vector2? HoldoutOrigin() => new Vector2(8, 15);
@@ -42,11 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 12).AddTile(TileID.Anvils).Register();
         }
     }
 }

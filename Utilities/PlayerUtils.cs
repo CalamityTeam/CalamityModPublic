@@ -15,13 +15,13 @@ namespace CalamityMod
     {
         #region Damage
         // These functions factor in TML 0.11 allDamage to get the player's total damage boost which affects the specified class.
-        public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
-        public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;
-        public static float MagicDamage(this Player player) => player.allDamage + player.magicDamage - 1f;
-        public static float MinionDamage(this Player player) => player.allDamage + player.minionDamage - 1f;
-        public static float ThrownDamage(this Player player) => player.allDamage + player.thrownDamage - 1f;
-        public static float RogueDamage(this Player player) => player.allDamage + player.thrownDamage + player.Calamity().throwingDamage - 2f;
-        public static float AverageDamage(this Player player) => player.allDamage + (player.meleeDamage + player.rangedDamage + player.magicDamage + player.minionDamage + player.Calamity().throwingDamage - 5f) / 5f;
+        public static float MeleeDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Melee) - 1f;
+        public static float RangedDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Ranged) - 1f;
+        public static float MagicDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Magic) - 1f;
+        public static float MinionDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Summon) - 1f;
+        public static float ThrownDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Throwing) - 1f;
+        public static float RogueDamage(this Player player) => player.allDamage + player.GetDamage(DamageClass.Throwing) + player.Calamity().throwingDamage - 2f;
+        public static float AverageDamage(this Player player) => player.allDamage + (player.GetDamage(DamageClass.Melee) + player.GetDamage(DamageClass.Ranged) + player.GetDamage(DamageClass.Magic) + player.GetDamage(DamageClass.Summon) + player.Calamity().throwingDamage - 5f) / 5f;
         #endregion
 
         public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;
@@ -300,7 +300,7 @@ namespace CalamityMod
                 {
                     checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
 
-                    ConditionMet = !(checkedTile != null && checkedTile.nactive() && Main.tileSolid[checkedTile.type]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
+                    ConditionMet = !(checkedTile != null && checkedTile.nactive() && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
                     if (!ConditionMet)
                         return ConditionMet;
                 }

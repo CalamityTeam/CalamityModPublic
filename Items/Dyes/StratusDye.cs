@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class StratusDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/StratusDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/StratusDyeShader").Value), "DyePass").
             UseColor(new Color(36, 86, 163)).UseSecondaryColor(new Color(124, 204, 223)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
@@ -20,21 +20,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.value = Item.sellPrice(0, 4, 50, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = Item.sellPrice(0, 4, 50, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 2);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>());
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>());
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ItemID.BottledWater, 2).AddIngredient(ModContent.ItemType<RuinousSoul>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>()).AddIngredient(ModContent.ItemType<Lumenite>()).AddTile(TileID.DyeVat).Register();
         }
     }
 }

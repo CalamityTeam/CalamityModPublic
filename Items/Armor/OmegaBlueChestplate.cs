@@ -20,12 +20,12 @@ No positive life regen");
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 38, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.defense = 28;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 38, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.defense = 28;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateEquip(Player player)
@@ -39,14 +39,7 @@ No positive life regen");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ReaperTooth>(), 12).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<Tenebris>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

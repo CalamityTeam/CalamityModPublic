@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

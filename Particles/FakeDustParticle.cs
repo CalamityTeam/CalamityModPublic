@@ -49,7 +49,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D dustTexture = Big ? ModContent.GetTexture("CalamityMod/Particles/FakeDustBig") : GeneralParticleHandler.GetTexture(Type);
+            Texture2D dustTexture = Big ? ModContent.Request<Texture2D>("CalamityMod/Particles/FakeDustBig") : GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
             Rectangle frame = new Rectangle(0, (Big ? 8 : 6) * Variant, (Big ? 8 : 6), (Big ? 8 : 6));
             spriteBatch.Draw(dustTexture, Position - Main.screenPosition, frame, Color * opacity, Rotation, frame.Size() / 2f, Scale, SpriteEffects.None, 0);
         }

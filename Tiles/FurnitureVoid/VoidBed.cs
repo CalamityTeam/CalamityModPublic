@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.BedRightClick(i, j);
         }

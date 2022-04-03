@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class CryonicDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CryonicDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CryonicDyeShader").Value), "DyePass").
             UseColor(new Color(138, 225, 255)).UseSecondaryColor(new Color(90, 90, 204)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
@@ -19,18 +19,13 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 0, 75, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 0, 75, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 2);
-            recipe.AddIngredient(ModContent.ItemType<CryonicOre>(), 4);
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ItemID.BottledWater, 2).AddIngredient(ModContent.ItemType<CryonicOre>(), 4).AddTile(TileID.DyeVat).Register();
         }
     }
 }

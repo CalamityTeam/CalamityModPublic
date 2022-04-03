@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 63;
-            item.channel = true;
-            item.ranged = true;
-            item.width = 54;
-            item.height = 28;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item10;
-            item.autoReuse = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
+            Item.damage = 63;
+            Item.channel = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 54;
+            Item.height = 28;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item10;
+            Item.autoReuse = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -54,15 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PiranhaGun);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>());
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PiranhaGun).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2).AddIngredient(ModContent.ItemType<BarofLife>()).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ItemID.SharkFin, 2).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

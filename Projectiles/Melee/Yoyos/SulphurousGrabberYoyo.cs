@@ -18,44 +18,44 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Grabber Yoyo");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 350f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 350f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.scale = 1f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.aiStyle = 99;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.scale = 1f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 if (bubbleStronk)
                 {
-                    ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
-                    projectile.extraUpdates = 2;
-                    projectile.usesLocalNPCImmunity = true;
-                    projectile.localNPCHitCooldown = 10 * projectile.extraUpdates;
+                    ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 20f;
+                    Projectile.extraUpdates = 2;
+                    Projectile.usesLocalNPCImmunity = true;
+                    Projectile.localNPCHitCooldown = 10 * Projectile.extraUpdates;
                     bubbleStronkCounter++;
                 }
                 else
                 {
-                    ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
-                    projectile.extraUpdates = 1;
-                    projectile.usesLocalNPCImmunity = false;
+                    ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
+                    Projectile.extraUpdates = 1;
+                    Projectile.usesLocalNPCImmunity = false;
                     bubbleStronkCounter = 0;
                 }
 
@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile proj = Main.projectile[i];
-                    if (proj.active && proj.type == ModContent.ProjectileType<SulphurousGrabberBubble2>() && proj.ai[0] >= 40f && proj.owner == projectile.owner)
+                    if (proj.active && proj.type == ModContent.ProjectileType<SulphurousGrabberBubble2>() && proj.ai[0] >= 40f && proj.owner == Projectile.owner)
                     {
-                        if (projectile.Hitbox.Intersects(proj.Hitbox))
+                        if (Projectile.Hitbox.Intersects(proj.Hitbox))
                         {
                             proj.Kill();
                             bubbleStronk = true;
@@ -89,24 +89,24 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                         if (Main.rand.NextBool(10))
                             projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
                         float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-                        Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 4, projectile.knockBack / 4, projectile.owner);
+                        Projectile.NewProjectile(Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
                     }
                     bubbleCounter = 0;
                 }
             }
 
-            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-                projectile.Kill();
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             if (bubbleStronk)
             {
-                tex = ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble");
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, tex);
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble");
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, tex);
             }
             return false;
         }

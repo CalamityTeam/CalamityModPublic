@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,67 +16,67 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Final Dawn");
-            Main.projFrames[projectile.type] = 11;
+            Main.projFrames[Projectile.type] = 11;
         }
         public override void SetDefaults()
         {
-            projectile.width = 300;
-            projectile.height = 398;
-            projectile.friendly = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 300;
+            Projectile.height = 398;
+            Projectile.friendly = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             if (player is null || player.dead)
-                projectile.Kill();
+                Projectile.Kill();
 
-            player.direction = projectile.direction;
-            player.heldProj = projectile.whoAmI;
+            player.direction = Projectile.direction;
+            player.heldProj = Projectile.whoAmI;
 
             AdjustPlayerPositionValues(player);
 
-            projectile.ai[0]++;
-            if(projectile.ai[0] >= 4)
+            Projectile.ai[0]++;
+            if(Projectile.ai[0] >= 4)
             {
-                projectile.ai[1]++;
-                projectile.ai[0] = 0;
-                if (projectile.ai[1] == 5)
+                Projectile.ai[1]++;
+                Projectile.ai[0] = 0;
+                if (Projectile.ai[1] == 5)
                 {
-                    projectile.friendly = true;
-                    Main.PlaySound(SoundID.Item71, projectile.Center);
+                    Projectile.friendly = true;
+                    SoundEngine.PlaySound(SoundID.Item71, Projectile.Center);
                 }
             }
-            if (projectile.ai[1] >= 11)
+            if (Projectile.ai[1] >= 11)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.frame = (int)projectile.ai[1];
+            Projectile.frame = (int)Projectile.ai[1];
 
             AdjustPlayerItemFrameValues(player);
         }
         public void AdjustPlayerPositionValues(Player player)
         {
-            projectile.Center = player.Center;
-            projectile.position.X += 60 * player.direction;
-            projectile.position.Y -= 30;
+            Projectile.Center = player.Center;
+            Projectile.position.X += 60 * player.direction;
+            Projectile.position.Y -= 30;
         }
 
         public void AdjustPlayerItemFrameValues(Player player)
         {
-            if (projectile.ai[1] < 5)
+            if (Projectile.ai[1] < 5)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height;
             }
-            else if (projectile.ai[1] < 8)
+            else if (Projectile.ai[1] < 8)
             {
                 player.bodyFrame.Y = 3 * player.bodyFrame.Height;
             }
@@ -84,12 +85,12 @@ namespace CalamityMod.Projectiles.Rogue
                 player.bodyFrame.Y = 4 * player.bodyFrame.Height;
             }
 
-            projectile.spriteDirection = player.direction;
-            player.heldProj = projectile.whoAmI;
+            Projectile.spriteDirection = player.direction;
+            player.heldProj = Projectile.whoAmI;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            CalamityPlayer calamityPlayer = Main.player[projectile.owner].Calamity();
+            CalamityPlayer calamityPlayer = Main.player[Projectile.owner].Calamity();
             // Restore stealth
             if (!HasRegeneratedStealth)
             {
@@ -105,29 +106,29 @@ namespace CalamityMod.Projectiles.Rogue
             int width = 918 / 3;
             int height = 1990 / 5;
 
-            Vector2 drawCenter = projectile.Center;
-            Rectangle frameRectangle = new Rectangle(projectile.frame / 5 * width, projectile.frame % 5 * height, width, height);
+            Vector2 drawCenter = Projectile.Center;
+            Rectangle frameRectangle = new Rectangle(Projectile.frame / 5 * width, Projectile.frame % 5 * height, width, height);
 
-            Texture2D scytheTexture = Main.projectileTexture[projectile.type];
-            Texture2D glowTexture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnFireSlash_Glow");
+            Texture2D scytheTexture = Main.projectileTexture[Projectile.type];
+            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnFireSlash_Glow");
 
             Main.spriteBatch.Draw(scytheTexture,
                                   drawCenter - Main.screenPosition,
                                   frameRectangle,
-                                  projectile.GetAlpha(lightColor),
-                                  projectile.rotation,
+                                  Projectile.GetAlpha(lightColor),
+                                  Projectile.rotation,
                                   frameRectangle.Size() / 2,
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             Main.spriteBatch.Draw(glowTexture,
                                   drawCenter - Main.screenPosition,
                                   frameRectangle,
-                                  projectile.GetAlpha(Color.White),
-                                  projectile.rotation,
+                                  Projectile.GetAlpha(Color.White),
+                                  Projectile.rotation,
                                   frameRectangle.Size() / 2,
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             return false;
         }

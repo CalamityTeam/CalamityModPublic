@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.SpectralVeilHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
                     line2.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable";
                 }

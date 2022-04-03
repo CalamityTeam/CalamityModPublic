@@ -25,122 +25,122 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.GetNPCDamage();
-            npc.width = 64;
-            npc.height = 76;
-            npc.defense = 40;
-            npc.lifeMax = 50000;
-            npc.aiStyle = -1;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.width = 64;
+            NPC.height = 76;
+            NPC.defense = 40;
+            NPC.lifeMax = 50000;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.alpha = 255;
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.netAlways = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(invinceTime);
-            writer.Write(npc.dontTakeDamage);
+            writer.Write(NPC.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             invinceTime = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
+            NPC.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void AI()
         {
             // Target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest(true);
 
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             if (invinceTime > 0)
             {
                 invinceTime--;
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
+                NPC.damage = 0;
+                NPC.dontTakeDamage = true;
             }
             else
             {
-                npc.damage = npc.defDamage;
-                npc.dontTakeDamage = false;
+                NPC.damage = NPC.defDamage;
+                NPC.dontTakeDamage = false;
             }
 
-            Vector2 vector = npc.Center;
+            Vector2 vector = NPC.Center;
 
             bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
             bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
-            if (npc.ai[2] > 0f)
-                npc.realLife = (int)npc.ai[2];
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
-            if (npc.alpha != 0)
+            if (NPC.alpha != 0)
             {
-                int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                int num935 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 182, 0f, 0f, 100, default, 2f);
                 Main.dust[num935].noGravity = true;
                 Main.dust[num935].noLight = true;
             }
 
-            npc.alpha -= 12;
-            if (npc.alpha < 0)
-                npc.alpha = 0;
+            NPC.alpha -= 12;
+            if (NPC.alpha < 0)
+                NPC.alpha = 0;
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (!tail && npc.ai[0] == 0f)
+                if (!tail && NPC.ai[0] == 0f)
                 {
-                    int Previous = npc.whoAmI;
+                    int Previous = NPC.whoAmI;
                     for (int segmentSpawn = 0; segmentSpawn < maxLength; segmentSpawn++)
                     {
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), npc.whoAmI);
+                            segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
                         }
                         else
                         {
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), npc.whoAmI);
+                            segment = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
                         }
-                        Main.npc[segment].realLife = npc.whoAmI;
-                        Main.npc[segment].ai[2] = npc.whoAmI;
+                        Main.npc[segment].realLife = NPC.whoAmI;
+                        Main.npc[segment].ai[2] = NPC.whoAmI;
                         Main.npc[segment].ai[1] = Previous;
                         Main.npc[Previous].ai[0] = segment;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         Previous = segment;
                     }
                     tail = true;
                 }
-                if (!npc.active && Main.netMode == NetmodeID.Server)
+                if (!NPC.active && Main.netMode == NetmodeID.Server)
                 {
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
 
             if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
-                npc.TargetClosest(false);
-                npc.velocity.Y -= 3f;
-                if ((double)npc.position.Y < Main.topWorld + 16f)
+                NPC.TargetClosest(false);
+                NPC.velocity.Y -= 3f;
+                if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
-                    npc.velocity.Y -= 3f;
+                    NPC.velocity.Y -= 3f;
                 }
-                if ((double)npc.position.Y < Main.topWorld + 16f)
+                if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
+                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
                         {
                             Main.npc[a].active = false;
                         }
@@ -148,9 +148,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
+            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
+            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
             float num188 = CalamityWorld.malice ? 18f : CalamityWorld.revenge ? 16f : 14f;
             float num189 = CalamityWorld.malice ? 0.17f : CalamityWorld.revenge ? 0.15f : 0.13f;
 
@@ -161,9 +161,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             for (int num52 = 0; num52 < Main.maxNPCs; num52++)
             {
-                if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
+                if (Main.npc[num52].active && Main.npc[num52].type == NPC.type && num52 != NPC.whoAmI)
                 {
-                    Vector2 vector4 = Main.npc[num52].Center - npc.Center;
+                    Vector2 vector4 = Main.npc[num52].Center - NPC.Center;
                     if (vector4.Length() < 60f)
                     {
                         vector4.Normalize();
@@ -176,18 +176,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
-            float num50 = npc.velocity.Length();
+            float num50 = NPC.velocity.Length();
             if (num50 > 0f)
             {
                 if (num50 > num48)
                 {
-                    npc.velocity.Normalize();
-                    npc.velocity *= num48;
+                    NPC.velocity.Normalize();
+                    NPC.velocity *= num48;
                 }
                 else if (num50 < num49)
                 {
-                    npc.velocity.Normalize();
-                    npc.velocity *= num49;
+                    NPC.velocity.Normalize();
+                    NPC.velocity *= num49;
                 }
             }
 
@@ -203,50 +203,50 @@ namespace CalamityMod.NPCs.DevourerofGods
             float num198 = num188 / num193;
             num191 *= num198;
             num192 *= num198;
-            if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
+            if ((NPC.velocity.X > 0f && num191 > 0f) || (NPC.velocity.X < 0f && num191 < 0f) || (NPC.velocity.Y > 0f && num192 > 0f) || (NPC.velocity.Y < 0f && num192 < 0f))
             {
-                if (npc.velocity.X < num191)
+                if (NPC.velocity.X < num191)
                 {
-                    npc.velocity.X = npc.velocity.X + num189;
+                    NPC.velocity.X = NPC.velocity.X + num189;
                 }
                 else
                 {
-                    if (npc.velocity.X > num191)
+                    if (NPC.velocity.X > num191)
                     {
-                        npc.velocity.X = npc.velocity.X - num189;
+                        NPC.velocity.X = NPC.velocity.X - num189;
                     }
                 }
-                if (npc.velocity.Y < num192)
+                if (NPC.velocity.Y < num192)
                 {
-                    npc.velocity.Y = npc.velocity.Y + num189;
+                    NPC.velocity.Y = NPC.velocity.Y + num189;
                 }
                 else
                 {
-                    if (npc.velocity.Y > num192)
+                    if (NPC.velocity.Y > num192)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num189;
+                        NPC.velocity.Y = NPC.velocity.Y - num189;
                     }
                 }
-                if (Math.Abs(num192) < num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+                if (Math.Abs(num192) < num188 * 0.2 && ((NPC.velocity.X > 0f && num191 < 0f) || (NPC.velocity.X < 0f && num191 > 0f)))
                 {
-                    if (npc.velocity.Y > 0f)
+                    if (NPC.velocity.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y + num189 * 2f;
                     }
                     else
                     {
-                        npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y - num189 * 2f;
                     }
                 }
-                if (Math.Abs(num191) < num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+                if (Math.Abs(num191) < num188 * 0.2 && ((NPC.velocity.Y > 0f && num192 < 0f) || (NPC.velocity.Y < 0f && num192 > 0f)))
                 {
-                    if (npc.velocity.X > 0f)
+                    if (NPC.velocity.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X + num189 * 2f; //changed from 2
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X - num189 * 2f; //changed from 2
                     }
                 }
             }
@@ -254,75 +254,75 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (num196 > num197)
                 {
-                    if (npc.velocity.X < num191)
+                    if (NPC.velocity.X < num191)
                     {
-                        npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X + num189 * 1.1f; //changed from 1.1
                     }
-                    else if (npc.velocity.X > num191)
+                    else if (NPC.velocity.X > num191)
                     {
-                        npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X - num189 * 1.1f; //changed from 1.1
                     }
-                    if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
                     {
-                        if (npc.velocity.Y > 0f)
+                        if (NPC.velocity.Y > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num189;
+                            NPC.velocity.Y = NPC.velocity.Y + num189;
                         }
                         else
                         {
-                            npc.velocity.Y = npc.velocity.Y - num189;
+                            NPC.velocity.Y = NPC.velocity.Y - num189;
                         }
                     }
                 }
                 else
                 {
-                    if (npc.velocity.Y < num192)
+                    if (NPC.velocity.Y < num192)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y + num189 * 1.1f;
                     }
-                    else if (npc.velocity.Y > num192)
+                    else if (NPC.velocity.Y > num192)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y - num189 * 1.1f;
                     }
-                    if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
                     {
-                        if (npc.velocity.X > 0f)
+                        if (NPC.velocity.X > 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + num189;
+                            NPC.velocity.X = NPC.velocity.X + num189;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X - num189;
+                            NPC.velocity.X = NPC.velocity.X - num189;
                         }
                     }
                 }
             }
-            npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
+            NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / 2));
 
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow");
             Color color37 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow2");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow2");
             color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 
@@ -356,18 +356,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoT"), 1f);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DoT"), 1f);
+                NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+                NPC.width = 50;
+                NPC.height = 50;
+                NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
                 for (int num621 = 0; num621 < 15; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -377,10 +377,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 for (int num623 = 0; num623 < 30; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

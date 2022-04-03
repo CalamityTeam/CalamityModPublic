@@ -20,29 +20,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 40;
-            item.damage = 2705;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.useAnimation = item.useTime = 40;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.shoot = ModContent.ProjectileType<PhosphorescentGauntletPunches>();
-            item.shootSpeed = 1f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().trueMelee = true;
+            Item.width = Item.height = 40;
+            Item.damage = 2705;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.useAnimation = Item.useTime = 40;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
+            Item.shoot = ModContent.ProjectileType<PhosphorescentGauntletPunches>();
+            Item.shootSpeed = 1f;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults.
         public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

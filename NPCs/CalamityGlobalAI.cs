@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs
             {
                 for (int y = tileCoordsY - 1; y <= tileCoordsY + 1; y++)
                 {
-                    if (Main.tile[x, y].wall > 0)
+                    if (Main.tile[x, y].WallType > 0)
                     {
                         climbWalls = true;
                     }
@@ -465,7 +465,7 @@ namespace CalamityMod.NPCs
                         float time = npc.ai[2] + maxTime + turnToStoneTime;
                         if (time == 1f)
                         {
-                            Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
                         }
                         if (time < turnToStoneTime)
                         {
@@ -661,7 +661,7 @@ namespace CalamityMod.NPCs
                             {
                                 Main.tile[tileAtCenterX, tileAtBottom] = new Tile();
                             }
-                            if (Main.tile[i, tileAtBottom].active() && Main.tileSolid[(int)Main.tile[i, tileAtBottom].type])
+                            if (Main.tile[i, tileAtBottom].active() && Main.tileSolid[(int)Main.tile[i, tileAtBottom].TileType])
                             {
                                 ableToRestart = true;
                             }
@@ -1015,7 +1015,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.velocity *= 0f;
                     npc.ai[3] = 0f;
-                    Main.PlaySound(SoundID.Item8, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item8, npc.position);
                     float distX = npc.oldPos[2].X + (float)npc.width * 0.5f - npc.Center.X;
                     float distY = npc.oldPos[2].Y + (float)npc.height * 0.5f - npc.Center.Y;
                     float num38 = (float)Math.Sqrt((distX * distX + distY * distY));
@@ -1215,7 +1215,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int y = centerTileY - 1; y <= centerTileY + 1; y++)
                     {
-                        if (Main.tile[x, y] != null && Main.tile[x, y].wall > 0)
+                        if (Main.tile[x, y] != null && Main.tile[x, y].WallType > 0)
                         {
                             spiderAI = true;
                             break;
@@ -1288,31 +1288,31 @@ namespace CalamityMod.NPCs
             {
                 if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
                 {
-                    Main.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
                 if (npcType == NPCID.BloodZombie && Main.rand.Next(800) == 0)
                 {
-                    Main.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, npcType, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, npcType, 1f, 0f);
                 }
                 if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
                 {
-                    Main.PlaySound(SoundID.Mummy, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Mummy, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
                 if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
                 {
-                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
                 }
                 if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
                 {
-                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
                 }
                 if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
                 {
-                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
                 }
                 if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
                 {
-                    Main.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
                 npc.TargetClosest(true);
             }
@@ -2398,7 +2398,7 @@ namespace CalamityMod.NPCs
                                     {
                                         notLava = false;
                                     }
-                                    if (notLava && Main.tileSolid[(int)Main.tile[turretSpawnX, y].type] && !Collision.SolidTiles(turretSpawnX - 1, turretSpawnX + 1, y - 4, y - 1))
+                                    if (notLava && Main.tileSolid[(int)Main.tile[turretSpawnX, y].TileType] && !Collision.SolidTiles(turretSpawnX - 1, turretSpawnX + 1, y - 4, y - 1))
                                     {
                                         int turretIdx = NPC.NewNPC(turretSpawnX * 16 - npc.width / 2, y * 16, NPCID.MartianTurret, 0, 0f, 0f, 0f, 0f, 255);
                                         Main.npc[turretIdx].position.Y = (float)(y * 16 - Main.npc[turretIdx].height);
@@ -3118,7 +3118,7 @@ namespace CalamityMod.NPCs
                     {
                         return false;
                     }
-                    if (Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].type])
+                    if (Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].TileType])
                     {
                         canOpenDoors = true;
                         break;
@@ -3171,24 +3171,24 @@ namespace CalamityMod.NPCs
                 if (x * 16 < positionDelta.X + (float)npc.width &&
                     (x + 1) * 16 > positionDelta.X && ((Main.tile[x, y].nactive() &&
                     !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() &&
-                    Main.tileSolid[(int)Main.tile[x, y].type] &&
-                    !Main.tileSolidTop[(int)Main.tile[x, y].type]) ||
+                    Main.tileSolid[(int)Main.tile[x, y].TileType] &&
+                    !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) ||
                     (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) &&
                     (!Main.tile[x, y - 1].nactive() ||
-                    !Main.tileSolid[(int)Main.tile[x, y - 1].type] ||
-                    Main.tileSolidTop[(int)Main.tile[x, y - 1].type] ||
+                    !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] ||
                     (Main.tile[x, y - 1].halfBrick() &&
                     (!Main.tile[x, y - 4].nactive() ||
-                    !Main.tileSolid[(int)Main.tile[x, y - 4].type] ||
-                    Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) &&
+                    !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) &&
                     (!Main.tile[x, y - 2].nactive() ||
-                    !Main.tileSolid[(int)Main.tile[x, y - 2].type] ||
-                    Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) &&
+                    !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) &&
                     (!Main.tile[x, y - 3].nactive() ||
-                    !Main.tileSolid[(int)Main.tile[x, y - 3].type] ||
-                    Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) &&
+                    !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) &&
                     (!Main.tile[x - velocitySign, y - 3].nactive() ||
-                    !Main.tileSolid[(int)Main.tile[x - velocitySign, y - 3].type]))
+                    !Main.tileSolid[(int)Main.tile[x - velocitySign, y - 3].TileType]))
                 {
                     float yAdjust = y * 16f;
                     if (Main.tile[x, y].halfBrick())
@@ -3265,8 +3265,8 @@ namespace CalamityMod.NPCs
                 }
                 Main.tile[x, y + 1].halfBrick();
                 if ((Main.tile[x, y - 1].nactive() &&
-                    (Main.tile[x, y - 1].type == TileID.ClosedDoor ||
-                    Main.tile[x, y - 1].type == TileID.TallGateClosed)) & reset)
+                    (Main.tile[x, y - 1].TileType == TileID.ClosedDoor ||
+                    Main.tile[x, y - 1].TileType == TileID.TallGateClosed)) & reset)
                 {
                     npc.ai[2] += 1f;
                     npc.ai[3] = 0f;
@@ -3274,7 +3274,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.velocity.X = -0.5f * npc.direction;
                         int timerIncrement = 5;
-                        if (Main.tile[x, y - 1].type == TileID.TallGateClosed)
+                        if (Main.tile[x, y - 1].TileType == TileID.TallGateClosed)
                         {
                             timerIncrement = 2;
                         }
@@ -3312,7 +3312,7 @@ namespace CalamityMod.NPCs
                             }
                             else
                             {
-                                if (Main.tile[x, y - 1].type == TileID.ClosedDoor)
+                                if (Main.tile[x, y - 1].TileType == TileID.ClosedDoor)
                                 {
                                     bool flag24 = WorldGen.OpenDoor(x, y - 1, npc.direction);
                                     if (!flag24)
@@ -3325,7 +3325,7 @@ namespace CalamityMod.NPCs
                                         NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
                                     }
                                 }
-                                if (Main.tile[x, y - 1].type == TileID.TallGateClosed)
+                                if (Main.tile[x, y - 1].TileType == TileID.TallGateClosed)
                                 {
                                     bool flag25 = WorldGen.ShiftTallGate(x, y - 1, false);
                                     if (!flag25)
@@ -3351,9 +3351,9 @@ namespace CalamityMod.NPCs
                     }
                     if ((npc.velocity.X < 0f && alteredDirection == -1) || (npc.velocity.X > 0f && alteredDirection == 1))
                     {
-                        if (npc.height >= 32 && Main.tile[x, y - 2].nactive() && Main.tileSolid[(int)Main.tile[x, y - 2].type])
+                        if (npc.height >= 32 && Main.tile[x, y - 2].nactive() && Main.tileSolid[(int)Main.tile[x, y - 2].TileType])
                         {
-                            if (Main.tile[x, y - 3].nactive() && Main.tileSolid[(int)Main.tile[x, y - 3].type])
+                            if (Main.tile[x, y - 3].nactive() && Main.tileSolid[(int)Main.tile[x, y - 3].TileType])
                             {
                                 npc.velocity.Y = -9f;
                                 npc.netUpdate = true;
@@ -3364,17 +3364,17 @@ namespace CalamityMod.NPCs
                                 npc.netUpdate = true;
                             }
                         }
-                        else if (Main.tile[x, y - 1].nactive() && Main.tileSolid[(int)Main.tile[x, y - 1].type])
+                        else if (Main.tile[x, y - 1].nactive() && Main.tileSolid[(int)Main.tile[x, y - 1].TileType])
                         {
                             npc.velocity.Y = -7f;
                             npc.netUpdate = true;
                         }
-                        else if (npc.position.Y + (float)npc.height - (float)(y * 16) > 20f && Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type])
+                        else if (npc.position.Y + (float)npc.height - (float)(y * 16) > 20f && Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType])
                         {
                             npc.velocity.Y = -6f;
                             npc.netUpdate = true;
                         }
-                        else if (npc.directionY < 0 && npcType != 67 && (!Main.tile[x, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y + 1].type]) && (!Main.tile[x + npc.direction, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x + npc.direction, y + 1].type]))
+                        else if (npc.directionY < 0 && npcType != 67 && (!Main.tile[x, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y + 1].TileType]) && (!Main.tile[x + npc.direction, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x + npc.direction, y + 1].TileType]))
                         {
                             npc.velocity.Y = -9f;
                             npc.velocity.X *= 2f;
@@ -3457,7 +3457,7 @@ namespace CalamityMod.NPCs
                             bool foundGoodTeleport = true;
                             // I don't understand why the hell this exists if it's only for Chaos Elementals, but I suppose I'll
                             // Leave it here
-                            if (npcType == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == WallID.None)
+                            if (npcType == NPCID.DarkCaster && Main.tile[randX, num181 - 1].WallType == WallID.None)
                             {
                                 foundGoodTeleport = false;
                             }
@@ -3465,7 +3465,7 @@ namespace CalamityMod.NPCs
                             {
                                 foundGoodTeleport = false;
                             }
-                            if (foundGoodTeleport && Main.tileSolid[(int)Main.tile[randX, num181].type] && !Collision.SolidTiles(randX - 1, randX + 1, num181 - 4, num181 - 1))
+                            if (foundGoodTeleport && Main.tileSolid[(int)Main.tile[randX, num181].TileType] && !Collision.SolidTiles(randX - 1, randX + 1, num181 - 4, num181 - 1))
                             {
                                 npc.position.X = (float)(randX * 16 - npc.width / 2);
                                 npc.position.Y = (float)(num181 * 16 - npc.height);
@@ -3824,7 +3824,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.LeechHead && npc.localAI[1] == 0f)
             {
                 npc.localAI[1] = 1f;
-                Main.PlaySound(SoundID.NPCDeath13, npc.position);
+                SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);
                 int num = 1;
                 if (npc.velocity.X < 0f)
                 {
@@ -4143,7 +4143,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int num34 = num31; num34 < num32; num34++)
                     {
-                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[(int)Main.tile[num33, num34].type] || (Main.tileSolidTop[(int)Main.tile[num33, num34].type] && Main.tile[num33, num34].frameY == 0))) || Main.tile[num33, num34].liquid > 64))
+                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[(int)Main.tile[num33, num34].TileType] || (Main.tileSolidTop[(int)Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].liquid > 64))
                         {
                             Vector2 vector;
                             vector.X = (float)(num33 * 16);
@@ -4507,7 +4507,7 @@ namespace CalamityMod.NPCs
                             num54 = 20f;
                         }
                         npc.soundDelay = (int)num54;
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                     }
 
                     num52 = (float)Math.Sqrt((double)(num39 * num39 + num40 * num40));
@@ -4713,7 +4713,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.alpha = 255;
                 }
-                Main.PlaySound(SoundID.Item8, npc.position);
+                SoundEngine.PlaySound(SoundID.Item8, npc.position);
                 int num;
                 for (int num68 = 0; num68 < 50; num68 = num + 1)
                 {
@@ -4784,7 +4784,7 @@ namespace CalamityMod.NPCs
                 npc.velocity.Y = 0f;
                 npc.ai[2] = 0f;
                 npc.ai[3] = 0f;
-                Main.PlaySound(SoundID.Item8, npc.position);
+                SoundEngine.PlaySound(SoundID.Item8, npc.position);
                 for (int num77 = 0; num77 < 50; num77 = num + 1)
                 {
                     if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
@@ -4929,7 +4929,7 @@ namespace CalamityMod.NPCs
                         if ((num94 < num87 - 4 || num94 > num87 + 4 || num92 < num86 - 4 || num92 > num86 + 4) && (num94 < num89 - 1 || num94 > num89 + 1 || num92 < num88 - 1 || num92 > num88 + 1) && Main.tile[num92, num94].nactive())
                         {
                             bool flag5 = true;
-                            if ((npc.type == NPCID.DarkCaster || (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite)) && !Main.wallDungeon[(int)Main.tile[num92, num94 - 1].wall])
+                            if ((npc.type == NPCID.DarkCaster || (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite)) && !Main.wallDungeon[(int)Main.tile[num92, num94 - 1].WallType])
                             {
                                 flag5 = false;
                             }
@@ -4937,7 +4937,7 @@ namespace CalamityMod.NPCs
                             {
                                 flag5 = false;
                             }
-                            if (flag5 && Main.tileSolid[(int)Main.tile[num92, num94].type] && !Collision.SolidTiles(num92 - 1, num92 + 1, num94 - 4, num94 - 1))
+                            if (flag5 && Main.tileSolid[(int)Main.tile[num92, num94].TileType] && !Collision.SolidTiles(num92 - 1, num92 + 1, num94 - 4, num94 - 1))
                             {
                                 npc.ai[1] = 20f;
                                 npc.ai[2] = (float)num92;
@@ -4958,7 +4958,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.ai[1] % 30f == 0f && npc.ai[1] / 30f < 5f)
                     {
-                        Main.PlaySound(SoundID.Item8, npc.position);
+                        SoundEngine.PlaySound(SoundID.Item8, npc.position);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Point point = npc.Center.ToTileCoordinates();
@@ -5053,7 +5053,7 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.type != NPCID.RuneWizard)
                         {
-                            Main.PlaySound(SoundID.Item8, npc.position);
+                            SoundEngine.PlaySound(SoundID.Item8, npc.position);
                         }
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -6201,7 +6201,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.ai[0] == 200f)
                 {
-                    Main.PlaySound(SoundID.NPCDeath13, npc.position);
+                    SoundEngine.PlaySound(SoundID.NPCDeath13, npc.position);
                 }
                 npc.ai[0] -= 1f;
             }
@@ -6256,7 +6256,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[xLeft, y] = new Tile();
                 }
-                if ((Main.tile[xLeft, y].nactive() && Main.tileSolid[(int)Main.tile[xLeft, y].type]) || (Main.tile[xCenter, y].nactive() && Main.tileSolid[(int)Main.tile[xCenter, y].type]) || (Main.tile[xRight, y].nactive() && Main.tileSolid[(int)Main.tile[xRight, y].type]))
+                if ((Main.tile[xLeft, y].nactive() && Main.tileSolid[(int)Main.tile[xLeft, y].TileType]) || (Main.tile[xCenter, y].nactive() && Main.tileSolid[(int)Main.tile[xCenter, y].TileType]) || (Main.tile[xRight, y].nactive() && Main.tileSolid[(int)Main.tile[xRight, y].TileType]))
                 {
                     tileClimbing = true;
                 }
@@ -6587,7 +6587,7 @@ namespace CalamityMod.NPCs
 
                 if (Main.rand.Next(40) == 0)
                 {
-                    Main.PlaySound(SoundID.Pixie, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Pixie, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
             }
             else if (npc.type == NPCID.IceElemental)
@@ -6723,7 +6723,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[num288, num316] = new Tile();
                 }
-                if ((Main.tile[num288, num316].nactive() && Main.tileSolid[(int)Main.tile[num288, num316].type]) || Main.tile[num288, num316].liquid > 0)
+                if ((Main.tile[num288, num316].nactive() && Main.tileSolid[(int)Main.tile[num288, num316].TileType]) || Main.tile[num288, num316].liquid > 0)
                 {
                     if (num316 <= num289 + 1)
                     {
@@ -6743,7 +6743,7 @@ namespace CalamityMod.NPCs
                     {
                         Main.tile[num288, num317] = new Tile();
                     }
-                    if ((Main.tile[num288, num317].nactive() && Main.tileSolid[(int)Main.tile[num288, num317].type]) || Main.tile[num288, num317].liquid > 0)
+                    if ((Main.tile[num288, num317].nactive() && Main.tileSolid[(int)Main.tile[num288, num317].TileType]) || Main.tile[num288, num317].liquid > 0)
                     {
                         flag25 = true;
                         break;
@@ -6760,7 +6760,7 @@ namespace CalamityMod.NPCs
                     {
                         Main.tile[num288, num318] = new Tile();
                     }
-                    if ((Main.tile[num288, num318].nactive() && Main.tileSolid[(int)Main.tile[num288, num318].type]) || Main.tile[num288, num318].liquid > 0)
+                    if ((Main.tile[num288, num318].nactive() && Main.tileSolid[(int)Main.tile[num288, num318].TileType]) || Main.tile[num288, num318].liquid > 0)
                     {
                         flag24 = false;
                         flag19 = true;
@@ -7371,7 +7371,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Tumbleweed && npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
                 npc.velocity.Y -= 6f;
-                Main.PlaySound(SoundID.NPCHit, npc.Center, 11);
+                SoundEngine.PlaySound(SoundID.NPCHit, npc.Center, 11);
             }
 
             if (npc.ai[3] < (float)num)
@@ -7576,7 +7576,7 @@ namespace CalamityMod.NPCs
                     Main.tile[num10, num11 + 1] = new Tile();
                 }
 
-                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].type] && !Main.tileSolidTop[(int)Main.tile[num10, num11].type]) || (Main.tile[num10, num11 - 1].halfBrick() && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].type] || (Main.tile[num10, num11 - 1].halfBrick() && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].type]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].type]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].type]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].type]))
+                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].TileType] && !Main.tileSolidTop[(int)Main.tile[num10, num11].TileType]) || (Main.tile[num10, num11 - 1].halfBrick() && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].TileType] || (Main.tile[num10, num11 - 1].halfBrick() && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].TileType]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].TileType]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].TileType]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].TileType]))
                 {
                     float num12 = (float)(num11 * 16);
                     if (Main.tile[num10, num11].halfBrick())
@@ -7657,9 +7657,9 @@ namespace CalamityMod.NPCs
                     bool flag6 = npc.type == NPCID.StardustSpiderSmall || npc.type == NPCID.NebulaBeast;
                     float num17 = 3f;
 
-                    if (Main.tile[num14, num15 - 2].nactive() && Main.tileSolid[(int)Main.tile[num14, num15 - 2].type])
+                    if (Main.tile[num14, num15 - 2].nactive() && Main.tileSolid[(int)Main.tile[num14, num15 - 2].TileType])
                     {
-                        if (Main.tile[num14, num15 - 3].nactive() && Main.tileSolid[(int)Main.tile[num14, num15 - 3].type])
+                        if (Main.tile[num14, num15 - 3].nactive() && Main.tileSolid[(int)Main.tile[num14, num15 - 3].TileType])
                         {
                             npc.velocity.Y = -10.5f;
                             npc.netUpdate = true;
@@ -7670,17 +7670,17 @@ namespace CalamityMod.NPCs
                             npc.netUpdate = true;
                         }
                     }
-                    else if (Main.tile[num14, num15 - 1].nactive() && !Main.tile[num14, num15 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15 - 1].type])
+                    else if (Main.tile[num14, num15 - 1].nactive() && !Main.tile[num14, num15 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15 - 1].TileType])
                     {
                         npc.velocity.Y = -9f;
                         npc.netUpdate = true;
                     }
-                    else if (npc.position.Y + (float)npc.height - (float)(num15 * 16) > 20f && Main.tile[num14, num15].nactive() && !Main.tile[num14, num15].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15].type])
+                    else if (npc.position.Y + (float)npc.height - (float)(num15 * 16) > 20f && Main.tile[num14, num15].nactive() && !Main.tile[num14, num15].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15].TileType])
                     {
                         npc.velocity.Y = -7f;
                         npc.netUpdate = true;
                     }
-                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num17) && (!flag6 || !Main.tile[num14, num15 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num14, num15 + 1].type]) && (!Main.tile[num14, num15 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num14, num15 + 2].type]) && (!Main.tile[num14 + npc.direction, num15 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num14 + npc.direction, num15 + 3].type]))
+                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num17) && (!flag6 || !Main.tile[num14, num15 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num14, num15 + 1].TileType]) && (!Main.tile[num14, num15 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num14, num15 + 2].TileType]) && (!Main.tile[num14 + npc.direction, num15 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num14 + npc.direction, num15 + 3].TileType]))
                     {
                         npc.velocity.Y = -10f;
                         npc.netUpdate = true;
@@ -7739,7 +7739,7 @@ namespace CalamityMod.NPCs
             int num533 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num532)) / 16f);
             int num534 = (int)((position.Y + (float)npc.height - 1f) / 16f);
 
-            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].nactive() && !Main.tile[num533, num534].topSlope() && !Main.tile[num533, num534 - 1].topSlope() && ((Main.tileSolid[(int)Main.tile[num533, num534].type] && !Main.tileSolidTop[(int)Main.tile[num533, num534].type]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].type] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].type] || !Main.tile[num533, num534 - 1].nactive()) && Main.tile[num533, num534].type != 16 && Main.tile[num533, num534].type != 18 && Main.tile[num533, num534].type != 134))) || (Main.tile[num533, num534 - 1].halfBrick() && Main.tile[num533, num534 - 1].nactive())) && (!Main.tile[num533, num534 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].type] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].type] || (Main.tile[num533, num534 - 1].halfBrick() && (!Main.tile[num533, num534 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].type] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].type]))) && (!Main.tile[num533, num534 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].type] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].type]) && (!Main.tile[num533, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].type] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].type]) && (!Main.tile[num533 - num532, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].type] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].type]))
+            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].nactive() && !Main.tile[num533, num534].topSlope() && !Main.tile[num533, num534 - 1].topSlope() && ((Main.tileSolid[(int)Main.tile[num533, num534].TileType] && !Main.tileSolidTop[(int)Main.tile[num533, num534].TileType]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].TileType] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || !Main.tile[num533, num534 - 1].nactive()) && Main.tile[num533, num534].TileType != 16 && Main.tile[num533, num534].TileType != 18 && Main.tile[num533, num534].TileType != 134))) || (Main.tile[num533, num534 - 1].halfBrick() && Main.tile[num533, num534 - 1].nactive())) && (!Main.tile[num533, num534 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].TileType] || (Main.tile[num533, num534 - 1].halfBrick() && (!Main.tile[num533, num534 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].TileType]))) && (!Main.tile[num533, num534 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].TileType]) && (!Main.tile[num533, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].TileType]) && (!Main.tile[num533 - num532, num534 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].TileType]))
             {
                 float num535 = (float)(num534 * 16);
                 if (Main.tile[num533, num534].halfBrick())
@@ -7871,7 +7871,7 @@ namespace CalamityMod.NPCs
                     {
                         for (int num546 = num543; num546 <= num544; num546++)
                         {
-                            if (Main.tile[num545, num546] != null && Main.tile[num545, num546].nactive() && Main.tileSolid[(int)Main.tile[num545, num546].type])
+                            if (Main.tile[num545, num546] != null && Main.tile[num545, num546].nactive() && Main.tileSolid[(int)Main.tile[num545, num546].TileType])
                             {
                                 flag33 = true;
                             }
@@ -8483,7 +8483,7 @@ namespace CalamityMod.NPCs
                         {
                             return false;
                         }
-                        if (Main.tile[i, j].wall > 0)
+                        if (Main.tile[i, j].WallType > 0)
                         {
                             climbingWall = true;
                         }
@@ -9446,7 +9446,7 @@ namespace CalamityMod.NPCs
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 3f)
                 {
-                    Main.PlaySound(SoundID.Item14, npc.position);
+                    SoundEngine.PlaySound(SoundID.Item14, npc.position);
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.active = false;
@@ -9984,7 +9984,7 @@ namespace CalamityMod.NPCs
                 {
                     if (animationCountdown <= 0f)
                         animationCountdown = 120f;
-                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact);
                 }
 
                 // As well as some indicator text.

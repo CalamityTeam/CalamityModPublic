@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class FleshOfInfidelityBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flesh Ball");
             Description.SetDefault("Why is it following you?");

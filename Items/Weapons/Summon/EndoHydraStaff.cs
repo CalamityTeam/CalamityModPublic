@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item60;
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 225;
-            item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<EndoHydraBody>();
-            item.shootSpeed = 10f;
+            Item.width = 58;
+            Item.height = 60;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item60;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 225;
+            Item.knockBack = 3f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<EndoHydraBody>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -76,13 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StaffoftheFrostHydra);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.StaffoftheFrostHydra).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

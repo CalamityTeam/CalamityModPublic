@@ -9,37 +9,37 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class RancorFog : ModProjectile
     {
-        public ref float LightPower => ref projectile.ai[0];
+        public ref float LightPower => ref Projectile.ai[0];
         public override void SetStaticDefaults() => DisplayName.SetDefault("Fog");
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 184;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.timeLeft = 210;
-            projectile.hide = true;
-            projectile.ignoreWater = true;
+            Projectile.width = Projectile.height = 184;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 210;
+            Projectile.hide = true;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             // Decide scale and initial rotation on the first frame this projectile exists.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale = Main.rand.NextFloat(1f, 1.7f);
-                projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
-                projectile.localAI[0] = 1f;
+                Projectile.scale = Main.rand.NextFloat(1f, 1.7f);
+                Projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+                Projectile.localAI[0] = 1f;
             }
 
             // Calculate light power. This checks below the position of the fog to check if this fog is underground.
             // Without this, it may render over the fullblack that the game renders for obscured tiles.
-            float lightPowerBelow = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
+            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
             LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
-            projectile.Opacity = Utils.InverseLerp(210f, 195f, projectile.timeLeft, true) * Utils.InverseLerp(0f, 90f, projectile.timeLeft, true);
-            projectile.rotation += projectile.velocity.X * 0.004f;
-            projectile.velocity *= 0.985f;
+            Projectile.Opacity = Utils.InverseLerp(210f, 195f, Projectile.timeLeft, true) * Utils.InverseLerp(0f, 90f, Projectile.timeLeft, true);
+            Projectile.rotation += Projectile.velocity.X * 0.004f;
+            Projectile.velocity *= 0.985f;
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
@@ -51,13 +51,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             spriteBatch.SetBlendState(BlendState.Additive);
 
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             Vector2 origin = texture.Size() * 0.5f;
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
-            float opacity = Utils.InverseLerp(0f, 0.08f, LightPower, true) * projectile.Opacity * 0.5f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            float opacity = Utils.InverseLerp(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;
             Color drawColor = new Color(236, 0, 68) * opacity;
-            Vector2 scale = projectile.Size / texture.Size() * projectile.scale;
-            spriteBatch.Draw(texture, drawPosition, null, drawColor, projectile.rotation, origin, scale, SpriteEffects.None, 0f);
+            Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale;
+            spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
 
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;

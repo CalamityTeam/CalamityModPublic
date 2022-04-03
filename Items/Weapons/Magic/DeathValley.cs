@@ -16,35 +16,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 110;
-            item.magic = true;
-            item.mana = 9;
-            item.width = 36;
-            item.height = 40;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DustProjectile>();
-            item.shootSpeed = 5f;
+            Item.damage = 110;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 9;
+            Item.width = 36;
+            Item.height = 40;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DustProjectile>();
+            Item.shootSpeed = 5f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Tradewinds>());
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5); // This is here to keep the Forbidden Fragment stuff on the same tier.
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddIngredient(ItemID.FossilOre, 25);
-            recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Tradewinds>()).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial).AddIngredient(ItemID.FossilOre, 25).AddIngredient(ModContent.ItemType<DesertFeather>(), 5).AddTile(TileID.Bookcases).Register();
         }
     }
 }

@@ -12,23 +12,23 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Disk");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.alpha = 75;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 60;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.alpha = 75;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 60;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -39,17 +39,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void StealthStrikeAI()
         {
-            if (projectile.aiStyle == 3)
+            if (Projectile.aiStyle == 3)
                 return;
 
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
             Projectile parent = Main.projectile[0];
             bool active = false;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<TerraDiskProjectile>())
+                if (p.identity == Projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<TerraDiskProjectile>())
                 {
                     parent = p;
                     active = true;
@@ -59,38 +59,38 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (active)
             {
-                Vector2 vector = parent.Center - projectile.Center;
-                projectile.Center = parent.Center + new Vector2(80, 0).RotatedBy(rotation);
-                double rotateAmt = (double)projectile.ai[1];
+                Vector2 vector = parent.Center - Projectile.Center;
+                Projectile.Center = parent.Center + new Vector2(80, 0).RotatedBy(rotation);
+                double rotateAmt = (double)Projectile.ai[1];
                 rotation += rotateAmt;
                 if (rotation >= 360)
                 {
                     rotation = 0;
                 }
-                projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
+                Projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
             if (!parent.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         private void LightingandDust()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.75f, 0f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.75f, 0f);
             if (!Main.rand.NextBool(5))
                 return;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y);
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 107, Projectile.velocity.X, Projectile.velocity.Y);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

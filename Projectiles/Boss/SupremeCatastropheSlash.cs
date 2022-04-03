@@ -8,73 +8,73 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SupremeCatastropheSlash : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonance Slash");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().canBreakPlayerDefense = true;
 
             // These never naturally use rotations, so this shouldn't be an issue.
-            projectile.width = 100;
-            projectile.height = 60;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1500;
-            projectile.Opacity = 0f;
+            Projectile.width = 100;
+            Projectile.height = 60;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1500;
+            Projectile.Opacity = 0f;
             cooldownSlot = 1;
         }
 
         public override void AI()
         {
             // Decide frames.
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 7 % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 7 % Main.projFrames[Projectile.type];
 
             // Fade in and handle visuals.
-            projectile.Opacity = Utils.InverseLerp(0f, 8f, projectile.timeLeft, true) * Utils.InverseLerp(1500f, 1492f, projectile.timeLeft, true);
-            projectile.spriteDirection = (projectile.velocity.X > 0f).ToDirectionInt();
+            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Projectile.timeLeft, true) * Utils.InverseLerp(1500f, 1492f, Projectile.timeLeft, true);
+            Projectile.spriteDirection = (Projectile.velocity.X > 0f).ToDirectionInt();
             Time++;
 
             // Emit light.
-            Lighting.AddLight(projectile.Center, 0.5f * projectile.Opacity, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0f, 0f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects direction = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            if (projectile.ai[1] == 0f)
-                texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SupremeCatastropheSlashAlt");
+            SpriteEffects direction = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            if (Projectile.ai[1] == 0f)
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/SupremeCatastropheSlashAlt");
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
-            drawPosition -= projectile.velocity.SafeNormalize(Vector2.UnitX) * 38f;
-            Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
+            drawPosition -= Projectile.velocity.SafeNormalize(Vector2.UnitX) * 38f;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
 
             for (int i = 0; i < 3; i++)
             {
-                Color afterimageColor = projectile.GetAlpha(lightColor) * (1f - i / 3f) * 0.5f;
-                Vector2 afterimageOffset = projectile.velocity * -i * 4f;
-                spriteBatch.Draw(texture, drawPosition + afterimageOffset, frame, afterimageColor, projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
+                Color afterimageColor = Projectile.GetAlpha(lightColor) * (1f - i / 3f) * 0.5f;
+                Vector2 afterimageOffset = Projectile.velocity * -i * 4f;
+                spriteBatch.Draw(texture, drawPosition + afterimageOffset, frame, afterimageColor, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
             }
 
-            spriteBatch.Draw(texture, drawPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() * 0.5f, projectile.scale, direction, 0f);
+            spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
             return false;
         }
 
-        public override bool CanHitPlayer(Player target) => projectile.Opacity >= 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity >= 1f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.Opacity != 1f)
+            if (Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);

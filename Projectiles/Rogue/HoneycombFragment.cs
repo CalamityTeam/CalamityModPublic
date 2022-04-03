@@ -14,25 +14,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.Calamity().rogue = true;
+            Projectile.friendly = true;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.Calamity().rogue = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Changes the texture of the projectile
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HoneycombFragment2");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 12, 14)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HoneycombFragment2");
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 12, 14)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HoneycombFragment3");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 16, 14)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HoneycombFragment3");
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 16, 14)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
             return true;
@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             //Rotation and gravity
-            projectile.rotation += 0.6f * projectile.direction;
-            projectile.velocity.Y = projectile.velocity.Y + 0.27f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.rotation += 0.6f * Projectile.direction;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.27f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             int splash = 0;
             while (splash < 4)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 159, default, 0.9f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 9, -Projectile.velocity.X * 0.15f, -Projectile.velocity.Y * 0.10f, 159, default, 0.9f);
                 splash += 1;
             }
         }

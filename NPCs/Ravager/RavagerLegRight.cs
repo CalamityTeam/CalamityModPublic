@@ -16,59 +16,59 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.damage = 50;
-            npc.width = 60;
-            npc.height = 60;
-            npc.defense = 40;
-            npc.DR_NERD(0.15f);
-            npc.lifeMax = 12788;
-            npc.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            NPC.damage = 50;
+            NPC.width = 60;
+            NPC.height = 60;
+            NPC.defense = 40;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 12788;
+            NPC.knockBackResist = 0f;
             aiType = -1;
-            npc.netAlways = true;
-            npc.noGravity = true;
-            npc.canGhostHeal = false;
-            npc.noTileCollide = true;
-            npc.alpha = 255;
-            npc.HitSound = SoundID.NPCHit41;
-            npc.DeathSound = SoundID.NPCDeath14;
+            NPC.netAlways = true;
+            NPC.noGravity = true;
+            NPC.canGhostHeal = false;
+            NPC.noTileCollide = true;
+            NPC.alpha = 255;
+            NPC.HitSound = SoundID.NPCHit41;
+            NPC.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.defense *= 2;
-                npc.lifeMax *= 4;
+                NPC.defense *= 2;
+                NPC.lifeMax *= 4;
             }
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 40000;
+                NPC.lifeMax = 40000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void AI()
         {
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
 
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
-            npc.damage = 0;
+            NPC.damage = 0;
 
-            if (npc.alpha > 0)
+            if (NPC.alpha > 0)
             {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                    npc.alpha = 0;
+                NPC.alpha -= 10;
+                if (NPC.alpha < 0)
+                    NPC.alpha = 0;
 
-                npc.ai[1] = 0f;
+                NPC.ai[1] = 0f;
             }
 
-            npc.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
+            NPC.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(70f, 88f);
         }
 
         public override bool CheckActive() => false;
@@ -77,17 +77,17 @@ namespace CalamityMod.NPCs.Ravager
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

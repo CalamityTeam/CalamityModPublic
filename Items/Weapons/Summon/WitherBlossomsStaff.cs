@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 61;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 60;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item46;
-            item.shoot = ModContent.ProjectileType<WitherBlossom>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 61;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 60;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item46;
+            Item.shoot = ModContent.ProjectileType<WitherBlossom>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 4; //If you already have all 4, no need to resummon
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 4; //If you already have all 4, no need to resummon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -49,14 +49,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TundraFlameBlossomsStaff>());
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TundraFlameBlossomsStaff>()).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

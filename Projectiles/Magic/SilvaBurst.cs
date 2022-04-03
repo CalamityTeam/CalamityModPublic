@@ -15,36 +15,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 96;
-            projectile.height = 96;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.alpha = 255;
-            projectile.timeLeft = 2;
+            Projectile.width = 96;
+            Projectile.height = 96;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 2;
         }
 
         public override void AI()
         {
             // Create a bright burst of Silva light.
             float brightness = 1.6f;
-            Lighting.AddLight(projectile.Center, 0.27f * brightness, 0.82f * brightness, 0.157f * brightness);
+            Lighting.AddLight(Projectile.Center, 0.27f * brightness, 0.82f * brightness, 0.157f * brightness);
 
             // Produce a bunch of dust.
             int dustID = 157;
             for (int d = 0; d < 3; d++)
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustID, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
 
             for (int d = 0; d < 30; d++)
             {
-                int explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 2.5f);
+                int explode = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustID, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 2.5f);
                 Main.dust[explode].noGravity = true;
                 Main.dust[explode].velocity *= 3f;
-                explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
+                explode = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustID, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
                 Main.dust[explode].velocity *= 2f;
                 Main.dust[explode].noGravity = true;
             }

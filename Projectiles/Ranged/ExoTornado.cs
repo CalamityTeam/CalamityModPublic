@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoTornado : ModProjectile
@@ -16,43 +17,43 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 240;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 240;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             float num1125 = 165f; //900
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = -1;
-                Main.PlaySound(SoundID.Item122, projectile.position);
+                Projectile.soundDelay = -1;
+                SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= num1125)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= num1125)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.localAI[0] >= 30f)
+            if (Projectile.localAI[0] >= 30f)
             {
-                projectile.damage = 0;
-                if (projectile.ai[0] < num1125 - 120f)
+                Projectile.damage = 0;
+                if (Projectile.ai[0] < num1125 - 120f)
                 {
-                    float num1126 = projectile.ai[0] % 60f;
-                    projectile.ai[0] = num1125 - 120f + num1126;
-                    projectile.netUpdate = true;
+                    float num1126 = Projectile.ai[0] % 60f;
+                    Projectile.ai[0] = num1125 - 120f + num1126;
+                    Projectile.netUpdate = true;
                 }
             }
             float num1127 = 30f; //15
             float num1128 = 30f; //15
-            Point point8 = projectile.Center.ToTileCoordinates();
+            Point point8 = Projectile.Center.ToTileCoordinates();
             int num1129;
             int num1130;
             Collision.ExpandVertically(point8.X, point8.Y, out num1129, out num1130, (int)num1127, (int)num1128);
@@ -63,14 +64,14 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 vector146 = Vector2.Lerp(value72, value73, 0.5f);
             Vector2 value74 = new Vector2(0f, value73.Y - value72.Y);
             value74.X = value74.Y * 0.2f;
-            projectile.width = (int)(value74.X * 0.65f);
-            projectile.height = (int)value74.Y;
-            projectile.Center = vector146;
-            if (projectile.owner == Main.myPlayer)
+            Projectile.width = (int)(value74.X * 0.65f);
+            Projectile.height = (int)value74.Y;
+            Projectile.Center = vector146;
+            if (Projectile.owner == Main.myPlayer)
             {
                 bool flag74 = false;
-                Vector2 center16 = Main.player[projectile.owner].Center;
-                Vector2 top = Main.player[projectile.owner].Top;
+                Vector2 center16 = Main.player[Projectile.owner].Center;
+                Vector2 top = Main.player[Projectile.owner].Top;
                 for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f)
                 {
                     Vector2 position2 = Vector2.Lerp(value72, value73, num1131);
@@ -80,14 +81,14 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                     }
                 }
-                if (!flag74 && projectile.ai[0] < num1125 - 120f)
+                if (!flag74 && Projectile.ai[0] < num1125 - 120f)
                 {
-                    float num1132 = projectile.ai[0] % 60f;
-                    projectile.ai[0] = num1125 - 120f + num1132;
-                    projectile.netUpdate = true;
+                    float num1132 = Projectile.ai[0] % 60f;
+                    Projectile.ai[0] = num1125 - 120f + num1132;
+                    Projectile.netUpdate = true;
                 }
             }
-            if (projectile.ai[0] < num1125 - 120f)
+            if (Projectile.ai[0] < num1125 - 120f)
             {
                 return;
             }
@@ -98,14 +99,14 @@ namespace CalamityMod.Projectiles.Ranged
             float num226 = 150f; //600
             float num227 = 30f; //15
             float num228 = 30f; //15
-            float num229 = projectile.ai[0];
+            float num229 = Projectile.ai[0];
             float maxAlpha = 0.3f;
             float scale5 = MathHelper.Clamp(num229 / 30f, 0f, maxAlpha); //Fade in
             if (num229 > num226 - 60f)
             {
                 scale5 = MathHelper.Lerp(maxAlpha, 0f, (num229 - (num226 - 60f)) / 60f); //Fade out
             }
-            Point point5 = projectile.Center.ToTileCoordinates();
+            Point point5 = Projectile.Center.ToTileCoordinates();
             int num230;
             int num231;
             Collision.ExpandVertically(point5.X, point5.Y, out num230, out num231, (int)num227, (int)num228);
@@ -118,7 +119,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 vector33 = new Vector2(0f, value33.Y - value32.Y);
             vector33.X = vector33.Y * num232;
             new Vector2(value32.X - vector33.X / 2f, value32.Y);
-            Texture2D texture2D23 = Main.projectileTexture[projectile.type];
+            Texture2D texture2D23 = Main.projectileTexture[Projectile.type];
             Rectangle rectangle9 = texture2D23.Frame(1, 1, 0, 0);
             Vector2 origin3 = rectangle9.Size() / 2f;
             float num233 = -0.06283186f * num229;

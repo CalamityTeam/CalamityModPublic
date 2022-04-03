@@ -17,41 +17,34 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 251;
-            item.noMelee = true;
-            item.magic = true;
-            item.width = 22;
-            item.height = 24;
-            item.useTime = 45;
-            item.useAnimation = 45;
-            item.shoot = ModContent.ProjectileType<StratusSphereProj>();
-            item.shootSpeed = 7f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.mana = 30;
-            item.knockBack = 2;
-            item.UseSound = SoundID.Item20;
-            item.rare = ItemRarityID.LightRed;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.holdStyle = 3;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 251;
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 22;
+            Item.height = 24;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.shoot = ModContent.ProjectileType<StratusSphereProj>();
+            Item.shootSpeed = 7f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.mana = 30;
+            Item.knockBack = 2;
+            Item.UseSound = SoundID.Item20;
+            Item.rare = ItemRarityID.LightRed;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.holdStyle = 3;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 6;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 6;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NebulaArcanum);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NebulaArcanum).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

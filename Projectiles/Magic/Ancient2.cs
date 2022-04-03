@@ -13,42 +13,42 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.penetrate = 4;
-            projectile.extraUpdates = 12;
-            projectile.timeLeft = 30;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
-            projectile.scale = 0.5f;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 4;
+            Projectile.extraUpdates = 12;
+            Projectile.timeLeft = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.scale = 0.5f;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.3f, 0.25f, 0f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.25f, 0f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            if (projectile.ai[0] > 7f && projectile.numUpdates % 2 == 0)
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+            if (Projectile.ai[0] > 7f && Projectile.numUpdates % 2 == 0)
             {
                 int dustType = 22;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 Dust dust = Main.dust[idx];
                 if (Main.rand.NextBool(2))
                 {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 dust.velocity.X *= 3f;
                 dust.velocity.Y *= 3f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                 if (Main.rand.NextBool(3))
                 {
                     dust.noGravity = true;
@@ -78,37 +78,37 @@ namespace CalamityMod.Projectiles.Magic
                 dust.velocity.X *= 1.1f;
                 dust.velocity.Y *= 1.1f;
             }
-            projectile.ai[0] += 1f;
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.ai[0] += 1f;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int frameHeight = height * projectile.frame;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
             Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
 
             // Dust effects
-            Circle dustCircle = new Circle(projectile.Center, projectile.width / 2);
+            Circle dustCircle = new Circle(Projectile.Center, Projectile.width / 2);
 
             for (int i = 0; i < 20; i++)
             {
                 // Dust
                 Vector2 dustPos = dustCircle.RandomPointInCircle();
-                if ((dustPos - projectile.Center).Length() > 48)
+                if ((dustPos - Projectile.Center).Length() > 48)
                 {
                     int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
                     Main.dust[dustIndex].noGravity = true;
                     Main.dust[dustIndex].fadeIn = 1f;
-                    Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;
+                    Vector2 dustVelocity = Projectile.Center - Main.dust[dustIndex].position;
                     float distToCenter = dustVelocity.Length();
                     dustVelocity.Normalize();
                     dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));

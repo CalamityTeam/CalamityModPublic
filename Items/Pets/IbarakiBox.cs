@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Pets
         {
             DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             Tooltip.SetDefault("As the ice melts in the springs\n" +
-                "And waves wash the old mossâ€™ hair...\n" +
+                "And waves wash the old moss’ hair...\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
                 "Use the item with right click in the hotbar to toggle the Third Sage's blessing.\n" +
@@ -23,20 +23,20 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.width = 36;
-            item.height = 30;
-            item.UseSound = SoundID.Item3;
-            item.shoot = ModContent.ProjectileType<ThirdSage>();
-            item.buffType = ModContent.BuffType<ThirdSageBuff>();
+            Item.damage = 0;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.width = 36;
+            Item.height = 30;
+            Item.UseSound = SoundID.Item3;
+            Item.shoot = ModContent.ProjectileType<ThirdSage>();
+            Item.buffType = ModContent.BuffType<ThirdSageBuff>();
 
-            item.value = Item.buyPrice(gold: 5);
-            item.rare = ItemRarityID.LightRed;
-            item.Calamity().devItem = true;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.LightRed;
+            Item.Calamity().devItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Pets
                 {
                     if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
                     {
-                        player.AddBuff(item.buffType, 3600, true);
+                        player.AddBuff(Item.buffType, 3600, true);
                     }
                 }
             }

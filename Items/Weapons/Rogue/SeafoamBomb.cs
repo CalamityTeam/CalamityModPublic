@@ -18,32 +18,27 @@ Stealth strikes are faster and explode into 5 bubbles");
 
         public override void SafeSetDefaults()
         {
-            item.width = 26;
-            item.height = 44;
-            item.damage = 12;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<SeafoamBombProj>();
-            item.shootSpeed = 8f;
-            item.Calamity().rogue = true;
+            Item.width = 26;
+            Item.height = 44;
+            Item.damage = 12;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 25;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<SeafoamBombProj>();
+            Item.shootSpeed = 8f;
+            Item.Calamity().rogue = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bomb, 25);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Bomb, 25).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.Anvils).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

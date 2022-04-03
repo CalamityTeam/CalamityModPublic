@@ -25,6 +25,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs
 {
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs
                     float barfDivisor = malice ? 30f : expertMode ? 40f : 60f;
                     if (calamityGlobalNPC.newAI[3] % barfDivisor == 0f)
                     {
-                        Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
+                        SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -267,7 +268,7 @@ namespace CalamityMod.NPCs
                             {
                                 npc.localAI[0] = 0f;
                                 npc.netUpdate = true;
-                                Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
+                                SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
@@ -324,7 +325,7 @@ namespace CalamityMod.NPCs
                                 npc.TargetClosest();
                                 if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                                 {
-                                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 17);
+                                    SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 17);
                                     Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                                     float num942 = player.position.X + player.width * 0.5f - vector104.X;
                                     float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -898,7 +899,7 @@ namespace CalamityMod.NPCs
                     {
                         NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<Brimling>());
                     }
-                    Main.PlaySound(SoundID.Item8, vectorCenter);
+                    SoundEngine.PlaySound(SoundID.Item8, vectorCenter);
                     npc.alpha = 255;
                     npc.position = position;
                     for (int n = 0; n < 15; n++)
@@ -1165,7 +1166,7 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.ai[1] == 180f)
                         {
-                            Main.PlaySound(SoundID.Item68, source);
+                            SoundEngine.PlaySound(SoundID.Item68, source);
                             Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
                             laserVelocity2.Normalize();
                             int type = ModContent.ProjectileType<BrimstoneRay>();
@@ -1197,7 +1198,7 @@ namespace CalamityMod.NPCs
                     }
 
                     if (npc.ai[1] % playSoundTimer == 0f)
-                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
+                        SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -1258,7 +1259,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
+                    SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
                     int seekerAmt = death ? 10 : 5;
                     int seekerSpread = 360 / seekerAmt;
                     int seekerDistance = death ? 180 : 150;
@@ -1291,7 +1292,7 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[0] = npc.life;
                         if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.1)
                         {
-                            Main.PlaySound(SoundID.Item109, npc.Center);
+                            SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                             calamityGlobalNPC.newAI[2] = 2f;
                             SpawnDust();
                         }
@@ -1308,7 +1309,7 @@ namespace CalamityMod.NPCs
                         }
                         else
                         {
-                            Main.PlaySound(SoundID.Item109, npc.Center);
+                            SoundEngine.PlaySound(SoundID.Item109, npc.Center);
                             calamityGlobalNPC.newAI[2] = 1f;
                             SpawnDust();
                         }
@@ -2059,7 +2060,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[2] > 22f)
                     {
                         npc.localAI[2] = 0f;
-                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
+                        SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2095,7 +2096,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.ai[1] == 1f)
                 {
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
                     npc.rotation = num842;
 
                     float num870 = 14f + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2340,7 +2341,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[2] > 36f)
                     {
                         npc.localAI[2] = 0f;
-                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
+                        SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
                     }
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2376,7 +2377,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.ai[1] == 1f)
                 {
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
                     npc.rotation = num842;
 
                     float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2538,7 +2539,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[0] >= 5f && npc.ai[0] != 7)
                         {
                             npc.localAI[0] = 0f;
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
+                            SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
 
                             float velocity = death ? (8f + npc.localAI[2] * 0.025f) : 7f;
                             int type = ModContent.ProjectileType<AstralFlame>();
@@ -2562,7 +2563,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[0] == 2f)
                         {
                             npc.localAI[0] = 0f;
-                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
+                            SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 
                             float num179 = death ? 20f : 18.5f;
                             int maxProjectiles = malice ? 8 : death ? 6 : 4;
@@ -2809,7 +2810,7 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
 
                     // Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
                     npc.TargetClosest();
@@ -2843,7 +2844,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Fire lasers on stomp
-                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
+                    SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num179 = death ? 20f : 18.5f;
@@ -3050,7 +3051,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
+                    SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -3101,7 +3102,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
+                    SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -3220,7 +3221,7 @@ namespace CalamityMod.NPCs
                 {
                     if (calamityGlobalNPC.newAI[0] != 3f)
                     {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
                         calamityGlobalNPC.newAI[0] = 3f;
                         npc.defense = 12;
                         calamityGlobalNPC.DR = 0.075f;
@@ -3337,7 +3338,7 @@ namespace CalamityMod.NPCs
                                 netMessage.Send();
                             }
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                            SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
                         }
                         return;
                     }
@@ -3476,7 +3477,7 @@ namespace CalamityMod.NPCs
                     {
                         for (int l = num14; l < num15; l++)
                         {
-                            if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[Main.tile[k, l].type] || (Main.tileSolidTop[Main.tile[k, l].type] && Main.tile[k, l].frameY == 0))) || Main.tile[k, l].liquid > 64))
+                            if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[Main.tile[k, l].TileType] || (Main.tileSolidTop[Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].liquid > 64))
                             {
                                 Vector2 vector2;
                                 vector2.X = k * 16;
@@ -3790,7 +3791,7 @@ namespace CalamityMod.NPCs
 
                             if (Vector2.Distance(player.Center, npc.Center) > 80f)
                             {
-                                Main.PlaySound((phase2 || deathModeEnragePhase_BodyAndTail) ? SoundID.Item91 : SoundID.Item12, npc.Center);
+                                SoundEngine.PlaySound((phase2 || deathModeEnragePhase_BodyAndTail) ? SoundID.Item91 : SoundID.Item12, npc.Center);
                                 float num941 = (death ? 16f : revenge ? 14f : 13f) + enrageScale * 4f;
                                 Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                                 float num942 = player.position.X + player.width * 0.5f - vector104.X;
@@ -4239,7 +4240,7 @@ namespace CalamityMod.NPCs
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);
                 if (totalDarkEnergyHP < succPhaseGateValue)
                 {
-                    Main.PlaySound(SoundID.NPCDeath44, vector);
+                    SoundEngine.PlaySound(SoundID.NPCDeath44, vector);
 
                     // Kill all Dark Energies
                     for (int i = 0; i < Main.maxNPCs; i++)
@@ -4588,7 +4589,7 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
                     {
-                        SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
+                        SoundEffectInstance sound = SoundEngine.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
                         if (sound != null)
                         {
                             sound.Pitch = 0.25f;
@@ -4614,7 +4615,7 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
                     {
-                        SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
+                        SoundEffectInstance sound = SoundEngine.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
                         if (sound != null)
                         {
                             sound.Pitch = 0.25f;
@@ -4762,7 +4763,7 @@ namespace CalamityMod.NPCs
                                 if (phase2 && npc.ai[3] == 0f)
                                 {
                                     npc.ai[3] = 3f;
-                                    Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
+                                    SoundEngine.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
                                     int totalProjectiles = 40;
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     int distance = 800;
@@ -4811,7 +4812,7 @@ namespace CalamityMod.NPCs
                                 if (npc.ai[3] == 0f)
                                 {
                                     npc.ai[3] = 3f;
-                                    Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
+                                    SoundEngine.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
                                     int totalProjectiles = phase2 ? 40 : 48;
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     int distance = phase2 ? 1200 : 1320;
@@ -5073,7 +5074,7 @@ namespace CalamityMod.NPCs
                     // Sound
                     if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
                     {
-                        SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
+                        SoundEffectInstance sound = SoundEngine.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
                         if (sound != null)
                         {
                             sound.Pitch = 0.25f;
@@ -5116,7 +5117,7 @@ namespace CalamityMod.NPCs
                 float aiGateValue = 120f;
                 if (npc.ai[1] == aiGateValue - 30f)
                 {
-                    Main.PlaySound(SoundID.DD2_BetsyFireballShot, (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -5522,7 +5523,7 @@ namespace CalamityMod.NPCs
 
                 // Play tired sound
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
 
                 calamityGlobalNPC.newAI[0] -= malice ? 1.5f : 1f;
                 if (calamityGlobalNPC.newAI[0] <= 0f)
@@ -5723,7 +5724,7 @@ namespace CalamityMod.NPCs
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
                 }
 
                 npc.ai[2] += 1f;
@@ -5888,12 +5889,12 @@ namespace CalamityMod.NPCs
 
                 // Play sounds and spawn Tooth Balls
                 if (npc.ai[2] == 0f)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] % toothBallBelchPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 40f == 0f && npc.ai[2] != 0f)
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -5933,7 +5934,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound and spawn sharks
                 if (npc.ai[2] == num9 - 30)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num9 - 90)
                 {
@@ -5967,7 +5968,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6152,7 +6153,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6166,7 +6167,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6205,7 +6206,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6254,7 +6255,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6462,7 +6463,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound
                 if (npc.ai[2] == num12 / 2)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num12 / 2)
                 {
@@ -6517,7 +6518,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6563,7 +6564,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6577,7 +6578,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -7043,7 +7044,7 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.ai[1] == 180f)
                         {
-                            Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
+                            SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
                             Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
                             laserVelocity2.Normalize();
 
@@ -7084,7 +7085,7 @@ namespace CalamityMod.NPCs
                     }
 
                     if (npc.ai[1] % playSoundTimer == 0f)
-                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
+                        SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -7258,7 +7259,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
-                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type] && !Main.tileSolidTop[(int)Main.tile[x, y].type]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].type] || Main.tileSolidTop[(int)Main.tile[x, y - 1].type] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].type] || Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].type] || Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].type] || Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && (!Main.tile[x - num9, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].type]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num9, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].TileType]))
                 {
                     float npcBottom = (float)(y * 16);
                     if (Main.tile[x, y].halfBrick())
@@ -7414,7 +7415,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y -= bounciness;
                     if (npc.type == ModContent.NPCType<DespairStone>())
                     {
-                        Main.PlaySound(SoundID.Item, npc.Center, 14);
+                        SoundEngine.PlaySound(SoundID.Item, npc.Center, 14);
                         for (int k = 0; k < 10; k++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
@@ -7422,7 +7423,7 @@ namespace CalamityMod.NPCs
                     }
                     if (npc.type == ModContent.NPCType<Bohldohr>())
                     {
-                        Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
+                        SoundEngine.PlaySound(SoundID.NPCHit, npc.Center, 7);
                     }
                     if (DogPhase2)
                     {
@@ -7542,7 +7543,7 @@ namespace CalamityMod.NPCs
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
-                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type] && !Main.tileSolidTop[(int)Main.tile[x, y].type]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].type] || Main.tileSolidTop[(int)Main.tile[x, y - 1].type] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].type] || Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].type] || Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].type] || Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && (!Main.tile[x - num10, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].type]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num10, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].TileType]))
                 {
                     float num13 = (float)(y * 16);
                     if (Main.tile[x, y].halfBrick())
@@ -7613,9 +7614,9 @@ namespace CalamityMod.NPCs
                 if ((npc.velocity.X < 0f && num17 == -1) || (npc.velocity.X > 0f && num17 == 1))
                 {
                     float num18 = 3f;
-                    if (Main.tile[num15, num16 - 2].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 2].type])
+                    if (Main.tile[num15, num16 - 2].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 2].TileType])
                     {
-                        if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].type])
+                        if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].TileType])
                         {
                             npc.velocity.Y = bouncy1;
                             npc.netUpdate = true;
@@ -7626,17 +7627,17 @@ namespace CalamityMod.NPCs
                             npc.netUpdate = true;
                         }
                     }
-                    else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].type])
+                    else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].TileType])
                     {
                         npc.velocity.Y = bouncy3;
                         npc.netUpdate = true;
                     }
-                    else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].type])
+                    else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].TileType])
                     {
                         npc.velocity.Y = bouncy4;
                         npc.netUpdate = true;
                     }
-                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].type]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].type]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].type]))
+                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].TileType]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].TileType]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].TileType]))
                     {
                         npc.velocity.Y = bouncy5;
                         npc.netUpdate = true;

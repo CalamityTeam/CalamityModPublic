@@ -21,41 +21,34 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 62;
-            item.damage = 500;
-            item.melee = true;
-            item.useTime = 5;
-            item.reuseDelay = 20;
-            item.useAnimation = 30;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RSSolarFlare>();
-            item.shootSpeed = 15f;
+            Item.width = 62;
+            Item.height = 62;
+            Item.damage = 500;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTime = 5;
+            Item.reuseDelay = 20;
+            Item.useAnimation = 30;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<RSSolarFlare>();
+            Item.shootSpeed = 15f;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AntlionClaw);
-            recipe.AddIngredient(ModContent.ItemType<ForsakenSaber>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AntlionClaw).AddIngredient(ModContent.ItemType<ForsakenSaber>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;

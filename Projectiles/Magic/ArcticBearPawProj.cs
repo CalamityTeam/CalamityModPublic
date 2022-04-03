@@ -10,18 +10,18 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 40;
-            projectile.aiStyle = 1;
+            Projectile.width = Projectile.height = 40;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.coldDamage = true;
-            projectile.penetrate = 5;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.coldDamage = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.coldDamage = true;
+            Projectile.penetrate = 5;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.coldDamage = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void SetStaticDefaults()
@@ -32,17 +32,17 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             //make pretty dust
-            int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88);
+            int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 88);
             Main.dust[index2].noGravity = true;
 
-            if (projectile.velocity.X > -0.05f && projectile.velocity.X < 0.05f &
-                projectile.velocity.Y > -0.05f && projectile.velocity.Y < 0.05f)
+            if (Projectile.velocity.X > -0.05f && Projectile.velocity.X < 0.05f &
+                Projectile.velocity.Y > -0.05f && Projectile.velocity.Y < 0.05f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                projectile.velocity *= 0.968f;
+                Projectile.velocity *= 0.968f;
             }
         }
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha);
+            return new Color(200, 200, 200, Projectile.alpha);
         }
     }
 }

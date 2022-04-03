@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class SkyFlare : ModProjectile
@@ -14,72 +15,72 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sky Flare");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
             cooldownSlot = 1;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.9995f;
+            Projectile.velocity *= 0.9995f;
             int addStuff = Main.rand.Next(5);
             blowTimer += addStuff;
             if (blowTimer >= 900)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 4)
+            if (Projectile.frame > 4)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
+            return new Color(255, Main.DiscoG, 53, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
+                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
+                Vector2 vector7 = vector6 - Projectile.Center;
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 244, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
                 Main.dust[num228].noGravity = true;
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int num231 = (int)(projectile.Center.Y / 16f);
-                int num232 = (int)(projectile.Center.X / 16f);
+                int num231 = (int)(Projectile.Center.Y / 16f);
+                int num232 = (int)(Projectile.Center.X / 16f);
                 int num233 = 100;
                 if (num232 < 10)
                 {
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int num234 = num231; num234 < num231 + num233; num234++)
                 {
                     Tile tile = Main.tile[num232, num234];
-                    if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+                    if (tile.active() && (Main.tileSolid[(int)tile.TileType] || tile.liquid != 0))
                     {
                         num231 = num234;
                         break;

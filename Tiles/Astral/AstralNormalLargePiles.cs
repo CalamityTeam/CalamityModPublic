@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralNormalLargePiles : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoFail[Type] = true;

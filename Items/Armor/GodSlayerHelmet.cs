@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 75, 0, 0);
-            item.defense = 35; //96
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 75, 0, 0);
+            Item.defense = 35; //96
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -56,18 +56,13 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.14f;
-            player.rangedCrit += 14;
+            player.GetDamage(DamageClass.Ranged) += 0.14f;
+            player.GetCritChance(DamageClass.Ranged) += 14;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

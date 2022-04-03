@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 26;
-            item.useTime = 33;
-            item.useAnimation = 33;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<OnyxSharkBomb>();
-            item.useAmmo = AmmoID.Rocket;
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 26;
+            Item.useTime = 33;
+            Item.useAnimation = 33;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<OnyxSharkBomb>();
+            Item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()
@@ -47,12 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 13);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 13).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class GastricBelcherBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gastric Aberration");
             Description.SetDefault("The aquatic aberration will protect you");

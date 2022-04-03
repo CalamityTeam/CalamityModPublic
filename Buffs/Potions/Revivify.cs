@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Revivify : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Revivify");
             Description.SetDefault("You are healed by a fraction of the damage you take");

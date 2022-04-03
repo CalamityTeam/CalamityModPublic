@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class CorrodedShell : ModProjectile
@@ -17,31 +18,31 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 6;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.aiStyle = 1;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.aiStyle = 1;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y *= 0.9995f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity.X *= 0.9995f;
+            Projectile.velocity.Y *= 0.9995f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (projectile.timeLeft % 3 == 0)
+            if (Projectile.timeLeft % 3 == 0)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    int aura = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner);
+                    int aura = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(Projectile.damage * 0.15), Projectile.knockBack, Projectile.owner);
                     if (aura.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[aura].Calamity().forceRanged = true;
@@ -53,17 +54,17 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position = projectile.position - projectile.Size / 2f;
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item92, (int)projectile.Center.X, (int)projectile.Center.Y);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 32;
+            Projectile.position = Projectile.position - Projectile.Size / 2f;
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.Center.X, (int)Projectile.Center.Y);
             int count = Main.rand.Next(6, 15);
             for (int i = 0; i < count; i++)
             {
-                int idx = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
+                int idx = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
                 Main.dust[idx].velocity *= 2f;
                 Main.dust[idx].noGravity = true;
             }

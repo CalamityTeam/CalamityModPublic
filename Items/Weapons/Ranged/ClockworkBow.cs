@@ -18,34 +18,29 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 808;
-            item.ranged = true;
-            item.width = 48;
-            item.height = 96;
-            item.useTime = 60;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.channel = true;
-            item.knockBack = 4.25f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 808;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 48;
+            Item.height = 96;
+            Item.useTime = 60;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.knockBack = 4.25f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ItemID.Cog, 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.Cog, 50).AddTile(TileID.LunarCraftingStation).Register();
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
 

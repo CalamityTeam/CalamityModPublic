@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class CalciumBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Calcium");
             Description.SetDefault("You are immune to fall damage");

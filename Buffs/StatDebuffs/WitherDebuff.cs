@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public static int DefenseReduction = 20;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wither");
             Description.SetDefault("Withered...\n" +

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BouncingShotgunPellet : ModProjectile
@@ -15,52 +16,52 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 255;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.timeLeft = 180;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.timeLeft = 180;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             bounce--;
             if (bounce <= 0)
-                projectile.Kill();
+                Projectile.Kill();
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
-                    projectile.velocity.X = -oldVelocity.X;
-                if (projectile.velocity.Y != oldVelocity.Y)
-                    projectile.velocity.Y = -oldVelocity.Y;
-                Main.PlaySound(SoundID.Item10, projectile.Center);
-                projectile.damage /= 2;
+                if (Projectile.velocity.X != oldVelocity.X)
+                    Projectile.velocity.X = -oldVelocity.X;
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                    Projectile.velocity.Y = -oldVelocity.Y;
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+                Projectile.damage /= 2;
             }
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Main.PlaySound(SoundID.Item10, projectile.Center);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
-        public override void OnHitPvp(Player target, int damage, bool crit) => Main.PlaySound(SoundID.Item10, projectile.Center);
+        public override void OnHitPvp(Player target, int damage, bool crit) => SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 32);
             for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
             }
             for (int d = 0; d < 20; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 2.5f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 0, default, 2.5f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
                 Main.dust[idx].velocity *= 2f;
                 Main.dust[idx].noGravity = true;
             }

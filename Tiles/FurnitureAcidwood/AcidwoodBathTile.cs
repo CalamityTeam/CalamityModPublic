@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBathTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();

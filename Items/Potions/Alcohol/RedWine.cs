@@ -16,24 +16,24 @@ Reduces life regen by 1");
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.LightRed;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.healLife = 200;
-            item.consumable = true;
-            item.potion = true;
-            item.value = Item.buyPrice(0, 0, 65, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.healLife = 200;
+            Item.consumable = true;
+            Item.potion = true;
+            Item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
         public override bool CanUseItem(Player player)
         {
-            item.healLife = player.Calamity().baguette ? 250 : 200;
+            Item.healLife = player.Calamity().baguette ? 250 : 200;
             return base.CanUseItem(player);
         }
 

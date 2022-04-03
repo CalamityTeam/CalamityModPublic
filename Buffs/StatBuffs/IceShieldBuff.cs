@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class IceShieldBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Shield");
             Description.SetDefault("Absorbs 20% damage from the next hit you take, then shatters");

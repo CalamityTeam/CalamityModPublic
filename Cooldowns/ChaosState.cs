@@ -13,7 +13,7 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => outlineColor;
         public override Color CooldownStartColor => Color.Lerp(cooldownColorStart, cooldownColorEnd, 1 - instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(cooldownColorStart, cooldownColorEnd, 1 - instance.Completion);
-        public override LegacySoundStyle EndSound => instance.player.Calamity().mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/ChaosStateOver");
+        public override LegacySoundStyle EndSound => instance.player.Calamity().Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/ChaosStateOver");
 
         //It's the same cooldown with different skins each time, basically.
         public string skinTexture;

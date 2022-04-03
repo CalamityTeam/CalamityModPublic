@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class SirenLightPetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ocean Spirit");
             Description.SetDefault("Small and cute");

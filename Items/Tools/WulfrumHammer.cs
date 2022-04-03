@@ -14,31 +14,27 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.knockBack = 5.5f;
-            item.useTime = 11;
-            item.useAnimation = 29;
-            item.hammer = 45;
-            item.tileBoost += 1;
+            Item.damage = 7;
+            Item.knockBack = 5.5f;
+            Item.useTime = 11;
+            Item.useAnimation = 29;
+            Item.hammer = 45;
+            Item.tileBoost += 1;
 
-            item.melee = true;
-            item.width = 28;
-            item.height = 38;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 28;
+            Item.height = 38;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 16);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 16).AddTile(TileID.Anvils).Register();
         }
     }
 }

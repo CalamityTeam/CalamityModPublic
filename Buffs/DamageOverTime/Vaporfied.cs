@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 {
     public class Vaporfied : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vaporfied");
             Description.SetDefault("Vape");

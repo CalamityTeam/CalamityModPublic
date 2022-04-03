@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class RadiatorBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiator");
             Description.SetDefault("Radioactive but adorable");

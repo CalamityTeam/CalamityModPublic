@@ -21,12 +21,12 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 24;
-            item.value = Item.buyPrice(0, 90, 0, 0);
-            item.defense = 13; //110
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 28;
+            Item.height = 24;
+            Item.value = Item.buyPrice(0, 90, 0, 0);
+            Item.defense = 13; //110
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -62,22 +62,15 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(600f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
                 }
             }
-            player.minionDamage += 0.65f;
+            player.GetDamage(DamageClass.Summon) += 0.65f;
             player.maxMinions += 5;
         }
 
-        public override void UpdateEquip(Player player) => player.minionDamage += 0.1f;
+        public override void UpdateEquip(Player player) => player.GetDamage(DamageClass.Summon) += 0.1f;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddRecipeGroup("AnyGoldBar", 5);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddRecipeGroup("AnyGoldBar", 5).AddIngredient(ModContent.ItemType<Tenebris>(), 6).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

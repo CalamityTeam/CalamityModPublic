@@ -19,20 +19,20 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Duke Summoner");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 1;
-            projectile.scale = 0.004f;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 1800;
+            Projectile.width = Projectile.height = 1;
+            Projectile.scale = 0.004f;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 1800;
         }
         private static void ExpandVertically(int startX, int startY, out int topY, out int bottomY, int maxExpandUp = 100, int maxExpandDown = 100)
         {
@@ -62,53 +62,53 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.rotation -= 0.15f * (float)(1D - (projectile.alpha / 255D));
-            projectile.ai[0]++;
+            Projectile.rotation -= 0.15f * (float)(1D - (Projectile.alpha / 255D));
+            Projectile.ai[0]++;
 
-            float totalTilesToExpand = 1600f * projectile.scale / 16;
+            float totalTilesToExpand = 1600f * Projectile.scale / 16;
 
-            Point centerAsTileCoords = projectile.Center.ToTileCoordinates();
+            Point centerAsTileCoords = Projectile.Center.ToTileCoordinates();
             ExpandVertically(centerAsTileCoords.X, centerAsTileCoords.Y, out int topY, out int bottomY, (int)(totalTilesToExpand / 2), (int)(totalTilesToExpand / 2));
             topY++;
             bottomY--;
             Vector2 topVector = new Vector2(centerAsTileCoords.X, topY) * 16f + new Vector2(8f);
             Vector2 bottomVector = new Vector2(centerAsTileCoords.X, bottomY) * 16f + new Vector2(8f);
             Vector2 centerVector = Vector2.Lerp(topVector, bottomVector, 0.5f);
-            projectile.width = (int)(208 * projectile.scale);
-            projectile.height = (int)(bottomVector.Y - topVector.Y);
-            projectile.Center = centerVector;
+            Projectile.width = (int)(208 * Projectile.scale);
+            Projectile.height = (int)(bottomVector.Y - topVector.Y);
+            Projectile.Center = centerVector;
 
-            if (projectile.ai[0] < 90f)
+            if (Projectile.ai[0] < 90f)
             {
-                projectile.alpha = (int)MathHelper.Lerp(255f, 0f, projectile.ai[0] / 90f);
-                projectile.scale = MathHelper.Lerp(0.004f, 1f, projectile.ai[0] / 90f);
+                Projectile.alpha = (int)MathHelper.Lerp(255f, 0f, Projectile.ai[0] / 90f);
+                Projectile.scale = MathHelper.Lerp(0.004f, 1f, Projectile.ai[0] / 90f);
             }
             // Spray gore and acid everywhere
-            else if (projectile.ai[0] < 480f)
+            else if (Projectile.ai[0] < 480f)
             {
-                if (projectile.ai[0] % 10f == 9f)
+                if (Projectile.ai[0] % 10f == 9f)
                 {
                     Vector2 velocity = new Vector2(0f, -18f).RotatedByRandom(0.7f);
-                    Projectile.NewProjectile(projectile.Top + new Vector2(Main.rand.NextFloat(-80f, 80f), 100f), velocity,
+                    Projectile.NewProjectile(Projectile.Top + new Vector2(Main.rand.NextFloat(-80f, 80f), 100f), velocity,
                         ModContent.ProjectileType<OldDukeSummonDrop>(), 65, 2f);
                 }
-                if (projectile.ai[0] % 35f == 34f)
+                if (Projectile.ai[0] % 35f == 34f)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-3f, 3f), -7f - Main.rand.NextFloat(4f, 12f)).RotatedByRandom(0.5f);
-                    Projectile.NewProjectile(projectile.Top + new Vector2(Main.rand.NextFloat(-30f, 30f), 100f), velocity,
+                    Projectile.NewProjectile(Projectile.Top + new Vector2(Main.rand.NextFloat(-30f, 30f), 100f), velocity,
                         ModContent.ProjectileType<OldDukeGore>(), 65, 2f);
                 }
             }
 
             // Fade out and die
-            if (projectile.ai[0] >= 600f)
+            if (Projectile.ai[0] >= 600f)
             {
-                projectile.alpha = (int)MathHelper.Lerp(0f, 255f, (projectile.ai[0] - 600f) / 120f);
+                Projectile.alpha = (int)MathHelper.Lerp(0f, 255f, (Projectile.ai[0] - 600f) / 120f);
 
                 bool canSpawnBoomer = false;
                 for (int i = 0; i < Main.player.Length; i++)
                 {
-                    if (!Main.player[i].dead && projectile.Distance(Main.player[i].Center) < 12000f)
+                    if (!Main.player[i].dead && Projectile.Distance(Main.player[i].Center) < 12000f)
                     {
                         canSpawnBoomer = true;
                         break;
@@ -116,20 +116,20 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 // Summon the boomer duke
-                if (projectile.ai[0] == 660f)
+                if (Projectile.ai[0] == 660f)
                 {
                     if (canSpawnBoomer)
                     {
                         for (int i = 0; i < 160; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(projectile.Top + Vector2.UnitY * 100f, (int)CalamityDusts.SulfurousSeaAcid);
+                            Dust dust = Dust.NewDustPerfect(Projectile.Top + Vector2.UnitY * 100f, (int)CalamityDusts.SulfurousSeaAcid);
                             dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(5f, 23f);
                             dust.noGravity = true;
                             dust.scale = 3f;
                         }
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int boomer = NPC.NewNPC((int)projectile.Top.X, (int)projectile.Top.Y + 100, ModContent.NPCType<OldDuke>());
+                            int boomer = NPC.NewNPC((int)Projectile.Top.X, (int)Projectile.Top.Y + 100, ModContent.NPCType<OldDuke>());
                             string boomerName = Main.npc[boomer].TypeName;
 
                             if (Main.netMode == NetmodeID.SinglePlayer)
@@ -166,32 +166,32 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
             }
-            if (projectile.ai[0] >= 720f)
+            if (Projectile.ai[0] >= 720f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            float totalTilesToExpand = 1600f * projectile.scale / 16;
-            Point centerAsTileCoords = projectile.Center.ToTileCoordinates();
+            float totalTilesToExpand = 1600f * Projectile.scale / 16;
+            Point centerAsTileCoords = Projectile.Center.ToTileCoordinates();
             ExpandVertically(centerAsTileCoords.X, centerAsTileCoords.Y, out _, out int bottomY, (int)(totalTilesToExpand / 2), (int)(totalTilesToExpand / 2));
             bottomY--;
             Vector2 bottomVector = new Vector2(centerAsTileCoords.X, bottomY) * 16f + new Vector2(8f);
 
-            Texture2D texture = ModContent.GetTexture(Texture);
-            float yMax = 1600f * projectile.scale;
+            Texture2D texture = ModContent.Request<Texture2D>(Texture);
+            float yMax = 1600f * Projectile.scale;
             for (int y = 0; y < yMax; y += 30)
             {
                 float thetaDelta = MathHelper.Pi * y / yMax;
-                float scale = projectile.scale * MathHelper.Lerp(0.3f, 1.4f, y / yMax);
+                float scale = Projectile.scale * MathHelper.Lerp(0.3f, 1.4f, y / yMax);
                 float alphaMultiplier = MathHelper.Lerp(1f, 0.6f, y / yMax);
                 spriteBatch.Draw(texture,
                                  bottomVector - Main.screenPosition - Vector2.UnitY * y,
                                  null,
-                                 Color.White * projectile.Opacity * 0.3f * alphaMultiplier,
-                                 projectile.rotation + thetaDelta,
+                                 Color.White * Projectile.Opacity * 0.3f * alphaMultiplier,
+                                 Projectile.rotation + thetaDelta,
                                  texture.Size() * 0.5f,
                                  scale,
                                  SpriteEffects.None,
@@ -200,9 +200,9 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override bool CanHitPlayer(Player target) => projectile.ai[0] >= 90f;
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 90f;
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 240f * projectile.scale, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 240f * Projectile.scale, targetHitbox);
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

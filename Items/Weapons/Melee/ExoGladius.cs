@@ -22,41 +22,34 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.width = 56;
-            item.height = 56;
-            item.damage = 690;
-            item.melee = true;
-            item.knockBack = 9.9f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<ExoGladProj>();
-            item.shootSpeed = 19f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.width = 56;
+            Item.height = 56;
+            Item.damage = 690;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 9.9f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<ExoGladProj>();
+            Item.shootSpeed = 19f;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GalileoGladius>());
-            recipe.AddIngredient(ModContent.ItemType<CosmicShiv>());
-            recipe.AddIngredient(ModContent.ItemType<Lucrecia>());
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GalileoGladius>()).AddIngredient(ModContent.ItemType<CosmicShiv>()).AddIngredient(ModContent.ItemType<Lucrecia>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

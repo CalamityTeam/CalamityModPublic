@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.ranged = true;
-            item.width = 104;
-            item.height = 42;
-            item.useTime = 2;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.75f;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RainbowBlast>();
-            item.shootSpeed = 18f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 104;
+            Item.height = 42;
+            Item.useTime = 2;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.75f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<RainbowBlast>();
+            Item.shootSpeed = 18f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,15 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpectralstormCannon>());
-            recipe.AddIngredient(ModContent.ItemType<ClockGatlignum>());
-            recipe.AddIngredient(ModContent.ItemType<PaintballBlaster>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpectralstormCannon>()).AddIngredient(ModContent.ItemType<ClockGatlignum>()).AddIngredient(ModContent.ItemType<PaintballBlaster>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

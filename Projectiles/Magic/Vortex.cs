@@ -9,18 +9,18 @@ namespace CalamityMod.Projectiles.Magic
     {
         public float TargetCheckCooldown
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public float Time
         {
-            get => projectile.localAI[1];
-            set => projectile.localAI[1] = value;
+            get => Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
         }
         public int TargetIndex
         {
-            get => (int)projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public const float AngularMovementSpeed = 0.1f;
@@ -31,22 +31,22 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.alpha = 255;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = 115 * projectile.extraUpdates;
-            projectile.ignoreWater = true;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.alpha = 255;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = 115 * Projectile.extraUpdates;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
@@ -57,17 +57,17 @@ namespace CalamityMod.Projectiles.Magic
                 TargetIndex = -1;
             }
             Time++;
-            if (projectile.localAI[1] > 10f && Main.rand.NextBool(3))
+            if (Projectile.localAI[1] > 10f && Main.rand.NextBool(3))
             {
                 VisualEffects();
             }
             Movement(HandleTargeting());
-            projectile.rotation += projectile.velocity.X * 0.1f;
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
         }
 
         public bool HandleTargeting()
         {
-            float targetCheckDistance = 350f * projectile.ai[1];
+            float targetCheckDistance = 350f * Projectile.ai[1];
 
             // Reduce a cooldown. Nothing special here.
             if (TargetCheckCooldown > 0f)
@@ -78,10 +78,10 @@ namespace CalamityMod.Projectiles.Magic
             // Attempt to find a target if the projectile has none.
             if (TargetIndex == -1 && TargetCheckCooldown <= 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true, true);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(targetCheckDistance, true, true);
                 if (potentialTarget != null)
                     TargetIndex = potentialTarget.whoAmI;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
             if (TargetCheckCooldown <= 0f && TargetIndex == -1)
             {
@@ -91,11 +91,11 @@ namespace CalamityMod.Projectiles.Magic
             // Ensure that the target is still in reach if there is indeed a target.
             if (TargetIndex != -1)
             {
-                stillCanReachTarget = projectile.Distance(Main.npc[TargetIndex].Center) < MaximumTargetDistance;
+                stillCanReachTarget = Projectile.Distance(Main.npc[TargetIndex].Center) < MaximumTargetDistance;
                 if (!stillCanReachTarget)
                 {
                     TargetIndex = -1;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
             }
             return stillCanReachTarget;
@@ -109,22 +109,22 @@ namespace CalamityMod.Projectiles.Magic
                 int dustCount = 5;
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.333f;
+                    Vector2 spawnPosition = Projectile.Center + Projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.333f;
                     Vector2 velocity = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.NextFloat(6f, 16f);
                     Dust dust = Dust.NewDustPerfect(spawnPosition, 66, velocity, 0, Main.DiscoColor, 0.7f);
                     dust.noGravity = true;
                     dust.noLight = true;
-                    dust.velocity = -projectile.velocity;
+                    dust.velocity = -Projectile.velocity;
                 }
             }
             // Fade in.
-            projectile.alpha -= 5;
-            if (projectile.alpha < 50)
+            Projectile.alpha -= 5;
+            if (Projectile.alpha < 50)
             {
-                projectile.alpha = 50;
+                Projectile.alpha = 50;
             }
             // And make rainbow light.
-            Lighting.AddLight(projectile.Center / 16, Main.DiscoColor.ToVector3());
+            Lighting.AddLight(Projectile.Center / 16, Main.DiscoColor.ToVector3());
         }
 
         public void Movement(bool stillCanReachTarget)
@@ -136,13 +136,13 @@ namespace CalamityMod.Projectiles.Magic
             // This causes the velocity to constantly rotate sharply towards the target.
             if (stillCanReachTarget)
             {
-                float angleOffsetToTarget = projectile.AngleTo(Main.npc[TargetIndex].Center) - projectile.velocity.ToRotation();
+                float angleOffsetToTarget = Projectile.AngleTo(Main.npc[TargetIndex].Center) - Projectile.velocity.ToRotation();
                 angleOffsetToTarget = MathHelper.WrapAngle(angleOffsetToTarget); // Ensure the offset is in the range of -pi to pi.
-                projectile.velocity = projectile.velocity.RotatedBy(angleOffsetToTarget * AngularMovementSpeed);
+                Projectile.velocity = Projectile.velocity.RotatedBy(angleOffsetToTarget * AngularMovementSpeed);
             }
             // Accelerate constantly with time.
-            float oldSpeed = projectile.velocity.Length();
-            projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * (oldSpeed + Acceleration);
+            float oldSpeed = Projectile.velocity.Length();
+            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * (oldSpeed + Acceleration);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

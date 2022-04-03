@@ -12,68 +12,68 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flying Orthocera");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 42;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.sentry = true;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.penetrate = -1;
+            Projectile.width = 46;
+            Projectile.height = 42;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.sentry = true;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0f)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 56; i++)
                 {
                     float angle = MathHelper.TwoPi / 56f * i;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
                     dust.scale = 1.5f;
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 5f == 4f)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 5f == 4f)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            NPC potentialTarget = projectile.Center.MinionHoming(SearchDistance, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(SearchDistance, player);
             if (potentialTarget != null)
             {
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center) - MathHelper.PiOver4, 0.085f);
-                projectile.spriteDirection = (projectile.rotation < MathHelper.Pi).ToDirectionInt();
-                if (projectile.ai[0]++ % 30f == 29f)
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center) - MathHelper.PiOver4, 0.085f);
+                Projectile.spriteDirection = (Projectile.rotation < MathHelper.Pi).ToDirectionInt();
+                if (Projectile.ai[0]++ % 30f == 29f)
                 {
-                    if (projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), projectile.damage, 4f, projectile.owner);
+                    if (Projectile.owner == Main.myPlayer)
+                        Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), Projectile.damage, 4f, Projectile.owner);
                 }
             }
             else
             {
-                projectile.rotation = projectile.rotation.AngleTowards(0f, 0.15f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.15f);
             }
         }
     }

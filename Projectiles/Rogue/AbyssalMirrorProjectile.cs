@@ -8,28 +8,28 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lumenyl Fluid");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 50;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 12;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 50;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 25)
-            { projectile.alpha += 10; }
+            if (Projectile.timeLeft < 25)
+            { Projectile.alpha += 10; }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

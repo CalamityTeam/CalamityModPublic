@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneFireballMinion : ModProjectile
@@ -14,69 +15,69 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimfire");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 200;
-            projectile.penetrate = 2;
-            projectile.extraUpdates = 1;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.alpha = 255;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 200;
+            Projectile.penetrate = 2;
+            Projectile.extraUpdates = 1;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
             //Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 9)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 9)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 6)
+            if (Projectile.frame >= 6)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             //Fade in
-            if (projectile.alpha > 5)
-                projectile.alpha -= 15;
-            if (projectile.alpha < 5)
-                projectile.alpha = 5;
+            if (Projectile.alpha > 5)
+                Projectile.alpha -= 15;
+            if (Projectile.alpha < 5)
+                Projectile.alpha = 5;
 
             //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * Projectile.direction;
 
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
+            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += projectile.velocity * 0.1f;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
+            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                projectile.localAI[0] += 1f;
+                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
+                Projectile.localAI[0] += 1f;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneExplosionMinion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int fire = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
 
@@ -87,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

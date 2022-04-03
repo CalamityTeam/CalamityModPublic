@@ -16,28 +16,28 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 120;
-            projectile.aiStyle = 27;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 120;
+            Projectile.aiStyle = 27;
         }
 
         public override void AI()
         {
-            int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+            int rainbow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
             Main.dust[rainbow].noGravity = true;
             Main.dust[rainbow].velocity = Vector2.Zero;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 115)
+            if (Projectile.timeLeft > 115)
                 return false;
 
             return true;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 4; k++)
             {
-                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                int rainbow = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
                 Main.dust[rainbow].noGravity = true;
             }
         }
@@ -72,9 +72,9 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int x = 0; x < 4; x++)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 2, 800f, 800f, 0f, 800f, 1f, ModContent.ProjectileType<SHIV>(), projectile.damage, projectile.knockBack, projectile.owner, false, 50f);
+                    CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, x > 2, 800f, 800f, 0f, 800f, 1f, ModContent.ProjectileType<SHIV>(), Projectile.damage, Projectile.knockBack, Projectile.owner, false, 50f);
                 }
             }
         }

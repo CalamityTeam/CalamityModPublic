@@ -17,17 +17,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 752;
-            projectile.height = 752;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 150;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 752;
+            Projectile.height = 752;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 150;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -45,22 +45,22 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (frameX > 0 && frameY > 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             spriteBatch.Draw
             (
                 texture,
-                projectile.Center - Main.screenPosition,
+                Projectile.Center - Main.screenPosition,
                 new Rectangle(frameX * 752, frameY * 752, 752, 752),
                 Color.White,
-                projectile.rotation,
-                projectile.Size / 2f,
-                projectile.scale,
+                Projectile.rotation,
+                Projectile.Size / 2f,
+                Projectile.scale,
                 SpriteEffects.None,
                 0f
             );

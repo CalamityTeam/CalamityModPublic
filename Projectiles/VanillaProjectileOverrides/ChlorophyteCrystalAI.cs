@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             // Emit life pulses periodically.
             if (timer % PulseReleaseRate == PulseReleaseRate - 1f)
             {
-                Main.PlaySound(SoundID.Item45, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item45, projectile.Center);
                 if (Main.myPlayer == projectile.owner)
                 {
                     int pulseDamage = (int)(owner.AverageDamage() * 300f);

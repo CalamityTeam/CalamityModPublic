@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class WhiteWineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("White Wine");
             Description.SetDefault("Magic damage boosted, life regen and defense reduced");

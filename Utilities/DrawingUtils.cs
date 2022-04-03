@@ -252,7 +252,7 @@ namespace CalamityMod
             start -= Main.screenPosition;
             end -= Main.screenPosition;
 
-            Texture2D line = ModContent.GetTexture("InfernumMode/ExtraTextures/Line");
+            Texture2D line = ModContent.Request<Texture2D>("InfernumMode/ExtraTextures/Line");
             float rotation = (end - start).ToRotation();
             Vector2 scale = new Vector2(Vector2.Distance(start, end) / line.Width, width);
 
@@ -587,7 +587,7 @@ namespace CalamityMod
         public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
         {
             float time = Main.GlobalTime % 3f / 3f;
-            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
+            Texture2D auroraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture");
             for (int i = 0; i < auroraCount; i++)
             {
                 float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;

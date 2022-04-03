@@ -12,31 +12,31 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 220;
-            projectile.timeLeft = 200;
-            projectile.coldDamage = true;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 220;
+            Projectile.timeLeft = 200;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 5f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 5f)
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    Vector2 spawnPosition = projectile.position;
-                    spawnPosition -= projectile.velocity * i * 0.25f;
+                    Vector2 spawnPosition = Projectile.position;
+                    spawnPosition -= Projectile.velocity * i * 0.25f;
                     int idx = Dust.NewDust(spawnPosition, 1, 1, 113, 0f, 0f, 0, default, 1.25f);
                     Main.dust[idx].position = spawnPosition;
                     Main.dust[idx].scale = Main.rand.NextFloat(0.75f, 0.85f);
@@ -47,17 +47,17 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 70;
-            projectile.position -= projectile.Size * 0.5f;
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.damage /= 3;
-            projectile.Damage();
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 70;
+            Projectile.position -= Projectile.Size * 0.5f;
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.damage /= 3;
+            Projectile.Damage();
             int flowerPetalCount = Main.rand.Next(3, 5 + 1);
-            float thetaDelta = projectile.velocity.ToRotation();
+            float thetaDelta = Projectile.velocity.ToRotation();
             float weaveDistanceMin = 2f;
             float weaveDistanceOutwardMax = 3f;
             float weaveDistanceInner = 0.5f;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                     // instead of weaving backwards.
                     (float)(Math.Sin(thetaDelta + theta * flowerPetalCount) + 0.5f + weaveDistanceInner) *
                     weaveDistanceOutwardMax);
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 113, velocity);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 113, velocity);
                 dust.noGravity = true;
                 dust.scale = 1.35f;
             }

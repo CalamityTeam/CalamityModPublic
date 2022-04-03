@@ -17,31 +17,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.width = 26;
-            item.height = 26;
-            item.damage = 33;
-            item.melee = true;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.width = 26;
+            Item.height = 26;
+            Item.damage = 33;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 2);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 4);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 2).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 4).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -52,12 +46,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(item.damage * 0.5f * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

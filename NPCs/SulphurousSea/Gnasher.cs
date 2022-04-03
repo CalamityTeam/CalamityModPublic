@@ -12,36 +12,36 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gnasher");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.damage = 25;
-            npc.width = 50;
-            npc.height = 36;
-            npc.defense = 30;
-            npc.DR_NERD(0.15f);
-            npc.lifeMax = 35;
-            npc.knockBackResist = 0.25f;
-            npc.aiStyle = 3;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.damage = 25;
+            NPC.width = 50;
+            NPC.height = 36;
+            NPC.defense = 30;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 35;
+            NPC.knockBackResist = 0.25f;
+            NPC.aiStyle = 3;
             aiType = 67;
-            npc.value = Item.buyPrice(0, 0, 0, 60);
-            npc.HitSound = SoundID.NPCHit50;
-            npc.DeathSound = SoundID.NPCDeath54;
-            banner = npc.type;
+            NPC.value = Item.buyPrice(0, 0, 0, 60);
+            NPC.HitSound = SoundID.NPCHit50;
+            NPC.DeathSound = SoundID.NPCDeath54;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-            float num79 = (Main.player[npc.target].Center - npc.Center).Length();
+            NPC.spriteDirection = (NPC.direction > 0) ? -1 : 1;
+            float num79 = (Main.player[NPC.target].Center - NPC.Center).Length();
             num79 *= 0.0025f;
             if ((double)num79 > 1.5)
             {
@@ -57,37 +57,37 @@ namespace CalamityMod.NPCs.SulphurousSea
                 num78 = 2.25f - num79;
             }
             num78 *= (CalamityWorld.death ? 1.2f : 0.8f);
-            if (npc.velocity.X < -num78 || npc.velocity.X > num78)
+            if (NPC.velocity.X < -num78 || NPC.velocity.X > num78)
             {
-                if (npc.velocity.Y == 0f)
+                if (NPC.velocity.Y == 0f)
                 {
-                    npc.velocity *= 0.8f;
+                    NPC.velocity *= 0.8f;
                 }
             }
-            else if (npc.velocity.X < num78 && npc.direction == 1)
+            else if (NPC.velocity.X < num78 && NPC.direction == 1)
             {
-                npc.velocity.X = npc.velocity.X + 1f;
-                if (npc.velocity.X > num78)
+                NPC.velocity.X = NPC.velocity.X + 1f;
+                if (NPC.velocity.X > num78)
                 {
-                    npc.velocity.X = num78;
+                    NPC.velocity.X = num78;
                 }
             }
-            else if (npc.velocity.X > -num78 && npc.direction == -1)
+            else if (NPC.velocity.X > -num78 && NPC.direction == -1)
             {
-                npc.velocity.X = npc.velocity.X - 1f;
-                if (npc.velocity.X < -num78)
+                NPC.velocity.X = NPC.velocity.X - 1f;
+                if (NPC.velocity.X < -num78)
                 {
-                    npc.velocity.X = -num78;
+                    NPC.velocity.X = -num78;
                 }
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             {
                 return 0f;
             }
-            if (spawnInfo.player.Calamity().ZoneSulphur)
+            if (spawnInfo.Player.Calamity().ZoneSulphur)
             {
                 return 0.2f;
             }
@@ -110,23 +110,23 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ItemID.TurtleShell, Main.hardMode, 10, 1, 1);
+            DropHelper.DropItemCondition(NPC, ItemID.TurtleShell, Main.hardMode, 10, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Gnasher"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Gnasher2"), 1f);
             }
         }
     }

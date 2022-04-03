@@ -15,37 +15,37 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0f, 0.25f);
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 0.25f);
             float num461 = 25f;
-            if (projectile.ai[0] > 180f)
+            if (Projectile.ai[0] > 180f)
             {
-                num461 -= (projectile.ai[0] - 180f) / 2f;
+                num461 -= (Projectile.ai[0] - 180f) / 2f;
             }
             if (num461 <= 0f)
             {
                 num461 = 0f;
-                projectile.Kill();
+                Projectile.Kill();
             }
             num461 *= 0.7f;
-            projectile.ai[0] += 4f;
+            Projectile.ai[0] += 4f;
             int num462 = 0;
             while (num462 < num461)
             {
-                float sizeMultiplier = (projectile.ai[1] * 0.5f) + 1f;
+                float sizeMultiplier = (Projectile.ai[1] * 0.5f) + 1f;
                 float num463 = Main.rand.Next(-10, 11) * sizeMultiplier;
                 float num464 = Main.rand.Next(-10, 11) * sizeMultiplier;
                 float num465 = Main.rand.Next(3, 9) * sizeMultiplier;
@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles.Ranged
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 185);
+                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 185);
                 Dust dust = Main.dust[num467];
                 dust.scale = sizeMultiplier;
                 dust.noGravity = true;
-                dust.position.X = projectile.Center.X;
-                dust.position.Y = projectile.Center.Y;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
                 dust.position.X += Main.rand.Next(-10, 11);
                 dust.position.Y += Main.rand.Next(-10, 11);
                 dust.velocity.X = num463;

@@ -16,30 +16,30 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 354;
-            item.knockBack = 15f;
-            item.shootSpeed = 30f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 75;
-            item.useTime = 75;
-            item.reuseDelay = 0;
-            item.width = 140;
-            item.height = 42;
-            item.UseSound = SoundID.Item92;
-            item.shoot = ModContent.ProjectileType<NorfleetCannon>();
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.useTurn = false;
-            item.useAmmo = AmmoID.FallenStar;
-            item.autoReuse = true;
+            Item.damage = 354;
+            Item.knockBack = 15f;
+            Item.shootSpeed = 30f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 75;
+            Item.useTime = 75;
+            Item.reuseDelay = 0;
+            Item.width = 140;
+            Item.height = 42;
+            Item.UseSound = SoundID.Item92;
+            Item.shoot = ModContent.ProjectileType<NorfleetCannon>();
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.useAmmo = AmmoID.FallenStar;
+            Item.autoReuse = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override Vector2? HoldoutOffset()
         {

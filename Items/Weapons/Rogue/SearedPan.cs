@@ -27,23 +27,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 60;
-            item.height = 36;
-            item.damage = 2222;
-            item.Calamity().rogue = true;
-            item.knockBack = 10f;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 25;
-            item.reuseDelay = 1;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.shoot = ModContent.ProjectileType<SearedPanProjectile>();
-            item.shootSpeed = 15f;
-            item.Calamity().donorItem = true;
+            Item.width = 60;
+            Item.height = 36;
+            Item.damage = 2222;
+            Item.Calamity().rogue = true;
+            Item.knockBack = 10f;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = Item.useAnimation = 25;
+            Item.reuseDelay = 1;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.shoot = ModContent.ProjectileType<SearedPanProjectile>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -71,16 +71,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UtensilPoker>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddIngredient(ItemID.Bacon, 4);
-            recipe.AddIngredient(ItemID.LifeCrystal);
-            recipe.AddIngredient(ItemID.ManaCrystal);
-            recipe.AddIngredient(ItemID.Bone, 92);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UtensilPoker>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ItemID.Bacon, 4).AddIngredient(ItemID.LifeCrystal).AddIngredient(ItemID.ManaCrystal).AddIngredient(ItemID.Bone, 92).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

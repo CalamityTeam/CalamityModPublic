@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class TacticalPlagueEngineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
             Description.SetDefault("A giant plague jet is following you");

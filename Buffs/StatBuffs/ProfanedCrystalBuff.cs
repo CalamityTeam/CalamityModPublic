@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class ProfanedCrystalBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devotion");
             Description.SetDefault("");

@@ -33,7 +33,7 @@ namespace CalamityMod.UI
         }
         public override string InvasionName => "Boss Rush";
         public override Color InvasionBarColor => Color.DarkSlateBlue;
-        public override Texture2D IconTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossRushIcon");
+        public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossRushIcon");
 
         public static float EvaluationLifeRatioFromNPCTypes(params int[] types)
         {

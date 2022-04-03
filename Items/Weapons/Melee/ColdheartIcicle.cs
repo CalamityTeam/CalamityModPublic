@@ -13,18 +13,18 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.melee = true;
-            item.width = item.height = 24;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            Item.damage = 1;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = Item.height = 24;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)

@@ -11,34 +11,34 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
-            Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 160;
-            projectile.friendly = true;
-            projectile.hostile = true;
-            projectile.minion = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = Main.projFrames[projectile.type] * 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = Projectile.height = 160;
+            Projectile.friendly = true;
+            Projectile.hostile = true;
+            Projectile.minion = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = Main.projFrames[Projectile.type] * 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 CreateInitialDust();
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             // Emit crimson light.
-            Lighting.AddLight(projectile.Center, Color.Red.ToVector3() * 1.1f);
-            if (projectile.timeLeft % 5f == 4f)
-                projectile.frame++;
+            Lighting.AddLight(Projectile.Center, Color.Red.ToVector3() * 1.1f);
+            if (Projectile.timeLeft % 5f == 4f)
+                Projectile.frame++;
         }
 
         public void CreateInitialDust()
@@ -52,15 +52,15 @@ namespace CalamityMod.Projectiles.Summon
                 for (int j = 0; j < 30; j++)
                 {
                     Vector2 velocity = Main.rand.NextVector2Square(-randomnessSmoothness, randomnessSmoothness).SafeNormalize(Vector2.UnitY) * randomnessSmoothness * 0.48f;
-                    Dust dust = Dust.NewDustDirect(projectile.Center, offsetVariance, offsetVariance, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.6f);
+                    Dust dust = Dust.NewDustDirect(Projectile.Center, offsetVariance, offsetVariance, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.6f);
                     dust.position += Main.rand.NextVector2Square(-10f, 10f);
                     dust.velocity = velocity;
                     dust.noGravity = true;
                 }
             }
 
-            projectile.Damage();
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
+            Projectile.Damage();
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

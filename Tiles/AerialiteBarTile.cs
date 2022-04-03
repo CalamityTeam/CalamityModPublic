@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles
 {
     public class AerialiteBarTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBar(new Color(141, 232, 246));
             dustType = 187;

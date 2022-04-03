@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class LeviBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Levi");
             Description.SetDefault("Small and cute");

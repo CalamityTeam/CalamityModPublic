@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -18,39 +19,39 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
-            projectile.timeLeft = 300;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
             }
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 15;
+                Projectile.alpha -= 15;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            Lighting.AddLight(projectile.Center, 0.7f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.7f, 0f, 0f);
             for (int num121 = 0; num121 < 5; num121++)
             {
-                Dust dust4 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
+                Dust dust4 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
                 dust4.velocity = Vector2.Zero;
-                dust4.position -= projectile.velocity / 5f * (float)num121;
+                dust4.position -= Projectile.velocity / 5f * (float)num121;
                 dust4.noGravity = true;
                 dust4.scale = 0.8f;
                 dust4.noLight = true;

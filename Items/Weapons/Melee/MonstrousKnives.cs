@@ -17,30 +17,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 4;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 21;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 20;
+            Item.width = 18;
+            Item.damage = 4;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 21;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 20;
 
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<MonstrousKnife>();
-            item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<MonstrousKnife>();
+            Item.shootSpeed = 15f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float xDist = Main.mouseX + Main.screenPosition.X - playerPos.X;
             float yDist = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
@@ -99,14 +99,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ThrowingKnife, 200);
-            recipe.AddIngredient(ItemID.LifeCrystal);
-            recipe.AddIngredient(ItemID.LesserHealingPotion, 5); //I considered making a recipe group for any healing potion but Merchant sells these
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ThrowingKnife, 200).AddIngredient(ItemID.LifeCrystal).AddIngredient(ItemID.LesserHealingPotion, 5).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

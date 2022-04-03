@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssCandelabra : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;

@@ -14,18 +14,18 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item3;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<SquishyBean>();
+            Item.width = 20;
+            Item.height = 20;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item3;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<SquishyBean>();
 
-            item.value = Item.buyPrice(platinum: 1);
-            item.rare = ItemRarityID.Cyan;
-            item.Calamity().devItem = true;
+            Item.value = Item.buyPrice(platinum: 1);
+            Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().devItem = true;
         }
     }
 }

@@ -22,25 +22,25 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
 
         public override void SafeSetDefaults()
         {
-            item.width = 46;
-            item.height = 46;
-            item.damage = BaseDamage;
-            item.knockBack = 4f;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 46;
+            Item.height = 46;
+            Item.damage = BaseDamage;
+            Item.knockBack = 4f;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = Item.buyPrice(gold: 80);
-            item.rare = ItemRarityID.Yellow;
+            Item.value = Item.buyPrice(gold: 80);
+            Item.rare = ItemRarityID.Yellow;
 
-            item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
-            item.shootSpeed = Speed;
+            Item.Calamity().rogue = true;
+            Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool CanUseItem(Player player)
@@ -52,7 +52,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
                 Projectile proj = Main.projectile[p];
                 if (!proj.active || proj.owner != player.whoAmI)
                     continue;
-                if (proj.type == item.shoot && !proj.Calamity().stealthStrike)
+                if (proj.type == Item.shoot && !proj.Calamity().stealthStrike)
                 {
                     terraDiskCount++;
                 }
@@ -80,14 +80,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.SetResult(this);
-            recipe.AddIngredient(ModContent.ItemType<SeashellBoomerang>());
-            recipe.AddIngredient(ModContent.ItemType<Equanimity>());
-            recipe.AddIngredient(ItemID.ThornChakram);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 8);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeashellBoomerang>()).AddIngredient(ModContent.ItemType<Equanimity>()).AddIngredient(ItemID.ThornChakram).AddIngredient(ModContent.ItemType<LivingShard>(), 8).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

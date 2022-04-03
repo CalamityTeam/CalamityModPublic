@@ -17,31 +17,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 82;
-            item.height = 84;
-            item.scale = 1.5f;
-            item.damage = 800;
-            item.melee = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 11;
-            item.useTurn = true;
-            item.knockBack = 20f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.width = 82;
+            Item.height = 84;
+            Item.scale = 1.5f;
+            Item.damage = 800;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 11;
+            Item.useTurn = true;
+            Item.knockBack = 20f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(5, 0, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BladeofEnmity>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BladeofEnmity>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)

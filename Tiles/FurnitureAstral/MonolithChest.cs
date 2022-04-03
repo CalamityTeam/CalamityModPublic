@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.FurnitureAstral
 {
     public class MonolithChest : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
@@ -34,9 +35,9 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAstral/MonolithChestGlow");
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithChestGlow");
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
@@ -69,7 +70,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             // Glowmask animation & custom sound
             Player player = Main.LocalPlayer;
@@ -77,11 +78,11 @@ namespace CalamityMod.Tiles.FurnitureAstral
             Main.mouseRightRelease = false;
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
@@ -92,7 +93,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
                 {
                     if (player.chest < 0)
                     {
-                        Main.PlaySound(SoundID.NPCKilled, Style: 22, volumeScale: 0.5f);
+                        SoundEngine.PlaySound(SoundID.NPCKilled, Style: 22, volumeScale: 0.5f);
                     }
                 }
             }

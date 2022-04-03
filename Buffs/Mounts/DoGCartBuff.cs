@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class DoGCartBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devourer Cart");
             Description.SetDefault("Riding a cosmic terror");

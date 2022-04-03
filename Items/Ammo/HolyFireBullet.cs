@@ -17,28 +17,23 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 22;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 22;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 2f;
-            item.value = Item.sellPrice(copper: 24);
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
-            item.shootSpeed = 6f;
-            item.ammo = AmmoID.Bullet;
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 22;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 2f;
+            Item.value = Item.sellPrice(copper: 24);
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
+            Item.shootSpeed = 6f;
+            Item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ExplodingBullet, 100);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ItemID.ExplodingBullet, 100).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -17,37 +17,37 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-            projectile.Calamity().rogue = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             //projectile.ai[0] == 1f means spawned by Skyfin Bombers SS
-            projectile.position = projectile.Center;
-            if (projectile.Calamity().stealthStrike || projectile.ai[0] == 1f)
-                projectile.width = projectile.height = 120;
+            Projectile.position = Projectile.Center;
+            if (Projectile.Calamity().stealthStrike || Projectile.ai[0] == 1f)
+                Projectile.width = Projectile.height = 120;
             else
-                projectile.width = projectile.height = 70;
-            projectile.position -= projectile.Size / 2f;
+                Projectile.width = Projectile.height = 70;
+            Projectile.position -= Projectile.Size / 2f;
             for (int i = 0; i < 15; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
-                dust.velocity = projectile.width / 33.333f * Vector2.One.RotatedByRandom(MathHelper.TwoPi);
-                dust.scale = projectile.width == 120 ? 3.1f : 2.2f;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                dust.velocity = Projectile.width / 33.333f * Vector2.One.RotatedByRandom(MathHelper.TwoPi);
+                dust.scale = Projectile.width == 120 ? 3.1f : 2.2f;
                 dust.noGravity = true;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[0] != 1f)
+            if (Projectile.ai[0] != 1f)
             {
-                target.immune[projectile.owner] = 9;
+                target.immune[Projectile.owner] = 9;
             }
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }

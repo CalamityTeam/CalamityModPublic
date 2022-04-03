@@ -14,21 +14,14 @@ namespace CalamityMod.Items.LabFinders
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 26;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.width = 24;
+            Item.height = 26;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
-            recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4).AddIngredient(ModContent.ItemType<DubiousPlating>(), 4).AddIngredient(ItemID.IronBar, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class PoseidonTyphoon : ModProjectile
@@ -13,25 +14,25 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 10; //randomized in the item file now, penetrates 4 to 10 times
-            projectile.timeLeft = 300;
-            projectile.ignoreWater = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 10; //randomized in the item file now, penetrates 4 to 10 times
+            Projectile.timeLeft = 300;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.X * 0.05f;
+            Projectile.rotation += Projectile.velocity.X * 0.05f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 6f, 30f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -41,20 +42,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;

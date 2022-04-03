@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -22,21 +23,21 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 28;
+            Item.height = 18;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
                     bool sentinelsNotDefeated = !CalamityWorld.downedSentinel1 || !CalamityWorld.downedSentinel2 || !CalamityWorld.downedSentinel3;
                     line2.text = sentinelsNotDefeated ? "WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!" : "";
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
             return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             string key = "Mods.CalamityMod.EdgyBossText12";
             Color messageColor = Color.Cyan;
@@ -66,24 +67,8 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 30);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 20);
-            recipe.AddIngredient(ItemID.SoulofLight, 20);
-            recipe.AddIngredient(ItemID.SoulofNight, 20);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 30);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<TwistingNether>()).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ItemID.IronBar, 30).AddIngredient(ItemID.LunarBar, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 20).AddIngredient(ItemID.SoulofLight, 20).AddIngredient(ItemID.SoulofNight, 20).AddIngredient(ModContent.ItemType<Phantoplasm>(), 30).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

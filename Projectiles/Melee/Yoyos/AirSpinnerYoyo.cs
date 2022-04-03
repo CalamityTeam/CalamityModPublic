@@ -11,38 +11,38 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Air Spinner");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 8f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 10.5f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 8f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 300f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 10.5f;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.scale = 1.05f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.aiStyle = 99;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.scale = 1.05f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Feather>(), 0.25);
-            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-                projectile.Kill();
+            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Feather>(), 0.25);
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

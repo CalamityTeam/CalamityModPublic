@@ -5,13 +5,14 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GemTechArmorGem : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
-        public ref float Variant => ref projectile.ai[1];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float Variant => ref Projectile.ai[1];
         public const int UpwardFlyTime = 24;
         public const int RedirectTime = 12;
         public PrimitiveTrail FlameTrailDrawer = null;
@@ -20,22 +21,22 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trireme's Gem");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 14;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 2;
-            projectile.MaxUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 13;
-            projectile.timeLeft = projectile.MaxUpdates * 420;
-            projectile.Calamity().rogue = true;
+            Projectile.width = Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 2;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 13;
+            Projectile.timeLeft = Projectile.MaxUpdates * 420;
+            Projectile.Calamity().rogue = true;
         }
 
         public Color GemColor => GemTechArmorState.GetColorFromGemType((GemTechArmorGemType)Variant);
@@ -43,32 +44,32 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             // Create a puff of energy on the first frame.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    Dust energyPuff = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust energyPuff = Dust.NewDustPerfect(Projectile.Center, 267);
                     energyPuff.velocity = -Vector2.UnitY.RotatedByRandom(0.81f) * Main.rand.NextFloat(1.25f, 4.5f);
                     energyPuff.color = Color.Lerp(GemColor, Color.White, Main.rand.NextFloat(0.5f));
                     energyPuff.scale = 1.1f;
                     energyPuff.alpha = 185;
                     energyPuff.noGravity = true;
                 }
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
 
             // This intentionally uses boss priority when homing.
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(2700f, true, true);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(2700f, true, true);
 
             // Increment the timer on the last extra update.
-            if (projectile.FinalExtraUpdate())
+            if (Projectile.FinalExtraUpdate())
                 Time++;
 
             // Fly into the air.
             if (Time < UpwardFlyTime)
             {
-                projectile.velocity = Vector2.Lerp(projectile.velocity, -Vector2.UnitY * 3f, 0.1f);
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, -Vector2.UnitY * 3f, 0.1f);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
                 return;
             }
 
@@ -77,20 +78,20 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 if (potentialTarget != null)
                 {
-                    float angleToTarget = projectile.AngleTo(potentialTarget.Center) + MathHelper.PiOver2;
-                    projectile.rotation = projectile.rotation.AngleLerp(angleToTarget, 0.225f).AngleTowards(angleToTarget, 0.6f);
-                    projectile.velocity = projectile.velocity.MoveTowards(Vector2.Zero, 1.9f) * 0.9f;
+                    float angleToTarget = Projectile.AngleTo(potentialTarget.Center) + MathHelper.PiOver2;
+                    Projectile.rotation = Projectile.rotation.AngleLerp(angleToTarget, 0.225f).AngleTowards(angleToTarget, 0.6f);
+                    Projectile.velocity = Projectile.velocity.MoveTowards(Vector2.Zero, 1.9f) * 0.9f;
                 }
                 return;
             }
 
             // Create some visual and acoustic effects right before charging.
-            if (Time == UpwardFlyTime + RedirectTime && projectile.FinalExtraUpdate())
+            if (Time == UpwardFlyTime + RedirectTime && Projectile.FinalExtraUpdate())
             {
-                Main.PlaySound(SoundID.Item72, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
                 for (int i = 0; i < 12; i++)
                 {
-                    Dust energyPuff = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust energyPuff = Dust.NewDustPerfect(Projectile.Center, 267);
                     energyPuff.velocity = (MathHelper.TwoPi * i / 12f).ToRotationVector2() * 5f;
                     energyPuff.color = GemColor;
                     energyPuff.scale = 1.125f;
@@ -100,25 +101,25 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             // Rapidly move towards the nearest target.
-            if (potentialTarget != null && projectile.penetrate >= projectile.maxPenetrate)
+            if (potentialTarget != null && Projectile.penetrate >= Projectile.maxPenetrate)
             {
-                float distanceFromTarget = projectile.Distance(potentialTarget.Center);
+                float distanceFromTarget = Projectile.Distance(potentialTarget.Center);
                 float moveInterpolant = Utils.InverseLerp(0f, 100f, distanceFromTarget, true) * Utils.InverseLerp(600f, 400f, distanceFromTarget, true);
-                Vector2 targetCenterOffsetVec = potentialTarget.Center - projectile.Center;
+                Vector2 targetCenterOffsetVec = potentialTarget.Center - Projectile.Center;
                 float movementSpeed = MathHelper.Min(37.5f, targetCenterOffsetVec.Length());
                 Vector2 idealVelocity = targetCenterOffsetVec.SafeNormalize(Vector2.Zero) * movementSpeed;
 
                 // Ensure velocity never has a magnitude less than 4.
-                if (projectile.velocity.Length() < 4f)
-                    projectile.velocity += projectile.velocity.RotatedBy(MathHelper.PiOver4).SafeNormalize(Vector2.Zero) * 4f;
+                if (Projectile.velocity.Length() < 4f)
+                    Projectile.velocity += Projectile.velocity.RotatedBy(MathHelper.PiOver4).SafeNormalize(Vector2.Zero) * 4f;
 
                 // Die if anything goes wrong with the velocity.
-                if (projectile.velocity.HasNaNs())
-                    projectile.Kill();
+                if (Projectile.velocity.HasNaNs())
+                    Projectile.Kill();
 
                 // Approach the ideal velocity.
-                projectile.velocity = Vector2.Lerp(projectile.velocity, idealVelocity, moveInterpolant * 0.08f);
-                projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, 2f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, moveInterpolant * 0.08f);
+                Projectile.velocity = Projectile.velocity.MoveTowards(idealVelocity, 2f);
             }
         }
 
@@ -141,48 +142,48 @@ namespace CalamityMod.Projectiles.Typeless
                 FlameTrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
 
             // Prepare the flame trail shader with its map texture.
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
             Texture2D texture;
             switch (Variant)
             {
                 case (int)GemTechArmorGemType.Melee:
                 default:
-                    texture = Main.projectileTexture[projectile.type];
+                    texture = Main.projectileTexture[Projectile.type];
                     break;
                 case (int)GemTechArmorGemType.Ranged:
-                    texture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
                     break;
                 case (int)GemTechArmorGemType.Magic:
-                    texture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
                     break;
                 case (int)GemTechArmorGemType.Summoner:
-                    texture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
                     break;
                 case (int)GemTechArmorGemType.Rogue:
-                    texture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
                     break;
                 case (int)GemTechArmorGemType.Base:
-                    texture = ModContent.GetTexture("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
                     break;
             }
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
-            spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
 
-            if (projectile.ai[0] > UpwardFlyTime + RedirectTime)
-                FlameTrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 71);
+            if (Projectile.ai[0] > UpwardFlyTime + RedirectTime)
+                FlameTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 71);
 
             return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.damage = 0;
-            projectile.velocity = Vector2.Zero;
-            projectile.timeLeft = ProjectileID.Sets.TrailCacheLength[projectile.type];
-            projectile.netUpdate = true;
+            Projectile.damage = 0;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.timeLeft = ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            Projectile.netUpdate = true;
         }
     }
 }

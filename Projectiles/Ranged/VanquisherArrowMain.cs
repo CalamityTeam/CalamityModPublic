@@ -17,46 +17,46 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.tileCollide = false;
-            projectile.arrow = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 90;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
+            Projectile.arrow = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 90;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            if (projectile.timeLeft % 45 == 0)
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            if (Projectile.timeLeft % 45 == 0)
             {
-                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<VanquisherArrowSplit>()] < 6)
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<VanquisherArrowSplit>()] < 6)
+                    Projectile.NewProjectile(Projectile.Center, Projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Color color = Color.White;
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 color = new Color(b2, b2, b2, a2);
             }
-            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[Projectile.type].Width, Main.projectileTexture[Projectile.type].Height);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow"), Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }

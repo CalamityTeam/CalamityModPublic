@@ -21,22 +21,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 22;
-            item.useTime = 12;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AcidicReed>();
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 22;
+            Item.useTime = 12;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AcidicReed>();
             //If a saxophone actually fired reeds, I'd be concerned.
-            item.shootSpeed = 20f;
+            Item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

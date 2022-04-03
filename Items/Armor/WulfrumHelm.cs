@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 0, 75, 0);
-            item.rare = ItemRarityID.Blue;
-            item.defense = 3; //8
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 0, 75, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 3; //8
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,17 +43,12 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.1f;
+            player.GetDamage(DamageClass.Melee) += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EnergyCore>());
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 5).AddIngredient(ModContent.ItemType<EnergyCore>()).AddTile(TileID.Anvils).Register();
         }
     }
 }

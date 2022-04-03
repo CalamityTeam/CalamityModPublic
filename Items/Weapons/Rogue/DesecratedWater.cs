@@ -18,22 +18,22 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
-            item.width = 22;
-            item.height = 24;
-            item.useAnimation = 29;
-            item.useTime = 29;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.width = 22;
+            Item.height = 24;
+            Item.useAnimation = 29;
+            Item.useTime = 29;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,14 +50,7 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyEvilWater", 100);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddRecipeGroup("CursedFlameIchor", 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyEvilWater", 100).AddRecipeGroup("AnyAdamantiteBar", 5).AddRecipeGroup("CursedFlameIchor", 5).AddIngredient(ItemID.SoulofNight, 7).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

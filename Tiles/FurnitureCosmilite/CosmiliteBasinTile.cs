@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         int animationFrame = 0;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             Tile tile = Main.tile[i, j];
             //227 79 79
-            if (tile.frameX < 54)
+            if (tile.TileFrameX < 54)
             {
                 r = 1f;
                 g = 0.6f;
@@ -76,13 +76,13 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureCosmilite/CosmiliteBasinFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureCosmilite/CosmiliteBasinFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18 && tile.frameX < 54)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 54)
             {
                 CalamityUtils.DrawFlameSparks((int)CalamityDusts.PurpleCosmilite, 5, i, j);
             }

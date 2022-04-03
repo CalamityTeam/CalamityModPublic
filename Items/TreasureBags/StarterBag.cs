@@ -18,10 +18,10 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = ItemRarityID.Blue;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override bool CanRightClick() => true;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.TreasureBags
             // Music box (if music mod installed)
             Mod musicMod = CalamityMod.Instance.musicMod;
             if (musicMod != null)
-                DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
+                DropHelper.DropItem(player, musicMod.Find<ModItem>("CalamityMusicbox").Type);
         }
     }
 }

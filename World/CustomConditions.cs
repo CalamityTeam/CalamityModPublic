@@ -1,7 +1,7 @@
 
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -33,7 +33,7 @@ namespace CalamityMod.World
 
         public class SolidOrPlatform : GenCondition
         {
-            protected override bool CheckValidity(int x, int y) => TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(x, y).type] || WorldGen.SolidTile(x, y);
+            protected override bool CheckValidity(int x, int y) => TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(x, y).TileType] || WorldGen.SolidTile(x, y);
         }
 
         public class IsNotTouchingAir : GenCondition

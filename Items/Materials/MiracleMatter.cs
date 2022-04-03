@@ -18,17 +18,17 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 64;
-            item.maxStack = 999;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(platinum: 6, gold: 50);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 46;
+            Item.height = 64;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(platinum: 6, gold: 50);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {
-            if (item.velocity.X != 0f)
+            if (Item.velocity.X != 0f)
                 return;
 
             float pulse = (float)Math.Cos(1.61803398875f * Main.GlobalTime * 2f) + (float)Math.Cos(Math.E * Main.GlobalTime * 1.7f);
@@ -44,21 +44,21 @@ namespace CalamityMod.Items.Materials
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 8f).ToRotationVector2() * outwardnessFactor * baseScale * 8f;
-                spriteBatch.Draw(Main.itemTexture[item.type], drawPosition, frame, drawColor, 0f, Vector2.Zero, baseScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.itemTexture[Item.type], drawPosition, frame, drawColor, 0f, Vector2.Zero, baseScale, SpriteEffects.None, 0f);
             }
         }
 
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Rectangle frame = Main.itemTexture[item.type].Frame();
-            DrawBackAfterimage(spriteBatch, item.position - Main.screenPosition, frame, scale);
+            Rectangle frame = Main.itemTexture[Item.type].Frame();
+            DrawBackAfterimage(spriteBatch, Item.position - Main.screenPosition, frame, scale);
             return true;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            item.velocity.X = 0f;
+            Item.velocity.X = 0f;
             DrawBackAfterimage(spriteBatch, position, frame, scale);
             return true;
         }
@@ -66,11 +66,11 @@ namespace CalamityMod.Items.Materials
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 0.94f * brightness, 0.95f * brightness, 0.56f * brightness);
+            Lighting.AddLight(Item.Center, 0.94f * brightness, 0.95f * brightness, 0.56f * brightness);
 
             if (Main.rand.NextBool(3))
             {
-                Dust exoFlame = Dust.NewDustDirect(item.position, (int)(item.width * item.scale), (int)(item.height * item.scale * 0.6f), 6);
+                Dust exoFlame = Dust.NewDustDirect(Item.position, (int)(Item.width * Item.scale), (int)(Item.height * Item.scale * 0.6f), 6);
                 exoFlame.velocity = Vector2.Lerp(Main.rand.NextVector2Unit(), -Vector2.UnitY, 0.5f) * Main.rand.NextFloat(1.8f, 2.6f);
                 exoFlame.scale *= Main.rand.NextFloat(0.85f, 1.15f);
                 exoFlame.fadeIn = 0.9f;
@@ -80,16 +80,7 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrism>(), 5).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 1).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 1).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

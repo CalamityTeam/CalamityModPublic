@@ -14,37 +14,31 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.damage = 26;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 21;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 50;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
-            item.shootSpeed = 5f;
-            item.Calamity().trueMelee = true;
+            Item.width = 50;
+            Item.damage = 26;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 21;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 50;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
+            Item.shootSpeed = 5f;
+            Item.Calamity().trueMelee = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyGoldBar", 5);
-            recipe.AddIngredient(ItemID.Granite, 9);
-            recipe.AddIngredient(ItemID.Marble, 9);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 5).AddIngredient(ItemID.Granite, 9).AddIngredient(ItemID.Marble, 9).AddTile(TileID.Anvils).Register();
         }
     }
 }

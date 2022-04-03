@@ -23,23 +23,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 230;
-            item.ranged = true;
-            item.width = 84;
-            item.height = 30;
-            item.useTime = 2;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 230;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 84;
+            Item.height = 30;
+            Item.useTime = 2;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item34;
+            Item.autoReuse = true;
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Gel;
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -48,14 +48,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ModContent.ProjectileType<ExoFlareCluster>();
-                item.useTime = item.useAnimation = 27;
+                Item.shoot = ModContent.ProjectileType<ExoFlareCluster>();
+                Item.useTime = Item.useAnimation = 27;
             }
             else
             {
-                item.useTime = 2;
-                item.useAnimation = 10;
-                item.shoot = ModContent.ProjectileType<ExoFire>();
+                Item.useTime = 2;
+                Item.useAnimation = 10;
+                Item.shoot = ModContent.ProjectileType<ExoFire>();
             }
             return base.CanUseItem(player);
         }
@@ -105,14 +105,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ElementalEruption>());
-            recipe.AddIngredient(ModContent.ItemType<CleansingBlaze>());
-            recipe.AddIngredient(ModContent.ItemType<HalleysInferno>());
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalEruption>()).AddIngredient(ModContent.ItemType<CleansingBlaze>()).AddIngredient(ModContent.ItemType<HalleysInferno>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

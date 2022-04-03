@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -20,21 +21,21 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Contempt");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = 44;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = Lifetime;
         }
 
         public override void AI()
@@ -43,84 +44,84 @@ namespace CalamityMod.Projectiles.Melee
             drawOriginOffsetY = -10;
             drawOriginOffsetX = 0;
 
-            Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0.6f);
+            Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0.6f);
 
             // The hammer makes sound while flying.
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, (int)projectile.position.X, (int)projectile.position.Y);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
 
             // ai[0] stores whether the hammer is returning. If 0, it isn't. If 1, it is.
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= ReboundTime)
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= ReboundTime)
                 {
-                    projectile.ai[0] = 1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 float returnSpeed = StellarContemptMelee.Speed;
                 float acceleration = 3.2f;
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
                 // Delete the hammer if it's excessively far away.
                 Vector2 playerCenter = owner.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
+                float xDist = playerCenter.X - Projectile.Center.X;
+                float yDist = playerCenter.Y - Projectile.Center.Y;
                 float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 dist = returnSpeed / dist;
                 xDist *= dist;
                 yDist *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+                if (Projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X + acceleration;
+                    if (Projectile.velocity.X < 0f && xDist > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (Projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X - acceleration;
+                    if (Projectile.velocity.X > 0f && xDist < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (Projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
+                    if (Projectile.velocity.Y < 0f && yDist > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (Projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
+                    if (Projectile.velocity.Y > 0f && yDist < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
             }
 
             // Rotate the hammer as it flies.
-            projectile.rotation += RotationIncrement;
+            Projectile.rotation += RotationIncrement;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -173,12 +174,12 @@ namespace CalamityMod.Projectiles.Melee
         private void SpawnFlares(Vector2 targetPos, int width, int height)
         {
             // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
-            Player user = Main.player[projectile.owner];
-            Main.PlaySound(SoundID.Item88, projectile.position);
-            projectile.netUpdate = true;
+            Player user = Main.player[Projectile.owner];
+            SoundEngine.PlaySound(SoundID.Item88, Projectile.position);
+            Projectile.netUpdate = true;
 
             int numFlares = 2;
-            int flareDamage = (int)(0.3f * projectile.damage);
+            int flareDamage = (int)(0.3f * Projectile.damage);
             float flareKB = 4f;
             for (int i = 0; i < numFlares; ++i)
             {
@@ -206,7 +207,7 @@ namespace CalamityMod.Projectiles.Melee
                 velocity *= flareSpeed;
 
                 float AI1 = Main.rand.Next(3);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))

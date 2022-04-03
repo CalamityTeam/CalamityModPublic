@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogPlanetoid");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPlanetoid");
                 case 1:
                     return null; // The Draedon's backstory page does not have an image, and probably shouldn't.
                 default:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogDoGArmor");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogDoGArmor");
             }
         }
     }

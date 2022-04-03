@@ -9,8 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public float Time
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public override void SetStaticDefaults()
         {
@@ -19,29 +19,29 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 600;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.2f, 0.1f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.2f, 0.1f, 0f);
 
             Time++;
             if (Time >= 10f)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust dust = Dust.NewDustDirect(projectile.Center, 0, 0, 182, 0f, 0f, 160, default, 2f);
-                    dust.position = projectile.Center;
-                    dust.velocity = projectile.velocity;
-                    dust.scale = projectile.scale;
+                    Dust dust = Dust.NewDustDirect(Projectile.Center, 0, 0, 182, 0f, 0f, 160, default, 2f);
+                    dust.position = Projectile.Center;
+                    dust.velocity = Projectile.velocity;
+                    dust.scale = Projectile.scale;
                     dust.noGravity = true;
                 }
             }
@@ -49,12 +49,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 60);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 60);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
         }
     }
 }

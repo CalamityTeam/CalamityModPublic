@@ -13,43 +13,39 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Enemies that are hit by the yoyo will have their life drained\n" +
             "A very agile yoyo\n" +
             "Someone thought this was a viable weapon against DoG at one point lol");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 26;
-            item.melee = true;
-            item.damage = 107;
-            item.knockBack = 7f;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.autoReuse = true;
+            Item.width = 30;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 107;
+            Item.knockBack = 7f;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<LaceratorYoyo>();
-            item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<LaceratorYoyo>();
+            Item.shootSpeed = 16f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 4).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

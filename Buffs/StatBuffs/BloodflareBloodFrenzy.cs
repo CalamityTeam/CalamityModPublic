@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class BloodflareBloodFrenzy : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Frenzy");
             Description.SetDefault("Contact damage is reduced and melee stats are greatly increased");

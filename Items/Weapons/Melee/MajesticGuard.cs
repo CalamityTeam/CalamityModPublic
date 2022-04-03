@@ -15,20 +15,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.height = 100;
-            item.scale = 1.5f;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.useTurn = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            Item.width = 100;
+            Item.height = 100;
+            Item.scale = 1.5f;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 22;
+            Item.useTurn = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -49,18 +49,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteSword);
-            recipe.AddIngredient(ItemID.SoulofMight, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumSword);
-            recipe.AddIngredient(ItemID.SoulofMight, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AdamantiteSword).AddIngredient(ItemID.SoulofMight, 15).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ItemID.TitaniumSword).AddIngredient(ItemID.SoulofMight, 15).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

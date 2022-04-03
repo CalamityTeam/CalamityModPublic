@@ -16,33 +16,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = item.height = 64;
-            item.damage = 478;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 20;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
-            item.shootSpeed = 15f;
+            Item.width = Item.height = 64;
+            Item.damage = 478;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 20;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
+            Item.shootSpeed = 15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
-            recipe.AddIngredient(ModContent.ItemType<Bonebreaker>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ScourgeoftheCorruptor).AddIngredient(ModContent.ItemType<Bonebreaker>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

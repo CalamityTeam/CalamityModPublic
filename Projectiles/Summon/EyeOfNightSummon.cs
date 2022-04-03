@@ -9,31 +9,31 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EyeOfNightSummon : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float HoverTime => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float HoverTime => ref Projectile.ai[0];
 
         public const int ShootRate = 60;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eye of Night");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 16;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 19;
+            Projectile.width = Projectile.height = 16;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 19;
         }
 
         public override void AI()
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             ProvidePlayerMinionBuffs();
             DynamicallyUpdateDamage();
             GenerateVisuals();
-            NPC potentialTarget = projectile.Center.MinionHoming(750f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(750f, Owner);
             if (potentialTarget is null)
                 FlyNearOwner();
             else
@@ -54,27 +54,27 @@ namespace CalamityMod.Projectiles.Summon
 
             // Verify player/minion state integrity. The minion cannot stay alive if the
             // owner is dead or if the caller of the AI is invalid.
-            if (projectile.type != ModContent.ProjectileType<EyeOfNightSummon>())
+            if (Projectile.type != ModContent.ProjectileType<EyeOfNightSummon>())
                 return;
 
             if (Owner.dead)
                 Owner.Calamity().eyeOfNight = false;
             if (Owner.Calamity().eyeOfNight)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
         }
 
         internal void DynamicallyUpdateDamage()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (Owner.MinionDamage() == projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() == Projectile.Calamity().spawnedPlayerMinionDamageValue)
                 return;
-            int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-            projectile.damage = trueDamage;
+            int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
+            Projectile.damage = trueDamage;
         }
 
         internal void GenerateVisuals()
@@ -83,54 +83,54 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.dedServ)
                 return;
 
-            projectile.rotation += projectile.velocity.X * 0.075f;
+            Projectile.rotation += Projectile.velocity.X * 0.075f;
         }
 
         internal void FlyNearOwner()
         {
-            Vector2 destination = Owner.Top - Vector2.UnitY * 45f + (projectile.identity * 0.9f).ToRotationVector2() * 16f;
-            Vector2 idealVelocity = projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.InverseLerp(16f, 160f, projectile.Distance(destination)));
-            if (projectile.velocity.Length() < 0.4f)
-                projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool(2).ToDirectionInt()) * -3.6f;
-            else if (!projectile.WithinRange(destination, 20f))
-                projectile.velocity = projectile.velocity * 0.9f + idealVelocity * 0.1f;
+            Vector2 destination = Owner.Top - Vector2.UnitY * 45f + (Projectile.identity * 0.9f).ToRotationVector2() * 16f;
+            Vector2 idealVelocity = Projectile.SafeDirectionTo(destination) * MathHelper.Lerp(2.3f, 8f, Utils.InverseLerp(16f, 160f, Projectile.Distance(destination)));
+            if (Projectile.velocity.Length() < 0.4f)
+                Projectile.velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(0.5f, 1.1f) * Main.rand.NextBool(2).ToDirectionInt()) * -3.6f;
+            else if (!Projectile.WithinRange(destination, 20f))
+                Projectile.velocity = Projectile.velocity * 0.9f + idealVelocity * 0.1f;
 
-            if (!projectile.WithinRange(Owner.Center, 1800f))
+            if (!Projectile.WithinRange(Owner.Center, 1800f))
             {
-                projectile.Center = Owner.Center;
-                projectile.velocity = -Vector2.UnitY * 4f;
-                projectile.netUpdate = true;
+                Projectile.Center = Owner.Center;
+                Projectile.velocity = -Vector2.UnitY * 4f;
+                Projectile.netUpdate = true;
             }
 
             // Slow down a bit over time.
-            projectile.velocity *= 0.985f;
+            Projectile.velocity *= 0.985f;
         }
 
         internal void AttackTarget(NPC target)
         {
-            if (Main.myPlayer == projectile.owner && HoverTime % 70f == 69f)
+            if (Main.myPlayer == Projectile.owner && HoverTime % 70f == 69f)
             {
-                Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 HoverTime++;
             }
 
             Vector2 destination = target.Center;
-            Vector2 destinationOffset = Vector2.Max(target.Size * 1.2f, Vector2.One * 90f).RotatedBy(projectile.identity * 0.96f + HoverTime / 15f);
+            Vector2 destinationOffset = Vector2.Max(target.Size * 1.2f, Vector2.One * 90f).RotatedBy(Projectile.identity * 0.96f + HoverTime / 15f);
 
             // Make the offset pulsate over time.
-            destinationOffset *= MathHelper.Lerp(0.7f, 1.3f, (float)Math.Cos(projectile.identity * 1.11f + HoverTime / 14f) * 0.5f + 0.5f);
+            destinationOffset *= MathHelper.Lerp(0.7f, 1.3f, (float)Math.Cos(Projectile.identity * 1.11f + HoverTime / 14f) * 0.5f + 0.5f);
 
-            destinationOffset.Y += (float)Math.Sin(projectile.identity * 1.16f + HoverTime / 15f + MathHelper.PiOver2) * MathHelper.Min(target.height * 0.8f, 70f);
+            destinationOffset.Y += (float)Math.Sin(Projectile.identity * 1.16f + HoverTime / 15f + MathHelper.PiOver2) * MathHelper.Min(target.height * 0.8f, 70f);
 
             destination += destinationOffset;
 
             // Fly towards the destination faster the farther the eye already is to it.
-            float flySpeed = MathHelper.Lerp(5f, 15f, Utils.InverseLerp(40f, 250f, projectile.Distance(destination), true));
+            float flySpeed = MathHelper.Lerp(5f, 15f, Utils.InverseLerp(40f, 250f, Projectile.Distance(destination), true));
 
-            if (projectile.WithinRange(destination, 24f + target.velocity.Length() * 2f))
+            if (Projectile.WithinRange(destination, 24f + target.velocity.Length() * 2f))
                 HoverTime++;
 
-            projectile.velocity = (destination - projectile.Center).SafeNormalize(Vector2.Zero) * flySpeed;
+            Projectile.velocity = (destination - Projectile.Center).SafeNormalize(Vector2.Zero) * flySpeed;
         }
 
         public override bool CanDamage() => false;

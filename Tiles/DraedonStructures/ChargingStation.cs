@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.DraedonStructures
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         // One cell of charge is placed into the weapon on a timer of this many frames.
         public const int FramesPerChargeAction = 8;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -63,8 +64,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<ChargingStationItem>());
 
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
+            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
             // Drop any cells contained in the charging station, as well as its plugged item.
             Vector2 dropPos = new Vector2(i, j) * 16f;
@@ -82,7 +83,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             charger?.Kill(left, top);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             TEChargingStation thisCharger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
             Player player = Main.LocalPlayer;
@@ -93,14 +94,14 @@ namespace CalamityMod.Tiles.DraedonStructures
             if (thisCharger is null || thisCharger.ID == mp.CurrentlyViewedChargerID)
             {
                 mp.CurrentlyViewedChargerID = -1;
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
             }
 
             // Otherwise, "switch to" this charger when it exists. This can be either opening the GUI from nothing, or just opening a different charger.
             else if (thisCharger != null)
             {
                 // Play a sound depending on whether the player had another charger open previously.
-                Main.PlaySound(mp.CurrentlyViewedChargerID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                SoundEngine.PlaySound(mp.CurrentlyViewedChargerID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
                 mp.CurrentlyViewedChargerID = thisCharger.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
@@ -114,13 +115,13 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile t = Main.tile[i, j];
-            int xFrame = t.frameX;
-            int yFrame = t.frameY;
+            int xFrame = t.TileFrameX;
+            int yFrame = t.TileFrameY;
 
             // Grab the tile entity because its glowmask depends on whether it's currently charging.
             TEChargingStation charger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
 
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/ChargingStation_Glow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/ChargingStation_Glow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Color drawColor = charger?.LightColor ?? Color.Red;

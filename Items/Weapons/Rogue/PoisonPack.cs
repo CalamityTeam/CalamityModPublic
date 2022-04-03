@@ -22,23 +22,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = baseDamage;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 14;
-            item.height = 14;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = baseKnockback;
-            item.value = Item.buyPrice(0, 0, 33, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 3;
+            Item.damage = baseDamage;
+            Item.Calamity().rogue = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 14;
+            Item.height = 14;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = baseKnockback;
+            Item.value = Item.buyPrice(0, 0, 33, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 3;
 
-            item.shootSpeed = 7f;
-            item.shoot = ModContent.ProjectileType<PoisonBol>();
+            Item.shootSpeed = 7f;
+            Item.shoot = ModContent.ProjectileType<PoisonBol>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -48,15 +48,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-                item.shoot = ProjectileID.None;
-                item.shootSpeed = 0f;
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] > 0;
             }
             else
             {
-                item.shoot = ModContent.ProjectileType<PoisonBol>();
-                item.shootSpeed = 7f;
-                int UseMax = item.stack;
+                Item.shoot = ModContent.ProjectileType<PoisonBol>();
+                Item.shootSpeed = 7f;
+                int UseMax = Item.stack;
                 return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < UseMax;
             }
         }
@@ -84,13 +84,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ItemID.SpikyBall, 50);
-            recipe.AddIngredient(ItemID.JungleSpores, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 50).AddIngredient(ItemID.JungleSpores, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

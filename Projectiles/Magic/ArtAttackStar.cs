@@ -9,41 +9,42 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class ArtAttackStar : ModProjectile
     {
         public PrimitiveTrail TrailDrawer = null;
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
         public const int StarShapeCreationDelay = 12;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 120;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 120;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 9000;
-            projectile.alpha = 255;
-            projectile.magic = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 9000;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 60;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 60;
 
             // Die if the holdout is gone.
             if (Owner.ownedProjectileCounts[ModContent.ProjectileType<ArtAttackHoldout>()] <= 0 && Time >= 2f)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
             int shapeEndPoint = -1;
 
             // Determine if two points are intersecting with the star.
-            List<Vector2> cleanOldPositions = projectile.oldPos.Where(p => p != Vector2.Zero).ToList();
+            List<Vector2> cleanOldPositions = Projectile.oldPos.Where(p => p != Vector2.Zero).ToList();
             if (Time > StarShapeCreationDelay)
             {
                 int start = 12;
@@ -60,8 +61,8 @@ namespace CalamityMod.Projectiles.Magic
                 float closedAngleLowerBound = (cleanOldPositions.Count - 2f) * MathHelper.Pi;
                 for (int i = end - 1; i >= start; i--)
                 {
-                    float distanceFromStar = Vector2.Distance(projectile.position, projectile.oldPos[i]);
-                    if (distanceFromStar < projectile.velocity.Length() * 0.7f + 12f)
+                    float distanceFromStar = Vector2.Distance(Projectile.position, Projectile.oldPos[i]);
+                    if (distanceFromStar < Projectile.velocity.Length() * 0.7f + 12f)
                     {
                         shapeIsComplete = true;
 
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
                 averageDistanceFromStar /= end - start;
 
                 // Cancel out intersection "completions" if the velocity is slow enough to be rebounding or the shape is relatively small.
-                if (averageDistanceFromStar < projectile.velocity.Length() + 70f || projectile.velocity.Length() < 16f)
+                if (averageDistanceFromStar < Projectile.velocity.Length() + 70f || Projectile.velocity.Length() < 16f)
                     shapeIsComplete = false;
             }
 
@@ -87,19 +88,19 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (shapeIsComplete)
                 {
-                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
                     DoShapeHitAreaChecks(cleanOldPositions, shapeEndPoint);
                 }
 
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Fade in.
-            projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.1f, 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.1f, 0f, 1f);
 
             // Update movement.
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
                 DoMouseMovement();
 
             Time++;
@@ -108,42 +109,42 @@ namespace CalamityMod.Projectiles.Magic
         public void DoMouseMovement()
         {
             Vector2 destination = Main.MouseWorld;
-            float distanceFromTarget = projectile.Distance(destination);
+            float distanceFromTarget = Projectile.Distance(destination);
             float moveInterpolant = Utils.InverseLerp(0f, 100f, distanceFromTarget, true) * Utils.InverseLerp(600f, 400f, distanceFromTarget, true);
-            Vector2 targetCenterOffsetVec = destination - projectile.Center;
+            Vector2 targetCenterOffsetVec = destination - Projectile.Center;
             float movementSpeed = MathHelper.Min(60f, targetCenterOffsetVec.Length());
             Vector2 idealVelocity = targetCenterOffsetVec.SafeNormalize(Vector2.Zero) * movementSpeed;
 
             // Ensure velocity never has a magnitude less than 2.
-            if (projectile.velocity.Length() < 2f)
-                projectile.velocity += projectile.velocity.RotatedBy(MathHelper.PiOver4).SafeNormalize(Vector2.Zero) * 2f;
+            if (Projectile.velocity.Length() < 2f)
+                Projectile.velocity += Projectile.velocity.RotatedBy(MathHelper.PiOver4).SafeNormalize(Vector2.Zero) * 2f;
 
             // Die if anything goes wrong with the velocity.
-            if (projectile.velocity.HasNaNs())
-                projectile.Kill();
+            if (Projectile.velocity.HasNaNs())
+                Projectile.Kill();
 
             // Approach the ideal velocity.
-            projectile.velocity = Vector2.Lerp(projectile.velocity, idealVelocity, moveInterpolant * 0.15f);
-            projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, 6f);
-            if (projectile.velocity.AngleBetween(projectile.oldVelocity) < 0.85f && projectile.velocity.AngleBetween(idealVelocity) > 1.4f)
-                projectile.velocity = projectile.velocity.RotatedBy(0.35f) * 0.75f;
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, moveInterpolant * 0.15f);
+            Projectile.velocity = Projectile.velocity.MoveTowards(idealVelocity, 6f);
+            if (Projectile.velocity.AngleBetween(Projectile.oldVelocity) < 0.85f && Projectile.velocity.AngleBetween(idealVelocity) > 1.4f)
+                Projectile.velocity = Projectile.velocity.RotatedBy(0.35f) * 0.75f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             // Continuously sync since mouse information is local.
-            projectile.netUpdate = true;
-            projectile.netSpam = 0;
+            Projectile.netUpdate = true;
+            Projectile.netSpam = 0;
         }
 
         public void EmitIdleDust()
         {
-            bool slowMovement = projectile.velocity.Length() < 6f;
+            bool slowMovement = Projectile.velocity.Length() < 6f;
             int dustCount = slowMovement ? 3 : 1;
 
             for (int i = 0; i < dustCount; i++)
             {
-                Dust rainbowMagic = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(8f, 8f), 261);
-                rainbowMagic.velocity = Main.rand.NextVector2Circular(6f, 6f) - (projectile.velocity * 0.16f).RotatedByRandom(0.51f);
+                Dust rainbowMagic = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(8f, 8f), 261);
+                rainbowMagic.velocity = Main.rand.NextVector2Circular(6f, 6f) - (Projectile.velocity * 0.16f).RotatedByRandom(0.51f);
                 if (slowMovement)
                     rainbowMagic.velocity -= Vector2.UnitY.RotatedByRandom(0.81f) * Main.rand.NextFloat(4.5f);
 
@@ -158,7 +159,7 @@ namespace CalamityMod.Projectiles.Magic
         public void DoShapeHitAreaChecks(List<Vector2> cleanOldPositions, int shapeEndPoint)
         {
             float damageFactor = MathHelper.Lerp(1f, ArtAttack.MaxDamageBoostFactor, Utils.InverseLerp(0f, ArtAttack.MaxDamageBoostTime, Time, true));
-            int damage = (int)(projectile.damage * damageFactor);
+            int damage = (int)(Projectile.damage * damageFactor);
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (!Main.npc[i].CanBeChasedBy())
@@ -198,12 +199,12 @@ namespace CalamityMod.Projectiles.Magic
                 // Strike an enemy if it's in the shape.
                 if (enemyIsInShape)
                 {
-                    Main.PlaySound(SoundID.DD2_LightningBugZap, Main.npc[i].Center);
+                    SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, Main.npc[i].Center);
                     CreateDustExplosionEffect(Main.npc[i].Center);
 
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        int strike = Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, projectile.owner, i);
+                        int strike = Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, i);
                         if (Main.projectile.IndexInRange(strike))
                             Main.projectile[strike].Calamity().forceMelee = true;
                     }
@@ -225,13 +226,13 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft) => CreateDustExplosionEffect(projectile.Center);
+        public override void Kill(int timeLeft) => CreateDustExplosionEffect(Projectile.Center);
 
         public Color TrailColor(float completionRatio)
         {
             float hue = (Main.GlobalTime * -0.62f + completionRatio * 1.5f) % 1f;
             float brightness = MathHelper.SmoothStep(0.5f, 1f, Utils.InverseLerp(0.3f, 0f, completionRatio, true));
-            float opacity = Utils.InverseLerp(1f, 0.8f, completionRatio, true) * projectile.Opacity;
+            float opacity = Utils.InverseLerp(1f, 0.8f, completionRatio, true) * Projectile.Opacity;
             Color color = Main.hslToRgb(hue, 1f, brightness) * opacity;
             color.A = (byte)(int)(Utils.InverseLerp(0f, 0.2f, completionRatio) * 128);
             return color;
@@ -248,18 +249,18 @@ namespace CalamityMod.Projectiles.Magic
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ArtAttack"]);
 
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             Vector2 origin = texture.Size() * 0.5f;
 
             spriteBatch.EnterShaderRegion();
-            GameShaders.Misc["CalamityMod:ArtAttack"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/FabstaffStreak"));
+            GameShaders.Misc["CalamityMod:ArtAttack"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
             GameShaders.Misc["CalamityMod:ArtAttack"].Apply();
 
-            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 100);
+            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 100);
             spriteBatch.ExitShaderRegion();
 
-            spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, origin, projectile.scale, 0, 0f);
+            spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, 0, 0f);
             return false;
         }
 

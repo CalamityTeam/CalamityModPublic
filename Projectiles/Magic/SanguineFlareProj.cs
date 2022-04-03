@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -18,57 +19,57 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            projectile.alpha = 255;
-            projectile.magic = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 600;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.velocity.X = projectile.velocity.X + (Main.player[projectile.owner].velocity.X * 0.5f);
-                startSpeedY = projectile.velocity.Y + (Main.player[projectile.owner].velocity.Y * 0.5f);
-                projectile.velocity.Y = startSpeedY;
+                Projectile.velocity.X = Projectile.velocity.X + (Main.player[Projectile.owner].velocity.X * 0.5f);
+                startSpeedY = Projectile.velocity.Y + (Main.player[Projectile.owner].velocity.Y * 0.5f);
+                Projectile.velocity.Y = startSpeedY;
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 180f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 180f)
             {
                 x++;
                 speed += 0.1;
-                projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x / 4));
+                Projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x / 4));
             }
-            projectile.rotation += projectile.velocity.Y * 0.02f;
-            projectile.alpha -= 5;
-            if (projectile.alpha < 30)
+            Projectile.rotation += Projectile.velocity.Y * 0.02f;
+            Projectile.alpha -= 5;
+            if (Projectile.alpha < 30)
             {
-                projectile.alpha = 30;
+                Projectile.alpha = 30;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 3; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -78,10 +79,10 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num623 = 0; num623 < 6; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
         }
@@ -90,17 +91,17 @@ namespace CalamityMod.Projectiles.Magic
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
 
-            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)
                 return;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.statLife += 1;
             player.HealEffect(1);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

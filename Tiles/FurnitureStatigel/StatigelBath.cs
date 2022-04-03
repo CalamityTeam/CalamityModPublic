@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBath : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();

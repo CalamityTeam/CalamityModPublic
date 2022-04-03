@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = ItemRarityID.Green;
-            item.defense = 4; //9
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 4; //9
         }
 
         public override void UpdateEquip(Player player)
@@ -31,11 +31,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 4);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 4).AddTile(TileID.Anvils).Register();
         }
     }
 }

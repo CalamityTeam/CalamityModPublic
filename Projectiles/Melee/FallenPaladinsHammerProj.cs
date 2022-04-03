@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -16,86 +17,86 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fallen Paladin's Hammer");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 62;
-            projectile.height = 62;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
+            Projectile.width = 62;
+            Projectile.height = 62;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.35f, 0.35f, 0f);
-            if (projectile.soundDelay == 0)
+            Lighting.AddLight(Projectile.Center, 0.35f, 0.35f, 0f);
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 30f)
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= 30f)
                 {
-                    projectile.ai[0] = 1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 float num42 = 16f;
                 float num43 = 3.2f;
-                Vector2 vector2 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-                float num44 = Main.player[projectile.owner].position.X + Main.player[projectile.owner].width / 2 - vector2.X;
-                float num45 = Main.player[projectile.owner].position.Y + Main.player[projectile.owner].height / 2 - vector2.Y;
+                Vector2 vector2 = new Vector2(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
+                float num44 = Main.player[Projectile.owner].position.X + Main.player[Projectile.owner].width / 2 - vector2.X;
+                float num45 = Main.player[Projectile.owner].position.Y + Main.player[Projectile.owner].height / 2 - vector2.Y;
                 float num46 = (float)Math.Sqrt(num44 * num44 + num45 * num45);
                 if (num46 > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
                 num46 = num42 / num46;
                 num44 *= num46;
                 num45 *= num46;
-                if (projectile.velocity.X < num44)
+                if (Projectile.velocity.X < num44)
                 {
-                    projectile.velocity.X = projectile.velocity.X + num43;
-                    if (projectile.velocity.X < 0f && num44 > 0f)
-                        projectile.velocity.X = projectile.velocity.X + num43;
+                    Projectile.velocity.X = Projectile.velocity.X + num43;
+                    if (Projectile.velocity.X < 0f && num44 > 0f)
+                        Projectile.velocity.X = Projectile.velocity.X + num43;
                 }
-                else if (projectile.velocity.X > num44)
+                else if (Projectile.velocity.X > num44)
                 {
-                    projectile.velocity.X = projectile.velocity.X - num43;
-                    if (projectile.velocity.X > 0f && num44 < 0f)
-                        projectile.velocity.X = projectile.velocity.X - num43;
+                    Projectile.velocity.X = Projectile.velocity.X - num43;
+                    if (Projectile.velocity.X > 0f && num44 < 0f)
+                        Projectile.velocity.X = Projectile.velocity.X - num43;
                 }
-                if (projectile.velocity.Y < num45)
+                if (Projectile.velocity.Y < num45)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + num43;
-                    if (projectile.velocity.Y < 0f && num45 > 0f)
-                        projectile.velocity.Y = projectile.velocity.Y + num43;
+                    Projectile.velocity.Y = Projectile.velocity.Y + num43;
+                    if (Projectile.velocity.Y < 0f && num45 > 0f)
+                        Projectile.velocity.Y = Projectile.velocity.Y + num43;
                 }
-                else if (projectile.velocity.Y > num45)
+                else if (Projectile.velocity.Y > num45)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - num43;
-                    if (projectile.velocity.Y > 0f && num45 < 0f)
-                        projectile.velocity.Y = projectile.velocity.Y - num43;
+                    Projectile.velocity.Y = Projectile.velocity.Y - num43;
+                    if (Projectile.velocity.Y > 0f && num45 < 0f)
+                        Projectile.velocity.Y = Projectile.velocity.Y - num43;
                 }
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    Rectangle rectangle = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-                    Rectangle value2 = new Rectangle((int)Main.player[projectile.owner].position.X, (int)Main.player[projectile.owner].position.Y, Main.player[projectile.owner].width, Main.player[projectile.owner].height);
+                    Rectangle rectangle = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+                    Rectangle value2 = new Rectangle((int)Main.player[Projectile.owner].position.X, (int)Main.player[Projectile.owner].position.Y, Main.player[Projectile.owner].width, Main.player[Projectile.owner].height);
                     if (rectangle.Intersects(value2))
-                        projectile.Kill();
+                        Projectile.Kill();
                 }
             }
-            projectile.rotation += 0.5f;
+            Projectile.rotation += 0.5f;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -117,9 +118,9 @@ namespace CalamityMod.Projectiles.Melee
 
         private void OnHitEffect()
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceMelee = true;
             }
@@ -127,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

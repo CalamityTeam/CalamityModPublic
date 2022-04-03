@@ -16,16 +16,16 @@ namespace CalamityMod.Items.Accessories
                 "10% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict holy flames and shadowflames on hit");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,18 +34,12 @@ namespace CalamityMod.Items.Accessories
             modPlayer.shadowMinions = true;
             modPlayer.holyMinions = true;
             player.minionKB += 2.75f;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StatisBlessing>());
-            recipe.AddIngredient(ModContent.ItemType<TheFirstShadowflame>());
-            recipe.AddIngredient(ItemID.FragmentStardust, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StatisBlessing>()).AddIngredient(ModContent.ItemType<TheFirstShadowflame>()).AddIngredient(ItemID.FragmentStardust, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

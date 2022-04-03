@@ -13,27 +13,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Sky Glaze");
             Tooltip.SetDefault("Fires feathers from the sky that stick to enemies and tiles and explode");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 52;
-            item.height = 74;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<StickyFeather>();
-            item.shootSpeed = 15f;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 52;
+            Item.height = 74;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<StickyFeather>();
+            Item.shootSpeed = 15f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

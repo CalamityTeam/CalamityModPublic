@@ -22,16 +22,16 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 40;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Orange;
-            item.useTime = item.useAnimation = 15;
+            Item.width = 42;
+            Item.height = 40;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.useTime = Item.useAnimation = 15;
         }
 
-        public override bool UseItem(Player player) => true;
+        public override bool? UseItem(Player player) => true;
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.DraedonMisc
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placeTileCoords.X, placeTileCoords.Y);
             float checkDistance = ((Player.tileRangeX + Player.tileRangeY) / 2f + player.blockRange) * 16f;
 
-            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.type == ModContent.TileType<CodebreakerTile>())
+            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsDecryptionComputer)
@@ -57,18 +57,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            // You do not need the Decryption Computer for the Tier 1 (Sunken Sea) schematic.
-            // As such, its recipe can contain anything that is pre-Mechs (where Tier 2 is).
-            // Wires are thus fair game to include without causing any issues.
-            recipe.AddIngredient(ItemID.Wire, 100);
-            recipe.AddRecipeGroup("AnyCopperBar", 10);
-            recipe.AddIngredient(ItemID.Glass, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddIngredient(ItemID.Wire, 100).AddRecipeGroup("AnyCopperBar", 10).AddIngredient(ItemID.Glass, 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

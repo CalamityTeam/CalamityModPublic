@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BrimstoneWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Elemental");
             Description.SetDefault("The brimstone elemental will protect you");

@@ -5,7 +5,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssPiano : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano(true);
             ModTranslation name = CreateMapEntryName();

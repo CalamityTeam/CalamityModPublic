@@ -15,28 +15,24 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<UelibloomBar>();
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.rare = ItemRarityID.Red;
-            item.value = Item.sellPrice(gold: 3);
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
+            Item.createTile = ModContent.TileType<UelibloomBar>();
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Red;
+            Item.value = Item.sellPrice(gold: 3);
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UelibloomOre>(), 5);
-            recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UelibloomOre>(), 5).AddTile(TileID.AdamantiteForge).Register();
         }
     }
 }

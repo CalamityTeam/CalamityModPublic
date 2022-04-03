@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -20,51 +21,51 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(7))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.PlatinumCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.PlatinumCoin, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
             if (hasHitEnemy)
             {
-                projectile.rotation += projectile.direction * 0.4f;
+                Projectile.rotation += Projectile.direction * 0.4f;
             }
             else
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
                 //Rotating 90 degrees if shooting right
-                if (projectile.spriteDirection == 1)
+                if (Projectile.spriteDirection == 1)
                 {
-                    projectile.rotation += MathHelper.ToRadians(90f);
+                    Projectile.rotation += MathHelper.ToRadians(90f);
                 }
             }
 
-            if (!projectile.Calamity().stealthStrike && projectile.timeLeft < 575)
+            if (!Projectile.Calamity().stealthStrike && Projectile.timeLeft < 575)
             {
-                projectile.velocity.Y += 0.5f;
-                if (projectile.velocity.Y > 16f)
+                Projectile.velocity.Y += 0.5f;
+                if (Projectile.velocity.Y > 16f)
                 {
-                    projectile.velocity.Y = 16f;
+                    Projectile.velocity.Y = 16f;
                 }
             }
-            else if (projectile.Calamity().stealthStrike && hasHitEnemy)
+            else if (Projectile.Calamity().stealthStrike && hasHitEnemy)
             {
                 if (targetNPC >= 0 && Main.npc[targetNPC].active)
                 {
-                    Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
+                    Vector2 newVelocity = Main.npc[targetNPC].Center - Projectile.Center;
                     newVelocity.Normalize();
                     newVelocity *= 15f;
-                    projectile.velocity = newVelocity;
+                    Projectile.velocity = newVelocity;
                 }
             }
         }
@@ -89,9 +90,9 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
+                if (npc.CanBeChasedBy(Projectile, false) && npc != target && !hasHitNPC)
                 {
-                    float dist = (projectile.Center - npc.Center).Length();
+                    float dist = (Projectile.Center - npc.Center).Length();
                     if (dist < minDist)
                     {
                         minDist = dist;
@@ -103,31 +104,31 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 velocityNew;
             if (minDist < 999f)
             {
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
-                    projectile.damage = (int)(projectile.damage * 1.05f);
+                    Projectile.damage = (int)(Projectile.damage * 1.05f);
                 }
                 hasHitEnemy = true;
                 targetNPC = index;
-                velocityNew = Main.npc[index].Center - projectile.Center;
+                velocityNew = Main.npc[index].Center - Projectile.Center;
                 velocityNew.Normalize();
                 velocityNew *= 15f;
-                projectile.velocity = velocityNew;
+                Projectile.velocity = velocityNew;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -135,7 +136,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int num621 = 0; num621 < 8; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.PlatinumCoin, 0f, 0f, 100, default, 1f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.PlatinumCoin, 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 1f;
             }
         }

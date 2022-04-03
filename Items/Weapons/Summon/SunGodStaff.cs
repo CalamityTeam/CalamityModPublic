@@ -18,34 +18,26 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.mana = 10;
-            item.width = 72;
-            item.height = 72;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1.25f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<SolarGod>();
-            item.summon = true;
+            Item.damage = 60;
+            Item.mana = 10;
+            Item.width = 72;
+            Item.height = 72;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1.25f;
+            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<SolarGod>();
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SunSpiritStaff>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddIngredient(ItemID.SoulofMight, 3);
-            recipe.AddIngredient(ItemID.SoulofSight, 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SunSpiritStaff>()).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

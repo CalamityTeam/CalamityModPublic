@@ -18,24 +18,24 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 24;
-            item.height = 46;
-            item.damage = 432;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
-            item.shoot = ModContent.ProjectileType<TimeBoltKnife>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 24;
+            Item.height = 46;
+            Item.damage = 432;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
+            Item.shoot = ModContent.ProjectileType<TimeBoltKnife>();
+            Item.shootSpeed = 16f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,14 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmicKunai>());
-            recipe.AddIngredient(ItemID.FastClock);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicKunai>()).AddIngredient(ItemID.FastClock).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<Phantoplasm>(), 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

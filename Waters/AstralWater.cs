@@ -15,7 +15,7 @@ namespace CalamityMod.Waters
 
         public override int ChooseWaterfallStyle()
         {
-            return mod.GetWaterfallStyleSlot("AstralWaterflow");
+            return Mod.GetWaterfallStyleSlot("AstralWaterflow");
         }
 
         public override int GetSplashDust()
@@ -25,7 +25,7 @@ namespace CalamityMod.Waters
 
         public override int GetDropletGore()
         {
-            return mod.GetGoreSlot("Gores/AstralWaterDroplet");
+            return Mod.GetGoreSlot("Gores/AstralWaterDroplet");
         }
 
         public override Color BiomeHairColor()

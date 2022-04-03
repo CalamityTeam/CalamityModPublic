@@ -16,25 +16,25 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.ranged = true;
-            item.width = 36;
-            item.height = 110;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.JestersArrow;
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 36;
+            Item.height = 110;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.JestersArrow;
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Arrow;
 
-            item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -67,11 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ectoplasm, 31);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Ectoplasm, 31).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

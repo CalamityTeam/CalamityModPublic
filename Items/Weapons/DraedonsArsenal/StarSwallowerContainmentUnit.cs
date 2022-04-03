@@ -21,25 +21,25 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.shootSpeed = 10f;
-            item.damage = 24;
-            item.mana = 10;
-            item.width = 18;
-            item.height = 28;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.shootSpeed = 10f;
+            Item.damage = 24;
+            Item.mana = 10;
+            Item.width = 18;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
-            item.UseSound = SoundID.Item15;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.UseSound = SoundID.Item15;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 50f;
@@ -61,14 +61,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 1);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8).AddIngredient(ModContent.ItemType<DubiousPlating>(), 4).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
         }
     }
 }

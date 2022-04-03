@@ -27,41 +27,37 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.height = 100;
-            item.damage = 300;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 9.75f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<StreamGougeProj>();
-            item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 100;
+            Item.height = 100;
+            Item.damage = 300;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 9.75f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<StreamGougeProj>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/StreamGougeGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/StreamGougeGlow"));
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -13,19 +13,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public bool ReelingBack
         {
-            get => projectile.timeLeft <= ReelbackTime;
+            get => Projectile.timeLeft <= ReelbackTime;
             set
             {
                 if (value)
-                    projectile.timeLeft = ReelbackTime;
+                    Projectile.timeLeft = ReelbackTime;
             }
         }
 
-        public Player Owner => Main.player[projectile.owner];
-        public float Outwardness => OutwardnessMax * (float)Math.Sin(projectile.timeLeft / (float)Lifetime * MathHelper.Pi);
-        public ref float InitialRotation => ref projectile.ai[0];
-        public ref float OutwardnessMax => ref projectile.ai[1];
-        public ref float SwingDirection => ref projectile.localAI[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public float Outwardness => OutwardnessMax * (float)Math.Sin(Projectile.timeLeft / (float)Lifetime * MathHelper.Pi);
+        public ref float InitialRotation => ref Projectile.ai[0];
+        public ref float OutwardnessMax => ref Projectile.ai[1];
+        public ref float SwingDirection => ref Projectile.localAI[0];
         public const int ChargeTime = 25;
         public const int ReelbackTime = 25;
         public const int Lifetime = ChargeTime + ReelbackTime;
@@ -37,17 +37,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.timeLeft = Lifetime;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = Lifetime;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -62,42 +62,42 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
-            projectile.rotation = projectile.AngleTo(Owner.Center) - MathHelper.PiOver2;
+            Projectile.rotation = Projectile.AngleTo(Owner.Center) - MathHelper.PiOver2;
             if (Owner.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            projectile.direction = (Owner.Center.X - projectile.Center.X > 0).ToDirectionInt();
-            projectile.spriteDirection = projectile.direction;
+            Projectile.direction = (Owner.Center.X - Projectile.Center.X > 0).ToDirectionInt();
+            Projectile.spriteDirection = Projectile.direction;
 
             ManipulateOwnerFields();
 
-            if (projectile.timeLeft >= Lifetime - ChargeTime)
+            if (Projectile.timeLeft >= Lifetime - ChargeTime)
             {
-                float time = Utils.InverseLerp(Lifetime, Lifetime - ChargeTime, projectile.timeLeft, true);
+                float time = Utils.InverseLerp(Lifetime, Lifetime - ChargeTime, Projectile.timeLeft, true);
                 float offsetAngle = MathHelper.Lerp(-1.1f, 1.5f, time); // Set the range of the offset to -1.8 and 1.8 based off of the time.
-                offsetAngle *= projectile.localAI[0]; // Incorporate direction into the offset angle.
+                offsetAngle *= Projectile.localAI[0]; // Incorporate direction into the offset angle.
 
-                projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle) * 29f;
+                Projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle) * 29f;
 
                 // Adjust the velocity to go along with the player's if the velocity directions are similar so that the player's movement doesn't hinder the projectile's movement.
-                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), Owner.velocity.SafeNormalize(Vector2.Zero)) > 0.45f)
+                if (Vector2.Dot(Projectile.velocity.SafeNormalize(Vector2.Zero), Owner.velocity.SafeNormalize(Vector2.Zero)) > 0.45f)
                 {
-                    projectile.velocity += Owner.velocity;
+                    Projectile.velocity += Owner.velocity;
                 }
             }
             else
             {
-                projectile.velocity = projectile.SafeDirectionTo(Owner.Center, Vector2.UnitX * Owner.direction) * 43f;
-                projectile.timeLeft = ReelbackTime;
-                if (projectile.WithinRange(Owner.Center, 45f))
-                    projectile.Kill();
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center, Vector2.UnitX * Owner.direction) * 43f;
+                Projectile.timeLeft = ReelbackTime;
+                if (Projectile.WithinRange(Owner.Center, 45f))
+                    Projectile.Kill();
             }
 
             GenerateIdleDust();
-            if (projectile.timeLeft % 3 == 2 && projectile.Distance(Owner.Center) > 40f)
+            if (Projectile.timeLeft % 3 == 2 && Projectile.Distance(Owner.Center) > 40f)
                 SpawnElectricFields();
         }
 
@@ -105,8 +105,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Owner.itemAnimation = 4;
             Owner.itemTime = 4;
-            Owner.ChangeDir(-projectile.direction);
-            Owner.itemRotation = projectile.rotation + (projectile.spriteDirection == -1).ToInt() * MathHelper.TwoPi;
+            Owner.ChangeDir(-Projectile.direction);
+            Owner.itemRotation = Projectile.rotation + (Projectile.spriteDirection == -1).ToInt() * MathHelper.TwoPi;
         }
 
         public void GenerateIdleDust()
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             for (int i = 0; i < 4; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(52f, 52f), 261);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(52f, 52f), 261);
                 dust.velocity = Vector2.Zero;
                 dust.noGravity = true;
             }
@@ -123,9 +123,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void SpawnElectricFields()
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
-            Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile field = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (field.whoAmI.WithinBounds(Main.maxProjectiles))
             {
                 field.Calamity().forceMelee = true;
@@ -137,13 +137,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Player player = Main.player[projectile.owner];
-            Texture2D chainTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/PulseDragonChain");
-            Texture2D pulseTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PulseAura");
-            Texture2D dragonHeadTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonProjectile");
+            Player player = Main.player[Projectile.owner];
+            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PulseDragonChain");
+            Texture2D pulseTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseAura");
+            Texture2D dragonHeadTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonProjectile");
             if (ReelingBack)
-                dragonHeadTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonHeadClosed");
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+                dragonHeadTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonHeadClosed");
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 
             // Chain drawing.
             List<Vector2> bezierPoints = new List<Vector2>()
@@ -154,20 +154,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 Vector2 offset = Vector2.UnitX * -SwingDirection;
                 offset *= Outwardness * (float)Math.Sin(i / 20f * MathHelper.Pi);
-                offset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset), true);
-                bezierPoints.Add(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset);
+                offset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(mountedCenter, Projectile.Center, i / 20f) + offset), true);
+                bezierPoints.Add(Vector2.Lerp(mountedCenter, Projectile.Center, i / 20f) + offset);
             }
-            bezierPoints.Add(projectile.Center);
+            bezierPoints.Add(Projectile.Center);
 
             BezierCurve bezierCurve = new BezierCurve(bezierPoints.ToArray());
-            int totalChains = (int)(projectile.Distance(mountedCenter) / chainTexture.Height);
+            int totalChains = (int)(Projectile.Distance(mountedCenter) / chainTexture.Height);
             totalChains = (int)MathHelper.Clamp(totalChains, 40f, 1000f);
             for (int i = 0; i < totalChains - 1; i++)
             {
                 Vector2 drawPosition = bezierCurve.Evaluate(i / (float)totalChains);
                 float angle = (bezierCurve.Evaluate(i / (float)totalChains + 1f / totalChains) - drawPosition).ToRotation();
                 angle -= MathHelper.PiOver2;
-                spriteBatch.Draw(chainTexture, drawPosition - Main.screenPosition, null, lightColor, angle, chainTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(chainTexture, drawPosition - Main.screenPosition, null, lightColor, angle, chainTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             // Aura drawing.
@@ -177,12 +177,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 float time = (float)Math.Sin(Main.GlobalTime * 1.8f);
                 float angle = time * MathHelper.Pi + Main.GlobalTime * 2.1f;
                 float scale = 1.1f + time * 0.2f;
-                spriteBatch.Draw(pulseTexture, projectile.Center + offset - Main.screenPosition, null, Color.Cyan * 0.3f, angle, pulseTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(pulseTexture, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * 0.3f, angle, pulseTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             }
 
             // Head drawing.
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(dragonHeadTexture, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, dragonHeadTexture.Size() * 0.5f, projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(dragonHeadTexture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, dragonHeadTexture.Size() * 0.5f, Projectile.scale, spriteEffects, 0f);
             return false;
         }
     }

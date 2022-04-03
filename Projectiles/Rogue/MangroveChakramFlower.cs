@@ -2,6 +2,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class MangroveChakramFlower : ModProjectile
@@ -15,20 +16,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 30;
-            projectile.friendly = true;
-            projectile.timeLeft = 60;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            Projectile.width = Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 60;
+            Projectile.penetrate = -1;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            projectile.velocity.X *= 0.95f;
-            projectile.velocity.Y *= 0.985f;
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+            Projectile.velocity.X *= 0.95f;
+            Projectile.velocity.Y *= 0.985f;
             for (int dust = 0; dust < 2; dust++)
             {
                 int randomDust = Utils.SelectRandom(Main.rand, new int[]
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                     58,
                     204
                 });
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -51,9 +52,9 @@ namespace CalamityMod.Projectiles.Rogue
                     58,
                     204
                 });
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, randomDust, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-            Main.PlaySound(SoundID.Item105, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
         }
     }
 }

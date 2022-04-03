@@ -17,38 +17,24 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<ArmorCrumbling>();
-            item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<ArmorCrumbling>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 5);
-            recipe.AddIngredient(ModContent.ItemType<AncientBoneDust>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.alchemy = true;
-            recipe.SetResult(this, 5);
-            recipe.AddRecipe();
-            // Blood Orb recipes don't get the Alchemy Table effect
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(5).AddIngredient(ItemID.BottledWater, 5).AddIngredient(ModContent.ItemType<AncientBoneDust>()).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 20).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

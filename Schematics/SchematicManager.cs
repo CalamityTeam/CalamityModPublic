@@ -146,7 +146,7 @@ namespace CalamityMod.Schematics
                 for (int y = 0; y < height; ++y)
                 {
                     Tile t = Main.tile[x + cornerX, y + cornerY];
-                    if (t.type == TileID.Trees || t.type == TileID.PineTree || t.type == TileID.Cactus)
+                    if (t.TileType == TileID.Trees || t.TileType == TileID.PineTree || t.TileType == TileID.Cactus)
                         WorldGen.KillTile(x + cornerX, y + cornerY);
                 }
             for (int x = 0; x < width; ++x)
@@ -154,7 +154,7 @@ namespace CalamityMod.Schematics
                     originalTiles[x, y] = new Tile(Main.tile[x + cornerX, y + cornerY]);
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
-                    if (originalTiles[x, y].type != TileID.Containers)
+                    if (originalTiles[x, y].TileType != TileID.Containers)
                         WorldGen.KillTile(x + cornerX, y + cornerY);
 
             // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
@@ -199,12 +199,12 @@ namespace CalamityMod.Schematics
                 return;
             // Ignore tiles that aren't at the top left of the tile.
             // All of Calamity's worldgen-placed tile entities refuse to exist except at the top left corner of their host tile.
-            if (t.frameX != 0 || t.frameY != 0)
+            if (t.TileFrameX != 0 || t.TileFrameY != 0)
                 return;
 
             // This cannot be a switch because switch cases must be compile time constants, which ModContent calls are not.
             // Therefore the only option is an if-else ladder.
-            int tileType = t.type;
+            int tileType = t.TileType;
             if (tileType == ModContent.TileType<ChargingStation>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
             else if (tileType == ModContent.TileType<DraedonLabTurret>())

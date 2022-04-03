@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Rogue;
 using Terraria.Utilities;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -24,82 +25,82 @@ namespace CalamityMod.NPCs.AcidRain
             CreateVibeCheckTether
         }
 
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public CragmawAttackState CurrentAttack
         {
-            get => (CragmawAttackState)(int)npc.ai[0];
-            set => npc.ai[0] = (int)value;
+            get => (CragmawAttackState)(int)NPC.ai[0];
+            set => NPC.ai[0] = (int)value;
         }
-        public ref float AttackTimer => ref npc.ai[1];
+        public ref float AttackTimer => ref NPC.ai[1];
         public bool HasMadeShellBreakGore
         {
-            get => npc.localAI[0] == 1f;
-            set => npc.localAI[0] = value.ToInt();
+            get => NPC.localAI[0] == 1f;
+            set => NPC.localAI[0] = value.ToInt();
         }
         public bool InPhase2
         {
             get
             {
                 float phase2CeilingRatio = CalamityWorld.revenge ? 0.85f : 0.7f;
-                return npc.life / (float)npc.lifeMax < phase2CeilingRatio && CalamityWorld.downedPolterghast;
+                return NPC.life / (float)NPC.lifeMax < phase2CeilingRatio && CalamityWorld.downedPolterghast;
             }
         }
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cragmaw Mire");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
+            NPC.Calamity().canBreakPlayerDefense = true;
 
-            npc.width = 68;
-            npc.height = 54;
-            npc.aiStyle = aiType = -1;
+            NPC.width = 68;
+            NPC.height = 54;
+            NPC.aiStyle = aiType = -1;
 
-            npc.damage = 66;
-            npc.lifeMax = 4000;
-            npc.defense = 25;
+            NPC.damage = 66;
+            NPC.lifeMax = 4000;
+            NPC.defense = 25;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 160;
-                npc.lifeMax = 80630;
-                npc.defense = 80;
+                NPC.damage = 160;
+                NPC.lifeMax = 80630;
+                NPC.defense = 80;
             }
 
-            npc.behindTiles = true;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 3, 60, 0);
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.Calamity().VulnerableToHeat = false;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = true;
-            npc.Calamity().VulnerableToWater = false;
+            NPC.behindTiles = true;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 3, 60, 0);
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
             // Reset things every frame. They may be changed in the attack states below.
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.dontTakeDamage = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.dontTakeDamage = false;
 
             // Handle the phase 2 transition.
             if (InPhase2 && !HasMadeShellBreakGore)
             {
-                Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, npc.Center);
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore"), npc.scale);
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore2"), npc.scale);
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore3"), npc.scale);
+                SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore"), NPC.scale);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore2"), NPC.scale);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore3"), NPC.scale);
                 HasMadeShellBreakGore = true;
             }
 
@@ -139,8 +140,8 @@ namespace CalamityMod.NPCs.AcidRain
                 burstShootRate -= 10;
             }
 
-            if (Collision.SolidCollision(npc.position, npc.width, npc.height - 6))
-                npc.position.Y -= 4f;
+            if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height - 6))
+                NPC.position.Y -= 4f;
 
             // Release bursts of spikes and play a fire sound.
             float wrappedAttackTimer = AttackTimer % burstShootRate;
@@ -150,9 +151,9 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Dust rock = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Circular(75f, 75f), 1);
+                    Dust rock = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(75f, 75f), 1);
                     rock.color = Color.Yellow;
-                    rock.velocity = (npc.Center - rock.position) * Main.rand.NextFloat(0.06f, 0.09f);
+                    rock.velocity = (NPC.Center - rock.position) * Main.rand.NextFloat(0.06f, 0.09f);
                     rock.scale = Main.rand.NextFloat(1f, 1.3f);
                     rock.noGravity = true;
                 }
@@ -161,7 +162,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (wrappedAttackTimer == burstShootRate - 1f)
             {
                 // Play the sound.
-                Main.PlaySound(SoundID.Item92, npc.Center);
+                SoundEngine.PlaySound(SoundID.Item92, NPC.Center);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -170,7 +171,7 @@ namespace CalamityMod.NPCs.AcidRain
                     for (int i = 0; i < spikesPerBurst; i++)
                     {
                         Vector2 spikeShootVelocity = (MathHelper.TwoPi * i / spikesPerBurst + shootOffsetAngle).ToRotationVector2() * burstSpeed;
-                        Projectile.NewProjectile(npc.Center + spikeShootVelocity * 1.6f, spikeShootVelocity, ModContent.ProjectileType<CragmawSpike>(), damage, 0f);
+                        Projectile.NewProjectile(NPC.Center + spikeShootVelocity * 1.6f, spikeShootVelocity, ModContent.ProjectileType<CragmawSpike>(), damage, 0f);
                     }
                 }
             }
@@ -199,88 +200,88 @@ namespace CalamityMod.NPCs.AcidRain
                 maxSlamSpeed += 1.15f;
             }
 
-            ref float attackSubstate = ref npc.ai[2];
-            ref float slamCounter = ref npc.ai[3];
+            ref float attackSubstate = ref NPC.ai[2];
+            ref float slamCounter = ref NPC.ai[3];
 
             switch ((int)attackSubstate)
             {
                 // Dig in anticipation of the slam teleport.
                 case 0:
                     // Disable tile collision and normal gravity, as the cragmaw will dig into the ground.
-                    npc.noTileCollide = true;
-                    npc.noGravity = true;
+                    NPC.noTileCollide = true;
+                    NPC.noGravity = true;
 
                     // Dig into the ground.
-                    npc.position.Y += 3f;
+                    NPC.position.Y += 3f;
 
                     // Fade out.
-                    npc.Opacity = MathHelper.Clamp(npc.Opacity - opacityFadeoutIncrement * 0.6f, 0f, 1f);
+                    NPC.Opacity = MathHelper.Clamp(NPC.Opacity - opacityFadeoutIncrement * 0.6f, 0f, 1f);
 
                     // Stop taking damage.
-                    npc.dontTakeDamage = true;
+                    NPC.dontTakeDamage = true;
 
                     // Teleport once completely transparent.
-                    if (npc.Opacity <= 0f)
+                    if (NPC.Opacity <= 0f)
                     {
                         attackSubstate = 1f;
-                        npc.Center = Target.Center - Vector2.UnitY * verticalTeleportOffset;
-                        npc.velocity = Vector2.Zero;
-                        npc.netUpdate = true;
+                        NPC.Center = Target.Center - Vector2.UnitY * verticalTeleportOffset;
+                        NPC.velocity = Vector2.Zero;
+                        NPC.netUpdate = true;
                     }
                     break;
 
                 // Fade in again.
                 case 1:
                     // Disable default gravity and tile collision, as it is expected that the cragmaw is in the air at the moment.
-                    npc.noGravity = true;
-                    npc.noTileCollide = true;
+                    NPC.noGravity = true;
+                    NPC.noTileCollide = true;
 
                     // Disable contact damage. This is done to prevent cheap hits from the teleport, either in multiplayer or due to fast upward movement.
-                    npc.damage = 0;
+                    NPC.damage = 0;
 
                     // Fade in.
-                    npc.Opacity = MathHelper.Clamp(npc.Opacity + opacityFadeoutIncrement, 0f, 1f);
+                    NPC.Opacity = MathHelper.Clamp(NPC.Opacity + opacityFadeoutIncrement, 0f, 1f);
 
                     // Do the slam once completely faded in.
-                    if (npc.Opacity >= 1f)
+                    if (NPC.Opacity >= 1f)
                     {
                         attackSubstate = 2f;
                         AttackTimer = 0f;
-                        npc.velocity = Vector2.UnitY * maxSlamSpeed * 0.251f;
-                        npc.netUpdate = true;
+                        NPC.velocity = Vector2.UnitY * maxSlamSpeed * 0.251f;
+                        NPC.netUpdate = true;
                     }
                     break;
 
                 // Do the slam.
                 case 2:
                     // Disable default gravity and tile collision. Both of them will be calculated manually.
-                    npc.noGravity = true;
-                    npc.noTileCollide = true;
+                    NPC.noGravity = true;
+                    NPC.noTileCollide = true;
 
                     // Slam downward.
-                    npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + slamAcceleration, 0f, maxSlamSpeed);
+                    NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y + slamAcceleration, 0f, maxSlamSpeed);
 
                     // Register ground collision from the slam.
                     // Once it has been hit a nuke explosion projectile is created on the ground, along with homing nuclear drops.
-                    if ((npc.Bottom.Y > Target.Bottom.Y && Collision.SolidCollision(npc.BottomLeft, npc.width, 1)) || AttackTimer > 180f)
+                    if ((NPC.Bottom.Y > Target.Bottom.Y && Collision.SolidCollision(NPC.BottomLeft, NPC.width, 1)) || AttackTimer > 180f)
                     {
-                        npc.velocity = Vector2.Zero;
+                        NPC.velocity = Vector2.Zero;
 
                         if (AttackTimer == 1f)
                         {
-                            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, npc.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 int nukeDamage = CalamityWorld.downedPolterghast ? 72 : 38;
                                 int dropletDamage = (int)(nukeDamage * 0.6f);
-                                int explosion = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<CragmawExplosion>(), nukeDamage, 0f);
+                                int explosion = Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<CragmawExplosion>(), nukeDamage, 0f);
                                 if (Main.projectile.IndexInRange(explosion))
-                                    Main.projectile[explosion].Bottom = npc.Bottom + Vector2.UnitY * 4f;
+                                    Main.projectile[explosion].Bottom = NPC.Bottom + Vector2.UnitY * 4f;
 
                                 for (int i = 0; i < 12; i++)
                                 {
                                     Vector2 dropletVelocity = -Vector2.UnitY.RotatedByRandom(0.71f) * Main.rand.NextFloat(8f, 12f);
-                                    Projectile.NewProjectile(npc.Center, dropletVelocity, ModContent.ProjectileType<CragmawAcidDrop>(), dropletDamage, 0f);
+                                    Projectile.NewProjectile(NPC.Center, dropletVelocity, ModContent.ProjectileType<CragmawAcidDrop>(), dropletDamage, 0f);
                                 }
                             }
                         }
@@ -298,7 +299,7 @@ namespace CalamityMod.NPCs.AcidRain
                         else
                         {
                             attackSubstate = 0f;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                         }
                     }
                     break;
@@ -321,37 +322,37 @@ namespace CalamityMod.NPCs.AcidRain
                 opacityFadeoutIncrement += 0.01f;
             }
 
-            ref float attackSubstate = ref npc.ai[2];
+            ref float attackSubstate = ref NPC.ai[2];
 
             switch ((int)attackSubstate)
             {
                 // Dig to reposition.
                 case 0:
                     // Disable tile collision and normal gravity, as the cragmaw will dig into the ground.
-                    npc.noTileCollide = true;
-                    npc.noGravity = true;
+                    NPC.noTileCollide = true;
+                    NPC.noGravity = true;
 
                     // Dig into the ground.
-                    npc.position.Y += 3f;
+                    NPC.position.Y += 3f;
 
                     // Fade out.
-                    npc.Opacity = MathHelper.Clamp(npc.Opacity - opacityFadeoutIncrement * 0.6f, 0f, 1f);
+                    NPC.Opacity = MathHelper.Clamp(NPC.Opacity - opacityFadeoutIncrement * 0.6f, 0f, 1f);
 
                     // Stop taking damage.
-                    npc.dontTakeDamage = true;
+                    NPC.dontTakeDamage = true;
 
                     // Teleport once completely transparent.
-                    if (npc.Opacity <= 0f)
+                    if (NPC.Opacity <= 0f)
                     {
                         attackSubstate = 1f;
                         if (WorldUtils.Find(Target.Center.ToTileCoordinates(), Searches.Chain(new Searches.Down(1000), new CustomConditions.SolidOrPlatform()), out Point teleportPosition))
-                            npc.Bottom = teleportPosition.ToWorldCoordinates() + Vector2.UnitY * digReapperTime * digReapperSpeed;
+                            NPC.Bottom = teleportPosition.ToWorldCoordinates() + Vector2.UnitY * digReapperTime * digReapperSpeed;
                         else
                             SelectNextAttack();
 
                         AttackTimer = 0f;
-                        npc.velocity = Vector2.Zero;
-                        npc.netUpdate = true;
+                        NPC.velocity = Vector2.Zero;
+                        NPC.netUpdate = true;
                     }
                     break;
 
@@ -360,21 +361,21 @@ namespace CalamityMod.NPCs.AcidRain
                     // Come out of the ground.
                     if (AttackTimer < digReapperTime)
                     {
-                        npc.noTileCollide = true;
-                        npc.noGravity = true;
-                        npc.position.Y -= digReapperSpeed;
+                        NPC.noTileCollide = true;
+                        NPC.noGravity = true;
+                        NPC.position.Y -= digReapperSpeed;
                     }
                     if (AttackTimer == digReapperTime)
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
 
                     // Fade in.
-                    npc.Opacity = MathHelper.Clamp(npc.Opacity + opacityFadeoutIncrement, 0f, 1f);
+                    NPC.Opacity = MathHelper.Clamp(NPC.Opacity + opacityFadeoutIncrement, 0f, 1f);
 
                     // Create some charge dust.
                     if (AttackTimer > digReapperTime && AttackTimer < digReapperTime + chargeupTelegraphTime)
                     {
-                        Dust chargeupDust = Dust.NewDustPerfect(npc.Center, 267);
-                        chargeupDust.position -= Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * npc.height * 0.4f;
+                        Dust chargeupDust = Dust.NewDustPerfect(NPC.Center, 267);
+                        chargeupDust.position -= Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * NPC.height * 0.4f;
                         chargeupDust.velocity = -Vector2.UnitY.RotatedByRandom(0.31f) * Main.rand.NextFloat(2f, 6f);
                         chargeupDust.color = Color.Lerp(Color.Green, Color.Yellow, Main.rand.NextFloat());
                         chargeupDust.scale = Main.rand.NextFloat(0.95f, 1.35f);
@@ -385,10 +386,10 @@ namespace CalamityMod.NPCs.AcidRain
                     if (AttackTimer == digReapperTime + chargeupTelegraphTime)
                     {
                         // Play a sound and create dust.
-                        Main.PlaySound(SoundID.Zombie, npc.Center, 104);
+                        SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 104);
                         for (int i = 0; i < 40; i++)
                         {
-                            Dust burstDust = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Circular(75f, 75f), 267);
+                            Dust burstDust = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(75f, 75f), 267);
                             burstDust.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 6f);
                             burstDust.color = Color.Lerp(Color.Green, Color.Yellow, Main.rand.NextFloat());
                             burstDust.scale = Main.rand.NextFloat(1.1f, 1.45f);
@@ -398,7 +399,7 @@ namespace CalamityMod.NPCs.AcidRain
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int laserbeamDamage = CalamityWorld.downedPolterghast ? 120 : 40;
-                            Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<CragmawBeam>(), laserbeamDamage, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            Projectile.NewProjectile(NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<CragmawBeam>(), laserbeamDamage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                         }
                     }
 
@@ -411,7 +412,7 @@ namespace CalamityMod.NPCs.AcidRain
         public void DoBehavior_CreateVibeCheckTether()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && AttackTimer == 30f)
-                Projectile.NewProjectile(npc.Center, -Vector2.UnitY * 4f, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, Main.myPlayer, npc.whoAmI, npc.target);
+                Projectile.NewProjectile(NPC.Center, -Vector2.UnitY * 4f, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, Main.myPlayer, NPC.whoAmI, NPC.target);
             if (AttackTimer > CragmawVibeCheckChain.Lifetime + 30f)
                 SelectNextAttack();
         }
@@ -420,8 +421,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             // Reset the attack timer and optional attack variables.
             AttackTimer = 0f;
-            npc.ai[2] = 0f;
-            npc.ai[3] = 0f;
+            NPC.ai[2] = 0f;
+            NPC.ai[3] = 0f;
 
             CragmawAttackState oldAttack = CurrentAttack;
             WeightedRandom<CragmawAttackState> attackSelector = new WeightedRandom<CragmawAttackState>(Main.rand);
@@ -437,40 +438,40 @@ namespace CalamityMod.NPCs.AcidRain
                 CurrentAttack = attackSelector.Get();
             while (oldAttack == CurrentAttack);
 
-            npc.netUpdate = true;
+            NPC.netUpdate = true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * 0.85f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = InPhase2 ? ModContent.GetTexture("CalamityMod/NPCs/AcidRain/CragmawMire2") : ModContent.GetTexture("CalamityMod/NPCs/AcidRain/CragmawMire");
-            CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, npc.GetAlpha(drawColor), true);
+            Texture2D texture = InPhase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/CragmawMire2") : ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/CragmawMire");
+            CalamityMod.DrawTexture(spriteBatch, texture, 0, NPC, NPC.GetAlpha(drawColor), true);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter % 6 == 5)
-                npc.frame.Y += frameHeight;
-            if (npc.frame.Y >= frameHeight * 2)
-                npc.frame.Y = 0;
+            NPC.frameCounter++;
+            if (NPC.frameCounter % 6 == 5)
+                NPC.frame.Y += frameHeight;
+            if (NPC.frame.Y >= frameHeight * 2)
+                NPC.frame.Y = 0;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            if (npc.life <= 0)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore"), npc.scale);
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore2"), npc.scale);
-                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore3"), npc.scale);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore"), NPC.scale);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore2"), NPC.scale);
+                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore3"), NPC.scale);
             }
         }
 
@@ -478,8 +479,8 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SpentFuelContainer>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<SpentFuelContainer>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
         }
     }
 }

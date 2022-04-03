@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 36;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.accessory = true;
-            item.rare = ItemRarityID.Orange;
+            Item.width = 26;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,13 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 5);
-            recipe.AddIngredient(ItemID.Vertebrae, 4);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 4);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodSample>(), 5).AddIngredient(ItemID.Vertebrae, 4).AddIngredient(ItemID.CrimtaneBar, 4).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

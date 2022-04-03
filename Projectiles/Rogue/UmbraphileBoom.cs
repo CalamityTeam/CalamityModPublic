@@ -17,15 +17,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void Kill(int timeLeft)
@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Rogue
                 int dustType = Main.rand.NextBool() ? 246 : 176;
                 float dustSpeed = Main.rand.NextFloat(3f, 9f);
                 Vector2 dustVel = CalamityUtils.RandomVelocity(10f, dustSpeed, dustSpeed, 1f);
-                int boom = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1f);
+                int boom = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[boom];
                 dust.noGravity = true;
-                dust.position = projectile.Center;
+                dust.position = Projectile.Center;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
                 dust.velocity = dustVel;

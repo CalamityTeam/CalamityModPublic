@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Calamari : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Calamari");
             Description.SetDefault("The squid will protect you");

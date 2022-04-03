@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.BedRightClick(i, j);
         }

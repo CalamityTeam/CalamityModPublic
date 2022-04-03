@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousRib1 : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.Width = 1;

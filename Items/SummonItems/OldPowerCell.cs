@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -17,13 +18,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.rare = ItemRarityID.Lime;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -34,13 +35,13 @@ namespace CalamityMod.Items.SummonItems
                 int num = (int)player.Center.X / 16;
                 int num2 = (int)player.Center.Y / 16;
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == 87)
+                if (tile.WallType == 87)
                     canSummon = true;
             }
             return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -53,12 +54,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 20);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LunarTabletFragment, 20).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

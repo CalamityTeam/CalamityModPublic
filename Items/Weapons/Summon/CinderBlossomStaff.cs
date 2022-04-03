@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item34;
-            item.shoot = ModContent.ProjectileType<CinderBlossom>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 25;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item34;
+            Item.shoot = ModContent.ProjectileType<CinderBlossom>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
@@ -41,13 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Fireblossom, 5);
-            recipe.AddIngredient(ItemID.LavaBucket, 2);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Fireblossom, 5).AddIngredient(ItemID.LavaBucket, 2).AddIngredient(ItemID.HellstoneBar, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

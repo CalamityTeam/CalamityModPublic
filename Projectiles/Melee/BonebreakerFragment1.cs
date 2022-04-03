@@ -16,29 +16,29 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.aiStyle = 24;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 50;
-            projectile.timeLeft = 600;
-            projectile.melee = true;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.aiStyle = 24;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 50;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Changes the texture of the projectile
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/BonebreakerFragment2");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/BonebreakerFragment2");
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/BonebreakerFragment2");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/BonebreakerFragment2");
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
             return true;

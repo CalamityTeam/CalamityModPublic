@@ -21,17 +21,17 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(gold: 75);
-            item.defense = 38; // 132 total
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(gold: 75);
+            Item.defense = 38; // 132 total
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 60;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
             player.manaCost *= 0.9f;
         }
 
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
             player.Calamity().WearingPostMLSummonerSet = true;
-            player.minionDamage += 0.2f;
+            player.GetDamage(DamageClass.Summon) += 0.2f;
             player.maxMinions += 2;
 
             int[] immuneDebuffs = {
@@ -88,14 +88,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpookyHelmet);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ItemID.SoulofFright, 8);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpookyHelmet).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ItemID.SoulofFright, 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class PoleWarperBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pole Warper");
             Description.SetDefault("Sentient magnets are attracted to you");

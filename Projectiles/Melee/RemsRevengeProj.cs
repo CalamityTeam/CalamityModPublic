@@ -15,34 +15,34 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rem's Revenge");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.alpha = 255;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.extraUpdates = 1;
-            projectile.scale = 2f;
-            projectile.tileCollide = false;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 255;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.extraUpdates = 1;
+            Projectile.scale = 2f;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            Vector2 projVector = player.Center - projectile.Center;
-            projectile.rotation = projVector.ToRotation() - MathHelper.PiOver2;
+            Player player = Main.player[Projectile.owner];
+            Vector2 projVector = player.Center - Projectile.Center;
+            Projectile.rotation = projVector.ToRotation() - MathHelper.PiOver2;
             if (player.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             player.itemAnimation = 10;
@@ -50,58 +50,58 @@ namespace CalamityMod.Projectiles.Melee
             if (projVector.X < 0f)
             {
                 player.ChangeDir(1);
-                projectile.direction = 1;
+                Projectile.direction = 1;
             }
             else
             {
                 player.ChangeDir(-1);
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
-            player.itemRotation = (projVector * -1f * (float)projectile.direction).ToRotation();
-            projectile.spriteDirection = (projVector.X > 0f) ? -1 : 1;
-            if (projectile.ai[0] == 0f && projVector.Length() > 850f)
+            player.itemRotation = (projVector * -1f * (float)Projectile.direction).ToRotation();
+            Projectile.spriteDirection = (projVector.X > 0f) ? -1 : 1;
+            if (Projectile.ai[0] == 0f && projVector.Length() > 850f)
             {
-                projectile.ai[0] = 1f;
+                Projectile.ai[0] = 1f;
             }
-            if (projectile.ai[0] == 1f || projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 1f || Projectile.ai[0] == 2f)
             {
-                projectile.extraUpdates = 2;
+                Projectile.extraUpdates = 2;
                 float playerDist = projVector.Length();
                 if (playerDist > 1500f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 if (playerDist > 1000f)
                 {
-                    projectile.ai[0] = 2f;
+                    Projectile.ai[0] = 2f;
                 }
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 float returnSpeed = 15f;
-                if (projectile.ai[0] == 2f)
+                if (Projectile.ai[0] == 2f)
                 {
                     returnSpeed = 30f;
                 }
-                projectile.velocity = Vector2.Normalize(projVector) * returnSpeed;
+                Projectile.velocity = Vector2.Normalize(projVector) * returnSpeed;
                 if (projVector.Length() < returnSpeed)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 5f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] > 5f)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D chainTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/RemsRevengeChain");
-            Vector2 projCenter = projectile.Center;
+            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/RemsRevengeChain");
+            Vector2 projCenter = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)chainTexture.Width * 0.5f, (float)chainTexture.Height * 0.5f);
             float chainHeight = (float)chainTexture.Height;
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -142,11 +142,11 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<WitherDebuff>(), 240);
             hitCounter++;
             if (hitCounter < 6)
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
+                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
             if (hitCounter > 3)
             {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
             }
         }
     }

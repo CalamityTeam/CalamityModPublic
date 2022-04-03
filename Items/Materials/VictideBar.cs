@@ -13,23 +13,16 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 6);
-            item.rare = ItemRarityID.Green;
+            Item.width = 30;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 6);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>());
-            recipe.AddIngredient(ItemID.Coral);
-            recipe.AddIngredient(ItemID.Starfish);
-            recipe.AddIngredient(ItemID.Seashell);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictoryShard>()).AddIngredient(ItemID.Coral).AddIngredient(ItemID.Starfish).AddIngredient(ItemID.Seashell).AddTile(TileID.Furnaces).Register();
         }
     }
 }

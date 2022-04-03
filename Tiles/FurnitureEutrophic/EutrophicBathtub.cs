@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBathtub : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);

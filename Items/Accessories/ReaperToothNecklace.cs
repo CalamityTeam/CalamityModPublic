@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 50;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 44;
+            Item.height = 50;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,15 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SandSharkToothNecklace>());
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SandSharkToothNecklace>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 6).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.TinkerersWorkbench).Register();
         }
     }
 }

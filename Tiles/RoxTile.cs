@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles
 {
     public class RoxTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

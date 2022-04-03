@@ -24,11 +24,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -78,13 +78,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddIngredient(ItemID.SoulofFlight, 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

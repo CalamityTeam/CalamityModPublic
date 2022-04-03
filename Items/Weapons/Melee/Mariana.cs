@@ -19,35 +19,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.width = 54;
-            item.height = 62;
-            item.scale = 1.5f;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            Item.damage = 90;
+            Item.width = 54;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophyteClaymore);
-            recipe.AddIngredient(ItemID.Coral, 3);
-            recipe.AddIngredient(ItemID.Starfish, 3);
-            recipe.AddIngredient(ItemID.Seashell, 3);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ChlorophyteClaymore).AddIngredient(ItemID.Coral, 3).AddIngredient(ItemID.Starfish, 3).AddIngredient(ItemID.Seashell, 3).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -62,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {
@@ -96,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {

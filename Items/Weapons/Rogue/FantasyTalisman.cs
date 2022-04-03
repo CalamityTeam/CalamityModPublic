@@ -19,24 +19,24 @@ Stealth strikes release more souls and leave behind souls as they travel");
 
         public override void SafeSetDefaults()
         {
-            item.width = 34;
-            item.damage = 93;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 62;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 60, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<FantasyTalismanProj>();
-            item.shootSpeed = 18f;
-            item.Calamity().rogue = true;
+            Item.width = 34;
+            Item.damage = 93;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 62;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 60, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<FantasyTalismanProj>();
+            Item.shootSpeed = 18f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,13 +53,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 2);
-            recipe.AddIngredient(ItemID.Silk);
-            recipe.AddIngredient(ItemID.Ectoplasm);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).AddIngredient(ModContent.ItemType<SolarVeil>(), 2).AddIngredient(ItemID.Silk).AddIngredient(ItemID.Ectoplasm).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

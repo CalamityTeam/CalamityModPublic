@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 56;
-            item.height = 56;
-            item.damage = 80;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 12;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.shoot = ModContent.ProjectileType<ShatteredSunKnife>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
+            Item.width = 56;
+            Item.height = 56;
+            Item.damage = 80;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 12;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.shoot = ModContent.ProjectileType<ShatteredSunKnife>();
+            Item.shootSpeed = 25f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -42,12 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RadiantStar>());
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<RadiantStar>()).AddIngredient(ModContent.ItemType<DivineGeode>(), 6).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

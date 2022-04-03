@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 52;
-            item.mana = 10;
-            item.width = 28;
-            item.height = 20;
-            item.useTime = item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item14;
-            item.autoReuse = true;
-            item.summon = true;
-            item.shoot = ModContent.ProjectileType<TacticalPlagueJet>();
-            item.shootSpeed = 16f;
+            Item.damage = 52;
+            Item.mana = 10;
+            Item.width = 28;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item14;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Summon;
+            Item.shoot = ModContent.ProjectileType<TacticalPlagueJet>();
+            Item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -45,16 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlackHawkRemote>());
-            recipe.AddIngredient(ModContent.ItemType<InfectedRemote>());
-            recipe.AddIngredient(ModContent.ItemType<FuelCellBundle>());
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlackHawkRemote>()).AddIngredient(ModContent.ItemType<InfectedRemote>()).AddIngredient(ModContent.ItemType<FuelCellBundle>()).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -17,20 +17,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 64;
-            item.scale = 1.5f;
-            item.damage = 100;
-            item.melee = true;
-            item.useAnimation = 35;
-            item.useTime = 35;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            Item.width = 64;
+            Item.height = 64;
+            Item.scale = 1.5f;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 35;
+            Item.useTime = 35;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(target.Center, vector255, type, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
             }
         }
 
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(target.Center, vector255, type, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, Main.myPlayer);
+                Projectile.NewProjectile(target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, Main.myPlayer);
             }
         }
 

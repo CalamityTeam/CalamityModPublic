@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientLantern : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.5f;
@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLanternFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientLanternFlame"), i, j);
         }
 
         public override void HitWire(int i, int j)
@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18 && tile.frameX < 18)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

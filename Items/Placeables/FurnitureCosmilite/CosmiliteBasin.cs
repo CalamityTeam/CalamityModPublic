@@ -14,27 +14,21 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 
         public override void SetDefaults()
         {
-            item.width = 8;
-            item.height = 10;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<CosmiliteBasinTile>();
+            Item.width = 8;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<CosmiliteBasinTile>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10);
-            recipe.AddIngredient(ItemID.IronBar, 5);
-            recipe.anyIronBar = true;
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10).AddIngredient(ItemID.IronBar, 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

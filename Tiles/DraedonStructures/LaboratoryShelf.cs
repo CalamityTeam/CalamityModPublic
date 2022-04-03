@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 {
     public class LaboratoryShelf : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
             soundType = SoundID.Tink;

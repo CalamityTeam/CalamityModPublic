@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 89;
-            item.melee = true;
-            item.width = 80;
-            item.height = 92;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MiniSharkron>();
-            item.shootSpeed = 18f;
+            Item.damage = 89;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 80;
+            Item.height = 92;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MiniSharkron>();
+            Item.shootSpeed = 18f;
         }
 
         public override void UseStyle(Player player)
@@ -63,16 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 5).AddIngredient(ItemID.SharkFin, 2).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

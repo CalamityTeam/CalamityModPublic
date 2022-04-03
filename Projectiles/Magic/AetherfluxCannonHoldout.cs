@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -11,53 +12,53 @@ namespace CalamityMod.Projectiles.Magic
     {
         private const int FramesPerFireRateIncrease = 36;
 
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
 
-        private ref float DeployedFrames => ref projectile.ai[0];
-        private ref float AnimationRate => ref projectile.ai[1];
-        private ref float LastShootAttemptTime => ref projectile.localAI[0];
-        private ref float LastAnimationTime => ref projectile.localAI[1];
+        private ref float DeployedFrames => ref Projectile.ai[0];
+        private ref float AnimationRate => ref Projectile.ai[1];
+        private ref float LastShootAttemptTime => ref Projectile.localAI[0];
+        private ref float LastAnimationTime => ref Projectile.localAI[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aetherflux Cannon");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 94;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
+            Projectile.width = 58;
+            Projectile.height = 94;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 gunBarrelPos = armPosition + projectile.velocity * projectile.height * 0.4f;
+            Vector2 gunBarrelPos = armPosition + Projectile.velocity * Projectile.height * 0.4f;
 
             // If the player is unable to continue using the holdout, delete it.
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Play a sound frame 1.
             if (DeployedFrames <= 0f)
             {
-                var sound = Main.PlaySound(SoundID.DD2_DarkMageCastHeal, projectile.Center);
+                var sound = SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal, Projectile.Center);
                 CalamityUtils.SafeVolumeChange(ref sound, 1.5f);
             }
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
             Item weaponItem = Owner.ActiveItem();
-            projectile.damage = (int)((weaponItem?.damage ?? 0) * Owner.MagicDamage());
+            Projectile.damage = (int)((weaponItem?.damage ?? 0) * Owner.MagicDamage());
 
             // Get the original weapon's use time.
             int itemUseTime = weaponItem?.useAnimation ?? T1000.UseTime;
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
             if (DeployedFrames - LastAnimationTime >= AnimationRate)
             {
                 LastAnimationTime = DeployedFrames;
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
             }
 
             // Once past the initial spin-up time, fire constantly as long as mana is available.
@@ -87,11 +88,11 @@ namespace CalamityMod.Projectiles.Magic
                 if (manaOK)
                 {
                     if (actuallyShoot)
-                        Main.PlaySound(SoundID.Item91, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.Item91, Projectile.Center);
 
                     int projID = ModContent.ProjectileType<PhasedGodRay>();
                     float shootSpeed = weaponItem.shootSpeed;
-                    Vector2 shootDirection = projectile.velocity.SafeNormalize(Vector2.UnitY);
+                    Vector2 shootDirection = Projectile.velocity.SafeNormalize(Vector2.UnitY);
                     Vector2 shootVelocity = shootDirection * shootSpeed;
 
                     // Waving beams need to start offset so they cross each other neatly.
@@ -108,7 +109,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 dustVelocity = shootVelocity + dustInaccuracy * dustOnlySpread;
                         if (actuallyShoot)
                         {
-                            Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, shootVelocity, projID, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             // Tell this Phased God Ray exactly which way it should be waving.
                             godRay.localAI[1] = i * 0.5f;
                         }
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Magic
                 // Delete the laser gun if a mana cost cannot be paid.
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
@@ -130,31 +131,31 @@ namespace CalamityMod.Projectiles.Magic
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (projectile.velocity != oldVelocity)
+                float interpolant = Utils.InverseLerp(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
                 {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.Center = armPosition + projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction) * 8f;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.Center = armPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction) * 8f;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
         }
 
         private void ManipulatePlayerVariables()
         {
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         private void SpawnFiringDust(Vector2 gunBarrelPos, Vector2 laserVelocity)

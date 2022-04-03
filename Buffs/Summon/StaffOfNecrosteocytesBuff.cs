@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class StaffOfNecrosteocytesBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Small Skeleton");
             Description.SetDefault("A skeleton is observing you");

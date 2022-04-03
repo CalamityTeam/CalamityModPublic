@@ -14,26 +14,26 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Igneous Exaltation");
             Tooltip.SetDefault("Summons an orbiting blade\n" +
                                "Right click to launch all blades towards the cursor");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 34;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 50;
-            item.useTime = item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IgneousBlade>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 34;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 50;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IgneousBlade>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -89,12 +89,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<UnholyCore>(), 10);
-            r.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

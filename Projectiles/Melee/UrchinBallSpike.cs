@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -14,31 +15,31 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
             aiType = ProjectileID.BoneJavelin;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.99f;
-                projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-                projectile.rotation += 0.4f * (float)projectile.direction;
-                projectile.spriteDirection = projectile.direction;
+                Projectile.velocity.X = Projectile.velocity.X * 0.99f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+                Projectile.rotation += 0.4f * (float)Projectile.direction;
+                Projectile.spriteDirection = Projectile.direction;
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(6);
+            Projectile.StickyProjAI(6);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(6, false);
+            Projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -52,16 +53,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 13;
-            projectile.height = 20;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 13;
+            Projectile.height = 20;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 1f);
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 1f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 2f;
             }

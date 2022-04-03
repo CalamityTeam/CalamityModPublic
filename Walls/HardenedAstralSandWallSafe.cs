@@ -7,7 +7,7 @@ namespace CalamityMod.Walls
     public class HardenedAstralSandWallSafe : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Hardened Astral Sand.
             dustType = DustID.Shadowflame;

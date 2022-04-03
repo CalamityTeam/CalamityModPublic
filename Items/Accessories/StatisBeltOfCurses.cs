@@ -18,16 +18,16 @@ namespace CalamityMod.Items.Accessories
                 "The dodge has a 90 second cooldown\n" +
                 "This cooldown is shared with all other dodges and reflects\n" +
                 "Dashes leave homing scythes in your wake");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 3));
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 28;
+            Item.height = 32;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -44,14 +44,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StatisNinjaBelt>());
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 10);
-            // This is not a mistake. Requiring only Nightmare Fuel is intentional for thematics.
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StatisNinjaBelt>()).AddIngredient(ModContent.ItemType<TwistingNether>(), 10).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

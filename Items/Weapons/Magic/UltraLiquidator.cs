@@ -15,27 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Ultra Liquidator");
             Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
                                "The blades inflict ichor, cursed inferno and brimstone flames");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.knockBack = 5f;
-            item.useTime = 3;
-            item.reuseDelay = item.useAnimation = 15;
-            item.mana = 25;
-            item.magic = true;
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
-            item.shoot = ModContent.ProjectileType<LiquidBlade>();
+            Item.damage = 120;
+            Item.knockBack = 5f;
+            Item.useTime = 3;
+            Item.reuseDelay = Item.useAnimation = 15;
+            Item.mana = 25;
+            Item.DamageType = DamageClass.Magic;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<LiquidBlade>();
 
-            item.width = item.height = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item9;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            Item.width = Item.height = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item9;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -45,22 +45,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<InfernalRift>());
-            recipe.AddIngredient(ItemID.AquaScepter);
-            recipe.AddRecipeGroup("CursedFlameIchor", 20);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<InfernalRift>()).AddIngredient(ItemID.AquaScepter).AddRecipeGroup("CursedFlameIchor", 20).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             float xVec = Main.mouseX + Main.screenPosition.X - playerPos.X;
             float yVec = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
             float f = Main.rand.NextFloat() * MathHelper.TwoPi;

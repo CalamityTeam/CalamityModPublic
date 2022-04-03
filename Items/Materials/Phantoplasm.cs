@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Phantoplasm");
             Tooltip.SetDefault("It churns and seethes with ghastly malice");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 1);
-            item.rare = ItemRarityID.Purple;
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 0);

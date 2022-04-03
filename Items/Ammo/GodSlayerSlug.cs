@@ -19,29 +19,24 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 28;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 22;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 3f;
-            item.value = Item.sellPrice(copper: 28);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
-            item.shootSpeed = 6f;
-            item.ammo = ItemID.MusketBall;
+            Item.damage = 28;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 22;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 3f;
+            Item.value = Item.sellPrice(copper: 28);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
+            Item.shootSpeed = 6f;
+            Item.ammo = ItemID.MusketBall;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EmptyBullet, 999);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this, 999);
-            recipe.AddRecipe();
+            CreateRecipe(999).AddIngredient(ItemID.EmptyBullet, 999).AddIngredient(ModContent.ItemType<CosmiliteBar>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

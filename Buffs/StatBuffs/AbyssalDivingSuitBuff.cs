@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class AbyssalDivingSuitBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Diving Suit");
             Description.SetDefault("You are made of metal");

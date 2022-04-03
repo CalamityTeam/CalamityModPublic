@@ -17,14 +17,14 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.LightRed;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item60;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item60;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             return !CalamityPlayer.areThereAnyDamnBosses;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -52,14 +52,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 10); // Made it slightly more expensive than requested. - Merkalto
-            recipe.AddIngredient(ItemID.SoulofLight, 7);
-            recipe.AddIngredient(ItemID.SoulofNight, 7);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.FallenStar, 10).AddIngredient(ItemID.SoulofLight, 7).AddIngredient(ItemID.SoulofNight, 7).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

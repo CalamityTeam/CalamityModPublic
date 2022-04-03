@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 564;
-            item.knockBack = 3.5f;
-            item.useAnimation = item.useTime = 21;
-            item.autoReuse = true;
-            item.Calamity().rogue = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
+            Item.damage = 564;
+            Item.knockBack = 3.5f;
+            Item.useAnimation = Item.useTime = 21;
+            Item.autoReuse = true;
+            Item.Calamity().rogue = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = item.height = 72;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = Item.height = 72;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,14 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NightsGaze>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NightsGaze>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 12).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

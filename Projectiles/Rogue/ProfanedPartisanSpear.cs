@@ -17,35 +17,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.timeLeft = 600;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.timeLeft = 600;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.ai[1] != 1f)
+            if (Projectile.ai[1] != 1f)
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.ai[1] = 1f;
-                projectile.ai[0] = 1f;
-                projectile.extraUpdates = 2;
-                if (projectile.timeLeft > 280)
-                    projectile.timeLeft = 280;
+                Projectile.ai[1] = 1f;
+                Projectile.ai[0] = 1f;
+                Projectile.extraUpdates = 2;
+                if (Projectile.timeLeft > 280)
+                    Projectile.timeLeft = 280;
             }
             return false;
         }
@@ -64,36 +64,36 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects()
         {
-            if (projectile.ai[1] != 1f)
+            if (Projectile.ai[1] != 1f)
             {
-                projectile.velocity.X *= -1f;
-                projectile.velocity.Y *= -1f;
-                projectile.ai[1] = 1f;
-                projectile.ai[0] = 1f;
-                projectile.extraUpdates = 2;
-                if (projectile.timeLeft > 280)
-                    projectile.timeLeft = 280;
+                Projectile.velocity.X *= -1f;
+                Projectile.velocity.Y *= -1f;
+                Projectile.ai[1] = 1f;
+                Projectile.ai[0] = 1f;
+                Projectile.extraUpdates = 2;
+                if (Projectile.timeLeft > 280)
+                    Projectile.timeLeft = 280;
             }
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
                 timer++;
             if (timer >= 5)
-                projectile.penetrate = 1;
+                Projectile.penetrate = 1;
             if (timer >= 10)
             {
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 7f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 7f, 20f);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

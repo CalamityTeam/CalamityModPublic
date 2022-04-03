@@ -43,35 +43,35 @@ namespace CalamityMod.Effects
             if (Main.dedServ)
                 return;
 
-            AstralFogShader = CalamityMod.Instance.GetEffect("Effects/CustomShader");
-            LightShader = CalamityMod.Instance.GetEffect("Effects/LightBurstShader");
-            TentacleShader = CalamityMod.Instance.GetEffect("Effects/TentacleShader");
-            TeleportDisplacementShader = CalamityMod.Instance.GetEffect("Effects/TeleportDisplacementShader");
-            SCalMouseShader = CalamityMod.Instance.GetEffect("Effects/SCalMouseShader");
-            LightDistortionShader = CalamityMod.Instance.GetEffect("Effects/DistortionShader");
-            PhaseslayerRipShader = CalamityMod.Instance.GetEffect("Effects/PhaseslayerRipShader");
-            ScarletDevilShader = CalamityMod.Instance.GetEffect("Effects/ScarletDevilStreak");
-            BordernadoFireShader = CalamityMod.Instance.GetEffect("Effects/BordernadoFire");
-            PrismCrystalShader = CalamityMod.Instance.GetEffect("Effects/PrismCrystalStreak");
-            FadedUVMapStreakShader = CalamityMod.Instance.GetEffect("Effects/FadedUVMapStreak");
-            FlameStreakShader = CalamityMod.Instance.GetEffect("Effects/Flame");
-            FadingSolidTrailShader = CalamityMod.Instance.GetEffect("Effects/FadingSolidTrail");
-            ImpFlameTrailShader = CalamityMod.Instance.GetEffect("Effects/ImpFlameTrail");
-            SCalShieldShader = CalamityMod.Instance.GetEffect("Effects/SupremeShieldShader");
-            RancorMagicCircleShader = CalamityMod.Instance.GetEffect("Effects/RancorMagicCircle");
-            BasicTintShader = CalamityMod.Instance.GetEffect("Effects/BasicTint");
-            CircularBarShader = CalamityMod.Instance.GetEffect("Effects/CircularBarShader");
-            CircularBarSpriteShader = CalamityMod.Instance.GetEffect("Effects/CircularBarSpriteShader");
-            DoGDisintegrationShader = CalamityMod.Instance.GetEffect("Effects/DoGDisintegration");
-            ArtAttackTrailShader = CalamityMod.Instance.GetEffect("Effects/ArtAttackTrail");
-            CircularAoETelegraph = CalamityMod.Instance.GetEffect("Effects/CircularAoETelegraph");
-            IntersectionClipShader = CalamityMod.Instance.GetEffect("Effects/IntersectionClipShader");
-            LocalLinearTransformationShader = CalamityMod.Instance.GetEffect("Effects/LocalLinearTransformationShader");
+            AstralFogShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CustomShader").Value;
+            LightShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LightBurstShader").Value;
+            TentacleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TentacleShader").Value;
+            TeleportDisplacementShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TeleportDisplacementShader").Value;
+            SCalMouseShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SCalMouseShader").Value;
+            LightDistortionShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DistortionShader").Value;
+            PhaseslayerRipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PhaseslayerRipShader").Value;
+            ScarletDevilShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScarletDevilStreak").Value;
+            BordernadoFireShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BordernadoFire").Value;
+            PrismCrystalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrismCrystalStreak").Value;
+            FadedUVMapStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadedUVMapStreak").Value;
+            FlameStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/Flame").Value;
+            FadingSolidTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadingSolidTrail").Value;
+            ImpFlameTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ImpFlameTrail").Value;
+            SCalShieldShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SupremeShieldShader").Value;
+            RancorMagicCircleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/RancorMagicCircle").Value;
+            BasicTintShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicTint").Value;
+            CircularBarShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarShader").Value;
+            CircularBarSpriteShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarSpriteShader").Value;
+            DoGDisintegrationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DoGDisintegration").Value;
+            ArtAttackTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ArtAttackTrail").Value;
+            CircularAoETelegraph = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularAoETelegraph").Value;
+            IntersectionClipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/IntersectionClipShader").Value;
+            LocalLinearTransformationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LocalLinearTransformationShader").Value;
 
-            BaseFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/BaseFusableParticleEdgeShader");
-            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.GetEffect("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader");
+            BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader").Value;
+            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader").Value;
 
-            DoGPortalShader = CalamityMod.Instance.GetEffect("Effects/ScreenShaders/DoGPortalShader");
+            DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader").Value;
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 

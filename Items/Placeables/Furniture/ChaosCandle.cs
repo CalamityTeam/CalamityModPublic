@@ -18,19 +18,19 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 20;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.value = 500;
-            item.createTile = ModContent.TileType<Tiles.Furniture.ChaosCandle>();
-            item.flame = true;
-            item.holdStyle = 1;
+            Item.width = 16;
+            Item.height = 20;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.value = 500;
+            Item.createTile = ModContent.TileType<Tiles.Furniture.ChaosCandle>();
+            Item.flame = true;
+            Item.holdStyle = 1;
         }
 
         public override void HoldItem(Player player)
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void PostUpdate()
         {
-            Lighting.AddLight((int)((item.position.X + item.width / 2) / 16f), (int)((item.position.Y + item.height / 2) / 16f), 0.85f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 0.85f, 0.25f, 0.25f);
         }
 
         public override void AutoLightSelect(ref bool dryTorch, ref bool wetTorch, ref bool glowstick)
@@ -57,14 +57,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WaterCandle, 3);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<ZergPotion>());
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.WaterCandle, 3).AddIngredient(ItemID.SoulofNight, 3).AddIngredient(ModContent.ItemType<CoreofChaos>(), 2).AddIngredient(ModContent.ItemType<ZergPotion>()).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

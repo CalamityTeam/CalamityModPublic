@@ -13,14 +13,14 @@ namespace CalamityMod.Tiles.Plates
         internal static Texture2D PulseTexture;
         internal static Color[] PulseColors;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
             {
-                PulseTexture = ModContent.GetTexture("CalamityMod/Tiles/Plates/ChaosplatePulse");
+                PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplatePulse");
                 PulseColors = new Color[PulseTexture.Width];
                 PulseTexture.GetData(PulseColors);
-                GlowTexture = ModContent.GetTexture("CalamityMod/Tiles/Plates/ChaosplateGlow");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplateGlow");
             }
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -52,8 +52,8 @@ namespace CalamityMod.Tiles.Plates
             if (GlowTexture is null || PulseTexture is null)
                 return;
 
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
 

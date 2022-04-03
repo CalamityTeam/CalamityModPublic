@@ -11,39 +11,39 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boulder");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 26;
-            projectile.hostile = true;
-            projectile.timeLeft = 480;
-            projectile.ignoreWater = true;
+            Projectile.width = Projectile.height = 26;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 480;
+            Projectile.ignoreWater = true;
         }
         public override void AI()
         {
-            if (projectile.ai[0]++ < 30f)
+            if (Projectile.ai[0]++ < 30f)
             {
-                projectile.scale = MathHelper.Lerp(0.004f, 1f, projectile.ai[0] / 30f);
+                Projectile.scale = MathHelper.Lerp(0.004f, 1f, Projectile.ai[0] / 30f);
             }
             else
             {
-                if (projectile.velocity.Y < 12f)
-                    projectile.velocity.Y += 0.18f;
+                if (Projectile.velocity.Y < 12f)
+                    Projectile.velocity.Y += 0.18f;
             }
-            projectile.tileCollide = projectile.ai[0] > 70f;
-            projectile.rotation += Math.Sign(projectile.velocity.X) * 0.08f;
+            Projectile.tileCollide = Projectile.ai[0] > 70f;
+            Projectile.rotation += Math.Sign(Projectile.velocity.X) * 0.08f;
         }
         public override void Kill(int timeLeft)
         {
-            Utils.PoofOfSmoke(projectile.Center);
+            Utils.PoofOfSmoke(Projectile.Center);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

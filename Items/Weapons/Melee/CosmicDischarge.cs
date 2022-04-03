@@ -17,25 +17,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 52;
-            item.damage = 400;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 0.5f;
-            item.UseSound = SoundID.Item122;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
+            Item.width = 50;
+            Item.height = 52;
+            Item.damage = 400;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.5f;
+            Item.UseSound = SoundID.Item122;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
 
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

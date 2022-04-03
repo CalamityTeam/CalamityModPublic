@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -13,41 +14,41 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfire Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = Lifetime;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = Lifetime;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.spriteDirection = projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.spriteDirection = Projectile.direction;
 
             // Lighting
-            Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.15f);
+            Lighting.AddLight(Projectile.Center, 0.9f, 0f, 0.15f);
 
             // Dust
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 int dustID = 90;
                 float scale = Main.rand.NextFloat(0.6f, 0.9f);
-                Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
-                Vector2 posOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * 12f;
+                Dust d = Dust.NewDustDirect(Projectile.Center, 0, 0, dustID);
+                Vector2 posOffset = Projectile.velocity.SafeNormalize(Vector2.Zero) * 12f;
                 d.position += posOffset - 2f * Vector2.UnitY;
                 d.noGravity = true;
                 d.velocity *= 0.6f;
-                d.velocity += projectile.velocity * 0.15f;
+                d.velocity += Projectile.velocity * 0.15f;
                 d.scale = scale;
             }
         }
@@ -57,12 +58,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += OnHitEffect(Main.player[projectile.owner]);
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage += OnHitEffect(Main.player[projectile.owner]);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += OnHitEffect(Main.player[Projectile.owner]);
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage += OnHitEffect(Main.player[Projectile.owner]);
 
         // Returns the amount of bonus damage that should be dealt. Boosts life regeneration appropriately as a side effect.
         private int OnHitEffect(Player owner)
@@ -87,13 +88,13 @@ namespace CalamityMod.Projectiles.Ranged
             int dustID = 90;
             int dustCount = 3;
             for(int i = 0; i < dustCount; ++i)
-                _ = Dust.NewDust(projectile.Center, 0, 0, dustID, Scale: 1.2f);
+                _ = Dust.NewDust(Projectile.Center, 0, 0, dustID, Scale: 1.2f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Item10, projectile.Center);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             return true;
         }
     }

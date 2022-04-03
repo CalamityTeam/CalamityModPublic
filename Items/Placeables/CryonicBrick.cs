@@ -12,31 +12,22 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.CryonicBrick>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.CryonicBrick>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryonicOre>());
-            recipe.AddRecipeGroup("AnyStoneBlock");
-            recipe.SetResult(this, 10);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryonicBrickWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(10).AddIngredient(ModContent.ItemType<CryonicOre>()).AddRecipeGroup("AnyStoneBlock").AddTile(TileID.Furnaces).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CryonicBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

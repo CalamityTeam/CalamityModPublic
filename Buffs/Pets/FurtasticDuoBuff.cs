@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class FurtasticDuoBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Furtastic Duo");
             Description.SetDefault("They just did! The Furtastic Duo will accompany you!");

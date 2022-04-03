@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class EverclearBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Everclear");
             Description.SetDefault("Damage boosted, life regen and defense reduced");

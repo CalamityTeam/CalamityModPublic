@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -14,29 +15,29 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 58;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.timeLeft = 140;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
-            projectile.coldDamage = true;
+            Projectile.width = 58;
+            Projectile.height = 58;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 140;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 20)
+            if (Projectile.alpha > 20)
             {
-                projectile.alpha -= 12;
+                Projectile.alpha -= 12;
             }
-            if(projectile.alpha < 20)
+            if(Projectile.alpha < 20)
             {
-                projectile.alpha = 20;
+                Projectile.alpha = 20;
             }
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
@@ -47,27 +48,27 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 pos2 = new Vector2(proj.Center.X + (proj.width * 0.5f) + 48f, proj.Center.Y);
                     Vector2 pos3 = new Vector2(proj.Center.X, proj.Center.Y + (proj.height * 0.5f) + 44f);
                     Vector2 pos4 = new Vector2(proj.Center.X - (proj.width * 0.5f) - 49f, proj.Center.Y);
-                    switch (projectile.ai[0])
+                    switch (Projectile.ai[0])
                     {
-                        case 0: projectile.Center = pos1;
+                        case 0: Projectile.Center = pos1;
                                 break;
-                        case 1: projectile.Center = pos2;
+                        case 1: Projectile.Center = pos2;
                                 break;
-                        case 2: projectile.Center = pos3;
+                        case 2: Projectile.Center = pos3;
                                 break;
-                        case 3: projectile.Center = pos4;
+                        case 3: Projectile.Center = pos4;
                                 break;
                         default: break;
                     }
                 }
             }
-            switch (projectile.ai[0])
+            switch (Projectile.ai[0])
             {
-                case 1: projectile.rotation = (MathHelper.Pi * 0.5f);
+                case 1: Projectile.rotation = (MathHelper.Pi * 0.5f);
                         break;
-                case 2: projectile.rotation = MathHelper.Pi;
+                case 2: Projectile.rotation = MathHelper.Pi;
                         break;
-                case 3: projectile.rotation = (MathHelper.Pi * 1.5f);
+                case 3: Projectile.rotation = (MathHelper.Pi * 1.5f);
                         break;
                 default: break;
             }
@@ -83,15 +84,15 @@ namespace CalamityMod.Projectiles.Magic
                     dustType = 80;
                 }
                 Vector2 direction = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, direction.X, direction.Y, 50, default, 1.5f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, direction.X, direction.Y, 50, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            Main.PlaySound(SoundID.NPCHit5, projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit5, Projectile.Center);
             for (int i = 0; i< 8; i++)
             {
                 Vector2 projdir = new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-10f, 10f));
-                Vector2 projpos = projectile.Center + new Vector2(Main.rand.NextFloat(-50f, 50f), Main.rand.NextFloat(-50f, 50f));
-                Projectile.NewProjectile(projpos, projdir, ModContent.ProjectileType<IceBlockIcicle>(), (int)(projectile.damage * 0.2f), 4f, projectile.owner, Main.rand.Next(0, 2), 0f);
+                Vector2 projpos = Projectile.Center + new Vector2(Main.rand.NextFloat(-50f, 50f), Main.rand.NextFloat(-50f, 50f));
+                Projectile.NewProjectile(projpos, projdir, ModContent.ProjectileType<IceBlockIcicle>(), (int)(Projectile.damage * 0.2f), 4f, Projectile.owner, Main.rand.Next(0, 2), 0f);
             }
         }
     }

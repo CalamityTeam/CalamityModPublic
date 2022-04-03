@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -155,7 +156,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 npc.ai[1] = 2f;
-                Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
             }
 
             // Adjust slowing debuff immunity
@@ -387,7 +388,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[2] += 1f;
                     if (npc.ai[2] == 2f)
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
                     // Spin for 3 seconds then return to floating phase
                     float phaseTimer = 240f;
@@ -507,7 +508,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[2] == 2f)
                     {
                         // Play angry noise
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
                         // Set spin direction
                         if (Main.player[npc.target].velocity.X > 0f)
@@ -611,7 +612,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 Projectile.NewProjectile(npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
                             }
 
-                            Main.PlaySound(SoundID.Item39, npc.Center);
+                            SoundEngine.PlaySound(SoundID.Item39, npc.Center);
 
                             if (calamityGlobalNPC.newAI[1] >= 10f)
                             {

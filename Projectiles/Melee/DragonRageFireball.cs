@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -14,69 +15,69 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 66;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = lifeTime;
-            projectile.melee = true;
+            Projectile.width = 64;
+            Projectile.height = 66;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = lifeTime;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[0] = Main.rand.NextFloat(40f, 70f);
-                projectile.ai[1] = Main.rand.NextFloat(35f, 55f);
+                Projectile.ai[0] = Main.rand.NextFloat(40f, 70f);
+                Projectile.ai[1] = Main.rand.NextFloat(35f, 55f);
             }
-            target = projectile.Center.ClosestNPCAt(1200f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            target = Projectile.Center.ClosestNPCAt(1200f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            projectile.velocity *= 1.01f;
+            Projectile.velocity *= 1.01f;
 
-            if (target != null && projectile.timeLeft < lifeTime - 10)
+            if (target != null && Projectile.timeLeft < lifeTime - 10)
             {
-                float inertia = projectile.ai[0];
-                float speed = projectile.ai[1];
-                Vector2 moveDirection = projectile.SafeDirectionTo(target.Center, Vector2.UnitY);
-                projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
+                float inertia = Projectile.ai[0];
+                float speed = Projectile.ai[1];
+                Vector2 moveDirection = Projectile.SafeDirectionTo(target.Center, Vector2.UnitY);
+                Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            Main.spriteBatch.Draw(projectileTexture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D projectileTexture = Main.projectileTexture[Projectile.type];
+            int frameHeight = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            Main.spriteBatch.Draw(projectileTexture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
             for (int d = 0; d < 5; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -86,16 +87,16 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int d = 0; d < 8; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 5f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

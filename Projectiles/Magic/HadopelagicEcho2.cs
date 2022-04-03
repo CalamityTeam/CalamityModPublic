@@ -14,35 +14,35 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Echo");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.scale = 0.85f;
-            projectile.alpha = 255;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-            projectile.timeLeft = 30;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.scale = 0.85f;
+            Projectile.alpha = 255;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.timeLeft = 30;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 100)
-                projectile.alpha -= 25;
-            if (projectile.alpha < 100)
-                projectile.alpha = 100;
+            if (Projectile.alpha > 100)
+                Projectile.alpha -= 25;
+            if (Projectile.alpha < 100)
+                Projectile.alpha = 100;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class AndromedaSmallBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Andromeda");
             Description.SetDefault("You're controlling a small piece of history");

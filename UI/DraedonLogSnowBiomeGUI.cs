@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogIceBiome");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogIceBiome");
                 case 1:
                     return null; // No image exists for Daedalus' ruins at the moment.
                 default:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogPermafrost");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPermafrost");
             }
         }
     }

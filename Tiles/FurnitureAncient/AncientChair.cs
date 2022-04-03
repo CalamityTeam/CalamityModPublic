@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientChair : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChair(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));

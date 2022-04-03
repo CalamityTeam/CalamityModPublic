@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 9; //35
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 9; //35
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Armor
                 player.blind = true;
                 player.headcovered = true;
                 player.blackout = true;
-                player.rangedDamage += 0.6f; //60% ranged dmg and 20% crit
-                player.rangedCrit += 20;
+                player.GetDamage(DamageClass.Ranged) += 0.6f; //60% ranged dmg and 20% crit
+                player.GetCritChance(DamageClass.Ranged) += 20;
             }
 
             if (player.whoAmI == Main.myPlayer)
@@ -75,26 +75,14 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 8;
+            player.GetDamage(DamageClass.Ranged) += 0.1f;
+            player.GetCritChance(DamageClass.Ranged) += 8;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NecroHelmet);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-            recipe.AddIngredient(ItemID.Nanites, 11);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientNecroHelmet);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-            recipe.AddIngredient(ItemID.Nanites, 11);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NecroHelmet).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ItemID.Nanites, 11).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).AddIngredient(ItemID.AncientNecroHelmet).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ItemID.Nanites, 11).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

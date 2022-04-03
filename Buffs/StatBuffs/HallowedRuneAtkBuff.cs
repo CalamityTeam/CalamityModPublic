@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class HallowedRuneAtkBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Power");
             Description.SetDefault("Minion damage boosted by 10%");
@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().hallowedPower = true;
-            player.minionDamage += 0.1f;
+            player.GetDamage(DamageClass.Summon) += 0.1f;
         }
     }
 }

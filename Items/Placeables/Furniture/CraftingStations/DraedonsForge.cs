@@ -16,34 +16,25 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 32;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
+            Item.width = 58;
+            Item.height = 32;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.sellPrice(platinum: 27, gold: 50);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.sellPrice(platinum: 27, gold: 50);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmicAnvilItem>());
-            recipe.AddRecipeGroup("HardmodeForge");
-            recipe.AddIngredient(ItemID.TinkerersWorkshop);
-            recipe.AddIngredient(ItemID.LunarCraftingStation);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<ExoPrism>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 25);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicAnvilItem>()).AddRecipeGroup("HardmodeForge").AddIngredient(ItemID.TinkerersWorkshop).AddIngredient(ItemID.LunarCraftingStation).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddIngredient(ModContent.ItemType<ExoPrism>(), 12).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 25).Register();
         }
     }
 }

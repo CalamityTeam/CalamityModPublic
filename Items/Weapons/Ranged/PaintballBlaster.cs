@@ -16,28 +16,28 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 26;
-            item.ranged = true;
-            item.width = 54;
-            item.height = 26;
-            item.useAnimation = 24;
-            item.reuseDelay = 9;
-            item.useTime = 4;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = null;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ProjectileID.PainterPaintball;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 26;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 54;
+            Item.height = 26;
+            Item.useAnimation = 24;
+            Item.reuseDelay = 9;
+            Item.useTime = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ProjectileID.PainterPaintball;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -69,12 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PainterPaintballGun);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PainterPaintballGun).AddIngredient(ItemID.SoulofSight, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

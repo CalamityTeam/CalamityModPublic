@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Abyss
         //All of this code is taken directly from Example Mod.
         //Cheers Blushie
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.Abyss
             if (WorldGen.genRand.Next(20) == 0)
             {
                 int trueStartingPositionY = j;
-                while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].type))
+                while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].TileType))
                 {
                     trueStartingPositionY++;
                 }
@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     return;
                 }
-                if (tileAbovePosition.wall != 0 || tileAbovePosition.liquid != 0)
+                if (tileAbovePosition.WallType != 0 || tileAbovePosition.liquid != 0)
                 {
                     return;
                 }
@@ -82,16 +82,16 @@ namespace CalamityMod.Tiles.Abyss
                     if (k == 0)
                     {
                         tileAtPosition.active(true);
-                        tileAtPosition.type = TileID.PalmTree;
-                        tileAtPosition.frameX = 66;
-                        tileAtPosition.frameY = 0;
+                        tileAtPosition.TileType = TileID.PalmTree;
+                        tileAtPosition.TileFrameX = 66;
+                        tileAtPosition.TileFrameY = 0;
                     }
                     else if (k == treeHeight - 1)
                     {
                         tileAtPosition.active(true);
-                        tileAtPosition.type = TileID.PalmTree;
-                        tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(4, 7));
-                        tileAtPosition.frameY = frameY;
+                        tileAtPosition.TileType = TileID.PalmTree;
+                        tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(4, 7));
+                        tileAtPosition.TileFrameY = frameY;
                     }
                     else
                     {
@@ -105,9 +105,9 @@ namespace CalamityMod.Tiles.Abyss
                             }
                         }
                         tileAtPosition.active(true);
-                        tileAtPosition.type = TileID.PalmTree;
-                        tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(0, 3));
-                        tileAtPosition.frameY = frameY;
+                        tileAtPosition.TileType = TileID.PalmTree;
+                        tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(0, 3));
+                        tileAtPosition.TileFrameY = frameY;
                     }
                 }
                 bool isPlayerNear = WorldGen.PlayerLOS(i, j);

@@ -16,31 +16,24 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.NPCHit56;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<Crysthamyr>();
+            Item.UseSound = SoundID.NPCHit56;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<Crysthamyr>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DD2PetDragon);
-            recipe.AddIngredient(ItemID.SoulofNight, 100);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DD2PetDragon).AddIngredient(ItemID.SoulofNight, 100).AddIngredient(ModContent.ItemType<DarksunFragment>(), 10).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -20,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.damage = 50;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 9;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 9;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -43,13 +43,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[item.shoot] < knifeLimit)
+            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[Item.shoot] < knifeLimit)
             {
                 damage = (int)(damage * 1.1f);
 
                 int knifeAmt = knifeCount;
-                if ((player.ownedProjectileCounts[item.shoot] + knifeCount) >= knifeLimit)
-                    knifeAmt = knifeLimit - player.ownedProjectileCounts[item.shoot];
+                if ((player.ownedProjectileCounts[Item.shoot] + knifeCount) >= knifeLimit)
+                    knifeAmt = knifeLimit - player.ownedProjectileCounts[Item.shoot];
                 if (knifeAmt <= 0)
                 {
                     int knife = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);

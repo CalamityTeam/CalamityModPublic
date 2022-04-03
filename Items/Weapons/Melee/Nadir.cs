@@ -21,40 +21,33 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 144;
-            item.height = 144;
-            item.noUseGraphic = true;
-            item.melee = true;
-            item.damage = BaseDamage;
-            item.knockBack = 8f;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.autoReuse = true;
-            item.noMelee = true;
+            Item.width = 144;
+            Item.height = 144;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = BaseDamage;
+            Item.knockBack = 8f;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.autoReuse = true;
+            Item.noMelee = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<NadirSpear>();
-            item.shootSpeed = ShootSpeed;
+            Item.shoot = ModContent.ProjectileType<NadirSpear>();
+            Item.shootSpeed = ShootSpeed;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpatialLance>());
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpatialLance>()).AddIngredient(ModContent.ItemType<TwistingNether>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

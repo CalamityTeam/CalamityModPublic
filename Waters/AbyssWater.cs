@@ -15,7 +15,7 @@ namespace CalamityMod.Waters
 
         public override int ChooseWaterfallStyle()
         {
-            return mod.GetWaterfallStyleSlot("AbyssWaterflow");
+            return Mod.GetWaterfallStyleSlot("AbyssWaterflow");
         }
 
         public override int GetSplashDust()

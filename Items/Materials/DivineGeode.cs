@@ -14,19 +14,19 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.buyPrice(0, 6, 50, 0);
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.buyPrice(0, 6, 50, 0);
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.45f * num, 0.3f * num, 0f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 0.45f * num, 0.3f * num, 0f * num);
         }
     }
 }

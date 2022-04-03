@@ -68,8 +68,8 @@ namespace CalamityMod.Particles
         {
             if (SpawnDelay > 0)
                 return;
-            Texture2D sparkTexture = GeneralParticleHandler.GetTexture(Type);
-            Texture2D bloomTexture = ModContent.GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D sparkTexture = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
+            Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)sparkTexture.Height / (float)bloomTexture.Height;
             Vector2 squish = Vector2.Lerp(OriginalScale, FinalScale, PiecewiseAnimation(LifetimeCompletion, new CurveSegment[] { new CurveSegment(EasingType.PolyOut, 0f, 0f, 1f, 4) }));

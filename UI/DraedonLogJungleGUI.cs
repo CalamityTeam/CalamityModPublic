@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogJungleBiome");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogJungleBiome");
                 case 1:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogPlagueCell");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPlagueCell");
                 default:
-                    return ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogPlaguebringerGoliath");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPlaguebringerGoliath");
             }
         }
     }

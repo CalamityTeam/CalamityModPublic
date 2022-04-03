@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class PineappleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pineapple");
             Description.SetDefault("It smells like pizza...");

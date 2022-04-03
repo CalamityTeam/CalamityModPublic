@@ -6,7 +6,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -17,32 +18,32 @@ namespace CalamityMod.Projectiles.Summon
         public const int ChargedPelletAttackTime = 30;
         public const int ChargedLaserAttackTime = 120;
         public const float Gravity = 0.35f;
-        public bool Stuck => StuckWalkThroughWallsTimer >= 40f || Collision.SolidCollision(projectile.Center, 2, 2);
-        public Vector2 ArmPosition => projectile.Center + new Vector2(projectile.spriteDirection == 1 ? -4f : 32f, 0f);
-        public Player Owner => Main.player[projectile.owner];
-        public ref float StuckWalkThroughWallsTimer => ref projectile.ai[0];
-        public ref float StuckJumpSpeed => ref projectile.ai[1];
+        public bool Stuck => StuckWalkThroughWallsTimer >= 40f || Collision.SolidCollision(Projectile.Center, 2, 2);
+        public Vector2 ArmPosition => Projectile.Center + new Vector2(Projectile.spriteDirection == 1 ? -4f : 32f, 0f);
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float StuckWalkThroughWallsTimer => ref Projectile.ai[0];
+        public ref float StuckJumpSpeed => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Golem");
-            Main.projFrames[projectile.type] = 18;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 18;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 58;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.minion = true;
-            projectile.tileCollide = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 28;
+            Projectile.height = 58;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.minion = true;
+            Projectile.tileCollide = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -60,8 +61,8 @@ namespace CalamityMod.Projectiles.Summon
         #region AI
         public override void AI()
         {
-            Main.projFrames[projectile.type] = 16;
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<DaedalusGolem>();
+            Main.projFrames[Projectile.type] = 16;
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<DaedalusGolem>();
             Owner.AddBuff(ModContent.BuffType<DaedalusGolemBuff>(), 3600);
             if (isCorrectProjectile)
             {
@@ -69,24 +70,24 @@ namespace CalamityMod.Projectiles.Summon
                     Owner.Calamity().daedalusGolem = false;
 
                 if (Owner.Calamity().daedalusGolem)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
 
             AdjustMinionDamage();
 
             // Fall down.
-            if (projectile.velocity.Y < 15f)
-                projectile.velocity.Y += Gravity;
+            if (Projectile.velocity.Y < 15f)
+                Projectile.velocity.Y += Gravity;
 
             Vector2 destination;
-            NPC potentialTarget = projectile.Center.MinionHoming(900f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(900f, Owner);
             if (potentialTarget is null)
-                destination = Owner.Center - Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f) * Owner.direction;
+                destination = Owner.Center - Vector2.UnitX * (80f + (Projectile.identity * 28f) % 560f) * Owner.direction;
             else
             {
-                Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
-                Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
-                if ((projectile.Center - destA).Length() < (projectile.Center - destB).Length())
+                Vector2 destA = potentialTarget.Center + Vector2.UnitX * (130f + (Projectile.identity * 28f) % 560f);
+                Vector2 destB = potentialTarget.Center - Vector2.UnitX * (130f + (Projectile.identity * 28f) % 560f);
+                if ((Projectile.Center - destA).Length() < (Projectile.Center - destB).Length())
                     destination = destA;
                 else
                     destination = destB;
@@ -105,11 +106,11 @@ namespace CalamityMod.Projectiles.Summon
 
             StuckWalkThroughWallsTimer = Utils.Clamp(StuckWalkThroughWallsTimer, 0, 160);
 
-            if (projectile.Distance(Owner.Center) > 3500f)
+            if (Projectile.Distance(Owner.Center) > 3500f)
             {
-                projectile.Center = Owner.Center;
+                Projectile.Center = Owner.Center;
                 StuckWalkThroughWallsTimer = 0;
-                projectile.netImportant = true;
+                Projectile.netImportant = true;
             }
             if ((MoveToDestination(destination) || AttackTimer > 0) && potentialTarget != null)
             {
@@ -117,17 +118,17 @@ namespace CalamityMod.Projectiles.Summon
                 if (AttackTimer == 1)
                 {
                     UsingChargedLaserAttack = Main.rand.NextBool(7);
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
 
                 if (AttackTimer >= (UsingChargedLaserAttack ? ChargedLaserAttackTime : ChargedPelletAttackTime))
                 {
                     AttackTimer = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
 
-                if (MathHelper.Distance(potentialTarget.Center.X, projectile.Center.X) > 30f)
-                    projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
+                if (MathHelper.Distance(potentialTarget.Center.X, Projectile.Center.X) > 30f)
+                    Projectile.spriteDirection = (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
 
                 if (UsingChargedLaserAttack)
                 {
@@ -142,59 +143,59 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 60 && AttackTimer % 16 == 15)
                     {
-                        Main.PlaySound(SoundID.Item122, ArmPosition);
-                        if (Main.myPlayer == projectile.owner)
+                        SoundEngine.PlaySound(SoundID.Item122, ArmPosition);
+                        if (Main.myPlayer == Projectile.owner)
                         {
-                            Vector2 initialVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
+                            Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
                             if (Main.rand.NextBool(2))
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
-                            Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), projectile.damage, projectile.knockBack, projectile.owner, initialAngle, Main.rand.Next(100));
+                            Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
                         }
                     }
                 }
-                else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == projectile.owner)
+                else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == Projectile.owner)
                 {
-                    Vector2 initialVelocity = projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
-                    Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
+                    Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             else if (potentialTarget is null && AttackTimer != 0)
             {
                 AttackTimer = 0;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
 
         public void AdjustMinionDamage()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int newDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int newDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Owner.MinionDamage());
-                projectile.damage = newDamage;
+                Projectile.damage = newDamage;
             }
         }
 
         public bool MoveToDestination(Vector2 destination)
         {
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16));
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(Projectile.Bottom.X / 16), (int)(Projectile.Bottom.Y / 16));
 
             // Float to the destination if stuck.
             if (Stuck)
             {
                 StuckJumpSpeed = 0f;
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
 
-                if (projectile.DistanceSQ(destination - Vector2.UnitY * 16f) > 10f * 10f)
-                    projectile.velocity = projectile.SafeDirectionTo(destination - Vector2.UnitY * 16f) * 6f;
+                if (Projectile.DistanceSQ(destination - Vector2.UnitY * 16f) > 10f * 10f)
+                    Projectile.velocity = Projectile.SafeDirectionTo(destination - Vector2.UnitY * 16f) * 6f;
                 else
                     StuckWalkThroughWallsTimer = 0;
 
@@ -202,24 +203,24 @@ namespace CalamityMod.Projectiles.Summon
                 return false;
             }
 
-            projectile.tileCollide = true;
+            Projectile.tileCollide = true;
             // Don't bother moving any more if super close to the destination.
             // Just slow down and face the player.
-            if (Math.Abs(projectile.Center.X - destination.X) < 55 + Math.Abs(projectile.velocity.X))
+            if (Math.Abs(Projectile.Center.X - destination.X) < 55 + Math.Abs(Projectile.velocity.X))
             {
                 StuckJumpSpeed = 0f;
-                projectile.velocity.X *= 0.8f;
+                Projectile.velocity.X *= 0.8f;
                 return true;
             }
 
-            int currentWalkDirection = Math.Sign(projectile.velocity.X);
+            int currentWalkDirection = Math.Sign(Projectile.velocity.X);
             int tilesSearchedAhead = 0;
 
             Tile tileBelowAhead;
 
             do
             {
-                tileBelowAhead = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16) + currentWalkDirection, (int)(projectile.Bottom.Y / 16));
+                tileBelowAhead = CalamityUtils.ParanoidTileRetrieval((int)(Projectile.Bottom.X / 16) + currentWalkDirection, (int)(Projectile.Bottom.Y / 16));
 
                 if (tileBelowAhead.IsTileSolidGround())
                     break;
@@ -228,34 +229,34 @@ namespace CalamityMod.Projectiles.Summon
             }
             while (tilesSearchedAhead < 4);
 
-            int directionToWalk = Math.Sign(destination.X - projectile.Center.X);
+            int directionToWalk = Math.Sign(destination.X - Projectile.Center.X);
             float idealWalkSpeed = 10f * directionToWalk;
             float walkAcceleration = directionToWalk != currentWalkDirection ? 0.325f : 0.2f;
-            projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, idealWalkSpeed, walkAcceleration);
+            Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, idealWalkSpeed, walkAcceleration);
 
             // Jump if there's a gap or a wall.
-            if (tileBelow.IsTileSolidGround() || Collision.SolidCollision(projectile.Center, 10, 10))
+            if (tileBelow.IsTileSolidGround() || Collision.SolidCollision(Projectile.Center, 10, 10))
             {
-                if (Math.Abs(projectile.oldPosition.X - projectile.position.X) < 2f ||
-                    Collision.SolidCollision(projectile.Center, 2, 2) ||
-                    !Collision.CanHitLine(projectile.position, projectile.width, projectile.height, Owner.position, Owner.width, Owner.height))
+                if (Math.Abs(Projectile.oldPosition.X - Projectile.position.X) < 2f ||
+                    Collision.SolidCollision(Projectile.Center, 2, 2) ||
+                    !Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, Owner.position, Owner.width, Owner.height))
                 {
-                    projectile.velocity.Y = -12f - StuckJumpSpeed;
-                    projectile.netSpam -= 10;
+                    Projectile.velocity.Y = -12f - StuckJumpSpeed;
+                    Projectile.netSpam -= 10;
                     StuckJumpSpeed += 3.5f;
                     StuckJumpSpeed = Utils.Clamp(StuckJumpSpeed, 0f, 14f);
 
                     StuckWalkThroughWallsTimer += 10f;
 
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 else if (tilesSearchedAhead > 0)
                 {
-                    projectile.velocity.X = 7f;
+                    Projectile.velocity.X = 7f;
 
-                    projectile.velocity.Y = -(5f + tilesSearchedAhead * 2f);
-                    projectile.netSpam -= 10;
-                    projectile.netUpdate = true;
+                    Projectile.velocity.Y = -(5f + tilesSearchedAhead * 2f);
+                    Projectile.netSpam -= 10;
+                    Projectile.netUpdate = true;
                 }
                 else
                 {
@@ -264,7 +265,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            projectile.spriteDirection = (Owner.Center.X - projectile.Center.X < 0).ToDirectionInt();
+            Projectile.spriteDirection = (Owner.Center.X - Projectile.Center.X < 0).ToDirectionInt();
             return false;
         }
         #endregion
@@ -273,7 +274,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
-            fallThrough = projectile.Bottom.Y < Owner.Top.Y;
+            fallThrough = Projectile.Bottom.Y < Owner.Top.Y;
             return true;
         }
 
@@ -289,34 +290,34 @@ namespace CalamityMod.Projectiles.Summon
             int endingBeamFrame = 15;
 
             // Walking frames. Moves more quickly the faster the walk.
-            projectile.frameCounter++;
-            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(projectile.Bottom.X / 16), (int)(projectile.Bottom.Y / 16));
+            Projectile.frameCounter++;
+            Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(Projectile.Bottom.X / 16), (int)(Projectile.Bottom.Y / 16));
 
             if (Stuck)
             {
-                projectile.frame = 5;
+                Projectile.frame = 5;
             }
             else if (AttackTimer > 0)
             {
                 if (UsingChargedLaserAttack)
-                    projectile.frame = (int)MathHelper.Lerp(startingBeamFrame, endingBeamFrame + 1, Utils.InverseLerp(0f, ChargedLaserAttackTime, AttackTimer, true));
+                    Projectile.frame = (int)MathHelper.Lerp(startingBeamFrame, endingBeamFrame + 1, Utils.InverseLerp(0f, ChargedLaserAttackTime, AttackTimer, true));
                 else
-                    projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.InverseLerp(0f, ChargedPelletAttackTime, AttackTimer, true));
+                    Projectile.frame = (int)MathHelper.Lerp(startingPelletFrame, endingPelletFrame + 1, Utils.InverseLerp(0f, ChargedPelletAttackTime, AttackTimer, true));
             }
-            else if (Math.Abs(projectile.velocity.X) > 5f && Math.Abs(projectile.velocity.Y) < 2f && tileBelow.IsTileSolidGround())
+            else if (Math.Abs(Projectile.velocity.X) > 5f && Math.Abs(Projectile.velocity.Y) < 2f && tileBelow.IsTileSolidGround())
             {
-                if (projectile.frameCounter >= Utils.Clamp(2, 6, (int)Math.Abs(projectile.velocity.X * 0.8)))
+                if (Projectile.frameCounter >= Utils.Clamp(2, 6, (int)Math.Abs(Projectile.velocity.X * 0.8)))
                 {
-                    projectile.frameCounter = 0;
-                    projectile.frame++;
-                    if (projectile.frame >= endingWalkFrame)
-                        projectile.frame = startingWalkFrame;
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    if (Projectile.frame >= endingWalkFrame)
+                        Projectile.frame = startingWalkFrame;
                 }
-                projectile.frame = Utils.Clamp(projectile.frame, startingWalkFrame, endingWalkFrame);
+                Projectile.frame = Utils.Clamp(Projectile.frame, startingWalkFrame, endingWalkFrame);
             }
-            else if (Math.Abs(projectile.velocity.X) <= 1f)
+            else if (Math.Abs(Projectile.velocity.X) <= 1f)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 

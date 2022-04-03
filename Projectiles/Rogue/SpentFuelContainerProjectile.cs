@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,26 +19,26 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
-            projectile.tileCollide = true;
-            projectile.alpha = 0;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 22;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
+            Projectile.tileCollide = true;
+            Projectile.alpha = 0;
+            Projectile.Calamity().rogue = true;
         }
         public override void AI()
         {
-            projectile.ai[0] += 1f; //arbitrary timer
-            if (projectile.ai[0] > 75f)
+            Projectile.ai[0] += 1f; //arbitrary timer
+            if (Projectile.ai[0] > 75f)
             {
-                if (projectile.velocity.Y < 10f)
+                if (Projectile.velocity.Y < 10f)
                 {
-                    projectile.velocity.Y += 0.15f;
+                    Projectile.velocity.Y += 0.15f;
                 }
             }
-            projectile.rotation += MathHelper.ToRadians(projectile.velocity.Length());
+            Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.Length());
         }
         public override void Kill(int timeLeft)
         {
@@ -45,16 +46,16 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 30; i++)
             {
                 Vector2 dspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                Dust.NewDust(projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid, dspeed.X, dspeed.Y, 0, default, 1.1f);
+                Dust.NewDust(Projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid, dspeed.X, dspeed.Y, 0, default, 1.1f);
             }
 
-            Main.PlaySound(SoundID.Item107, projectile.Bottom);
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.Bottom);
             Point result;
-            if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
+            if (WorldUtils.Find(Projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
             {
-                int proj = Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SulphuricNukesplosion>(), projectile.damage, 2f, projectile.owner);
+                int proj = Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SulphuricNukesplosion>(), Projectile.damage, 2f, Projectile.owner);
                 if (proj.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+                    Main.projectile[proj].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
             }
         }
     }

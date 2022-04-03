@@ -13,22 +13,22 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 3;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (currentColor == Color.Black)
             {
                 int startPoint = Main.rand.Next(6);
-                projectile.localAI[0] = startPoint;
+                Projectile.localAI[0] = startPoint;
                 currentColor = GetStartingColor(startPoint);
             }
-            Visuals(projectile, ref currentColor);
+            Visuals(Projectile, ref currentColor);
         }
 
         internal static void Visuals(Projectile projectile, ref Color c)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(projectile.damage * 0.6), 1f, projectile.owner, true);
+                CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(Projectile.damage * 0.6), 1f, Projectile.owner, true);
             }
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int dustType = dustTypes[Main.rand.Next(3)];
                 float scale = Main.rand.NextFloat(0.4f, 0.9f);
                 float velScale = Main.rand.NextFloat(3f, 5.5f);
-                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].scale = scale;
                 Main.dust[dustID].velocity *= velScale;

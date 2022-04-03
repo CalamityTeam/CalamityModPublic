@@ -14,24 +14,24 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.scale = 1.2f;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 6;
-            projectile.aiStyle = 14;
-            projectile.timeLeft = 300;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.scale = 1.2f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 6;
+            Projectile.aiStyle = 14;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.12f * projectile.direction;
-            Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.rotation += 0.12f * Projectile.direction;
+            Lighting.AddLight(Projectile.Center, 0.25f, 0f, 0f);
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 150, default, 1.5f);
+                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 150, default, 1.5f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
 
@@ -40,29 +40,29 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.velocity *= 0.98f;
+                Projectile.velocity *= 0.98f;
             }
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
+            target.immune[Projectile.owner] = 5;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
     }

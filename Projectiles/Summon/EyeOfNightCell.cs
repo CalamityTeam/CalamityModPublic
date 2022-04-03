@@ -10,39 +10,39 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cell");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.width = projectile.height = 10;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 180;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 90;
+            Projectile.friendly = true;
+            Projectile.width = Projectile.height = 10;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 180;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 90;
         }
 
         public override void AI()
         {
-            if (!Main.dedServ && projectile.velocity.Length() > 5f)
-                Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
+            if (!Main.dedServ && Projectile.velocity.Length() > 5f)
+                Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
 
-            projectile.StickyProjAI(3);
+            Projectile.StickyProjAI(3);
         }
         public override void Kill(int timeLeft)
         {
             if (!Main.dedServ)
                 for (int i = 0; i < 10; i++)
-                    Dust.NewDustDirect(projectile.position, 36, 36, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
+                    Dust.NewDustDirect(Projectile.position, 36, 36, (int)CalamityDusts.SulfurousSeaAcid).noGravity = true;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => projectile.ModifyHitNPCSticky(4, true);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => Projectile.ModifyHitNPCSticky(4, true);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.CursedInferno, 120);
 

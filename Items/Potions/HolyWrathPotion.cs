@@ -17,39 +17,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 36;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Purple;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<HolyWrathBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(300f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 44;
+            Item.height = 36;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Purple;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<HolyWrathBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WrathPotion);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.alchemy = true;
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            // Blood orb recipes don't get the alchemy table effect
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.WrathPotion).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

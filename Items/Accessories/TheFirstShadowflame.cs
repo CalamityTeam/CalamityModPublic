@@ -14,16 +14,16 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire.\n" +
                 "If that were true, then it is surely the demons of hell that would have risen from below to do the same.\n" +
                 "Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies.");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

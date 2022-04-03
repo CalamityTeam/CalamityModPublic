@@ -11,37 +11,37 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroom");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.alpha = 80;
-            projectile.penetrate = 2;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 120;
-            projectile.ranged = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.alpha = 80;
+            Projectile.penetrate = 2;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.6f);
-            projectile.rotation += 1f;
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.2f, 0.6f);
+            Projectile.rotation += 1f;
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
+            target.immune[Projectile.owner] = 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

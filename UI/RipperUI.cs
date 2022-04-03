@@ -44,22 +44,22 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            rageBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBar");
-            rageBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBarBorder");
-            rageAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageFullAnimation");
+            rageBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBar");
+            rageBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBarBorder");
+            rageAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageFullAnimation");
 
-            adrenBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBar");
-            adrenBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
-            adrenBorderTexFull = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull");
-            adrenAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
+            adrenBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBar");
+            adrenBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
+            adrenBorderTexFull = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull");
+            adrenAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
 
-            mushroomPlasmaTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot");
-            infernalBloodTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood");
-            redLightningTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer");
+            mushroomPlasmaTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot");
+            infernalBloodTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood");
+            redLightningTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer");
 
-            electrolyteGelTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack");
-            starlightFuelTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell");
-            ectoheartTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart");
+            electrolyteGelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack");
+            starlightFuelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell");
+            ectoheartTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart");
 
             pearlOffsetLeft = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
             pearlOffsetCenter = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);

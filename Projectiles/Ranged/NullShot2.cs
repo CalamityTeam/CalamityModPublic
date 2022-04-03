@@ -16,27 +16,27 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 120;
-            projectile.ranged = true;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 3f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 3f)
             {
                 for (int num134 = 0; num134 < 10; num134++)
                 {
-                    float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
-                    float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
+                    float x = Projectile.position.X - Projectile.velocity.X / 10f * (float)num134;
+                    float y = Projectile.position.Y - Projectile.velocity.Y / 10f * (float)num134;
                     int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                    Main.dust[num135].alpha = projectile.alpha;
+                    Main.dust[num135].alpha = Projectile.alpha;
                     Main.dust[num135].position.X = x;
                     Main.dust[num135].position.Y = y;
                     Main.dust[num135].velocity *= 0f;

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs
 {
     public class PopoBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Popo");
             Description.SetDefault("You are a snowman now!");

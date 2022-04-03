@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class TimeSlow : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Time Distortion");
             Description.SetDefault("Time is slowed");

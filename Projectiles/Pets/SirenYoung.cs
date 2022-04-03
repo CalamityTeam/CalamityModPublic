@@ -15,29 +15,29 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ocean Spirit");
-            Main.projFrames[projectile.type] = 17;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.LightPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 17;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.LightPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 38;
-            projectile.height = 58;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
+            Projectile.netImportant = true;
+            Projectile.width = 38;
+            Projectile.height = 58;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -47,40 +47,40 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.sirenPet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
             bool sleepy = sleepyTimer >= 180;
             if (!sleepy)
             {
-                projectile.frameCounter++;
-                if (projectile.frameCounter > 6)
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter > 6)
                 {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    Projectile.frameCounter = 0;
                 }
             }
             if (underwater)
             {
-                if (projectile.frame >= 8)
+                if (Projectile.frame >= 8)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
             else
             {
-                if (projectile.frame >= 16)
+                if (Projectile.frame >= 16)
                 {
-                    projectile.frame = sleepy ? 16 : 8;
+                    Projectile.frame = sleepy ? 16 : 8;
                 }
             }
             underwater = player.IsUnderwater();
             if (underwater)
             {
-                if (projectile.frame == 16)
-                    projectile.frame = 0;
+                if (Projectile.frame == 16)
+                    Projectile.frame = 0;
                 if (sleepyTimer > 0)
                     sleepyTimer--;
-                if (projectile.localAI[0] == 0f)
+                if (Projectile.localAI[0] == 0f)
                 {
                     lightLevel = 0;
                 }
@@ -99,25 +99,25 @@ namespace CalamityMod.Projectiles.Pets
                 else
                 {
                     lightLevel = 2;
-                    projectile.frame = 16;
+                    Projectile.frame = 16;
                 }
             }
             switch (lightLevel)
             {
                 case 0:
-                    Lighting.AddLight(projectile.Center, 0f, 2f, 2.5f); //4.5
+                    Lighting.AddLight(Projectile.Center, 0f, 2f, 2.5f); //4.5
                     break;
                 case 1:
-                    Lighting.AddLight(projectile.Center, 0f, 1.32f, 1.65f); //3
+                    Lighting.AddLight(Projectile.Center, 0f, 1.32f, 1.65f); //3
                     break;
                 case 2:
-                    Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.7f);
+                    Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0.7f);
                     break;
             }
 
             float velAdjustment = 0.2f;
             float speedLimit = 5f;
-            Vector2 playerVec = player.Center - projectile.Center;
+            Vector2 playerVec = player.Center - Projectile.Center;
             playerVec.Y += player.gfxOffY;
             if (player.controlLeft && !sleepy)
             {
@@ -140,94 +140,94 @@ namespace CalamityMod.Projectiles.Pets
                 playerVec.Y -= 60f;
             }
 
-            if (projectile.velocity.X < -0.25f || (player.controlLeft && !sleepy))
+            if (Projectile.velocity.X < -0.25f || (player.controlLeft && !sleepy))
             {
-                projectile.direction = -1; //face left
+                Projectile.direction = -1; //face left
             }
-            else if (projectile.velocity.X > 0.25f || (player.controlRight && !sleepy))
+            else if (Projectile.velocity.X > 0.25f || (player.controlRight && !sleepy))
             {
-                projectile.direction = 1; //face right
+                Projectile.direction = 1; //face right
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
 
             float playerDist = playerVec.Length();
             if (playerDist > 1000f)
             {
-                projectile.position.X += playerVec.X;
-                projectile.position.Y += playerVec.Y;
+                Projectile.position.X += playerVec.X;
+                Projectile.position.Y += playerVec.Y;
             }
-            if (projectile.localAI[0] == 1f)
+            if (Projectile.localAI[0] == 1f)
             {
                 if (playerDist < 10f && player.velocity.Length() < speedLimit && player.velocity.Y == 0f)
                 {
-                    projectile.localAI[0] = 0f;
+                    Projectile.localAI[0] = 0f;
                 }
                 speedLimit = 12f;
                 if (playerDist < speedLimit)
                 {
-                    projectile.velocity = playerVec;
+                    Projectile.velocity = playerVec;
                 }
                 else
                 {
                     playerDist = speedLimit / playerDist;
-                    projectile.velocity = playerVec * playerDist;
+                    Projectile.velocity = playerVec * playerDist;
                 }
-                projectile.rotation = projectile.velocity.X * 0.05f;
+                Projectile.rotation = Projectile.velocity.X * 0.05f;
                 return;
             }
             if (playerDist > 200f)
             {
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
             if (playerDist < 10f)
             {
-                projectile.velocity.X = playerVec.X;
-                projectile.velocity.Y = playerVec.Y;
-                projectile.rotation = projectile.velocity.X * 0.05f;
+                Projectile.velocity.X = playerVec.X;
+                Projectile.velocity.Y = playerVec.Y;
+                Projectile.rotation = Projectile.velocity.X * 0.05f;
                 if (playerDist < speedLimit)
                 {
-                    projectile.position += projectile.velocity;
-                    projectile.velocity *= 0f;
+                    Projectile.position += Projectile.velocity;
+                    Projectile.velocity *= 0f;
                     velAdjustment = 0f;
                 }
             }
             playerDist = speedLimit / playerDist;
             playerVec *= playerDist;
-            if (projectile.velocity.X < playerVec.X)
+            if (Projectile.velocity.X < playerVec.X)
             {
-                projectile.velocity.X += velAdjustment;
-                if (projectile.velocity.X < 0f)
+                Projectile.velocity.X += velAdjustment;
+                if (Projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X *= 0.99f;
+                    Projectile.velocity.X *= 0.99f;
                 }
             }
-            if (projectile.velocity.X > playerVec.X)
+            if (Projectile.velocity.X > playerVec.X)
             {
-                projectile.velocity.X -= velAdjustment;
-                if (projectile.velocity.X > 0f)
+                Projectile.velocity.X -= velAdjustment;
+                if (Projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X *= 0.99f;
+                    Projectile.velocity.X *= 0.99f;
                 }
             }
-            if (projectile.velocity.Y < playerVec.Y)
+            if (Projectile.velocity.Y < playerVec.Y)
             {
-                projectile.velocity.Y += velAdjustment;
-                if (projectile.velocity.Y < 0f)
+                Projectile.velocity.Y += velAdjustment;
+                if (Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y *= 0.99f;
+                    Projectile.velocity.Y *= 0.99f;
                 }
             }
-            if (projectile.velocity.Y > playerVec.Y)
+            if (Projectile.velocity.Y > playerVec.Y)
             {
-                projectile.velocity.Y -= velAdjustment;
-                if (projectile.velocity.Y > 0f)
+                Projectile.velocity.Y -= velAdjustment;
+                if (Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y *= 0.99f;
+                    Projectile.velocity.Y *= 0.99f;
                 }
             }
-            if (projectile.velocity.X != 0f || projectile.velocity.Y != 0f)
+            if (Projectile.velocity.X != 0f || Projectile.velocity.Y != 0f)
             {
-                projectile.rotation = projectile.velocity.X * 0.05f;
+                Projectile.rotation = Projectile.velocity.X * 0.05f;
             }
         }
     }

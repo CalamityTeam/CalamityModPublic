@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class AuricToiletTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;

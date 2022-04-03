@@ -19,17 +19,17 @@ namespace CalamityMod.Items.Accessories
                 "Summons a defensive guardian if you have at least 10 minion slots, which boosts your movement speed and your damage resistance\n" +
                 "Summons an offensive guardian if you are wearing the tarragon summon set (or stronger), which boosts your summon damage and your minion slots\n" +
                 "If you get hit, most of their effects will disappear for 5 seconds");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 40;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.width = 32;
+            Item.height = 40;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -45,13 +45,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Chaosplate>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25).AddIngredient(ModContent.ItemType<Chaosplate>(), 25).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

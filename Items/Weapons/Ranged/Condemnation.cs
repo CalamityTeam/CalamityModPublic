@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1914;
-            item.ranged = true;
-            item.width = 130;
-            item.height = 42;
-            item.useTime = item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.channel = true;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CondemnationArrow>();
-            item.shootSpeed = 14.5f;
-            item.useAmmo = AmmoID.Arrow;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 1914;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 130;
+            Item.height = 42;
+            Item.useTime = Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CondemnationArrow>();
+            Item.shootSpeed = 14.5f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, 0f);
@@ -50,11 +50,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0)
             {
-                item.noUseGraphic = false;
+                Item.noUseGraphic = false;
             }
             else
             {
-                item.noUseGraphic = true;
+                Item.noUseGraphic = true;
             }
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.Calamity().mouseRight)
             {
                 Vector2 tipPosition = position + shootDirection * 110f;
-                Projectile.NewProjectile(tipPosition, shootVelocity, item.shoot, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(tipPosition, shootVelocity, Item.shoot, damage, knockBack, player.whoAmI);
             }
 
             // Charge-up. Done via a holdout projectile.

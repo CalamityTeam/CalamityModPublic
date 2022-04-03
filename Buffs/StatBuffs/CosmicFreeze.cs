@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class CosmicFreeze : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Freeze");
             Description.SetDefault("You feel as cold as the empty expanse of outer space");

@@ -19,30 +19,30 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 135;
-            item.knockBack = 15f;
-            item.shootSpeed = 16f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 27;
-            item.useTime = 27;
-            item.reuseDelay = 0;
-            item.width = 122;
-            item.height = 50;
-            item.UseSound = SoundID.Item92;
-            item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.useTurn = false;
-            item.useAmmo = AmmoID.FallenStar;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 135;
+            Item.knockBack = 15f;
+            Item.shootSpeed = 16f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 27;
+            Item.useTime = 27;
+            Item.reuseDelay = 0;
+            Item.width = 122;
+            Item.height = 50;
+            Item.UseSound = SoundID.Item92;
+            Item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.useAmmo = AmmoID.FallenStar;
+            Item.autoReuse = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override Vector2? HoldoutOffset()
         {
@@ -57,15 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Starfleet>());
-            recipe.AddIngredient(ModContent.ItemType<StarSputter>());
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Starfleet>()).AddIngredient(ModContent.ItemType<StarSputter>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

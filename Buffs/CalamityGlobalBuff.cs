@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.MagicPower)
             {
-                player.magicDamage -= 0.1f;
+                player.GetDamage(DamageClass.Magic) -= 0.1f;
             }
             else if (type == BuffID.Panic)
             {

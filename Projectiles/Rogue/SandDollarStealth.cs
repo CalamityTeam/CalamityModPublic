@@ -16,16 +16,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 28;
-            projectile.Calamity().rogue = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
+            Projectile.width = 30;
+            Projectile.height = 28;
+            Projectile.Calamity().rogue = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 300;
             aiType = ProjectileID.Bananarang;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -41,12 +41,12 @@ namespace CalamityMod.Projectiles.Rogue
         private void OnHitEffects()
         {
             int coralAmt = Main.rand.Next(1, 4);
-            if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+            if (Projectile.owner == Main.myPlayer && Projectile.Calamity().stealthStrike)
             {
                 for (int coralCount = 0; coralCount < coralAmt; coralCount++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int coral = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner);
+                    int coral = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), Projectile.damage / 3, 0f, Projectile.owner);
                     if (coral.WithinBounds(Main.maxProjectiles))
                         Main.projectile[coral].Calamity().forceRogue = true;
                 }
@@ -55,14 +55,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0] += 0.1f;
-            if (projectile.velocity.X != oldVelocity.X)
+            Projectile.ai[0] += 0.1f;
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }

@@ -15,15 +15,15 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 64;
-            projectile.timeLeft = 1;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.maxPenetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 64;
+            Projectile.height = 64;
+            Projectile.timeLeft = 1;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.maxPenetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -32,9 +32,9 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 Vector2 dustspeed = new Vector2(5f, 5f).RotatedBy(MathHelper.ToRadians(i));
                 float size = Main.rand.NextFloat(1.1f, 1.6f);
-                int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 85, dustspeed.X, dustspeed.Y, 0, default, size);
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 85, dustspeed.X, dustspeed.Y, 0, default, size);
                 Main.dust[d].noGravity = true;
-                Main.dust[d].position = projectile.Center;
+                Main.dust[d].position = Projectile.Center;
             }
         }
     }

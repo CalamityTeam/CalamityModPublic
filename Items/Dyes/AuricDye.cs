@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Dyes
 {
     public class AuricDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/AuricDyeShader")), "DyePass").
-            UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SharpNoise"));
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/AuricDyeShader").Value), "DyePass").
+            UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SharpNoise"));
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Dye");
@@ -19,19 +19,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.sellPrice(0, 9, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.sellPrice(0, 9, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 5);
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<AuricOre>(), 5).AddTile(TileID.DyeVat).Register();
         }
     }
 }

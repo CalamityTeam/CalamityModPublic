@@ -18,17 +18,17 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.width = 30;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = Main.itemTexture[item.type];
+            Texture2D tex = Main.itemTexture[Item.type];
 
             //Give it an outline. Make it look really important and shiny. The player must not confuse this for a random material
             spriteBatch.End();

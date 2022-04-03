@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Pets
 {
     public class LadShark : ModProjectile
@@ -11,28 +12,28 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lad Shark");
-            Main.projPet[projectile.type] = true;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.aiStyle = 26;
+            Projectile.netImportant = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.aiStyle = 26;
             aiType = ProjectileID.BabySkeletronHead;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (player.dead)
@@ -41,14 +42,14 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.ladShark)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
 
             //occasionally burst in hearts
             if (Main.rand.NextBool(10000))
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     int heartCount = Main.rand.Next(20, 31);
                     for (int i = 0; i < heartCount; i++)
@@ -56,18 +57,18 @@ namespace CalamityMod.Projectiles.Pets
                         Vector2 velocity = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
                         velocity.Normalize();
                         velocity.X *= 0.66f;
-                        int heart = Gore.NewGore(projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
+                        int heart = Gore.NewGore(Projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
                         Main.gore[heart].sticky = false;
                         Main.gore[heart].velocity *= 5f;
                     }
 
-                    Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 15); //mouse squeak sound
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 15); //mouse squeak sound
 
                     float radius = 240f; // 15 blocks
                     for (int j = 0; j < Main.maxNPCs; j++)
                     {
                         NPC npc = Main.npc[j];
-                        if (npc.active && !npc.dontTakeDamage && Vector2.Distance(projectile.Center, npc.Center) <= radius)
+                        if (npc.active && !npc.dontTakeDamage && Vector2.Distance(Projectile.Center, npc.Center) <= radius)
                         {
                             if (npc.Calamity().ladHearts <= 0)
                                 npc.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Pets
                     for (int k = 0; k < Main.maxPlayers; k++)
                     {
                         Player players = Main.player[k];
-                        if (!players.dead && Vector2.Distance(projectile.Center, players.Center) <= radius)
+                        if (!players.dead && Vector2.Distance(Projectile.Center, players.Center) <= radius)
                         {
                             if (players.Calamity().ladHearts <= 0)
                                 players.Calamity().ladHearts = CalamityUtils.SecondsToFrames(9f);

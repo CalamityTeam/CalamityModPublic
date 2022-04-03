@@ -18,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 34;
-            item.damage = 55;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 42;
-            item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<ExorcismProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 34;
+            Item.damage = 55;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 42;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ExorcismProj>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,15 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddIngredient(ItemID.SoulofMight, 6);
-            recipe.AddIngredient(ItemID.SoulofSight, 6);
-            recipe.AddIngredient(ItemID.SoulofFright, 6);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HolyWater, 10).AddIngredient(ItemID.HallowedBar, 12).AddIngredient(ItemID.SoulofMight, 6).AddIngredient(ItemID.SoulofSight, 6).AddIngredient(ItemID.SoulofFright, 6).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

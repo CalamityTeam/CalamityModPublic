@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class EutrophicSandWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 108;
             AddMapEntry(new Color(80, 80, 120));

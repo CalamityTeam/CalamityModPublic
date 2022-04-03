@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class LittleLightBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Little Light");
             Description.SetDefault("Endearing");

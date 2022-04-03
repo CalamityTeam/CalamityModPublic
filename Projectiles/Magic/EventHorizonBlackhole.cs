@@ -13,48 +13,48 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blackhole");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 90;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 90;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 60;
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 60;
 
         public override void AI()
         {
-            if (projectile.frame == 8)
+            if (Projectile.frame == 8)
                 return;
 
             // Update animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
 
-            if (projectile.timeLeft > 15)
+            if (Projectile.timeLeft > 15)
             {
-                if (projectile.frame >= 4)
-                    projectile.frame = 0;
+                if (Projectile.frame >= 4)
+                    Projectile.frame = 0;
             }
             else
             {
-                if (projectile.frame < 4)
-                    projectile.frame = 4;
-                if (projectile.frame >= 8)
-                    projectile.frame = 4;
+                if (Projectile.frame < 4)
+                    Projectile.frame = 4;
+                if (Projectile.frame >= 8)
+                    Projectile.frame = 4;
             }
         }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

@@ -18,11 +18,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.defense = 5; //35
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 25, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 5; //35
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,26 +43,20 @@ namespace CalamityMod.Items.Armor
                 "If you absorb an attack you are healed for 1/2 of that attack's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusAbsorb = true;
-            player.magicDamage += 0.05f;
+            player.GetDamage(DamageClass.Magic) += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.manaCost *= 0.9f;
-            player.magicDamage += 0.13f;
-            player.magicCrit += 7;
+            player.GetDamage(DamageClass.Magic) += 0.13f;
+            player.GetCritChance(DamageClass.Magic) += 7;
             player.statManaMax2 += 60;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-            recipe.AddIngredient(ItemID.CrystalShard, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.CrystalShard, 3).AddIngredient(ModContent.ItemType<EssenceofEleum>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

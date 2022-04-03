@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class ProfanedMoonlightDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ProfanedMoonlightDye")), "DyePass");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ProfanedMoonlightDye").Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Moonlight Dye");
@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
         }
     }
 }

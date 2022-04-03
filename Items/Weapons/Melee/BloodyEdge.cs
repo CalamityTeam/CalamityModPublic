@@ -17,40 +17,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 23;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.height = 60;
-            item.scale = 1.25f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.width = 46;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 23;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.height = 60;
+            Item.scale = 1.25f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LightsBane);
-            recipe.AddIngredient(ItemID.Muramasa);
-            recipe.AddIngredient(ItemID.BladeofGrass);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BloodButcherer);
-            recipe.AddIngredient(ItemID.Muramasa);
-            recipe.AddIngredient(ItemID.BladeofGrass);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LightsBane).AddIngredient(ItemID.Muramasa).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.FieryGreatsword).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BloodButcherer).AddIngredient(ItemID.Muramasa).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.FieryGreatsword).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

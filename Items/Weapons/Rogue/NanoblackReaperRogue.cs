@@ -25,26 +25,26 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 78;
-            item.height = 64;
-            item.damage = BaseDamage;
-            item.knockBack = Knockback;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 78;
+            Item.height = 64;
+            Item.damage = BaseDamage;
+            Item.knockBack = Knockback;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item18;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<NanoblackMain>();
-            item.shootSpeed = Speed;
+            Item.Calamity().rogue = true;
+            Item.shoot = ModContent.ProjectileType<NanoblackMain>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -62,16 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddIngredient(ModContent.ItemType<GhoulishGouger>());
-            r.AddIngredient(ModContent.ItemType<MoltenAmputator>());
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
-            r.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20);
-            r.AddIngredient(ItemID.Nanites, 400);
-            r.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GhoulishGouger>()).AddIngredient(ModContent.ItemType<MoltenAmputator>()).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20).AddIngredient(ItemID.Nanites, 400).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

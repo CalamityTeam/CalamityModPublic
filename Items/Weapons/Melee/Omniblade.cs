@@ -16,41 +16,35 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.damage = 100;
-            item.melee = true;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useTurn = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 146;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<OmnibladeSwing>();
-            item.shootSpeed = 24f;
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().trueMelee = true;
+            Item.width = 64;
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 10;
+            Item.useTurn = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 146;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<OmnibladeSwing>();
+            Item.shootSpeed = 24f;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void GetWeaponCrit(Player player, ref int crit) => crit += 45;
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Katana);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Katana).AddIngredient(ModContent.ItemType<BarofLife>(), 20).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

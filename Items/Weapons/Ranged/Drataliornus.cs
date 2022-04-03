@@ -24,27 +24,27 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void SetDefaults()
         {
-            item.damage = 129;
-            item.knockBack = 1f;
-            item.shootSpeed = 18f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 24;
-            item.useTime = 12;
-            item.reuseDelay = 48;
-            item.width = 64;
-            item.height = 84;
-            item.UseSound = SoundID.Item5;
-            item.shoot = ModContent.ProjectileType<DrataliornusBow>();
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = ItemRarityID.Red;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.useTurn = false;
-            item.useAmmo = AmmoID.Arrow;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 129;
+            Item.knockBack = 1f;
+            Item.shootSpeed = 18f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 24;
+            Item.useTime = 12;
+            Item.reuseDelay = 48;
+            Item.width = 64;
+            Item.height = 84;
+            Item.UseSound = SoundID.Item5;
+            Item.shoot = ModContent.ProjectileType<DrataliornusBow>();
+            Item.value = Item.buyPrice(platinum: 2, gold: 50);
+            Item.rare = ItemRarityID.Red;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.autoReuse = true;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -56,12 +56,12 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             if (player.altFunctionUse == 2)
             {
-                item.noUseGraphic = false;
+                Item.noUseGraphic = false;
             }
             else
             {
-                item.noUseGraphic = true;
-                if (player.ownedProjectileCounts[item.shoot] > 0)
+                Item.noUseGraphic = true;
+                if (player.ownedProjectileCounts[Item.shoot] > 0)
                 {
                     return false;
                 }
@@ -103,14 +103,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlossomFlux>());
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlossomFlux>()).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 12).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

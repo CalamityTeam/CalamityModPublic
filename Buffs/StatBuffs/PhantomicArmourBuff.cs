@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     class PhantomicArmourBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantomic Shield");
             Description.SetDefault("Defense boosted by 10 and damage reduction boosted by 5%\n" +

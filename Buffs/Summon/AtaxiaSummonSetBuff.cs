@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class AtaxiaSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrothermic Vent");
             Description.SetDefault("The hydrothermic vent will protect you");

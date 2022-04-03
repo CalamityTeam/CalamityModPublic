@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 68;
-            item.ranged = true;
-            item.width = 76;
-            item.height = 36;
-            item.useTime = 55;
-            item.useAnimation = 55;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 15f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PlasmaBlast>();
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.FallenStar;
+            Item.damage = 68;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 76;
+            Item.height = 36;
+            Item.useTime = 55;
+            Item.useAnimation = 55;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 15f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PlasmaBlast>();
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.FallenStar;
         }
 
         public override Vector2? HoldoutOffset()
@@ -52,13 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StarCannonEX>());
-            recipe.AddIngredient(ItemID.ElectrosphereLauncher);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StarCannonEX>()).AddIngredient(ItemID.ElectrosphereLauncher).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

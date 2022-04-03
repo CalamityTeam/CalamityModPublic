@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.magic = true;
-            item.mana = 15;
-            item.rare = ItemRarityID.Cyan;
-            item.width = 38;
-            item.height = 40;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.UseSound = SoundID.Item105;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralStarMagic>();
-            item.shootSpeed = 12f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.rare = ItemRarityID.Cyan;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.UseSound = SoundID.Item105;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AstralStarMagic>();
+            Item.shootSpeed = 12f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

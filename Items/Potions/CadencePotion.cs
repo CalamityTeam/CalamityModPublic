@@ -18,37 +18,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 38;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Orange;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.rare = ItemRarityID.LightRed;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<Cadence>();
-            item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 38;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<Cadence>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LovePotion);
-            recipe.AddIngredient(ItemID.HeartreachPotion);
-            recipe.AddIngredient(ItemID.LifeforcePotion);
-            recipe.AddIngredient(ItemID.RegenerationPotion);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LovePotion).AddIngredient(ItemID.HeartreachPotion).AddIngredient(ItemID.LifeforcePotion).AddIngredient(ItemID.RegenerationPotion).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

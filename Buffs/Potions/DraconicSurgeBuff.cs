@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class DraconicSurgeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Surge");
             Description.SetDefault("The power of a dragon courses through your veins");

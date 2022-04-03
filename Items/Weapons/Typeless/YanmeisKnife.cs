@@ -20,21 +20,21 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.height = 44;
-            item.width = 48;
-            item.damage = 8;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = item.useTime = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 4.5f;
-            item.autoReuse = false;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
-            item.UseSound = SoundID.Item71;
-            item.shoot = ModContent.ProjectileType<YanmeisKnifeSlash>();
-            item.shootSpeed = 24f;
+            Item.height = 44;
+            Item.width = 48;
+            Item.damage = 8;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = Item.useTime = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4.5f;
+            Item.autoReuse = false;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
+            Item.UseSound = SoundID.Item71;
+            Item.shoot = ModContent.ProjectileType<YanmeisKnifeSlash>();
+            Item.shootSpeed = 24f;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -56,15 +56,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PsychoKnife);
-            recipe.AddIngredient(ItemID.Obsidian, 10);
-            recipe.AddIngredient(ItemID.IronBar, 20);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 50);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PsychoKnife).AddIngredient(ItemID.Obsidian, 10).AddIngredient(ItemID.IronBar, 20).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 50).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

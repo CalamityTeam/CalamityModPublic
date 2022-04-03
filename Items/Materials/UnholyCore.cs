@@ -14,21 +14,16 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 80);
-            item.rare = ItemRarityID.Pink;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 80);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CharredOre>(), 4);
-            recipe.AddIngredient(ItemID.Hellstone, 4);
-            recipe.AddTile(TileID.Hellforge);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CharredOre>(), 4).AddIngredient(ItemID.Hellstone, 4).AddTile(TileID.Hellforge).Register();
         }
     }
 }

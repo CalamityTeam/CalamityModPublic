@@ -16,85 +16,85 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 12;
-            projectile.alpha = 255;
-            projectile.timeLeft = Lifetime;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = Projectile.height = 12;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = Lifetime;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
             writer.Write(ReelingPlayer);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
             ReelingPlayer = reader.ReadBoolean();
         }
         public override void AI()
         {
             Vector2 offsetDrawVector = new Vector2(0f, 30f);
-            projectile.alpha -= 15;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 15;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            int toTarget = (int)projectile.ai[1];
-            if (!Main.npc[(int)projectile.ai[0]].active)
+            int toTarget = (int)Projectile.ai[1];
+            if (!Main.npc[(int)Projectile.ai[0]].active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Vector2 drawPosition = ReelingPlayer ? Main.player[toTarget].Center : projectile.Center;
-            projectile.rotation = (Main.npc[(int)projectile.ai[0]].Top - drawPosition + offsetDrawVector).ToRotation() + MathHelper.PiOver2;
-            if (projectile.localAI[0] == 0f)
+            Vector2 drawPosition = ReelingPlayer ? Main.player[toTarget].Center : Projectile.Center;
+            Projectile.rotation = (Main.npc[(int)Projectile.ai[0]].Top - drawPosition + offsetDrawVector).ToRotation() + MathHelper.PiOver2;
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.velocity = (projectile.velocity * 10f + projectile.SafeDirectionTo(Main.player[toTarget].Center) * 9f) / 11f;
-                if (projectile.timeLeft <= 180f)
+                Projectile.velocity = (Projectile.velocity * 10f + Projectile.SafeDirectionTo(Main.player[toTarget].Center) * 9f) / 11f;
+                if (Projectile.timeLeft <= 180f)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.netUpdate = true;
+                    Projectile.localAI[0] = 1f;
+                    Projectile.netUpdate = true;
                 }
-                if (projectile.WithinRange(Main.player[toTarget].Center, 16f))
+                if (Projectile.WithinRange(Main.player[toTarget].Center, 16f))
                 {
-                    projectile.localAI[0] = 1f;
+                    Projectile.localAI[0] = 1f;
                     ReelingPlayer = true;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
                 if (ReelingPlayer)
-                    Main.player[toTarget].velocity = Vector2.Lerp(Main.player[toTarget].velocity, projectile.velocity, 0.024f);
+                    Main.player[toTarget].velocity = Vector2.Lerp(Main.player[toTarget].velocity, Projectile.velocity, 0.024f);
 
                 if (Main.player[toTarget].dead)
                     ReelingPlayer = false;
 
-                if (!Main.npc[(int)projectile.ai[0]].WithinRange(Main.player[toTarget].Center, 6f))
-                    projectile.velocity = (projectile.velocity * 16f + Main.player[toTarget].SafeDirectionTo(Main.npc[(int)projectile.ai[0]].Center) * 19f) / 17f;
+                if (!Main.npc[(int)Projectile.ai[0]].WithinRange(Main.player[toTarget].Center, 6f))
+                    Projectile.velocity = (Projectile.velocity * 16f + Main.player[toTarget].SafeDirectionTo(Main.npc[(int)Projectile.ai[0]].Center) * 19f) / 17f;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D endTexture = ModContent.GetTexture(Texture);
-            Texture2D chainTexture = ModContent.GetTexture("CalamityMod/Projectiles/Enemy/CragmawVibeCheckMid");
-            Vector2 drawPosition = ReelingPlayer ? Main.player[(int)projectile.ai[1]].Center : projectile.Center;
-            Vector2 distanceVectorToStart = Main.npc[(int)projectile.ai[0]].Top + Vector2.UnitY * 30f - drawPosition;
+            Texture2D endTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Enemy/CragmawVibeCheckMid");
+            Vector2 drawPosition = ReelingPlayer ? Main.player[(int)Projectile.ai[1]].Center : Projectile.Center;
+            Vector2 distanceVectorToStart = Main.npc[(int)Projectile.ai[0]].Top + Vector2.UnitY * 30f - drawPosition;
             float distanceToStart = distanceVectorToStart.Length();
             Vector2 directionToStart = Vector2.Normalize(distanceVectorToStart);
             Rectangle frameRectangle = endTexture.Frame(1, 1, 0, 0);
             frameRectangle.Height /= 4;
-            frameRectangle.Y += projectile.frame * frameRectangle.Height;
+            frameRectangle.Y += Projectile.frame * frameRectangle.Height;
 
-            spriteBatch.Draw(endTexture, drawPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(frameRectangle), projectile.GetAlpha(lightColor), projectile.rotation, frameRectangle.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(endTexture, drawPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(frameRectangle), Projectile.GetAlpha(lightColor), Projectile.rotation, frameRectangle.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 
-            distanceToStart -= (frameRectangle.Height / 2 + chainTexture.Height) * projectile.scale;
+            distanceToStart -= (frameRectangle.Height / 2 + chainTexture.Height) * Projectile.scale;
             Vector2 chainDrawPosition = drawPosition;
-            chainDrawPosition += directionToStart * projectile.scale * frameRectangle.Height / 2f;
+            chainDrawPosition += directionToStart * Projectile.scale * frameRectangle.Height / 2f;
             if (distanceToStart > 0f)
             {
                 float distanceMoved = 0f;
@@ -108,9 +108,9 @@ namespace CalamityMod.Projectiles.Enemy
                     Point chainPositionTileCoords = chainDrawPosition.ToTileCoordinates();
                     Color colorAtChainPosition = Lighting.GetColor(chainPositionTileCoords.X, chainPositionTileCoords.Y);
                     colorAtChainPosition = Color.Lerp(colorAtChainPosition, Color.White, 0.3f);
-                    spriteBatch.Draw(chainTexture, chainDrawPosition - Main.screenPosition, new Rectangle?(chainTextureFrameRectangle), projectile.GetAlpha(colorAtChainPosition), projectile.rotation, chainTextureFrameRectangle.Bottom(), projectile.scale, SpriteEffects.None, 0f);
-                    distanceMoved += chainTextureFrameRectangle.Height * projectile.scale;
-                    chainDrawPosition += directionToStart * chainTextureFrameRectangle.Height * projectile.scale;
+                    spriteBatch.Draw(chainTexture, chainDrawPosition - Main.screenPosition, new Rectangle?(chainTextureFrameRectangle), Projectile.GetAlpha(colorAtChainPosition), Projectile.rotation, chainTextureFrameRectangle.Bottom(), Projectile.scale, SpriteEffects.None, 0f);
+                    distanceMoved += chainTextureFrameRectangle.Height * Projectile.scale;
+                    chainDrawPosition += directionToStart * chainTextureFrameRectangle.Height * Projectile.scale;
                 }
             }
             return false;

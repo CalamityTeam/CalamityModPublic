@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -16,51 +17,51 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true; //Its hella heavy so ofc
-            projectile.extraUpdates = 1;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true; //Its hella heavy so ofc
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             //Gravity
-            projectile.velocity.Y += 0.11f;
-            if (projectile.velocity.Y > 16f)
-                projectile.velocity.Y = 16f;
+            Projectile.velocity.Y += 0.11f;
+            if (Projectile.velocity.Y > 16f)
+                Projectile.velocity.Y = 16f;
             //Rotation
-            projectile.rotation += 0.14f * projectile.direction;
-            if (projectile.Calamity().stealthStrike)
+            Projectile.rotation += 0.14f * Projectile.direction;
+            if (Projectile.Calamity().stealthStrike)
             {
-                projectile.ai[0]++;
-                if(projectile.ai[0] >= 10f)
+                Projectile.ai[0]++;
+                if(Projectile.ai[0] >= 10f)
                 {
                     Vector2 speed = new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f));
-                    Projectile.NewProjectile(projectile.Center, speed, ModContent.ProjectileType<MetalShard>(), (int)(projectile.damage * 0.3f), 0f, projectile.owner, 0f, 0f);
-                    projectile.ai[0] = 0f;
+                    Projectile.NewProjectile(Projectile.Center, speed, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3f), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.ai[0] = 0f;
                 }
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCHit42, projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit42, Projectile.Center);
             for (int i = 0; i < 3; i++)
             {
-                Vector2 S1 = new Vector2(-projectile.velocity.X, -projectile.velocity.Y).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
-                int proj = Projectile.NewProjectile(projectile.Center, S1, ProjectileID.SpikyBall, (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                Vector2 S1 = new Vector2(-Projectile.velocity.X, -Projectile.velocity.Y).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
+                int proj = Projectile.NewProjectile(Projectile.Center, S1, ProjectileID.SpikyBall, (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
                 Main.projectile[proj].timeLeft = 600;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
                 Main.projectile[proj].localNPCHitCooldown = 20;
-                S1 = new Vector2(-projectile.velocity.X * 0.7f, -projectile.velocity.Y*0.7f).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
-                Projectile.NewProjectile(projectile.Center, S1, ModContent.ProjectileType<MetalShard>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                S1 = new Vector2(-Projectile.velocity.X * 0.7f, -Projectile.velocity.Y*0.7f).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
+                Projectile.NewProjectile(Projectile.Center, S1, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
             }
             //Dust
             for (int i = 0; i < 20; i++)
             {
-                Dust.NewDust(projectile.Center, 1, 1, DustID.Lead, 0f, 0f, 0, default, 1.1f);
+                Dust.NewDust(Projectile.Center, 1, 1, DustID.Lead, 0f, 0f, 0, default, 1.1f);
             }
         }
     }

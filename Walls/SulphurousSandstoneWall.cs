@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
 {
     public class SulphurousSandstoneWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             dustType = 32;
             AddMapEntry(new Color(57, 45, 38));

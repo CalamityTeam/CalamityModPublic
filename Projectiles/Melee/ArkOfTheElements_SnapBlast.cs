@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -28,17 +29,17 @@ namespace CalamityMod.Projectiles.Melee
         const float SnapTime = 25f;
         const float HoldTime = 15f;
 
-        public float SnapTimer => MaxTime - projectile.timeLeft;
-        public float HoldTimer => MaxTime - projectile.timeLeft - SnapTime;
-        public float StitchTimer => MaxTime - projectile.timeLeft - SnapTime - (HoldTime / 2f);
+        public float SnapTimer => MaxTime - Projectile.timeLeft;
+        public float HoldTimer => MaxTime - Projectile.timeLeft - SnapTime;
+        public float StitchTimer => MaxTime - Projectile.timeLeft - SnapTime - (HoldTime / 2f);
 
         public float SnapProgress => MathHelper.Clamp(SnapTimer / SnapTime, 0, 1);
         public float HoldProgress => MathHelper.Clamp(HoldTimer / HoldTime, 0, 1);
         public float StitchProgress => MathHelper.Clamp(StitchTimer / (MaxTime - (SnapTime + (HoldTime / 2f))), 0, 1);
 
-        public int CurrentAnimation => (MaxTime - projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
+        public int CurrentAnimation => (MaxTime - Projectile.timeLeft) <= SnapTime ? 0 : (MaxTime - Projectile.timeLeft) <= SnapTime + HoldTime ? 1 : 2;
 
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -46,15 +47,15 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 300;
-            projectile.width = projectile.height = 300;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 300;
+            Projectile.width = Projectile.height = 300;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
 
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = (int)MaxTime + 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = (int)MaxTime + 2;
         }
 
         public override bool CanDamage()
@@ -70,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
             float bladeLenght = ThrustDisplaceRatio() * 242f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (projectile.velocity * bladeLenght), 30, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.velocity * bladeLenght), 30, ref collisionPoint);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -79,21 +80,21 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization
             {
-                projectile.timeLeft = (int)MaxTime;
-                var sound = Main.PlaySound(SoundID.Item84, projectile.Center);
+                Projectile.timeLeft = (int)MaxTime;
+                var sound = SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
                 SafeVolumeChange(ref sound, 0.3f);
 
-                projectile.velocity.Normalize();
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.velocity.Normalize();
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
 
                 initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
             //Manage position and rotation
-            projectile.scale = 1.4f;
+            Projectile.scale = 1.4f;
 
             //Update stitches
             for (int i = 0; i < CurrentStitches; i++)
@@ -101,11 +102,11 @@ namespace CalamityMod.Projectiles.Melee
                 if (StitchRotations[i] == 0)
                 {
                     StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
-                    var sewSound = Main.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
+                    var sewSound = SoundEngine.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
                     SafeVolumeChange(ref sewSound, 0.5f);
 
                     float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                    Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+                    Vector2 stitchCenter = Projectile.Center + Projectile.velocity * positionAlongLine + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
 
 
                     Particle spark = new CritSpark(stitchCenter, Vector2.Zero, Color.White, Color.Cyan, 3f, 8, 0.1f, 3);
@@ -120,7 +121,7 @@ namespace CalamityMod.Projectiles.Melee
                 for (int i = 0; i < 20; i++)
                 {
                     float positionAlongLine = MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, Main.rand.NextFloat(0f, 1f));
-                    Vector2 particlePosition = projectile.Center + projectile.velocity * positionAlongLine + (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
+                    Vector2 particlePosition = Projectile.Center + Projectile.velocity * positionAlongLine + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;
                     Color particleColor = Main.rand.NextBool() ? Color.OrangeRed : Main.rand.NextBool() ? Color.White : Color.Orange;
                     float particleScale = Main.rand.NextFloat(0.05f, 0.4f) * (0.4f + 0.6f * (float)Math.Sin(positionAlongLine / (ThrustDisplaceRatio() * 242f) * MathHelper.Pi));
 
@@ -154,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 0; i < 10; i++)
             {
-                Vector2 particleSpeed = projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
+                Vector2 particleSpeed = Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.8f) * Main.rand.NextFloat(2.6f, 4f);
                 Particle energyLeak = new SquishyLightParticle(target.Center, particleSpeed, Main.rand.NextFloat(0.3f, 0.6f), Color.Red, 60, 1, 1.5f, hueShift: 0.002f);
                 GeneralParticleHandler.SpawnParticle(energyLeak);
             }
@@ -162,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             //Add some damage falloff
-            damage = (int)(damage * Math.Pow((1 - ArkoftheElements.blastFalloffStrenght), projectile.numHits * ArkoftheElements.blastFalloffSpeed));
+            damage = (int)(damage * Math.Pow((1 - ArkoftheElements.blastFalloffStrenght), Projectile.numHits * ArkoftheElements.blastFalloffSpeed));
         }
 
         //Animation keys
@@ -183,10 +184,10 @@ namespace CalamityMod.Projectiles.Melee
 
             Texture2D sliceTex = GetTexture("CalamityMod/Particles/BloomLine");
             Color sliceColor = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
-            float rot = projectile.rotation + MathHelper.PiOver2;
-            Vector2 nitpickShiftCorrection = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
+            float rot = Projectile.rotation + MathHelper.PiOver2;
+            Vector2 nitpickShiftCorrection = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
             Vector2 sliceScale = new Vector2(0.2f * (1 - SnapProgress) ,ThrustDisplaceRatio() * 242f);
-            spriteBatch.Draw(sliceTex, projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
+            spriteBatch.Draw(sliceTex, Projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
 
 
             //Draw the scissors
@@ -195,8 +196,8 @@ namespace CalamityMod.Projectiles.Melee
                 Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
                 Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
 
-                float snippingRotation = projectile.rotation + MathHelper.PiOver4;
-                float snippingRotationBack = projectile.rotation + MathHelper.PiOver4 * 1.75f;
+                float snippingRotation = Projectile.rotation + MathHelper.PiOver4;
+                float snippingRotationBack = Projectile.rotation + MathHelper.PiOver4 * 1.75f;
 
                 float nitpickAngleCorrection = MathHelper.ToRadians(6f); //ITS IMPORTANT MOM!
                 float drawRotation = MathHelper.Lerp(snippingRotation + MathHelper.PiOver4, snippingRotation, RotationRatio()) + nitpickAngleCorrection;
@@ -204,14 +205,14 @@ namespace CalamityMod.Projectiles.Melee
 
                 Vector2 drawOrigin = new Vector2(51, 86); //Right on the hole
                 Vector2 drawOriginBack = new Vector2(22, 109); //Right on the hole
-                Vector2 drawPosition = projectile.Center + ThrustDisplaceRatio() * projectile.velocity * 200f - Main.screenPosition;
+                Vector2 drawPosition = Projectile.Center + ThrustDisplaceRatio() * Projectile.velocity * 200f - Main.screenPosition;
 
                 float opacity = (0.4f - HoldProgress) / 0.4f;
                 Color drawColor = Color.Orange * opacity * 0.9f;
                 Color drawColorBack = Color.HotPink * opacity * 0.9f;
 
-                spriteBatch.Draw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, projectile.scale, 0f, 0f);
-                spriteBatch.Draw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, projectile.scale, 0f, 0f);
+                spriteBatch.Draw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
+                spriteBatch.Draw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             }
 
             //Draw the rip
@@ -227,7 +228,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 scale = new Vector2(ripWidth, (ThrustDisplaceRatio() * 242f) / lineTex.Height);
                 float lineOpacity = StitchProgress < 0.75f ? 1f : 1 - (StitchProgress - 0.75f) * 4f;
 
-                spriteBatch.Draw(lineTex, projectile.Center - Main.screenPosition + Shake + nitpickShiftCorrection, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(lineTex, Projectile.Center - Main.screenPosition + Shake + nitpickShiftCorrection, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
 
 
                 //Draw the stitches
@@ -236,9 +237,9 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < CurrentStitches; i++)
                     {
                         float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
-                        Vector2 stitchCenter = projectile.Center + projectile.velocity * positionAlongLine + nitpickShiftCorrection;
+                        Vector2 stitchCenter = Projectile.Center + Projectile.velocity * positionAlongLine + nitpickShiftCorrection;
 
-                        rot = projectile.rotation + MathHelper.PiOver2 + StitchRotations[i];
+                        rot = Projectile.rotation + MathHelper.PiOver2 + StitchRotations[i];
                         origin = new Vector2(lineTex.Width / 2f, lineTex.Height / 2f);
 
                         float stitchLenght = (float)Math.Sin(i / (float)(maxStitches - 1) * MathHelper.Pi) * 0.5f + 0.5f;

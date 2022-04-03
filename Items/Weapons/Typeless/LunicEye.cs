@@ -19,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.width = 80;
-            item.damage = 9;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 4.5f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.height = 50;
-            item.shoot = ModContent.ProjectileType<LunicBeam>();
-            item.shootSpeed = 12f;
+            Item.width = 80;
+            Item.damage = 9;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 4.5f;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.height = 50;
+            Item.shoot = ModContent.ProjectileType<LunicBeam>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,24 +44,17 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             float formula = 5f * (player.allDamage - 1f);
-            formula += player.meleeDamage - 1f;
-            formula += player.rangedDamage - 1f;
-            formula += player.magicDamage - 1f;
-            formula += player.minionDamage - 1f;
+            formula += player.GetDamage(DamageClass.Melee) - 1f;
+            formula += player.GetDamage(DamageClass.Ranged) - 1f;
+            formula += player.GetDamage(DamageClass.Magic) - 1f;
+            formula += player.GetDamage(DamageClass.Summon) - 1f;
             formula += player.Calamity().throwingDamage - 1f;
             add += formula;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 15);
-            recipe.AddIngredient(ItemID.SunplateBlock, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 20).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<AerialiteBar>(), 15).AddIngredient(ItemID.SunplateBlock, 15).AddTile(TileID.Anvils).Register();
         }
     }
 }

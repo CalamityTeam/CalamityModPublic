@@ -18,10 +18,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = Item.buyPrice(0, 6, 0, 0);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Accessories
             // Replace the vanilla tooltip with a full stat readout
             foreach (TooltipLine l in list)
             {
-                if (l.mod == "Terraria" && l.Name == "Tooltip0")
+                if (l.Mod == "Terraria" && l.Name == "Tooltip0")
                     l.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
             }
 
             // To save screen space, favorited tooltips do not exist for the Stat Meter
-            list.RemoveAll(l => l.mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
+            list.RemoveAll(l => l.Mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
         }
 
         private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelPlatform : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPlatform();
             AddMapEntry(new Color(191, 142, 111));

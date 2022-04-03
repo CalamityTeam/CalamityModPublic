@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace CalamityMod.Tiles.DraedonSummoner
 {
@@ -27,17 +28,17 @@ namespace CalamityMod.Tiles.DraedonSummoner
         public static Texture2D VoltageRegulatorTexture2;
         public static Texture2D CoolingCellTexture;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
             {
-                TileTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
-                ComputerTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
-                SensorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
-                DisplayTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
-                VoltageRegulatorTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
-                VoltageRegulatorTexture2 = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
-                CoolingCellTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
+                TileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
+                ComputerTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
+                SensorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
+                DisplayTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
+                VoltageRegulatorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
+                VoltageRegulatorTexture2 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
+                CoolingCellTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
             }
 
             Main.tileLighted[Type] = true;
@@ -102,8 +103,8 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<CodebreakerBase>());
 
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
+            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
 
@@ -116,7 +117,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
 
         public override bool HasSmartInteract() => true;
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
             Player player = Main.LocalPlayer;
@@ -130,14 +131,14 @@ namespace CalamityMod.Tiles.DraedonSummoner
                     CombatText.NewText(player.Hitbox, Color.Cyan, "No decryption computer installed");
 
                 CodebreakerUI.ViewedTileEntityID = -1;
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
             }
 
             // Otherwise, open the decryption interface when it exists. This can be either opening the GUI from nothing, or just opening a separate codebreaker.
             else if (codebreakerTileEntity != null)
             {
                 // Play a sound depending on whether the player had another codebreaker open previously.
-                Main.PlaySound(CodebreakerUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                SoundEngine.PlaySound(CodebreakerUI.ViewedTileEntityID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
                 CodebreakerUI.ViewedTileEntityID = codebreakerTileEntity.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
@@ -152,9 +153,9 @@ namespace CalamityMod.Tiles.DraedonSummoner
         {
             // These offsets start as the tile offsets, i.e. which sub-tile of the FrameImportant structure this specific location is.
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int frameXPos = t.frameX;
-            int frameYPos = t.frameY + Height * SheetSquare * (int)((Main.GlobalTime * 12f + left) % 8);
+            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int frameXPos = t.TileFrameX;
+            int frameYPos = t.TileFrameY + Height * SheetSquare * (int)((Main.GlobalTime * 12f + left) % 8);
 
             // Grab the tile entity because it stores the information regarding what is actually attached.
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);

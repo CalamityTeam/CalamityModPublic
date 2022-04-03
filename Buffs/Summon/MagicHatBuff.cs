@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class MagicHatBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magic Hat");
             Description.SetDefault("The hat carries your soul, bound by a contract");

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -11,8 +12,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public const int TotalSpins = 2;
         public const float SpinTime = 30f;
@@ -23,43 +24,43 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 180;
-            projectile.penetrate = 4;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = false;
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 180;
+            Projectile.penetrate = 4;
+            Projectile.extraUpdates = 1;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, Color.Purple.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.Purple.ToVector3());
 
             Time++;
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (Time <= SpinTime)
             {
-                projectile.velocity = projectile.velocity.RotatedBy(MathHelper.TwoPi * TotalSpins / SpinTime);
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-                projectile.Center = player.itemLocation + projectile.velocity;
+                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.TwoPi * TotalSpins / SpinTime);
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+                Projectile.Center = player.itemLocation + Projectile.velocity;
                 ManipulatePlayerItemValues(player);
             }
             else if (Time == SpinTime + 1f)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
                 RingDustEffect(player.itemLocation, 1f, 1f, 5f, 2f);
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * player.ActiveItem().shootSpeed;
+                Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * player.ActiveItem().shootSpeed;
             }
         }
 
         public void ManipulatePlayerItemValues(Player player)
         {
-            player.direction = projectile.direction;
-            player.heldProj = projectile.whoAmI;
-            player.itemRotation = projectile.rotation;
+            player.direction = Projectile.direction;
+            player.heldProj = Projectile.whoAmI;
+            player.itemRotation = Projectile.rotation;
             player.itemTime = player.itemAnimation;
         }
 
@@ -84,27 +85,27 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void OnHitEffects()
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
             // Explode if the projectile is a stealth strike projectile.
             int totalEnergyParticlesToSpawn = 4;
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                Main.PlaySound(SoundID.Item14, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 totalEnergyParticlesToSpawn = 4;
-                RingDustEffect(projectile.Center, 1.6f, 1.4f, 7f, 2.6f);
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 160);
-                projectile.damage /= 2;
-                projectile.Damage();
-                projectile.damage *= 2;
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 34);
+                RingDustEffect(Projectile.Center, 1.6f, 1.4f, 7f, 2.6f);
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 160);
+                Projectile.damage /= 2;
+                Projectile.Damage();
+                Projectile.damage *= 2;
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 34);
             }
 
             for (int i = 0; i < totalEnergyParticlesToSpawn; i++)
             {
                 float offsetAngle = MathHelper.Lerp(-0.35f, 0.35f, i / (float)totalEnergyParticlesToSpawn);
-                Vector2 velocity = -projectile.oldVelocity.RotatedBy(offsetAngle) * 0.66f;
-                Projectile.NewProjectile(projectile.Center + velocity * 1.8f, velocity, ModContent.ProjectileType<FrequencyManipulatorEnergy>(), projectile.damage, projectile.knockBack * 0.4f, projectile.owner);
+                Vector2 velocity = -Projectile.oldVelocity.RotatedBy(offsetAngle) * 0.66f;
+                Projectile.NewProjectile(Projectile.Center + velocity * 1.8f, velocity, ModContent.ProjectileType<FrequencyManipulatorEnergy>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
             }
         }
 

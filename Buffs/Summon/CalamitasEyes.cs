@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CalamitasEyes : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blighted Eyes");
             Description.SetDefault("Calamitas and her brothers will protect you");

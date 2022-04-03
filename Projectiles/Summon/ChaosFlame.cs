@@ -13,44 +13,44 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaos Flame");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
-            projectile.penetrate = 1;
-            projectile.minionSlots = 0f;
-            projectile.minion = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.penetrate = 1;
+            Projectile.minionSlots = 0f;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
-            if (projectile.frameCounter++ % 4 == 0)
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.frameCounter++ % 4 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            if (projectile.localAI[0] == 0f)
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0f / 255f);
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale = 1f - Main.rand.NextFloat() * 0.5f;
-                projectile.localAI[0] += 1f;
+                Projectile.scale = 1f - Main.rand.NextFloat() * 0.5f;
+                Projectile.localAI[0] += 1f;
             }
             if (Main.rand.NextBool(4))
             {
-                int flame = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
+                int flame = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
                 Main.dust[flame].noGravity = true;
                 Main.dust[flame].velocity *= 0f;
             }
@@ -63,10 +63,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft == 300)
+            if (Projectile.timeLeft == 300)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

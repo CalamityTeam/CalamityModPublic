@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Tornado : ModProjectile
@@ -18,32 +19,32 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
             //only 3 tornado can exist at a time
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 10f)
+            Projectile.localAI[1] += 1f;
+            if (Projectile.localAI[1] >= 10f)
             {
-                projectile.localAI[1] = 0f;
+                Projectile.localAI[1] = 0f;
                 int projCount = 0;
                 int oldestTornado = 0;
                 float tornadoAge = 0f;
-                int projType = projectile.type;
+                int projType = Projectile.type;
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
                     Projectile proj = Main.projectile[projIndex];
-                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[0] < 900f)
+                    if (proj.active && proj.owner == Projectile.owner && proj.type == projType && proj.ai[0] < 900f)
                     {
                         projCount++;
                         if (proj.ai[0] > tornadoAge)
@@ -63,37 +64,37 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             float num1125 = 900f;
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = -1;
-                Main.PlaySound(SoundID.Item122, projectile.Center);
+                Projectile.soundDelay = -1;
+                SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= num1125)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= num1125)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
-            if (projectile.localAI[0] >= 30f)
+            if (Projectile.localAI[0] >= 30f)
             {
-                projectile.damage = 0;
-                if (projectile.ai[0] < num1125 - 120f)
+                Projectile.damage = 0;
+                if (Projectile.ai[0] < num1125 - 120f)
                 {
-                    float num1126 = projectile.ai[0] % 60f;
-                    projectile.ai[0] = num1125 - 120f + num1126;
-                    projectile.netUpdate = true;
+                    float num1126 = Projectile.ai[0] % 60f;
+                    Projectile.ai[0] = num1125 - 120f + num1126;
+                    Projectile.netUpdate = true;
                 }
             }
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
+            float num472 = Projectile.Center.X;
+            float num473 = Projectile.Center.Y;
             float num474 = 600f;
             for (int num475 = 0; num475 < 200; num475++)
             {
                 NPC npc = Main.npc[num475];
-                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                 {
                     float npcCenterX = npc.position.X + (float)(npc.width / 2);
                     float npcCenterY = npc.position.Y + (float)(npc.height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - npcCenterX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - npcCenterY);
+                    float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
                     if (num478 < num474)
                     {
                         if (npc.position.X < num472)
@@ -117,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             float num1127 = 15f;
             float num1128 = 15f;
-            Point point8 = projectile.Center.ToTileCoordinates();
+            Point point8 = Projectile.Center.ToTileCoordinates();
             int num1129;
             int num1130;
             Collision.ExpandVertically(point8.X, point8.Y, out num1129, out num1130, (int)num1127, (int)num1128);
@@ -128,14 +129,14 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 vector146 = Vector2.Lerp(value72, value73, 0.5f);
             Vector2 value74 = new Vector2(0f, value73.Y - value72.Y);
             value74.X = value74.Y * 0.2f;
-            projectile.width = (int)(value74.X * 0.65f);
-            projectile.height = (int)value74.Y;
-            projectile.Center = vector146;
-            if (projectile.owner == Main.myPlayer)
+            Projectile.width = (int)(value74.X * 0.65f);
+            Projectile.height = (int)value74.Y;
+            Projectile.Center = vector146;
+            if (Projectile.owner == Main.myPlayer)
             {
                 bool flag74 = false;
-                Vector2 center16 = Main.player[projectile.owner].Center;
-                Vector2 top = Main.player[projectile.owner].Top;
+                Vector2 center16 = Main.player[Projectile.owner].Center;
+                Vector2 top = Main.player[Projectile.owner].Top;
                 for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f)
                 {
                     Vector2 position2 = Vector2.Lerp(value72, value73, num1131);
@@ -145,14 +146,14 @@ namespace CalamityMod.Projectiles.Melee
                         break;
                     }
                 }
-                if (!flag74 && projectile.ai[0] < num1125 - 120f)
+                if (!flag74 && Projectile.ai[0] < num1125 - 120f)
                 {
-                    float num1132 = projectile.ai[0] % 60f;
-                    projectile.ai[0] = num1125 - 120f + num1132;
-                    projectile.netUpdate = true;
+                    float num1132 = Projectile.ai[0] % 60f;
+                    Projectile.ai[0] = num1125 - 120f + num1132;
+                    Projectile.netUpdate = true;
                 }
             }
-            if (projectile.ai[0] < num1125 - 120f)
+            if (Projectile.ai[0] < num1125 - 120f)
             {
                 return;
             }
@@ -163,13 +164,13 @@ namespace CalamityMod.Projectiles.Melee
             float num226 = 600f;
             float num227 = 15f;
             float num228 = 15f;
-            float num229 = projectile.ai[0];
+            float num229 = Projectile.ai[0];
             float scale5 = MathHelper.Clamp(num229 / 30f, 0f, 1f);
             if (num229 > num226 - 60f)
             {
                 scale5 = MathHelper.Lerp(1f, 0f, (num229 - (num226 - 60f)) / 60f);
             }
-            Point point5 = projectile.Center.ToTileCoordinates();
+            Point point5 = Projectile.Center.ToTileCoordinates();
             int num230;
             int num231;
             Collision.ExpandVertically(point5.X, point5.Y, out num230, out num231, (int)num227, (int)num228);
@@ -182,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 vector33 = new Vector2(0f, value33.Y - value32.Y);
             vector33.X = vector33.Y * num232;
             new Vector2(value32.X - vector33.X / 2f, value32.Y);
-            Texture2D texture2D23 = Main.projectileTexture[projectile.type];
+            Texture2D texture2D23 = Main.projectileTexture[Projectile.type];
             Rectangle rectangle9 = texture2D23.Frame(1, 1, 0, 0);
             Vector2 origin3 = rectangle9.Size() / 2f;
             float num233 = -0.06283186f * num229;

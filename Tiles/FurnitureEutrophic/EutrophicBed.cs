@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.BedRightClick(i, j);
         }

@@ -14,25 +14,25 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechworm");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 90000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.hide = true;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.minionSlots = 0.5f;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.hide = true;
         }
 
         // Arbitrary function used to identify a projectile based owner and identity.
@@ -182,18 +182,18 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             int _ = -1;
-            SegmentAI(projectile, 16, ref _);
+            SegmentAI(Projectile, 16, ref _);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(tex, drawPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            spriteBatch.Draw(tex, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
-        public override bool CanDamage() => projectile.alpha == 0;
+        public override bool CanDamage() => Projectile.alpha == 0;
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {

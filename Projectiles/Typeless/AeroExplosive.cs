@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -18,80 +19,80 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 15;
-            projectile.height = 15;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
+            Projectile.width = 15;
+            Projectile.height = 15;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
 
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 2)
+            if (Projectile.timeLeft < 2)
             {
-                projectile.damage = AeroDynamite.Damage; // Like most explosives, not boosted by damage boosts
-                projectile.knockBack = AeroDynamite.Knockback;
+                Projectile.damage = AeroDynamite.Damage; // Like most explosives, not boosted by damage boosts
+                Projectile.knockBack = AeroDynamite.Knockback;
             }
 
-            if (projectile.timeLeft % 4 == 0 && projectile.timeLeft < 270)
-                projectile.ai[0]++;
-            projectile.velocity *= 0.999f - projectile.ai[0] * Main.rand.NextFloat(0.00075f, 0.00125f);
-            projectile.rotation += projectile.velocity.Length() * 0.09f * projectile.direction;
+            if (Projectile.timeLeft % 4 == 0 && Projectile.timeLeft < 270)
+                Projectile.ai[0]++;
+            Projectile.velocity *= 0.999f - Projectile.ai[0] * Main.rand.NextFloat(0.00075f, 0.00125f);
+            Projectile.rotation += Projectile.velocity.Length() * 0.09f * Projectile.direction;
 
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 187, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
             }
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 16, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
             if (Main.rand.NextBool())
             {
-                int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1f);
+                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1f);
                 Main.dust[smoke].scale = 0.1f + Main.rand.NextFloat(0f, 0.5f);
                 Main.dust[smoke].fadeIn = 1.5f + Main.rand.NextFloat(0f, 0.5f);
                 Main.dust[smoke].noGravity = true;
-                Main.dust[smoke].position = projectile.Center + new Vector2(0f, -projectile.height / 2f).RotatedBy(projectile.rotation, default) * 1.1f;
-                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+                Main.dust[smoke].position = Projectile.Center + new Vector2(0f, -Projectile.height / 2f).RotatedBy(Projectile.rotation, default) * 1.1f;
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
                 Main.dust[fire].scale = 1f + Main.rand.NextFloat(0f, 0.5f);
                 Main.dust[fire].noGravity = true;
-                Main.dust[fire].position = projectile.Center + new Vector2(0f, -projectile.height / 2f).RotatedBy(projectile.rotation, default) * 1.1f;
+                Main.dust[fire].position = Projectile.Center + new Vector2(0f, -Projectile.height / 2f).RotatedBy(Projectile.rotation, default) * 1.1f;
             }
         }
 
         // Makes the projectile bounce infinitely, but lose a ton of speed on bounce.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            if (projectile.velocity.X != oldVelocity.X)
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X * 0.1f;
+                Projectile.velocity.X = -oldVelocity.X * 0.1f;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y * 0.1f;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.1f;
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 200);
-            projectile.maxPenetrate = projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             for (int d = 0; d < 40; d++)
             {
-                int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
+                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
                 Main.dust[smoke].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -101,19 +102,19 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int d = 0; d < 70; d++)
             {
-                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 15);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 15);
 
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                CalamityUtils.ExplodeandDestroyTiles(projectile, 7, true, new List<int>() { }, new List<int>() { });
+                CalamityUtils.ExplodeandDestroyTiles(Projectile, 7, true, new List<int>() { }, new List<int>() { });
             }
         }
     }

@@ -15,19 +15,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.aiStyle = 19;
-            projectile.melee = true;
-            projectile.timeLeft = 90;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 40;
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
         }
 
         public override float InitialSpeed => 3f;
@@ -35,8 +35,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                           projectile.velocity.X * 3.5f, projectile.velocity.Y * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
+                           Projectile.velocity.X * 3.5f, Projectile.velocity.Y * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

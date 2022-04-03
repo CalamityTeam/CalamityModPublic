@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AstralFountainTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpFountain();
             AddMapEntry(new Color(59, 50, 77), Language.GetText("MapObject.WaterFountain"));
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].frameX < 36)
+            if (Main.tile[i, j].TileFrameX < 36)
             {
                 if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AstralWater"))
                 {
@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             CalamityUtils.LightHitWire(Type, i, j, 2, 4);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 2, 4);
             return true;

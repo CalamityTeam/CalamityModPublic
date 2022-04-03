@@ -18,39 +18,25 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 34;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Yellow;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<TitanScale>();
-            item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 24;
+            Item.height = 34;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<TitanScale>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitanPotion, 4);
-            recipe.AddIngredient(ItemID.BeetleHusk);
-            recipe.AddIngredient(ModContent.ItemType<CoralskinFoolfish>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.alchemy = true;
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
-            // Alch table effect not on blood orb recipes
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 4);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
-            recipe.AddIngredient(ItemID.BeetleHusk);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
+            CreateRecipe(4).AddIngredient(ItemID.TitanPotion, 4).AddIngredient(ItemID.BeetleHusk).AddIngredient(ModContent.ItemType<CoralskinFoolfish>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(4).AddIngredient(ItemID.BottledWater, 4).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddIngredient(ItemID.BeetleHusk).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

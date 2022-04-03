@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class SparksBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sparks");
             Description.SetDefault("Eats butterflies");

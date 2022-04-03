@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class HermitCrab : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hermit Crab");
             Description.SetDefault("The hermit crab will protect you");

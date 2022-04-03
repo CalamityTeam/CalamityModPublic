@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class AlcoholPoisoning : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alcohol Poisoning");
             Description.SetDefault("You drank too much and you are now dying");

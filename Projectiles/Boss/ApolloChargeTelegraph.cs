@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
         public Vector2[] ChargePositions = new Vector2[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)projectile.ai[1]) ? Main.npc[(int)projectile.ai[1]] : null;
+        public NPC ThingToAttachTo => Main.npc.IndexInRange((int)Projectile.ai[1]) ? Main.npc[(int)Projectile.ai[1]] : null;
 
         public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphFadeTime = 15f;
@@ -27,13 +27,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
 
             // Difficulty modes
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-            projectile.timeLeft = malice ? 30 : death ? 40 : revenge ? 45 : expertMode ? 50 : 60;
+            Projectile.timeLeft = malice ? 30 : death ? 40 : revenge ? 45 : expertMode ? 50 : 60;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -61,16 +61,16 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             // Determine the relative opacities for each player based on their distance.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = 1f;
+                Projectile.netUpdate = true;
             }
 
             // Die if the thing to attach to disappears.
             if (ThingToAttachTo is null || !ThingToAttachTo.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
@@ -82,19 +82,19 @@ namespace CalamityMod.Projectiles.Boss
 
             // Determine opacity
             float telegraphTotalTime = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
-            projectile.Opacity = Utils.InverseLerp(0f, 6f, projectile.timeLeft, true) * Utils.InverseLerp(telegraphTotalTime, telegraphTotalTime - 6f, projectile.timeLeft, true);
+            Projectile.Opacity = Utils.InverseLerp(0f, 6f, Projectile.timeLeft, true) * Utils.InverseLerp(telegraphTotalTime, telegraphTotalTime - 6f, Projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public Color TelegraphPrimitiveColor(float completionRatio)
         {
-            float opacity = MathHelper.Lerp(0.38f, 1.2f, projectile.Opacity);
+            float opacity = MathHelper.Lerp(0.38f, 1.2f, Projectile.Opacity);
             opacity *= CalamityUtils.Convert01To010(completionRatio);
-            opacity *= MathHelper.Lerp(0.9f, 0.2f, projectile.ai[0] / (ChargePositions.Length - 1f));
+            opacity *= MathHelper.Lerp(0.9f, 0.2f, Projectile.ai[0] / (ChargePositions.Length - 1f));
             if (completionRatio > 0.95f)
                 opacity = 0.0000001f;
             return Color.Green * opacity;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public float TelegraphPrimitiveWidth(float completionRatio)
         {
-            return projectile.Opacity * 15f;
+            return Projectile.Opacity * 15f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -123,9 +123,9 @@ namespace CalamityMod.Projectiles.Boss
 
                 // Stand-in variable used to differentiate between the beams.
                 // It is not used anywhere else.
-                projectile.ai[0] = i;
+                Projectile.ai[0] = i;
 
-                TelegraphDrawer.Draw(positions, projectile.Size * 0.5f - Main.screenPosition, 55);
+                TelegraphDrawer.Draw(positions, Projectile.Size * 0.5f - Main.screenPosition, 55);
             }
             return false;
         }

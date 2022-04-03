@@ -17,40 +17,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.width = 28;
-            item.height = 34;
-            item.damage = 60;
-            item.melee = true;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.width = 28;
+            Item.height = 34;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LeechingDagger>());
-            recipe.AddIngredient(ModContent.ItemType<AncientShiv>());
-            recipe.AddIngredient(ModContent.ItemType<SporeKnife>());
-            recipe.AddIngredient(ModContent.ItemType<FlameburstShortsword>());
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodyRupture>());
-            recipe.AddIngredient(ModContent.ItemType<AncientShiv>());
-            recipe.AddIngredient(ModContent.ItemType<SporeKnife>());
-            recipe.AddIngredient(ModContent.ItemType<FlameburstShortsword>());
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LeechingDagger>()).AddIngredient(ModContent.ItemType<AncientShiv>()).AddIngredient(ModContent.ItemType<SporeKnife>()).AddIngredient(ModContent.ItemType<FlameburstShortsword>()).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodyRupture>()).AddIngredient(ModContent.ItemType<AncientShiv>()).AddIngredient(ModContent.ItemType<SporeKnife>()).AddIngredient(ModContent.ItemType<FlameburstShortsword>()).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -61,12 +47,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

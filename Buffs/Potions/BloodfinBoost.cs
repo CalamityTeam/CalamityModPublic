@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class BloodfinBoost : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfin Boost");
             Description.SetDefault("Don't let the blood get to your head");

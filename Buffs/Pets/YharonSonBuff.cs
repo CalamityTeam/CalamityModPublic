@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class YharonSonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Son of Yharon");
             Description.SetDefault("You better not eat his dinner");

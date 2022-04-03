@@ -7,47 +7,47 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.netImportant = true;
-            projectile.penetrate = -1;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.netImportant = true;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            float num410 = projectile.ai[0];
-            float num411 = projectile.ai[1];
+            float num410 = Projectile.ai[0];
+            float num411 = Projectile.ai[1];
             if (num410 != 0f && num411 != 0f)
             {
                 bool flag12 = false;
                 bool flag13 = false;
-                if ((projectile.velocity.X < 0f && projectile.Center.X < num410) || (projectile.velocity.X > 0f && projectile.Center.X > num410))
+                if ((Projectile.velocity.X < 0f && Projectile.Center.X < num410) || (Projectile.velocity.X > 0f && Projectile.Center.X > num410))
                 {
                     flag12 = true;
                 }
-                if ((projectile.velocity.Y < 0f && projectile.Center.Y < num411) || (projectile.velocity.Y > 0f && projectile.Center.Y > num411))
+                if ((Projectile.velocity.Y < 0f && Projectile.Center.Y < num411) || (Projectile.velocity.Y > 0f && Projectile.Center.Y > num411))
                 {
                     flag13 = true;
                 }
                 if (flag12 && flag13)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.rotation += projectile.velocity.X * 0.02f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.rotation += Projectile.velocity.X * 0.02f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame > 3)
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame > 3)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                     return;
                 }
             }
@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbus>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbus>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
     }

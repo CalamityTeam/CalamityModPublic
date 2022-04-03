@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class HotE : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart of the Elements");
             Description.SetDefault("All elementals will protect you");

@@ -11,19 +11,19 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Twinkler");
-            Main.npcFrameCount[npc.type] = 8;
-            Main.npcCatchable[npc.type] = true;
+            Main.npcFrameCount[NPC.type] = 8;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
         {
-            npc.CloneDefaults(NPCID.LightningBug); //ID is 358
-            npc.width = 7;
-            npc.height = 5;
+            NPC.CloneDefaults(NPCID.LightningBug); //ID is 358
+            NPC.width = 7;
+            NPC.height = 5;
             aiType = NPCID.LightningBug;
             animationType = NPCID.LightningBug;
-            npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
-            npc.friendly = true; // prevents critter from getting slagged
+            NPC.catchItem = (short)ModContent.ItemType<TwinklerItem>();
+            NPC.friendly = true; // prevents critter from getting slagged
             //banner = npc.type;
             //bannerItem = ModContent.ItemType<TwinklerBanner>();
         }
@@ -34,19 +34,19 @@ namespace CalamityMod.NPCs.Astral
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), 2 * hitDirection, -2f);
+                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 2 * hitDirection, -2f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dust].noGravity = true;
-                        Main.dust[dust].scale = 1.2f * npc.scale;
+                        Main.dust[dust].scale = 1.2f * NPC.scale;
                     }
                     else
                     {
-                        Main.dust[dust].scale = 0.7f * npc.scale;
+                        Main.dust[dust].scale = 0.7f * NPC.scale;
                     }
                 }
             }
@@ -54,11 +54,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral())
+            else if (spawnInfo.Player.InAstral())
             {
                 return SpawnCondition.TownCritter.Chance;
             }

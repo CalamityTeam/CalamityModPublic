@@ -22,16 +22,16 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetDefaults()
         {
             // Width and height don't actually do anything because the explosion uses custom collision
-            projectile.width = projectile.height = 300;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = Projectile.height = 300;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = Lifetime;
 
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         // localAI[0] = frame counter
@@ -39,25 +39,25 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             // Play sound on frame 1 and initialize dust quantity
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[1] = StartDustQuantity;
+                Projectile.localAI[1] = StartDustQuantity;
             }
 
             // Pure dust projectile
             DrawProjectile();
 
             // Increment frame counter
-            projectile.localAI[0] += 1f;
+            Projectile.localAI[0] += 1f;
         }
 
         private void DrawProjectile()
         {
             // Taper down the dust amount for the last bit of the projectile's life
-            if (projectile.localAI[0] >= Lifetime - 15)
-                projectile.localAI[1] -= 1f;
+            if (Projectile.localAI[0] >= Lifetime - 15)
+                Projectile.localAI[1] -= 1f;
 
-            int dustCount = (int)projectile.localAI[1];
+            int dustCount = (int)Projectile.localAI[1];
             for (int i = 0; i < dustCount; ++i)
             {
                 int dustType = Main.rand.NextBool() ? 6 : 244;
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Ranged
                 speed = randVelocity / speed;
                 randX *= speed;
                 randY *= speed;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
-                Main.dust[idx].position.X = projectile.Center.X + Main.rand.NextFloat(-10f, 10f);
-                Main.dust[idx].position.Y = projectile.Center.Y + Main.rand.NextFloat(-10f, 10f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
+                Main.dust[idx].position.X = Projectile.Center.X + Main.rand.NextFloat(-10f, 10f);
+                Main.dust[idx].position.Y = Projectile.Center.Y + Main.rand.NextFloat(-10f, 10f);
                 Main.dust[idx].velocity.X = randX;
                 Main.dust[idx].velocity.Y = randY;
                 Main.dust[idx].scale = scale;
@@ -84,6 +84,6 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.Daybreak, 300);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, ExplosionRadius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, ExplosionRadius, targetHitbox);
     }
 }

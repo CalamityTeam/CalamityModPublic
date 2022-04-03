@@ -18,22 +18,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 26;
-            item.damage = 50;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 1.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 58;
-            item.shoot = ModContent.ProjectileType<MalachiteProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 26;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 1.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 58;
+            Item.shoot = ModContent.ProjectileType<MalachiteProj>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -42,18 +42,18 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                item.UseSound = SoundID.Item109;
-                item.shoot = ModContent.ProjectileType<MalachiteStealth>();
+                Item.UseSound = SoundID.Item109;
+                Item.shoot = ModContent.ProjectileType<MalachiteStealth>();
             }
             else if (player.altFunctionUse == 2)
             {
-                item.UseSound = SoundID.Item109;
-                item.shoot = ModContent.ProjectileType<MalachiteBolt>();
+                Item.UseSound = SoundID.Item109;
+                Item.shoot = ModContent.ProjectileType<MalachiteBolt>();
             }
             else
             {
-                item.UseSound = SoundID.Item1;
-                item.shoot = ModContent.ProjectileType<MalachiteProj>();
+                Item.UseSound = SoundID.Item1;
+                Item.shoot = ModContent.ProjectileType<MalachiteProj>();
             }
             return base.CanUseItem(player);
         }

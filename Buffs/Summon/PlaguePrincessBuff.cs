@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class PlaguePrincessBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virili");
             Description.SetDefault("It’s a shame you can’t hug her");

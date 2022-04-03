@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 26;
-            item.magic = true;
-            item.mana = 12;
-            item.width = 56;
-            item.height = 34;
-            item.useTime = 32;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item117;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MagnaBlast>();
+            Item.damage = 26;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
+            Item.width = 56;
+            Item.height = 34;
+            Item.useTime = 32;
+            Item.useAnimation = 32;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item117;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<MagnaBlast>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpaceGun);
-            recipe.AddIngredient(ItemID.Granite, 25);
-            recipe.AddIngredient(ItemID.Obsidian, 15);
-            recipe.AddIngredient(ItemID.Amber, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpaceGun).AddIngredient(ItemID.Granite, 25).AddIngredient(ItemID.Obsidian, 15).AddIngredient(ItemID.Amber, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

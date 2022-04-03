@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class TundraFlameBlossomsBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tundra Flame Blossom");
             Description.SetDefault("A perfect unison of balance and beauty");

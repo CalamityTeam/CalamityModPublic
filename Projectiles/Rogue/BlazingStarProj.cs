@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -17,116 +18,116 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = Lifetime;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 34;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = Lifetime;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.Calamity().stealthStrike)
-                projectile.penetrate = projectile.maxPenetrate = -1;
+            if (Projectile.Calamity().stealthStrike)
+                Projectile.penetrate = Projectile.maxPenetrate = -1;
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
             // Boomerang sound
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
             // Returns after some number of frames in the air
-            if (projectile.timeLeft < Lifetime - ReboundTime)
-                projectile.ai[0] = 1f;
+            if (Projectile.timeLeft < Lifetime - ReboundTime)
+                Projectile.ai[0] = 1f;
 
-            if (projectile.ai[0] != 0f)
+            if (Projectile.ai[0] != 0f)
             {
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
 
                 float returnSpeed = BlazingStar.Speed * 2.5f;
                 float acceleration = 2f;
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
                 // Relying on the length instead of a second square root call for Normalize is used here for general performance since both the distance
                 // and normalized vector are used in this code.
-                float distanceToPlayer = projectile.Distance(owner.Center);
-                Vector2 velocity = (owner.Center - projectile.Center) / distanceToPlayer * returnSpeed;
+                float distanceToPlayer = Projectile.Distance(owner.Center);
+                Vector2 velocity = (owner.Center - Projectile.Center) / distanceToPlayer * returnSpeed;
 
                 // Kill the projectile is if it's super far from the player.
                 if (distanceToPlayer > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 // Home back in on the player.
 
                 // No, projectiles do not have a SimpleFlyMovement extension method like NPCs do.
-                if (projectile.velocity.X < velocity.X)
+                if (Projectile.velocity.X < velocity.X)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && velocity.X > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X + acceleration;
+                    if (Projectile.velocity.X < 0f && velocity.X > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > velocity.X)
+                else if (Projectile.velocity.X > velocity.X)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && velocity.X < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X = Projectile.velocity.X - acceleration;
+                    if (Projectile.velocity.X > 0f && velocity.X < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < velocity.Y)
+                if (Projectile.velocity.Y < velocity.Y)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && velocity.Y > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y + acceleration;
+                    if (Projectile.velocity.Y < 0f && velocity.Y > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > velocity.Y)
+                else if (Projectile.velocity.Y > velocity.Y)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && velocity.Y < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y = Projectile.velocity.Y - acceleration;
+                    if (Projectile.velocity.Y > 0f && velocity.Y < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
                 }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
         // Make the star bounce on tiles.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Impacts the terrain even though it bounces off.
-            Main.PlaySound(SoundID.Dig, projectile.Center);
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
 
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
             return false;
         }
     }

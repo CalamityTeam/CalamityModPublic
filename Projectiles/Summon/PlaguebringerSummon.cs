@@ -17,56 +17,56 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lil' Plaguebringer");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.frameCounter++ > 6f)
+            if (Projectile.frameCounter++ > 6f)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 3) //dashing frames are unused
+            if (Projectile.frame >= 3) //dashing frames are unused
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
             player.AddBuff(ModContent.BuffType<PlaguebringerSummonBuff>(), 3600);
             if (correctMinion)
             {
@@ -76,24 +76,24 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.plaguebringerPatronSummon)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             if (!modPlayer.plaguebringerPatronSet)
-                projectile.Kill();
+                Projectile.Kill();
 
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
             int buffType = ModContent.BuffType<Plague>();
             float range = auraRange;
             bool dealDamage = auraCounter++ % 60 == 59;
-            int dmg = projectile.damage;
-            if (projectile.owner == Main.myPlayer)
+            int dmg = Projectile.damage;
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int l = 0; l < Main.maxNPCs; l++)
                 {
                     NPC npc = Main.npc[l];
-                    if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= range)
+                    if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(Projectile.Center, npc.Center) <= range)
                     {
                         if (npc.FindBuffIndex(buffType) == -1)
                         {
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         if (dealDamage)
                         {
-                            Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, projectile.owner, l);
+                            Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
                             if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
                                 aura.Calamity().forceMinion = true;
                         }
@@ -110,9 +110,9 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             float passiveMvtFloat = 0.5f;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             float safeDist = 100f;
-            Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+            Vector2 projPos = new Vector2(Projectile.Center.X, Projectile.Center.Y);
             float xDist = player.Center.X - projPos.X;
             float yDist = player.Center.Y - projPos.Y;
             yDist += Main.rand.NextFloat(-10f, 20f);
@@ -124,28 +124,28 @@ namespace CalamityMod.Projectiles.Summon
 
             //If player is close enough, resume normal
             if (playerDist < safeDist && player.velocity.Y == 0f &&
-                projectile.position.Y + projectile.height <= player.position.Y + player.height &&
-                !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                Projectile.position.Y + Projectile.height <= player.position.Y + player.height &&
+                !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                if (projectile.velocity.Y < -6f)
+                if (Projectile.velocity.Y < -6f)
                 {
-                    projectile.velocity.Y = -6f;
+                    Projectile.velocity.Y = -6f;
                 }
             }
 
             //Teleport to player if too far
             if (playerDist > 2000f)
             {
-                projectile.position.X = player.Center.X - projectile.width / 2;
-                projectile.position.Y = player.Center.Y - projectile.height / 2;
-                projectile.netUpdate = true;
+                Projectile.position.X = player.Center.X - Projectile.width / 2;
+                Projectile.position.Y = player.Center.Y - Projectile.height / 2;
+                Projectile.netUpdate = true;
             }
 
             if (playerDist < 50f)
             {
-                if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
+                if (Math.Abs(Projectile.velocity.X) > 2f || Math.Abs(Projectile.velocity.Y) > 2f)
                 {
-                    projectile.velocity *= 0.99f;
+                    Projectile.velocity *= 0.99f;
                 }
                 passiveMvtFloat = 0.01f;
             }
@@ -163,49 +163,49 @@ namespace CalamityMod.Projectiles.Summon
                 playerVector.X *= playerDist;
                 playerVector.Y *= playerDist;
             }
-            if (projectile.velocity.X < playerVector.X)
+            if (Projectile.velocity.X < playerVector.X)
             {
-                projectile.velocity.X += passiveMvtFloat;
-                if (passiveMvtFloat > 0.05f && projectile.velocity.X < 0f)
+                Projectile.velocity.X += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && Projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X += passiveMvtFloat;
+                    Projectile.velocity.X += passiveMvtFloat;
                 }
             }
-            if (projectile.velocity.X > playerVector.X)
+            if (Projectile.velocity.X > playerVector.X)
             {
-                projectile.velocity.X -= passiveMvtFloat;
-                if (passiveMvtFloat > 0.05f && projectile.velocity.X > 0f)
+                Projectile.velocity.X -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && Projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X -= passiveMvtFloat;
+                    Projectile.velocity.X -= passiveMvtFloat;
                 }
             }
-            if (projectile.velocity.Y < playerVector.Y)
+            if (Projectile.velocity.Y < playerVector.Y)
             {
-                projectile.velocity.Y += passiveMvtFloat;
-                if (passiveMvtFloat > 0.05f && projectile.velocity.Y < 0f)
+                Projectile.velocity.Y += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y += passiveMvtFloat * 2f;
+                    Projectile.velocity.Y += passiveMvtFloat * 2f;
                 }
             }
-            if (projectile.velocity.Y > playerVector.Y)
+            if (Projectile.velocity.Y > playerVector.Y)
             {
-                projectile.velocity.Y -= passiveMvtFloat;
-                if (passiveMvtFloat > 0.05f && projectile.velocity.Y > 0f)
+                Projectile.velocity.Y -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y -= passiveMvtFloat * 2f;
+                    Projectile.velocity.Y -= passiveMvtFloat * 2f;
                 }
             }
-            if (projectile.velocity.X >= 0.25f)
+            if (Projectile.velocity.X >= 0.25f)
             {
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
-            else if (projectile.velocity.X < -0.25f)
+            else if (Projectile.velocity.X < -0.25f)
             {
-                projectile.direction = 1;
+                Projectile.direction = 1;
             }
             //Tilting and change directions
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.velocity.X * 0.01f;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.rotation = Projectile.velocity.X * 0.01f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

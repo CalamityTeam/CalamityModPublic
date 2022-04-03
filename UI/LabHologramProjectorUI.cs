@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Audio;
 
 namespace CalamityMod.UI
 {
@@ -68,7 +69,7 @@ namespace CalamityMod.UI
             Vector2 projectorWorldCenter = projector.Center;
             if (p.DistanceSQ(projectorWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 mp.CurrentlyViewedHologramID = -1;
                 mp.CurrentlyViewedHologramText = string.Empty;
                 return;

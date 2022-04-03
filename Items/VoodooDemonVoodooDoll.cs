@@ -13,26 +13,21 @@ namespace CalamityMod.Items
         }
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 44;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateInventory(Player player)
         {
-            if (item.favorited)
+            if (Item.favorited)
                 player.Calamity().disableVoodooSpawns = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 5).AddIngredient(ItemID.Silk, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

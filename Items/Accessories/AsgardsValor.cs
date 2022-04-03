@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 44;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.defense = 16;
-            item.accessory = true;
+            Item.width = 38;
+            Item.height = 44;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 16;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -59,16 +59,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AnkhShield);
-            recipe.AddIngredient(ModContent.ItemType<OrnateShield>());
-            recipe.AddIngredient(ModContent.ItemType<ShieldoftheOcean>());
-            recipe.AddIngredient(ModContent.ItemType<Abaddon>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.AnkhShield).AddIngredient(ModContent.ItemType<OrnateShield>()).AddIngredient(ModContent.ItemType<ShieldoftheOcean>()).AddIngredient(ModContent.ItemType<Abaddon>()).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ItemID.LifeFruit, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

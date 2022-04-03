@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 34;
-            item.height = 58;
-            item.damage = 32;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item117;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<AuroradicalSplitter>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 34;
+            Item.height = 58;
+            Item.damage = 32;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item117;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<AuroradicalSplitter>();
+            Item.shootSpeed = 10f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[item.type]);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[Item.type]);
         }
     }
 }

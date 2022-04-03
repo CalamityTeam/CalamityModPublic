@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,36 +15,36 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Syringe");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.light = 0.5f;
-            projectile.extraUpdates = 1;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.light = 0.5f;
+            Projectile.extraUpdates = 1;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(8))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-            projectile.damage += projectile.Calamity().defDamage / 200;
+            Projectile.damage += Projectile.Calamity().defDamage / 200;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -59,39 +60,39 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item107, projectile.position);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 100);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
             for (int k = 0; k < 7; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 89, projectile.oldVelocity.X, projectile.oldVelocity.Y);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 89, Projectile.oldVelocity.X, Projectile.oldVelocity.Y);
             }
             int fireAmt = Main.rand.Next(1, 3);
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int f = 0; f < fireAmt; f++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
                 }
                 for (int s = 0; s < 2; ++s)
                 {
-                    float SpeedX = -projectile.velocity.X * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
-                    float SpeedY = -projectile.velocity.Y * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
-                    Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<TheSyringeS1>(), (int)(projectile.damage * 0.25), 0f, Main.myPlayer, Main.rand.Next(3), 0f);
+                    float SpeedX = -Projectile.velocity.X * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
+                    float SpeedY = -Projectile.velocity.Y * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
+                    Projectile.NewProjectile(Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<TheSyringeS1>(), (int)(Projectile.damage * 0.25), 0f, Main.myPlayer, Main.rand.Next(3), 0f);
                 }
             }
-            if (projectile.owner == Main.myPlayer && projectile.ai[1] == 1)
+            if (Projectile.owner == Main.myPlayer && Projectile.ai[1] == 1)
             {
                 for (int b = 0; b < 5; b++)
                 {
                     float speedX = Main.rand.NextFloat(-0.7f, 0.7f);
                     float speedY = Main.rand.NextFloat(-0.7f, 0.7f);
-                    int bee = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer);
+                    int bee = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
                     Main.projectile[bee].penetrate = 1;
                 }
             }

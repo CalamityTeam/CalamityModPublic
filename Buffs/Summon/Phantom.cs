@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Phantom : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom");
             Description.SetDefault("The phantom will protect you");

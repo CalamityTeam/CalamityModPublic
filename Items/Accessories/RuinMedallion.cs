@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,13 +34,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoinofDeceit>());
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CoinofDeceit>()).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -49,11 +49,11 @@ namespace CalamityMod.Tiles.BaseTiles
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
 
             // We enforce racism here.
-            if (tile.type != typeToConnectTo)
+            if (tile.TileType != typeToConnectTo)
                 return null;
 
-            int slotY = tile.frameX / 18;
-            int slotX = tile.frameY / 18;
+            int slotY = tile.TileFrameX / 18;
+            int slotX = tile.TileFrameY / 18;
             //Just to be safe
             if (slotX >= 5 || slotY >= 13)
                 return null;
@@ -63,8 +63,8 @@ namespace CalamityMod.Tiles.BaseTiles
         public int GiveVariant(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            int slotY = tile.frameX / 18;
-            int slotX = tile.frameY / 18;
+            int slotY = tile.TileFrameX / 18;
+            int slotX = tile.TileFrameY / 18;
             return (int)WhatVariantAmI[slotX, slotY];
         }
 

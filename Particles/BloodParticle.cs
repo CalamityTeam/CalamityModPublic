@@ -38,7 +38,7 @@ namespace CalamityMod.Particles
             float verticalStretch = Utils.InverseLerp(0f, 24f, Math.Abs(Velocity.Y), true) * 0.84f;
             float brightness = (float)Math.Pow(Lighting.Brightness((int)(Position.X / 16f), (int)(Position.Y / 16f)), 0.15);
             Vector2 scale = new Vector2(1f, verticalStretch + 1f) * Scale * 0.1f;
-            Texture2D texture = ModContent.GetTexture(Texture);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture);
 
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color * brightness, Rotation, texture.Size() * 0.5f, scale, 0, 0f);
         }

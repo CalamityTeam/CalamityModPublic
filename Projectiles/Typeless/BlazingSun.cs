@@ -16,48 +16,48 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 130;
-            projectile.height = 130;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
+            Projectile.width = 130;
+            Projectile.height = 130;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] < 45)
-                projectile.ai[0]++;
+            if (Projectile.ai[0] < 45)
+                Projectile.ai[0]++;
             //Alpha
-            if (projectile.timeLeft > 50)
+            if (Projectile.timeLeft > 50)
             {
-                if (projectile.alpha > 50)
-                    projectile.alpha -= 5;
-                if (projectile.alpha < 50)
-                    projectile.alpha = 50;
+                if (Projectile.alpha > 50)
+                    Projectile.alpha -= 5;
+                if (Projectile.alpha < 50)
+                    Projectile.alpha = 50;
             }
             else
             {
-                if(projectile.alpha < 255)
-                    projectile.alpha += 5;
-                if (projectile.alpha > 255)
-                    projectile.alpha = 255;
+                if(Projectile.alpha < 255)
+                    Projectile.alpha += 5;
+                if (Projectile.alpha > 255)
+                    Projectile.alpha = 255;
             }
 
             //Rotation
-            projectile.rotation += 0.025f;
+            Projectile.rotation += 0.025f;
             //Light
-            Lighting.AddLight(projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
+            Lighting.AddLight(Projectile.Center, new Vector3(240, 185, 7) * (3f / 255));
 
             //Dust
-            if(projectile.timeLeft > 40)
+            if(Projectile.timeLeft > 40)
             {
-                Vector2 Dpos = projectile.Center + new Vector2(Main.rand.NextFloat(80f,100f), Main.rand.NextFloat(80f,100f)).RotatedBy(MathHelper.ToRadians(Main.rand.Next(1,360)));
-                Vector2 Dspeed = Dpos - projectile.Center;
+                Vector2 Dpos = Projectile.Center + new Vector2(Main.rand.NextFloat(80f,100f), Main.rand.NextFloat(80f,100f)).RotatedBy(MathHelper.ToRadians(Main.rand.Next(1,360)));
+                Vector2 Dspeed = Dpos - Projectile.Center;
                 Dspeed.Normalize();
                 Dspeed *= -5f;
                 float Dscale = Main.rand.NextFloat(1.5f, 2f);
@@ -66,19 +66,19 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             //Suction
-            if (projectile.ai[0] >= 45)
+            if (Projectile.ai[0] >= 45)
             {
-                float num472 = projectile.Center.X;
-                float num473 = projectile.Center.Y;
+                float num472 = Projectile.Center.X;
+                float num473 = Projectile.Center.Y;
                 float num474 = 600f;
                 for (int num475 = 0; num475 < 200; num475++)
                 {
                     NPC npc = Main.npc[num475];
-                    if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
                         float npcCenterX = npc.position.X + (float)(npc.width / 2);
                         float npcCenterY = npc.position.Y + (float)(npc.height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - npcCenterX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - npcCenterY);
+                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
                         if (num478 < num474)
                         {
                             if (npc.position.X < num472)

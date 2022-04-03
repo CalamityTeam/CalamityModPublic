@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 26;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 7);
-            item.rare = ItemRarityID.Blue;
+            Item.width = 28;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 7);
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

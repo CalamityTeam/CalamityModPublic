@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -83,7 +84,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn gore
                 if (npc.localAI[2] == 0f)
                 {
-                    Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
 
                     npc.localAI[2] = 1f;
 
@@ -95,7 +96,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     for (int num794 = 0; num794 < 20; num794++)
                         Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
                 }
 
                 // Percent life remaining
@@ -165,7 +166,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         else if (npc.ai[1] == 10f)
                         {
                             // Sound
-                            Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
 
                             // Velocity
                             npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
@@ -210,7 +211,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     // Charge sound
                     if (npc.ai[2] == 0f)
-                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
                     // Velocity
                     int var = 120;
@@ -352,7 +353,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[3] = 255f;
                         npc.position.X = npc.ai[1] * 16f - (npc.width / 2);
                         npc.position.Y = npc.ai[2] * 16f - (npc.height / 2);
-                        Main.PlaySound(SoundID.Item8, npc.Center);
+                        SoundEngine.PlaySound(SoundID.Item8, npc.Center);
                         npc.ai[0] = npc.ai[0] == -8f ? -9f : -3f;
                         npc.netUpdate = true;
                         npc.netSpam = 0;
@@ -499,7 +500,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.alpha += 25;
                     if (npc.alpha >= 255)
                     {
-                        Main.PlaySound(SoundID.Item8, npc.Center);
+                        SoundEngine.PlaySound(SoundID.Item8, npc.Center);
                         npc.alpha = 255;
                         npc.position.X = npc.ai[1] * 16f - (npc.width / 2);
                         npc.position.Y = npc.ai[2] * 16f - (npc.height / 2);

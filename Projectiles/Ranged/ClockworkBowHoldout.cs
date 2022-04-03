@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Ranged
@@ -19,13 +20,13 @@ namespace CalamityMod.Projectiles.Ranged
             //Main.projFrames[projectile.type] = 9;    might animate the bow's string getting drawn but not rn
         }
 
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
 
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        private ref float CurrentChargingFrames => ref projectile.ai[0];
-        private ref float LoadedBolts => ref projectile.ai[1];
-        private ref float FramesToLoadBolt => ref projectile.localAI[0];
-        private ref float LastDirection => ref projectile.localAI[1];
+        private ref float CurrentChargingFrames => ref Projectile.ai[0];
+        private ref float LoadedBolts => ref Projectile.ai[1];
+        private ref float FramesToLoadBolt => ref Projectile.localAI[0];
+        private ref float LastDirection => ref Projectile.localAI[1];
 
         //private ref float Overfilled => ref projectile.localAI[1]; Until i implement the bow animation there is no need for that
         private float angularSpread = MathHelper.ToRadians(16);
@@ -35,19 +36,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 96;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 48;
+            Projectile.height = 96;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
 
             // If the player releases left click, shoot out the arrows
             if (!OwnerCanShoot)
@@ -55,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 if (LoadedBolts <= 0f) //If theres no arrows to shoot
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 // Fire the spread of arrows
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                 ++CurrentChargingFrames;
 
                 if (CurrentChargingFrames - FramesToLoadBolt / 2 <= 0.01)
-                    Main.PlaySound(SoundID.Item17); //Click
+                    SoundEngine.PlaySound(SoundID.Item17); //Click
 
                 if (CurrentChargingFrames >= FramesToLoadBolt && LoadedBolts < ClockworkBow.MaxBolts)
                 {
@@ -89,10 +90,10 @@ namespace CalamityMod.Projectiles.Ranged
                     FramesToLoadBolt *= 0.950f;
 
                     if (LoadedBolts >= ClockworkBow.MaxBolts)
-                        Main.PlaySound(SoundID.Item23);
+                        SoundEngine.PlaySound(SoundID.Item23);
                     else
                     {
-                        var loadSound = Main.PlaySound(SoundID.Item108);
+                        var loadSound = SoundEngine.PlaySound(SoundID.Item108);
                         if (loadSound != null)
                             loadSound.Volume *= 0.3f;
                     }
@@ -116,7 +117,7 @@ namespace CalamityMod.Projectiles.Ranged
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
 
                 }
-                Main.PlaySound(SoundID.Item38);//play the sound
+                SoundEngine.PlaySound(SoundID.Item38);//play the sound
             }
             else if (LoadedBolts != 0)
             {
@@ -130,7 +131,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float spreadForThisProjectile = MathHelper.Lerp(-increment, increment, i / (float)(MathHelper.Lerp(LoadedBolts - 1, LoadedBolts, MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f))));
                     ShootProjectiles(tipPosition, spreadForThisProjectile);
                 }
-                Main.PlaySound(SoundID.Item38);//play the sound
+                SoundEngine.PlaySound(SoundID.Item38);//play the sound
             }
 
             FramesToLoadBolt = Owner.ActiveItem().useAnimation; //reset the reload time
@@ -139,7 +140,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public void ShootProjectiles(Vector2 tipPosition, float projectileRotation)
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             Item heldItem = Owner.ActiveItem();
@@ -153,48 +154,48 @@ namespace CalamityMod.Projectiles.Ranged
             projectileType = ModContent.ProjectileType<PrecisionBolt>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
-            Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
 
-            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, BoltDamage, knockback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, BoltDamage, knockback, Projectile.owner, 0f, 0f);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 float interpolant = Utils.InverseLerp(5f, 25f, Owner.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (projectile.velocity != oldVelocity)
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
                 {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
-            projectile.rotation = projectile.velocity.ToRotation();
-            int oldDirection = projectile.spriteDirection;
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            int oldDirection = Projectile.spriteDirection;
             if (oldDirection == -1)
-                projectile.rotation += MathHelper.Pi;
+                Projectile.rotation += MathHelper.Pi;
 
-            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
             // If the direction differs from what it originaly was, undo the previous 180 degree turn.
             // If this is not done, the bow will have 1 frame of rotational "jitter" when the direction changes based on the
             // original angle. This effect looks very strange in-game.
-            if (projectile.spriteDirection != oldDirection)
-                projectile.rotation -= MathHelper.Pi;
+            if (Projectile.spriteDirection != oldDirection)
+                Projectile.rotation -= MathHelper.Pi;
 
-            projectile.timeLeft = 3;
+            Projectile.timeLeft = 3;
         }
 
         private void ManipulatePlayerVariables()
         {
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
 
@@ -237,13 +238,13 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 Color Transparency = Color.White * (1 - Shift);
-                var BoltTexture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/PrecisionBolt");
-                Vector2 PointingTo = new Vector2((float)Math.Cos(projectile.rotation + BoltAngle), (float)Math.Sin(projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
+                var BoltTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/PrecisionBolt");
+                Vector2 PointingTo = new Vector2((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
                 float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
                 Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (20f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
 
-                spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
+                spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
 
                 if (i == LoadedBolts - 1 || LoadedBolts == ClockworkBow.MaxBolts) //Don't forget to exit the shader region
                     spriteBatch.ExitShaderRegion();

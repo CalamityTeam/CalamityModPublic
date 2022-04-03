@@ -15,27 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Soul Piercer");
             Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 115;
-            item.magic = true;
-            item.mana = 19;
-            item.width = 64;
-            item.height = 64;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item73;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 115;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 19;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item73;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
+            Item.shootSpeed = 6f;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         /*public override Vector2? HoldoutOrigin()
@@ -45,16 +45,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow"));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

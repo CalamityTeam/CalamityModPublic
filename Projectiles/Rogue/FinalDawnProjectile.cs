@@ -13,44 +13,44 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Final Dawn");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = false;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
             //projectile.extraUpdates = 2;
         }
         public override bool ShouldUpdatePosition() => false;
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             if (player is null || player.dead)
-                projectile.Kill();
+                Projectile.Kill();
 
             if (Main.myPlayer == player.whoAmI)
             {
-                projectile.velocity = Main.MouseWorld - player.Center;
-                projectile.velocity.Normalize();
+                Projectile.velocity = Main.MouseWorld - player.Center;
+                Projectile.velocity.Normalize();
             }
-            player.direction = projectile.direction;
-            player.heldProj = projectile.whoAmI;
-            projectile.Center = player.Center;
-            projectile.position.Y -= 44;
-            projectile.position.X -= 46 * player.direction;
+            player.direction = Projectile.direction;
+            player.heldProj = Projectile.whoAmI;
+            Projectile.Center = player.Center;
+            Projectile.position.Y -= 44;
+            Projectile.position.X -= 46 * player.direction;
             player.bodyFrame.Y = player.bodyFrame.Height;
 
-            if (projectile.ai[0] < MaxChargeTime)
+            if (Projectile.ai[0] < MaxChargeTime)
             {
                 // Charging dust
-                Vector2 dustCenter = new Vector2(projectile.Center.X, projectile.Center.Y - 40);
-                int flame = Dust.NewDust(dustCenter, projectile.width, projectile.height, ModContent.DustType<FinalFlame>(), 0, 0, 100, default, 2f);
+                Vector2 dustCenter = new Vector2(Projectile.Center.X, Projectile.Center.Y - 40);
+                int flame = Dust.NewDust(dustCenter, Projectile.width, Projectile.height, ModContent.DustType<FinalFlame>(), 0, 0, 100, default, 2f);
                 Main.dust[flame].noGravity = true;
                 Main.dust[flame].fadeIn = 1.5f;
                 Main.dust[flame].scale = 1.4f;
@@ -59,31 +59,31 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 newVelocity = dustCenter - Main.dust[flame].position;
                 Main.dust[flame].velocity = newVelocity * 0.1f;
             }
-            if (projectile.ai[0] == MaxChargeTime)
+            if (Projectile.ai[0] == MaxChargeTime)
             {
                 int dustCount = 36;
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Vector2 startingPosition = projectile.Center + new Vector2(0, -40);
-                    Vector2 offset = Vector2.UnitX * projectile.width * 0.1875f;
+                    Vector2 startingPosition = Projectile.Center + new Vector2(0, -40);
+                    Vector2 offset = Vector2.UnitX * Projectile.width * 0.1875f;
                     offset = offset.RotatedBy((i - (dustCount / 2 - 1)) * MathHelper.TwoPi / dustCount);
                     int dustIdx = Dust.NewDust(startingPosition + offset, 0, 0, ModContent.DustType<FinalFlame>(), offset.X * 2f, offset.Y * 2f, 100, default, 3.4f);
                     Main.dust[dustIdx].noGravity = true;
                     Main.dust[dustIdx].noLight = true;
                     Main.dust[dustIdx].velocity = Vector2.Normalize(offset) * 5f;
                 }
-                projectile.frame = 1;
+                Projectile.frame = 1;
             }
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
 
-            projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (!player.channel || player.noItems || player.CCed)
                 {
                     AttemptExecuteAttacks(player);
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
@@ -91,30 +91,30 @@ namespace CalamityMod.Projectiles.Rogue
         public void AttemptExecuteAttacks(Player player)
         {
             //projectile.ai[1] == 1f if spawned via Venerated Locket
-            if (projectile.ai[0] >= MaxChargeTime && !player.noItems && !player.CCed)
+            if (Projectile.ai[0] >= MaxChargeTime && !player.noItems && !player.CCed)
             {
                 // Far range attack
                 if (player.controlUp)
                 {
                     // Stealth Strike
-                    if (player.Calamity().StealthStrikeAvailable() && projectile.ai[1] != 1f)
+                    if (player.Calamity().StealthStrikeAvailable() && Projectile.ai[1] != 1f)
                     {
                         int stealth = Projectile.NewProjectile(player.Center,
                                                  player.SafeDirectionTo(Main.MouseWorld) * 38f,
                                                  ModContent.ProjectileType<FinalDawnThrow2>(),
-                                                 (int)(projectile.damage * 1.05f),
-                                                 projectile.knockBack,
-                                                 projectile.owner);
+                                                 (int)(Projectile.damage * 1.05f),
+                                                 Projectile.knockBack,
+                                                 Projectile.owner);
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                         player.Calamity().ConsumeStealthByAttacking();
                     }
                     else
                     {
-                        Projectile.NewProjectile(projectile.Center,
-                                                 projectile.SafeDirectionTo(Main.MouseWorld) * 38f,
-                                                 ModContent.ProjectileType<FinalDawnThrow>(), projectile.damage,
-                                                 projectile.knockBack, projectile.owner);
-                        if (projectile.ai[1] != 1f)
+                        Projectile.NewProjectile(Projectile.Center,
+                                                 Projectile.SafeDirectionTo(Main.MouseWorld) * 38f,
+                                                 ModContent.ProjectileType<FinalDawnThrow>(), Projectile.damage,
+                                                 Projectile.knockBack, Projectile.owner);
+                        if (Projectile.ai[1] != 1f)
                             player.Calamity().ConsumeStealthByAttacking();
                     }
                 }
@@ -122,26 +122,26 @@ namespace CalamityMod.Projectiles.Rogue
                 else
                 {
                     // Stealth
-                    if (player.Calamity().StealthStrikeAvailable() && projectile.ai[1] != 1f)
+                    if (player.Calamity().StealthStrikeAvailable() && Projectile.ai[1] != 1f)
                     {
-                        int stealth = Projectile.NewProjectile(projectile.Center,
-                                                 projectile.velocity,
+                        int stealth = Projectile.NewProjectile(Projectile.Center,
+                                                 Projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnHorizontalSlash>(),
-                                                 (int)(projectile.damage * 1.275f),
-                                                 projectile.knockBack,
-                                                 projectile.owner);
+                                                 (int)(Projectile.damage * 1.275f),
+                                                 Projectile.knockBack,
+                                                 Projectile.owner);
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                         player.Calamity().ConsumeStealthByAttacking();
                     }
                     else
                     {
                         //This one doesn't consume stealth since it replenishes stealth on hits
-                        Projectile.NewProjectile(projectile.Center,
-                                                 projectile.velocity,
+                        Projectile.NewProjectile(Projectile.Center,
+                                                 Projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnFireSlash>(),
-                                                 projectile.damage,
-                                                 projectile.knockBack,
-                                                 projectile.owner);
+                                                 Projectile.damage,
+                                                 Projectile.knockBack,
+                                                 Projectile.owner);
                     }
                 }
             }
@@ -151,27 +151,27 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D scytheTexture = Main.projectileTexture[projectile.type];
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnProjectile_Glow");
-            int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int yStart = height * projectile.frame;
+            Texture2D scytheTexture = Main.projectileTexture[Projectile.type];
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnProjectile_Glow");
+            int height = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int yStart = height * Projectile.frame;
             Main.spriteBatch.Draw(scytheTexture,
-                                  projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY,
+                                  Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                                   new Rectangle?(new Rectangle(0, yStart, scytheTexture.Width, height)),
-                                  projectile.GetAlpha(lightColor),
-                                  projectile.rotation,
+                                  Projectile.GetAlpha(lightColor),
+                                  Projectile.rotation,
                                   new Vector2(scytheTexture.Width / 2f, height / 2f),
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             Main.spriteBatch.Draw(glowmask,
-                                  projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY,
+                                  Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                                   new Rectangle?(new Rectangle(0, yStart, scytheTexture.Width, height)),
-                                  projectile.GetAlpha(Color.White),
-                                  projectile.rotation,
+                                  Projectile.GetAlpha(Color.White),
+                                  Projectile.rotation,
                                   new Vector2(scytheTexture.Width / 2f, height / 2f),
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             return false;
         }

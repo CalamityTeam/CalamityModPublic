@@ -11,25 +11,21 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 30;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedChair>();
+            Item.width = 12;
+            Item.height = 30;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedChair>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRock>(), 4).AddTile(ModContent.TileType<ProfanedBasin>()).Register();
         }
     }
 }

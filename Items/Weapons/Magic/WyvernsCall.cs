@@ -14,27 +14,27 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Wyvern's Call");
             Tooltip.SetDefault(@"I call upon the mythical Wyvern to shower the lands with its grace
 Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 74;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.75f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WyvernFeatherPurple>();
-            item.shootSpeed = 18f;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 74;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.75f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WyvernFeatherPurple>();
+            Item.shootSpeed = 18f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -44,7 +44,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -117,13 +117,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SkyGlaze>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe.AddRecipeGroup("AnyMythrilBar", 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SkyGlaze>()).AddIngredient(ItemID.SoulofFlight, 15).AddRecipeGroup("AnyMythrilBar", 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

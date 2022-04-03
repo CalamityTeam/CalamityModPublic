@@ -12,52 +12,52 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            int num123 = (int)Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
+            int num123 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] < 110f && Projectile.ai[1] > 30f)
             {
-                float scaleFactor2 = projectile.velocity.Length();
-                Vector2 vector17 = Main.player[num123].Center - projectile.Center;
+                float scaleFactor2 = Projectile.velocity.Length();
+                Vector2 vector17 = Main.player[num123].Center - Projectile.Center;
                 vector17.Normalize();
                 vector17 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector17) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= scaleFactor2;
+                Projectile.velocity = (Projectile.velocity * 24f + vector17) / 25f;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= scaleFactor2;
             }
 
-            if (projectile.velocity.Length() < 18f)
+            if (Projectile.velocity.Length() < 18f)
             {
-                projectile.velocity *= 1.02f;
+                Projectile.velocity *= 1.02f;
             }
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
 
-            Lighting.AddLight(projectile.Center, 0f, 0.35f, 0.35f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.35f, 0.35f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 295)
+            if (Projectile.timeLeft > 295)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

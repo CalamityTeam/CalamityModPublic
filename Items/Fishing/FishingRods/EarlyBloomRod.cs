@@ -17,18 +17,18 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 60;
-            item.shootSpeed = 18f;
-            item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 60;
+            Item.shootSpeed = 18f;
+            Item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
+            Item.value = Item.buyPrice(1, 20, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,12 +44,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodFishingPole); //wood -> fossilized wood
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.WoodFishingPole).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

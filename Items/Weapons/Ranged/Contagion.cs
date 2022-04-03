@@ -18,39 +18,33 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 880;
-            item.ranged = true;
-            item.width = 22;
-            item.height = 50;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.knockBack = 5f;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ContagionBow>();
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 880;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 22;
+            Item.height = 50;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.knockBack = 5f;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ContagionBow>();
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Arrow;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phangasm>());
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Phangasm>()).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

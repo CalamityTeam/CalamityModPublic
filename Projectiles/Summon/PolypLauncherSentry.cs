@@ -10,72 +10,72 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polyp Launcher");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 25;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = true;
-            projectile.sentry = true;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.penetrate = -1;
+            Projectile.width = 42;
+            Projectile.height = 25;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.sentry = true;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
-            }
-
-            projectile.velocity.Y += 0.5f;
-            if (projectile.velocity.Y > 10f)
-            {
-                projectile.velocity.Y = 10f;
+                Projectile.frame = 0;
             }
 
-            projectile.StickToTiles(false, false);
-
-            if (projectile.ai[0] > 0f)
+            Projectile.velocity.Y += 0.5f;
+            if (Projectile.velocity.Y > 10f)
             {
-                projectile.ai[0] -= 1f;
+                Projectile.velocity.Y = 10f;
+            }
+
+            Projectile.StickToTiles(false, false);
+
+            if (Projectile.ai[0] > 0f)
+            {
+                Projectile.ai[0] -= 1f;
                 return;
             }
-            projectile.ai[1] += Main.rand.Next(1,3);
+            Projectile.ai[1] += Main.rand.Next(1,3);
 
-            NPC potentialTarget = projectile.Center.MinionHoming(800f, player, false);
+            NPC potentialTarget = Projectile.Center.MinionHoming(800f, player, false);
 
-            if (projectile.owner == Main.myPlayer && potentialTarget != null)
+            if (Projectile.owner == Main.myPlayer && potentialTarget != null)
             {
-                if (projectile.ai[1] > 40f)
+                if (Projectile.ai[1] > 40f)
                 {
-                    Vector2 spawnPosition = new Vector2(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2));
+                    Vector2 spawnPosition = new Vector2(Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2));
 
                     float shootSpeed = 16f;
                     float gravity = -PolypLauncherProjectile.Gravity;
@@ -83,11 +83,11 @@ namespace CalamityMod.Projectiles.Summon
                     float angle = 0.25f * (float)Math.Asin(MathHelper.Clamp(gravity * distance * 1.5f / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
 
                     Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
-                    velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
+                    velocity.X *= (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
 
-                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
             }
         }

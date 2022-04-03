@@ -20,22 +20,22 @@ Stealth strikes throw three high speed spears");
 
         public override void SafeSetDefaults()
         {
-            item.width = 44;
-            item.damage = 50;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 44;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 22;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
+            Item.shootSpeed = 12f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -58,14 +58,7 @@ Stealth strikes throw three high speed spears");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ScourgeoftheDesert>());
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ScourgeoftheDesert>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<PrismShard>(), 20).AddTile(TileID.Anvils).Register();
         }
     }
 }

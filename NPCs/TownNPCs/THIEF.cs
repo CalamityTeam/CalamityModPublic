@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -37,29 +38,29 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Bandit");
 
-            Main.npcFrameCount[npc.type] = 23;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 500;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 60;
-            NPCID.Sets.AttackAverageChance[npc.type] = 10;
+            Main.npcFrameCount[NPC.type] = 23;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 500;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 60;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.lavaImmune = false;
-            npc.width = 18;
-            npc.height = 44;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 15;
-            npc.lifeMax = 250; //Im not special :(
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.5f;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.lavaImmune = false;
+            NPC.width = 18;
+            NPC.height = 44;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 15;
+            NPC.lifeMax = 250; //Im not special :(
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.5f;
             animationType = NPCID.PartyGirl;
         }
 
@@ -111,19 +112,19 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 PossibleDialogs.Add("Where is my party hat? Well, I stole it of course.");
             }
-            if (npc.GivenName == "Laura")
+            if (NPC.GivenName == "Laura")
             {
                 PossibleDialogs.Add("The nice thing about maps is I can track anything that has fallen.");
             }
-            if (npc.GivenName == "Penelope")
+            if (NPC.GivenName == "Penelope")
             {
                 PossibleDialogs.Add("Imagine how fast you could throw if you just had more hands.");
             }
-            if (npc.GivenName == "Valerie")
+            if (NPC.GivenName == "Valerie")
             {
                 PossibleDialogs.Add("I also take food for currency.");
             }
-            if (npc.GivenName == "Rowan")
+            if (NPC.GivenName == "Rowan")
             {
                 PossibleDialogs.Add("Usually I only think of animals as food or target practice, but dragons are an exception.");
             }
@@ -202,7 +203,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 Main.LocalPlayer.SellItem(CalamityWorld.MoneyStolenByBandit, 1);
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
+                SoundEngine.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -217,8 +218,8 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY) - new Vector2(0f, 6f), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+            var something = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
             return false;
         }
 
@@ -359,12 +360,12 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit4"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Bandit/Bandit"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Bandit/Bandit2"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Bandit/Bandit3"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Bandit/Bandit4"), 1f);
             }
         }
 

@@ -21,44 +21,37 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.width = 44;
-            item.height = 44;
+            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useTurn = false;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.width = 44;
+            Item.height = 44;
 
-            item.damage = 218;
+            Item.damage = 218;
 
-            item.melee = true;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CosmicShivBall>();
-            item.shootSpeed = 14f;
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CosmicShivBall>();
+            Item.shootSpeed = 14f;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, Item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalShortsword>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

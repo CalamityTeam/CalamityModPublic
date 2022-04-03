@@ -17,19 +17,19 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.Lime;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<AstralInjectionBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(5f);
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<AstralInjectionBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(5f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void OnConsumeItem(Player player)
@@ -48,22 +48,8 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 4);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
-            recipe.alchemy = true;
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
-            // Blood orb recipes don't get the alchemy table effect
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 4);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 8);
-            recipe.AddRecipe();
+            CreateRecipe(4).AddIngredient(ItemID.BottledWater, 4).AddIngredient(ModContent.ItemType<Stardust>(), 4).AddIngredient(ModContent.ItemType<AstralJelly>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(8).AddIngredient(ItemID.BottledWater, 4).AddIngredient(ModContent.ItemType<BloodOrb>(), 5).AddIngredient(ModContent.ItemType<AstralJelly>()).AddTile(TileID.AlchemyTable).Register();
         }
     }
 }

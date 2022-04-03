@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Pets
 {
     public class MiniHiveMind : ModProjectile
@@ -14,38 +15,38 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mini Hive Mind");
-            Main.projFrames[projectile.type] = 16;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 16;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 38;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.tileCollide = false;
+            Projectile.netImportant = true;
+            Projectile.width = 38;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
 
             //Delete the projectile if the player doesnt have the buff
             if (!player.HasBuff(ModContent.BuffType<HiveMindPet>()))
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
             if (player.dead)
@@ -54,13 +55,13 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.hiveMindPet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
 
             if (charging <= 0)
-                projectile.FloatingPetAI(true, 0.05f);
+                Projectile.FloatingPetAI(true, 0.05f);
 
-            Vector2 playerVec = player.Center - projectile.Center;
+            Vector2 playerVec = player.Center - Projectile.Center;
             float playerDist = playerVec.Length();
             if (reelBackCooldown > 0)
                 reelBackCooldown--;
@@ -68,47 +69,47 @@ namespace CalamityMod.Projectiles.Pets
                 charging--;
             if (reelBackCooldown <= 0 && Main.rand.NextBool(500) && playerDist < 100f && charging <= 0)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
                     //Do a backwards charge away from the player
                     reelBackCooldown = 300;
                     playerVec.Normalize();
-                    projectile.velocity = playerVec * 8f;
+                    Projectile.velocity = playerVec * 8f;
                     charging = 50;
-                    Main.PlaySound(SoundID.ForceRoar, (int)projectile.Center.X, (int)projectile.Center.Y, -1, 0.5f, 0f);
-                    projectile.netUpdate = true;
+                    SoundEngine.PlaySound(SoundID.ForceRoar, (int)Projectile.Center.X, (int)Projectile.Center.Y, -1, 0.5f, 0f);
+                    Projectile.netUpdate = true;
                 }
             }
             if (charging < 22 && charging > 0)
-                projectile.alpha += 12;
+                Projectile.alpha += 12;
             if (charging == 1)
             {
                 float xOffset = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
                 float yOffset = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
                 Vector2 teleportPos = new Vector2(player.Center.X + xOffset, player.Center.Y + yOffset);
-                projectile.Center = teleportPos;
-                projectile.alpha = 255;
-                projectile.netUpdate = true;
+                Projectile.Center = teleportPos;
+                Projectile.alpha = 255;
+                Projectile.netUpdate = true;
             }
-            if (projectile.alpha > 0 && charging <= 0)
-                projectile.alpha -= 12;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
-            if (projectile.alpha > 255)
-                projectile.alpha = 255;
+            if (Projectile.alpha > 0 && charging <= 0)
+                Projectile.alpha -= 12;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
+            if (Projectile.alpha > 255)
+                Projectile.alpha = 255;
             if (charging > 0)
             {
-                projectile.rotation.AngleTowards(0f, 0.1f);
+                Projectile.rotation.AngleTowards(0f, 0.1f);
             }
 
             //Animation
-            if (projectile.frameCounter++ % 6 == 0)
+            if (Projectile.frameCounter++ % 6 == 0)
             {
-                projectile.frame++;
+                Projectile.frame++;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

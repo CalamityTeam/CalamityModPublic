@@ -19,15 +19,15 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item4;
-            item.consumable = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item4;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool CanUseItem(Player player)
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
@@ -57,15 +57,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(ItemID.SkyBlueFlower);
-            recipe.AddIngredient(ItemID.FragmentSolar, 15);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.SkyBlueFlower).AddIngredient(ItemID.FragmentSolar, 15).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 2).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

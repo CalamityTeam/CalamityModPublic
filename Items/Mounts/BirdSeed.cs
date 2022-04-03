@@ -14,19 +14,19 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 36;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.width = 34;
+            Item.height = 36;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
 
-            item.value = Item.sellPrice(gold: 20);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(gold: 20);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.NPCHit51;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<BUMBLEDOGE>();
+            Item.UseSound = SoundID.NPCHit51;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<BUMBLEDOGE>();
         }
     }
 }

@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 40;
-            item.height = 40;
-            item.damage = 115;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.shoot = ModContent.ProjectileType<SandslasherProj>();
-            item.shootSpeed = 7f;
-            item.Calamity().rogue = true;
+            Item.width = 40;
+            Item.height = 40;
+            Item.damage = 115;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<SandslasherProj>();
+            Item.shootSpeed = 7f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,14 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-            recipe.AddRecipeGroup("AnyGoldBar", 10);
-            recipe.AddIngredient(ItemID.HardenedSand, 25);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 6).AddRecipeGroup("AnyGoldBar", 10).AddIngredient(ItemID.HardenedSand, 25).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

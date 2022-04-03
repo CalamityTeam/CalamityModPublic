@@ -15,33 +15,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.damage = 45;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.knockBack = 4.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<CrystalDust>();
-            item.shootSpeed = 3f;
+            Item.width = 66;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.knockBack = 4.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<CrystalDust>();
+            Item.shootSpeed = 3f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
-            recipe.AddRecipeGroup("AnyCobaltBar", 8);
-            recipe.AddIngredient(ItemID.PixieDust, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.CrystalShard, 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddRecipeGroup("AnyCobaltBar", 8).AddIngredient(ItemID.PixieDust, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

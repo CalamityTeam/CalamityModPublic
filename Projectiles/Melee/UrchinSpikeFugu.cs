@@ -15,30 +15,30 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 90;
-            projectile.noEnchantments = true;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 90;
+            Projectile.noEnchantments = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.ai[0] == 0f)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            if (Projectile.ai[0] == 0f)
             {
                 float maxRange = 100f;
                 int npcIndex = -1;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
-                        float targetDist = (npc.Center - projectile.Center).Length();
+                        float targetDist = (npc.Center - Projectile.Center).Length();
                         if (targetDist < maxRange)
                         {
                             npcIndex = i;
@@ -46,32 +46,32 @@ namespace CalamityMod.Projectiles.Melee
                         }
                     }
                 }
-                projectile.ai[0] = (float)(npcIndex + 1);
-                if (projectile.ai[0] == 0f)
+                Projectile.ai[0] = (float)(npcIndex + 1);
+                if (Projectile.ai[0] == 0f)
                 {
-                    projectile.ai[0] = -15f;
+                    Projectile.ai[0] = -15f;
                 }
-                if (projectile.ai[0] > 0f)
+                if (Projectile.ai[0] > 0f)
                 {
                     float scaleFactor5 = (float)Main.rand.Next(35, 75) / 30f;
-                    projectile.velocity = (projectile.velocity * 20f + Vector2.Normalize(Main.npc[(int)projectile.ai[0] - 1].Center - projectile.Center + new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101))) * scaleFactor5) / 21f;
-                    projectile.netUpdate = true;
+                    Projectile.velocity = (Projectile.velocity * 20f + Vector2.Normalize(Main.npc[(int)Projectile.ai[0] - 1].Center - Projectile.Center + new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101))) * scaleFactor5) / 21f;
+                    Projectile.netUpdate = true;
                 }
             }
-            else if (projectile.ai[0] > 0f)
+            else if (Projectile.ai[0] > 0f)
             {
-                Vector2 value16 = Vector2.Normalize(Main.npc[(int)projectile.ai[0] - 1].Center - projectile.Center);
-                projectile.velocity = (projectile.velocity * 40f + value16 * 12f) / 41f;
+                Vector2 value16 = Vector2.Normalize(Main.npc[(int)Projectile.ai[0] - 1].Center - Projectile.Center);
+                Projectile.velocity = (Projectile.velocity * 40f + value16 * 12f) / 41f;
             }
             else
             {
-                projectile.ai[0] += 1f;
-                projectile.alpha -= 25;
-                if (projectile.alpha < 0)
+                Projectile.ai[0] += 1f;
+                Projectile.alpha -= 25;
+                if (Projectile.alpha < 0)
                 {
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.015f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.015f;
             }
         }
 

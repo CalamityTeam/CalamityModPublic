@@ -14,17 +14,17 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Ashes of Annihilation");
             Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
         }
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 56;
-            item.maxStack = 999;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 54;
+            Item.height = 56;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Materials
             {
                 float scale = baseScale * MathHelper.Lerp(1f, 1.45f, pulse);
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness - Vector2.UnitY * 2f;
-                spriteBatch.Draw(Main.itemTexture[item.type], drawPosition, frame, drawColor, item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.itemTexture[Item.type], drawPosition, frame, drawColor, Item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -49,15 +49,15 @@ namespace CalamityMod.Items.Materials
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Rectangle frame = Main.itemAnimations[item.type].GetFrame(Main.itemTexture[item.type]);
-            DrawPulsingAfterimage(spriteBatch, item.position - Main.screenPosition + frame.Size() * 0.5f, frame, scale);
+            Rectangle frame = Main.itemAnimations[Item.type].GetFrame(Main.itemTexture[Item.type]);
+            DrawPulsingAfterimage(spriteBatch, Item.position - Main.screenPosition + frame.Size() * 0.5f, frame, scale);
             return true;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 0.34f * brightness, 0.08f * brightness, 0.155f * brightness);
+            Lighting.AddLight(Item.Center, 0.34f * brightness, 0.08f * brightness, 0.155f * brightness);
         }
     }
 }

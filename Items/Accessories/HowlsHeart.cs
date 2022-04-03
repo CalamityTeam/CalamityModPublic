@@ -19,18 +19,18 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Howl's Heart");
             Tooltip.SetDefault("Summons Howl to fight for you, Calcifer to light your way, and Turnip-Head to follow you around\n" +
             "Placing this accessory in vanity slots will summon the trio without the combat or exploration utilities");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 26;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 26;
+            Item.accessory = true;
 
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().howlsHeart;

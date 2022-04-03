@@ -16,19 +16,19 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = item.useTime = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<ChargingStation>();
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<ChargingStation>();
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.value = Item.buyPrice(gold: 50);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.value = Item.buyPrice(gold: 50);
         }
     }
 }

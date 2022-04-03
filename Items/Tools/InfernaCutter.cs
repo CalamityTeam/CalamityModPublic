@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 110;
-            item.knockBack = 7f;
-            item.useTime = 8;
-            item.useAnimation = 12;
-            item.axe = 135 / 5;
-            item.tileBoost += 1;
+            Item.damage = 110;
+            Item.knockBack = 7f;
+            Item.useTime = 8;
+            Item.useAnimation = 12;
+            Item.axe = 135 / 5;
+            Item.tileBoost += 1;
 
-            item.melee = true;
-            item.width = 80;
-            item.height = 66;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 80;
+            Item.height = 66;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -47,13 +47,7 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurityAxe>());
-            recipe.AddIngredient(ItemID.SoulofFright, 8);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurityAxe>()).AddIngredient(ItemID.SoulofFright, 8).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -121,7 +115,7 @@ namespace CalamityMod.Items.Tools
                     num340 *= 1.5f;
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
-                    int spark = Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI);
+                    int spark = Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(Item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
                         Main.projectile[spark].Calamity().forceMelee = true;
                 }

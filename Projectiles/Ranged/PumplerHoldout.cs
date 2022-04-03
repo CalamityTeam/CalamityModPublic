@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using CalamityMod.Particles;
+using Terraria.Audio;
 
 
 //TY dom for coding condemnation, great reference, would steal code from again :)
@@ -20,35 +21,35 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pumpler");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[Projectile.type] = 9;
         }
 
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
 
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
-        private ref float CurrentChargingFrames => ref projectile.ai[0];
-        private ref float PumpkinsCharge => ref projectile.ai[1];
-        private ref float FramesToLoadNextPumpkin => ref projectile.localAI[0];
-        private ref float Overfilled => ref projectile.localAI[1]; //This functionally is a "IsPlayingShootAnim" variable
+        private ref float CurrentChargingFrames => ref Projectile.ai[0];
+        private ref float PumpkinsCharge => ref Projectile.ai[1];
+        private ref float FramesToLoadNextPumpkin => ref Projectile.localAI[0];
+        private ref float Overfilled => ref Projectile.localAI[1]; //This functionally is a "IsPlayingShootAnim" variable
         private float angularSpread = MathHelper.ToRadians(15);
 
         public override string Texture => "CalamityMod/Projectiles/Ranged/PumplerHoldout";
 
         public override void SetDefaults()
         {
-            projectile.width = 72;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 72;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + projectile.velocity * projectile.width * 0.5f;
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
 
             // Unloads all pumpkins if you can't shoot/stop holding out the projectile or if the gun is overfilled
             if (!OwnerCanShoot || Overfilled == 1f)
@@ -56,21 +57,21 @@ namespace CalamityMod.Projectiles.Ranged
 
                 if (PumpkinsCharge <= 0f && Overfilled == 0f) //If the projectile isnt playing its animation and if there arent any pumpkins loaded, kill it
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
 
                 //Animation stuff start
-                projectile.frameCounter++;
-                if (projectile.frameCounter >= 10) //10 fps anim
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter >= 10) //10 fps anim
                 {
-                    projectile.frame++;
-                    if (projectile.frame >= Main.projFrames[projectile.type] - 1)
-                        projectile.frame = 0;
-                    projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    if (Projectile.frame >= Main.projFrames[Projectile.type] - 1)
+                        Projectile.frame = 0;
+                    Projectile.frameCounter = 0;
                 }
                 // Shoot anim is done? Remove the shoot anim tag
-                if (projectile.frame == 0 && Overfilled == 1f)
+                if (Projectile.frame == 0 && Overfilled == 1f)
                     Overfilled = 0f;
                 //Animation stuff end
 
@@ -92,17 +93,17 @@ namespace CalamityMod.Projectiles.Ranged
                 // Also accelerate charging, because it's fucking awesome. <- Agreeing with dom so hard i made it increase harder
                 if (CurrentChargingFrames >= FramesToLoadNextPumpkin && PumpkinsCharge < Pumpler.MaxPumpkins)
                 {
-                    projectile.frame = (projectile.frame + 1); //next anim frame
+                    Projectile.frame = (Projectile.frame + 1); //next anim frame
                     CurrentChargingFrames = 0f;
                     ++PumpkinsCharge;
                     FramesToLoadNextPumpkin *= 0.850f;
                     //CombatText.NewText(projectile.Hitbox, new Color(255*(PumpkinsCharge/5), 151 * (PumpkinsCharge / 5), 78 * (PumpkinsCharge / 5)), ((int)PumpkinsCharge).ToString(), true);
                     //Colors don't properly shift towards orange, they remain white fsr. I assume its float fuckery. Also the numbers appear too high up
                     if (PumpkinsCharge >= Pumpler.MaxPumpkins)
-                        Main.PlaySound(SoundID.Item69);
+                        SoundEngine.PlaySound(SoundID.Item69);
                     else
                     {
-                        var loadSound = Main.PlaySound(SoundID.Item108);
+                        var loadSound = SoundEngine.PlaySound(SoundID.Item108);
                         if (loadSound != null)
                             loadSound.Volume *= 0.3f;
                     }
@@ -145,18 +146,18 @@ namespace CalamityMod.Projectiles.Ranged
 
                 }
             }
-            Main.PlaySound(SoundID.Item96);//play the sound
+            SoundEngine.PlaySound(SoundID.Item96);//play the sound
             SmokeBurst(tipPosition);
             FramesToLoadNextPumpkin = Owner.ActiveItem().useAnimation; //reset the reload time
             PumpkinsCharge = 0; //Unload the barrel
             if (!(Overfilled == 1f))
                 Overfilled = 1f; //Make the shoot anim play
-            projectile.frame = 6; //Initialize the animation
+            Projectile.frame = 6; //Initialize the animation
         }
 
         public void ShootProjectiles(Vector2 tipPosition, float projectileRotation)
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             Item heldItem = Owner.ActiveItem();
@@ -164,54 +165,54 @@ namespace CalamityMod.Projectiles.Ranged
             int PumpkinDamage = (int)(heldItem.damage * Owner.RangedDamage());
             float shootSpeed = heldItem.shootSpeed * 1.5f;
             float knockback = Owner.GetWeaponKnockback(heldItem, heldItem.knockBack);
-            Vector2 shootVelocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
-            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, PumpkinDamage, knockback, projectile.owner, 0f, 0f);
+            Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
+            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, PumpkinDamage, knockback, Projectile.owner, 0f, 0f);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 float interpolant = Utils.InverseLerp(5f, 25f, Owner.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (projectile.velocity != oldVelocity)
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Owner.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
                 {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
                 }
             }
             //Please someone kill me i dont want to deal with offset moments,
             //Dom oomfie!
-            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 30f;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 30f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
-            projectile.position = armPosition - projectile.Size * 0.5f + projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 35f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
-            int oldDirection = projectile.spriteDirection;
+            int oldDirection = Projectile.spriteDirection;
             if (oldDirection == -1)
-                projectile.rotation += MathHelper.Pi;
+                Projectile.rotation += MathHelper.Pi;
 
-            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
             // If the direction differs from what it originaly was, undo the previous 180 degree turn.
             // If this is not done, the gun will have 1 frame of rotational "jitter" when the direction changes based on the
             // original angle. This effect looks very strange in-game.
-            if (projectile.spriteDirection != oldDirection)
-                projectile.rotation -= MathHelper.Pi;
+            if (Projectile.spriteDirection != oldDirection)
+                Projectile.rotation -= MathHelper.Pi;
 
 
 
-            projectile.timeLeft = 2;
+            Projectile.timeLeft = 2;
         }
 
         private void ManipulatePlayerVariables()
         {
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -229,9 +230,9 @@ namespace CalamityMod.Projectiles.Ranged
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - 0.04f * (PumpkinsCharge - 1), 0.8f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
-            Rectangle frameRectangle = Main.projectileTexture[projectile.type].Frame(1, 9, 0, projectile.frame);
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, frameRectangle, lightColor, projectile.rotation, frameRectangle.Size() * 0.5f, 1f, projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Rectangle frameRectangle = Main.projectileTexture[Projectile.type].Frame(1, 9, 0, Projectile.frame);
+            spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPosition, frameRectangle, lightColor, Projectile.rotation, frameRectangle.Size() * 0.5f, 1f, Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             spriteBatch.ExitShaderRegion();
 

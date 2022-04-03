@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

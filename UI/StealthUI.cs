@@ -34,10 +34,10 @@ namespace CalamityMod.UI
                 }
                 return;
             }
-            Texture2D edgeTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeter");
-            Texture2D indicatorTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator");
-            Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBar");
-            Texture2D fullBarTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBarFull");
+            Texture2D edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeter");
+            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator");
+            Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBar");
+            Texture2D fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBarFull");
             float uiScale = Main.UIScale;
             spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             if (modPlayer.StealthStrikeAvailable())

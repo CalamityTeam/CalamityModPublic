@@ -14,33 +14,33 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Crystal");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 46;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
+            Projectile.width = 26;
+            Projectile.height = 46;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<DaedalusCrystal>();
-            Player player = Main.player[projectile.owner];
+            bool flag64 = Projectile.type == ModContent.ProjectileType<DaedalusCrystal>();
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.daedalusCrystal)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (flag64)
@@ -51,65 +51,65 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.dCrystal)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
+                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 173, 0f, 0f, 0, default, 1f);
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
-            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.75f / 255f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y += 120f;
-                projectile.rotation = MathHelper.Pi;
+                Projectile.position.Y += 120f;
+                Projectile.rotation = MathHelper.Pi;
             }
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
-            projectile.scale = num395 + 0.95f;
-            if (projectile.owner == Main.myPlayer)
+            Projectile.scale = num395 + 0.95f;
+            if (Projectile.owner == Main.myPlayer)
             {
-                if (projectile.ai[0] != 0f)
+                if (Projectile.ai[0] != 0f)
                 {
-                    projectile.ai[0] -= 1f;
+                    Projectile.ai[0] -= 1f;
                     return;
                 }
                 bool flag18 = false;
-                float num506 = projectile.Center.X;
-                float num507 = projectile.Center.Y;
+                float num506 = Projectile.Center.X;
+                float num507 = Projectile.Center.Y;
                 float num508 = 1000f;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float num539 = npc.position.X + (float)(npc.width / 2);
                         float num540 = npc.position.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                        if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        float num541 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num539) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num540);
+                        if (num541 < num508 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                         {
                             num506 = num539;
                             num507 = num540;
@@ -121,12 +121,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
-                        if (Main.npc[num512].CanBeChasedBy(projectile, false))
+                        if (Main.npc[num512].CanBeChasedBy(Projectile, false))
                         {
                             float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
                             float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-                            float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
-                            if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
+                            float num515 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num513) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num514);
+                            if (num515 < num508 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
                             {
                                 num508 = num515;
                                 num506 = num513;
@@ -140,19 +140,19 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float num516 = num506;
                     float num517 = num507;
-                    num506 -= projectile.Center.X;
-                    num507 -= projectile.Center.Y;
+                    num506 -= Projectile.Center.X;
+                    num507 -= Projectile.Center.Y;
                     int projectileType = ModContent.ProjectileType<DaedalusCrystalShot>();
                     float num403 = Main.rand.Next(10, 15); //modify the speed the projectile are shot.  Lower number = slower projectile.
-                    Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 vector29 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                     float num404 = num516 - vector29.X;
                     float num405 = num517 - vector29.Y;
                     float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
-                    projectile.ai[0] = 50f;
+                    Projectile.NewProjectile(Projectile.Center.X - 4f, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, 5f, Projectile.owner, 0f, 0f);
+                    Projectile.ai[0] = 50f;
                 }
             }
         }

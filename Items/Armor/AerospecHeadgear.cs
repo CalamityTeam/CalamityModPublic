@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.defense = 4; //17
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 4; //17
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -66,14 +66,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.Cloud, 3);
-            recipe.AddIngredient(ItemID.RainCloud);
-            recipe.AddIngredient(ItemID.Feather);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 5).AddIngredient(ItemID.Cloud, 3).AddIngredient(ItemID.RainCloud).AddIngredient(ItemID.Feather).AddTile(TileID.SkyMill).Register();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class RumBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rum");
             Description.SetDefault("Movement speed and life regen boosted, defense reduced");

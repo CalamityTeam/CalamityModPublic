@@ -16,21 +16,21 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.penetrate = -1;
-            projectile.hostile = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = false;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.penetrate = -1;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = false;
         }
         public override void AI()
         {
             float maxSpeed = CalamityWorld.downedPolterghast ? 19.5f : 11.5f;
-            if (projectile.velocity.Length() < maxSpeed)
-                projectile.velocity *= 1.024f;
+            if (Projectile.velocity.Length() < maxSpeed)
+                Projectile.velocity *= 1.024f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -42,10 +42,10 @@ namespace CalamityMod.Projectiles.Enemy
         {
             for (int i = 0; i < 3; i++)
             {
-                int idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                int idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
             }

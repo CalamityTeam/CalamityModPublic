@@ -19,17 +19,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.rangedDamage += 0.15f;
-            player.rangedCrit += 5;
+            player.GetDamage(DamageClass.Ranged) += 0.15f;
+            player.GetCritChance(DamageClass.Ranged) += 5;
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.pickSpeed -= 0.15f;
@@ -41,15 +41,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MagicQuiver);
-            recipe.AddIngredient(ModContent.ItemType<DaedalusEmblem>());
-            recipe.AddIngredient(ItemID.LunarBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MagicQuiver).AddIngredient(ModContent.ItemType<DaedalusEmblem>()).AddIngredient(ItemID.LunarBar, 8).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

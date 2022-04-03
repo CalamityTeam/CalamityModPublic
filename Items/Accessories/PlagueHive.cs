@@ -17,21 +17,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 48;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.accessory = true;
+            Item.width = 42;
+            Item.height = 48;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.accessory = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AlchemicalFlask>());
-            recipe.AddIngredient(ItemID.HoneyComb);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AlchemicalFlask>()).AddIngredient(ItemID.HoneyComb).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

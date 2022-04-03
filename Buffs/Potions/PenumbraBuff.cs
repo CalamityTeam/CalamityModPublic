@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class PenumbraBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra");
             Description.SetDefault("Stealth regenerates 15% faster while moving\n" +

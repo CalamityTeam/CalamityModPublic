@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -15,22 +16,22 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 150;
-            projectile.melee = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 150;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
-            projectile.scale = num395 + 0.95f;
+            Projectile.scale = num395 + 0.95f;
 
-            float num947 = (projectile.Center - Main.player[projectile.owner].Center).Length() / 100f;
+            float num947 = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
             if (num947 <= 2f)
             {
                 num947 = 1f;
@@ -66,13 +67,13 @@ namespace CalamityMod.Projectiles.Melee
                     num947 = 2f;
                 }
             }
-            projectile.velocity = Vector2.Normalize(Main.player[projectile.owner].Center - projectile.Center) * num947;
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+            Projectile.velocity = Vector2.Normalize(Main.player[Projectile.owner].Center - Projectile.Center) * num947;
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha);
+            return new Color(200, 200, 200, Projectile.alpha);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -82,16 +83,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 200;
-            projectile.height = 200;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 200;
+            Projectile.height = 200;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.oldVelocity.X * 2.5f, projectile.oldVelocity.Y * 2.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 73, Projectile.oldVelocity.X * 2.5f, Projectile.oldVelocity.Y * 2.5f);
             }
         }
     }

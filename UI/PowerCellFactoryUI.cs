@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.UI
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.UI
             Vector2 factoryWorldCenter = factory.Center;
             if (p.DistanceSQ(factoryWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 mp.CurrentlyViewedFactoryID = -1;
                 return;
             }
@@ -114,7 +115,7 @@ namespace CalamityMod.UI
                     // Play a sound, but ONLY if the player didn't shift click.
                     // If they did, they're going to hear the item be picked up in a few frames anyway because it spawned on their face.
                     if (!shiftClicked)
-                        Main.PlaySound(SoundID.Grab);
+                        SoundEngine.PlaySound(SoundID.Grab);
                 }
 
                 // Since HoverItem is active, we don't need to input anything into this method.

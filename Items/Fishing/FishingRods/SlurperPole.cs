@@ -15,17 +15,17 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 25;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<SlurperBobber>();
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 25;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<SlurperBobber>();
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
         }
     }
 }

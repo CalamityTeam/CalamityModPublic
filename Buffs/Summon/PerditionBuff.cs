@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class PerditionBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perdition");
             Description.SetDefault("How unfortunate");

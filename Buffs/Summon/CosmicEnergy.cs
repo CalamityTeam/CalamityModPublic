@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CosmicEnergy : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Energy");
             Description.SetDefault("The cosmic energy will protect you");

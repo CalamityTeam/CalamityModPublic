@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Hematemesis");
             Tooltip.SetDefault("Casts a barrage of blood geysers from below");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 75;
-            item.magic = true;
-            item.mana = 14;
-            item.rare = ItemRarityID.Yellow;
-            item.width = 48;
-            item.height = 54;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.75f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.UseSound = SoundID.Item21;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodBlast>();
-            item.shootSpeed = 10f;
+            Item.damage = 75;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 14;
+            Item.rare = ItemRarityID.Yellow;
+            Item.width = 48;
+            Item.height = 54;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.75f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.UseSound = SoundID.Item21;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BloodBlast>();
+            Item.shootSpeed = 10f;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);

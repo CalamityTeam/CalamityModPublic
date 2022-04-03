@@ -7,29 +7,29 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class DaawnlightSpiritOriginMinion : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daawnlight");
-            Main.projFrames[projectile.type] = 12;
+            Main.projFrames[Projectile.type] = 12;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 146;
-            projectile.height = 164;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 18000;
-            projectile.tileCollide = false;
+            Projectile.width = 146;
+            Projectile.height = 164;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 18000;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
             if (!Owner.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             HandlePetStuff();
@@ -42,38 +42,38 @@ namespace CalamityMod.Projectiles.Pets
             if (Owner.dead || !Owner.Calamity().spiritOrigin && !Owner.Calamity().spiritOriginVanity)
                 Owner.Calamity().spiritOriginPet = false;
             if (Owner.Calamity().spiritOriginPet)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
         }
 
         public void DoMovement()
         {
-            if (projectile.WithinRange(Owner.Center, 100f))
-                projectile.velocity *= 0.975f;
+            if (Projectile.WithinRange(Owner.Center, 100f))
+                Projectile.velocity *= 0.975f;
             else
             {
-                float flySpeed = MathHelper.Clamp(11f + projectile.Distance(Owner.Center) * 0.015f, 11f, 25f);
-                projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(Owner.Center) * flySpeed, flySpeed * 0.02f);
-                if (!projectile.WithinRange(Owner.Center, 2200f))
+                float flySpeed = MathHelper.Clamp(11f + Projectile.Distance(Owner.Center) * 0.015f, 11f, 25f);
+                Projectile.velocity = Projectile.velocity.MoveTowards(Projectile.SafeDirectionTo(Owner.Center) * flySpeed, flySpeed * 0.02f);
+                if (!Projectile.WithinRange(Owner.Center, 2200f))
                 {
-                    projectile.Center = Owner.Center;
-                    projectile.velocity = -Vector2.UnitY * 4f;
-                    projectile.netUpdate = true;
+                    Projectile.Center = Owner.Center;
+                    Projectile.velocity = -Vector2.UnitY * 4f;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            if (MathHelper.Distance(projectile.Center.X, Owner.Center.X) > 80f)
-                projectile.spriteDirection = (projectile.Center.X > Owner.Center.X).ToDirectionInt();
+            if (MathHelper.Distance(Projectile.Center.X, Owner.Center.X) > 80f)
+                Projectile.spriteDirection = (Projectile.Center.X > Owner.Center.X).ToDirectionInt();
         }
 
         public void HandleFrames()
         {
             if (Owner.Calamity().spiritOriginBullseyeShootCountdown > 0)
-                projectile.frame = (int)MathHelper.Lerp(5f, Main.projFrames[projectile.type] - 0.1f, 1f - Owner.Calamity().spiritOriginBullseyeShootCountdown / 45f);
+                Projectile.frame = (int)MathHelper.Lerp(5f, Main.projFrames[Projectile.type] - 0.1f, 1f - Owner.Calamity().spiritOriginBullseyeShootCountdown / 45f);
             else
             {
-                projectile.frameCounter++;
-                if (projectile.frameCounter % 7 == 6)
-                    projectile.frame = (projectile.frame + 1) % 5;
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter % 7 == 6)
+                    Projectile.frame = (Projectile.frame + 1) % 5;
             }
         }
 

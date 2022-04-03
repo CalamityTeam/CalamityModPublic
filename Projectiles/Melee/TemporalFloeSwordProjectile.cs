@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TemporalFloeSwordProjectile : ModProjectile
@@ -15,43 +16,43 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.coldDamage = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = 27;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
+            Lighting.AddLight(Projectile.Center, 0f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.35f / 255f);
             if (Main.rand.NextBool(2))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, 0f, 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 56, 0f, 0f);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 595)
+            if (Projectile.timeLeft > 595)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(50, 50, 255, projectile.alpha);
+            return new Color(50, 50, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
 
             // Get Terraria's current strange time variable
             double time = Main.time;
@@ -94,11 +95,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 minuteVector = minuteAngle.ToRotationVector2() * projSpeed;
 
             int projType = ModContent.ProjectileType<TemporalFloeNumberTwo>();
-            int dmg = projectile.damage / 2;
-            float kback = projectile.knockBack * 0.5f;
+            int dmg = Projectile.damage / 2;
+            float kback = Projectile.knockBack * 0.5f;
 
-            Projectile.NewProjectile(projectile.Center, hourVector, projType, dmg, kback, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.Center, minuteVector, projType, dmg, kback, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center, hourVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center, minuteVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

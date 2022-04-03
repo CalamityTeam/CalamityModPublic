@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SnakeEyesBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snake Eyes");
             Description.SetDefault("Always watching...");

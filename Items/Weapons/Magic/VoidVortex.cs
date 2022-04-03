@@ -16,28 +16,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Void Vortex");
             Tooltip.SetDefault("Conjures a swirling vortex of supercharged magnet spheres around the cursor");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 112;
-            item.magic = true;
-            item.mana = 60;
-            item.width = 130;
-            item.height = 130;
-            item.useTime = 80;
-            item.useAnimation = 80;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VoidVortexProj>();
-            item.shootSpeed = 12f;
+            Item.damage = 112;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 60;
+            Item.width = 130;
+            Item.height = 130;
+            Item.useTime = 80;
+            Item.useAnimation = 80;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VoidVortexProj>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -69,12 +69,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Climax>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Climax>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

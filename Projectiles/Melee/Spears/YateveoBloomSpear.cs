@@ -12,18 +12,18 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.aiStyle = 19;
-            projectile.melee = true;
-            projectile.timeLeft = 90;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            Projectile.width = 40;
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     default:
                         break;
                 }
-                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType, 0f, 0f);
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType, 0f, 0f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].scale = 1.5f;
             }

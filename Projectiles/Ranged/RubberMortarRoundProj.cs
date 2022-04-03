@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -20,20 +21,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 300;
-            projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            if (projectile.velocity.Length() >= 8f)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.velocity.Length() >= 8f)
             {
                 for (int d = 0; d < 2; d++)
                 {
@@ -41,14 +42,14 @@ namespace CalamityMod.Projectiles.Ranged
                     float yOffset = 0f;
                     if (d == 1)
                     {
-                        xOffset = projectile.velocity.X * 0.5f;
-                        yOffset = projectile.velocity.Y * 0.5f;
+                        xOffset = Projectile.velocity.X * 0.5f;
+                        yOffset = Projectile.velocity.Y * 0.5f;
                     }
-                    int fire = Dust.NewDust(new Vector2(projectile.position.X + 3f + xOffset, projectile.position.Y + 3f + yOffset) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, DustID.Fire, 0f, 0f, 100, default, 1f);
+                    int fire = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, DustID.Fire, 0f, 0f, 100, default, 1f);
                     Main.dust[fire].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                     Main.dust[fire].velocity *= 0.2f;
                     Main.dust[fire].noGravity = true;
-                    int smoke = Dust.NewDust(new Vector2(projectile.position.X + 3f + xOffset, projectile.position.Y + 3f + yOffset) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, DustID.Smoke, 0f, 0f, 100, default, 0.5f);
+                    int smoke = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, DustID.Smoke, 0f, 0f, 100, default, 0.5f);
                     Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                     Main.dust[smoke].velocity *= 0.05f;
                 }
@@ -57,69 +58,69 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            int penetrateAmt = projectile.penetrate;
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 200);
-            projectile.maxPenetrate = projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            projectile.penetrate = penetrateAmt;
+            int penetrateAmt = Projectile.penetrate;
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.penetrate = penetrateAmt;
 
             SpawnDust();
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
 
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 DestroyTiles();
             }
 
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
-                projectile.active = false;
+                Projectile.Kill();
+                Projectile.active = false;
             }
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.velocity *= 1.25f;
+                Projectile.velocity *= 1.25f;
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 200);
-            projectile.maxPenetrate = projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.knockBack *= 5f;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.knockBack *= 5f;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             SpawnDust();
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 14);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
 
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 DestroyTiles();
             }
@@ -129,7 +130,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int d = 0; d < 40; d++)
             {
-                int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
+                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
                 Main.dust[smoke].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -139,17 +140,17 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int d = 0; d < 70; d++)
             {
-                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
         }
 
         private void DestroyTiles()
         {
-            CalamityUtils.ExplodeandDestroyTiles(projectile, 5, false, new List<int>()
+            CalamityUtils.ExplodeandDestroyTiles(Projectile, 5, false, new List<int>()
             {
                 ModContent.TileType<AbyssGravel>(),
                 ModContent.TileType<Voidstone>()

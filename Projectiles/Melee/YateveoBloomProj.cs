@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -16,111 +17,111 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.alpha = 255;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
-            Vector2 vector62 = Main.player[projectile.owner].MountedCenter - projectile.Center;
-            projectile.rotation = vector62.ToRotation() - 1.57f;
+            Vector2 vector62 = Main.player[Projectile.owner].MountedCenter - Projectile.Center;
+            Projectile.rotation = vector62.ToRotation() - 1.57f;
             float distance = vector62.Length();
 
-            if (Main.player[projectile.owner].dead)
+            if (Main.player[Projectile.owner].dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Main.player[projectile.owner].itemAnimation = 10;
-            Main.player[projectile.owner].itemTime = 10;
+            Main.player[Projectile.owner].itemAnimation = 10;
+            Main.player[Projectile.owner].itemTime = 10;
 
             if (vector62.X < 0f)
             {
-                Main.player[projectile.owner].ChangeDir(1);
-                projectile.direction = 1;
+                Main.player[Projectile.owner].ChangeDir(1);
+                Projectile.direction = 1;
             }
             else
             {
-                Main.player[projectile.owner].ChangeDir(-1);
-                projectile.direction = -1;
+                Main.player[Projectile.owner].ChangeDir(-1);
+                Projectile.direction = -1;
             }
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
                 if (distance > 210f)
                 {
-                    projectile.ai[0] = 1f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 1f;
+                    Projectile.netUpdate = true;
                 }
-                else if (!Main.player[projectile.owner].channel)
+                else if (!Main.player[Projectile.owner].channel)
                 {
-                    if (projectile.velocity.Y < 0f)
-                        projectile.velocity.Y = projectile.velocity.Y * 0.9f;
+                    if (Projectile.velocity.Y < 0f)
+                        Projectile.velocity.Y = Projectile.velocity.Y * 0.9f;
 
-                    projectile.velocity.Y = projectile.velocity.Y + 1f;
-                    projectile.velocity.X = projectile.velocity.X * 0.9f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + 1f;
+                    Projectile.velocity.X = Projectile.velocity.X * 0.9f;
                 }
             }
             else
             {
-                float num211 = 14f / Main.player[projectile.owner].meleeSpeed * 1.25f;
-                float num212 = 0.9f / Main.player[projectile.owner].meleeSpeed * 1.25f;
+                float num211 = 14f / Main.player[Projectile.owner].meleeSpeed * 1.25f;
+                float num212 = 0.9f / Main.player[Projectile.owner].meleeSpeed * 1.25f;
 
-                if (projectile.ai[1] == 1f)
-                    projectile.tileCollide = false;
+                if (Projectile.ai[1] == 1f)
+                    Projectile.tileCollide = false;
 
-                if (!Main.player[projectile.owner].channel || distance > 375f || !projectile.tileCollide)
+                if (!Main.player[Projectile.owner].channel || distance > 375f || !Projectile.tileCollide)
                 {
-                    projectile.ai[1] = 1f;
+                    Projectile.ai[1] = 1f;
 
-                    if (projectile.tileCollide)
-                        projectile.netUpdate = true;
+                    if (Projectile.tileCollide)
+                        Projectile.netUpdate = true;
 
-                    projectile.tileCollide = false;
+                    Projectile.tileCollide = false;
 
                     if (distance < 20f)
-                        projectile.Kill();
+                        Projectile.Kill();
                 }
 
-                if (!projectile.tileCollide)
+                if (!Projectile.tileCollide)
                     num212 *= 2f;
 
-                if (distance > 80f || !projectile.tileCollide)
+                if (distance > 80f || !Projectile.tileCollide)
                 {
                     distance = num211 / distance;
                     vector62.X *= distance;
                     vector62.Y *= distance;
 
-                    Vector2 vector21 = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-                    float num217 = vector62.X - projectile.velocity.X;
-                    float num218 = vector62.Y - projectile.velocity.Y;
+                    Vector2 vector21 = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
+                    float num217 = vector62.X - Projectile.velocity.X;
+                    float num218 = vector62.Y - Projectile.velocity.Y;
                     float num219 = (float)Math.Sqrt((double)(num217 * num217 + num218 * num218));
 
                     num219 = num212 / num219;
                     num217 *= num219;
                     num218 *= num219;
 
-                    projectile.velocity.X = projectile.velocity.X * 0.98f;
-                    projectile.velocity.Y = projectile.velocity.Y * 0.98f;
-                    projectile.velocity.X = projectile.velocity.X + num217;
-                    projectile.velocity.Y = projectile.velocity.Y + num218;
+                    Projectile.velocity.X = Projectile.velocity.X * 0.98f;
+                    Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
+                    Projectile.velocity.X = Projectile.velocity.X + num217;
+                    Projectile.velocity.Y = Projectile.velocity.Y + num218;
                 }
                 else
                 {
-                    if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 6f)
+                    if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 6f)
                     {
-                        projectile.velocity.X = projectile.velocity.X * 0.96f;
-                        projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                        Projectile.velocity.X = Projectile.velocity.X * 0.96f;
+                        Projectile.velocity.Y = Projectile.velocity.Y + 0.2f;
                     }
 
-                    if (Main.player[projectile.owner].velocity.X == 0f)
-                        projectile.velocity.X = projectile.velocity.X * 0.96f;
+                    if (Main.player[Projectile.owner].velocity.X == 0f)
+                        Projectile.velocity.X = Projectile.velocity.X * 0.96f;
                 }
             }
 
@@ -143,40 +144,40 @@ namespace CalamityMod.Projectiles.Melee
                     default:
                         break;
                 }
-                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType, 0f, 0f);
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType, 0f, 0f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].scale = 1.5f;
             }
 
-            if (projectile.alpha == 255 && distance > 10f)
-                projectile.alpha = 0;
+            if (Projectile.alpha == 255 && distance > 10f)
+                Projectile.alpha = 0;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             bool hitTile = false;
-            if (oldVelocity.X != projectile.velocity.X)
+            if (oldVelocity.X != Projectile.velocity.X)
             {
                 hitTile = Math.Abs(oldVelocity.X) > 4f;
 
-                projectile.position.X = projectile.position.X + projectile.velocity.X;
-                projectile.velocity.X = -oldVelocity.X * 0.2f;
+                Projectile.position.X = Projectile.position.X + Projectile.velocity.X;
+                Projectile.velocity.X = -oldVelocity.X * 0.2f;
             }
-            if (oldVelocity.Y != projectile.velocity.Y)
+            if (oldVelocity.Y != Projectile.velocity.Y)
             {
                 hitTile = Math.Abs(oldVelocity.Y) > 4f;
 
-                projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-                projectile.velocity.Y = -oldVelocity.Y * 0.2f;
+                Projectile.position.Y = Projectile.position.Y + Projectile.velocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.2f;
             }
 
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
 
             if (hitTile)
             {
-                projectile.netUpdate = true;
-                Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(SoundID.Dig, projectile.position);
+                Projectile.netUpdate = true;
+                Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+                SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             }
 
             return false;
@@ -184,10 +185,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/YateveoBloomChain");
-            Vector2 vector17 = projectile.Center;
+            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/YateveoBloomChain");
+            Vector2 vector17 = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
             float num91 = (float)texture2D2.Height;

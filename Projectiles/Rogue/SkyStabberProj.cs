@@ -19,52 +19,52 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 15;
-            projectile.height = 15;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.tileCollide = true;
-            projectile.penetrate = 20;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = 15;
+            Projectile.height = 15;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = 20;
+            Projectile.timeLeft = Lifetime;
 
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
+            Projectile.ai[0] += 1f;
 
-            if (projectile.ai[0] >= 90f)
+            if (Projectile.ai[0] >= 90f)
             {
-                projectile.velocity.X *= 0.98f;
-                projectile.velocity.Y *= 0.98f;
+                Projectile.velocity.X *= 0.98f;
+                Projectile.velocity.Y *= 0.98f;
             }
             else
             {
-                projectile.rotation += 0.3f * (float)projectile.direction;
+                Projectile.rotation += 0.3f * (float)Projectile.direction;
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.killSpikyBalls)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
             }
         }
 
         // Makes the projectile bounce infinitely, as it stops mid-air anyway.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            if (projectile.velocity.X != oldVelocity.X)
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X * 0.6f;
+                Projectile.velocity.X = -oldVelocity.X * 0.6f;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y * 0.6f;
+                Projectile.velocity.Y = -oldVelocity.Y * 0.6f;
             }
             return false;
         }
@@ -81,11 +81,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 for (int n = 0; n < 4; n++)
                 {
-                    Projectile feather = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
+                    Projectile feather = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
                     if (feather.whoAmI.WithinBounds(Main.maxProjectiles))
                         feather.Calamity().forceRogue = true;
                 }

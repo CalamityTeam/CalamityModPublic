@@ -14,23 +14,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 132;
-            item.mana = 50;
-            item.magic = true;
-            item.width = 48;
-            item.height = 22;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ThunderstormShot>();
+            Item.damage = 132;
+            Item.mana = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 48;
+            Item.height = 22;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ThunderstormShot>();
         }
 
         public override Vector2? HoldoutOffset()

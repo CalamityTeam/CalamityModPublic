@@ -24,22 +24,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 92;
-            item.height = 104;
-            item.scale = 1.5f;
-            item.damage = 170;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.knockBack = 9.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.width = 92;
+            Item.height = 104;
+            Item.scale = 1.5f;
+            Item.damage = 170;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.knockBack = 9.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
 
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (target.Calamity().miscDefenseLoss < target.defense)
@@ -144,7 +144,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (player.moonLeech)
@@ -157,13 +157,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GrandGuardian>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaBlade>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandGuardian>()).AddIngredient(ModContent.ItemType<GalacticaBlade>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

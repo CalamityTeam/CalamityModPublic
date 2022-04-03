@@ -19,24 +19,24 @@ Stealth strikes continuously leave spectral clones in their wake");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 955;
-            item.knockBack = 8f;
+            Item.damage = 955;
+            Item.knockBack = 8f;
 
-            item.width = 102;
-            item.height = 98;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.autoReuse = true;
-            item.shootSpeed = 14.5f;
-            item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
-            item.UseSound = SoundID.Item1;
-            item.Calamity().rogue = true;
+            Item.width = 102;
+            Item.height = 98;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14.5f;
+            Item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
+            Item.UseSound = SoundID.Item1;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,14 +54,7 @@ Stealth strikes continuously leave spectral clones in their wake");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
-            recipe.AddIngredient(ModContent.ItemType<PhantomLance>(), 500);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LuminousStriker>()).AddIngredient(ModContent.ItemType<PhantomLance>(), 500).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<Phantoplasm>(), 20).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

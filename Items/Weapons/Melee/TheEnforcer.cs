@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -20,34 +21,34 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.height = 100;
-            item.scale = 1.5f;
-            item.damage = 890;
-            item.melee = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 17;
-            item.useTurn = true;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 100;
+            Item.height = 100;
+            Item.scale = 1.5f;
+            Item.damage = 890;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 17;
+            Item.useTurn = true;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow"));
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.Item73, player.position);
+            SoundEngine.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 3f;
-            player.itemTime = item.useTime;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
             float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
@@ -85,16 +86,16 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Main.PlaySound(SoundID.Item73, player.position);
+            SoundEngine.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 3f;
-            player.itemTime = item.useTime;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
             float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
@@ -132,7 +133,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
@@ -144,11 +145,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

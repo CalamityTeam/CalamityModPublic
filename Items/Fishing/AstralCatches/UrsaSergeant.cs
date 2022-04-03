@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetDefaults()
         {
-            item.defense = 20;
-            item.width = 36;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.accessory = true;
+            Item.defense = 20;
+            Item.width = 36;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

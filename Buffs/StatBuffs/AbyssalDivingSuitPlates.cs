@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class AbyssalDivingSuitPlates : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Diving Suit Plates");
             Description.SetDefault("The plates will absorb 15% damage");

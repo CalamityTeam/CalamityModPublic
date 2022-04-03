@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 22;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 22;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item122;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = true; //GRRRRRRRRRRRRRRRR false begone
-            item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
-            item.shootSpeed = 12f;
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 22;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item122;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = true; //GRRRRRRRRRRRRRRRR false begone
+            Item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -43,13 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StormlionMandible>()).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddIngredient(ModContent.ItemType<Navystone>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

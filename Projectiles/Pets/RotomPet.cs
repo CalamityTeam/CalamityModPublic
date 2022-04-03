@@ -20,27 +20,27 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rotom");
-            Main.projFrames[projectile.type] = 4;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
+            Projectile.netImportant = true;
+            Projectile.width = Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (player.dead)
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.rotomPet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
 
             if (!initialized)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Pets
             UpdateForm(player);
             UpdateFrames();
 
-            projectile.FloatingPetAI(true, 0.05f);
+            Projectile.FloatingPetAI(true, 0.05f);
         }
 
         private void UpdateForm(Player player)
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Pets
             int dustAmt = 25;
             for (int i = 0; i < dustAmt; i++)
             {
-                int electric = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 132, 0f, 0f, 0, default, 1f);
+                int electric = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 132, 0f, 0f, 0, default, 1f);
                 Main.dust[electric].velocity *= 2f;
                 Main.dust[electric].scale *= 1.15f;
             }
@@ -95,41 +95,41 @@ namespace CalamityMod.Projectiles.Pets
 
         private void UpdateFrames()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (Projectile.frame >= 4)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Drawing(spriteBatch, lightColor,
-                Main.projectileTexture[projectile.type],
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomDex"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomWash"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomHeat"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomFrost"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomMow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomFan"));
+                Main.projectileTexture[Projectile.type],
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDex"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWash"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeat"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrost"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFan"));
             return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Drawing(spriteBatch, Color.White,
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomPetGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomDexGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomWashGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomHeatGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomFrostGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomMowGlow"),
-                ModContent.GetTexture("CalamityMod/Projectiles/Pets/RotomFanGlow"));
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomPetGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomDexGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomWashGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomHeatGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFrostGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomMowGlow"),
+                ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFanGlow"));
         }
 
         private void Drawing(SpriteBatch spriteBatch, Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
@@ -159,13 +159,13 @@ namespace CalamityMod.Projectiles.Pets
                     break;
             }
 
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int frameHeight = height * projectile.frame;
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), projectile.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0f);
         }
 
         public override bool CanDamage() => false;

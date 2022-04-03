@@ -11,30 +11,30 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Rain");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.aiStyle = 45;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
-            projectile.alpha = 255;
-            projectile.scale = 1.1f;
-            projectile.minion = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.aiStyle = 45;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
+            Projectile.alpha = 255;
+            Projectile.scale = 1.1f;
+            Projectile.minion = true;
             aiType = ProjectileID.RainFriendly;
         }
 
         public override void AI()
         {
-            int blood = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f);
+            int blood = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 5, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f);
             Dust dust = Main.dust[blood];
             dust.velocity = Vector2.Zero;
-            dust.position -= projectile.velocity / 5f;
+            dust.position -= Projectile.velocity / 5f;
             dust.noGravity = true;
             dust.scale = 2f;
             dust.noLight = true;

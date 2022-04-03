@@ -17,23 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 22;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item40;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodClotFriendly>();
-            item.shootSpeed = 22f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 22;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item40;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BloodClotFriendly>();
+            Item.shootSpeed = 22f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 8);
-            recipe.AddIngredient(ItemID.Vertebrae, 4);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 4);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodSample>(), 8).AddIngredient(ItemID.Vertebrae, 4).AddIngredient(ItemID.CrimtaneBar, 4).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

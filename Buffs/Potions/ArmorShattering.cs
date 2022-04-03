@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class ArmorShattering : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Armor Shattering");
             Description.SetDefault("Melee and rogue attacks break enemy armor");

@@ -19,22 +19,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 34;
-            item.height = 34;
-            item.damage = 80;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<EpidemicShredderProjectile>();
-            item.shootSpeed = 18f;
-            item.Calamity().rogue = true;
+            Item.width = 34;
+            Item.height = 34;
+            Item.damage = 80;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<EpidemicShredderProjectile>();
+            Item.shootSpeed = 18f;
+            Item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -49,13 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 20);
-            recipe.AddIngredient(ItemID.Nanites, 150);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ChlorophyteBar, 20).AddIngredient(ItemID.Nanites, 150).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -4,43 +4,44 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class CondemnationArrow : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Condemning Arrow");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 90;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 300;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 26;
+            Projectile.height = 90;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
             //Sound is played in the first frame instead of in the weapon shoot for proper mp sync
-            if (projectile.timeLeft == 300)
-                Main.PlaySound(SoundID.DD2_BallistaTowerShot, projectile.Center);
+            if (Projectile.timeLeft == 300)
+                SoundEngine.PlaySound(SoundID.DD2_BallistaTowerShot, Projectile.Center);
 
 
-            Lighting.AddLight(projectile.Center, Color.Violet.ToVector3());
-            projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Lighting.AddLight(Projectile.Center, Color.Violet.ToVector3());
+            Projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Time++;
 
             // Release side arrows every so often.
@@ -48,8 +49,8 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = -1; i <= 1; i += 2)
                 {
-                    Vector2 shootVelocity = projectile.velocity.RotatedBy(i * 0.036f);
-                    Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<CondemnationArrowHoming>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Vector2 shootVelocity = Projectile.velocity.RotatedBy(i * 0.036f);
+                    Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<CondemnationArrowHoming>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -58,13 +59,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Color c1 = new Color(226, 40, 40, 0);
             Color c2 = new Color(205, 0, 194, 0);
-            Color fadeColor = Color.Lerp(c1, c2, (float)Math.Cos(projectile.identity * 1.41f + Main.GlobalTime * 8f) * 0.5f + 0.5f);
-            return Color.Lerp(lightColor, fadeColor, 0.5f) * projectile.Opacity;
+            Color fadeColor = Color.Lerp(c1, c2, (float)Math.Cos(Projectile.identity * 1.41f + Main.GlobalTime * 8f) * 0.5f + 0.5f);
+            return Color.Lerp(lightColor, fadeColor, 0.5f) * Projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
@@ -76,10 +77,10 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 30; i++)
             {
-                Dust fire = Dust.NewDustPerfect(projectile.Center, 130);
-                fire.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.8f) * new Vector2(4f, 1.25f) * Main.rand.NextFloat(0.9f, 1f);
-                fire.velocity = fire.velocity.RotatedBy(projectile.rotation - MathHelper.PiOver2);
-                fire.velocity += projectile.velocity * 0.7f;
+                Dust fire = Dust.NewDustPerfect(Projectile.Center, 130);
+                fire.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.8f) * new Vector2(4f, 1.25f) * Main.rand.NextFloat(0.9f, 1f);
+                fire.velocity = fire.velocity.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
+                fire.velocity += Projectile.velocity * 0.7f;
 
                 fire.noGravity = true;
                 fire.color = Color.Lerp(Color.White, Color.Purple, Main.rand.NextFloat());
@@ -87,10 +88,10 @@ namespace CalamityMod.Projectiles.Ranged
 
                 fire = Dust.CloneDust(fire);
                 fire.velocity = Main.rand.NextVector2Circular(3f, 3f);
-                fire.velocity += projectile.velocity * 0.6f;
+                fire.velocity += Projectile.velocity * 0.6f;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Projectile.RotatingHitboxCollision(targetHitbox.TopLeft(), targetHitbox.Size());
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -9,69 +10,69 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.aiStyle = 1;
-            projectile.coldDamage = true;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.Calamity().rogue = true;
-            projectile.coldDamage = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.aiStyle = 1;
+            Projectile.coldDamage = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.Calamity().rogue = true;
+            Projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frost Shard");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
             }
 
-            if (projectile.frame >= 5)
-                projectile.frame = 0;
+            if (Projectile.frame >= 5)
+                Projectile.frame = 0;
 
-            projectile.velocity.Y += 0.2f;
-            if (projectile.localAI[0] == 0f || projectile.localAI[0] == 2f)
+            Projectile.velocity.Y += 0.2f;
+            if (Projectile.localAI[0] == 0f || Projectile.localAI[0] == 2f)
             {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 50;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.01f;
+                Projectile.alpha -= 50;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.alpha = 0;
+                    Projectile.localAI[0] = 1f;
+                    Projectile.alpha = 0;
                 }
             }
-            else if (projectile.localAI[0] == 1.0)
+            else if (Projectile.localAI[0] == 1.0)
             {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 50;
-                if (projectile.alpha >= byte.MaxValue)
+                Projectile.scale -= 0.01f;
+                Projectile.alpha += 50;
+                if (Projectile.alpha >= byte.MaxValue)
                 {
-                    projectile.localAI[0] = 2f;
-                    projectile.alpha = byte.MaxValue;
+                    Projectile.localAI[0] = 2f;
+                    Projectile.alpha = byte.MaxValue;
                 }
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha);
+            return new Color(200, 200, 200, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.ai[0] != 1f || Main.rand.NextBool(20))
-                Main.PlaySound(SoundID.Item27, projectile.position);
+            if (Projectile.ai[0] != 1f || Main.rand.NextBool(20))
+                SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (int index1 = 0; index1 < 3; ++index1)
             {
-                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 76);
+                int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 76);
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].noLight = true;
                 Main.dust[index2].scale = 0.7f;

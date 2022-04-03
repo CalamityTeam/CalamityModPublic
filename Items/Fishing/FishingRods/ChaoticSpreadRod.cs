@@ -18,17 +18,17 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.fishingPole = 45;
-            item.shootSpeed = 17f;
-            item.shoot = ModContent.ProjectileType<ChaoticSpreadBobber>();
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 45;
+            Item.shootSpeed = 17f;
+            Item.shoot = ModContent.ProjectileType<ChaoticSpreadBobber>();
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,12 +44,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HotlineFishingHook);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 8);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HotlineFishingHook).AddIngredient(ModContent.ItemType<CruptixBar>(), 8).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

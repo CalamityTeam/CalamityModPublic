@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -10,62 +11,62 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.netImportant = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
+            Projectile.width = 12;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.netImportant = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             //Cycle through animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            Vector2 center = projectile.Center;
+            Vector2 center = Projectile.Center;
             float maxDistance = 500f;
             bool homeIn = false;
-            int target = (int)projectile.ai[0];
+            int target = (int)Projectile.ai[0];
 
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDistance = (npc.width / 2) + (npc.height / 2);
 
                     bool canHit = true;
                     if (extraDistance < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                        canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
 
-                    if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                    if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance) && canHit)
                     {
                         center = npc.Center;
                         homeIn = true;
                     }
                 }
             }
-            else if (Main.npc[target].CanBeChasedBy(projectile, false))
+            else if (Main.npc[target].CanBeChasedBy(Projectile, false))
             {
                 NPC npc = Main.npc[target];
 
@@ -73,9 +74,9 @@ namespace CalamityMod.Projectiles.Summon
 
                 bool canHit = true;
                 if (extraDistance < maxDistance)
-                    canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                    canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
 
-                if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance) && canHit)
                 {
                     center = npc.Center;
                     homeIn = true;
@@ -86,15 +87,15 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDistance = (npc.width / 2) + (npc.height / 2);
 
                         bool canHit = true;
                         if (extraDistance < maxDistance)
-                            canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                            canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
 
-                        if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                        if (Vector2.Distance(npc.Center, Projectile.Center) < (maxDistance + extraDistance) && canHit)
                         {
                             center = npc.Center;
                             homeIn = true;
@@ -106,29 +107,29 @@ namespace CalamityMod.Projectiles.Summon
 
             if (homeIn)
             {
-                Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
-                projectile.velocity = (projectile.velocity * 20f + moveDirection * 21f) / (21f);
+                Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                Projectile.velocity = (Projectile.velocity * 20f + moveDirection * 21f) / (21f);
             }
 
-            int blueT = Dust.NewDust(projectile.position, projectile.width, projectile.height, 59, 0f, 0f, 100, default, 0.6f);
+            int blueT = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 59, 0f, 0f, 100, default, 0.6f);
             Main.dust[blueT].noGravity = true;
             Main.dust[blueT].velocity *= 0.5f;
-            Main.dust[blueT].velocity += projectile.velocity * 0.1f;
+            Main.dust[blueT].velocity += Projectile.velocity * 0.1f;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item45, projectile.position);
-            int blue = Dust.NewDust(projectile.position, projectile.width, projectile.height, 59, 0f, 0f, 100, default, 1f);
+            SoundEngine.PlaySound(SoundID.Item45, Projectile.position);
+            int blue = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 59, 0f, 0f, 100, default, 1f);
             Main.dust[blue].velocity *= 0.5f;
             if (Main.rand.NextBool(2))
             {
                 Main.dust[blue].scale = 0.5f;
                 Main.dust[blue].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
             }
-            int torch = Dust.NewDust(projectile.position, projectile.width, projectile.height, 59, 0f, 0f, 100, default, 1.4f);
+            int torch = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 59, 0f, 0f, 100, default, 1.4f);
             Main.dust[torch].noGravity = true;
-            Dust.NewDust(projectile.position, projectile.width, projectile.height, 59, 0f, 0f, 100, default, 0.8f);
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 59, 0f, 0f, 100, default, 0.8f);
         }
     }
 }

@@ -22,28 +22,28 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SafeSetDefaults()
         {
-            CalamityGlobalItem modItem = item.Calamity();
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.damage = 75;
+            Item.damage = 75;
             modItem.rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 26;
-            item.height = 44;
-            item.useTime = 56;
-            item.useAnimation = 56;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 0f;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 26;
+            Item.height = 44;
+            Item.useTime = 56;
+            Item.useAnimation = 56;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 0f;
 
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            Item.rare = ItemRarityID.Red;
 
             modItem.customRarity = CalamityRarity.DraedonRust;
-            item.UseSound = SoundID.Item1;
+            Item.UseSound = SoundID.Item1;
 
-            item.shootSpeed = 16f;
-            item.shoot = ModContent.ProjectileType<WavePounderProjectile>();
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<WavePounderProjectile>();
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 190f;
@@ -62,14 +62,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            ArsenalTierGatedRecipe recipe = new ArsenalTierGatedRecipe(mod, 4);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
-            recipe.AddIngredient(ItemID.LunarBar, 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).AddIngredient(ModContent.ItemType<DubiousPlating>(), 18).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddIngredient(ItemID.LunarBar, 4).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

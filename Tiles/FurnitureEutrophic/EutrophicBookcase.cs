@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();

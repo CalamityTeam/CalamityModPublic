@@ -37,22 +37,22 @@ namespace CalamityMod.Prefixes
             {
                 //Damage, Use Time, Crit, Velocity, SS Dmg
                 RogueModifiers = new List<byte>();
-                AddRoguePrefix(mod, RoguePrefixType.Pointy, 1.1f, 1f, 0, 1f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Sharp, 1.15f, 1f, 0, 1f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Feathered, 1f, 0.85f, 0, 1.1f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Sleek, 1f, 0.9f, 0, 1.15f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Hefty, 1.1f, 1f, 0, 1f, 1.15f);
-                AddRoguePrefix(mod, RoguePrefixType.Mighty, 1.15f, 1f, 0, 1f, 1.05f);
-                AddRoguePrefix(mod, RoguePrefixType.Glorious, 1.1f, 0.95f, 0, 1f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Serrated, 1.1f, 0.9f, 0, 1.05f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Vicious, 1.1f, 0.95f, 0, 1.15f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Lethal, 1.1f, 0.95f, 2, 1.05f, 1.05f);
-                AddRoguePrefix(mod, RoguePrefixType.Flawless, 1.15f, 0.9f, 5, 1.1f, 1.15f);
-                AddRoguePrefix(mod, RoguePrefixType.Radical, 1.05f, 0.95f, 0, 1.05f, 0.9f);
-                AddRoguePrefix(mod, RoguePrefixType.Blunt, 0.85f, 1f, 0, 1f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Flimsy, 0.9f, 1f, 0, 1f, 0.9f);
-                AddRoguePrefix(mod, RoguePrefixType.Unbalanced, 1f, 1.15f, 0, 0.95f, 1f);
-                AddRoguePrefix(mod, RoguePrefixType.Atrocious, 0.85f, 1f, 0, 0.9f, 0.9f);
+                AddRoguePrefix(Mod, RoguePrefixType.Pointy, 1.1f, 1f, 0, 1f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Sharp, 1.15f, 1f, 0, 1f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Feathered, 1f, 0.85f, 0, 1.1f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Sleek, 1f, 0.9f, 0, 1.15f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Hefty, 1.1f, 1f, 0, 1f, 1.15f);
+                AddRoguePrefix(Mod, RoguePrefixType.Mighty, 1.15f, 1f, 0, 1f, 1.05f);
+                AddRoguePrefix(Mod, RoguePrefixType.Glorious, 1.1f, 0.95f, 0, 1f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Serrated, 1.1f, 0.9f, 0, 1.05f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Vicious, 1.1f, 0.95f, 0, 1.15f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Lethal, 1.1f, 0.95f, 2, 1.05f, 1.05f);
+                AddRoguePrefix(Mod, RoguePrefixType.Flawless, 1.15f, 0.9f, 5, 1.1f, 1.15f);
+                AddRoguePrefix(Mod, RoguePrefixType.Radical, 1.05f, 0.95f, 0, 1.05f, 0.9f);
+                AddRoguePrefix(Mod, RoguePrefixType.Blunt, 0.85f, 1f, 0, 1f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Flimsy, 0.9f, 1f, 0, 1f, 0.9f);
+                AddRoguePrefix(Mod, RoguePrefixType.Unbalanced, 1f, 1.15f, 0, 0.95f, 1f);
+                AddRoguePrefix(Mod, RoguePrefixType.Atrocious, 0.85f, 1f, 0, 0.9f, 0.9f);
             }
             return false;
         }

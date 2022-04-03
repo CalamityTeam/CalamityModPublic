@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.mana = 10;
-            item.width = item.height = 36;
-            item.useTime = item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
+            Item.damage = 24;
+            Item.mana = 10;
+            Item.width = Item.height = 36;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
 
-            item.UseSound = SoundID.NPCHit1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EyeOfNightSummon>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.UseSound = SoundID.NPCHit1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<EyeOfNightSummon>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,14 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BelladonnaSpiritStaff>());
-            recipe.AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>());
-            recipe.AddIngredient(ModContent.ItemType<VileFeeder>());
-            recipe.AddIngredient(ItemID.ImpStaff);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BelladonnaSpiritStaff>()).AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>()).AddIngredient(ModContent.ItemType<VileFeeder>()).AddIngredient(ItemID.ImpStaff).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

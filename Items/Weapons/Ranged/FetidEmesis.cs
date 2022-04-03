@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,23 +18,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 129;
-            item.ranged = true;
-            item.width = 76;
-            item.height = 46;
-            item.useTime = item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 129;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 76;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) > 40;
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (player.Calamity().soundCooldown <= 0)
                 {
                     // WoF vomit sound.
-                    Main.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
                     player.Calamity().soundCooldown = 120;
                 }
                 return false;

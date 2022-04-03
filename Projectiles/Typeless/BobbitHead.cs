@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+            Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
         }
 
         // Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
             int hooksOut = 0;
             for (int l = 0; l < Main.maxProjectiles; l++)
             {
-                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
+                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type)
                 {
                     hooksOut++;
                 }
@@ -62,18 +62,18 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawHook(projectile, GetTexture("CalamityMod/ExtraTextures/Chains/BobbitHookChain"));
+            CalamityUtils.DrawHook(Projectile, GetTexture("CalamityMod/ExtraTextures/Chains/BobbitHookChain"));
             return true;
         }
 
         public override void AI()
         {
-            projectile.spriteDirection = -projectile.direction;
+            Projectile.spriteDirection = -Projectile.direction;
 
-            if (projectile.ai[0] == 2f)
-                projectile.extraUpdates = 1;
+            if (Projectile.ai[0] == 2f)
+                Projectile.extraUpdates = 1;
             else
-                projectile.extraUpdates = 0;
+                Projectile.extraUpdates = 0;
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -12,43 +13,43 @@ namespace CalamityMod.Projectiles.Magic
         private const int FramesPerFireRateIncrease = 36;
         private static int[] LaserOffsetByAnimationFrame = { 4, 3, 0, 3 };
 
-        private Player Owner => Main.player[projectile.owner];
+        private Player Owner => Main.player[Projectile.owner];
         private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
-        private ref float DeployedFrames => ref projectile.ai[0];
-        private ref float ChargeTowardsNextShot => ref projectile.ai[1];
+        private ref float DeployedFrames => ref Projectile.ai[0];
+        private ref float ChargeTowardsNextShot => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nano Purge");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 62;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
+            Projectile.width = 34;
+            Projectile.height = 62;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 gunBarrelPos = armPosition + projectile.velocity * projectile.height * 0.5f;
+            Vector2 gunBarrelPos = armPosition + Projectile.velocity * Projectile.height * 0.5f;
 
             // If the player is unable to continue using the holdout, delete it.
             if (!OwnerCanShoot)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
             Item nanoPurge = Owner.ActiveItem();
-            projectile.damage = (int)((nanoPurge?.damage ?? 0) * Owner.MagicDamage());
+            Projectile.damage = (int)((nanoPurge?.damage ?? 0) * Owner.MagicDamage());
 
             // Get the original weapon's use time.
             int itemUseTime = nanoPurge?.useAnimation ?? Purge.UseTime;
@@ -68,17 +69,17 @@ namespace CalamityMod.Projectiles.Magic
                 ChargeTowardsNextShot -= itemUseTime;
 
                 // Update the animation.
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
 
                 bool manaCostPaid = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
                 if (manaCostPaid)
                 {
-                    Main.PlaySound(SoundID.Item91, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item91, Projectile.Center);
 
                     int projID = ModContent.ProjectileType<NanoPurgeLaser>();
                     float shootSpeed = nanoPurge.shootSpeed;
                     float inaccuracyRatio = 0.045f;
-                    Vector2 shootDirection = projectile.velocity.SafeNormalize(Vector2.UnitY);
+                    Vector2 shootDirection = Projectile.velocity.SafeNormalize(Vector2.UnitY);
                     Vector2 perp = shootDirection.RotatedBy(MathHelper.PiOver2);
 
                     // Fire a pair of lasers, one with a negative offset, one with a positive offset.
@@ -86,8 +87,8 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Vector2 spread = Main.rand.NextVector2CircularEdge(shootSpeed, shootSpeed);
                         Vector2 shootVelocity = shootDirection * shootSpeed + inaccuracyRatio * spread;
-                        Vector2 splitBarrelPos = gunBarrelPos + i * LaserOffsetByAnimationFrame[projectile.frame] * perp;
-                        Projectile.NewProjectile(splitBarrelPos, shootVelocity, projID, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Vector2 splitBarrelPos = gunBarrelPos + i * LaserOffsetByAnimationFrame[Projectile.frame] * perp;
+                        Projectile.NewProjectile(splitBarrelPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                         SpawnFiringDust(splitBarrelPos, shootVelocity);
                     }
                 }
@@ -95,7 +96,7 @@ namespace CalamityMod.Projectiles.Magic
                 // Delete the laser gun if a mana cost cannot be paid.
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
@@ -106,31 +107,31 @@ namespace CalamityMod.Projectiles.Magic
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.InverseLerp(5f, 25f, projectile.Distance(Main.MouseWorld), true);
-                Vector2 oldVelocity = projectile.velocity;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
-                if (projectile.velocity != oldVelocity)
+                float interpolant = Utils.InverseLerp(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                Vector2 oldVelocity = Projectile.velocity;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
                 {
-                    projectile.netSpam = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.Center = armPosition + projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction) * 8f;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.Center = armPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction) * 8f;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
         }
 
         private void ManipulatePlayerVariables()
         {
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            Owner.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         private void SpawnFiringDust(Vector2 gunBarrelPos, Vector2 laserVelocity)

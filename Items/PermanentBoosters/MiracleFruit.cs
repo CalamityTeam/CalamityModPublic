@@ -18,14 +18,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.rare = ItemRarityID.Yellow;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item4;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item4;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
@@ -55,15 +55,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(ItemID.TealMushroom);
-            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.TealMushroom).AddIngredient(ModContent.ItemType<TrapperBulb>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

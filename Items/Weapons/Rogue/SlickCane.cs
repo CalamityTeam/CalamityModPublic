@@ -18,31 +18,31 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 42;
-            item.height = 36;
-            item.damage = 27;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.melee = true;
-            item.useAnimation = 26;
-            item.useTime = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = ItemRarityID.LightRed;
-            item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
-            item.shootSpeed = 22f;
-            item.Calamity().rogue = true;
+            Item.width = 42;
+            Item.height = 36;
+            Item.damage = 27;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 26;
+            Item.useTime = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
+            Item.shootSpeed = 22f;
+            Item.Calamity().rogue = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float ai0 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
+            float ai0 = Main.rand.NextFloat() * Item.shootSpeed * 0.75f * (float)player.direction;
             int projectileIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
             if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 Main.projectile[projectileIndex].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

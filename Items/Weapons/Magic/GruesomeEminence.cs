@@ -22,31 +22,31 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 888;
-            item.magic = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.mana = 8;
-            item.width = 42;
-            item.height = 74;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<GruesomeEminenceHoldout>();
+            Item.damage = 888;
+            Item.DamageType = DamageClass.Magic;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.mana = 8;
+            Item.width = 42;
+            Item.height = 74;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<GruesomeEminenceHoldout>();
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         // This weapon uses a holdout projectile.
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, item.shoot, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, Item.shoot, damage, knockBack, player.whoAmI);
             return false;
         }
     }

@@ -13,54 +13,54 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cataclymini");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 32;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = Projectile.height = 32;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0.5f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int d = 0; d < dustAmt; d++)
                 {
-                    Vector2 source = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 dustVel = source - projectile.Center;
+                    Vector2 source = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 dustVel = source - Projectile.Center;
                     int brim = Dust.NewDust(source + dustVel, 0, 0, (int)CalamityDusts.Brimstone, dustVel.X * 1.75f, dustVel.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[brim].noGravity = true;
                     Main.dust[brim].velocity = dustVel;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                projectile.damage = damage2;
+                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
+                Projectile.damage = damage2;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<Cataclymini>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<Cataclymini>();
             if (correctMinion)
             {
                 if (player.dead)
@@ -69,36 +69,36 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.cEyes)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 2)
+            if (Projectile.frame > 2)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
             bool foundTarget = false;
-            Vector2 targetVec = projectile.position;
+            Vector2 targetVec = Projectile.position;
             float maxDistance = Calamitamini.Range;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     bool canHit = true;
                     if (extraDist < maxDistance)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                        canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
                     if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
                     {
                         targetVec = npc.Center;
@@ -111,13 +111,13 @@ namespace CalamityMod.Projectiles.Summon
                 for (int index = 0; index < Main.maxNPCs; index++)
                 {
                     NPC npc = Main.npc[index];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
-                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                        float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         bool canHit = true;
                         if (extraDist < maxDistance)
-                            canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+                            canHit = Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1);
                         if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
                         {
                             targetVec = npc.Center;
@@ -131,28 +131,28 @@ namespace CalamityMod.Projectiles.Summon
             {
                 sepAnxietyDist = Calamitamini.SeparationAnxietyMax;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > sepAnxietyDist)
+            if (Vector2.Distance(player.Center, Projectile.Center) > sepAnxietyDist)
             {
-                projectile.ai[0] = 1f;
-                projectile.tileCollide = false;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.tileCollide = false;
+                Projectile.netUpdate = true;
             }
-            if (foundTarget && projectile.ai[0] == 0f)
+            if (foundTarget && Projectile.ai[0] == 0f)
             {
-                Vector2 vecToTarget = targetVec - projectile.Center;
+                Vector2 vecToTarget = targetVec - Projectile.Center;
                 float targetDist = vecToTarget.Length();
                 vecToTarget.Normalize();
                 if (targetDist > 200f)
                 {
                     float speedMult = 8f; //6
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
                 else
                 {
                     float speedMult = -4f;
                     vecToTarget *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
                 }
             }
             else
@@ -160,77 +160,77 @@ namespace CalamityMod.Projectiles.Summon
                 bool returningToPlayer = false;
                 if (!returningToPlayer)
                 {
-                    returningToPlayer = projectile.ai[0] == 1f;
+                    returningToPlayer = Projectile.ai[0] == 1f;
                 }
                 float returnSpeed = 6f;
                 if (returningToPlayer)
                 {
                     returnSpeed = 18f;
                 }
-                Vector2 returnSpot = player.Center - projectile.Center + new Vector2(0f, -60f);
+                Vector2 returnSpot = player.Center - Projectile.Center + new Vector2(0f, -60f);
                 float playerDist = returnSpot.Length();
                 if (playerDist > 200f && returnSpeed < 10f)
                 {
                     returnSpeed = 10f;
                 }
-                if (playerDist < Calamitamini.SafeDist && returningToPlayer && !Collision.SolidCollision(projectile.Center, projectile.width, projectile.height))
+                if (playerDist < Calamitamini.SafeDist && returningToPlayer && !Collision.SolidCollision(Projectile.Center, Projectile.width, Projectile.height))
                 {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 if (playerDist > 2000f)
                 {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 if (playerDist > 70f)
                 {
                     returnSpot.Normalize();
                     returnSpot *= returnSpeed;
-                    projectile.velocity = (projectile.velocity * 40f + returnSpot) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + returnSpot) / 41f;
                 }
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.25f;
-                    projectile.velocity.Y = -0.15f;
+                    Projectile.velocity.X = -0.25f;
+                    Projectile.velocity.Y = -0.15f;
                 }
             }
 
             //Update rotation
             if (foundTarget)
             {
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi;
             }
 
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 30);
+                Projectile.ai[1] += (float)Main.rand.Next(1, 30);
             }
-            if (projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 90f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 float projSpeed = 8f;
                 int projType = ModContent.ProjectileType<BrimstoneFireSummon>();
-                if (foundTarget && projectile.ai[1] == 0f)
+                if (foundTarget && Projectile.ai[1] == 0f)
                 {
-                    projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.Center, projectile.width, projectile.height, targetVec, 0, 0))
+                    Projectile.ai[1] += 1f;
+                    if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.Center, Projectile.width, Projectile.height, targetVec, 0, 0))
                     {
-                        Vector2 velocity = targetVec - projectile.Center;
+                        Vector2 velocity = targetVec - Projectile.Center;
                         velocity.Normalize();
                         velocity *= projSpeed;
-                        Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        projectile.netUpdate = true;
+                        Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.netUpdate = true;
                     }
                 }
             }
@@ -238,11 +238,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int yStart = frameHeight * projectile.frame;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, yStart, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int yStart = frameHeight * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, yStart, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0f);
             return false;
         }
 

@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.ranged = true;
-            item.width = 66;
-            item.height = 34;
-            item.useTime = 3;
-            item.reuseDelay = 12;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.75f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 55;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 66;
+            Item.height = 34;
+            Item.useTime = 3;
+            Item.reuseDelay = 12;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.75f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -61,15 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Gatligator);
-            recipe.AddIngredient(ItemID.VenusMagnum);
-            recipe.AddIngredient(ItemID.ClockworkAssaultRifle);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Gatligator).AddIngredient(ItemID.VenusMagnum).AddIngredient(ItemID.ClockworkAssaultRifle).AddIngredient(ModContent.ItemType<BarofLife>(), 3).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -25,17 +25,17 @@ namespace CalamityMod.Items.Accessories
                 "Enemies take damage when they hit you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
         }
 
         public override void SetDefaults()
         {
-            item.defense = 20;
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.defense = 20;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Accessories
         {
             if (Texture == "CalamityMod/Items/Accessories/Sponge")
             {
-                Texture2D tex = ModContent.GetTexture("CalamityMod/Items/Accessories/SpongeShield");
-                spriteBatch.Draw(tex, item.Center - Main.screenPosition + new Vector2(0f, 0f), Main.itemAnimations[item.type].GetFrame(tex), Color.Cyan * 0.5f, 0f, new Vector2(tex.Width / 2f, (tex.Height / 30f ) * 0.8f), 1f, SpriteEffects.None, 0);
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield");
+                spriteBatch.Draw(tex, Item.Center - Main.screenPosition + new Vector2(0f, 0f), Main.itemAnimations[Item.type].GetFrame(tex), Color.Cyan * 0.5f, 0f, new Vector2(tex.Width / 2f, (tex.Height / 30f ) * 0.8f), 1f, SpriteEffects.None, 0);
             }
         }
 
@@ -63,22 +63,14 @@ namespace CalamityMod.Items.Accessories
         {
             if (Texture == "CalamityMod/Items/Accessories/Sponge")
             {
-                Texture2D tex = ModContent.GetTexture("CalamityMod/Items/Accessories/SpongeShield");
-                spriteBatch.Draw(tex, position, Main.itemAnimations[item.type].GetFrame(tex), Color.Cyan * 0.4f, 0f, origin, scale, SpriteEffects.None, 0);
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield");
+                spriteBatch.Draw(tex, position, Main.itemAnimations[Item.type].GetFrame(tex), Color.Cyan * 0.4f, 0f, origin, scale, SpriteEffects.None, 0);
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TheAbsorber>());
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TheAbsorber>()).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

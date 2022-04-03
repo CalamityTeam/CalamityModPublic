@@ -30,50 +30,37 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 225;
-            item.magic = true;
-            item.mana = 25;
-            item.width = 52;
-            item.height = 30;
-            item.crit += 4;
-            item.useTime = item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<RainbowPartyCannonProjectile>();
-            item.channel = true;
-            item.shootSpeed = 20f;
-            item.Calamity().devItem = true;
+            Item.damage = 225;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 25;
+            Item.width = 52;
+            Item.height = 30;
+            Item.crit += 4;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.rare = 10;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<RainbowPartyCannonProjectile>();
+            Item.channel = true;
+            Item.shootSpeed = 20f;
+            Item.Calamity().devItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
+            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             tt2.overrideColor = new Color((int)MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f), 108, 251);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ConfettiCannon);
-            recipe.AddIngredient(ModContent.ItemType<CosmicRainbow>());
-
-            // This is the Celebration. The ItemID name is a bit unclear.
-            // TODO -- Replace this with Celebration MK2 in 1.4.
-            recipe.AddIngredient(ItemID.FireworksLauncher);
-            recipe.AddIngredient(ItemID.FlaskofParty, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 25);
-            recipe.AddIngredient(ItemID.Confetti, 50);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ConfettiCannon).AddIngredient(ModContent.ItemType<CosmicRainbow>()).AddIngredient(ItemID.FireworksLauncher).AddIngredient(ItemID.FlaskofParty, 5).AddIngredient(ItemID.SoulofLight, 25).AddIngredient(ItemID.Confetti, 50).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

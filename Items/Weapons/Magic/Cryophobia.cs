@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 55;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 56;
-            item.height = 34;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item117;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<CryoBlast>();
+            Item.damage = 55;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 56;
+            Item.height = 34;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item117;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<CryoBlast>();
         }
 
         public override Vector2? HoldoutOffset()

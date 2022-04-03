@@ -41,72 +41,72 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.melee = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 360;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 360;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 30;
-                if (projectile.alpha >= 250)
+                Projectile.scale -= 0.02f;
+                Projectile.alpha += 30;
+                if (Projectile.alpha >= 250)
                 {
-                    projectile.alpha = 255;
-                    projectile.localAI[0] = 1f;
+                    Projectile.alpha = 255;
+                    Projectile.localAI[0] = 1f;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 30;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.02f;
+                Projectile.alpha -= 30;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
+                    Projectile.alpha = 0;
+                    Projectile.localAI[0] = 0f;
                 }
             }
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            Lighting.AddLight(Projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
             if (Main.rand.NextBool(2))
             {
-                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, alpha, Main.rand.Next(colors));
+                int rainbow = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 267, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, alpha, Main.rand.Next(colors));
                 Main.dust[rainbow].noGravity = true;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 355)
+            if (Projectile.timeLeft > 355)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 3; k++)
             {
-                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, alpha, Main.rand.Next(colors));
+                int rainbow = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 267, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f, alpha, Main.rand.Next(colors));
                 Main.dust[rainbow].noGravity = true;
             }
         }
@@ -131,14 +131,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
             target.AddBuff(BuffID.Daybreak, 150);
-            projectile.velocity *= 0.75f;
+            Projectile.velocity *= 0.75f;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 150);
             target.AddBuff(BuffID.Daybreak, 150);
-            projectile.velocity *= 0.75f;
+            Projectile.velocity *= 0.75f;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralSilt : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

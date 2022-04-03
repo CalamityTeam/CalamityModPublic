@@ -15,35 +15,35 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 500;
-            projectile.height = 500;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 500;
+            Projectile.height = 500;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 60;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight(projectile.Center, 5f * num, 1f * num, 4f * num);
+            Lighting.AddLight(Projectile.Center, 5f * num, 1f * num, 4f * num);
             float num461 = 25f;
-            if (projectile.ai[0] > 180f)
+            if (Projectile.ai[0] > 180f)
             {
-                num461 -= (projectile.ai[0] - 180f) / 2f;
+                num461 -= (Projectile.ai[0] - 180f) / 2f;
             }
             if (num461 <= 0f)
             {
                 num461 = 0f;
-                projectile.Kill();
+                Projectile.Kill();
             }
             num461 *= 0.7f;
-            projectile.ai[0] += 4f;
+            Projectile.ai[0] += 4f;
             int num462 = 0;
             while ((float)num462 < num461)
             {
@@ -67,10 +67,10 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     randomDust = 187;
                 }
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 2f);
+                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 2f);
                 Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = projectile.Center.X;
-                Main.dust[num467].position.Y = projectile.Center.Y;
+                Main.dust[num467].position.X = Projectile.Center.X;
+                Main.dust[num467].position.Y = Projectile.Center.Y;
                 Dust expr_149DF_cp_0 = Main.dust[num467];
                 expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
                 Dust expr_14A09_cp_0 = Main.dust[num467];

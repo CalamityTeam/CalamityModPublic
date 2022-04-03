@@ -13,26 +13,26 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Miasma");
             Tooltip.SetDefault("Fires a spread of gas clouds that slow down after hitting an enemy");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.magic = true;
-            item.mana = 16;
-            item.width = 50;
-            item.height = 64;
-            item.useTime = item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MiasmaGas>();
-            item.shootSpeed = 10f;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 16;
+            Item.width = 50;
+            Item.height = 64;
+            Item.useTime = Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MiasmaGas>();
+            Item.shootSpeed = 10f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,13 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NimbusRod);
-            recipe.AddIngredient(ModContent.ItemType<AquamarineStaff>());
-            recipe.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NimbusRod).AddIngredient(ModContent.ItemType<AquamarineStaff>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10).AddTile(TileID.Anvils).Register();
         }
     }
 }

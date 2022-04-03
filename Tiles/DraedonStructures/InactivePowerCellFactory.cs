@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public const int OriginOffsetX = 0; // this tile is never placed by the player, so this makes for simpler code
         public const int OriginOffsetY = 3;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;

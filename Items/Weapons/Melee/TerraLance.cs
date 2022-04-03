@@ -16,37 +16,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.damage = 88;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 17;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<TerraLanceProjectile>();
-            item.shootSpeed = 11f;
+            Item.width = 44;
+            Item.damage = 88;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 17;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<TerraLanceProjectile>();
+            Item.shootSpeed = 11f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophytePartisan);
-            recipe.AddIngredient(ItemID.DarkLance);
-            recipe.AddIngredient(ItemID.Gungnir);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ChlorophytePartisan).AddIngredient(ItemID.DarkLance).AddIngredient(ItemID.Gungnir).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CosmilampBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmilamp");
             Description.SetDefault("The cosmilamp will protect you");

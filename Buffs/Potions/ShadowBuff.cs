@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class ShadowBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow");
             Description.SetDefault("You're invisible, certain rogue weapons give and gain buffs, and stealth generation is boosted.");

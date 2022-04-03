@@ -15,22 +15,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 59;
-            item.ranged = true;
-            item.width = 50;
-            item.height = 18;
-            item.useTime = 9;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BrimstoneFireFriendly>();
-            item.shootSpeed = 8.5f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 59;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 50;
+            Item.height = 18;
+            Item.useTime = 9;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BrimstoneFireFriendly>();
+            Item.shootSpeed = 8.5f;
+            Item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()

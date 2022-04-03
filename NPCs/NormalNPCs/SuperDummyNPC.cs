@@ -12,22 +12,22 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.width = 18;
-            npc.height = 48;
-            npc.damage = 0;
-            npc.defense = 0;
-            npc.lifeMax = 9999999;
-            npc.HitSound = SoundID.NPCHit15;
-            npc.DeathSound = SoundID.NPCDeath2;
-            npc.value = 0f;
-            npc.knockBackResist = 0f;
-            npc.netAlways = true;
-            npc.aiStyle = 0;
+            NPC.width = 18;
+            NPC.height = 48;
+            NPC.damage = 0;
+            NPC.defense = 0;
+            NPC.lifeMax = 9999999;
+            NPC.HitSound = SoundID.NPCHit15;
+            NPC.DeathSound = SoundID.NPCDeath2;
+            NPC.value = 0f;
+            NPC.knockBackResist = 0f;
+            NPC.netAlways = true;
+            NPC.aiStyle = 0;
         }
 
         public override void UpdateLifeRegen(ref int damage)
         {
-            npc.lifeRegen += 2000000;
+            NPC.lifeRegen += 2000000;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -37,9 +37,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool CheckDead()
         {
-            if (npc.lifeRegen < 0)
+            if (NPC.lifeRegen < 0)
             {
-                npc.life = npc.lifeMax;
+                NPC.life = NPC.lifeMax;
                 return false;
             }
             return true;

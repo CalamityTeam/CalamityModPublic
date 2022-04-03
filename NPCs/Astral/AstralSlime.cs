@@ -17,39 +17,39 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 40;
-            npc.width = 36;
-            npc.height = 31;
-            npc.aiStyle = 1;
-            npc.defense = 8;
-            npc.lifeMax = 200;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.alpha = 60;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.damage = 40;
+            NPC.width = 36;
+            NPC.height = 31;
+            NPC.aiStyle = 1;
+            NPC.defense = 8;
+            NPC.lifeMax = 200;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.alpha = 60;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
-            banner = npc.type;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<AstralSlimeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
-                npc.damage = 65;
-                npc.defense = 18;
-                npc.lifeMax = 310;
+                NPC.damage = 65;
+                NPC.defense = 18;
+                NPC.lifeMax = 310;
             }
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void FindFrame(int frameHeight)
         {
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 44, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(4, 4, 36, 24), Vector2.Zero, 0.15f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(NPC, 44, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(4, 4, 36, 24), Vector2.Zero, 0.15f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -58,16 +58,16 @@ namespace CalamityMod.NPCs.Astral
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral(1))
+            else if (spawnInfo.Player.InAstral(1))
             {
                 return 0.21f;
             }
@@ -81,11 +81,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, 0.05f, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, 0.05f, 1, 1);
         }
     }
 }

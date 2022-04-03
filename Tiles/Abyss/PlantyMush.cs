@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class PlantyMush : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -48,10 +48,10 @@ namespace CalamityMod.Tiles.Abyss
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
-                        Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<AbyssGravelWall>() &&
+                        Main.tile[i, j + 1].WallType == (ushort)ModContent.WallType<AbyssGravelWall>() &&
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;
@@ -72,7 +72,7 @@ namespace CalamityMod.Tiles.Abyss
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<ViperVines>();
+                            Main.tile[num53, num54].TileType = (ushort)ModContent.TileType<ViperVines>();
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)

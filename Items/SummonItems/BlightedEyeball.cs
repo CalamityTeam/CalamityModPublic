@@ -4,6 +4,7 @@ using CalamityMod.NPCs.Calamitas;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,13 +20,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.rare = ItemRarityID.LightPurple;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = false;
+            Item.width = 28;
+            Item.height = 18;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.SummonItems
             return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -46,13 +47,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<BlightedLens>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7).AddIngredient(ModContent.ItemType<BlightedLens>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

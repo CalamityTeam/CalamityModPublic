@@ -21,23 +21,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 500;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 8;
-            item.reuseDelay = 20;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.autoReuse = true;
-            item.shootSpeed = 10f;
-            item.shoot = ModContent.ProjectileType<HadopelagicEchoSoundwave>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 500;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 8;
+            Item.reuseDelay = 20;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<HadopelagicEchoSoundwave>();
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -56,15 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EidolicWail>());
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EidolicWail>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 20).AddIngredient(ModContent.ItemType<DepthCells>(), 20).AddIngredient(ModContent.ItemType<Lumenite>(), 20).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

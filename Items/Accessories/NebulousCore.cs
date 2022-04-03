@@ -20,19 +20,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 14;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.rare = ItemRarityID.Purple;
+            Item.width = 16;
+            Item.height = 14;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.35f * num, 0.05f * num, 0.35f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 0.35f * num, 0.05f * num, 0.35f * num);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Accessories
                                 int num6 = (int)center.X / 16;
                                 int num7 = (int)center.Y / 16;
                                 bool flag = false;
-                                if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+                                if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].WallType > 0)
                                 {
                                     flag = true;
                                 }

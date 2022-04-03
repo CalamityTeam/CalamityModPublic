@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.BedRightClick(i, j);
         }

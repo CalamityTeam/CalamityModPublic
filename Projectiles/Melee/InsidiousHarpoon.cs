@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -12,32 +13,32 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Harpoon");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 8;
-            projectile.alpha = 255;
-            projectile.melee = true;
-            projectile.extraUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 * projectile.extraUpdates;
-            projectile.tileCollide = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 8;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * Projectile.extraUpdates;
+            Projectile.tileCollide = true;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 25;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
             int num297 = 171;
             if (Main.rand.Next(3) == 0)
@@ -46,31 +47,31 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Main.rand.NextBool(9))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, num297, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-                projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                Projectile.rotation += Projectile.spriteDirection * MathHelper.ToRadians(45f);
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(15);
-            if (projectile.ai[0] == 2f)
+            Projectile.StickyProjAI(15);
+            if (Projectile.ai[0] == 2f)
             {
-                projectile.velocity *= 0f;
+                Projectile.velocity *= 0f;
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(20, true);
+            Projectile.ModifyHitNPCSticky(20, true);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0] = 2f;
-            projectile.timeLeft = 300;
+            Projectile.ai[0] = 2f;
+            Projectile.timeLeft = 300;
             return false;
         }
 
@@ -81,17 +82,17 @@ namespace CalamityMod.Projectiles.Melee
             {
                 num297 = 46;
             }
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.Damage();
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 1.2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -101,17 +102,17 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int num623 = 0; num623 < 30; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 

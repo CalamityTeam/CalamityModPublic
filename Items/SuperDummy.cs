@@ -18,16 +18,16 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.width = 20;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.value = 0;
-            item.rare = ItemRarityID.Blue;
-            item.autoReuse = true;
+            Item.damage = 0;
+            Item.width = 20;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.value = 0;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = true;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -51,7 +51,7 @@ namespace CalamityMod.Items
             }
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
@@ -97,10 +97,7 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TargetDummy);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.TargetDummy).Register();
         }
     }
 }

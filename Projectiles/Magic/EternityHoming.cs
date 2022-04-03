@@ -17,35 +17,35 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 120;
-            projectile.alpha = 255;
-            projectile.magic = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 120;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            NPC target = projectile.Center.ClosestNPCAt(3000f);
+            NPC target = Projectile.Center.ClosestNPCAt(3000f);
             if (target != null)
-                projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(target.Center) * 10f) / 8f;
+                Projectile.velocity = (Projectile.velocity * 7f + Projectile.SafeDirectionTo(target.Center) * 10f) / 8f;
 
-            projectile.ai[0] += 0.18f;
-            float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            float pulse = (float)Math.Sin(projectile.ai[0]);
+            Projectile.ai[0] += 0.18f;
+            float angle = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            float pulse = (float)Math.Sin(Projectile.ai[0]);
             float radius = 4f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
 
-            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 264, Vector2.Zero);
+            Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 264, Vector2.Zero);
             dust.color = Eternity.BlueColor;
             dust.scale = 1.4f;
             dust.noLight = true;
             dust.noGravity = true;
 
-            dust = Dust.NewDustPerfect(projectile.Center - offset, 264, Vector2.Zero);
+            dust = Dust.NewDustPerfect(Projectile.Center - offset, 264, Vector2.Zero);
             dust.color = Eternity.PinkColor;
             dust.scale = 1.4f;
             dust.noLight = true;

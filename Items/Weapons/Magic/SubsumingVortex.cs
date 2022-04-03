@@ -21,27 +21,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 242;
-            item.magic = true;
-            item.mana = 78;
-            item.width = 38;
-            item.height = 48;
-            item.UseSound = SoundID.Item84;
-            item.useTime = item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
-            item.shootSpeed = 7f;
+            Item.damage = 242;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 78;
+            Item.width = 38;
+            Item.height = 48;
+            Item.UseSound = SoundID.Item84;
+            Item.useTime = Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
+            Item.shootSpeed = 7f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,14 +52,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AuguroftheElements>());
-            recipe.AddIngredient(ModContent.ItemType<EventHorizon>());
-            recipe.AddIngredient(ModContent.ItemType<TearsofHeaven>());
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuguroftheElements>()).AddIngredient(ModContent.ItemType<EventHorizon>()).AddIngredient(ModContent.ItemType<TearsofHeaven>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

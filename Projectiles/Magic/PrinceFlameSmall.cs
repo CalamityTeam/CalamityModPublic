@@ -9,44 +9,44 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PrinceFlameSmall : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public const int AttackDelay = 12;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 16;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 240;
-            projectile.penetrate = 1;
-            projectile.magic = true;
-            projectile.extraUpdates = 2;
+            Projectile.width = Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 240;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.extraUpdates = 2;
         }
 
         public override void AI()
         {
             Time++;
-            projectile.frameCounter++;
-            projectile.frame = projectile.frameCounter / 5 % Main.projFrames[projectile.type];
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            projectile.Opacity = Utils.InverseLerp(0f, 15f, projectile.timeLeft, true);
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true);
 
             if (Time > AttackDelay)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 32f);
+                CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 600f, 14f, 32f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             lightColor = Color.Lerp(lightColor, Color.White, 0.8f);
             lightColor.A /= 3;
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

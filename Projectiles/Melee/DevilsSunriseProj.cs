@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -15,60 +16,60 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil's Sunrise");
-            Main.projFrames[projectile.type] = 28;
+            Main.projFrames[Projectile.type] = 28;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 148;
-            projectile.height = 68;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
-            projectile.Calamity().trueMelee = true;
+            Projectile.width = 148;
+            Projectile.height = 68;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 5;
+            Projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] < 255f)
-                projectile.ai[1] += 1f;
+            if (Projectile.ai[1] < 255f)
+                Projectile.ai[1] += 1f;
 
-            if (projectile.ai[1] == 255f)
-                projectile.damage = (int)((double)projectile.Calamity().defDamage * 2.0);
+            if (Projectile.ai[1] == 255f)
+                Projectile.damage = (int)((double)Projectile.Calamity().defDamage * 2.0);
 
-            red = 64 + (int)(projectile.ai[1] * 0.75f);
+            red = 64 + (int)(Projectile.ai[1] * 0.75f);
             if (red > 255)
                 red = 255;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
 
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 num = 3.14159274f;
 
-            if (++projectile.frame >= Main.projFrames[projectile.type])
-                projectile.frame = 0;
+            if (++Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
-            projectile.soundDelay--;
-            if (projectile.soundDelay <= 0)
+            Projectile.soundDelay--;
+            if (Projectile.soundDelay <= 0)
             {
-                Main.PlaySound(SoundID.Item15, projectile.Center);
-                projectile.soundDelay = 24;
+                SoundEngine.PlaySound(SoundID.Item15, Projectile.Center);
+                Projectile.soundDelay = 24;
             }
 
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (player.channel && !player.noItems && !player.CCed)
                 {
                     float scaleFactor6 = 1f;
 
-                    if (player.ActiveItem().shoot == projectile.type)
-                        scaleFactor6 = player.ActiveItem().shootSpeed * projectile.scale;
+                    if (player.ActiveItem().shoot == Projectile.type)
+                        scaleFactor6 = player.ActiveItem().shootSpeed * Projectile.scale;
 
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();
@@ -76,39 +77,39 @@ namespace CalamityMod.Projectiles.Melee
                         vector13 = Vector2.UnitX * (float)player.direction;
 
                     vector13 *= scaleFactor6;
-                    if (vector13.X != projectile.velocity.X || vector13.Y != projectile.velocity.Y)
-                        projectile.netUpdate = true;
+                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
+                        Projectile.netUpdate = true;
 
-                    projectile.velocity = vector13;
+                    Projectile.velocity = vector13;
                 }
                 else
-                    projectile.Kill();
+                    Projectile.Kill();
             }
 
-            Vector2 vector14 = projectile.Center + projectile.velocity * 3f;
+            Vector2 vector14 = Projectile.Center + Projectile.velocity * 3f;
             Lighting.AddLight(vector14, (float)((double)red * 0.001), 0.1f, 0.1f);
 
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 66, projectile.velocity.X, projectile.velocity.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
+                int dust = Dust.NewDust(vector14 - Projectile.Size / 2f, Projectile.width, Projectile.height, 66, Projectile.velocity.X, Projectile.velocity.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
                 Main.dust[dust].noGravity = true;
-                Main.dust[dust].position -= projectile.velocity;
+                Main.dust[dust].position -= Projectile.velocity;
             }
 
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(red, greenAndBlue, greenAndBlue, projectile.alpha);
+            return new Color(red, greenAndBlue, greenAndBlue, Projectile.alpha);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

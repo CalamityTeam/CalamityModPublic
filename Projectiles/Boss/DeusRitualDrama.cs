@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -14,10 +15,10 @@ namespace CalamityMod.Projectiles.Boss
     {
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
-        public bool CreatedWithStarcore => projectile.ai[1] == 1f;
+        public bool CreatedWithStarcore => Projectile.ai[1] == 1f;
         public const int TotalSinePeriods = 6;
         public const int PulseTime = 45;
         public const int TotalRitualTime = 420;
@@ -30,23 +31,23 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 2;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = TotalRitualTime;
+            Projectile.width = Projectile.height = 2;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = TotalRitualTime;
         }
 
         public override void AI()
         {
-            projectile.extraUpdates = CreatedWithStarcore.ToInt();
+            Projectile.extraUpdates = CreatedWithStarcore.ToInt();
 
             Time++;
             if (Time == TotalRitualTime - PulseTime)
             {
-                int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+                int idx = NPC.NewNPC((int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
                 if (idx != -1)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), projectile.Center);
+                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), Projectile.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         CalamityUtils.BossAwakenMessage(idx);
@@ -68,12 +69,12 @@ namespace CalamityMod.Projectiles.Boss
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 float pulseCompletionRatio = Utils.InverseLerp(TotalRitualTime - PulseTime, TotalRitualTime, Time, true);
-                Vector2 scale = projectile.scale * (3f + pulseCompletionRatio * 5f) * new Vector2(1.5f, 1f);
-                DrawData drawData = new DrawData(ModContent.GetTexture("Terraria/Misc/Perlin"),
-                    projectile.Center - Main.screenPosition + PulseSize.ToVector2() * scale * 0.5f - Vector2.UnitY * upwardness,
+                Vector2 scale = Projectile.scale * (3f + pulseCompletionRatio * 5f) * new Vector2(1.5f, 1f);
+                DrawData drawData = new DrawData(ModContent.Request<Texture2D>("Terraria/Misc/Perlin"),
+                    Projectile.Center - Main.screenPosition + PulseSize.ToVector2() * scale * 0.5f - Vector2.UnitY * upwardness,
                     new Rectangle(0, 0, PulseSize.X, PulseSize.Y),
                     new Color(new Vector4(1f - (float)Math.Sqrt(pulseCompletionRatio))) * 0.66f,
-                    projectile.rotation,
+                    Projectile.rotation,
                     PulseSize.ToVector2(),
                     scale,
                     SpriteEffects.None, 0);
@@ -96,20 +97,20 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + Vector2.UnitY * offset.Y, 261);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Vector2.UnitY * offset.Y, 261);
                     dust.color = Utils.SelectRandom(Main.rand, Color.Cyan, Color.OrangeRed);
                     dust.scale = 1.15f;
                     dust.velocity = Main.rand.NextVector2CircularEdge(3f, 3f) * Main.rand.NextFloat(0.7f, 1.4f);
                     dust.noGravity = true;
 
                     float angle = MathHelper.TwoPi * i / 20f;
-                    dust = Dust.NewDustPerfect(projectile.Center + Vector2.UnitY * offset.Y, 261);
+                    dust = Dust.NewDustPerfect(Projectile.Center + Vector2.UnitY * offset.Y, 261);
                     dust.color = Utils.SelectRandom(Main.rand, Color.Cyan, Color.OrangeRed);
                     dust.scale = 1.15f;
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
             }
 
             DrawStars(spriteBatch, offset);
@@ -119,13 +120,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public void DrawStars(SpriteBatch spriteBatch, Vector2 offset)
         {
-            Texture2D starTexture = ModContent.GetTexture(Texture);
+            Texture2D starTexture = ModContent.Request<Texture2D>(Texture);
             for (int i = 0; i < 6; i++)
             {
                 float angle = MathHelper.TwoPi * i / 6f + Time / 15f;
                 Vector2 angularOffset = angle.ToRotationVector2() * 4f;
                 spriteBatch.Draw(starTexture,
-                                 projectile.Center + angularOffset + offset - Main.screenPosition,
+                                 Projectile.Center + angularOffset + offset - Main.screenPosition,
                                  null,
                                  Color.Cyan * 0.5f,
                                  0f,
@@ -134,7 +135,7 @@ namespace CalamityMod.Projectiles.Boss
                                  SpriteEffects.None,
                                  0f);
                 spriteBatch.Draw(starTexture,
-                                 projectile.Center + angularOffset + offset * new Vector2(-1f, 1f) - Main.screenPosition,
+                                 Projectile.Center + angularOffset + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                                  null,
                                  Color.OrangeRed * 0.5f,
                                  0f,
@@ -144,7 +145,7 @@ namespace CalamityMod.Projectiles.Boss
                                  0f);
             }
             spriteBatch.Draw(starTexture,
-                             projectile.Center + offset - Main.screenPosition,
+                             Projectile.Center + offset - Main.screenPosition,
                              null,
                              Color.Cyan * 1.4f,
                              0f,
@@ -153,7 +154,7 @@ namespace CalamityMod.Projectiles.Boss
                              SpriteEffects.None,
                              0f);
             spriteBatch.Draw(starTexture,
-                             projectile.Center + offset * new Vector2(-1f, 1f) - Main.screenPosition,
+                             Projectile.Center + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                              null,
                              Color.OrangeRed * 1.1f,
                              0f,
@@ -165,13 +166,13 @@ namespace CalamityMod.Projectiles.Boss
             // Generate dust at the star position. This gives them a trail effect.
             if (!Main.dedServ)
             {
-                Dust dust2 = Dust.NewDustPerfect(projectile.Center + offset, 261);
+                Dust dust2 = Dust.NewDustPerfect(Projectile.Center + offset, 261);
                 dust2.color = Color.Cyan;
                 dust2.scale = 1.15f;
                 dust2.velocity = Vector2.Zero;
                 dust2.noGravity = true;
 
-                dust2 = Dust.NewDustPerfect(projectile.Center + offset * new Vector2(-1f, 1f), 261);
+                dust2 = Dust.NewDustPerfect(Projectile.Center + offset * new Vector2(-1f, 1f), 261);
                 dust2.color = Color.OrangeRed;
                 dust2.scale = 1.15f;
                 dust2.velocity = Vector2.Zero;

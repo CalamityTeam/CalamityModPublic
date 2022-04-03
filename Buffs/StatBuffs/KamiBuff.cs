@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
@@ -7,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public const float RunSpeedBoost = 0.15f;
         public const float RunAccelerationBoost = 0.15f;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kami Injection");
             Description.SetDefault("Increased max movement speed, acceleration and damage");
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             player.Calamity().kamiBoost = true;
             if (player.buffTime[buffIndex] == 1)
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
         }
     }
 }

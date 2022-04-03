@@ -13,48 +13,48 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MaximumRepulsionSpeed = 13f;
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public bool North
         {
-            get => projectile.ai[1] == 1f;
-            set => projectile.ai[1] = value.ToInt();
+            get => Projectile.ai[1] == 1f;
+            set => Projectile.ai[1] = value.ToInt();
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pole Warper");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 22;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            Projectile.width = Projectile.height = 22;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 0.5f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0f)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.localAI[0] == 0f)
             {
                 Initialize(player);
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
             GrantBuffs(player);
-            NPC potentialTarget = projectile.Center.MinionHoming(1400f, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(1400f, player);
             if (potentialTarget is null)
             {
                 PlayerMovement(player);
@@ -73,13 +73,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void Initialize(Player player)
         {
-            projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-            projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+            Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             for (int i = 0; i < 45; i++)
             {
                 float angle = MathHelper.TwoPi / 45f * i;
                 Vector2 velocity = angle.ToRotationVector2() * 4f;
-                Dust dust = Dust.NewDustPerfect(projectile.Center + velocity * 2.75f, 261, velocity);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 261, velocity);
                 dust.noGravity = true;
             }
         }
@@ -87,18 +87,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         // While this projectile cannot attack, the projectiles it shoots derive from the damage.
         public void AdjustDamage(Player player)
         {
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
         }
 
         public void GrantBuffs(Player player)
         {
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<PoleWarperSummon>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<PoleWarperSummon>();
             player.AddBuff(ModContent.BuffType<PoleWarperBuff>(), 3600);
             if (isCorrectProjectile)
             {
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 if (player.Calamity().poleWarper)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
         }
@@ -116,18 +116,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public void PlayerMovement(Player player)
         {
             Vector2 destination = player.Center + Vector2.UnitY.RotatedBy(Time / 16f + AngularOffset + (!North).ToInt() * MathHelper.Pi) * 180f;
-            projectile.velocity = (projectile.velocity * 4f + projectile.SafeDirectionTo(destination) * 10f) / 5f;
-            projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity = (Projectile.velocity * 4f + Projectile.SafeDirectionTo(destination) * 10f) / 5f;
+            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public void NPCMovement(NPC npc)
         {
             for (int i = 0; i < Main.projectile.Length; i++)
             {
-                if (Main.projectile[i].type == projectile.type &&
+                if (Main.projectile[i].type == Projectile.type &&
                     Main.projectile[i].active &&
-                    projectile.owner == projectile.owner)
+                    Projectile.owner == Projectile.owner)
                 {
                     PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].modProjectile;
                     if (otherPole.Time != Time && otherPole.Time != Time + 1)
@@ -140,19 +140,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float offsetAngle = AngularOffset * 0.5f + (!North).ToInt() * MathHelper.Pi;
                 Vector2 destination = npc.Center + Vector2.UnitY.RotatedBy(offsetAngle) * 180f;
-                projectile.velocity = (projectile.velocity * 4f + projectile.SafeDirectionTo(destination) * 10f) / 5f;
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 25f;
-                projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
+                Projectile.velocity = (Projectile.velocity * 4f + Projectile.SafeDirectionTo(destination) * 10f) / 5f;
+                Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 25f;
+                Projectile.rotation = Projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
             else if (Time % 60f < 35f)
             {
-                projectile.velocity *= 0.96f;
-                projectile.rotation += 0.05f;
+                Projectile.velocity *= 0.96f;
+                Projectile.rotation += 0.05f;
             }
             else if (Time % 60f == 35f)
             {
-                projectile.velocity = projectile.SafeDirectionTo(npc.Center, -Vector2.UnitY) * 29f;
-                projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
+                Projectile.velocity = Projectile.SafeDirectionTo(npc.Center, -Vector2.UnitY) * 29f;
+                Projectile.rotation = Projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
         }
 
@@ -161,20 +161,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // This does not incorporate attraction on purpose. Doing so causes the minions to very easily become distracted.
             for (int i = 0; i < Main.projectile.Length; i++)
             {
-                if (Main.projectile[i].type == projectile.type &&
+                if (Main.projectile[i].type == Projectile.type &&
                     Main.projectile[i].active &&
-                    projectile.Distance(Main.projectile[i].Center) < 40f)
+                    Projectile.Distance(Main.projectile[i].Center) < 40f)
                 {
                     PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].modProjectile;
                     if (otherPole.North != North)
                     {
-                        float distanceFromOtherPole = projectile.Distance(Main.projectile[i].Center) + 1f;
+                        float distanceFromOtherPole = Projectile.Distance(Main.projectile[i].Center) + 1f;
                         if (float.IsNaN(distanceFromOtherPole) || distanceFromOtherPole < 1f)
                         {
                             distanceFromOtherPole = 1f;
                         }
                         float repulsionSpeed = MaximumRepulsionSpeed * (float)Math.Pow(3f, -distanceFromOtherPole / 27f);
-                        projectile.velocity -= (Main.projectile[i].Center - projectile.Center).SafeNormalize(Vector2.UnitY) * repulsionSpeed;
+                        Projectile.velocity -= (Main.projectile[i].Center - Projectile.Center).SafeNormalize(Vector2.UnitY) * repulsionSpeed;
                     }
                 }
             }
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, 1, lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, 1, lightColor, 2);
             return false;
         }
     }

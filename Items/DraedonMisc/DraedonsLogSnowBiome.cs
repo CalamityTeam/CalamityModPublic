@@ -15,15 +15,15 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.useAnimation = item.useTime = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
+            Item.width = 28;
+            Item.height = 28;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.useAnimation = Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (Main.myPlayer == player.whoAmI)
                 PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogSnowBiomeGUI));

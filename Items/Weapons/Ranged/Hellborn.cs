@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -19,22 +20,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.ranged = true;
-            item.width = 66;
-            item.height = 34;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 7;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 66;
+            Item.height = 34;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));
@@ -68,13 +69,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             player.Calamity().hellbornBoost = 600;
             damage *= 10;
-            player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.rangedDamage - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Ranged) - 1f)), 0f, 0, false);
             float num50 = 3.4f;
             float num51 = 1.6f;
             float num52 = 4f;
             Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            Main.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
             for (int num53 = 0; num53 < 80; num53++)
             {
                 int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 200, default, num50);

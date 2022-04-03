@@ -26,26 +26,18 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ObsidianRose);
-            recipe.AddIngredient(ModContent.ItemType<Gehenna>());
-            recipe.AddIngredient(ModContent.ItemType<CalamityRing>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<Gehenna>()).AddIngredient(ModContent.ItemType<CalamityRing>()).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddIngredient(ModContent.ItemType<CruptixBar>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

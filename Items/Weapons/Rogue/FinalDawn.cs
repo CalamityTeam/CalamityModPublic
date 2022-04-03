@@ -19,28 +19,28 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 1500;
-            item.Calamity().rogue = true;
-            item.width = 78;
-            item.height = 66;
-            item.noMelee = true;
-            item.useTime = item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
+            Item.damage = 1500;
+            Item.Calamity().rogue = true;
+            Item.width = 78;
+            Item.height = 66;
+            Item.noMelee = true;
+            Item.useTime = Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.Calamity().donorItem = true;
 
-            item.autoReuse = false;
-            item.shoot = ProjectileType<FinalDawnProjectile>();
-            item.shootSpeed = 1f;
-            item.useTurn = false;
-            item.channel = true;
-            item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.shoot = ProjectileType<FinalDawnProjectile>();
+            Item.shootSpeed = 1f;
+            Item.useTurn = false;
+            Item.channel = true;
+            Item.noUseGraphic = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] +
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnFireSlash>()] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnThrow>()] +

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusChandelier : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChandelier(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.6f;
                 g = 0.8f;

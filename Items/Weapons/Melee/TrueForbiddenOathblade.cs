@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,21 +20,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.height = 88;
-            item.damage = 150;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useTime = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
-            item.shootSpeed = 3f;
+            Item.width = 88;
+            Item.height = 88;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 23;
+            Item.useTime = 23;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
+            Item.shootSpeed = 3f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,14 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ForbiddenOathblade>());
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ForbiddenOathblade>()).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<CalamityDust>(), 3).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 3).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -79,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float num52 = 2f;
                 Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
                 Vector2 value4 = value3 * target.velocity.Length();
-                Main.PlaySound(SoundID.Item14, target.Center);
+                SoundEngine.PlaySound(SoundID.Item14, target.Center);
                 for (int num53 = 0; num53 < 40; num53++)
                 {
                     int num54 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 200, default, num50);
@@ -119,7 +113,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Shadowflame>(), 450);
                 target.AddBuff(BuffID.OnFire, 900);
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
         }
     }

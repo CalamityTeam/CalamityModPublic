@@ -16,30 +16,23 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.accessory = true;
-            item.rare = ItemRarityID.LightRed;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().voltaicJelly = true;
             player.Calamity().jellyChargedBattery = true;
-            player.minionDamage += 0.07f;
+            player.GetDamage(DamageClass.Summon) += 0.07f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumBattery>());
-            recipe.AddIngredient(ModContent.ItemType<VoltaicJelly>());
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumBattery>()).AddIngredient(ModContent.ItemType<VoltaicJelly>()).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.Anvils).Register();
         }
     }
 }

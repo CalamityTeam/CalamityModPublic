@@ -13,28 +13,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Magnetic Meltdown");
             Tooltip.SetDefault("Launches a diamond cross of supercharged magnet spheres");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.magic = true;
-            item.mana = 40;
-            item.width = 78;
-            item.height = 78;
-            item.useTime = 49;
-            item.useAnimation = 49;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MagneticOrb>();
-            item.shootSpeed = 12f;
+            Item.damage = 60;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 40;
+            Item.width = 78;
+            Item.height = 78;
+            Item.useTime = 49;
+            Item.useAnimation = 49;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MagneticOrb>();
+            Item.shootSpeed = 12f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
@@ -54,13 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpectreStaff);
-            recipe.AddIngredient(ItemID.MagnetSphere);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SpectreStaff).AddIngredient(ItemID.MagnetSphere).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

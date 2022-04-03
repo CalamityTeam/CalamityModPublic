@@ -16,32 +16,26 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 52;
-            item.damage = 71;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 37;
-            item.useTurn = true;
-            item.knockBack = 4.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 50;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<BloodBall>();
-            item.shootSpeed = 10f;
+            Item.width = 52;
+            Item.damage = 71;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 37;
+            Item.useTurn = true;
+            Item.knockBack = 4.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 50;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<BloodBall>();
+            Item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vertebrae, 5);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 5).AddIngredient(ItemID.CrimtaneBar, 5).AddIngredient(ModContent.ItemType<BloodSample>(), 15).AddTile(TileID.DemonAltar).Register();
         }
     }
 }

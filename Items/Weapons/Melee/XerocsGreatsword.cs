@@ -17,21 +17,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 130;
-            item.height = 106;
-            item.damage = 90;
-            item.melee = true;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 26;
-            item.useTurn = true;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.shoot = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
-            item.shootSpeed = 12f;
+            Item.width = 130;
+            Item.height = 106;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 26;
+            Item.useTurn = true;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
+            Item.shootSpeed = 12f;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
@@ -70,11 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MeldiateBar>(), 15).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

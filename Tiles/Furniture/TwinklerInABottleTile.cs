@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class TwinklerInABottleTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();

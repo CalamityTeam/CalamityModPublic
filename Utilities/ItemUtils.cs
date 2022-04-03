@@ -7,6 +7,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod
 {
@@ -348,7 +349,7 @@ namespace CalamityMod
                 }
 
                 // Broadsword use style
-                if (item.useStyle == ItemUseStyleID.SwingThrow)
+                if (item.useStyle == ItemUseStyleID.Swing)
                 {
                     // Third hitbox size adjustments
                     if (player.itemAnimation < player.itemAnimationMax * 0.333)
@@ -437,7 +438,7 @@ namespace CalamityMod
 
             if (!showsOver)
             {
-                Main.PlaySound(item.UseSound, player.Center);
+                SoundEngine.PlaySound(item.UseSound, player.Center);
 
                 double healMult = 1D +
                         (player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +

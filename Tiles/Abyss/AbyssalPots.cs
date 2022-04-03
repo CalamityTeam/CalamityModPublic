@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssalPots : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;

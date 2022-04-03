@@ -17,29 +17,23 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 14;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 24, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 14;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.15f;
-            player.rangedCrit += 5;
+            player.GetDamage(DamageClass.Ranged) += 0.15f;
+            player.GetCritChance(DamageClass.Ranged) += 5;
             player.Calamity().reducedPlagueDmg = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NecroBreastplate); //I will instead change the position of the necro armor get trolled
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 29); //I like prime numbers =)
-            recipe.AddIngredient(ItemID.Nanites, 19); //Change this to 30 and 20 and I will hunt you down
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.NecroBreastplate).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 29).AddIngredient(ItemID.Nanites, 19).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

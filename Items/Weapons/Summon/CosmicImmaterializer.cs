@@ -22,24 +22,24 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.damage = 560;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 74;
-            item.height = 72;
-            item.useTime = item.useAnimation = 10;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item60;
-            item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.mana = 10;
+            Item.damage = 560;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 74;
+            Item.height = 72;
+            Item.useTime = Item.useAnimation = 10;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item60;
+            Item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 10;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 10;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -52,15 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
-            recipe.AddIngredient(ModContent.ItemType<CorvidHarbringerStaff>());
-            recipe.AddIngredient(ModContent.ItemType<AncientIceChunk>());
-            recipe.AddIngredient(ModContent.ItemType<EnergyStaff>());
-            recipe.AddIngredient(ModContent.ItemType<MiracleMatter>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalAxe>()).AddIngredient(ModContent.ItemType<CorvidHarbringerStaff>()).AddIngredient(ModContent.ItemType<AncientIceChunk>()).AddIngredient(ModContent.ItemType<EnergyStaff>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

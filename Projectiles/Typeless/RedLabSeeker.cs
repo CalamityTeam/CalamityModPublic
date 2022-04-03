@@ -10,23 +10,23 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class RedLabSeeker : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Items/LabFinders/RedSeekingMechanism";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seeking Mechanism");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 24;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 300;
+            Projectile.width = Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
         }
 
         public static void Behavior(Projectile projectile, Vector2 destination, Color dustColor, ref float time)
@@ -72,13 +72,13 @@ namespace CalamityMod.Projectiles.Typeless
             time++;
         }
 
-        public override void AI() => Behavior(projectile, CalamityWorld.HellLabCenter, Color.Red, ref Time);
+        public override void AI() => Behavior(Projectile, CalamityWorld.HellLabCenter, Color.Red, ref Time);
 
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 8; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(16f, 16f), 267);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(16f, 16f), 267);
                 dust.color = Color.Red;
                 dust.scale = Main.rand.NextFloat(0.95f, 1.25f);
                 dust.velocity = Main.rand.NextVector2Circular(2.5f, 2.5f);
@@ -92,13 +92,13 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            if (Time > 80f && projectile.ai[1] == 0f)
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            if (Time > 80f && Projectile.ai[1] == 0f)
             {
                 for (int i = 0; i < 24; i += 2)
                 {
-                    Vector2 drawPosition = projectile.Center - projectile.velocity.SafeNormalize(Vector2.Zero) * i * Utils.InverseLerp(80f, 125f, Time, true) * 25f - Main.screenPosition;
-                    spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(lightColor) * (1f - i / 24f), projectile.rotation, texture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                    Vector2 drawPosition = Projectile.Center - Projectile.velocity.SafeNormalize(Vector2.Zero) * i * Utils.InverseLerp(80f, 125f, Time, true) * 25f - Main.screenPosition;
+                    spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor) * (1f - i / 24f), Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
                 }
             }
             return true;

@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.accessory = true;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -88,13 +88,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ElysianTracers>());
-            recipe.AddIngredient(ModContent.ItemType<DrewsWings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElysianTracers>()).AddIngredient(ModContent.ItemType<DrewsWings>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

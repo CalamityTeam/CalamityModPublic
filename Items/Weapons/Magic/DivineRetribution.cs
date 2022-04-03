@@ -14,37 +14,37 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Divine Retribution");
             Tooltip.SetDefault("Mage is superior to rogue; look, we got a donor weapon to prove it!");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 39;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 66;
-            item.height = 88;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
+            Item.damage = 39;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 66;
+            Item.height = 88;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
 
-            item.UseSound = SoundID.Item73;
-            item.autoReuse = true;
-            item.shootSpeed = 19f;
-            item.shoot = ModContent.ProjectileType<DivineRetributionSpear>();
+            Item.UseSound = SoundID.Item73;
+            Item.autoReuse = true;
+            Item.shootSpeed = 19f;
+            Item.shoot = ModContent.ProjectileType<DivineRetributionSpear>();
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -91,14 +91,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UndinesRetribution>());
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<UndinesRetribution>()).AddIngredient(ModContent.ItemType<DivineGeode>(), 8).AddIngredient(ModContent.ItemType<UeliaceBar>(), 6).AddIngredient(ModContent.ItemType<UnholyEssence>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -11,40 +11,40 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.aiStyle = 18;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 300;
-            projectile.ignoreWater = true;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.aiStyle = 18;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 300;
+            Projectile.ignoreWater = true;
             aiType = ProjectileID.DeathSickle;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.5f, 0f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0f);
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 10f);
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 10f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class WhiskeyBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whiskey");
             Description.SetDefault("Damage, critical strike chance, and knockback boosted, defense reduced");

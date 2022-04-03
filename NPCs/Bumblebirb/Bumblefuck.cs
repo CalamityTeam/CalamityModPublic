@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Dragonfolly");
-            Main.npcFrameCount[npc.type] = 6;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
         }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
@@ -36,57 +36,57 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.npcSlots = 32f;
-            npc.aiStyle = -1;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.npcSlots = 32f;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.GetNPCDamage();
-            npc.width = 130;
-            npc.height = 100;
-            npc.defense = 40;
-            npc.DR_NERD(0.1f);
-            npc.LifeMaxNERB(190200, 228240, 300000); // Old HP - 227500, 252500
+            NPC.GetNPCDamage();
+            NPC.width = 130;
+            NPC.height = 100;
+            NPC.defense = 40;
+            NPC.DR_NERD(0.1f);
+            NPC.LifeMaxNERB(190200, 228240, 300000); // Old HP - 227500, 252500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.knockBackResist = 0f;
-            npc.boss = true;
-            npc.noTileCollide = true;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.knockBackResist = 0f;
+            NPC.boss = true;
+            NPC.noTileCollide = true;
             music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
-            npc.lavaImmune = true;
-            npc.noGravity = true;
-            npc.value = Item.buyPrice(1, 25, 0, 0);
-            npc.HitSound = SoundID.NPCHit51;
-            npc.DeathSound = SoundID.NPCDeath46;
+            NPC.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.value = Item.buyPrice(1, 25, 0, 0);
+            NPC.HitSound = SoundID.NPCHit51;
+            NPC.DeathSound = SoundID.NPCDeath46;
             bossBag = ModContent.ItemType<BumblebirbBag>();
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = true;
-            npc.Calamity().VulnerableToElectricity = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
-            writer.Write(npc.localAI[2]);
-            writer.Write(npc.localAI[3]);
+            writer.Write(NPC.localAI[0]);
+            writer.Write(NPC.localAI[1]);
+            writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
-                writer.Write(npc.Calamity().newAI[i]);
+                writer.Write(NPC.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
-            npc.localAI[2] = reader.ReadSingle();
-            npc.localAI[3] = reader.ReadSingle();
+            NPC.localAI[0] = reader.ReadSingle();
+            NPC.localAI[1] = reader.ReadSingle();
+            NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
-                npc.Calamity().newAI[i] = reader.ReadSingle();
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            CalamityAI.BumblebirbAI(npc, mod);
+            CalamityAI.BumblebirbAI(NPC, Mod);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -97,18 +97,18 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void FindFrame(int frameHeight)
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Phases
             bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
             bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
-            bool birbSpawn = npc.ai[0] == 4f && npc.ai[1] > 0f;
+            bool birbSpawn = NPC.ai[0] == 4f && NPC.ai[1] > 0f;
 
             float newPhaseTimer = 180f;
             bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
@@ -116,79 +116,79 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             if (phaseSwitchPhase || birbSpawn)
             {
-                float frameGateValue = birbSpawn ? npc.ai[1] : phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
+                float frameGateValue = birbSpawn ? NPC.ai[1] : phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
                 int num116 = 180;
                 if (frameGateValue < (num116 - 60) || frameGateValue > (num116 - 20))
                 {
-                    npc.frameCounter += 1D;
-                    if (npc.frameCounter > 5D)
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 5D)
                     {
-                        npc.frameCounter = 0D;
-                        npc.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
+                        NPC.frame.Y += frameHeight;
                     }
-                    if (npc.frame.Y >= frameHeight * 5)
+                    if (NPC.frame.Y >= frameHeight * 5)
                     {
-                        npc.frame.Y = 0;
+                        NPC.frame.Y = 0;
                     }
                 }
                 else
                 {
-                    npc.frame.Y = frameHeight * 4;
+                    NPC.frame.Y = frameHeight * 4;
                     if (frameGateValue > (num116 - 50) && frameGateValue < (num116 - 25))
                     {
-                        npc.frame.Y = frameHeight * 5;
+                        NPC.frame.Y = frameHeight * 5;
                     }
                 }
             }
-            else if (npc.ai[0] == 5f)
+            else if (NPC.ai[0] == 5f)
             {
                 int num115 = 120;
-                if (npc.ai[1] < (num115 - 50) || npc.ai[1] > (num115 - 10))
+                if (NPC.ai[1] < (num115 - 50) || NPC.ai[1] > (num115 - 10))
                 {
-                    npc.frameCounter += 1D;
-                    if (npc.frameCounter > 5D)
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 5D)
                     {
-                        npc.frameCounter = 0D;
-                        npc.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
+                        NPC.frame.Y += frameHeight;
                     }
-                    if (npc.frame.Y >= frameHeight * 5)
+                    if (NPC.frame.Y >= frameHeight * 5)
                     {
-                        npc.frame.Y = 0;
+                        NPC.frame.Y = 0;
                     }
                 }
                 else
                 {
-                    npc.frame.Y = frameHeight * 4;
-                    if (npc.ai[1] > (num115 - 40) && npc.ai[1] < (num115 - 15))
+                    NPC.frame.Y = frameHeight * 4;
+                    if (NPC.ai[1] > (num115 - 40) && NPC.ai[1] < (num115 - 15))
                     {
-                        npc.frame.Y = frameHeight * 5;
+                        NPC.frame.Y = frameHeight * 5;
                     }
                 }
             }
             else
             {
-                npc.frameCounter += (npc.ai[0] == 3.2f ? 1.5 : 1D);
-                if (npc.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
+                NPC.frameCounter += (NPC.ai[0] == 3.2f ? 1.5 : 1D);
+                if (NPC.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
                 {
-                    npc.frameCounter = 0D;
-                    npc.frame.Y += frameHeight;
+                    NPC.frameCounter = 0D;
+                    NPC.frame.Y += frameHeight;
                 }
-                if (npc.frame.Y >= frameHeight * 5)
+                if (NPC.frame.Y >= frameHeight * 5)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Phases
             bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
@@ -199,11 +199,11 @@ namespace CalamityMod.NPCs.Bumblebirb
                 (phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
+            if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = Main.npcTexture[npc.type];
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Texture2D texture2D15 = Main.npcTexture[NPC.type];
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2));
             Color color = lightColor;
             Color color36 = Color.White;
 
@@ -228,15 +228,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             int num153 = 10;
             int num154 = 2;
-            if (npc.ai[0] == 0f || npc.ai[0] == 3.1f || npc.ai[0] == 4f || npc.ai[0] == 4.2f)
+            if (NPC.ai[0] == 0f || NPC.ai[0] == 3.1f || NPC.ai[0] == 4f || NPC.ai[0] == 4.2f)
             {
                 num153 = 4;
             }
-            if (npc.ai[0] == 1f || npc.ai[0] == 3f || npc.ai[0] == 4.1f)
+            if (NPC.ai[0] == 1f || NPC.ai[0] == 3f || NPC.ai[0] == 4.1f)
             {
                 num153 = 7;
             }
-            if (npc.ai[0] == 2f || npc.ai[0] == 3.2f || (phase2 && calamityGlobalNPC.newAI[2] == 1f))
+            if (NPC.ai[0] == 2f || NPC.ai[0] == 3.2f || (phase2 && calamityGlobalNPC.newAI[2] == 1f))
             {
                 color36 = Color.Yellow;
                 amount9 = 0.5f;
@@ -252,12 +252,12 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     Color color38 = color;
                     color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = npc.GetAlpha(color38);
+                    color38 = NPC.GetAlpha(color38);
                     color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    vector41 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
@@ -265,19 +265,19 @@ namespace CalamityMod.NPCs.Bumblebirb
             float num157 = 0f;
             float scaleFactor9 = 0f;
 
-            if (npc.ai[0] == 0f || npc.ai[0] == 3.1f || npc.ai[0] == 4f || npc.ai[0] == 4.2f)
+            if (NPC.ai[0] == 0f || NPC.ai[0] == 3.1f || NPC.ai[0] == 4f || NPC.ai[0] == 4.2f)
             {
                 num156 = 4;
             }
 
-            if (npc.ai[0] == 5f)
+            if (NPC.ai[0] == 5f)
             {
                 int num158 = 60;
                 int num159 = 30;
-                if (npc.ai[1] > (float)num158)
+                if (NPC.ai[1] > (float)num158)
                 {
                     num156 = 6;
-                    num157 = 1f - (float)Math.Cos((double)((npc.ai[1] - (float)num158) / (float)num159 * MathHelper.TwoPi));
+                    num157 = 1f - (float)Math.Cos((double)((NPC.ai[1] - (float)num158) / (float)num159 * MathHelper.TwoPi));
                     num157 /= 3f;
                     scaleFactor9 = 40f;
                 }
@@ -307,26 +307,26 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     Color color39 = lightColor;
                     color39 = Color.Lerp(color39, color36, amount9);
-                    color39 = npc.GetAlpha(color39);
+                    color39 = NPC.GetAlpha(color39);
                     color39 *= 1f - num157;
-                    Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-                    vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                    vector42 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Vector2 vector42 = NPC.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                    vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector42 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
             Color color2 = lightColor;
             color2 = Color.Lerp(color2, color36, amount9);
-            color2 = npc.GetAlpha(color2);
-            Vector2 vector43 = npc.Center - Main.screenPosition;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-            vector43 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, npc.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            color2 = NPC.GetAlpha(color2);
+            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : NPC.GetAlpha(lightColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             if (phase2)
             {
-                texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Bumblebirb/BirbGlow");
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Bumblebirb/BirbGlow");
                 Color color40 = Color.Lerp(Color.White, Color.Red, 0.5f);
                 color36 = Color.Red;
 
@@ -350,26 +350,26 @@ namespace CalamityMod.NPCs.Bumblebirb
                         Color color41 = color40;
                         color41 = Color.Lerp(color41, color36, amount9);
                         color41 *= (float)(num153 - num163) / 15f;
-                        Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-                        vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                        vector44 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                        spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                        vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                        vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                        spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                     }
 
                     for (int num164 = 1; num164 < num156; num164++)
                     {
                         Color color42 = color40;
                         color42 = Color.Lerp(color42, color36, amount9);
-                        color42 = npc.GetAlpha(color42);
+                        color42 = NPC.GetAlpha(color42);
                         color42 *= 1f - num157;
-                        Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-                        vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-                        vector45 += vector11 * npc.scale + new Vector2(0f, npc.gfxOffY);
-                        spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                        Vector2 vector45 = NPC.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                        vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                        vector45 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                        spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                     }
                 }
 
-                spriteBatch.Draw(texture2D15, vector43, npc.frame, color40, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color40, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
             }
 
             return false;
@@ -392,22 +392,22 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void NPCLoot()
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(npc);
+            DropHelper.DropBags(NPC);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<BumblebirbTrophy>(), 10);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
+                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(npc,
+                DropHelper.DropEntireWeightedSet(NPC,
                     DropHelper.WeightStack<GildedProboscis>(w),
                     DropHelper.WeightStack<GoldenEagle>(w),
                     DropHelper.WeightStack<RougeSlash>(w),
@@ -415,13 +415,13 @@ namespace CalamityMod.NPCs.Bumblebirb
                 );
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DynamoStemCells>(), true);
+                DropHelper.DropItem(NPC, ModContent.ItemType<DynamoStemCells>(), true);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
+                DropHelper.DropItemChance(NPC, ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), !Main.expertMode, 0.1f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Swordsplosion>(), !Main.expertMode, 0.1f);
 
             // Mark The Dragonfolly as dead
             CalamityWorld.downedBumble = true;
@@ -430,28 +430,28 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 244, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 244, hitDirection, -1f, 0, default, 1f);
                 }
                 for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                 {
                     string gore = "Gores/Bumble";
                     float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot(gore), 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot(gore), 1f);
                 }
             }
         }

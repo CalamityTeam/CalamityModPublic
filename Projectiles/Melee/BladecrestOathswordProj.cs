@@ -21,10 +21,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public int Direction = 1;
         public SwingState CurrentState;
-        public ref float SwingDirection => ref projectile.ai[0];
-        public ref float BladeHorizontalFactor => ref projectile.ai[1];
-        public ref float PostSwingRepositionDelay => ref projectile.localAI[0];
-        public ref float ChargePower => ref projectile.localAI[1];
+        public ref float SwingDirection => ref Projectile.ai[0];
+        public ref float BladeHorizontalFactor => ref Projectile.ai[1];
+        public ref float PostSwingRepositionDelay => ref Projectile.localAI[0];
+        public ref float ChargePower => ref Projectile.localAI[1];
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BladecrestOathsword";
         public override int AssociatedItemID => ModContent.ItemType<BladecrestOathsword>();
@@ -34,22 +34,22 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bladecrest Oathsword");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 56;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 90000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
-            projectile.noEnchantments = true;
-            projectile.Calamity().trueMelee = true;
+            Projectile.width = Projectile.height = 56;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90000;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
+            Projectile.noEnchantments = true;
+            Projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -78,8 +78,8 @@ namespace CalamityMod.Projectiles.Melee
             Direction = Owner.direction;
 
             // Glue the sword to its owner.
-            projectile.Opacity = 1f;
-            projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
+            Projectile.Opacity = 1f;
+            Projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - Projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
 
             float swingSpeedInterpolant = 0.27f;
             float swingCompletion = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Melee
             // Fuck this shit.
             // The code is kept around if we want the holdout effect but I'm honestly not going to continue Criticism Whack-a-Mole with this frankly arbitrary visual.
             else
-                projectile.Opacity = 0f;
+                Projectile.Opacity = 0f;
 
             // Determine the horizontal stretch offset of the blade. This is used in matrix math below to create 2.5D visuals.
             BladeHorizontalFactor = MathHelper.Lerp(1f, 1.5f, (aimDirection3D.X * 0.5f + 0.5f) * Utils.InverseLerp(1f, 0.8f, unchangedSwingCompletion, true));
@@ -119,41 +119,41 @@ namespace CalamityMod.Projectiles.Melee
             float idealRotation = baseRotation;
 
             Owner.itemRotation = 0f;
-            Owner.heldProj = projectile.whoAmI;
+            Owner.heldProj = Projectile.whoAmI;
 
             idealRotation += MathHelper.PiOver4;
             if (Direction == -1)
                 idealRotation += MathHelper.Pi;
 
             // Define rotation.
-            projectile.rotation = projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
+            Projectile.rotation = Projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
 
             // Offset the blade so that the handle is attached to the owner's hand.
             float horizontalBladeOffset = MathHelper.Lerp(-4f, 10f, Utils.InverseLerp(1f, 0.72f, unchangedSwingCompletion, true) * Utils.InverseLerp(0f, 0.28f, unchangedSwingCompletion, true));
-            Vector2 bladeOffset = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * projectile.width * 0.5f;
+            Vector2 bladeOffset = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Projectile.width * 0.5f;
             bladeOffset += new Vector2(Direction * horizontalBladeOffset, 2f).RotatedBy(Owner.fullRotation) + Vector2.UnitY * Owner.gfxOffY;
-            projectile.position += bladeOffset;
+            Projectile.position += bladeOffset;
 
             // Create demon magic dust along the blade when swinging, as well as demon blood scythes.
             if (PostSwingRepositionDelay >= 10f && CurrentState == SwingState.Swinging)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust shadowflame = Dust.NewDustPerfect(projectile.Center + (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * projectile.width * Main.rand.NextFloat(0.4f), 27);
-                    shadowflame.velocity = (projectile.oldRot[0] - projectile.oldRot[1]).ToRotationVector2() * Main.rand.NextFloat(4f, 10f);
-                    shadowflame.velocity += (projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * 7.5f;
+                    Dust shadowflame = Dust.NewDustPerfect(Projectile.Center + (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Projectile.width * Main.rand.NextFloat(0.4f), 27);
+                    shadowflame.velocity = (Projectile.oldRot[0] - Projectile.oldRot[1]).ToRotationVector2() * Main.rand.NextFloat(4f, 10f);
+                    shadowflame.velocity += (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * 7.5f;
                     shadowflame.scale = Main.rand.NextFloat(1f, 1.5f);
                     shadowflame.fadeIn = 0.5f;
                     shadowflame.noGravity = true;
                 }
 
-                if (Main.myPlayer == projectile.owner && Owner.itemAnimation % 4 == 3 && Owner.itemAnimation < Owner.itemAnimationMax - 3)
+                if (Main.myPlayer == Projectile.owner && Owner.itemAnimation % 4 == 3 && Owner.itemAnimation < Owner.itemAnimationMax - 3)
                 {
-                    Vector2 bloodScytheShootVelocity = (projectile.rotation - MathHelper.PiOver4).ToRotationVector2();
+                    Vector2 bloodScytheShootVelocity = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2();
                     bloodScytheShootVelocity.Y *= 0.04f;
                     bloodScytheShootVelocity = bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
-                    Vector2 bloodScytheSpawnPosition = projectile.Center + bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
-                    Projectile.NewProjectile(bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), projectile.damage, projectile.knockBack * 0.4f, projectile.owner);
+                    Vector2 bloodScytheSpawnPosition = Projectile.Center + bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
+                    Projectile.NewProjectile(bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace CalamityMod.Projectiles.Melee
             else if (Owner.itemAnimation <= 0)
             {
                 Owner.itemAnimation = 0;
-                projectile.oldPos = new Vector2[projectile.oldPos.Length];
+                Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
 
                 CurrentState = SwingState.Default;
             }
@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Melee
             });
             GameShaders.Misc["CalamityMod:LinearTransformation"].Apply();
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, 2, lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, 2, lightColor);
             spriteBatch.ExitShaderRegion();
 
             return false;

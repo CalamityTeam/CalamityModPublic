@@ -15,18 +15,18 @@ namespace CalamityMod.Items.Mounts
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item3;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<AlicornMount>();
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item3;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<AlicornMount>();
 
-            item.value = Item.buyPrice(platinum: 3);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().devItem = true;
+            Item.value = Item.buyPrice(platinum: 3);
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.Calamity().devItem = true;
         }
     }
 }

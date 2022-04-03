@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidBookcase : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();

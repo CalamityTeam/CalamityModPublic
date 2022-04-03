@@ -18,20 +18,20 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 9;
-            item.width = item.height = 24;
-            item.useAnimation = item.useTime = 31;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ContaminatedBileFlask>();
-            item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
+            Item.damage = 9;
+            Item.width = Item.height = 24;
+            Item.useAnimation = Item.useTime = 31;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.5f;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ContaminatedBileFlask>();
+            Item.shootSpeed = 15f;
+            Item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -43,12 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 10);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<SulfuricScale>(), 10).AddTile(TileID.Bottles).Register();
         }
     }
 }

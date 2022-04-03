@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class CrystylCrusherRay : ModProjectile
@@ -28,15 +29,15 @@ namespace CalamityMod.Projectiles.Melee
         // By making a property to handle this it makes our life easier, and the accessibility more readable
         public float Distance
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         // The actual charge value is stored in the localAI0 field
         public float Charge
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
 
         // Are we at max charge? With c#6 you can simply use => which indicates this is a get only property
@@ -46,17 +47,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.scale = 1.5f;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.hide = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.scale = 1.5f;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.hide = true;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -64,10 +65,10 @@ namespace CalamityMod.Projectiles.Melee
             // We start drawing the laser if we have charged up
             if (IsAtMaxCharge)
             {
-                Vector2 maxLength = Main.MouseWorld - Main.player[projectile.owner].Center;
+                Vector2 maxLength = Main.MouseWorld - Main.player[Projectile.owner].Center;
 
-                DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center,
-                    projectile.velocity, 15f, projectile.damage, -1.57f, projectile.scale, maxLength.Length(), new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
+                DrawLaser(spriteBatch, Main.projectileTexture[Projectile.type], Main.player[Projectile.owner].Center,
+                    Projectile.velocity, 15f, Projectile.damage, -1.57f, Projectile.scale, maxLength.Length(), new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
             }
             return false;
         }
@@ -102,8 +103,8 @@ namespace CalamityMod.Projectiles.Melee
             // We can only collide if we are at max charge, which is when the laser is actually fired
             if (!IsAtMaxCharge) return false;
 
-            Player player = Main.player[projectile.owner];
-            Vector2 unit = projectile.velocity;
+            Player player = Main.player[Projectile.owner];
+            Vector2 unit = Projectile.velocity;
             float point = 0f;
             // Run an AABB versus Line check to look for collisions, look up AABB collision first to see how it works
             // It will look for collisions on the given line using AABB
@@ -114,13 +115,13 @@ namespace CalamityMod.Projectiles.Melee
         // The AI of the projectile
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            if (projectile.timeLeft == 300)
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), player.Center);
+            if (Projectile.timeLeft == 300)
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), player.Center);
 
-            projectile.position = player.Center + projectile.velocity * MOVE_DISTANCE;
-            projectile.timeLeft = 2;
+            Projectile.position = player.Center + Projectile.velocity * MOVE_DISTANCE;
+            Projectile.timeLeft = 2;
 
             // By separating large AI into methods it becomes very easy to see the flow of the AI in a broader sense
             // First we update player variables that are needed to channel the laser
@@ -136,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
             //Play cool sound when fully charged
             if (playedSound == false)
             {
-                Main.PlaySound(SoundID.Item68, projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item68, Projectile.Center);
                 playedSound = true;
             }
 
@@ -150,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
          */
         private void SetLaserPosition(Player player)
         {
-            Distance = MathHelper.Max(Main.player[projectile.owner].Distance(Main.MouseWorld) - 20f, MOVE_DISTANCE + 5f);
+            Distance = MathHelper.Max(Main.player[Projectile.owner].Distance(Main.MouseWorld) - 20f, MOVE_DISTANCE + 5f);
         }
 
         private void ChargeLaser(Player player)
@@ -158,11 +159,11 @@ namespace CalamityMod.Projectiles.Melee
             // Kill the projectile if the player stops channeling
             if (!player.channel)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                Vector2 offset = projectile.velocity;
+                Vector2 offset = Projectile.velocity;
                 offset *= MOVE_DISTANCE - 20;
                 Vector2 pos = player.Center + offset - new Vector2(15f, 15f);
                 if (Charge < MAX_CHARGE)
@@ -171,8 +172,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 int chargeFact = (int)(Charge / 20f);
                 Vector2 dustVelocity = Vector2.UnitX * 18f;
-                dustVelocity = dustVelocity.RotatedBy(projectile.rotation - 1.57f);
-                Vector2 spawnPos = projectile.Center + dustVelocity;
+                dustVelocity = dustVelocity.RotatedBy(Projectile.rotation - 1.57f);
+                Vector2 spawnPos = Projectile.Center + dustVelocity;
                 for (int k = 0; k < chargeFact + 1; k++)
                 {
                     int dustType = Main.rand.Next(3);
@@ -191,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
                             break;
                     }
                     Vector2 spawn = spawnPos + ((float)Main.rand.NextDouble() * 6.28f).ToRotationVector2() * (12f - chargeFact * 2);
-                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, dustType, projectile.velocity.X / 2f, projectile.velocity.Y / 2f)];
+                    Dust dust = Main.dust[Dust.NewDust(pos, 20, 20, dustType, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f)];
                     dust.velocity = Vector2.Normalize(spawnPos - spawn) * 1.5f * (10f - chargeFact * 2f) / 10f;
                     dust.noGravity = true;
                     dust.color = new Color(Main.DiscoR, 0, 255);
@@ -203,27 +204,27 @@ namespace CalamityMod.Projectiles.Melee
         private void UpdatePlayer(Player player)
         {
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 Vector2 diff = Main.MouseWorld - player.Center;
                 diff.Normalize();
-                projectile.velocity = diff;
-                projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
-                projectile.netUpdate = true;
+                Projectile.velocity = diff;
+                Projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
+                Projectile.netUpdate = true;
             }
-            int dir = projectile.direction;
+            int dir = Projectile.direction;
             player.ChangeDir(dir); // Set player direction to where we are shooting
-            player.heldProj = projectile.whoAmI; // Update player's held projectile
+            player.heldProj = Projectile.whoAmI; // Update player's held projectile
             player.itemTime = 2; // Set item time to 2 frames while we are used
             player.itemAnimation = 2; // Set item animation time to 2 frames while we are used
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * dir, projectile.velocity.X * dir); // Set the item rotation to where we are shooting
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * dir, Projectile.velocity.X * dir); // Set the item rotation to where we are shooting
         }
 
         private void CastLights()
         {
             // Cast a light along the line of the laser
             DelegateMethods.v3_1 = new Vector3(0.8f, 0.8f, 1f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE), 26, DelegateMethods.CastLight);
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE), 26, DelegateMethods.CastLight);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -234,15 +235,15 @@ namespace CalamityMod.Projectiles.Melee
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * Distance, projectile.width + 16, DelegateMethods.CutTiles);
+            Vector2 unit = Projectile.velocity;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Distance, Projectile.width + 16, DelegateMethods.CutTiles);
         }
 
         private void DestroyTiles()
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                Vector2 destroyVector = projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE);
+                Vector2 destroyVector = Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE);
                 int num814 = 3;
                 int num815 = (int)(destroyVector.X / 16f - num814);
                 int num816 = (int)(destroyVector.X / 16f + num814);
@@ -310,7 +311,7 @@ namespace CalamityMod.Projectiles.Melee
                     default:
                         break;
                 }
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
+                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
                 vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226, default) + vector;
                 Vector2 vector7 = vector6 - vector;
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, dustType, vector7.X * 0.5f, vector7.Y * 0.5f, 100, new Color(Main.DiscoR, 0, 255), 1f);

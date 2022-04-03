@@ -12,27 +12,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Downpour");
             Tooltip.SetDefault("Fires a spray of water that drips extra trails of water");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 43;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 42;
-            item.height = 42;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WaterStream>();
-            item.shootSpeed = 14f;
+            Item.damage = 43;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 42;
+            Item.height = 42;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WaterStream>();
+            Item.shootSpeed = 14f;
         }
 
         public override Vector2? HoldoutOrigin()

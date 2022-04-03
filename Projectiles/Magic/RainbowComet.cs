@@ -5,78 +5,79 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class RainbowComet : ModProjectile
     {
-        public ref float Time => ref projectile.ai[0];
+        public ref float Time => ref Projectile.ai[0];
         public const float FadeinTime = 40f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-            Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 72;
-            projectile.height = 72;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.magic = true;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.alpha = 255;
-            projectile.localNPCHitCooldown = 16;
+            Projectile.width = 72;
+            Projectile.height = 72;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.alpha = 255;
+            Projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
         {
             Time++;
-            projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
-            projectile.velocity = projectile.velocity.RotatedBy(Math.Sin(Time / 30f) * 0.0125f);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
+            Projectile.velocity = Projectile.velocity.RotatedBy(Math.Sin(Time / 30f) * 0.0125f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 4 == 3)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 4 == 3)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D cometTexture = ModContent.GetTexture(Texture);
+            Texture2D cometTexture = ModContent.Request<Texture2D>(Texture);
             spriteBatch.Draw(cometTexture,
-                             projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition,
-                             cometTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame),
-                             Color.White * projectile.Opacity,
-                             projectile.rotation,
+                             Projectile.Center + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition,
+                             cometTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
+                             Color.White * Projectile.Opacity,
+                             Projectile.rotation,
                              cometTexture.Size() * 0.5f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 // Generate pretty sparkles.
                 for (int i = 0; i < 18; i++)
                 {
                     Vector2 velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 20f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PartySparkle>(), projectile.damage, 1f, projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 1f, Projectile.owner);
                 }
 
                 // And release a bunch of rockets.
                 for (int i = 0; i < (int)RainbowRocket.PartyCannonExplosionType.Count; i++)
                 {
-                    Vector2 velocity = -projectile.velocity.SafeNormalize(-Vector2.UnitY);
+                    Vector2 velocity = -Projectile.velocity.SafeNormalize(-Vector2.UnitY);
                     velocity = velocity.RotatedBy(MathHelper.Lerp(-1.1f, 1.1f, i / (float)(int)RainbowRocket.PartyCannonExplosionType.Count));
                     velocity *= Main.rand.NextFloat(7f, 15f);
 
-                    Projectile rocket = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<RainbowRocket>(), projectile.damage * 3, 1f, projectile.owner);
+                    Projectile rocket = Projectile.NewProjectileDirect(Projectile.Center, velocity, ModContent.ProjectileType<RainbowRocket>(), Projectile.damage * 3, 1f, Projectile.owner);
                     rocket.ai[1] = i;
                 }
             }
@@ -85,14 +86,14 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < 80; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 263);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 263);
                     dust.color = CalamityUtils.MulticolorLerp((Main.rand.NextFloat(0.4f) + Main.GlobalTime * 0.4f) % 0.999f, RainbowPartyCannon.ColorSet);
                     dust.scale = Main.rand.NextFloat(0.6f, 0.9f);
                     dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(12f, 16f);
                     dust.noGravity = true;
                 }
 
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), projectile.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), Projectile.Center);
             }
         }
     }

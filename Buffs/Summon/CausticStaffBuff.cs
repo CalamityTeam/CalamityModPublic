@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CausticStaffBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Caustic Dragon");
             Description.SetDefault("A mini jungle dragon is following you");

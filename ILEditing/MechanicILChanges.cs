@@ -230,11 +230,11 @@ namespace CalamityMod.ILEditing
                 return orig(i, j, direction);
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.type == labDoorClosed)
+            else if (tile.TileType == labDoorClosed)
                 return OpenLabDoor(tile, i, j, labDoorOpen);
-            else if (tile.type == aLabDoorClosed)
+            else if (tile.TileType == aLabDoorClosed)
                 return OpenLabDoor(tile, i, j, aLabDoorOpen);
-            else if (tile.type == exoDoorClosed)
+            else if (tile.TileType == exoDoorClosed)
                 return OpenLabDoor(tile, i, j, exoDoorOpen);
 
             // If it's anything else, let vanilla and/or TML handle it.
@@ -249,11 +249,11 @@ namespace CalamityMod.ILEditing
                 return orig(i, j, forced);
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.type == labDoorOpen)
+            else if (tile.TileType == labDoorOpen)
                 return CloseLabDoor(tile, i, j, labDoorClosed);
-            else if (tile.type == aLabDoorOpen)
+            else if (tile.TileType == aLabDoorOpen)
                 return CloseLabDoor(tile, i, j, aLabDoorClosed);
-            else if (tile.type == exoDoorOpen)
+            else if (tile.TileType == exoDoorOpen)
                 return CloseLabDoor(tile, i, j, exoDoorClosed);
 
             // If it's anything else, let vanilla and/or TML handle it.
@@ -437,7 +437,7 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    Texture2D auraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamityAura");
+                    Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura");
                     Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTime * 12.3f) % 6);
                     float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTime * 1.1f) * 0.5f + 0.5f);
 

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssClock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             num = fail ? 1 : 3;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }

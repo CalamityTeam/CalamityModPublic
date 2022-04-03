@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class RedWineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Wine");
             Description.SetDefault("Life regen reduced");

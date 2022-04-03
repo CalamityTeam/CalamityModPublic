@@ -14,29 +14,24 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.healLife = 250;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.potion = true;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.buyPrice(0, 6, 50, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.healLife = 250;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.potion = true;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.buyPrice(0, 6, 50, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SuperHealingPotion);
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.SuperHealingPotion).AddIngredient(ModContent.ItemType<UnholyEssence>()).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

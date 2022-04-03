@@ -22,22 +22,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.height = 88;
-            item.damage = 174;
-            item.melee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useTurn = true;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GhastlySoulLarge>();
-            item.shootSpeed = 12f;
+            Item.width = 88;
+            Item.height = 88;
+            Item.damage = 174;
+            Item.DamageType = DamageClass.Melee;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useTurn = true;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GhastlySoulLarge>();
+            Item.shootSpeed = 12f;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

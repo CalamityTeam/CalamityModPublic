@@ -20,36 +20,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = Lifetime;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = Lifetime;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, Radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Radius, targetHitbox);
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => crit = true;
 
         public override void AI()
         {
-            if (projectile.timeLeft == Lifetime)
+            if (Projectile.timeLeft == Lifetime)
             {
                 ConsumeNearbyBlades();
                 DivideDamageAmongstTargets();
             }
 
-            projectile.ai[0]++;
-            float progress = (float)Math.Sin(projectile.ai[0] / Lifetime * MathHelper.Pi);
-            if (projectile.ai[0] > 55f)
-                progress = MathHelper.Lerp(progress, 0f, (projectile.ai[0] - 55f) / 5f);
-            if (Main.netMode != NetmodeID.Server && projectile.ai[0] > 15f) // Otherwise a white flash appears, but it quickly disappears.
+            Projectile.ai[0]++;
+            float progress = (float)Math.Sin(Projectile.ai[0] / Lifetime * MathHelper.Pi);
+            if (Projectile.ai[0] > 55f)
+                progress = MathHelper.Lerp(progress, 0f, (Projectile.ai[0] - 55f) / 5f);
+            if (Main.netMode != NetmodeID.Server && Projectile.ai[0] > 15f) // Otherwise a white flash appears, but it quickly disappears.
             {
                 if (!Filters.Scene["CalamityMod:LightBurst"].IsActive())
-                    Filters.Scene.Activate("CalamityMod:LightBurst", projectile.Center).GetShader().UseTargetPosition(projectile.Center).UseProgress(0f);
+                    Filters.Scene.Activate("CalamityMod:LightBurst", Projectile.Center).GetShader().UseTargetPosition(Projectile.Center).UseProgress(0f);
 
                 Filters.Scene["CalamityMod:LightBurst"].GetShader().UseProgress(progress);
             }
@@ -68,16 +68,16 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < Main.maxProjectiles; ++i)
             {
                 Projectile otherProj = Main.projectile[i];
-                if (otherProj is null || !otherProj.active || otherProj.owner != projectile.owner || otherProj.type != lightBlade)
+                if (otherProj is null || !otherProj.active || otherProj.owner != Projectile.owner || otherProj.type != lightBlade)
                     continue;
 
                 // Can only consume blades within the flash radius (which should be most if not all of them anyway)
-                if (projectile.Distance(otherProj.Center) > Radius)
+                if (Projectile.Distance(otherProj.Center) > Radius)
                     continue;
                 extraDamage += otherProj.damage / 2;
                 otherProj.Kill();
             }
-            projectile.damage += extraDamage;
+            Projectile.damage += extraDamage;
         }
 
         private void DivideDamageAmongstTargets()
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
                 NPC npc = Main.npc[i];
                 if (npc is null || !npc.active || npc.friendly || npc.dontTakeDamage || npc.immortal)
                     continue;
-                if (projectile.Colliding(default, npc.Hitbox))
+                if (Projectile.Colliding(default, npc.Hitbox))
                     ++numTargets;
             }
 
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
                 numTargets = 1;
 
             // Divide damage by the square root of nearby targets. 25 targets = 1/5th damage, for example.
-            projectile.damage = (int)(projectile.damage / Math.Sqrt(numTargets));
+            Projectile.damage = (int)(Projectile.damage / Math.Sqrt(numTargets));
         }
     }
 }

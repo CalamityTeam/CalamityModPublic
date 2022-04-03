@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Alcohol
 {
     public class EvergreenGinBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evergreen Gin");
             Description.SetDefault("Sickness and water debuff damage and damage reduction boosted, life regen reduced");

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class BloodBound : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Bound");
             Description.SetDefault("You must be desperate for company");

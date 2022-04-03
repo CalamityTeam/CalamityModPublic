@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatBuffs
 {
     public class HallowedRuneDefBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Defense");
             Description.SetDefault("Defense boosted by 8 and damage reduction boosted by 4%");

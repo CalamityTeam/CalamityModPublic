@@ -13,23 +13,17 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 4);
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 4);
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Bloodstone>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>());
-            recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ModContent.ItemType<Bloodstone>(), 5).AddIngredient(ModContent.ItemType<BloodOrb>()).AddIngredient(ModContent.ItemType<Phantoplasm>()).AddTile(TileID.AdamantiteForge).Register();
         }
     }
 }

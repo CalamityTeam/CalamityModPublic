@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void SafeSetDefaults()
         {
-            item.damage = 14;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Brick>();
-            item.width = 26;
-            item.height = 20;
-            item.useTime = item.useAnimation = 40;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = ItemRarityID.White;
-            item.maxStack = 999;
-            item.UseSound = SoundID.Item1;
-            item.consumable = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.Calamity().rogue = true;
+            Item.damage = 14;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<Brick>();
+            Item.width = 26;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 0, 0, 50);
+            Item.rare = ItemRarityID.White;
+            Item.maxStack = 999;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -51,11 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RedBrick, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 20);
-            recipe.AddRecipe();
+            CreateRecipe(20).AddIngredient(ItemID.RedBrick, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

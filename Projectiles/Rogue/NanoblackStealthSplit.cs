@@ -25,23 +25,23 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanoblack Afterimage");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 56;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 12;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = Lifetime;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 12;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = Lifetime;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.Calamity().rogue = true;
         }
 
         // ai[0] = Index of current NPC target. If 0 or negative, the projectile has no target
@@ -55,28 +55,28 @@ namespace CalamityMod.Projectiles.Rogue
                 int dustType = Main.rand.NextBool(5) ? 226 : 220;
                 float scale = 0.8f + Main.rand.NextFloat(0.3f);
                 float velocityMult = Main.rand.NextFloat(0.3f, 0.6f);
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity = velocityMult * projectile.velocity;
+                Main.dust[idx].velocity = velocityMult * Projectile.velocity;
                 Main.dust[idx].scale = scale;
             }
 
             // Spin in the specified starting direction and slow down spin over time
             // Loses 1.66% of current speed every frame
             // Also update current orientation to reflect current spin direction
-            if (projectile.timeLeft > 200)
+            if (Projectile.timeLeft > 200)
             {
-                float currentSpin = projectile.ai[1];
-                projectile.direction = currentSpin <= 0f ? -1 : 1;
-                projectile.spriteDirection = projectile.direction;
-                projectile.rotation += currentSpin * MaxRotationSpeed;
+                float currentSpin = Projectile.ai[1];
+                Projectile.direction = currentSpin <= 0f ? -1 : 1;
+                Projectile.spriteDirection = Projectile.direction;
+                Projectile.rotation += currentSpin * MaxRotationSpeed;
                 float spinReduction = 0.0166f * currentSpin;
-                projectile.ai[1] -= spinReduction;
+                Projectile.ai[1] -= spinReduction;
             }
             // Search for and home in on nearby targets after the given time, and stops spinning
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
                 HomingAI();
             }
         }
@@ -84,39 +84,39 @@ namespace CalamityMod.Projectiles.Rogue
         private void HomingAI()
         {
             // If we don't currently have a target, go try and get one!
-            int targetID = (int)projectile.ai[0] - 1;
+            int targetID = (int)Projectile.ai[0] - 1;
             if (targetID < 0)
                 targetID = AcquireTarget();
 
             // Save the target, whether we have one or not.
-            projectile.ai[0] = targetID + 1f;
+            Projectile.ai[0] = targetID + 1f;
 
             // If we don't have a target, then just slow down a bit.
             if (targetID < 0)
             {
-                projectile.velocity *= 0.94f;
+                Projectile.velocity *= 0.94f;
                 return;
             }
 
             // Homing behavior depends on how far the blade is from its target.
             NPC target = Main.npc[targetID];
-            float xDist = projectile.Center.X - target.Center.X;
-            float yDist = projectile.Center.Y - target.Center.Y;
+            float xDist = Projectile.Center.X - target.Center.X;
+            float yDist = Projectile.Center.Y - target.Center.Y;
             float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
 
             // If the target is too far away, stop homing in on it.
             if (dist > HomingBreakRange)
             {
-                projectile.ai[0] = 0f;
+                Projectile.ai[0] = 0f;
                 return;
             }
 
             // Adds a multiple of the towards-target vector to its velocity every frame.
             float homingFactor = CalcHomingFactor(dist);
-            Vector2 posDiff = target.Center - projectile.Center;
+            Vector2 posDiff = target.Center - Projectile.Center;
             posDiff = posDiff.SafeNormalize(Vector2.Zero);
             posDiff *= homingFactor;
-            Vector2 newVelocity = projectile.velocity += posDiff;
+            Vector2 newVelocity = Projectile.velocity += posDiff;
 
             // Caps speed to make sure it doesn't go too fast.
             if (newVelocity.Length() >= MaxSpeed)
@@ -125,10 +125,10 @@ namespace CalamityMod.Projectiles.Rogue
                 newVelocity *= MaxSpeed;
             }
 
-            projectile.velocity = newVelocity;
+            Projectile.velocity = newVelocity;
 
             //The afterimage's blade always tries to face its target
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
         }
 
         // Returns the ID of the NPC to be targeted by this energy blade.
@@ -149,10 +149,10 @@ namespace CalamityMod.Projectiles.Rogue
                 if (bossFound && !npc.boss)
                     continue;
 
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float xDist = projectile.Center.X - npc.Center.X;
-                    float yDist = projectile.Center.Y - npc.Center.Y;
+                    float xDist = Projectile.Center.X - npc.Center.X;
+                    float yDist = Projectile.Center.Y - npc.Center.Y;
                     float distToNPC = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
                     if (distToNPC < minDist)
                     {
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -193,12 +193,12 @@ namespace CalamityMod.Projectiles.Rogue
         private void SpawnDust()
         {
             int dustCount = Main.rand.Next(3, 6);
-            Vector2 corner = projectile.position;
+            Vector2 corner = Projectile.position;
             for (int i = 0; i < dustCount; ++i)
             {
                 int dustType = 229;
                 float scale = 0.6f + Main.rand.NextFloat(0.4f);
-                int idx = Dust.NewDust(corner, projectile.width, projectile.height, dustType);
+                int idx = Dust.NewDust(corner, Projectile.width, Projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
                 Main.dust[idx].scale = scale;

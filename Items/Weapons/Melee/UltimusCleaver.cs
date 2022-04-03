@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,32 +18,32 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 130;
-            item.melee = true;
-            item.useTurn = true;
-            item.rare = ItemRarityID.Yellow;
-            item.width = 72;
-            item.height = 62;
-            item.scale = 1.5f;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
+            Item.damage = 130;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTurn = true;
+            Item.rare = ItemRarityID.Yellow;
+            Item.width = 72;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8f;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 360);
-            player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, 0, false);
             float num50 = 1.7f;
             float num51 = 0.8f;
             float num52 = 2f;
             Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            Main.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
@@ -142,7 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341,
-                        (float)player.direction * num340, num339 * player.gravDir, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(item.damage * player.MeleeDamage() * 0.1), 0f, player.whoAmI, 0f, 0f);
+                        (float)player.direction * num340, num339 * player.gravDir, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Item.damage * player.MeleeDamage() * 0.1), 0f, player.whoAmI, 0f, 0f);
                 }
             }
         }

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 
 namespace CalamityMod.Projectiles.Melee
@@ -17,11 +18,11 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade";
         private bool initialized = false;
-        public Player Owner => Main.player[projectile.owner];
-        public float Timer => MaxTime - projectile.timeLeft;
-        public ref float HasSnapped => ref projectile.ai[0];
-        public ref float SnapCoyoteTime => ref projectile.ai[1];
-        public ref float Reach => ref projectile.localAI[0];
+        public Player Owner => Main.player[Projectile.owner];
+        public float Timer => MaxTime - Projectile.timeLeft;
+        public ref float HasSnapped => ref Projectile.ai[0];
+        public ref float SnapCoyoteTime => ref Projectile.ai[1];
+        public ref float Reach => ref Projectile.localAI[0];
 
         const float MaxTime = 90;
         const int coyoteTimeFrames = 15; //How many frames does the whip stay extended
@@ -41,21 +42,21 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.width = projectile.height = 36;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = BiomeBlade.TropicalAttunement_LocalIFrames;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.width = Projectile.height = 36;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = BiomeBlade.TropicalAttunement_LocalIFrames;
         }
 
         public override bool? CanCutTiles() => false; //Itd be quite counterproductive to make the whip cut the tiles it just grew
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, projectile.Center });
+            BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, controlPoint1, controlPoint2, Projectile.Center });
 
             int numPoints = 32;
             Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
@@ -73,10 +74,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
-            Vector2 projectileHalfLenght = (projectile.Size / 2f) * projectile.rotation.ToRotationVector2();
+            Vector2 projectileHalfLenght = (Projectile.Size / 2f) * Projectile.rotation.ToRotationVector2();
             float collisionPoint = 0;
             //If you hit the enemy during the coyote time with the blade of the whip, guarantee a crit & get some bonus damage
-            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), projectile.Center - projectileHalfLenght, projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
+            if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), Projectile.Center - projectileHalfLenght, Projectile.Center + projectileHalfLenght, 32, ref collisionPoint))
             {
                 if (SnapCoyoteTime > 0f)
                 {
@@ -99,37 +100,37 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (!initialized) //Initialization. create control points & shit)
             {
-                projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 Reach = MathHelper.Clamp((Owner.Center - Owner.Calamity().mouseWorld).Length(), MinReach, MaxReach);
-                Main.PlaySound(SoundID.DD2_OgreSpit, projectile.Center);
-                controlPoint1 = projectile.Center;
-                controlPoint2 = projectile.Center;
-                projectile.timeLeft = (int)MaxTime;
+                SoundEngine.PlaySound(SoundID.DD2_OgreSpit, Projectile.Center);
+                controlPoint1 = Projectile.Center;
+                controlPoint2 = Projectile.Center;
+                Projectile.timeLeft = (int)MaxTime;
                 initialized = true;
-                projectile.netUpdate = true;
-                projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
             if (ReelingBack && HasSnapped == 0f) //Snap & also small coyote time for the hook
             {
-                Main.PlaySound(SoundID.Item41, projectile.Center); //Snap
+                SoundEngine.PlaySound(SoundID.Item41, Projectile.Center); //Snap
                 HasSnapped = 1f;
                 SnapCoyoteTime = coyoteTimeFrames;
             }
 
             if (SnapCoyoteTime > 0) //keep checking for the tile hook
             {
-                Lighting.AddLight(projectile.Center, 0.8f, 1f, 0.35f);
+                Lighting.AddLight(Projectile.Center, 0.8f, 1f, 0.35f);
                 HookToTile();
                 SnapCoyoteTime--;
             }
 
-            Owner.direction = Math.Sign(projectile.velocity.X);
-            projectile.rotation = projectile.AngleFrom(Owner.Center); //Point away from playah
+            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Projectile.rotation = Projectile.AngleFrom(Owner.Center); //Point away from playah
 
             float ratio = GetSwingRatio();
-            projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
-            projectile.direction = projectile.spriteDirection = -Owner.direction;
+            Projectile.Center = Owner.MountedCenter + SwingPosition(ratio);
+            Projectile.direction = Projectile.spriteDirection = -Owner.direction;
 
             Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Owner.Calamity().mouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
         }
@@ -138,12 +139,12 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.myPlayer == Owner.whoAmI)
             {
                 //Shmoove the player if a tile is hit. This movement always happens if the owner isnt on the ground, but will only happen if the projectile is above the player if they are standing on the ground)
-                if (Collision.SolidCollision(projectile.position, 32, 32) && (Owner.velocity.Y != 0 || projectile.position.Y < Owner.position.Y))
+                if (Collision.SolidCollision(Projectile.position, 32, 32) && (Owner.velocity.Y != 0 || Projectile.position.Y < Owner.position.Y))
                 {
-                    Owner.velocity = Owner.SafeDirectionTo(projectile.Center, Vector2.Zero) * ReelBackStrenght;
+                    Owner.velocity = Owner.SafeDirectionTo(Projectile.Center, Vector2.Zero) * ReelBackStrenght;
                     SnapCoyoteTime = 0f;
                 }
-                Main.PlaySound(SoundID.Item65, projectile.position);
+                SoundEngine.PlaySound(SoundID.Item65, Projectile.position);
             }
         }
 
@@ -169,12 +170,12 @@ namespace CalamityMod.Projectiles.Melee
 
                 float angleDeviation = MathHelper.Pi / 1.2f;
                 float angleOffset = Owner.direction * MathHelper.Lerp(-angleDeviation, 0, progress); //Go from very angled to straight at the zenith of the attack
-                return projectile.velocity.RotatedBy(angleOffset) * distance;
+                return Projectile.velocity.RotatedBy(angleOffset) * distance;
             }
             else
             {
                 float distance = MathHelper.Lerp(Reach, 0f, progress); //Quickly zip back to the player . No angles or minimum distance from player.
-                return projectile.velocity * distance;
+                return Projectile.velocity * distance;
             }
         }
 
@@ -185,25 +186,25 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchBlade");
             Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_GrovetendersTouchGlow");
 
-            Vector2 projBottom = projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver4) * 0.75f;
+            Vector2 projBottom = Projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(Projectile.rotation + MathHelper.PiOver4) * 0.75f;
             DrawChain(spriteBatch, projBottom, out Vector2[] chainPositions);
 
             float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
             drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
-            drawRotation += projectile.spriteDirection < 0 ? 0f : 0f;
+            drawRotation += Projectile.spriteDirection < 0 ? 0f : 0f;
 
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
-            SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
-            lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+            SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.None : SpriteEffects.None;
+            lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
-            spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+            spriteBatch.Draw(handle, projBottom - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
 
             //Turn on additive blending
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Only update the origin for once
             drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, projectile.scale, flip, 0f);
+            spriteBatch.Draw(blade, projBottom - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
             //Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

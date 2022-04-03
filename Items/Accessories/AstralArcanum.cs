@@ -21,13 +21,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.defense = 12;
-            item.width = 26;
-            item.height = 26;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.rare = ItemRarityID.Purple;
+            Item.defense = 12;
+            Item.width = 26;
+            Item.height = 26;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.AstralArcanumUIHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
                 {
                     line2.text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
                 }
@@ -51,13 +51,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CelestialJewel>());
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CelestialJewel>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

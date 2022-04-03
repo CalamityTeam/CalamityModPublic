@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -10,8 +11,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         private float lightAmt = 1f;
 
@@ -29,19 +30,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 383;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 2;
+            Projectile.width = Projectile.height = 383;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 2;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % frameLength == frameLength - 1)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % frameLength == frameLength - 1)
             {
                 frameY++;
                 if (frameY >= verticalFrames)
@@ -51,15 +52,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 if (frameX >= horizontalFrames)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 
-            Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 4f * lightAmt);
-            if (projectile.localAI[0] == 0f)
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 4f * lightAmt);
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound"), projectile.Center);
-                projectile.localAI[0] = 1f;
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound"), Projectile.Center);
+                Projectile.localAI[0] = 1f;
             }
             lightAmt = (float)Math.Sin(Time / 37 * MathHelper.Pi) * 2f;
             if (lightAmt > 1f)
@@ -67,17 +68,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Time++;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, radius, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = Main.projectileTexture[Projectile.type];
             int length = texture.Width / horizontalFrames;
             int height = texture.Height / verticalFrames;
-            Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Rectangle frame = new Rectangle(frameX * length, frameY * height, length, height);
             Vector2 origin = new Vector2(length / 2f, height / 2f);
-            spriteBatch.Draw(texture, drawPos, frame, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

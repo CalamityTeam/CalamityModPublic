@@ -19,37 +19,30 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.height = 74;
-            item.melee = true;
-            item.damage = BaseDamage;
-            item.knockBack = 9f;
-            item.useTime = 13;
-            item.useAnimation = 13;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 74;
+            Item.height = 74;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = BaseDamage;
+            Item.knockBack = 9f;
+            Item.useTime = 13;
+            Item.useAnimation = 13;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
 
-            item.shoot = ModContent.ProjectileType<StellarContemptHammer>();
-            item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<StellarContemptHammer>();
+            Item.shootSpeed = Speed;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddIngredient(ModContent.ItemType<TruePaladinsHammerMelee>());
-            r.AddIngredient(ItemID.LunarBar, 5);
-            r.AddIngredient(ItemID.FragmentSolar, 10);
-            r.AddIngredient(ItemID.FragmentNebula, 10);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TruePaladinsHammerMelee>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.FragmentSolar, 10).AddIngredient(ItemID.FragmentNebula, 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

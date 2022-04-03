@@ -14,7 +14,7 @@ namespace CalamityMod.Buffs.DamageOverTime
         internal static int BaseDamage = 15;
         internal static int FramesPerDamageTick = 12;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shred");
             Description.SetDefault("Someone built ten Tri-Tip Daggers...");
@@ -60,9 +60,9 @@ namespace CalamityMod.Buffs.DamageOverTime
                 // Only deal damage once every several frames.
                 if (applicator.miscCounter % FramesPerDamageTick == 0)
                 {
-                    int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.rangedDamage);
+                    int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.GetDamage(DamageClass.Ranged));
                     Projectile tick = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, applicator.whoAmI, target.whoAmI);
-                    tick.ranged = true; // Uncommon for DirectStrikes, but it needs to be able to crit.
+                    tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
                     tick.Calamity().canSupercrit = true;
                 }
             }

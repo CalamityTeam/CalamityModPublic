@@ -21,32 +21,32 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Brimstone Witch");
 
-            Main.npcFrameCount[npc.type] = 27;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 700;
-            NPCID.Sets.AttackType[npc.type] = 1;
-            NPCID.Sets.AttackTime[npc.type] = 30;
-            NPCID.Sets.AttackAverageChance[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 27;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+            NPCID.Sets.AttackType[NPC.type] = 1;
+            NPCID.Sets.AttackTime[NPC.type] = 30;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.lavaImmune = true;
-            npc.width = 18;
-            npc.height = 40;
-            npc.aiStyle = 7;
-            npc.damage = 10;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.lavaImmune = true;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
 
             // You should not be able to kill SCal under any typical circumstances.
-            npc.lifeMax = 1000000;
+            NPC.lifeMax = 1000000;
 
-            npc.defense = 120;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath6;
-            npc.knockBackResist = 0.8f;
+            NPC.defense = 120;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            NPC.knockBackResist = 0.8f;
             animationType = NPCID.Wizard;
         }
 
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             WeightedRandom<string> textSelector = new WeightedRandom<string>(Main.rand);
 
-            if (npc.homeless)
+            if (NPC.homeless)
             {
                 textSelector.Add("I'm considering moving back to that old cave of mine.");
                 textSelector.Add("I certainly can't return to the Tyrant's old dwellings now, have you got any places to stay?");
@@ -138,12 +138,12 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 Main.playerInventory = true;
                 Main.LocalPlayer.Calamity().newCalamitasInventory = false;
-                CalamitasEnchantUI.NPCIndex = npc.whoAmI;
+                CalamitasEnchantUI.NPCIndex = NPC.whoAmI;
                 CalamitasEnchantUI.CurrentlyViewing = true;
 
                 if (!Main.LocalPlayer.Calamity().GivenBrimstoneLocus)
                 {
-                    DropHelper.DropItem(npc, ItemType<BrimstoneLocus>());
+                    DropHelper.DropItem(NPC, ItemType<BrimstoneLocus>());
                     Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
                 }
 
@@ -172,8 +172,8 @@ namespace CalamityMod.NPCs.TownNPCs
             // However, this doesn't happen in Boss Rush; the SCal there is a silent puppet created by Xeroc, not SCal herself.
             if (NPC.AnyNPCs(NPCType<SCalBoss>()) && !BossRushEvent.BossRushActive)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
                 return false;
             }
             return true;
@@ -195,15 +195,15 @@ namespace CalamityMod.NPCs.TownNPCs
         // Explode into red dust on death.
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                npc.position = npc.Center;
-                npc.width = npc.height = 50;
-                npc.position.X -= npc.width / 2;
-                npc.position.Y -= npc.height / 2;
+                NPC.position = NPC.Center;
+                NPC.width = NPC.height = 50;
+                NPC.position.X -= NPC.width / 2;
+                NPC.position.Y -= NPC.height / 2;
                 for (int i = 0; i < 5; i++)
                 {
-                    int brimstone = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int brimstone = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[brimstone].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -214,11 +214,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
                 for (int i = 0; i < 10; i++)
                 {
-                    int fire = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    int fire = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
                     Main.dust[fire].noGravity = true;
                     Main.dust[fire].velocity *= 5f;
 
-                    fire = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    fire = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 2f;
                 }
             }

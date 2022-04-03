@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class MutatedTruffleBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mini Old Duke");
             Description.SetDefault("The young duke will protect you");

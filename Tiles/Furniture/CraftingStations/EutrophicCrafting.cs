@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         // It's highly recommended you don't touch this code unless absolutely necessary.
         // Even slightly changing the way that this tile initializes could re-introduce the Ancients Awakened worldgen bug.
         //
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;

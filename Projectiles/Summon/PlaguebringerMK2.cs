@@ -13,43 +13,43 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer MK2");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 38;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 40;
+            Projectile.height = 38;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
+                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+                Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.damage = trueDamage;
             }
-            bool isProperProjectile = projectile.type == ModContent.ProjectileType<PlaguebringerMK2>();
+            bool isProperProjectile = Projectile.type == ModContent.ProjectileType<PlaguebringerMK2>();
             player.AddBuff(ModContent.BuffType<FuelCellBundleBuff>(), 3600);
             if (isProperProjectile)
             {
@@ -59,52 +59,52 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.plaguebringerMK2)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(DistanceToCheck, player);
 
             if (potentialTarget != null)
             {
-                int sign = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
-                float x = (125f + 40f * (int)(projectile.ai[1] % 10f)) * sign;
-                int y = -160 - 50 * (int)(projectile.ai[1] / 10);
+                int sign = (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
+                float x = (125f + 40f * (int)(Projectile.ai[1] % 10f)) * sign;
+                int y = -160 - 50 * (int)(Projectile.ai[1] / 10);
                 Vector2 destination = potentialTarget.Center + new Vector2(x, y);
-                if (projectile.Distance(destination) < 6f)
+                if (Projectile.Distance(destination) < 6f)
                 {
-                    projectile.velocity *= 0.9f;
+                    Projectile.velocity *= 0.9f;
                 }
                 else
-                    projectile.velocity = projectile.SafeDirectionTo(destination) * projectile.Distance(destination) / 36f;
+                    Projectile.velocity = Projectile.SafeDirectionTo(destination) * Projectile.Distance(destination) / 36f;
 
-                int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(projectile.localAI[1] / 320f, 0f, 1f));
-                if (projectile.ai[0] >= timeNeeded && Main.myPlayer == projectile.owner)
+                int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(Projectile.localAI[1] / 320f, 0f, 1f));
+                if (Projectile.ai[0] >= timeNeeded && Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center,
-                        projectile.SafeDirectionTo(potentialTarget.Center) * 14f,
+                    Projectile.NewProjectile(Projectile.Center,
+                        Projectile.SafeDirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
-                        (int)(projectile.damage * 0.9),
+                        (int)(Projectile.damage * 0.9),
                         3f,
-                        projectile.owner);
-                    Projectile.NewProjectile(projectile.Center,
-                        projectile.SafeDirectionTo(potentialTarget.Center) * 11.5f,
+                        Projectile.owner);
+                    Projectile.NewProjectile(Projectile.Center,
+                        Projectile.SafeDirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
-                        (int)(projectile.damage * 0.9),
+                        (int)(Projectile.damage * 0.9),
                         3f,
-                        projectile.owner);
-                    projectile.ai[0] = 0;
+                        Projectile.owner);
+                    Projectile.ai[0] = 0;
                 }
-                else projectile.ai[0]++;
-                projectile.localAI[1]++;
-                projectile.direction = projectile.spriteDirection = -sign;
+                else Projectile.ai[0]++;
+                Projectile.localAI[1]++;
+                Projectile.direction = Projectile.spriteDirection = -sign;
             }
             else
             {
-                projectile.localAI[1] = 0;
-                float x = (45f + 35f * (int)(projectile.ai[1] % 10f)) * -player.direction;
-                int y = -60 - 50 * (int)(projectile.ai[1] / 10);
-                Vector2 distanceToDestination = player.Center - projectile.Center + new Vector2(x, y);
+                Projectile.localAI[1] = 0;
+                float x = (45f + 35f * (int)(Projectile.ai[1] % 10f)) * -player.direction;
+                int y = -60 - 50 * (int)(Projectile.ai[1] / 10);
+                Vector2 distanceToDestination = player.Center - Projectile.Center + new Vector2(x, y);
                 float distance = distanceToDestination.Length();
                 if (distance > 10f)
                 {
@@ -113,31 +113,31 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         speed /= 2f;
                     }
-                    Vector2 velocity = distanceToDestination.SafeNormalize(projectile.direction * Vector2.UnitX) * speed;
-                    projectile.velocity = (projectile.velocity * 20f + velocity) / 21f;
+                    Vector2 velocity = distanceToDestination.SafeNormalize(Projectile.direction * Vector2.UnitX) * speed;
+                    Projectile.velocity = (Projectile.velocity * 20f + velocity) / 21f;
                     if (distance > 2250f)
                     {
-                        projectile.Center = player.Center;
-                        projectile.netUpdate = true;
+                        Projectile.Center = player.Center;
+                        Projectile.netUpdate = true;
                     }
                 }
                 else
                 {
-                    projectile.direction = player.direction;
-                    projectile.velocity *= 0.9f;
+                    Projectile.direction = player.direction;
+                    Projectile.velocity *= 0.9f;
                 }
-                projectile.direction = projectile.spriteDirection = player.direction;
+                Projectile.direction = Projectile.spriteDirection = player.direction;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 

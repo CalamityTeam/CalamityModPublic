@@ -57,7 +57,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.GetTexture(Type);
+            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
             int animationFrame = (int)Math.Floor(Time / ((float)(Lifetime / (float)FrameAmount)));
             Rectangle frame = new Rectangle(80 * Variant, 80 * animationFrame, 80, 80);
 

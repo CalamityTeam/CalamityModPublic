@@ -12,28 +12,24 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Ancient Work Bench");
-            item.width = 28;
-            item.height = 14;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Orange;
-            item.consumable = true;
-            item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientWorkbench>();
+            Item.SetNameOverride("Ancient Work Bench");
+            Item.width = 28;
+            Item.height = 14;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.consumable = true;
+            Item.value = 0;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientWorkbench>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 10);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AncientAltar>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 10).AddTile(ModContent.TileType<AncientAltar>()).Register();
         }
     }
 }

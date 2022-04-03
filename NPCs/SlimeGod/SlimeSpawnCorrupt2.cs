@@ -11,45 +11,45 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrupt Slime Spawn");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
-            npc.GetNPCDamage();
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 4;
-            npc.lifeMax = 90;
+            NPC.aiStyle = 1;
+            NPC.GetNPCDamage();
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 4;
+            NPC.lifeMax = 90;
             if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 5000;
+                NPC.lifeMax = 5000;
             }
-            npc.knockBackResist = 0f;
+            NPC.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            npc.alpha = 55;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.alpha = 55;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.canGhostHeal = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -58,12 +58,12 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             if (!CalamityWorld.revenge)
             {
-                int closestPlayer = Player.FindClosest(npc.Center, 1, 1);
+                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Heart);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
-            DropHelper.DropItemChance(npc, ItemID.Vitamins, Main.expertMode ? 50 : 100);
+            DropHelper.DropItemChance(NPC, ItemID.Vitamins, Main.expertMode ? 50 : 100);
 
             return false;
         }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.UI
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
+            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
             CircleNames = new string[]
             {
                 "Underworld",
@@ -134,7 +135,7 @@ namespace CalamityMod.UI
             {
                 LastHovered = selectedCircle;
                 if (LastHovered != -1)
-                    Main.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
             }
 
             string text = "Select";
@@ -158,7 +159,7 @@ namespace CalamityMod.UI
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
-                    Main.PlaySound(SoundID.Item, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Item, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {

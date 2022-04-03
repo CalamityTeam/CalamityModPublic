@@ -26,15 +26,15 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = TimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = TimeLeft;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
 
         // Netcode for sending and receiving shit
@@ -42,14 +42,14 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public static float CosineInterpolation(float start, float end, float time)
@@ -62,71 +62,71 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            if (projectile.localAI[0] <= MovementTime)
+            if (Projectile.localAI[0] <= MovementTime)
             {
-                projectile.velocity = (projectile.ai[0] + (float)Math.Cos(projectile.localAI[0] / MovementTime * TotalSweeps) *
-                                       CosineInterpolation(1f, 0f, projectile.localAI[0] / MovementTime) * UniverseSplitterField.SmallBeamAngleMax).ToRotationVector2();
+                Projectile.velocity = (Projectile.ai[0] + (float)Math.Cos(Projectile.localAI[0] / MovementTime * TotalSweeps) *
+                                       CosineInterpolation(1f, 0f, Projectile.localAI[0] / MovementTime) * UniverseSplitterField.SmallBeamAngleMax).ToRotationVector2();
             }
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            projectile.localAI[0] += 1f;
+            Projectile.localAI[0] += 1f;
 
             // Fadein/out. The timeleft varies, so this must be done manually.
-            if (projectile.localAI[0] < FadeinTime)
+            if (Projectile.localAI[0] < FadeinTime)
             {
-                projectile.scale = MathHelper.Lerp(0.01f, LaserSize, projectile.localAI[0] / FadeinTime);
+                Projectile.scale = MathHelper.Lerp(0.01f, LaserSize, Projectile.localAI[0] / FadeinTime);
             }
-            if (projectile.localAI[0] > MovementTime &&
-                projectile.localAI[0] <= MovementTime + 10f)
+            if (Projectile.localAI[0] > MovementTime &&
+                Projectile.localAI[0] <= MovementTime + 10f)
             {
-                projectile.scale = MathHelper.Lerp(LaserSize, 3.25f, (projectile.localAI[0] - MovementTime) / 10f);
+                Projectile.scale = MathHelper.Lerp(LaserSize, 3.25f, (Projectile.localAI[0] - MovementTime) / 10f);
             }
-            if (projectile.localAI[0] > TimeLeft - 15f)
+            if (Projectile.localAI[0] > TimeLeft - 15f)
             {
-                projectile.scale = MathHelper.Lerp(3.25f, 0.01f, (projectile.localAI[0] - (TimeLeft - 15f)) / 15f);
+                Projectile.scale = MathHelper.Lerp(3.25f, 0.01f, (Projectile.localAI[0] - (TimeLeft - 15f)) / 15f);
             }
 
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], MaximumLength, 0.5f);
-            Vector2 beamEndPosiiton = projectile.Center + projectile.velocity * (projectile.localAI[1] - 6f);
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], MaximumLength, 0.5f);
+            Vector2 beamEndPosiiton = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 6f);
 
             // Draw white light across the laser
             DelegateMethods.v3_1 = Color.White.ToVector3();
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.velocity == Vector2.Zero)
+            if (Projectile.velocity == Vector2.Zero)
             {
                 return false;
             }
-            Texture2D laserTailTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamBegin");
-            Texture2D laserBodyTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamMid");
-            Texture2D laserHeadTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamEnd");
-            float laserLength = projectile.localAI[1];
+            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamBegin");
+            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamMid");
+            Texture2D laserHeadTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterSmallBeamEnd");
+            float laserLength = Projectile.localAI[1];
             Color drawColor = new Color(1f, 1f, 1f) * 0.9f;
 
             // Laser tail logic
 
-            Main.spriteBatch.Draw(laserTailTexture, projectile.Center - Main.screenPosition, null, drawColor, projectile.rotation, laserTailTexture.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(laserTailTexture, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, laserTailTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 
             // Laser body logic
 
-            laserLength -= (laserTailTexture.Height / 2 + laserHeadTexture.Height) * projectile.scale;
-            Vector2 centerDelta = projectile.Center;
-            centerDelta += projectile.velocity * projectile.scale * (float)laserTailTexture.Height / 2f;
+            laserLength -= (laserTailTexture.Height / 2 + laserHeadTexture.Height) * Projectile.scale;
+            Vector2 centerDelta = Projectile.Center;
+            centerDelta += Projectile.velocity * Projectile.scale * (float)laserTailTexture.Height / 2f;
             if (laserLength > 0f)
             {
                 float laserLengthDelta = 0f;
-                Rectangle sourceRectangle = new Rectangle(0, 14 * (projectile.timeLeft / 3 % 5), laserBodyTexture.Width, 16);
+                Rectangle sourceRectangle = new Rectangle(0, 14 * (Projectile.timeLeft / 3 % 5), laserBodyTexture.Width, 16);
                 while (laserLengthDelta + 1f < laserLength)
                 {
                     if (laserLength - laserLengthDelta < sourceRectangle.Height)
                     {
                         sourceRectangle.Height = (int)(laserLength - laserLengthDelta);
                     }
-                    Main.spriteBatch.Draw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, projectile.rotation, new Vector2(sourceRectangle.Width / 2f, 0f), projectile.scale, SpriteEffects.None, 0f);
-                    laserLengthDelta += sourceRectangle.Height * projectile.scale;
-                    centerDelta += projectile.velocity * sourceRectangle.Height * projectile.scale;
+                    Main.spriteBatch.Draw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, Projectile.rotation, new Vector2(sourceRectangle.Width / 2f, 0f), Projectile.scale, SpriteEffects.None, 0f);
+                    laserLengthDelta += sourceRectangle.Height * Projectile.scale;
+                    centerDelta += Projectile.velocity * sourceRectangle.Height * Projectile.scale;
                     sourceRectangle.Y += 14;
                     if (sourceRectangle.Y + sourceRectangle.Height > laserBodyTexture.Height)
                     {
@@ -137,15 +137,15 @@ namespace CalamityMod.Projectiles.Summon
 
             // Laser head logic
 
-            Main.spriteBatch.Draw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, projectile.rotation, laserHeadTexture.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, Projectile.rotation, laserHeadTexture.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Vector2 unit = Projectile.velocity;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Projectile.localAI[1], (float)Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
                 return true;
             }
             float value = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 22f * projectile.scale, ref value))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 22f * Projectile.scale, ref value))
             {
                 return true;
             }

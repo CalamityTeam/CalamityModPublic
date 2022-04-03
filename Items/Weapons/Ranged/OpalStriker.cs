@@ -16,24 +16,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 30;
-            item.useTime = 5;
-            item.reuseDelay = 25;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<OpalStrike>();
-            item.shootSpeed = 6f;
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 30;
+            Item.useTime = 5;
+            Item.reuseDelay = 25;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shootSpeed = 6f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -46,14 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Marble, 20);
-            recipe.AddIngredient(ItemID.Amber, 5);
-            recipe.AddIngredient(ItemID.Diamond, 3);
-            recipe.AddIngredient(ItemID.FlintlockPistol);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Marble, 20).AddIngredient(ItemID.Amber, 5).AddIngredient(ItemID.Diamond, 3).AddIngredient(ItemID.FlintlockPistol).AddTile(TileID.Anvils).Register();
         }
     }
 }

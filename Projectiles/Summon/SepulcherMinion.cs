@@ -9,6 +9,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -81,22 +82,22 @@ namespace CalamityMod.Projectiles.Summon
         public int PlayerAttackCountdown;
         public SepulcherSegment[] Segments = new SepulcherSegment[24];
         public List<SepulcherArm> Arms = new List<SepulcherArm>();
-        public Player Owner => Main.player[projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
         public AIState CurrentAIState
         {
-            get => (AIState)(int)projectile.ai[0];
+            get => (AIState)(int)Projectile.ai[0];
             set
             {
                 // Don't do anything unless the caller is the owner of this projectile- changes will be synced to other clients in MP.
-                if (Main.myPlayer != projectile.owner)
+                if (Main.myPlayer != Projectile.owner)
                     return;
 
-                projectile.ai[0] = (int)value;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = (int)value;
+                Projectile.netUpdate = true;
             }
         }
-        public ref float JawRotation => ref projectile.localAI[0];
-        public ref float JawSnapTimer => ref projectile.localAI[1];
+        public ref float JawRotation => ref Projectile.localAI[0];
+        public ref float JawSnapTimer => ref Projectile.localAI[1];
         public const int HeartCreationRate = 420;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -104,28 +105,28 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sepulcher");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 54;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.netImportant = true;
-            projectile.penetrate = -1;
-            projectile.minionSlots = 4f;
-            projectile.timeLeft = 90000;
-            projectile.Opacity = 0f;
-            projectile.tileCollide = false;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.hide = true;
+            Projectile.width = 54;
+            Projectile.height = 54;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.netImportant = true;
+            Projectile.penetrate = -1;
+            Projectile.minionSlots = 4f;
+            Projectile.timeLeft = 90000;
+            Projectile.Opacity = 0f;
+            Projectile.tileCollide = false;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.hide = true;
         }
 
         #region Syncing
@@ -176,7 +177,7 @@ namespace CalamityMod.Projectiles.Summon
             UpdateSegments();
 
             // Fade in rapidly.
-            projectile.Opacity = MathHelper.Clamp(projectile.Opacity + 0.2f, 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.2f, 0f, 1f);
 
             NPC potentialTarget = AttemptToFindTarget(1450f);
 
@@ -208,7 +209,7 @@ namespace CalamityMod.Projectiles.Summon
 
 
             // Determine whether the projectile can attack its owner based on the attakc countdown.
-            projectile.hostile = PlayerAttackCountdown > 0;
+            Projectile.hostile = PlayerAttackCountdown > 0;
 
             switch (CurrentAIState)
             {
@@ -236,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon
                 int heartType = ModContent.NPCType<ExhumedHeart>();
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].type != heartType || !Main.npc[i].active || Main.npc[i].target != projectile.owner)
+                    if (Main.npc[i].type != heartType || !Main.npc[i].active || Main.npc[i].target != Projectile.owner)
                         continue;
                     heartsAttachedToOwner++;
                 }
@@ -247,7 +248,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.rand.NextFloat() < chanceToBecomeAngry)
                 {
                     PlayerAttackCountdown = 300;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 else if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.NewNPC((int)Owner.Center.X, (int)Owner.Center.Y, heartType);
@@ -264,16 +265,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public void Initialize()
         {
-            if (projectile.ai[1] != 0f)
+            if (Projectile.ai[1] != 0f)
                 return;
 
             for (int i = 0; i < Segments.Length; i++)
-                Segments[i].CurrentPosition = projectile.Center - projectile.velocity.SafeNormalize(Vector2.UnitY) * i * 0.2f;
+                Segments[i].CurrentPosition = Projectile.Center - Projectile.velocity.SafeNormalize(Vector2.UnitY) * i * 0.2f;
 
-            projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-            projectile.ai[1] = 1f;
-            if (Main.myPlayer == projectile.owner)
+            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
+            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
+            Projectile.ai[1] = 1f;
+            if (Main.myPlayer == Projectile.owner)
             {
                 float rotationalOffset = 0f;
                 for (byte i = 3; i < Segments.Length - 2; i += 2)
@@ -284,7 +285,7 @@ namespace CalamityMod.Projectiles.Summon
                     Arms.Add(new SepulcherArm(Segments[i].CurrentPosition, i, rotationalOffset + MathHelper.Pi, false, true));
                     rotationalOffset = MathHelper.WrapAngle(rotationalOffset + MathHelper.Pi / 6f);
                 }
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
         }
 
@@ -295,23 +296,23 @@ namespace CalamityMod.Projectiles.Summon
             if (Owner.dead)
                 Owner.Calamity().sepulcher = false;
             if (Owner.Calamity().sepulcher)
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
         }
 
         public void HandleFlexibleDamage()
         {
             // Adjust the damage of this projectile if the owner's current minion damage factor has changed for any reason.
-            if (Owner.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                projectile.damage = trueDamage;
+                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
+                Projectile.damage = trueDamage;
             }
         }
 
         public void UpdateSegments()
         {
-            float aheadRotation = projectile.rotation;
-            Vector2 aheadPosition = projectile.Center;
+            float aheadRotation = Projectile.rotation;
+            Vector2 aheadPosition = Projectile.Center;
 
             // Connect all segments to each-other and calculate their rotations.
             for (int i = 0; i < Segments.Length; i++)
@@ -343,8 +344,8 @@ namespace CalamityMod.Projectiles.Summon
                 float sideFactor = MathHelper.Lerp(200f, 18f, Utils.InverseLerp(-0.51f, -0.06f, Arms[i].Rotation, true));
                 float aheadFactor = MathHelper.Lerp(284f, 680f, Utils.InverseLerp(-0.51f, -0.06f, Arms[i].Rotation, true));
                 int direction = Arms[i].Direction.ToDirectionInt();
-                idealMovePosition += (segmentToAttachTo.Rotation + Arms[i].Rotation * direction - MathHelper.PiOver2).ToRotationVector2() * projectile.scale * aheadFactor;
-                idealMovePosition += (segmentToAttachTo.Rotation + Arms[i].Rotation * direction - MathHelper.PiOver2 + MathHelper.PiOver2 * direction).ToRotationVector2() * projectile.scale * sideFactor;
+                idealMovePosition += (segmentToAttachTo.Rotation + Arms[i].Rotation * direction - MathHelper.PiOver2).ToRotationVector2() * Projectile.scale * aheadFactor;
+                idealMovePosition += (segmentToAttachTo.Rotation + Arms[i].Rotation * direction - MathHelper.PiOver2 + MathHelper.PiOver2 * direction).ToRotationVector2() * Projectile.scale * sideFactor;
                 Arms[i].Center = idealMovePosition;
 
                 Vector2 offsetFromSegment = Vector2.Zero;
@@ -356,7 +357,7 @@ namespace CalamityMod.Projectiles.Summon
                 Arms[i].Limbs[1].Rotation = (Arms[i].Center - Arms[i].Limbs[0].Center).ToRotation();
                 Arms[i].Limbs[1].Center = Arms[i].Limbs[0].Center + offsetFromSegment * 0.5f + (Arms[i].Center - Arms[i].Limbs[0].Center).SafeNormalize(Vector2.UnitY) * 64f;
 
-                float rotationalVelocityFactor = Utils.InverseLerp(0f, 6f, projectile.velocity.Length(), true);
+                float rotationalVelocityFactor = Utils.InverseLerp(0f, 6f, Projectile.velocity.Length(), true);
                 if (CurrentAIState == AIState.AttackEnemy_Charge)
                     rotationalVelocityFactor *= 0.85f;
                 if (CurrentAIState == AIState.AttackOwner)
@@ -380,27 +381,27 @@ namespace CalamityMod.Projectiles.Summon
         public void HoverNearOwner()
         {
             // Teleport to the owner if it's very far away.
-            if (!projectile.WithinRange(Owner.Center, 3200f))
+            if (!Projectile.WithinRange(Owner.Center, 3200f))
             {
-                projectile.Center = Owner.Center;
-                projectile.velocity = Main.rand.NextVector2CircularEdge(4f, 4f);
-                projectile.netUpdate = true;
+                Projectile.Center = Owner.Center;
+                Projectile.velocity = Main.rand.NextVector2CircularEdge(4f, 4f);
+                Projectile.netUpdate = true;
             }
 
             // Attempt to move towards the owner.
-            if (!projectile.WithinRange(Owner.Center, 540f))
+            if (!Projectile.WithinRange(Owner.Center, 540f))
             {
                 Vector2 destination = Owner.Center + (IdleTimer / 31f).ToRotationVector2() * 240f;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 18f, 0.03f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(destination) * 18f, 0.03f);
 
-                float updatedDirectionRotation = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(destination), 0.04f);
-                projectile.velocity = updatedDirectionRotation.ToRotationVector2() * projectile.velocity.Length();
+                float updatedDirectionRotation = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(destination), 0.04f);
+                Projectile.velocity = updatedDirectionRotation.ToRotationVector2() * Projectile.velocity.Length();
             }
-            else if (projectile.velocity.Length() < 16f)
-                projectile.velocity *= 1.03f;
+            else if (Projectile.velocity.Length() < 16f)
+                Projectile.velocity *= 1.03f;
 
             // Determine the head rotation.
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public void AttackEnemyWithDarts(NPC target)
@@ -408,19 +409,19 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 destination = target.Center + ((AttackTimer / 20f).ToRotationVector2() * 320f);
 
             // Step towards the ideal velocity with an acceleration of 1 pixel/second^2.
-            projectile.velocity = projectile.velocity.MoveTowards(projectile.SafeDirectionTo(destination) * 24f, 1f);
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity = Projectile.velocity.MoveTowards(Projectile.SafeDirectionTo(destination) * 24f, 1f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             // Release a burst of darts from all segments at the target.
-            if (Main.myPlayer == projectile.owner && AttackTimer % 60 > 60 - Segments.Length)
+            if (Main.myPlayer == Projectile.owner && AttackTimer % 60 > 60 - Segments.Length)
             {
                 int segmentToFireFrom = 60 - AttackTimer % 60;
                 Vector2 spawnPosition = Segments[segmentToFireFrom].CurrentPosition;
                 Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * 8f;
-                Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
             }
 
-            if (Main.myPlayer == projectile.owner && AttackTimer > 430)
+            if (Main.myPlayer == Projectile.owner && AttackTimer > 430)
             {
                 CurrentAIState = AIState.AttackEnemy_Charge;
                 AttackTimer = 0;
@@ -429,36 +430,36 @@ namespace CalamityMod.Projectiles.Summon
 
         public void AttackEnemyByCharging(NPC target)
         {
-            if (!projectile.WithinRange(target.Center, 350f))
+            if (!Projectile.WithinRange(target.Center, 350f))
             {
                 Vector2 destination = target.Center + (AttackTimer / 25f).ToRotationVector2() * MathHelper.Min(target.width * 0.35f, 150f);
-                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 34f, 0.08f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(destination) * 34f, 0.08f);
 
-                float updatedDirectionRotation = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(destination), 0.12f);
-                projectile.velocity = updatedDirectionRotation.ToRotationVector2() * projectile.velocity.Length();
+                float updatedDirectionRotation = Projectile.velocity.ToRotation().AngleTowards(Projectile.AngleTo(destination), 0.12f);
+                Projectile.velocity = updatedDirectionRotation.ToRotationVector2() * Projectile.velocity.Length();
             }
-            else if (projectile.velocity.Length() < 29f)
+            else if (Projectile.velocity.Length() < 29f)
             {
-                projectile.velocity *= 1.035f;
+                Projectile.velocity *= 1.035f;
                 if (JawSnapTimer <= 0f)
                 {
                     // Open the mouth of the jaw if close but not super close to the target.
-                    if (projectile.WithinRange(target.Center, 270f))
+                    if (Projectile.WithinRange(target.Center, 270f))
                         JawRotation = JawRotation.AngleLerp(0.87f, 0.12f);
 
                     // If really close, snap.
-                    if (projectile.WithinRange(target.Center, 165f))
+                    if (Projectile.WithinRange(target.Center, 165f))
                     {
-                        Main.PlaySound(SoundID.DD2_SkeletonHurt, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, Projectile.Center);
                         JawSnapTimer = 45f;
                     }
                 }
             }
 
             // Determine the head rotation.
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Main.myPlayer == projectile.owner && AttackTimer > 480)
+            if (Main.myPlayer == Projectile.owner && AttackTimer > 480)
             {
                 CurrentAIState = AIState.AttackEnemy_ReleaseDartBurst;
                 AttackTimer = 0;
@@ -468,36 +469,36 @@ namespace CalamityMod.Projectiles.Summon
         public void AttackOwner()
         {
             // Attempt to angle towards the owner.
-            float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 21f, 0.025f);
+            float newSpeed = MathHelper.Lerp(Projectile.velocity.Length(), 21f, 0.025f);
 
-            if (!projectile.WithinRange(Owner.Center, 370f))
+            if (!Projectile.WithinRange(Owner.Center, 370f))
             {
-                Vector2 idealVelocity = projectile.SafeDirectionTo(Owner.Center) * newSpeed;
-                projectile.velocity = projectile.velocity.MoveTowards(idealVelocity, 2f);
+                Vector2 idealVelocity = Projectile.SafeDirectionTo(Owner.Center) * newSpeed;
+                Projectile.velocity = Projectile.velocity.MoveTowards(idealVelocity, 2f);
 
                 float idealAimDirection = idealVelocity.ToRotation();
-                projectile.velocity = projectile.velocity.ToRotation().AngleLerp(idealAimDirection, 0.05f).ToRotationVector2() * projectile.velocity.Length();
+                Projectile.velocity = Projectile.velocity.ToRotation().AngleLerp(idealAimDirection, 0.05f).ToRotationVector2() * Projectile.velocity.Length();
             }
-            else if (projectile.velocity.Length() < 36f)
+            else if (Projectile.velocity.Length() < 36f)
             {
-                projectile.velocity *= 1.03f;
+                Projectile.velocity *= 1.03f;
                 if (JawSnapTimer <= 0f)
                 {
                     // Open the mouth of the jaw if close but not super close to the owner.
-                    if (projectile.WithinRange(Owner.Center, 300f))
+                    if (Projectile.WithinRange(Owner.Center, 300f))
                         JawRotation = JawRotation.AngleLerp(0.87f, 0.12f);
 
                     // If really close, snap.
-                    if (projectile.WithinRange(Owner.Center, 180f))
+                    if (Projectile.WithinRange(Owner.Center, 180f))
                     {
-                        Main.PlaySound(SoundID.DD2_SkeletonHurt, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, Projectile.Center);
                         JawSnapTimer = 45f;
                     }
                 }
             }
 
             // Determine the head rotation.
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public NPC AttemptToFindTarget(float searchDistance)
@@ -508,7 +509,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Owner.HasMinionAttackTargetNPC)
             {
                 NPC targetedNPC = Main.npc[Owner.MinionAttackTargetNPC];
-                if (targetedNPC.WithinRange(projectile.Center, searchDistance) && targetedNPC.CanBeChasedBy() && targetedNPC.type != heartType)
+                if (targetedNPC.WithinRange(Projectile.Center, searchDistance) && targetedNPC.CanBeChasedBy() && targetedNPC.type != heartType)
                     return targetedNPC;
             }
 
@@ -519,9 +520,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
 
-                    if (Main.npc[i].WithinRange(projectile.Center, distance + extraDistance))
+                    if (Main.npc[i].WithinRange(Projectile.Center, distance + extraDistance))
                     {
-                        distance = Main.npc[i].DistanceSQ(projectile.Center);
+                        distance = Main.npc[i].DistanceSQ(Projectile.Center);
                         closestTarget = Main.npc[i];
                     }
                 }
@@ -541,15 +542,15 @@ namespace CalamityMod.Projectiles.Summon
             Color backAfterimageColor = Color.Red * angerFactor;
             backAfterimageColor.A = 0;
 
-            Texture2D eyesTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionEyes");
-            Texture2D jawTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionJaw");
-            Texture2D headTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionHead");
-            Texture2D bodyTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionBody");
-            Texture2D bodyTexture2 = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionBodyAlt");
-            Texture2D tailTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherMinionTail");
-            Texture2D armTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherArm");
-            Texture2D foreArmTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherForeArm");
-            Texture2D handTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/SepulcherHand");
+            Texture2D eyesTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionEyes");
+            Texture2D jawTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionJaw");
+            Texture2D headTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionHead");
+            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionBody");
+            Texture2D bodyTexture2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionBodyAlt");
+            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherMinionTail");
+            Texture2D armTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherArm");
+            Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherForeArm");
+            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SepulcherHand");
 
             Vector2 drawPosition;
 
@@ -564,10 +565,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(foreArmTexture, forearmDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(foreArmTexture, forearmDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
                     }
                 }
-                spriteBatch.Draw(foreArmTexture, forearmDrawPosition, null, drawColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(foreArmTexture, forearmDrawPosition, null, drawColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
 
                 Vector2 armDrawPosition = Arms[i].Limbs[1].Center - Main.screenPosition;
                 drawColor = Lighting.GetColor((int)(Arms[i].Limbs[1].Center.X / 16), (int)(Arms[i].Limbs[1].Center.Y / 16));
@@ -577,10 +578,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(armTexture, armDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), projectile.scale, SpriteEffects.FlipVertically, 0f);
+                        spriteBatch.Draw(armTexture, armDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
                     }
                 }
-                spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), projectile.scale, SpriteEffects.FlipVertically, 0f);
+                spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
 
                 Vector2 handDrawPosition = armDrawPosition;
                 SpriteEffects handDirection = Arms[i].Direction ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -590,10 +591,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(handTexture, handDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), projectile.scale, handDirection, 0f);
+                        spriteBatch.Draw(handTexture, handDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
                     }
                 }
-                spriteBatch.Draw(handTexture, handDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), projectile.scale, handDirection, 0f);
+                spriteBatch.Draw(handTexture, handDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
             }
 
             // Draw the segments.
@@ -613,13 +614,13 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(textureToUse, drawPosition + drawOffset, null, backAfterimageColor, Segments[i].Rotation, textureToUse.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(textureToUse, drawPosition + drawOffset, null, backAfterimageColor, Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
                     }
                 }
-                spriteBatch.Draw(textureToUse, drawPosition, null, projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(textureToUse, drawPosition, null, Projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
-            drawPosition = projectile.Center - Main.screenPosition;
+            drawPosition = Projectile.Center - Main.screenPosition;
             lightColor = Lighting.GetColor((int)(drawPosition.X + Main.screenPosition.X) / 16, (int)(drawPosition.Y + Main.screenPosition.Y) / 16);
 
             // Draw the jaws.
@@ -627,10 +628,10 @@ namespace CalamityMod.Projectiles.Summon
             {
                 float jawBaseOffset = 24f;
                 SpriteEffects jawSpriteEffect = i == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                Vector2 jawPosition = projectile.Center - Main.screenPosition;
-                jawPosition += Vector2.UnitX.RotatedBy(projectile.rotation + JawRotation * i) * i * (jawBaseOffset + (float)Math.Sin(JawRotation) * 14f);
-                jawPosition -= Vector2.UnitY.RotatedBy(projectile.rotation) * (26f + (float)Math.Sin(JawRotation) * 8f);
-                spriteBatch.Draw(jawTexture, jawPosition, null, projectile.GetAlpha(lightColor), projectile.rotation + JawRotation * i, jawTexture.Size() * 0.5f, projectile.scale * 1.25f, jawSpriteEffect, 0f);
+                Vector2 jawPosition = Projectile.Center - Main.screenPosition;
+                jawPosition += Vector2.UnitX.RotatedBy(Projectile.rotation + JawRotation * i) * i * (jawBaseOffset + (float)Math.Sin(JawRotation) * 14f);
+                jawPosition -= Vector2.UnitY.RotatedBy(Projectile.rotation) * (26f + (float)Math.Sin(JawRotation) * 8f);
+                spriteBatch.Draw(jawTexture, jawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation + JawRotation * i, jawTexture.Size() * 0.5f, Projectile.scale * 1.25f, jawSpriteEffect, 0f);
             }
 
             // Draw the head.
@@ -639,19 +640,19 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * afterimageOutwardness;
-                    spriteBatch.Draw(headTexture, drawPosition + drawOffset, null, backAfterimageColor, projectile.rotation, headTexture.Size() * 0.5f, projectile.scale * 1.25f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(headTexture, drawPosition + drawOffset, null, backAfterimageColor, Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
                 }
             }
-            spriteBatch.Draw(headTexture, drawPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, headTexture.Size() * 0.5f, projectile.scale * 1.25f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(headTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
 
             // Draw demonic eyes if enraged.
             if (afterimageOutwardness > 0f)
             {
-                for (int i = 0; i < (int)(projectile.oldPos.Length * angerFactor); i++)
+                for (int i = 0; i < (int)(Projectile.oldPos.Length * angerFactor); i++)
                 {
-                    drawPosition = projectile.Center - Main.screenPosition - projectile.velocity.SafeNormalize(Vector2.Zero) * 3f * i;
-                    Color fadeColor = Color.White * (1f - i / (float)projectile.oldPos.Length);
-                    spriteBatch.Draw(eyesTexture, drawPosition, null, projectile.GetAlpha(fadeColor), projectile.oldRot[i], eyesTexture.Size() * 0.5f, projectile.scale * 1.25f, SpriteEffects.None, 0f);
+                    drawPosition = Projectile.Center - Main.screenPosition - Projectile.velocity.SafeNormalize(Vector2.Zero) * 3f * i;
+                    Color fadeColor = Color.White * (1f - i / (float)Projectile.oldPos.Length);
+                    spriteBatch.Draw(eyesTexture, drawPosition, null, Projectile.GetAlpha(fadeColor), Projectile.oldRot[i], eyesTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
                 }
             }
 

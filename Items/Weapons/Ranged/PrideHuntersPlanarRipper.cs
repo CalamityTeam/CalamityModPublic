@@ -25,26 +25,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 86;
-            item.ranged = true;
-            item.width = 68;
-            item.height = 32;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
+            Item.damage = 86;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 68;
+            Item.height = 32;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
 
-            item.UseSound = SoundID.Item11;
-            item.shoot = ProjectileID.Bullet;
-            item.useAmmo = AmmoID.Bullet;
-            item.shootSpeed = 15f;
+            Item.UseSound = SoundID.Item11;
+            Item.shoot = ProjectileID.Bullet;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.shootSpeed = 15f;
 
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().donorItem = true;
-            item.Calamity().canFirePointBlankShots = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-12, -6);
@@ -70,18 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<P90>());
-            recipe.AddIngredient(ItemID.Uzi);
-            recipe.AddIngredient(ModContent.ItemType<PearlGod>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ItemID.FragmentVortex, 10);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<P90>()).AddIngredient(ItemID.Uzi).AddIngredient(ModContent.ItemType<PearlGod>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.FragmentVortex, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 6).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddIngredient(ModContent.ItemType<Stardust>(), 25).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

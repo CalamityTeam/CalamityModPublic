@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,20 +17,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 21;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.height = 60;
-            item.scale = 1.25f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
+            Item.width = 46;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 21;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.height = 60;
+            Item.scale = 1.25f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -47,14 +48,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            OnHitEffects(player, target.statLife <= 0, target.Center, target.width, target.height, item.knockBack);
+            OnHitEffects(player, target.statLife <= 0, target.Center, target.width, target.height, Item.knockBack);
         }
 
         private void OnHitEffects(Player player, bool health, Vector2 targetPos, int targetWidth, int targetHeight, float kBack)
         {
             if (health)
             {
-                Main.PlaySound(SoundID.Item74, targetPos);
+                SoundEngine.PlaySound(SoundID.Item74, targetPos);
                 targetPos.X += (float)(targetWidth / 2);
                 targetPos.Y += (float)(targetHeight / 2);
                 targetPos.X -= (float)(targetWidth / 2);
@@ -81,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int i = 0; i < bloodAmt; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), kBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), kBack, player.whoAmI, 0f, 0f);
                 }
             }
         }

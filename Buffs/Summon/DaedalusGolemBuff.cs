@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DaedalusGolemBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Golem");
             Description.SetDefault("A crystal golem is following you");

@@ -17,20 +17,20 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 46;
-            item.useTime = item.useAnimation = 25;
-            item.reuseDelay = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.DD2_DarkMageCastHeal;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
+            Item.width = 32;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 25;
+            Item.reuseDelay = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.DD2_DarkMageCastHeal;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
     }
 }

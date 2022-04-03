@@ -20,27 +20,27 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrageldon");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 62;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.alpha = 75;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.aiStyle = 26;
+            Projectile.width = 64;
+            Projectile.height = 62;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.alpha = 75;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.aiStyle = 26;
             aiType = ProjectileID.BabySlime;
         }
 
@@ -53,28 +53,28 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];;
+            Player player = Main.player[Projectile.owner];;
             CalamityPlayer modPlayer = player.Calamity();
-            CalamityGlobalProjectile modProj = projectile.Calamity();
+            CalamityGlobalProjectile modProj = Projectile.Calamity();
 
             //hitbox size scaling
-            float scale = (float)Math.Log(projectile.minionSlots, 10f) + 1f;
-            if (projectile.scale != scale)
-                projectile.scale = scale;
-            projectile.width = (int)(64f * projectile.scale);
-            projectile.height = (int)(62f * projectile.scale);
+            float scale = (float)Math.Log(Projectile.minionSlots, 10f) + 1f;
+            if (Projectile.scale != scale)
+                Projectile.scale = scale;
+            Projectile.width = (int)(64f * Projectile.scale);
+            Projectile.height = (int)(62f * Projectile.scale);
 
             //on spawn effects and flexible minions
             if (!dust)
             {
                 modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 16;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
+                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 vector7 = vector6 - Projectile.Center;
                     int dusty = Dust.NewDust(vector6 + vector7, 0, 0, ModContent.DustType<AstralOrange>(), vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].noLight = true;
@@ -88,11 +88,11 @@ namespace CalamityMod.Projectiles.Summon
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
                     modProj.spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
-                projectile.damage = damage2;
+                Projectile.damage = damage2;
             }
 
             //Bool setup
-            bool flag64 = projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
             player.AddBuff(ModContent.BuffType<AstrageldonBuff>(), 3600);
             if (flag64)
             {
@@ -102,24 +102,24 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.aSlime)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            if (projectile.frame == 0 || projectile.frame == 1)
+            if (Projectile.frame == 0 || Projectile.frame == 1)
             {
                 float mindistance = 1000f;
                 float longdistance = 2000f;
                 float longestdistance = 3000f;
-                Vector2 objectivepos = projectile.position;
+                Vector2 objectivepos = Projectile.position;
                 bool gotoenemy = false;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        bool lineOfSight = Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-                        float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
+                        bool lineOfSight = Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
+                        float disttoobjective = Vector2.Distance(npc.Center, Projectile.Center);
                         if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
                         {
 
@@ -134,10 +134,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int num645 = 0; num645 < Main.npc.Length; num645++)
                     {
                         NPC npc = Main.npc[num645];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
-                            bool lineOfSight = Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-                            float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
+                            bool lineOfSight = Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
+                            float disttoobjective = Vector2.Distance(npc.Center, Projectile.Center);
                             if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
                             {
 
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (gotoenemy)
                 {
                     float teleportRange = objectivepos.Length();
-                    float scaleAddition = projectile.scale * 5f;
+                    float scaleAddition = Projectile.scale * 5f;
                     if (teleportCounter <= 0 && teleportRange >= 800f)
                     {
                         float num461 = 50f;
@@ -175,20 +175,20 @@ namespace CalamityMod.Projectiles.Summon
                             num466 = num465 / num466;
                             num463 *= num466;
                             num464 *= num466;
-                            int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                            int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                             Dust dust = Main.dust[num467];
                             dust.noGravity = true;
-                            dust.position.X = projectile.Center.X;
-                            dust.position.Y = projectile.Center.Y;
+                            dust.position.X = Projectile.Center.X;
+                            dust.position.Y = Projectile.Center.Y;
                             dust.position.X += (float)Main.rand.Next(-10, 11);
                             dust.position.Y += (float)Main.rand.Next(-10, 11);
                             dust.velocity.X = num463;
                             dust.velocity.Y = num464;
                             num462++;
                         }
-                        projectile.position.X = objectivepos.X - (float)(projectile.width / 2) + Main.rand.NextFloat(-100f, 100f);
-                        projectile.position.Y = objectivepos.Y - (float)(projectile.height / 2) - Main.rand.NextFloat(0f + scaleAddition, 200f + scaleAddition);
-                        projectile.netUpdate = true;
+                        Projectile.position.X = objectivepos.X - (float)(Projectile.width / 2) + Main.rand.NextFloat(-100f, 100f);
+                        Projectile.position.Y = objectivepos.Y - (float)(Projectile.height / 2) - Main.rand.NextFloat(0f + scaleAddition, 200f + scaleAddition);
+                        Projectile.netUpdate = true;
                         teleportCounter = 600;
                     }
                     if (teleportCounter > 0)
@@ -202,20 +202,20 @@ namespace CalamityMod.Projectiles.Summon
                 if (attackCounter > 300)
                 {
                     attackCounter = 0;
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 float scaleFactor3 = 6f;
                 int projType = ModContent.ProjectileType<AstrageldonLaser>();
                 if (gotoenemy && attackCounter == 0)
                 {
                     attackCounter += 2;
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        Vector2 laserVel = objectivepos - projectile.Center;
+                        Vector2 laserVel = objectivepos - Projectile.Center;
                         laserVel.Normalize();
                         laserVel *= scaleFactor3;
-                        int laser = Projectile.NewProjectile(projectile.Center, laserVel, projType, projectile.damage, 0f, projectile.owner);
-                        projectile.netUpdate = true;
+                        int laser = Projectile.NewProjectile(Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
+                        Projectile.netUpdate = true;
                     }
                 }
             }
@@ -230,10 +230,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int y6 = height * projectile.frame;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = height * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

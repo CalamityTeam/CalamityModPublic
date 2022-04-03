@@ -15,28 +15,23 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 6;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.5f;
-            item.value = Item.sellPrice(copper: 2);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<SuperballBulletProj>();
-            item.shootSpeed = 1f;
-            item.ammo = AmmoID.Bullet;
+            Item.damage = 6;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.sellPrice(copper: 2);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<SuperballBulletProj>();
+            Item.shootSpeed = 1f;
+            Item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteorShot, 150);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>());
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 150);
-            recipe.AddRecipe();
+            CreateRecipe(150).AddIngredient(ItemID.MeteorShot, 150).AddIngredient(ModContent.ItemType<VictoryShard>()).AddTile(TileID.Anvils).Register();
         }
     }
 }

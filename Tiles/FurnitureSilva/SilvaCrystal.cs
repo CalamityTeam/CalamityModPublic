@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaCrystal : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;

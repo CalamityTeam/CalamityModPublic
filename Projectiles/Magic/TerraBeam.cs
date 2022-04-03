@@ -12,11 +12,11 @@ namespace CalamityMod.Projectiles.Magic
         public override float MaxLaserLength => 1200f;
         public override float Lifetime => 30f;
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
 
-        public ref float ShardCooldown => ref projectile.ai[1];
+        public ref float ShardCooldown => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
@@ -25,15 +25,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 20;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 10;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-            projectile.tileCollide = false;
-            projectile.timeLeft = (int)Lifetime;
+            Projectile.width = Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = (int)Lifetime;
         }
 
         public override void ExtraBehavior()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                         Color dustColor = Color.Lerp(Color.White, Color.YellowGreen, j / 12f);
                         float dustScale = MathHelper.Lerp(1.6f, 0.85f, j / 12f);
 
-                        Dust terraMagic = Dust.NewDustPerfect(projectile.Center, 107);
+                        Dust terraMagic = Dust.NewDustPerfect(Projectile.Center, 107);
                         terraMagic.velocity = angle.ToRotationVector2() * starSpeed;
                         terraMagic.color = dustColor;
                         terraMagic.scale = dustScale;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < ovalPoints; i++)
                 {
                     float angle = MathHelper.TwoPi * i / ovalPoints;
-                    Dust terraMagic = Dust.NewDustPerfect(projectile.Center, 107);
+                    Dust terraMagic = Dust.NewDustPerfect(Projectile.Center, 107);
                     terraMagic.velocity = angle.ToRotationVector2() * 6f;
                     terraMagic.scale = 1.1f;
                     terraMagic.noGravity = true;
@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Magic
                 ShardCooldown--;
         }
 
-        public override void DetermineScale() => projectile.scale = projectile.timeLeft / Lifetime * MaxScale;
+        public override void DetermineScale() => Projectile.scale = Projectile.timeLeft / Lifetime * MaxScale;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            DrawBeamWithColor(spriteBatch, Color.Lime * 1.1f, projectile.scale);
-            DrawBeamWithColor(spriteBatch, Color.Yellow * 1.1f, projectile.scale * 0.5f);
+            DrawBeamWithColor(spriteBatch, Color.Lime * 1.1f, Projectile.scale);
+            DrawBeamWithColor(spriteBatch, Color.Yellow * 1.1f, Projectile.scale * 0.5f);
             return false;
         }
 
@@ -91,11 +91,11 @@ namespace CalamityMod.Projectiles.Magic
             // The "Center" of the laser is actually the start of it in this context.
             // Collision is done separately. This might have a slight offset due to collision
             // boxes, but that should be negligible.
-            float lengthFromStart = projectile.Distance(target.Center);
+            float lengthFromStart = Projectile.Distance(target.Center);
 
             int totalShards = (int)MathHelper.Lerp(1, 4, MathHelper.Clamp(lengthFromStart / MaxLaserLength * 1.4f, 0f, 1f));
             int shardType = ModContent.ProjectileType<TerraShard>();
-            int shardDamage = (int)(projectile.damage * 0.6);
+            int shardDamage = (int)(Projectile.damage * 0.6);
             for (int i = 0; i < totalShards; i++)
             {
                 int tries = 0;
@@ -107,11 +107,11 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 while (Collision.SolidCollision((target.Center + spawnOffset).ToTileCoordinates().ToVector2(), 4, 4) && tries < 10);
 
-                Projectile.NewProjectile(target.Center + spawnOffset, Main.rand.NextVector2CircularEdge(6f, 6f), shardType, shardDamage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(target.Center + spawnOffset, Main.rand.NextVector2CircularEdge(6f, 6f), shardType, shardDamage, Projectile.knockBack, Projectile.owner);
             }
 
             ShardCooldown = 3f;
-            projectile.netUpdate = true;
+            Projectile.netUpdate = true;
         }
     }
 }

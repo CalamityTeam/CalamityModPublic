@@ -13,18 +13,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 60;
+            Projectile.width = Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 60;
         }
 
         public override void AI()
         {
-            float radius = MathHelper.SmoothStep(80f, 48f, 1f - projectile.timeLeft / 90f);
-            Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
+            float radius = MathHelper.SmoothStep(80f, 48f, 1f - Projectile.timeLeft / 90f);
+            Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
             FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, radius);
         }
     }

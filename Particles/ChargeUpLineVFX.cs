@@ -74,7 +74,7 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition)
         {
-            Texture2D tex = ModContent.GetTexture("CalamityMod/Particles/Light");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/Light");
 
             float rot = LineDirection + MathHelper.PiOver2;
             Vector2 origin = new Vector2(tex.Width / 2f, tex.Height);

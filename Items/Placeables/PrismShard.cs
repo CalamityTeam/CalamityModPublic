@@ -13,18 +13,18 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<SeaPrismCrystals>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 3);
-            item.rare = ItemRarityID.Green;
+            Item.createTile = ModContent.TileType<SeaPrismCrystals>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.Green;
         }
     }
 }

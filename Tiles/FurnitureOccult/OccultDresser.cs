@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultDresser : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             return true;
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.DresserRightClick();
         }

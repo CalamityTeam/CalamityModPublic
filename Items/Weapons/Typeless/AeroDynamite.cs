@@ -20,20 +20,20 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            item.useTime = item.useAnimation = 40;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.shootSpeed = 5f;
-            item.shoot = ModContent.ProjectileType<AeroExplosive>();
+            Item.useTime = Item.useAnimation = 40;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.shootSpeed = 5f;
+            Item.shoot = ModContent.ProjectileType<AeroExplosive>();
 
-            item.width = 8;
-            item.height = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
-            item.rare = ItemRarityID.Orange;
+            Item.width = 8;
+            Item.height = 28;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void UpdateInventory(Player player)
@@ -45,12 +45,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Dynamite, 10);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 1);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this, 10);
-            recipe.AddRecipe();
+            CreateRecipe(10).AddIngredient(ItemID.Dynamite, 10).AddIngredient(ModContent.ItemType<AerialiteBar>(), 1).AddTile(TileID.SkyMill).Register();
         }
     }
 }

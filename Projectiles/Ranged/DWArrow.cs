@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -15,38 +16,38 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 5;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.arrow = true;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 5;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.arrow = true;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void AI()
         {
             //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = (projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi)) + MathHelper.ToRadians(90) *projectile.direction;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = (Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi)) + MathHelper.ToRadians(90) *Projectile.direction;
 
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item12, (int)projectile.position.X, (int)projectile.position.Y);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item12, (int)Projectile.position.X, (int)Projectile.position.Y);
             }
 
-            Lighting.AddLight(projectile.Center, 0.4f, 0.2f, 0.4f);
+            Lighting.AddLight(Projectile.Center, 0.4f, 0.2f, 0.4f);
             for (int num121 = 0; num121 < 2; num121++)
             {
-                Dust dust4 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
+                Dust dust4 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
                 dust4.velocity = Vector2.Zero;
-                dust4.position -= projectile.velocity / 5f * (float)num121;
+                dust4.position -= Projectile.velocity / 5f * (float)num121;
                 dust4.noGravity = true;
                 dust4.scale = 0.8f;
                 dust4.noLight = true;
@@ -61,19 +62,19 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture;
-            if (projectile.localAI[1] == 0f)
-                projectile.localAI[1] = Main.rand.Next(1, 3);
-            switch (projectile.localAI[1])
+            if (Projectile.localAI[1] == 0f)
+                Projectile.localAI[1] = Main.rand.Next(1, 3);
+            switch (Projectile.localAI[1])
             {
 
                 case 2f:
-                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DWArrow2");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DWArrow2");
                     break;
                 default:
-                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DWArrow");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DWArrow");
                     break;
             }
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

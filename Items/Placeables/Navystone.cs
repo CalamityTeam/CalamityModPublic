@@ -14,35 +14,23 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.SunkenSea.Navystone>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
+            Item.createTile = ModContent.TileType<Tiles.SunkenSea.Navystone>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NavystoneWallSafe>(), 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NavystoneWall>(), 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<EutrophicCrafting>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NavystoneWallSafe>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NavystoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2).AddTile(ModContent.TileType<EutrophicCrafting>()).Register();
         }
     }
 }

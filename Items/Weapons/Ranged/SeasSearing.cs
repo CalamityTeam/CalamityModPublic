@@ -19,23 +19,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.ranged = true;
-            item.width = 88;
-            item.height = 44;
-            item.useTime = 5;
-            item.useAnimation = 15;
-            item.reuseDelay = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
-            item.shootSpeed = 11f;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 88;
+            Item.height = 44;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
+            Item.reuseDelay = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
+            Item.shootSpeed = 11f;
 
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override Vector2? HoldoutOffset()
@@ -52,15 +52,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 30;
-                item.useAnimation = 30;
-                item.reuseDelay = 0;
+                Item.useTime = 30;
+                Item.useAnimation = 30;
+                Item.reuseDelay = 0;
             }
             else
             {
-                item.useTime = 5;
-                item.useAnimation = 15;
-                item.reuseDelay = 20;
+                Item.useTime = 5;
+                Item.useAnimation = 15;
+                Item.reuseDelay = 20;
             }
             return base.CanUseItem(player);
         }

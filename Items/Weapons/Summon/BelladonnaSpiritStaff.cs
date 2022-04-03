@@ -16,21 +16,21 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.mana = 10;
-            item.width = 40;
-            item.height = 42;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 5;
+            Item.mana = 10;
+            Item.width = 40;
+            Item.height = 42;
+            Item.useTime = Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -39,14 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vine, 4);
-            recipe.AddIngredient(ItemID.JungleSpores, 5);
-            recipe.AddIngredient(ItemID.Stinger, 8);
-            recipe.AddIngredient(ItemID.RichMahogany, 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Vine, 4).AddIngredient(ItemID.JungleSpores, 5).AddIngredient(ItemID.Stinger, 8).AddIngredient(ItemID.RichMahogany, 25).AddTile(TileID.Anvils).Register();
         }
     }
 }

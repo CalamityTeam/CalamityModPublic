@@ -17,20 +17,14 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 40;
-            item.rare = ItemRarityID.Cyan;
+            Item.width = 34;
+            Item.height = 40;
+            Item.rare = ItemRarityID.Cyan;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 25).AddIngredient(ModContent.ItemType<AstralJelly>(), 8).AddIngredient(ModContent.ItemType<AstralBar>(), 4).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

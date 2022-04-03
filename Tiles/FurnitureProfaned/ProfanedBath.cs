@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedBath : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

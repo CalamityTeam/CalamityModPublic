@@ -11,28 +11,21 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaClock>();
+            Item.width = 28;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaClock>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
-            recipe.AddRecipeGroup("AnyGoldBar", 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Glass, 6);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10).AddRecipeGroup("AnyGoldBar", 3).AddIngredient(ItemID.Glass, 6).AddTile(ModContent.TileType<SilvaBasin>()).Register();
         }
     }
 }

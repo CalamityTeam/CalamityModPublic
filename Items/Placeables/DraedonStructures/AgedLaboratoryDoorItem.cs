@@ -13,28 +13,23 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void SetDefaults()
         {
-            item.width = 14;
-            item.height = 28;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<AgedLaboratoryDoorClosed>();
+            Item.width = 14;
+            Item.height = 28;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<AgedLaboratoryDoorClosed>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>());
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 7).AddIngredient(ModContent.ItemType<DubiousPlating>()).AddTile(TileID.Anvils).Register();
         }
     }
 }

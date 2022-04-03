@@ -16,16 +16,16 @@ namespace CalamityMod.Items.Accessories
                 "Being above 75% life grants 10% increased damage\n" +
                 "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
                 "Grants resistance against cold attacks");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Pink;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

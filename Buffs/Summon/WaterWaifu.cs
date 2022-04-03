@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class WaterWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anahita");
             Description.SetDefault("Anahita will protect you");

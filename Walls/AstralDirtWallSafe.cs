@@ -8,7 +8,7 @@ namespace CalamityMod.Walls
     public class AstralDirtWallSafe : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Dirt.
             dustType = DustID.Shadowflame;

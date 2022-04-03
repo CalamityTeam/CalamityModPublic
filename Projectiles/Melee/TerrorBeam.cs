@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -13,51 +14,51 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 7;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.light = 1f;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 7;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.light = 1f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         private void SpawnTerrorBlast()
         {
             int projID = ModContent.ProjectileType<TerrorBlast>();
-            int blastDamage = (int)(projectile.damage * TerrorBlade.TerrorBlastMultiplier);
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, blastDamage, projectile.knockBack, projectile.owner);
+            int blastDamage = (int)(Projectile.damage * TerrorBlade.TerrorBlastMultiplier);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, projID, blastDamage, Projectile.knockBack, Projectile.owner);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     SpawnTerrorBlast();
                 }
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
             return false;
@@ -65,46 +66,46 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && projectile.localAI[0] == 0f)
+            if (Projectile.owner == Main.myPlayer && Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
                 SpawnTerrorBlast();
             }
         }
 
         public override void AI()
         {
-            if (projectile.localAI[1] == 0f)
+            if (Projectile.localAI[1] == 0f)
             {
-                Main.PlaySound(SoundID.Item60, projectile.position);
-                projectile.localAI[1] += 1f;
+                SoundEngine.PlaySound(SoundID.Item60, Projectile.position);
+                Projectile.localAI[1] += 1f;
             }
-            projectile.alpha -= 40;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 40;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 0.785f;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 0, 0, projectile.alpha);
+            return new Color(255, 0, 0, Projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 595)
+            if (Projectile.timeLeft > 595)
                 return false;
 
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
             // If no on-hit explosion was ever generated, spawn it for free when the beam expires.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
                 SpawnTerrorBlast();
         }
     }

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class TeslaBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tesla's Electricity");
             Description.SetDefault("Summons an aura of electricity");

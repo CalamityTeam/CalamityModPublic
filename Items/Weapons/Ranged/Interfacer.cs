@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 52;
-            item.ranged = true;
-            item.width = 66;
-            item.height = 24;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item38;
-            item.autoReuse = true;
-            item.shootSpeed = 13f;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 52;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 66;
+            Item.height = 24;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item38;
+            Item.autoReuse = true;
+            Item.shootSpeed = 13f;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -92,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * j;
 
-                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * item.shootSpeed;
+                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
 
                 int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y += 100 * j;
 
-                velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * item.shootSpeed;
+                velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
 
                 proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
@@ -123,7 +123,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * randomTarget;
 
-                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
+                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
 
                 int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
@@ -134,7 +134,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y += 100 * randomTarget;
 
-                velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
+                velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
 
                 proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
@@ -147,12 +147,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TrueConferenceCall>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TrueConferenceCall>()).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 43;
-            item.ranged = true;
-            item.width = 68;
-            item.height = 22;
-            item.useTime = 3;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraFireGreen>();
-            item.shootSpeed = 7.5f;
-            item.useAmmo = AmmoID.Gel;
+            Item.damage = 43;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 68;
+            Item.height = 22;
+            Item.useTime = 3;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TerraFireGreen>();
+            Item.shootSpeed = 7.5f;
+            Item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()
@@ -49,13 +49,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Flamethrower);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Flamethrower).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

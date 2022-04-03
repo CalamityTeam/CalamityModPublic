@@ -17,22 +17,22 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item2;
-            item.consumable = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item2;
+            Item.consumable = true;
 
-            item.value = Item.sellPrice(silver: 1);
-            item.rare = ItemRarityID.Blue;
-            item.Calamity().donorItem = true;
+            Item.value = Item.sellPrice(silver: 1);
+            Item.rare = ItemRarityID.Blue;
+            Item.Calamity().donorItem = true;
 
-            item.buffType = ModContent.BuffType<BaguetteBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            Item.buffType = ModContent.BuffType<BaguetteBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(300f);
         }
 
         public override void OnConsumeItem(Player player)
@@ -44,11 +44,7 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Hay, 10);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Hay, 10).AddTile(TileID.Furnaces).Register();
         }
     }
 }

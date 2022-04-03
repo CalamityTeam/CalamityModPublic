@@ -15,32 +15,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 70;
-            item.scale = 1.4f;
-            item.melee = true;
-            item.useTurn = true;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 27;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 48;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
+            Item.width = 46;
+            Item.damage = 70;
+            Item.scale = 1.4f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTurn = true;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 27;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BladeofGrass);
-            recipe.AddIngredient(ItemID.LavaBucket);
-            recipe.AddRecipeGroup("Boss2Material", 3);
-            recipe.AddIngredient(ItemID.Deathweed, 5);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.LavaBucket).AddRecipeGroup("Boss2Material", 3).AddIngredient(ItemID.Deathweed, 5).AddTile(TileID.DemonAltar).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

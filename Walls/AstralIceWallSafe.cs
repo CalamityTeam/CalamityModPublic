@@ -7,7 +7,7 @@ namespace CalamityMod.Walls
     public class AstralIceWallSafe : ModWall
     {
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Ice.
             Main.wallHouse[Type] = true;

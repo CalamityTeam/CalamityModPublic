@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicDoorOpen : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDoorOpen();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));

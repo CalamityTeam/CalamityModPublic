@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -106,7 +106,7 @@ namespace CalamityMod.World
                 {
                     if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).active())
                     {
-                        Main.tile[i + dx, j + dy].type = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
+                        Main.tile[i + dx, j + dy].TileType = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
                         Main.tile[i + dx, j + dy].active(true);
                     }
                 }
@@ -117,7 +117,7 @@ namespace CalamityMod.World
             for (int dx = -leftOffset + 14; dx < rightOffset - 14; dx++)
             {
                 int verticalBorder = j - 10;
-                while (CalamityUtils.ParanoidTileRetrieval(i + dx, verticalBorder).type != TileID.Cloud)
+                while (CalamityUtils.ParanoidTileRetrieval(i + dx, verticalBorder).TileType != TileID.Cloud)
                 {
                     verticalBorder++;
                     if (verticalBorder > j + 35)
@@ -184,7 +184,7 @@ namespace CalamityMod.World
                 while (!CalamityUtils.ParanoidTileRetrieval(i + dx, surface).active())
                 {
                     surface++;
-                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, surface).type == TileID.Cloud)
+                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, surface).TileType == TileID.Cloud)
                     {
                         hitCloud = true;
                         break;
@@ -205,7 +205,7 @@ namespace CalamityMod.World
                 Point surfaceToGenerateAt = surfacePoints[WorldGen.genRand.Next(surfacePoints.Count)];
                 Point blotchPosition = (surfaceToGenerateAt.ToVector2() + Vector2.UnitY * 5f).ToPoint();
                 WorldUtils.Gen(blotchPosition, new Shapes.Circle(WorldGen.genRand.Next(8, 10)), Actions.Chain(
-                    new Actions.SetTile(CalamityUtils.ParanoidTileRetrieval(surfaceToGenerateAt.X, surfaceToGenerateAt.Y).type),
+                    new Actions.SetTile(CalamityUtils.ParanoidTileRetrieval(surfaceToGenerateAt.X, surfaceToGenerateAt.Y).TileType),
                     new Modifiers.SkipTiles(TileID.Demonite, TileID.Crimtane),
                     new Modifiers.Blotches(5, 1f)));
             }
@@ -229,7 +229,7 @@ namespace CalamityMod.World
             {
                 for (int dy = -8; dy < 55; dy++)
                 {
-                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).type == TileID.Cloud)
+                    if (CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).TileType == TileID.Cloud)
                         WorldGen.paintTile(i + dx, j + dy, WorldGen.crimson ? PaintID.Purple : PaintID.Red);
                 }
             }
@@ -285,8 +285,8 @@ namespace CalamityMod.World
                     {
                         Main.tile[l, m].active(true);
                         Main.tile[l, m].liquid = 0;
-                        Main.tile[l, m].type = type;
-                        Main.tile[l, m].wall = 0;
+                        Main.tile[l, m].TileType = type;
+                        Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
                         Main.tile[l, m].slope(0);
                     }
@@ -316,10 +316,10 @@ namespace CalamityMod.World
             {
                 for (int num8 = num6; num8 < num7; num8++)
                 {
-                    if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].wall == 0)
+                    if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
                         Main.tile[n, num8].active(false);
-                        Main.tile[n, num8].wall = wall;
+                        Main.tile[n, num8].WallType = wall;
                     }
                 }
             }
@@ -337,8 +337,8 @@ namespace CalamityMod.World
             {
                 Main.tile[num9, num12].active(true);
                 Main.tile[num9, num12].liquid = 0;
-                Main.tile[num9, num12].type = type;
-                Main.tile[num9, num12].wall = 0;
+                Main.tile[num9, num12].TileType = type;
+                Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);
                 Main.tile[num9, num12].slope(0);
             }
@@ -364,23 +364,23 @@ namespace CalamityMod.World
             {
                 for (int num19 = num17 - 1; num19 <= num17 + 1; num19++)
                 {
-                    Main.tile[num18, num19].wall = 21; //glass
+                    Main.tile[num18, num19].WallType = 21; //glass
                 }
             }
             for (int num20 = num15 - num16; num20 <= num15 + num16; num20++)
             {
                 for (int num21 = num17 - 1; num21 <= num17 + 1; num21++)
                 {
-                    Main.tile[num20, num21].wall = 21; //glass
+                    Main.tile[num20, num21].WallType = 21; //glass
                 }
             }
             int num22 = i + (num2 / 2 + 1) * -num;
             WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, WorldGen.crimson ? 1 : 8); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
             Tile tile = Main.tile[num22 - 2, num7 - 1];
-            tile.frameX += 18;
+            tile.TileFrameX += 18;
             Tile tile2 = Main.tile[num22 - 2, num7 - 2];
-            tile2.frameX += 18;
+            tile2.TileFrameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
         }
     }

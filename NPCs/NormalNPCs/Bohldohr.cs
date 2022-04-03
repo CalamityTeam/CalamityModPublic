@@ -14,28 +14,28 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.aiStyle = -1;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.aiStyle = -1;
             aiType = -1;
-            npc.damage = 80;
-            npc.width = 40;
-            npc.height = 40;
-            npc.defense = 18;
-            npc.lifeMax = 300;
-            npc.knockBackResist = 0.95f;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.HitSound = SoundID.NPCHit7;
-            npc.DeathSound = SoundID.NPCDeath35;
-            npc.behindTiles = true;
-            banner = npc.type;
+            NPC.damage = 80;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.defense = 18;
+            NPC.lifeMax = 300;
+            NPC.knockBackResist = 0.95f;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.HitSound = SoundID.NPCHit7;
+            NPC.DeathSound = SoundID.NPCDeath35;
+            NPC.behindTiles = true;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToWater = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+            CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -51,13 +51,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 155, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 155, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 155, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 155, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -69,9 +69,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // RIP LORDE
                 // DropHelper.DropItem(npc, ModContent.ItemType<NO>());
             }
-            DropHelper.DropItem(npc, ItemID.LihzahrdBrick, 10, 30);
-            DropHelper.DropItemChance(npc, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
-            DropHelper.DropItemChance(npc, ItemID.LihzahrdPowerCell, 50);
+            DropHelper.DropItem(NPC, ItemID.LihzahrdBrick, 10, 30);
+            DropHelper.DropItemChance(NPC, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
+            DropHelper.DropItemChance(NPC, ItemID.LihzahrdPowerCell, 50);
         }
     }
 }

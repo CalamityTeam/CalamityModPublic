@@ -14,19 +14,14 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 54;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 34;
+            Item.height = 54;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 15);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CalamitousEssence>(), 5).AddIngredient(ModContent.ItemType<CalamityDust>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

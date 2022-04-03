@@ -15,26 +15,22 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.rare = ItemRarityID.Blue;
-            item.fishingPole = 10;
-            item.shootSpeed = 10f;
-            item.shoot = ModContent.ProjectileType<WulfrumBobber>();
-            item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.Blue;
+            Item.fishingPole = 10;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<WulfrumBobber>();
+            Item.value = Item.buyPrice(0, 1, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 9);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 9).AddTile(TileID.Anvils).Register();
         }
     }
 }

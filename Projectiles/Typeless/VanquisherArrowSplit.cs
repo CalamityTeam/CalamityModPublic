@@ -16,43 +16,43 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.arrow = true;
-            projectile.timeLeft = 90;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.arrow = true;
+            Projectile.timeLeft = 90;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft < 90)
+            if (Projectile.timeLeft < 90)
             {
                 Vector2 origin = new Vector2(0f, 0f);
                 Color color = Color.White;
-                if (projectile.timeLeft < 85)
+                if (Projectile.timeLeft < 85)
                 {
-                    byte b2 = (byte)(projectile.timeLeft * 3);
+                    byte b2 = (byte)(Projectile.timeLeft * 3);
                     byte a2 = (byte)(100f * (b2 / 255f));
                     color = new Color(b2, b2, b2, a2);
                 }
-                Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-                spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+                Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[Projectile.type].Width, Main.projectileTexture[Projectile.type].Height);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow"), Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }

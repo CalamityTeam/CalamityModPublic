@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodBedTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<AcidwoodBed>());
         }
 
-        public override bool NewRightClick(int i, int j) => CalamityUtils.BedRightClick(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.BedRightClick(i, j);
 
         public override void MouseOver(int i, int j)
         {

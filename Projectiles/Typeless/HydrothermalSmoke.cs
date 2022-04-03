@@ -15,19 +15,19 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 6;
+            Projectile.width = 20;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 6;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft == 6)
-                projectile.Center = Main.player[projectile.owner].Center;
+            if (Projectile.timeLeft == 6)
+                Projectile.Center = Main.player[Projectile.owner].Center;
 
             int randomDust = Main.rand.Next(4);
             if (randomDust == 3)
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Main.rand.NextBool(4))
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1f);
+                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (Main.rand.NextBool(4))
                 {
                     Main.dust[num469].scale *= 0.35f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num469].velocity *= 0f;
             }
 
-            Vector2 goreVec = new Vector2(projectile.position.X, projectile.position.Y);
+            Vector2 goreVec = new Vector2(Projectile.position.X, Projectile.position.Y);
             if (Main.rand.NextBool(8))
             {
                 int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);

@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class AkatoYharonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Akato");
             Description.SetDefault("Looks like you'll have to take care of it now");

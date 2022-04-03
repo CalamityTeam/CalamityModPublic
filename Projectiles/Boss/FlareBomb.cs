@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class FlareBomb : ModProjectile
@@ -13,20 +14,20 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare Bomb");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.Calamity().canBreakPlayerDefense = true;
-            projectile.width = 64;
-            projectile.height = 66;
-            projectile.hostile = true;
-            projectile.scale = 1.5f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 50;
-            projectile.timeLeft = 180;
+            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = 64;
+            Projectile.height = 66;
+            Projectile.hostile = true;
+            Projectile.scale = 1.5f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 50;
+            Projectile.timeLeft = 180;
             cooldownSlot = 1;
         }
 
@@ -34,49 +35,49 @@ namespace CalamityMod.Projectiles.Boss
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-                projectile.frame = 0;
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
-            Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
 
-            if (projectile.timeLeft > 30 && projectile.alpha > 0)
-                projectile.alpha -= 25;
-            if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-                projectile.alpha = 128;
-            if (projectile.alpha < 0)
-                projectile.alpha = 0;
+            if (Projectile.timeLeft > 30 && Projectile.alpha > 0)
+                Projectile.alpha -= 25;
+            if (Projectile.timeLeft > 30 && Projectile.alpha < 128 && Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                Projectile.alpha = 128;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
-            if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
+            if (Projectile.ai[0] == -1f || (Projectile.timeLeft > 135 && Projectile.ai[1] == 1f))
                 return;
 
             float inertia = revenge ? 70f : 77f;
             float num954 = 40f;
             float scaleFactor12 = revenge ? 35f : 28f;
-            int num959 = (int)projectile.ai[0];
+            int num959 = (int)Projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (Projectile.Distance(Main.player[num959].Center) > num954)
                 {
-                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
-                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
                 }
             }
             else
             {
-                if (projectile.ai[0] != -1f)
+                if (Projectile.ai[0] != -1f)
                 {
-                    projectile.ai[0] = -1f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = -1f;
+                    Projectile.netUpdate = true;
                 }
             }
 
-            if (projectile.timeLeft < 60)
+            if (Projectile.timeLeft < 60)
                 return;
 
             float num1247 = 0.5f;
@@ -84,43 +85,43 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Main.projectile[num1248].active)
                 {
-                    if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
+                    if (num1248 != Projectile.whoAmI && Main.projectile[num1248].type == Projectile.type)
                     {
-                        if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 24f)
+                        if (Vector2.Distance(Projectile.Center, Main.projectile[num1248].Center) < 24f)
                         {
-                            if (projectile.position.X < Main.projectile[num1248].position.X)
-                                projectile.velocity.X -= num1247;
+                            if (Projectile.position.X < Main.projectile[num1248].position.X)
+                                Projectile.velocity.X -= num1247;
                             else
-                                projectile.velocity.X += num1247;
+                                Projectile.velocity.X += num1247;
 
-                            if (projectile.position.Y < Main.projectile[num1248].position.Y)
-                                projectile.velocity.Y -= num1247;
+                            if (Projectile.position.Y < Main.projectile[num1248].position.Y)
+                                Projectile.velocity.Y -= num1247;
                             else
-                                projectile.velocity.Y += num1247;
+                                Projectile.velocity.Y += num1247;
                         }
                     }
                 }
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = Main.projectileTexture[Projectile.type];
+            int num214 = Main.projectileTexture[Projectile.type].Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
             for (int d = 0; d < 2; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -130,17 +131,17 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int d = 0; d < 4; d++)
             {
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 5f;
-                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[idx].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(projectile.Center, 3);
-            projectile.Damage();
+            CalamityUtils.ExplosionGores(Projectile.Center, 3);
+            Projectile.Damage();
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(projectile.Center, 16f * projectile.scale, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 16f * Projectile.scale, targetHitbox);
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

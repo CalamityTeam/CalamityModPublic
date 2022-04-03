@@ -15,34 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.magic = true;
-            item.mana = 13;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item21;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FrigidflashBoltProjectile>();
-            item.shootSpeed = 6.5f;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 13;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item21;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FrigidflashBoltProjectile>();
+            Item.shootSpeed = 6.5f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FrostBolt>());
-            recipe.AddIngredient(ModContent.ItemType<FlareBolt>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrostBolt>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<EssenceofEleum>(), 2).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2).AddTile(TileID.Bookcases).Register();
         }
     }
 }

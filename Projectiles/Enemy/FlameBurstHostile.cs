@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class FlameBurstHostile : ModProjectile
@@ -18,28 +19,28 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 180;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
             if (count == 0f)
             {
-                Main.PlaySound(SoundID.Item73, projectile.position);
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 20;
-                projectile.height = 20;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
+                Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+                Projectile.width = 20;
+                Projectile.height = 20;
+                Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -49,40 +50,40 @@ namespace CalamityMod.Projectiles.Enemy
                 }
                 for (int num623 = 0; num623 < 20; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
                 count += 1f;
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
                 for (int num468 = 0; num468 < 5; num468++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 0.75f);
+                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 0.75f);
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 200f && projectile.ai[1] > 40f)
+            int num103 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] < 200f && Projectile.ai[1] > 40f)
             {
-                float scaleFactor2 = projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+                float scaleFactor2 = Projectile.velocity.Length();
+                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
                 vector11.Normalize();
                 vector11 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= scaleFactor2;
+                Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                Projectile.velocity.Normalize();
+                Projectile.velocity *= scaleFactor2;
             }
-            if (projectile.ai[0] < 0f)
+            if (Projectile.ai[0] < 0f)
             {
-                if (projectile.velocity.Length() < 18f)
+                if (Projectile.velocity.Length() < 18f)
                 {
-                    projectile.velocity *= 1.02f;
+                    Projectile.velocity *= 1.02f;
                 }
             }
         }
@@ -96,7 +97,7 @@ namespace CalamityMod.Projectiles.Enemy
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.oldVelocity.X * 0f, projectile.oldVelocity.Y * 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 246, Projectile.oldVelocity.X * 0f, Projectile.oldVelocity.Y * 0f);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralShortPlants : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = true;
             Main.tileSolid[Type] = false;

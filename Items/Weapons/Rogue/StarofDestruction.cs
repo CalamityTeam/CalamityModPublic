@@ -19,21 +19,21 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = item.height = 94;
-            item.damage = 150;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 38;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 38;
-            item.knockBack = 10f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.shoot = ModContent.ProjectileType<DestructionStar>();
-            item.shootSpeed = 5f;
-            item.Calamity().rogue = true;
+            Item.width = Item.height = 94;
+            Item.damage = 150;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 38;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 38;
+            Item.knockBack = 10f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<DestructionStar>();
+            Item.shootSpeed = 5f;
+            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,11 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<MeldiateBar>(), 10).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

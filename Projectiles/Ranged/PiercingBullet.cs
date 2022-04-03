@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class PiercingBullet : ModProjectile
@@ -17,20 +18,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 10;
-            projectile.scale = 1.18f;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 10;
+            Projectile.scale = 1.18f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -43,15 +44,15 @@ namespace CalamityMod.Projectiles.Ranged
             damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
 
             //Then proceed to ignore all defense
-            int penetratableDefense = Math.Max(target.defense - Main.player[projectile.owner].armorPenetration, 0);
+            int penetratableDefense = Math.Max(target.defense - Main.player[Projectile.owner].armorPenetration, 0);
             int penetratedDefense = Math.Min(penetratableDefense, target.defense);
             damage += (int)(0.5f * penetratedDefense);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
             return true;
         }
 
@@ -74,9 +75,9 @@ namespace CalamityMod.Projectiles.Ranged
                 int bulletCount = 10;
                 for (int x = 0; x < bulletCount; x++)
                 {
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
+                        CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

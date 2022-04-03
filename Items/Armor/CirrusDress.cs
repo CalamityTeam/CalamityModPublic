@@ -22,26 +22,26 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
-            item.defense = 8;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
+            Item.defense = 8;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.Calamity().cirrusDress = true;
-            player.magicDamage += 0.05f;
-            player.magicCrit += 5;
+            player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetCritChance(DamageClass.Magic) += 5;
         }
 
         public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
         {
             robes = true;
             // The equipSlot is added in CalamityMod.cs --> Load hook
-            equipSlot = mod.GetEquipSlot("CirrusDress_Legs", EquipType.Legs);
+            equipSlot = Mod.GetEquipSlot("CirrusDress_Legs", EquipType.Legs);
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms)

@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class HolyWrathBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Wrath");
             Description.SetDefault("Increased damage and all attacks inflict holy fire");

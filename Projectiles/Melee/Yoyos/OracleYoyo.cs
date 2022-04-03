@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // The aura turns on and begins damaging enemies at 20 charge.
         // The yoyo "supercharges" at 50 charge.
         // Its size caps out at 100 charge.
-        public ref float AuraCharge => ref projectile.localAI[1];
+        public ref float AuraCharge => ref Projectile.localAI[1];
 
         private const float MaxCharge = 200f;
         private const float MinAuraRadius = 20f;
@@ -39,12 +40,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 800f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -61,25 +62,25 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.scale = 1.2f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = UpdatesPerFrame;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7 * UpdatesPerFrame;
+            Projectile.aiStyle = 99;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.scale = 1.2f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = UpdatesPerFrame;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7 * UpdatesPerFrame;
         }
 
         public override void AI()
         {
-            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-                projectile.Kill();
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
 
             // Only do stuff once per frame, despite the yoyo's extra updates.
-            if (!projectile.FinalExtraUpdate())
+            if (!Projectile.FinalExtraUpdate())
                 return;
 
             // Produces golden dust constantly while in flight. This helps light the yoyo.
@@ -87,14 +88,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             {
                 int dustType = Main.rand.NextBool(3) ? 244 : 246;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity = Vector2.Zero;
                 Main.dust[idx].scale = scale;
             }
 
             // The yoyo makes its own faint yellow light (unnoticeable once the lightning aura gets going)
-            Lighting.AddLight(projectile.Center, 0.6f, 0.42f, 0.1f);
+            Lighting.AddLight(Projectile.Center, 0.6f, 0.42f, 0.1f);
 
             // The aura discharges over time based on its current charge.
             float discharge = MinDischargeRate + DischargeRateScaleFactor * AuraCharge;
@@ -114,10 +115,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 float auraRadius = AuraCharge > MaxAuraRadius ? MaxAuraRadius : AuraCharge;
                 DrawRedLightningAura(auraRadius);
 
-                if (projectile.soundDelay == 0)
+                if (Projectile.soundDelay == 0)
                 {
-                    projectile.soundDelay = 22;
-                    Main.PlaySound(SoundID.Item93, (int)projectile.Center.X, (int)projectile.Center.Y);
+                    Projectile.soundDelay = 22;
+                    SoundEngine.PlaySound(SoundID.Item93, (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 }
 
                 if (AuraFrame % AuraLocalIFrames == 0)
@@ -129,14 +130,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
             }
             else
-                projectile.soundDelay = 2;
+                Projectile.soundDelay = 2;
 
             AuraFrame = (AuraFrame + 1) % AuraLocalIFrames;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -150,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             AuraCharge += ChargePerHit;
 
             // Fire Auric orbs every few hits while supercharged.
-            if (AuraCharge > SuperchargeThreshold && projectile.numHits % HitsPerOrbVolley == 0)
+            if (AuraCharge > SuperchargeThreshold && Projectile.numHits % HitsPerOrbVolley == 0)
                 FireAuricOrbs();
         }
 
@@ -159,7 +160,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             // Light emits from the yoyo itself while the aura is active, eventually becoming insanely bright
             float brightness = radius * 0.03f;
-            Lighting.AddLight(projectile.Center, brightness, 0.2f * brightness, 0.1f * brightness);
+            Lighting.AddLight(Projectile.Center, brightness, 0.2f * brightness, 0.1f * brightness);
 
             // Number of particles on the circumference scales directly with the circumference
             float dustDensity = 0.2f;
@@ -174,8 +175,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
                 int dustType = 260;
                 float scale = 1.6f + Main.rand.NextFloat(0.9f);
-                int idx = Dust.NewDust(projectile.Center, 1, 1, dustType);
-                Main.dust[idx].position = projectile.Center + dustOffset;
+                int idx = Dust.NewDust(Projectile.Center, 1, 1, dustType);
+                Main.dust[idx].position = Projectile.Center + dustOffset;
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].noLight = true;
                 Main.dust[idx].velocity *= 0.5f;
@@ -202,8 +203,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                         Vector2 partialRadius = (float)j / dustPerArc * radiusVec;
                         int dustType = 260;
                         float scale = 1.6f + Main.rand.NextFloat(0.9f);
-                        int idx = Dust.NewDust(projectile.Center, 1, 1, dustType);
-                        Main.dust[idx].position = projectile.Center + partialRadius;
+                        int idx = Dust.NewDust(Projectile.Center, 1, 1, dustType);
+                        Main.dust[idx].position = Projectile.Center + partialRadius;
                         Main.dust[idx].noGravity = true;
                         Main.dust[idx].noLight = true;
                         Main.dust[idx].velocity *= 0.3f;
@@ -212,15 +213,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
 
                 // Make extra sound when these arcs happen
-                Main.PlaySound(SoundID.NPCHit53, (int)projectile.Center.X, (int)projectile.Center.Y);
+                SoundEngine.PlaySound(SoundID.NPCHit53, (int)Projectile.Center.X, (int)Projectile.Center.Y);
             }
         }
 
         private void DealAuraDamage(float radius, int baseDamage)
         {
-            if (projectile.owner != Main.myPlayer)
+            if (Projectile.owner != Main.myPlayer)
                 return;
-            Player owner = Main.player[projectile.owner];
+            Player owner = Main.player[Projectile.owner];
 
             for (int i = 0; i < Main.maxNPCs; ++i)
             {
@@ -229,10 +230,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     continue;
 
                 // Shock any valid target within range. Check all four corners of their hitbox.
-                float d1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
-                float d2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
-                float d3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
-                float d4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+                float d1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
+                float d2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
+                float d3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
+                float d4 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomRight());
                 float dist = MathHelper.Min(d1, d2);
                 dist = MathHelper.Min(dist, d3);
                 dist = MathHelper.Min(dist, d4);
@@ -240,12 +241,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (dist <= radius)
                 {
                     int finalDamage = (int)(baseDamage * owner.MeleeDamage());
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
+                        Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
                         if (p.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            p.melee = true;
+                            p.DamageType = DamageClass.Melee;
                             p.Calamity().forceMelee = true;
                         }
                     }
@@ -256,11 +257,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private void FireAuricOrbs()
         {
             // Play a sound when orbs are fired
-            Main.PlaySound(SoundID.Item92, (int)projectile.Center.X, (int)projectile.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.Center.X, (int)Projectile.Center.Y);
 
             int numOrbs = 3;
             int orbID = ModContent.ProjectileType<Orbacle>();
-            int orbDamage = projectile.damage * 3;
+            int orbDamage = Projectile.damage * 3;
             float orbKB = 8f;
             float angleVariance = MathHelper.TwoPi / numOrbs;
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);
@@ -272,8 +273,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();
                 velocity *= 18f;
-                if (projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(projectile.Center + posVec, velocity, orbID, orbDamage, orbKB, Main.myPlayer, 0.0f, 0.0f);
+                if (Projectile.owner == Main.myPlayer)
+                    Projectile.NewProjectile(Projectile.Center + posVec, velocity, orbID, orbDamage, orbKB, Main.myPlayer, 0.0f, 0.0f);
             }
         }
     }

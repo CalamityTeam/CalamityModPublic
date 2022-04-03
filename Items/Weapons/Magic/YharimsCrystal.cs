@@ -15,28 +15,28 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.reuseDelay = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item13;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.knockBack = 0f;
-            item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
-            item.shootSpeed = 30f;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item13;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.knockBack = 0f;
+            Item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
+            Item.shootSpeed = 30f;
 
-            item.rare = ItemRarityID.Purple;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

@@ -16,11 +16,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.defense = 2;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.defense = 2;
         }
 
         public override void UpdateEquip(Player player)
@@ -31,12 +31,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DesertFeather>());
-            recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddTile(TileID.Loom);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DesertFeather>()).AddIngredient(ItemID.Silk, 5).AddTile(TileID.Loom).Register();
         }
     }
 }

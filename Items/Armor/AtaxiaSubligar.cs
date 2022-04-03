@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 14;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 14;
         }
 
         public override void UpdateEquip(Player player)
@@ -32,13 +32,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 10);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 10).AddIngredient(ItemID.HellstoneBar, 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 2).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

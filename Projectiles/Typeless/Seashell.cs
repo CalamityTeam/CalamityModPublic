@@ -12,27 +12,27 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 300;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0] += 0.1f;
-            if (projectile.velocity.X != oldVelocity.X)
+            Projectile.ai[0] += 0.1f;
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }

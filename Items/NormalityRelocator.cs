@@ -19,16 +19,16 @@ namespace CalamityMod.Items
                 "Fall speed is doubled for 30 frames after teleporting\n" +
                 "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().donorItem = true;
+            Item.width = 38;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().donorItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -36,7 +36,7 @@ namespace CalamityMod.Items
             string hotkey = CalamityMod.NormalityRelocatorHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
                 {
                     line2.text = "Press " + hotkey + " to teleport to the position of the mouse";
                 }
@@ -51,14 +51,7 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RodofDiscord);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10);
-            recipe.AddIngredient(ItemID.FragmentStardust, 30);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.RodofDiscord).AddIngredient(ModContent.ItemType<Cinderplate>(), 5).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10).AddIngredient(ItemID.FragmentStardust, 30).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

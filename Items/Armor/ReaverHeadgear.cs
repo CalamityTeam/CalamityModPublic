@@ -22,11 +22,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 22;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.defense = 7; //40
+            Item.width = 22;
+            Item.height = 22;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 7; //40
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -78,15 +78,15 @@ namespace CalamityMod.Items.Armor
                         {
                             bool shouldSparkle = false;
                             //Check for the money piles
-                            if (Main.tile[i, j].type == TileID.SmallPiles && Main.tile[i, j].frameY == 18)
+                            if (Main.tile[i, j].TileType == TileID.SmallPiles && Main.tile[i, j].TileFrameY == 18)
                             {
-                                if (Main.tile[i, j].frameX >= 576 && Main.tile[i, j].frameX <= 882)
+                                if (Main.tile[i, j].TileFrameX >= 576 && Main.tile[i, j].TileFrameX <= 882)
                                     shouldSparkle = true;
                             }
-                            else if (Main.tile[i, j].type == TileID.LargePiles && Main.tile[i, j].frameX >= 864 && Main.tile[i, j].frameX <= 1170)
+                            else if (Main.tile[i, j].TileType == TileID.LargePiles && Main.tile[i, j].TileFrameX >= 864 && Main.tile[i, j].TileFrameX <= 1170)
                                 shouldSparkle = true;
 
-                            if (shouldSparkle || Main.tileSpelunker[Main.tile[i, j].type] || Main.tileAlch[Main.tile[i, j].type] && Main.tile[i, j].type != TileID.ImmatureHerbs)
+                            if (shouldSparkle || Main.tileSpelunker[Main.tile[i, j].TileType] || Main.tileAlch[Main.tile[i, j].TileType] && Main.tile[i, j].TileType != TileID.ImmatureHerbs)
                             {
                                 int sparkle = Dust.NewDust(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16, 204, 0f, 0f, 150, new Color(), 0.3f);
                                 Dust dust = Main.dust[sparkle];
@@ -111,13 +111,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 6);
-            recipe.AddIngredient(ItemID.JungleSpores, 4);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 6).AddIngredient(ItemID.JungleSpores, 4).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

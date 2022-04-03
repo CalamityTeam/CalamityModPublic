@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -15,23 +16,23 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 180;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 180;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.velocity.X != 0f)
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            else projectile.rotation = MathHelper.Pi;
+            if (Projectile.velocity.X != 0f)
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            else Projectile.rotation = MathHelper.Pi;
 
-            if (projectile.velocity.Y < 12f)
-                projectile.velocity.Y += 0.35f;
+            if (Projectile.velocity.Y < 12f)
+                Projectile.velocity.Y += 0.35f;
 
             // Generate some dust that moves towards the bomb to show that it's sucking in energy.
             if (!Main.dedServ)
@@ -39,10 +40,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 for (int i = 0; i < 2; i++)
                 {
                     float offset = Main.rand.NextFloat(38f, 42f);
-                    if (projectile.Calamity().stealthStrike)
+                    if (Projectile.Calamity().stealthStrike)
                         offset *= 1.66f;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2CircularEdge(offset, offset), 107);
-                    dust.velocity = projectile.DirectionFrom(dust.position) * offset / 12f + projectile.velocity;
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2CircularEdge(offset, offset), 107);
+                    dust.velocity = Projectile.DirectionFrom(dust.position) * offset / 12f + Projectile.velocity;
                     dust.noGravity = true;
                 }
             }
@@ -50,14 +51,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
-            if (Main.myPlayer == projectile.owner)
+            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+            if (Main.myPlayer == Projectile.owner)
             {
-                if (!projectile.Calamity().stealthStrike)
+                if (!Projectile.Calamity().stealthStrike)
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         explosion.ai[1] = Main.rand.NextFloat(110f, 200f) + i * 20f; // Randomize the maximum radius.
                         explosion.localAI[1] = Main.rand.NextFloat(0.18f, 0.3f); // And the interpolation step.
                         explosion.netUpdate = true;
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     for (int i = 0; i < 7; i++)
                     {
-                        Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner);
+                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner);
                         if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             explosion.ai[1] = Main.rand.NextFloat(320f, 870f) + i * 45f; // Randomize the maximum radius.
@@ -83,7 +84,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
             return false;
         }
     }

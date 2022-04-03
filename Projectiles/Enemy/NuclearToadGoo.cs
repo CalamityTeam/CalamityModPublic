@@ -9,27 +9,27 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Goop");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.hostile = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = false;
         }
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.frame = Main.rand.Next(3);
-                projectile.localAI[0] = 1f;
+                Projectile.frame = Main.rand.Next(3);
+                Projectile.localAI[0] = 1f;
             }
-            if (projectile.velocity.Y < 10f)
-                projectile.velocity.Y += 0.175f;
+            if (Projectile.velocity.Y < 10f)
+                Projectile.velocity.Y += 0.175f;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
@@ -39,10 +39,10 @@ namespace CalamityMod.Projectiles.Enemy
         {
             for (int i = 0; i <= 4; i++)
             {
-                int idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                int idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
             }

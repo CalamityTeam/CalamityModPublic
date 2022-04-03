@@ -16,35 +16,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 14;
-            item.damage = 87;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 13;
-            item.knockBack = 20f;
-            item.UseSound = SoundID.Item1;
-            item.melee = true;
-            item.height = 28;
-            item.value = Item.buyPrice(gold: 80);
-            item.rare = ItemRarityID.Yellow;
-            item.shoot = ModContent.ProjectileType<FallenPaladinsHammerProj>();
-            item.shootSpeed = 14f;
+            Item.width = 14;
+            Item.damage = 87;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 13;
+            Item.knockBack = 20f;
+            Item.UseSound = SoundID.Item1;
+            Item.DamageType = DamageClass.Melee;
+            Item.height = 28;
+            Item.value = Item.buyPrice(gold: 80);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<FallenPaladinsHammerProj>();
+            Item.shootSpeed = 14f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PaladinsHammer);
-            recipe.AddIngredient(ModContent.ItemType<PwnagehammerMelee>());
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.PaladinsHammer).AddIngredient(ModContent.ItemType<PwnagehammerMelee>()).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 5).AddIngredient(ModContent.ItemType<CruptixBar>(), 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

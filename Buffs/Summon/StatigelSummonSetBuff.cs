@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class StatigelSummonSetBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Slime God");
             Description.SetDefault("The slime god will protect you");

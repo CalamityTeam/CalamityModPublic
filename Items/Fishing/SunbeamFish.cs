@@ -15,11 +15,11 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 10);
-            item.rare = ItemRarityID.Green;
+            Item.width = 30;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 10);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override bool CanRightClick()

@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 44;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -40,20 +40,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldCrown);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddIngredient(ItemID.Feather, 8);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumCrown);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddIngredient(ItemID.Feather, 8);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.GoldCrown).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Feather, 8).AddTile(TileID.SkyMill).Register();
+            CreateRecipe(1).AddIngredient(ItemID.PlatinumCrown).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Feather, 8).AddTile(TileID.SkyMill).Register();
         }
     }
 

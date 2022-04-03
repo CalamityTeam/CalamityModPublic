@@ -9,33 +9,33 @@ namespace CalamityMod.Projectiles.Summon
 
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = 2;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 40;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 9;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = 2;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 40;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 9;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, projectile.Opacity * 0.77f, projectile.Opacity * 0.15f, projectile.Opacity * 0.08f);
+            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.77f, Projectile.Opacity * 0.15f, Projectile.Opacity * 0.08f);
             Time++;
             if (Time > 7f)
             {
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
                 Time++;
                 if (Main.rand.NextBool(2))
                 {
-                    Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100);
+                    Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
                     if (Main.rand.NextBool(3))
                     {
                         dust.noGravity = true;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
                     dust.scale *= dustScale;
                 }
             }
-            projectile.rotation += 0.3f * projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
         }
     }
 }

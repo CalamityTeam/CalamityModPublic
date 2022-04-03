@@ -9,29 +9,29 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SacrificeProjectile : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public bool StickingToAnything => projectile.ai[0] == 1f;
-        public bool ReturningToOwner => projectile.ai[0] == 2f;
+        public Player Owner => Main.player[Projectile.owner];
+        public bool StickingToAnything => Projectile.ai[0] == 1f;
+        public bool ReturningToOwner => Projectile.ai[0] == 2f;
         public bool AbleToHealOwner = true;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/Sacrifice";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sacrificial Dagger");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 62;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = Projectile.height = 62;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(AbleToHealOwner);
@@ -43,16 +43,16 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (ReturningToOwner)
             {
-                projectile.timeLeft = 2;
-                projectile.velocity = projectile.SafeDirectionTo(Owner.Center) * 24f;
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
+                Projectile.timeLeft = 2;
+                Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 24f;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
 
                 // Heal the player and disappear when touching them.
-                if (projectile.Hitbox.Intersects(Owner.Hitbox))
+                if (Projectile.Hitbox.Intersects(Owner.Hitbox))
                 {
                     if (!Owner.moonLeech && AbleToHealOwner)
                     {
-                        int healAmount = projectile.Calamity().stealthStrike ? 50 : 4;
+                        int healAmount = Projectile.Calamity().stealthStrike ? 50 : 4;
 
                         Owner.HealEffect(healAmount);
                         Owner.statLife += healAmount;
@@ -60,16 +60,16 @@ namespace CalamityMod.Projectiles.Rogue
                             Owner.statLife = Owner.statLifeMax2;
                     }
 
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             else if (!StickingToAnything)
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            else if (!Main.dedServ && projectile.timeLeft % 40f == 39f)
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            else if (!Main.dedServ && Projectile.timeLeft % 40f == 39f)
             {
                 for (int i = 0; i < 60; i++)
                 {
-                    Dust blood = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(50f, 50f), 267);
+                    Dust blood = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(50f, 50f), 267);
                     blood.velocity = Main.rand.NextVector2Circular(3f, 3f);
                     blood.noGravity = true;
                     blood.color = Color.Lerp(Color.Red, Color.DarkRed, Main.rand.NextFloat(0.25f, 1f));
@@ -77,21 +77,21 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            if (StickingToAnything && projectile.timeLeft > 90)
-                projectile.timeLeft = 90;
+            if (StickingToAnything && Projectile.timeLeft > 90)
+                Projectile.timeLeft = 90;
 
-            projectile.StickyProjAI(50);
+            Projectile.StickyProjAI(50);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(15, true);
-            projectile.velocity *= 0.5f;
+            Projectile.ModifyHitNPCSticky(15, true);
+            Projectile.velocity *= 0.5f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
@@ -99,8 +99,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust blood = Dust.NewDustDirect(projectile.Center, 1, 1, 5, 0, 0, 0, default, 1.5f);
-                blood.position += projectile.velocity.SafeNormalize(Vector2.Zero) * projectile.scale * 42f;
+                Dust blood = Dust.NewDustDirect(Projectile.Center, 1, 1, 5, 0, 0, 0, default, 1.5f);
+                blood.position += Projectile.velocity.SafeNormalize(Vector2.Zero) * Projectile.scale * 42f;
                 blood.noGravity = true;
             }
         }

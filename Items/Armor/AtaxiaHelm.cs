@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.defense = 33; //67
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 33; //67
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
-            player.meleeDamage += 0.05f;
+            player.GetDamage(DamageClass.Melee) += 0.05f;
             player.aggro += 700;
         }
 
@@ -57,21 +57,15 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
             player.meleeSpeed += 0.18f;
-            player.meleeDamage += 0.12f;
-            player.meleeCrit += 10;
+            player.GetDamage(DamageClass.Melee) += 0.12f;
+            player.GetCritChance(DamageClass.Melee) += 10;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 7);
-            recipe.AddIngredient(ItemID.HellstoneBar, 4);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 7).AddIngredient(ItemID.HellstoneBar, 4).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

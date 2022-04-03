@@ -16,19 +16,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.damage = 28;
-            item.melee = true;
-            item.useAnimation = item.useTime = 21;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 54;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = ItemRarityID.Blue;
-            item.shootSpeed = 5f;
+            Item.width = 42;
+            Item.damage = 28;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 21;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.shootSpeed = 5f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

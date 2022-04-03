@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SnapClamProj : ModProjectile
@@ -14,17 +15,17 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snap Clam");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 13;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
+            Projectile.width = 20;
+            Projectile.height = 13;
+            Projectile.friendly = true;
+            Projectile.Calamity().rogue = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
@@ -35,25 +36,25 @@ namespace CalamityMod.Projectiles.Rogue
                 if (clamCounter >= 30)
                 {
                     openClam = false;
-                    projectile.damage = (int)(projectile.damage * 0.8);
+                    Projectile.damage = (int)(Projectile.damage * 0.8);
                 }
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.99f;
-                projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-                projectile.rotation += 0.4f * (float)projectile.direction;
-                projectile.spriteDirection = projectile.direction;
+                Projectile.velocity.X = Projectile.velocity.X * 0.99f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+                Projectile.rotation += 0.4f * (float)Projectile.direction;
+                Projectile.spriteDirection = Projectile.direction;
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(15);
+            Projectile.StickyProjAI(15);
             if (openClam && !onEnemy)
             {
-                projectile.frame = 1;
+                Projectile.frame = 1;
             }
             else
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
 
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-                projectile.ModifyHitNPCSticky(2, false);
+                Projectile.ModifyHitNPCSticky(2, false);
             }
         }
 
@@ -77,16 +78,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 13;
-            projectile.height = 20;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 13;
+            Projectile.height = 20;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(115, 124, 124), 1f);
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(115, 124, 124), 1f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 2f;
             }

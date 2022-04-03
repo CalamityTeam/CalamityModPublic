@@ -22,23 +22,23 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
 
         public override void SafeSetDefaults()
         {
-            item.damage = 100;
-            item.knockBack = 12;
-            item.thrown = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = ItemRarityID.Lime;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.width = 32;
-            item.height = 46;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = Speed;
-            item.shoot = ModContent.ProjectileType<ValariBoomerang>();
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.Calamity().rogue = true;
+            Item.damage = 100;
+            Item.knockBack = 12;
+            Item.DamageType = DamageClass.Throwing;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.width = 32;
+            Item.height = 46;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<ValariBoomerang>();
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.Calamity().rogue = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -74,14 +74,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Kylie>());
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Voidstone>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Kylie>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6).AddIngredient(ModContent.ItemType<Voidstone>(), 40).AddIngredient(ModContent.ItemType<CoreofEleum>(), 5).AddTile(TileID.IceMachine).Register();
         }
     }
 }

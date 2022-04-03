@@ -16,20 +16,16 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = 0;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = 0;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 3);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<CalamitousEssence>()).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 3).Register();
         }
     }
 }

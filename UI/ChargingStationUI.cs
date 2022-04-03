@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.Audio;
 
 namespace CalamityMod.UI
 {
@@ -55,7 +56,7 @@ namespace CalamityMod.UI
             Vector2 chargerWorldCenter = charger.Center;
             if (p.DistanceSQ(chargerWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 mp.CurrentlyViewedChargerID = -1;
                 return;
             }
@@ -128,7 +129,7 @@ namespace CalamityMod.UI
                     else if((playerHandItem.IsAir && !pluggedItem.IsAir) || (!playerHandItem.IsAir && playerHandItem.Calamity().UsesCharge))
                     {
                         Utils.Swap(ref playerHandItem, ref pluggedItem);
-                        Main.PlaySound(SoundID.Grab);
+                        SoundEngine.PlaySound(SoundID.Grab);
                         syncRequired = true;
                     }
 
@@ -193,7 +194,7 @@ namespace CalamityMod.UI
                     if (chargerStackDiff != 0)
                     {
                         if (!shiftClicked)
-                            Main.PlaySound(SoundID.Grab);
+                            SoundEngine.PlaySound(SoundID.Grab);
                         charger.CellStack += chargerStackDiff;
                     }
                 }
@@ -207,7 +208,7 @@ namespace CalamityMod.UI
 
         public static void DrawWeaponSlot(SpriteBatch spriteBatch, Item item, Vector2 drawPosition)
         {
-            Texture2D slotBackgroundTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/ChargerWeaponSlot");
+            Texture2D slotBackgroundTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargerWeaponSlot");
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
 
             if (!item.IsAir)

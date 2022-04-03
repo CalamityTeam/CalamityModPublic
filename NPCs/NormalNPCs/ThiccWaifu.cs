@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -25,60 +26,60 @@ namespace CalamityMod.NPCs.NormalNPCs
             NimbusSummon
         }
 
-        public Player Target => Main.player[npc.target];
+        public Player Target => Main.player[NPC.target];
         public AttackState CurrentAttackState
         {
-            get => (AttackState)(int)npc.ai[0];
+            get => (AttackState)(int)NPC.ai[0];
             set
             {
-                if (npc.ai[0] != (int)value)
+                if (NPC.ai[0] != (int)value)
                 {
-                    npc.ai[0] = (int)value;
-                    npc.netUpdate = true;
+                    NPC.ai[0] = (int)value;
+                    NPC.netUpdate = true;
                 }
             }
         }
-        public bool Phase2 => npc.life < npc.lifeMax * 0.5f;
-        public ref float AttackTimer => ref npc.ai[1];
+        public bool Phase2 => NPC.life < NPC.lifeMax * 0.5f;
+        public ref float AttackTimer => ref NPC.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cloud Elemental");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 3f;
-            npc.damage = 38;
-            npc.width = 80;
-            npc.height = 140;
-            npc.defense = 18;
-            npc.DR_NERD(0.05f);
-            npc.lifeMax = 6000;
-            npc.knockBackResist = 0.05f;
-            npc.value = Item.buyPrice(0, 1, 50, 0);
-            npc.HitSound = SoundID.NPCHit23;
-            npc.DeathSound = SoundID.NPCDeath39;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.rarity = 2;
-            banner = npc.type;
+            NPC.npcSlots = 3f;
+            NPC.damage = 38;
+            NPC.width = 80;
+            NPC.height = 140;
+            NPC.defense = 18;
+            NPC.DR_NERD(0.05f);
+            NPC.lifeMax = 6000;
+            NPC.knockBackResist = 0.05f;
+            NPC.value = Item.buyPrice(0, 1, 50, 0);
+            NPC.HitSound = SoundID.NPCHit23;
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.rarity = 2;
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<CloudElementalBanner>();
-            npc.Calamity().VulnerableToCold = true;
-            npc.Calamity().VulnerableToSickness = false;
-            npc.Calamity().VulnerableToElectricity = false;
-            npc.Calamity().VulnerableToWater = false;
-            npc.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = false;
+            NPC.Calamity().VulnerableToWater = false;
+            NPC.Calamity().VulnerableToHeat = false;
         }
 
         public override void AI()
         {
             // Emit light.
-            Lighting.AddLight((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16), 0.375f, 0.5f, 0.625f);
+            Lighting.AddLight((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16), 0.375f, 0.5f, 0.625f);
 
             // Get a new target if the current one is dead.
-            if (Target.dead || !Target.active || !Main.player.IndexInRange(npc.target))
-                npc.TargetClosest();
+            if (Target.dead || !Target.active || !Main.player.IndexInRange(NPC.target))
+                NPC.TargetClosest();
 
             switch (CurrentAttackState)
             {
@@ -106,7 +107,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public void DoBehavior_Hover()
         {
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
             int hoverTime = (int)MathHelper.Lerp(330f, 180f, 1f - lifeRatio);
             float hoverAcceleration = MathHelper.Lerp(0.2f, 0.425f, 1f - lifeRatio);
             Vector2 hoverSpeed = new Vector2(8.5f, 4.5f);
@@ -115,7 +116,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust cloudDust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 16);
+                    Dust cloudDust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 16);
                     cloudDust.velocity = Main.rand.NextVector2CircularEdge(4f, 4f);
                     cloudDust.velocity.Y /= 3f;
                     cloudDust.scale = Main.rand.NextFloat(1.15f, 1.35f);
@@ -125,16 +126,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             if (AttackTimer < hoverTime - 30)
             {
-                Vector2 idealVelocity = npc.SafeDirectionTo(Target.Center) * hoverSpeed;
+                Vector2 idealVelocity = NPC.SafeDirectionTo(Target.Center) * hoverSpeed;
 
-                if (Math.Abs(npc.Center.X - Target.Center.X) > 30f)
+                if (Math.Abs(NPC.Center.X - Target.Center.X) > 30f)
                 {
-                    npc.SimpleFlyMovement(idealVelocity, hoverAcceleration);
-                    npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+                    NPC.SimpleFlyMovement(idealVelocity, hoverAcceleration);
+                    NPC.spriteDirection = (NPC.velocity.X > 0).ToDirectionInt();
                 }
             }
             else
-                npc.velocity *= 0.95f;
+                NPC.velocity *= 0.95f;
 
             if (AttackTimer >= hoverTime)
             {
@@ -161,7 +162,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     CurrentAttackState = Main.rand.Next(potentialAttackStates);
 
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -175,17 +176,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 float fadeoutCompletion = Utils.InverseLerp(0f, teleportFadeoutTime, AttackTimer, true);
                 float particleSpawnRate = MathHelper.Clamp(fadeoutCompletion + 0.6f, 0.5f, 1f);
-                npc.Opacity = MathHelper.Lerp(1f, 0f, fadeoutCompletion);
+                NPC.Opacity = MathHelper.Lerp(1f, 0f, fadeoutCompletion);
 
                 if (Main.rand.NextFloat() < particleSpawnRate && !Main.dedServ)
                 {
-                    Dust.NewDustDirect(npc.position, npc.width, npc.height, 16);
+                    Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 16);
 
                     if (Main.rand.NextBool(15))
                     {
                         int smokeType = Utils.SelectRandom(Main.rand, GoreID.ChimneySmoke1, GoreID.ChimneySmoke2, GoreID.ChimneySmoke3);
                         Vector2 smokeVelocity = Main.rand.NextVector2CircularEdge(6f, 6f);
-                        Gore.NewGorePerfect(npc.Center + Main.rand.NextVector2Circular(40f, 40f), smokeVelocity, smokeType);
+                        Gore.NewGorePerfect(NPC.Center + Main.rand.NextVector2Circular(40f, 40f), smokeVelocity, smokeType);
                     }
                 }
             }
@@ -194,8 +195,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (AttackTimer == teleportFadeoutTime)
             {
                 float teleportRadius = 420f;
-                npc.Center = Target.Center + Main.rand.NextVector2CircularEdge(teleportRadius, teleportRadius);
-                npc.netUpdate = true;
+                NPC.Center = Target.Center + Main.rand.NextVector2CircularEdge(teleportRadius, teleportRadius);
+                NPC.netUpdate = true;
             }
 
             // Fade in and release some particles.
@@ -203,17 +204,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 float fadeinCompletion = Utils.InverseLerp(teleportFadeoutTime, teleportFadeoutTime + teleportFadeinTime, AttackTimer, true);
                 float particleSpawnRate = MathHelper.Clamp(fadeinCompletion + 0.6f, 0.5f, 1f);
-                npc.Opacity = fadeinCompletion;
+                NPC.Opacity = fadeinCompletion;
 
                 if (Main.rand.NextFloat() < particleSpawnRate && !Main.dedServ)
-                    Dust.NewDustDirect(npc.position, npc.width, npc.height, 16);
+                    Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 16);
             }
 
             if (AttackTimer >= teleportFadeoutTime + teleportFadeinTime)
             {
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -231,7 +232,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             // Slow down.
-            npc.velocity *= 0.96f;
+            NPC.velocity *= 0.96f;
 
             // And create lightning clouds.
             if (AttackTimer > cloudSummonDelay)
@@ -241,9 +242,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int projectileType = ModContent.ProjectileType<LightningCloud>();
                     float cloudSpawnOutwardness = (AttackTimer - cloudSummonDelay) / cloudSummonRate * 50f;
 
-                    Vector2 spawnPosition = npc.Top + new Vector2(cloudSpawnOutwardness, -36);
+                    Vector2 spawnPosition = NPC.Top + new Vector2(cloudSpawnOutwardness, -36);
                     Projectile.NewProjectileDirect(spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
-                    spawnPosition = npc.Top + new Vector2(-cloudSpawnOutwardness, -36);
+                    spawnPosition = NPC.Top + new Vector2(-cloudSpawnOutwardness, -36);
                     Projectile.NewProjectileDirect(spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
                 }
             }
@@ -252,7 +253,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -262,7 +263,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             int totalTornadosToSummon = Phase2 ? 8 : 5;
 
             // Slow down.
-            npc.velocity *= 0.96f;
+            NPC.velocity *= 0.96f;
 
             // And create tornadoes.
             if (Main.netMode != NetmodeID.MultiplayerClient && AttackTimer == tornadoSpawnDelay)
@@ -280,7 +281,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -297,16 +298,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             // Slow down in anticipation of the summoning.
             if (AttackTimer < nimbusSummonDelay)
-                npc.velocity *= 0.92f;
+                NPC.velocity *= 0.92f;
 
             // Summon a circle of nimbi.
             else if ((AttackTimer - nimbusSummonDelay) % nimbusSummonRate == nimbusSummonRate - 1)
             {
-                Point spawnPosition = (npc.Center + npc.ai[2].ToRotationVector2() * 300f).ToPoint();
+                Point spawnPosition = (NPC.Center + NPC.ai[2].ToRotationVector2() * 300f).ToPoint();
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(spawnPosition.X, spawnPosition.Y);
-                    if (!(tileAtPosition.active() && Main.tileSolid[tileAtPosition.type]))
+                    if (!(tileAtPosition.active() && Main.tileSolid[tileAtPosition.TileType]))
                         NPC.NewNPC(spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
                 }
 
@@ -316,18 +317,18 @@ namespace CalamityMod.NPCs.NormalNPCs
                     for (int i = 0; i < 20; i++)
                         Dust.NewDustDirect(spawnPosition.ToVector2(), -20, 20, 16);
 
-                    Main.PlaySound(SoundID.Item122, spawnPosition.ToVector2());
+                    SoundEngine.PlaySound(SoundID.Item122, spawnPosition.ToVector2());
                 }
-                npc.ai[2] += MathHelper.TwoPi / totalNimbiToSummon;
+                NPC.ai[2] += MathHelper.TwoPi / totalNimbiToSummon;
             }
 
             // Return to hovering after the nimbi have been summoned.
             if (AttackTimer >= nimbusSummonRate * totalNimbiToSummon)
             {
-                npc.ai[2] = 0f;
+                NPC.ai[2] = 0f;
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
@@ -340,47 +341,47 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             // Slow down.
             if (AttackTimer % (sliceChargeTime + sliceChargeDelay) < sliceChargeDelay)
-                npc.velocity *= 0.92f;
+                NPC.velocity *= 0.92f;
 
             // And charge.
             if (AttackTimer % (sliceChargeTime + sliceChargeDelay) == sliceChargeDelay)
             {
-                npc.damage = npc.defDamage * 2;
-                npc.velocity = npc.SafeDirectionTo(Target.Center) * sliceChargeSpeed;
-                npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
-                npc.netUpdate = true;
+                NPC.damage = NPC.defDamage * 2;
+                NPC.velocity = NPC.SafeDirectionTo(Target.Center) * sliceChargeSpeed;
+                NPC.spriteDirection = (NPC.velocity.X > 0).ToDirectionInt();
+                NPC.netUpdate = true;
             }
 
             if (AttackTimer >= (sliceChargeTime + sliceChargeDelay) * totalSlices)
             {
-                npc.damage = npc.defDamage;
+                NPC.damage = NPC.defDamage;
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack");
             if (CurrentAttackState != AttackState.Hover)
-                CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
+                CalamityMod.DrawTexture(spriteBatch, texture, 0, NPC, drawColor);
             else
-                CalamityMod.DrawTexture(spriteBatch, Main.npcTexture[npc.type], 0, npc, drawColor);
+                CalamityMod.DrawTexture(spriteBatch, Main.npcTexture[NPC.type], 0, NPC, drawColor);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter = npc.frameCounter + MathHelper.Max(npc.velocity.Length() * 0.1f, 0.6f) + 1.0;
-            if (npc.frameCounter >= (CurrentAttackState != AttackState.Hover ? 16.0 : 8.0))
+            NPC.frameCounter = NPC.frameCounter + MathHelper.Max(NPC.velocity.Length() * 0.1f, 0.6f) + 1.0;
+            if (NPC.frameCounter >= (CurrentAttackState != AttackState.Hover ? 16.0 : 8.0))
             {
-                npc.frame.Y += frameHeight;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y += frameHeight;
+                NPC.frameCounter = 0.0;
             }
 
-            if (npc.frame.Y >= frameHeight * 8)
-                npc.frame.Y = 0;
+            if (NPC.frame.Y >= frameHeight * 8)
+                NPC.frame.Y = 0;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -399,20 +400,20 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 16, hitDirection, -1f, 0, default, 1f);
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 16, hitDirection, -1f, 0, default, 1f);
             }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 2, 3);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<StormSaber>(), 5);
+            DropHelper.DropItem(NPC, ModContent.ItemType<EssenceofCinder>(), 2, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormSaber>(), 5);
         }
     }
 }

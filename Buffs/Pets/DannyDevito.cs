@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class DannyDevito : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Danny Devito");
             Description.SetDefault("The trash man is following you.");

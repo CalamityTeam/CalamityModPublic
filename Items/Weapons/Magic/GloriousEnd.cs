@@ -21,25 +21,25 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.knockBack = 10f;
-            item.useTime = item.useAnimation = 30;
-            item.mana = 20;
-            item.magic = true;
-            item.channel = true;
-            item.shootSpeed = 7f;
-            item.shoot = ModContent.ProjectileType<MeteorStar>();
+            Item.damage = 120;
+            Item.knockBack = 10f;
+            Item.useTime = Item.useAnimation = 30;
+            Item.mana = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.channel = true;
+            Item.shootSpeed = 7f;
+            Item.shoot = ModContent.ProjectileType<MeteorStar>();
 
-            item.width = 30;
-            item.height = 58;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item9;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = ItemRarityID.LightRed;
-            item.Calamity().donorItem = true;
+            Item.width = 30;
+            Item.height = 58;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item9;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.Calamity().donorItem = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<Voidstone>()
         };
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSpelunker[TileID.LunarOre] = true;
             Main.tileValue[TileID.LunarOre] = 900;
@@ -90,8 +90,8 @@ namespace CalamityMod.Tiles
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
                 zero = Vector2.Zero;
-            int frameX = tile.frameX;
-            int frameY = tile.frameY;
+            int frameX = tile.TileFrameX;
+            int frameY = tile.TileFrameY;
 
             // Search down the cactus to find out whether the block it is planted in is Astral Sand.
             bool astralCactus = false;
@@ -106,10 +106,10 @@ namespace CalamityMod.Tiles
                     xTile += (frameY == 18) ? -1 : 1;
 
                 int yTile = j;
-                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].type == TileID.Cactus && Main.tile[xTile, yTile].active();
-                while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[Main.tile[xTile, yTile].type] || !slidingDownCactus)
+                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].active();
+                while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
                 {
-                    if (Main.tile[xTile, yTile].type == TileID.Cactus && Main.tile[xTile, yTile].active())
+                    if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].active())
                     {
                         slidingDownCactus = true;
                     }
@@ -118,7 +118,7 @@ namespace CalamityMod.Tiles
                     if (yTile > i + 20)
                         break;
                 }
-                astralCactus = Main.tile[xTile, yTile].type == (ushort)ModContent.TileType<AstralSand>();
+                astralCactus = Main.tile[xTile, yTile].TileType == (ushort)ModContent.TileType<AstralSand>();
             }
 
             // If it is actually astral cactus, then draw its glowmask.
@@ -143,7 +143,7 @@ namespace CalamityMod.Tiles
                 if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
                     return;
                 Tile t = Main.tile[xPos, yPos];
-                if (t != null && t.active() && (t.type == ModContent.TileType<LumenylCrystals>() || (t.type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
+                if (t != null && t.active() && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -152,7 +152,7 @@ namespace CalamityMod.Tiles
             }
 
             // CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
-            if (Main.tileSolid[tile.type] && tile.type != ModContent.TileType<LumenylCrystals>() && tile.type != ModContent.TileType<SeaPrismCrystals>())
+            if (Main.tileSolid[tile.TileType] && tile.TileType != ModContent.TileType<LumenylCrystals>() && tile.TileType != ModContent.TileType<SeaPrismCrystals>())
             {
                 CheckShatterCrystal(i + 1, j);
                 CheckShatterCrystal(i - 1, j);
@@ -176,7 +176,7 @@ namespace CalamityMod.Tiles
         public override bool Drop(int i, int j, int type)
         {
             Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(i, j);
-            if (tileAtPosition.frameX % 36 == 0 && tileAtPosition.frameY % 36 == 0)
+            if (tileAtPosition.TileFrameX % 36 == 0 && tileAtPosition.TileFrameY % 36 == 0)
             {
                 if (type == ModContent.TileType<AbyssalPots>())
                 {
@@ -184,8 +184,8 @@ namespace CalamityMod.Tiles
 
                     for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
                     {
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore1"));
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore2"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore1"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore2"));
                     }
                 }
                 else if (type == ModContent.TileType<SulphurousPots>())
@@ -194,8 +194,8 @@ namespace CalamityMod.Tiles
 
                     for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
                     {
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore1"));
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore1"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
                     }
                 }
                 else if (type == TileID.DemonAltar && Main.hardMode)
@@ -538,7 +538,7 @@ namespace CalamityMod.Tiles
             Tile aboveTile = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
 
             // Prevent tiles below invincible tiles from being destroyed. This is like chests in vanilla.
-            return aboveTile.active() && checkTile.type != aboveTile.type && invincibleTiles.Contains(aboveTile.type);
+            return aboveTile.active() && checkTile.TileType != aboveTile.TileType && invincibleTiles.Contains(aboveTile.TileType);
         }
 
         public override bool CanExplode(int i, int j, int type)

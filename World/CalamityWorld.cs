@@ -22,7 +22,7 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -1275,12 +1275,12 @@ namespace CalamityMod.World
             for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers)
                 {
-                    bool isGoldChest = Main.tile[chest.x, chest.y].frameX == 36;
-                    bool isMahoganyChest = Main.tile[chest.x, chest.y].frameX == 8 * 36;
-                    bool isIvyChest = Main.tile[chest.x, chest.y].frameX == 10 * 36;
-                    bool isIceChest = Main.tile[chest.x, chest.y].frameX == 11 * 36;
+                    bool isGoldChest = Main.tile[chest.x, chest.y].TileFrameX == 36;
+                    bool isMahoganyChest = Main.tile[chest.x, chest.y].TileFrameX == 8 * 36;
+                    bool isIvyChest = Main.tile[chest.x, chest.y].TileFrameX == 10 * 36;
+                    bool isIceChest = Main.tile[chest.x, chest.y].TileFrameX == 11 * 36;
                     if (isGoldChest || isMahoganyChest || isIvyChest || isIceChest)
                     {
                         for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)

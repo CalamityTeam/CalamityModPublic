@@ -12,28 +12,28 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Harvest Staff");
             Tooltip.SetDefault("Casts flaming pumpkins");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 26;
-            item.magic = true;
-            item.mana = 5;
-            item.width = 46;
-            item.height = 44;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlamingPumpkin>();
-            item.shootSpeed = 10f;
-            item.scale = 0.9f;
+            Item.damage = 26;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 5;
+            Item.width = 46;
+            Item.height = 44;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlamingPumpkin>();
+            Item.shootSpeed = 10f;
+            Item.scale = 0.9f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -43,12 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Pumpkin, 20);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Pumpkin, 20).AddIngredient(ItemID.FallenStar, 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

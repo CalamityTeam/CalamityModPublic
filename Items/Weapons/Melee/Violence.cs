@@ -16,27 +16,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.height = item.width = 142;
-            item.damage = 404;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<ViolenceThrownProjectile>();
-            item.shootSpeed = 15f;
+            Item.height = Item.width = 142;
+            Item.damage = 404;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<ViolenceThrownProjectile>();
+            Item.shootSpeed = 15f;
         }
 
-        public override bool CanUseItem(Player player) => player.altFunctionUse == 2 || player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.altFunctionUse == 2 || player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

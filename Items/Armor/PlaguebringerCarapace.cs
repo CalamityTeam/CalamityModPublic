@@ -19,31 +19,24 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.defense = 17;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = ItemRarityID.Yellow;
-            item.Calamity().donorItem = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.defense = 17;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.minionDamage += 0.12f;
+            player.GetDamage(DamageClass.Summon) += 0.12f;
             player.Calamity().reducedPlagueDmg = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BeeBreastplate);
-            recipe.AddIngredient(ModContent.ItemType<AlchemicalFlask>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.BeeBreastplate).AddIngredient(ModContent.ItemType<AlchemicalFlask>(), 2).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 7).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 7).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

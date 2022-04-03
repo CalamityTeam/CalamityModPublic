@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -13,8 +14,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public const float PositioningOffset = 35f;
         public override void SetStaticDefaults()
@@ -24,22 +25,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 82;
-            projectile.height = 114;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 82;
+            Projectile.height = 114;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.direction = (Math.Cos(projectile.velocity.ToRotation()) > 0).ToDirectionInt();
+            Player player = Main.player[Projectile.owner];
+            Projectile.direction = (Math.Cos(Projectile.velocity.ToRotation()) > 0).ToDirectionInt();
             AttemptToFireProjectiles(player);
             AttachToPlayer(player);
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
             Time++;
         }
 
@@ -48,10 +49,10 @@ namespace CalamityMod.Projectiles.Ranged
             bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
             if (!canFire)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            if (projectile.owner == Main.myPlayer && Time % player.ActiveItem().useTime == 0)
+            if (Projectile.owner == Main.myPlayer && Time % player.ActiveItem().useTime == 0)
             {
                 int type = ProjectileID.WoodenArrowFriendly; // This doesn't really matter. It's overwritten anyway. But it is passed into the PickAmmo method.
                 float shotSpeed = player.ActiveItem().shootSpeed;
@@ -60,16 +61,16 @@ namespace CalamityMod.Projectiles.Ranged
 
                 player.PickAmmo(player.ActiveItem(), ref type, ref shotSpeed, ref canFire, ref damage, ref knockBack); // Pick ammo and consume it (this incorporates the bow's chance to not consume ammo).
 
-                Main.PlaySound(player.ActiveItem().UseSound, projectile.Center);
+                SoundEngine.PlaySound(player.ActiveItem().UseSound, Projectile.Center);
 
                 type = ModContent.ProjectileType<UltimaBolt>();
                 float shootLaserChance = Utils.InverseLerp(Ultima.FullChargeTime * 0.35f, Ultima.FullChargeTime, Time, true);
                 Vector2 shotPosition = player.RotatedRelativePoint(player.MountedCenter, true);
-                shotPosition += projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(40f)).RotatedBy(-0.25f * projectile.spriteDirection) * 42f;
+                shotPosition += Projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(40f)).RotatedBy(-0.25f * Projectile.spriteDirection) * 42f;
 
-                projectile.velocity = player.SafeDirectionTo(Main.MouseWorld);
+                Projectile.velocity = player.SafeDirectionTo(Main.MouseWorld);
 
-                Vector2 shotVelocity = projectile.velocity * shotSpeed; // The velocity should always be a unit vector.
+                Vector2 shotVelocity = Projectile.velocity * shotSpeed; // The velocity should always be a unit vector.
 
                 // Fire a laser.
                 if (Main.rand.NextFloat() <= shootLaserChance)
@@ -82,26 +83,26 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     // To ensure that the sparks don't spawn on top of the laser itself.
                     float offsetAngle = Main.rand.NextFloat(0.2f, 0.5f) * Main.rand.NextBool(2).ToDirectionInt();
-                    Vector2 sparkVelocity = projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedByRandom(0.5f) * 13f;
+                    Vector2 sparkVelocity = Projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedByRandom(0.5f) * 13f;
                     sparkVelocity = sparkVelocity.RotatedBy(offsetAngle);
-                    Projectile.NewProjectile(shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, projectile.owner);
+                    Projectile.NewProjectile(shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, Projectile.owner);
                 }
                 knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
 
-                Projectile.NewProjectile(shotPosition, shotVelocity, type, damage, knockBack, projectile.owner);
-                projectile.netUpdate = true;
+                Projectile.NewProjectile(shotPosition, shotVelocity, type, damage, knockBack, Projectile.owner);
+                Projectile.netUpdate = true;
             }
         }
 
         public void AttachToPlayer(Player player)
         {
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + projectile.velocity.ToRotation().ToRotationVector2() * PositioningOffset;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + Projectile.velocity.ToRotation().ToRotationVector2() * PositioningOffset;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = player.itemAnimation = 2;
-            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
         public override bool CanDamage() => false;

@@ -9,28 +9,28 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fox");
-            Main.projFrames[projectile.type] = 11;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 11;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 24;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.aiStyle = 26;
+            Projectile.netImportant = true;
+            Projectile.width = 24;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.aiStyle = 26;
             aiType = ProjectileID.Puppy;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.fox)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
         }
     }
 }

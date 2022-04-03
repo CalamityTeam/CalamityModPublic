@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 {
     public class AcidwoodPianoTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();

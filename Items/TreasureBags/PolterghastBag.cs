@@ -29,17 +29,17 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 34;
-            item.rare = ItemRarityID.Cyan;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/TreasureBags/PolterghastBagGlow"));
         }
 
         public override bool CanRightClick() => true;

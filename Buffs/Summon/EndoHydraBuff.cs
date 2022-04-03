@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class EndoHydraBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Endo Hydra");
             Description.SetDefault("The endo hydra will protect you... for some reason");

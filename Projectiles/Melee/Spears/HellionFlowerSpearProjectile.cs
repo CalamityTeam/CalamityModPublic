@@ -16,17 +16,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = 19;
+            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -34,12 +34,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(projectile.damage * 0.65), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y, Projectile.velocity.X * 2.4f, Projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(Projectile.damage * 0.65), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 8;
+            target.immune[Projectile.owner] = 8;
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.Venom, 300);
         }
@@ -54,9 +54,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (crit)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+                    Projectile petal = CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         petal.Calamity().forceMelee = true;

@@ -13,27 +13,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Icicle Staff");
             Tooltip.SetDefault("Casts icicles from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.magic = true;
-            item.mana = 6;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 7;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IcicleStaffProj>();
-            item.shootSpeed = 11f;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = 7;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IcicleStaffProj>();
+            Item.shootSpeed = 11f;
         }
 
         public override Vector2? HoldoutOrigin()
@@ -43,22 +43,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyIceBlock", 25);
-            recipe.AddIngredient(ItemID.Shiverthorn, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddRecipeGroup("AnyIceBlock", 25).AddIngredient(ItemID.Shiverthorn, 3).AddTile(TileID.Anvils).Register();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            int num73 = item.damage;
-            float num74 = item.knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            int num73 = Item.damage;
+            float num74 = Item.knockBack;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;

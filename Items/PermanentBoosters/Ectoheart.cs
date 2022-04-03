@@ -20,40 +20,40 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 44;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item122;
-            item.consumable = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 42;
+            Item.height = 44;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item122;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player) => !player.Calamity().adrenalineBoostThree;
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
-            spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
+            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/EctoheartGlow");
-            spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/EctoheartGlow");
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {

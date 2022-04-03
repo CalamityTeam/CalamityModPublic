@@ -22,23 +22,23 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 64;
-            item.Calamity().rogue = true;
-            item.knockBack = 3f;
-            item.useTime = item.useAnimation = 15;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LeonidProgenitorBombshell>();
-            item.shootSpeed = 12f;
+            Item.damage = 64;
+            Item.Calamity().rogue = true;
+            Item.knockBack = 3f;
+            Item.useTime = Item.useAnimation = 15;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LeonidProgenitorBombshell>();
+            Item.shootSpeed = 12f;
 
-            item.width = 32;
-            item.height = 48;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item61;
+            Item.width = 32;
+            Item.height = 48;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item61;
 
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -47,13 +47,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
             {
-                item.UseSound = SoundID.Item61;
-                item.shoot = ModContent.ProjectileType<LeonidProgenitorBombshell>();
+                Item.UseSound = SoundID.Item61;
+                Item.shoot = ModContent.ProjectileType<LeonidProgenitorBombshell>();
             }
             else
             {
-                item.UseSound = SoundID.Item88;
-                item.shoot = ModContent.ProjectileType<LeonidCometSmall>();
+                Item.UseSound = SoundID.Item88;
+                Item.shoot = ModContent.ProjectileType<LeonidCometSmall>();
             }
             return base.CanUseItem(player);
         }
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/LeonidProgenitorGlow"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/LeonidProgenitorGlow"));
         }
     }
 }

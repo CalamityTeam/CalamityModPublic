@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.Ores
         private int sheetWidth = 288;
         private int sheetHeight = 270;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

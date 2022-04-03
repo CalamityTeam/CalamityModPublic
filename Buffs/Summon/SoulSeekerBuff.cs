@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SoulSeekerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
             Description.SetDefault("It definitely wants something from you");

@@ -15,35 +15,27 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.magic = true;
-            item.mana = 14;
-            item.width = 52;
-            item.height = 52;
-            item.useTime = 31;
-            item.useAnimation = 31;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlameBeamTip>();
-            item.shootSpeed = 32f;
+            Item.damage = 30;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 14;
+            Item.width = 52;
+            Item.height = 52;
+            Item.useTime = 31;
+            Item.useAnimation = 31;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item34;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlameBeamTip>();
+            Item.shootSpeed = 32f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Flamelash);
-            recipe.AddIngredient(ItemID.CrystalVileShard);
-            recipe.AddIngredient(ItemID.DarkShard, 2);
-            recipe.AddIngredient(ItemID.SoulofNight, 10);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Flamelash).AddIngredient(ItemID.CrystalVileShard).AddIngredient(ItemID.DarkShard, 2).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ItemID.SoulofFright, 5).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

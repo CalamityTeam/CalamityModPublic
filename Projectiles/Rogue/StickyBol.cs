@@ -17,15 +17,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 300;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+            Projectile.Calamity().rogue = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
         }
 
         public override void AI()
@@ -33,35 +33,35 @@ namespace CalamityMod.Projectiles.Rogue
             Color color = new Color(0, 80, 255, 100);
             if (Main.rand.NextBool(12))
             {
-                Dust.NewDust(projectile.position + Vector2.One * 6f, projectile.width - 12, projectile.height - 12, 4, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 175, color, 1.2f);
+                Dust.NewDust(Projectile.position + Vector2.One * 6f, Projectile.width - 12, Projectile.height - 12, 4, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 175, color, 1.2f);
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(10);
-            if (projectile.ai[0] != 1f)
+            Projectile.StickyProjAI(10);
+            if (Projectile.ai[0] != 1f)
             {
-                projectile.StickToTiles(true, false);
-                projectile.localAI[1] += 1f;
-                if (projectile.localAI[1] > 10f)
+                Projectile.StickToTiles(true, false);
+                Projectile.localAI[1] += 1f;
+                if (Projectile.localAI[1] > 10f)
                 {
-                    projectile.localAI[1] = 10f;
-                    if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                    Projectile.localAI[1] = 10f;
+                    if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
                     {
-                        projectile.velocity.X *= 0.97f;
-                        if (Math.Abs(projectile.velocity.X) < 0.01f)
+                        Projectile.velocity.X *= 0.97f;
+                        if (Math.Abs(Projectile.velocity.X) < 0.01f)
                         {
-                            projectile.velocity.X = 0f;
-                            projectile.netUpdate = true;
+                            Projectile.velocity.X = 0f;
+                            Projectile.netUpdate = true;
                         }
                     }
-                    projectile.velocity.Y += 0.2f;
+                    Projectile.velocity.Y += 0.2f;
                 }
-                projectile.rotation += projectile.velocity.X * 0.1f;
+                Projectile.rotation += Projectile.velocity.X * 0.1f;
             }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(5, true);
+            Projectile.ModifyHitNPCSticky(5, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

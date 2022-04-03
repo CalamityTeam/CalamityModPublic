@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Soaring : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soaring");
             Description.SetDefault("Increased wing flight time and speed\n" +

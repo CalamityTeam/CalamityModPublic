@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -31,36 +32,28 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.mana = 200;
-            item.damage = 1999;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.width = item.height = 28;
-            item.useTime = item.useAnimation = 9;
-            item.noMelee = true;
-            item.knockBack = 1f;
+            Item.mana = 200;
+            Item.damage = 1999;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.width = Item.height = 28;
+            Item.useTime = Item.useAnimation = 9;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
 
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
-            item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
 
-            item.UseSound = SoundID.Item117;
-            item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.Calamity().CannotBeEnchanted = true;
+            Item.UseSound = SoundID.Item117;
+            Item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.Calamity().CannotBeEnchanted = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Excelsus>());
-            recipe.AddIngredient(ModContent.ItemType<CosmicViperEngine>());
-            recipe.AddIngredient(ItemID.WingsVortex);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Excelsus>()).AddIngredient(ModContent.ItemType<CosmicViperEngine>()).AddIngredient(ItemID.WingsVortex).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 40).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
         public override bool CanUseItem(Player player) => !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
@@ -68,12 +61,12 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // If the player has any robots, kill them all.
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     if (Main.projectile[i].active &&
-                        Main.projectile[i].type == item.shoot &&
+                        Main.projectile[i].type == Item.shoot &&
                         Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
@@ -83,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     player.Calamity().andromedaCripple = CrippleTime;
                     player.AddBuff(ModContent.BuffType<AndromedaCripple>(), player.Calamity().andromedaCripple);
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AndromedaCripple"), position);
+                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AndromedaCripple"), position);
                 }
                 return false;
             }

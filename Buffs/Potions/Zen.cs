@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Zen : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zen");
             Description.SetDefault("Spawn rates are reduced");

@@ -17,24 +17,24 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 126;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 12;
-            item.reuseDelay = 30;
-            item.useAnimation = 36;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
-            item.autoReuse = true;
-            item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 126;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 12;
+            Item.reuseDelay = 30;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
+            Item.autoReuse = true;
+            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);

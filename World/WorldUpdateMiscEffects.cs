@@ -151,7 +151,7 @@ namespace CalamityMod.World
                     {
                         if (Main.tile[x, y].liquid <= 32)
                         {
-                            if (Main.tile[x, y].type == TileID.JungleGrass)
+                            if (Main.tile[x, y].TileType == TileID.JungleGrass)
                             {
                                 if (Main.tile[x, y2].liquid == 0)
                                 {
@@ -166,7 +166,7 @@ namespace CalamityMod.World
                                             {
                                                 for (int j = y - minDistanceFromOtherBulbs; j < y + minDistanceFromOtherBulbs; j += 2)
                                                 {
-                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == TileID.PlanteraBulb)
+                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].TileType == TileID.PlanteraBulb)
                                                     {
                                                         placeBulb = false;
                                                         break;
@@ -180,7 +180,7 @@ namespace CalamityMod.World
                                                 WorldGen.SquareTileFrame(x, y2);
                                                 WorldGen.SquareTileFrame(x + 2, y2);
                                                 WorldGen.SquareTileFrame(x - 1, y2);
-                                                if (Main.tile[x, y2].type == TileID.PlanteraBulb && Main.netMode == NetmodeID.Server)
+                                                if (Main.tile[x, y2].TileType == TileID.PlanteraBulb && Main.netMode == NetmodeID.Server)
                                                 {
                                                     NetMessage.SendTileSquare(-1, x, y2, 5);
                                                 }
@@ -200,7 +200,7 @@ namespace CalamityMod.World
                                             {
                                                 for (int j = y - minDistanceFromOtherFruit; j < y + minDistanceFromOtherFruit; j += 2)
                                                 {
-                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == TileID.LifeFruit)
+                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].TileType == TileID.LifeFruit)
                                                     {
                                                         placeFruit = false;
                                                         break;
@@ -213,7 +213,7 @@ namespace CalamityMod.World
                                                 WorldGen.PlaceJunglePlant(x, y2, TileID.LifeFruit, WorldGen.genRand.Next(3), 0);
                                                 WorldGen.SquareTileFrame(x, y2);
                                                 WorldGen.SquareTileFrame(x + 1, y2 + 1);
-                                                if (Main.tile[x, y2].type == TileID.LifeFruit && Main.netMode == NetmodeID.Server)
+                                                if (Main.tile[x, y2].TileType == TileID.LifeFruit && Main.netMode == NetmodeID.Server)
                                                 {
                                                     NetMessage.SendTileSquare(-1, x, y2, 4);
                                                 }
@@ -224,7 +224,7 @@ namespace CalamityMod.World
                             }
                         }
 
-                        int tileType = Main.tile[x, y].type;
+                        int tileType = Main.tile[x, y].TileType;
                         bool tenebris = tileType == ModContent.TileType<Tenebris>() && downedCalamitas;
 
                         if (CalamityGlobalTile.GrowthTiles.Contains(tileType) || tenebris)
@@ -256,7 +256,7 @@ namespace CalamityMod.World
                                 if (Main.tile[x, y] != null)
                                 {
                                     Tile tile = Main.tile[x, y];
-                                    bool growTile = tenebris ? (tile.active() && tile.type == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
+                                    bool growTile = tenebris ? (tile.active() && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
                                     bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.halfBrick() && !tile.lava();
 
@@ -273,28 +273,28 @@ namespace CalamityMod.World
 
                                         if (canPlaceBasedOnAttached && (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris))
                                         {
-                                            tile.type = tenebris ? (ushort)tileType : (ushort)tileType2;
+                                            tile.TileType = tenebris ? (ushort)tileType : (ushort)tileType2;
 
                                             if (!tenebris)
                                             {
                                                 tile.active(true);
-                                                if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].halfBrick())
+                                                if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].halfBrick())
                                                 {
-                                                    tile.frameY = 0;
+                                                    tile.TileFrameY = 0;
                                                 }
-                                                else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].type] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].halfBrick())
+                                                else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].halfBrick())
                                                 {
-                                                    tile.frameY = 18;
+                                                    tile.TileFrameY = 18;
                                                 }
-                                                else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].type] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].halfBrick())
+                                                else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].halfBrick())
                                                 {
-                                                    tile.frameY = 36;
+                                                    tile.TileFrameY = 36;
                                                 }
-                                                else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].type] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].halfBrick())
+                                                else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].halfBrick())
                                                 {
-                                                    tile.frameY = 54;
+                                                    tile.TileFrameY = 54;
                                                 }
-                                                tile.frameX = (short)(WorldGen.genRand.Next(18) * 18);
+                                                tile.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
                                             }
 
                                             WorldGen.SquareTileFrame(x, y);
@@ -324,7 +324,7 @@ namespace CalamityMod.World
             {
                 for (int j = y - minDistanceFromOtherTiles; j < y + minDistanceFromOtherTiles; j++)
                 {
-                    if (Main.tile[i, j].active() && Main.tile[i, j].type == tileType)
+                    if (Main.tile[i, j].active() && Main.tile[i, j].TileType == tileType)
                     {
                         sameTilesNearby++;
                         if (sameTilesNearby > 1)

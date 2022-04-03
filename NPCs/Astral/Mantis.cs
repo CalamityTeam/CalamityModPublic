@@ -11,6 +11,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -21,121 +22,121 @@ namespace CalamityMod.NPCs.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mantis");
-            Main.npcFrameCount[npc.type] = 14;
+            Main.npcFrameCount[NPC.type] = 14;
             if (!Main.dedServ)
-                glowmask = ModContent.GetTexture("CalamityMod/NPCs/Astral/MantisGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/MantisGlow");
         }
 
         public override void SetDefaults()
         {
-            npc.Calamity().canBreakPlayerDefense = true;
-            npc.damage = 55;
-            npc.width = 60;
-            npc.height = 58;
-            npc.aiStyle = -1;
-            npc.defense = 6;
-            npc.DR_NERD(0.15f);
-            npc.lifeMax = 340;
-            npc.knockBackResist = 0.2f;
-            npc.value = Item.buyPrice(0, 0, 15, 0);
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            banner = npc.type;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.damage = 55;
+            NPC.width = 60;
+            NPC.height = 58;
+            NPC.aiStyle = -1;
+            NPC.defense = 6;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 340;
+            NPC.knockBackResist = 0.2f;
+            NPC.value = Item.buyPrice(0, 0, 15, 0);
+            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            banner = NPC.type;
             bannerItem = ModContent.ItemType<MantisBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
-                npc.damage = 85;
-                npc.defense = 16;
-                npc.knockBackResist = 0.1f;
-                npc.lifeMax = 510;
+                NPC.damage = 85;
+                NPC.defense = 16;
+                NPC.knockBackResist = 0.1f;
+                NPC.lifeMax = 510;
             }
-            npc.Calamity().VulnerableToHeat = true;
-            npc.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
-            Player target = Main.player[npc.target];
+            Player target = Main.player[NPC.target];
 
-            if (npc.ai[0] == 0f)
+            if (NPC.ai[0] == 0f)
             {
                 float acceleration = CalamityWorld.death ? 0.07f : 0.045f;
                 float maxSpeed = CalamityWorld.death ? 10.5f : 6.8f;
-                if (npc.Center.X > target.Center.X)
+                if (NPC.Center.X > target.Center.X)
                 {
-                    npc.velocity.X -= acceleration;
-                    if (npc.velocity.X > 0)
-                        npc.velocity.X -= acceleration;
-                    if (npc.velocity.X < -maxSpeed)
-                        npc.velocity.X = -maxSpeed;
+                    NPC.velocity.X -= acceleration;
+                    if (NPC.velocity.X > 0)
+                        NPC.velocity.X -= acceleration;
+                    if (NPC.velocity.X < -maxSpeed)
+                        NPC.velocity.X = -maxSpeed;
                 }
                 else
                 {
-                    npc.velocity.X += acceleration;
-                    if (npc.velocity.X < 0)
-                        npc.velocity.X += acceleration;
-                    if (npc.velocity.X > maxSpeed)
-                        npc.velocity.X = maxSpeed;
+                    NPC.velocity.X += acceleration;
+                    if (NPC.velocity.X < 0)
+                        NPC.velocity.X += acceleration;
+                    if (NPC.velocity.X > maxSpeed)
+                        NPC.velocity.X = maxSpeed;
                 }
 
                 //if need to jump
-                if (npc.velocity.Y == 0f && (HoleBelow() || (npc.collideX && npc.position.X == npc.oldPosition.X)))
+                if (NPC.velocity.Y == 0f && (HoleBelow() || (NPC.collideX && NPC.position.X == NPC.oldPosition.X)))
                 {
-                    npc.velocity.Y = CalamityWorld.death ? -7f : -5f;
+                    NPC.velocity.Y = CalamityWorld.death ? -7f : -5f;
                 }
 
                 //check if we can shoot at target.
-                Vector2 vector = npc.Center - target.Center;
-                if (vector.Length() < 480f && Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
+                Vector2 vector = NPC.Center - target.Center;
+                if (vector.Length() < 480f && Collision.CanHit(NPC.position, NPC.width, NPC.height, target.position, target.width, target.height))
                 {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= (CalamityWorld.death ? 60f : 120f))
+                    NPC.ai[1] += 1f;
+                    if (NPC.ai[1] >= (CalamityWorld.death ? 60f : 120f))
                     {
                         //fire projectile
-                        npc.ai[0] = 1f;
-                        npc.ai[1] = npc.ai[2] = 0f;
-                        npc.frame.Y = 400;
-                        npc.frameCounter = 0;
+                        NPC.ai[0] = 1f;
+                        NPC.ai[1] = NPC.ai[2] = 0f;
+                        NPC.frame.Y = 400;
+                        NPC.frameCounter = 0;
                     }
                 }
                 else
-                    npc.ai[1] -= 0.5f;
+                    NPC.ai[1] -= 0.5f;
 
-                if (npc.justHit)
-                    npc.ai[1] -= 60f;
+                if (NPC.justHit)
+                    NPC.ai[1] -= 60f;
 
-                if (npc.ai[1] < 0f)
-                    npc.ai[1] = 0f;
+                if (NPC.ai[1] < 0f)
+                    NPC.ai[1] = 0f;
             }
             else
             {
-                npc.ai[2] += 1f;
-                npc.velocity.X *= 0.95f;
-                if (npc.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
+                NPC.ai[2] += 1f;
+                NPC.velocity.X *= 0.95f;
+                if (NPC.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
                 {
-                    Main.PlaySound(SoundID.Item71, npc.position);
-                    Vector2 vector = Main.player[npc.target].Center - npc.Center;
+                    SoundEngine.PlaySound(SoundID.Item71, NPC.position);
+                    Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
                     int damage = CalamityWorld.downedAstrageldon ? 55 : 45;
-                    Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
+                    Projectile.NewProjectile(NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
                 }
             }
 
-            npc.direction = npc.Center.X > target.Center.X ? 0 : 1;
-            npc.spriteDirection = npc.direction;
+            NPC.direction = NPC.Center.X > target.Center.X ? 0 : 1;
+            NPC.spriteDirection = NPC.direction;
         }
 
         private bool HoleBelow()
         {
             //width of npc in tiles
             int tileWidth = 4;
-            int tileX = (int)(npc.Center.X / 16f) - tileWidth;
-            if (npc.velocity.X > 0) //if moving right
+            int tileX = (int)(NPC.Center.X / 16f) - tileWidth;
+            if (NPC.velocity.X > 0) //if moving right
             {
                 tileX += tileWidth;
             }
-            int tileY = (int)((npc.position.Y + npc.height) / 16f);
+            int tileY = (int)((NPC.position.Y + NPC.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
@@ -151,39 +152,39 @@ namespace CalamityMod.NPCs.Astral
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[0] == 0f)
+            if (NPC.ai[0] == 0f)
             {
-                if (npc.velocity.Y != 0)
+                if (NPC.velocity.Y != 0)
                 {
-                    npc.frame.Y = frameHeight * 13;
-                    npc.frameCounter = 20;
+                    NPC.frame.Y = frameHeight * 13;
+                    NPC.frameCounter = 20;
                 }
                 else
                 {
-                    npc.frameCounter += 0.8f + Math.Abs(npc.velocity.X) * 0.5f;
-                    if (npc.frameCounter > 10.0)
+                    NPC.frameCounter += 0.8f + Math.Abs(NPC.velocity.X) * 0.5f;
+                    if (NPC.frameCounter > 10.0)
                     {
-                        npc.frameCounter = 0;
-                        npc.frame.Y += frameHeight;
-                        if (npc.frame.Y > frameHeight * 5)
+                        NPC.frameCounter = 0;
+                        NPC.frame.Y += frameHeight;
+                        if (NPC.frame.Y > frameHeight * 5)
                         {
-                            npc.frame.Y = 0;
+                            NPC.frame.Y = 0;
                         }
                     }
                 }
             }
             else
             {
-                npc.frameCounter++;
-                if (npc.frameCounter > 4)
+                NPC.frameCounter++;
+                if (NPC.frameCounter > 4)
                 {
-                    npc.frameCounter = 0;
-                    npc.frame.Y += frameHeight;
-                    if (npc.frame.Y >= frameHeight * 13)
+                    NPC.frameCounter = 0;
+                    NPC.frame.Y += frameHeight;
+                    if (NPC.frame.Y >= frameHeight * 13)
                     {
-                        npc.frame.Y = 0;
-                        npc.frameCounter = 0;
-                        npc.ai[0] = 0f;
+                        NPC.frame.Y = 0;
+                        NPC.frameCounter = 0;
+                        NPC.ai[0] = 0f;
                     }
                 }
             }
@@ -191,39 +192,39 @@ namespace CalamityMod.NPCs.Astral
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (NPC.soundDelay == 0)
             {
-                npc.soundDelay = 15;
+                NPC.soundDelay = 15;
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), NPC.Center);
                         break;
                     case 1:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), NPC.Center);
                         break;
                     case 2:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
+                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), NPC.Center);
                         break;
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //draw glowmask
-            spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition - new Vector2(0, 8), npc.frame, Color.White * 0.6f, npc.rotation, new Vector2(70, 40), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(glowmask, NPC.Center - Main.screenPosition - new Vector2(0, 8), NPC.frame, Color.White * 0.6f, NPC.rotation, new Vector2(70, 40), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral(1))
+            else if (spawnInfo.Player.InAstral(1))
             {
                 return 0.16f;
             }
@@ -237,9 +238,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralScythe>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralScythe>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

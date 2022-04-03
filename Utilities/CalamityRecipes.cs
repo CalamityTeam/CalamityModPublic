@@ -28,118 +28,16 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-            EditLeatherRecipe();
-            EditPhoenixBlasterRecipe();
-            EditFlamarangRecipe();
-            EditTerraBladeRecipe();
-            EditFireGauntletRecipe();
-            EditSpiritFlameRecipe();
-            EditBeetleArmorRecipes();
-            EditGoblinArmySummonRecipe();
-            EditEvilBossSummonRecipes();
-            EditEarlyHardmodeRecipes();
-            EditMechBossSummonRecipes();
-            EditPumpkinMoonSummonRecipe();
-            EditFrostMoonSummonRecipe();
-            EditWingRecipes();
-            EditEvilBulletRecipes();
-            EditPhasesaberRecipes();
-            EditOpticStaffRecipe();
-            AstralAlternatives();
-            EditShroomiteBarRecipe();
-            EditChlorophyteBarRecipe(); // Don't remove this in 1.4 since it has 1 less ore required than that version
-            EditTier3HardmodeBarRecipes(); // Remove this when we get 1.4 port
-            EditHardmodeOreSetRecipes();
-
-            AddPotionRecipes();
-            AddCookedFood();
-            AddToolRecipes();
-            AddProgressionRecipes();
-            AddEarlyGameWeaponRecipes();
-            AddEarlyGameAccessoryRecipes();
-            AddArmorRecipes();
-            AddAnkhShieldRecipes();
-            AddAlternateHardmodeRecipes();
-
-            // Leather from Vertebrae, for Crimson worlds
-            ModRecipe r = GetNewRecipe();
-            r.AddIngredient(ItemID.Vertebrae, 2);
-            r.AddTile(TileID.WorkBenches);
-            r.SetResult(ItemID.Leather);
-            r.AddRecipe();
-
-            // Black Lens
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.Lens);
-            r.AddIngredient(ItemID.BlackDye);
-            r.AddTile(TileID.DyeVat);
-            r.SetResult(ItemID.BlackLens);
-            r.AddRecipe();
-
-            // Fallen Star
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<Stardust>(), 5);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.FallenStar);
-            r.AddRecipe();
-
-            // Hallowed Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
-            r.AddTile(TileID.AdamantiteForge);
-            r.SetResult(ItemID.HallowedBar);
-            r.AddRecipe();
-
-            // Rocket I from Empty Bullet
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.EmptyBullet, 20);
-            r.AddIngredient(ItemID.ExplosivePowder, 1);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.RocketI, 20);
-            r.AddRecipe();
-
-            // Life Crystal
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.StoneBlock, 5);
-            r.AddIngredient(ItemID.Ruby, 2);
-            r.AddIngredient(ItemID.HealingPotion);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.LifeCrystal);
-            r.AddRecipe();
-
-            // Life Fruit
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<PlantyMush>(), 10);
-            r.AddIngredient(ModContent.ItemType<LivingShard>());
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.LifeFruit);
-            r.AddRecipe();
-
-            // Ultrabright Torch
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.Torch, 33);
-            r.AddIngredient(ModContent.ItemType<SeaPrism>());
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.UltrabrightTorch, 33);
-            r.AddRecipe();
-
-            // Money Trough
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.PiggyBank);
-            r.AddIngredient(ItemID.Feather, 2);
-            r.AddIngredient(ModContent.ItemType<BloodOrb>());
-            r.AddIngredient(ItemID.GoldCoin, 15);
-            r.AddRecipeGroup("AnyGoldBar", 8);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.MoneyTrough);
-            r.AddRecipe();
-
-            // Target Dummy Reverse Compatibility
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<SuperDummy>());
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.TargetDummy);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 2).AddTile(TileID.WorkBenches).ReplaceResult(ItemID.Leather);
+            CreateRecipe(1).AddIngredient(ItemID.Lens).AddIngredient(ItemID.BlackDye).AddTile(TileID.DyeVat).ReplaceResult(ItemID.BlackLens);
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 5).AddTile(TileID.Anvils).ReplaceResult(ItemID.FallenStar);
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<HallowedOre>(), 4).AddTile(TileID.AdamantiteForge).ReplaceResult(ItemID.HallowedBar);
+            CreateRecipe(20).AddIngredient(ItemID.EmptyBullet, 20).AddIngredient(ItemID.ExplosivePowder, 1).AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI);
+            CreateRecipe(1).AddIngredient(ItemID.StoneBlock, 5).AddIngredient(ItemID.Ruby, 2).AddIngredient(ItemID.HealingPotion).AddTile(TileID.Anvils).ReplaceResult(ItemID.LifeCrystal);
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlantyMush>(), 10).AddIngredient(ModContent.ItemType<LivingShard>()).AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.LifeFruit);
+            CreateRecipe(33).AddIngredient(ItemID.Torch, 33).AddIngredient(ModContent.ItemType<SeaPrism>()).AddTile(TileID.Anvils).ReplaceResult(ItemID.UltrabrightTorch);
+            CreateRecipe(1).AddIngredient(ItemID.PiggyBank).AddIngredient(ItemID.Feather, 2).AddIngredient(ModContent.ItemType<BloodOrb>()).AddIngredient(ItemID.GoldCoin, 15).AddRecipeGroup("AnyGoldBar", 8).AddTile(TileID.Anvils).ReplaceResult(ItemID.MoneyTrough);
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SuperDummy>()).AddTile(TileID.Anvils).ReplaceResult(ItemID.TargetDummy);
         }
 
         // Change Leather's recipe to require 2 Rotten Chunks/Vertebrae

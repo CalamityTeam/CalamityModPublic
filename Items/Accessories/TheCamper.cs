@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
-            item.defense = 10;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
+            Item.defense = 10;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -105,19 +105,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShinyStone);
-            recipe.AddIngredient(ItemID.Campfire, 10);
-            recipe.AddIngredient(ItemID.HeartLantern, 5);
-            recipe.AddIngredient(ItemID.SharpeningStation);
-            recipe.AddIngredient(ItemID.CrystalBall);
-            recipe.AddIngredient(ItemID.AmmoBox);
-            recipe.AddIngredient(ItemID.BewitchingTable);
-            recipe.AddRecipeGroup("AnyFood", 50);
-
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.ShinyStone).AddIngredient(ItemID.Campfire, 10).AddIngredient(ItemID.HeartLantern, 5).AddIngredient(ItemID.SharpeningStation).AddIngredient(ItemID.CrystalBall).AddIngredient(ItemID.AmmoBox).AddIngredient(ItemID.BewitchingTable).AddRecipeGroup("AnyFood", 50).AddTile(TileID.TinkerersWorkbench).Register();
 
         }
     }

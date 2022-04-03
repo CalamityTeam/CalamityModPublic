@@ -11,23 +11,23 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 54;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 45;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.melee = true;
+            Projectile.width = Projectile.height = 54;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 45;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 CreateExplosionDust();
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
                 float lifePersistance = Main.rand.NextFloat(0.8f, 1.7f);
                 for (int i = 0; i < 60; i++)
                 {
-                    Dust energy = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust energy = Dust.NewDustPerfect(Projectile.Center, 267);
                     energy.velocity = (MathHelper.TwoPi * i / 60f).ToRotationVector2() * speed;
                     energy.noGravity = true;
                     energy.color = Main.hslToRgb(Main.rand.NextFloat(), 0.7f, 0.625f);

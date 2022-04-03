@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class BrittleStar : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brittle Star");
             Description.SetDefault("The brittle star will protect you");

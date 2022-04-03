@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class SeaAnemone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             animationFrameHeight = 36;
             Main.tileFrameImportant[Type] = true;

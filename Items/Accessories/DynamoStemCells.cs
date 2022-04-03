@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Dynamo Stem Cells");
             Tooltip.SetDefault(@"10% increased movement speed
 Ranged weapons have a chance to fire mini swarmers");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

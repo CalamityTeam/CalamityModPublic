@@ -15,22 +15,22 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom Dagger");
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 38;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.alpha = 200;
-            projectile.minion = true;
+            Projectile.width = 12;
+            Projectile.height = 38;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 200;
+            Projectile.minion = true;
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon
             int cap = (int)(damage * 1.05f); // Capped at 5% dr ignoring
             damage = Math.Min((int)(damage * (1 / (1 - target.Calamity().DR))), cap);
 
-            int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
             int cap2 = 3;
             int oldDamage = damage;
             if (projectileCount > cap2)
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             for (int d = 0; d < 4; d++)
             {
-                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 2f);
+                int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 2f);
                 Main.dust[shadow].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -85,10 +85,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int d = 0; d < 12; d++)
             {
-                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f);
+                int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f);
                 Main.dust[shadow].noGravity = true;
                 Main.dust[shadow].velocity *= 5f;
-                shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 2f);
+                shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 2f);
                 Main.dust[shadow].velocity *= 2f;
             }
 
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (CalamityConfig.Instance.Afterimages)
             {
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             }
             return true;
         }
@@ -109,30 +109,30 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f); //new Color(99, 54, 84)
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, new Color(0, 0, 0), 3f); //new Color(99, 54, 84)
                     Main.dust[dust].noGravity = true;
                 }
             }
-            if (projectile.alpha != 0)
+            if (Projectile.alpha != 0)
             {
-                projectile.rotation -= 0.25f;
-                projectile.velocity.X *= 0.985f;
-                projectile.velocity.Y *= 0.985f;
-                if (projectile.alpha < 3)
+                Projectile.rotation -= 0.25f;
+                Projectile.velocity.X *= 0.985f;
+                Projectile.velocity.Y *= 0.985f;
+                if (Projectile.alpha < 3)
                 {
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                     homing = true;
                 }
                 else
-                    projectile.alpha -= 3;
+                    Projectile.alpha -= 3;
             }
             else
             {
-                NPC target = CalamityUtils.MinionHoming(projectile.Center, 1500f, Main.player[projectile.owner]);
+                NPC target = CalamityUtils.MinionHoming(Projectile.Center, 1500f, Main.player[Projectile.owner]);
                 if (target != null)
                 {
                     float num550 = 40f;
-                    Vector2 vector43 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                     float num551 = target.Center.X - vector43.X;
                     float num552 = target.Center.Y - vector43.Y;
                     float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
@@ -143,14 +143,14 @@ namespace CalamityMod.Projectiles.Summon
                     num553 = num550 / num553;
                     num551 *= num553;
                     num552 *= num553;
-                    projectile.velocity.X = (projectile.velocity.X * 25f + num551) / 26f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 25f + num552) / 26f;
+                    Projectile.velocity.X = (Projectile.velocity.X * 25f + num551) / 26f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 25f + num552) / 26f;
                 }
                 else
                 {
-                    projectile.velocity *= 0.9f;
+                    Projectile.velocity *= 0.9f;
                 }
-                projectile.rotation = projectile.velocity.ToRotation() + (float)Math.Atan(90);
+                Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.Atan(90);
             }
         }
     }

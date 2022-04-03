@@ -8,9 +8,9 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VehemenceHoldout : ModProjectile
     {
-        public Player Owner => Main.player[projectile.owner];
-        public ref float Time => ref projectile.ai[0];
-        public ref float ChargeTime => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public ref float Time => ref Projectile.ai[0];
+        public ref float ChargeTime => ref Projectile.ai[1];
 
         public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemenc";
         public override void SetStaticDefaults()
@@ -20,19 +20,19 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 114;
-            projectile.friendly = false;
-            projectile.magic = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 91;
+            Projectile.width = Projectile.height = 114;
+            Projectile.friendly = false;
+            // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 91;
         }
 
         public override void AI()
         {
             UpdatePlayerVisuals();
-            if (projectile.timeLeft > ChargeTime + 5)
-                projectile.timeLeft = (int)ChargeTime + 5;
+            if (Projectile.timeLeft > ChargeTime + 5)
+                Projectile.timeLeft = (int)ChargeTime + 5;
             if (Time == ChargeTime)
                 ShootBolt();
             else if (Time < ChargeTime)
@@ -42,41 +42,41 @@ namespace CalamityMod.Projectiles.Magic
 
             // If the player aborts the charge by releasing LMB, it cancels.
             if (Main.mouseLeftRelease && Time >= 5f && Time < ChargeTime)
-                projectile.Kill();
+                Projectile.Kill();
         }
 
         private void UpdatePlayerVisuals()
         {
-            projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
+            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
 
-            projectile.rotation = projectile.AngleTo(Main.MouseWorld);
-            projectile.velocity = projectile.rotation.ToRotationVector2();
+            Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
+            Projectile.velocity = Projectile.rotation.ToRotationVector2();
 
             // Place the projectile directly into the player's hand with an offset at all times.
-            projectile.Center += projectile.rotation.ToRotationVector2() * 30f;
+            Projectile.Center += Projectile.rotation.ToRotationVector2() * 30f;
 
-            projectile.direction = projectile.spriteDirection = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
+            Projectile.direction = Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
 
             // The staff is a holdout projectile; change the player's variables to reflect this.
-            Owner.ChangeDir(projectile.direction);
-            Owner.heldProj = projectile.whoAmI;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(projectile.rotation);
+            Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(Projectile.rotation);
 
-            projectile.rotation += MathHelper.PiOver4;
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += MathHelper.PiOver2;
+            Projectile.rotation += MathHelper.PiOver4;
+            if (Projectile.spriteDirection == -1)
+                Projectile.rotation += MathHelper.PiOver2;
         }
 
         private void ShootBolt()
         {
-            if (Main.myPlayer != projectile.owner)
+            if (Main.myPlayer != Projectile.owner)
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            Vector2 shootVelocity = projectile.velocity * heldItem.shootSpeed;
-            Projectile.NewProjectile(projectile.Center, shootVelocity, ModContent.ProjectileType<Vehemence>(), (int)(Owner.MagicDamage() * heldItem.damage), heldItem.knockBack, projectile.owner);
+            Vector2 shootVelocity = Projectile.velocity * heldItem.shootSpeed;
+            Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<Vehemence>(), (int)(Owner.MagicDamage() * heldItem.damage), heldItem.knockBack, Projectile.owner);
         }
 
         private void CreateChargeDust()
@@ -84,11 +84,11 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.dedServ)
                 return;
 
-            Vector2 spawnOffset = projectile.velocity * 94f;
+            Vector2 spawnOffset = Projectile.velocity * 94f;
             for (int i = 0; i < 18; i++)
             {
-                Dust brimstoneMagic = Dust.NewDustPerfect(projectile.Center + spawnOffset + Main.rand.NextVector2CircularEdge(20f, 20f), (int)CalamityDusts.Brimstone);
-                brimstoneMagic.velocity = (projectile.Center + spawnOffset - brimstoneMagic.position).SafeNormalize(Vector2.Zero) * 0.3f + Owner.velocity;
+                Dust brimstoneMagic = Dust.NewDustPerfect(Projectile.Center + spawnOffset + Main.rand.NextVector2CircularEdge(20f, 20f), (int)CalamityDusts.Brimstone);
+                brimstoneMagic.velocity = (Projectile.Center + spawnOffset - brimstoneMagic.position).SafeNormalize(Vector2.Zero) * 0.3f + Owner.velocity;
                 brimstoneMagic.velocity.Y -= 2f;
                 brimstoneMagic.scale = 1.2f;
                 brimstoneMagic.noGravity = true;

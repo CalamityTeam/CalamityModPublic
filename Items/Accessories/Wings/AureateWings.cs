@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -24,11 +25,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = ItemRarityID.Lime;
-            item.accessory = true;
+            Item.width = 54;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    Main.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.position);
                     player.rocketDelay2 = 60;
                 }
                 int num66 = 2;
@@ -114,13 +115,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 5).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddIngredient(ItemID.SoulofFlight, 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

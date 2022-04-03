@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -18,38 +19,38 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] < 240f)
+            if (Projectile.ai[0] < 240f)
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
 
-                if (projectile.timeLeft < 160)
-                    projectile.timeLeft = 160;
+                if (Projectile.timeLeft < 160)
+                    Projectile.timeLeft = 160;
             }
 
-            if (projectile.velocity.Length() < 16f)
-                projectile.velocity *= 1.01f;
+            if (Projectile.velocity.Length() < 16f)
+                Projectile.velocity *= 1.01f;
 
-            int index = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+            int index = Player.FindClosest(Projectile.position, Projectile.width, Projectile.height);
             Player player = Main.player[index];
             if (player is null)
                 return;
 
-            float playerDist = Vector2.Distance(player.Center, projectile.Center);
-            if (!player.immune && playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
+            float playerDist = Vector2.Distance(player.Center, Projectile.Center);
+            if (!player.immune && playerDist < 50f && !player.dead && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
             {
-                int healAmt = (int)projectile.ai[1];
+                int healAmt = (int)Projectile.ai[1];
                 player.HealEffect(healAmt, false);
                 player.statLife += healAmt;
                 if (player.statLife > player.statLifeMax2)
@@ -57,29 +58,29 @@ namespace CalamityMod.Projectiles.Boss
                     player.statLife = player.statLifeMax2;
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, healAmt);
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D value = Main.projectileTexture[projectile.type];
+            Texture2D value = Main.projectileTexture[Projectile.type];
             Color color33 = new Color(54, 209, 54, 0);
-            Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+            Vector2 vector28 = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Color color34 = color33;
             Vector2 origin5 = value.Size() / 2f;
             Color color35 = color33 * 0.5f;
-            float num162 = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+            float num162 = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
             Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
             Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
             color34 *= num162;
             color35 *= num162;
 
             int num163 = 0;
-            Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * Utils.InverseLerp(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
+            Vector2 position3 = vector28 + Projectile.velocity.SafeNormalize(Vector2.Zero) * Utils.InverseLerp(0.5f, 1f, Projectile.localAI[0] / 60f, clamped: true) * num163;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
@@ -97,16 +98,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            projectile.position.X = projectile.position.X + (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.position.X = Projectile.position.X + (Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (Projectile.height / 2);
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -116,10 +117,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 8; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 247, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 247, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

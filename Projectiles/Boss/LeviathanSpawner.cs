@@ -6,43 +6,44 @@ using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using LeviathanNPC = CalamityMod.NPCs.Leviathan.Leviathan;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class LeviathanSpawner : ModProjectile
     {
-        internal ref float Time => ref projectile.ai[0];
+        internal ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults() => DisplayName.SetDefault("Spawner");
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 20;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.netImportant = true;
-            projectile.timeLeft = 450;
+            Projectile.width = Projectile.height = 20;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.netImportant = true;
+            Projectile.timeLeft = 450;
         }
 
         public override void AI()
         {
-            projectile.Opacity = CalamityUtils.Convert01To010(projectile.timeLeft / 120f) * 4f;
-            if (projectile.Opacity > 1f)
-                projectile.Opacity = 1f;
+            Projectile.Opacity = CalamityUtils.Convert01To010(Projectile.timeLeft / 120f) * 4f;
+            if (Projectile.Opacity > 1f)
+                Projectile.Opacity = 1f;
 
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = (float)Math.Pow(Utils.InverseLerp(180f, 290f, Time, true), 0.3D) * 6f;
             Main.LocalPlayer.Calamity().GeneralScreenShakePower += CalamityUtils.Convert01To010((float)Math.Pow(Utils.InverseLerp(300f, 440f, Time, true), 0.5D)) * 10f;
 
-            if (projectile.timeLeft == 45)
+            if (Projectile.timeLeft == 45)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarCharge"), projectile.Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarCharge"), Projectile.Center);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     WaterShaderData ripple = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();
-                    Vector2 ripplePos = projectile.Center;
+                    Vector2 ripplePos = Projectile.Center;
 
                     for (int i = 0; i < 3; i++)
                         ripple.QueueRipple(ripplePos, Color.White, Vector2.One * 1000f, RippleShape.Square, Main.rand.NextFloat(MathHelper.TwoPi));
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     return;
 
-                int leviathan = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<LeviathanNPC>());
+                int leviathan = NPC.NewNPC((int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<LeviathanNPC>());
                 if (Main.npc.IndexInRange(leviathan))
                     Main.npc[leviathan].velocity = Vector2.UnitY * -7f;
             }
@@ -65,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            WorldUtils.Find((projectile.Center - Vector2.UnitY * 1200f).ToTileCoordinates(), Searches.Chain(new Searches.Down(150), new CustomConditions.IsWater()), out Point waterTop);
+            WorldUtils.Find((Projectile.Center - Vector2.UnitY * 1200f).ToTileCoordinates(), Searches.Chain(new Searches.Down(150), new CustomConditions.IsWater()), out Point waterTop);
 
             // Create bubbling water.
             if (Time % 4f == 3f && Time > 90f)

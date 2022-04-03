@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 {
     public class BotanicBathtub : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();

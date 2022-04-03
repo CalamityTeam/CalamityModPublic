@@ -12,61 +12,61 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wail");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.scale = 0.005f;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.magic = true;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 16;
-            projectile.timeLeft = 450;
-            projectile.Calamity().PierceResistHarshness = 0.06f;
-            projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.width = 36;
+            Projectile.height = 36;
+            Projectile.scale = 0.005f;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
+            Projectile.timeLeft = 450;
+            Projectile.Calamity().PierceResistHarshness = 0.06f;
+            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] < 1f)
+            if (Projectile.localAI[0] < 1f)
             {
-                projectile.localAI[0] += 0.02f; // 50 frames to reach full size and max power
-                projectile.scale += 0.02f;
-                projectile.width = (int)(36f * projectile.scale);
-                projectile.height = (int)(36f * projectile.scale);
+                Projectile.localAI[0] += 0.02f; // 50 frames to reach full size and max power
+                Projectile.scale += 0.02f;
+                Projectile.width = (int)(36f * Projectile.scale);
+                Projectile.height = (int)(36f * Projectile.scale);
             }
             else
             {
-                projectile.width = 36;
-                projectile.height = 36;
+                Projectile.width = 36;
+                Projectile.height = 36;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(damage * projectile.localAI[0]);
+            damage = (int)(damage * Projectile.localAI[0]);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -76,9 +76,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

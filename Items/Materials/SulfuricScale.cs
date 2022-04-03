@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 3);
-            item.rare = ItemRarityID.Green;
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.Green;
         }
     }
 }

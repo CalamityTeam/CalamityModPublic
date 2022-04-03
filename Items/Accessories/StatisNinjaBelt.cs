@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.rare = ItemRarityID.Purple;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -40,14 +40,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MasterNinjaGear);
-            recipe.AddIngredient(ItemID.FrogLeg);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.MasterNinjaGear).AddIngredient(ItemID.FrogLeg).AddIngredient(ModContent.ItemType<PurifiedGel>(), 50).AddIngredient(ModContent.ItemType<Phantoplasm>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

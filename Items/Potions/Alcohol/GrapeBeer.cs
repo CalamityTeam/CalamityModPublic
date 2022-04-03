@@ -16,20 +16,20 @@ Reduces defense by 3% and movement speed by 5%");
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = ItemRarityID.LightRed;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.healLife = 100;
-            item.healMana = 100;
-            item.consumable = true;
-            item.potion = true;
-            item.value = Item.buyPrice(0, 0, 20, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
+            Item.healLife = 100;
+            Item.healMana = 100;
+            Item.consumable = true;
+            Item.potion = true;
+            Item.value = Item.buyPrice(0, 0, 20, 0);
         }
 
         public override void OnConsumeItem(Player player)

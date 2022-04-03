@@ -16,26 +16,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.width = 110;
-            item.height = 46;
-            item.ranged = true;
-            item.damage = 940;
-            item.knockBack = 16f;
-            item.useTime = 71;
-            item.useAnimation = 71;
-            item.autoReuse = true;
+            Item.width = 110;
+            Item.height = 46;
+            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 940;
+            Item.knockBack = 16f;
+            Item.useTime = 71;
+            Item.useAnimation = 71;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
+            Item.noMelee = true;
 
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<HandheldTankShell>();
-            item.shootSpeed = 6f;
-            item.useAmmo = AmmoID.Rocket;
+            Item.shoot = ModContent.ProjectileType<HandheldTankShell>();
+            Item.shootSpeed = 6f;
+            Item.useAmmo = AmmoID.Rocket;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -51,15 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<Shroomer>());
-            r.AddIngredient(ItemID.IronBar, 50);
-            r.anyIronBar = true;
-            r.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-            r.AddIngredient(ItemID.TigerSkin);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Shroomer>()).AddIngredient(ItemID.IronBar, 50).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddIngredient(ItemID.TigerSkin).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

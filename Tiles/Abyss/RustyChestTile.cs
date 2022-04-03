@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class RustyChestTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Abyss
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.ChestRightClick(i, j);
         }

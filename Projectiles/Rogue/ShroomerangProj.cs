@@ -18,55 +18,55 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = 3;
+            Projectile.timeLeft = 300;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0.5f / 255f);
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 56, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 15 == 0 && projectile.owner == Main.myPlayer)
+                if (Projectile.timeLeft % 15 == 0 && Projectile.owner == Main.myPlayer)
                 {
-                    Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
+                    Vector2 vector62 = Main.player[Projectile.owner].Center - Projectile.Center;
                     Vector2 vector63 = vector62 * -1f;
                     vector63.Normalize();
                     vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                     vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<ShroomerangSpore>(), (int)(projectile.damage * 0.1), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<ShroomerangSpore>(), (int)(Projectile.damage * 0.1), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.Calamity().stealthStrike)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.Calamity().stealthStrike)
                 player.AddBuff(ModContent.BuffType<Mushy>(), 720);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.Calamity().stealthStrike)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.Calamity().stealthStrike)
                 player.AddBuff(ModContent.BuffType<Mushy>(), 720);
         }
     }

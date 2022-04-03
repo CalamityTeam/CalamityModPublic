@@ -17,28 +17,28 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Nebula beams sweep a little bit over time\n" +
                 "Vortex beams act like fast lightning and electrify enemies on hit\n" +
                 "Stardust beams release small stars that home on enemy hits");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 62;
-            item.height = 62;
-            item.useTime = 4;
-            item.useAnimation = 16;
-            item.reuseDelay = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = 1;
-            item.shootSpeed = 6f;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 62;
+            Item.height = 62;
+            Item.useTime = 4;
+            Item.useAnimation = 16;
+            Item.reuseDelay = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = 1;
+            Item.shootSpeed = 6f;
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15);
@@ -49,19 +49,19 @@ namespace CalamityMod.Items.Weapons.Magic
             offsetAngle += MathHelper.PiOver4 + Main.rand.NextFloat(0f, 1.3f);
             float shootSpeed = 1f;
 
-            if (player.itemAnimation == item.useAnimation - 1f)
+            if (player.itemAnimation == Item.useAnimation - 1f)
                 type = ModContent.ProjectileType<SolarElementalBeam>();
-            else if (player.itemAnimation == item.useAnimation - item.useTime - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime - 1)
             {
                 type = ModContent.ProjectileType<NebulaElementalBeam>();
                 offsetAngle -= NebulaElementalBeam.UniversalAngularSpeed * 0.5f;
             }
-            else if (player.itemAnimation == item.useAnimation - item.useTime * 2 - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 2 - 1)
             {
                 type = ModContent.ProjectileType<VortexElementalBeam>();
                 shootSpeed = 2f;
             }
-            else if (player.itemAnimation == item.useAnimation - item.useTime * 3 - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 3 - 1)
                 type = ModContent.ProjectileType<StardustElementalBeam>();
             else
                 return false;
@@ -81,13 +81,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TerraRay>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TerraRay>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

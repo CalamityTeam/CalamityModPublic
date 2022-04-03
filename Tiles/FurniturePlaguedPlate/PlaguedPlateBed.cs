@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
@@ -47,14 +47,14 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
-            int spawnX = i - tile.frameX / 18;
+            int spawnX = i - tile.TileFrameX / 18;
             int spawnY = j + 2;
-            spawnX += tile.frameX >= 54 ? 5 : 2;
-            spawnY -= tile.frameY / 18;
+            spawnX += tile.TileFrameX >= 54 ? 5 : 2;
+            spawnY -= tile.TileFrameY / 18;
             player.FindSpawn();
             if (player.SpawnX == spawnX && player.SpawnY == spawnY)
             {

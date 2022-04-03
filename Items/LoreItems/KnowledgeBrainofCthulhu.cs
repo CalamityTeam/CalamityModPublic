@@ -16,15 +16,15 @@ namespace CalamityMod.Items.LoreItems
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.UseSound = SoundID.Item8;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.UseSound = SoundID.Item8;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -34,12 +34,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.BrainofCthulhuTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.BrainofCthulhuTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
         }
     }
 }

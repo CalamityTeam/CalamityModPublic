@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedWorkbench : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();

@@ -38,9 +38,9 @@ namespace CalamityMod
 
             int left = x;
             int top = y;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
                 left--;
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
                 top--;
 
             int chest = Chest.FindChest(left, top);
@@ -85,8 +85,8 @@ namespace CalamityMod
 
         public static void LightHitWire(int type, int i, int j, int tileX, int tileY)
         {
-            int x = i - Main.tile[i, j].frameX / 18 % tileX;
-            int y = j - Main.tile[i, j].frameY / 18 % tileY;
+            int x = i - Main.tile[i, j].TileFrameX / 18 % tileX;
+            int y = j - Main.tile[i, j].TileFrameY / 18 % tileY;
             for (int l = x; l < x + tileX; l++)
             {
                 for (int m = y; m < y + tileY; m++)
@@ -95,15 +95,15 @@ namespace CalamityMod
                     {
                         Main.tile[l, m] = new Tile();
                     }
-                    if (Main.tile[l, m].active() && Main.tile[l, m].type == type)
+                    if (Main.tile[l, m].active() && Main.tile[l, m].TileType == type)
                     {
-                        if (Main.tile[l, m].frameX < (18 * tileX))
+                        if (Main.tile[l, m].TileFrameX < (18 * tileX))
                         {
-                            Main.tile[l, m].frameX += (short)(18 * tileX);
+                            Main.tile[l, m].TileFrameX += (short)(18 * tileX);
                         }
                         else
                         {
-                            Main.tile[l, m].frameX -= (short)(18 * tileX);
+                            Main.tile[l, m].TileFrameX -= (short)(18 * tileX);
                         }
                     }
                 }
@@ -135,14 +135,14 @@ namespace CalamityMod
             {
                 float shakeX = Utils.RandomInt(ref num190, -10, 11) * 0.15f;
                 float shakeY = Utils.RandomInt(ref num190, -10, 1) * 0.35f;
-                Main.spriteBatch.Draw(flameTexture, new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f + shakeX, j * 16 - (int)Main.screenPosition.Y + shakeY + yOffset) + zero, new Rectangle(tile.frameX + offsetX, tile.frameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(flameTexture, new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f + shakeX, j * 16 - (int)Main.screenPosition.Y + shakeY + yOffset) + zero, new Rectangle(tile.TileFrameX + offsetX, tile.TileFrameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             }
         }
 
         public static void DrawStaticFlameEffect(Texture2D flameTexture, int i, int j, int offsetX = 0, int offsetY = 0)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
             Color drawColour = new Color(100, 100, 100, 0);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
@@ -201,8 +201,8 @@ namespace CalamityMod
         /// <returns>The offset for the animation. This is set to frameXOffset in horizontal animations and frameYOffset in vertical animations in the AnimateIndividualTile() function.</returns>
         internal static int GetAnimationOffset(this ModTile mt, int i, int j, int frameAmt, int xLength, int yLength, int xTiles, int yTiles, int animationFrameLength)
         {
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            int frameX = Main.tile[i, j].TileFrameX;
+            int frameY = Main.tile[i, j].TileFrameY;
 
             // Tweak the frame drawn so tiles next to each other are off-sync and look much more interesting.
             frameX %= (xLength * xTiles);
@@ -275,7 +275,7 @@ namespace CalamityMod
 
         public static bool TileActiveAndOfType(int x, int y, int type)
         {
-            return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).type == type;
+            return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).TileType == type;
         }
 
         /// <summary>
@@ -512,13 +512,13 @@ namespace CalamityMod
         /// Determines if a tile is solid ground based on whether it's active and not actuated or if the tile is solid in any way, including just the top.
         /// </summary>
         /// <param name="tile">The tile to check.</param>
-        public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]);
+        public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]);
 
 
     /// <summary>
     /// Determines if a tile is solid based on whether it's active and not actuated or if the tile is solid. This will not count platforms and other non-solid ground tiles
     /// </summary>
     /// <param name="tile">The tile to check.</param>
-    public static bool IsTileSolid(this Tile tile) => tile != null && tile.nactive() && Main.tileSolid[tile.type];
+    public static bool IsTileSolid(this Tile tile) => tile != null && tile.nactive() && Main.tileSolid[tile.TileType];
     }
 }

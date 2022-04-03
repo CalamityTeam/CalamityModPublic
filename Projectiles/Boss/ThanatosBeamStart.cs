@@ -11,6 +11,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -18,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
     {
         public int OwnerIndex
         {
-            get => (int)projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         public bool OwnerIsValid => Main.npc[OwnerIndex].active && Main.npc[OwnerIndex].type == ModContent.NPCType<ThanatosHead>();
@@ -29,9 +30,9 @@ namespace CalamityMod.Projectiles.Boss
         public override float Lifetime => 180;
         public override Color LaserOverlayColor => new Color(250, 250, 250, 100);
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => Main.projectileTexture[projectile.type];
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ThanatosBeamMiddle");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ThanatosBeamEnd");
+        public override Texture2D LaserBeginTexture => Main.projectileTexture[Projectile.type];
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamMiddle");
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamEnd");
 
         public override void SetStaticDefaults()
         {
@@ -39,31 +40,31 @@ namespace CalamityMod.Projectiles.Boss
             DisplayName.SetDefault("T Hanos Beam");
             // This is its serious name
             // DisplayName.SetDefault("Gamma Disintegration Beam");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 40;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.width = Projectile.height = 40;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().canBreakPlayerDefense = true;
             cooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AttachToSomething()
@@ -71,8 +72,8 @@ namespace CalamityMod.Projectiles.Boss
             if (OwnerIsValid)
             {
                 Vector2 fireFrom = Main.npc[OwnerIndex].Center + Vector2.UnitY * Main.npc[OwnerIndex].gfxOffY;
-                fireFrom += projectile.velocity.SafeNormalize(Vector2.UnitY) * projectile.scale * 174f;
-                projectile.Center = fireFrom;
+                fireFrom += Projectile.velocity.SafeNormalize(Vector2.UnitY) * Projectile.scale * 174f;
+                Projectile.Center = fireFrom;
             }
 
             // Die of the owner is invalid in some way.
@@ -80,22 +81,22 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    projectile.Kill();
+                    Projectile.Kill();
                 return;
             }
 
             // Die if the owner is not performing Thanatos' deathray attack.
             if (Main.npc[OwnerIndex].Calamity().newAI[0] != (float)ThanatosHead.Phase.Deathray)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
         }
 
         public override void UpdateLaserMotion()
         {
-            projectile.velocity = Main.npc[OwnerIndex].velocity.SafeNormalize(Vector2.UnitY);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.velocity = Main.npc[OwnerIndex].velocity.SafeNormalize(Vector2.UnitY);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void PostAI()
@@ -111,10 +112,10 @@ namespace CalamityMod.Projectiles.Boss
 
             // Spawn dust at the end of the beam.
             int dustType = (int)CalamityDusts.Brimstone;
-            Vector2 dustCreationPosition = projectile.Center + projectile.velocity * (LaserLength - 14f);
+            Vector2 dustCreationPosition = Projectile.Center + Projectile.velocity * (LaserLength - 14f);
             for (int i = 0; i < 2; i++)
             {
-                float dustDirection = projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
+                float dustDirection = Projectile.velocity.ToRotation() + Main.rand.NextBool().ToDirectionInt() * MathHelper.PiOver2;
                 Vector2 dustVelocity = dustDirection.ToRotationVector2() * Main.rand.NextFloat(2f, 4f);
 
                 Dust redFlame = Dust.NewDustDirect(dustCreationPosition, 0, 0, dustType, dustVelocity.X, dustVelocity.Y, 0, default, 1f);
@@ -124,7 +125,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 dustSpawnOffset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloatDirection() * projectile.width * 0.5f;
+                Vector2 dustSpawnOffset = Projectile.velocity.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloatDirection() * Projectile.width * 0.5f;
 
                 Dust redFlame = Dust.NewDustDirect(dustCreationPosition + dustSpawnOffset - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
                 redFlame.velocity *= 0.5f;
@@ -138,23 +139,23 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.npc[OwnerIndex].Calamity().newAI[2] % laserFireRate == 0f)
             {
                 // Play a laser sound to go with the beams.
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Main.npc[OwnerIndex].Center);
+                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Main.npc[OwnerIndex].Center);
 
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Vector2 beamDirection = projectile.velocity.SafeNormalize(Vector2.UnitY);
+                    Vector2 beamDirection = Projectile.velocity.SafeNormalize(Vector2.UnitY);
                     float distanceBetweenProjectiles = malice ? 160f : death ? 256f : revenge ? 288f : 320f;
                     Vector2 laserFirePosition = Main.npc[OwnerIndex].Center + beamDirection * distanceBetweenProjectiles;
                     int laserCount = (int)(LaserLength / distanceBetweenProjectiles);
                     int type = ModContent.ProjectileType<ThanatosLaser>();
-                    int damage = projectile.GetProjectileDamage(Main.npc[OwnerIndex].type);
+                    int damage = Projectile.GetProjectileDamage(Main.npc[OwnerIndex].type);
                     for (int i = 0; i < laserCount; i++)
                     {
                         int totalProjectiles = 2;
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         for (int j = 0; j < totalProjectiles; j++)
                         {
-                            Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
+                            Vector2 projVelocity = Projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
                             Projectile.NewProjectile(laserFirePosition, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
                         }
                         laserFirePosition += beamDirection * distanceBetweenProjectiles;
@@ -163,9 +164,9 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Determine frames.
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 5f == 0f)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 5f == 0f)
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -174,33 +175,33 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
 
             // This should never happen, but just in case.
-            if (projectile.velocity == Vector2.Zero || projectile.localAI[0] < 2f)
+            if (Projectile.velocity == Vector2.Zero || Projectile.localAI[0] < 2f)
                 return false;
 
             Color beamColor = LaserOverlayColor;
-            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Rectangle startFrameArea = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Rectangle middleFrameArea = LaserMiddleTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
 
             // Start texture drawing.
             spriteBatch.Draw(LaserBeginTexture,
-                             projectile.Center - Main.screenPosition,
+                             Projectile.Center - Main.screenPosition,
                              startFrameArea,
                              beamColor,
-                             projectile.rotation,
+                             Projectile.rotation,
                              LaserBeginTexture.Size() / 2f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength + middleFrameArea.Height;
-            Vector2 centerOnLaser = projectile.Center + projectile.velocity * -5f;
+            Vector2 centerOnLaser = Projectile.Center + Projectile.velocity * -5f;
 
             // Body drawing.
             if (laserBodyLength > 0f)
             {
-                float laserOffset = middleFrameArea.Height * projectile.scale;
+                float laserOffset = middleFrameArea.Height * Projectile.scale;
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
@@ -208,14 +209,14 @@ namespace CalamityMod.Projectiles.Boss
                                      centerOnLaser - Main.screenPosition,
                                      middleFrameArea,
                                      beamColor,
-                                     projectile.rotation,
+                                     Projectile.rotation,
                                      LaserMiddleTexture.Size() * 0.5f,
-                                     projectile.scale,
+                                     Projectile.scale,
                                      SpriteEffects.None,
                                      0f);
                     incrementalBodyLength += laserOffset;
-                    centerOnLaser += projectile.velocity * laserOffset;
-                    middleFrameArea.Y += LaserMiddleTexture.Height / Main.projFrames[projectile.type];
+                    centerOnLaser += Projectile.velocity * laserOffset;
+                    middleFrameArea.Y += LaserMiddleTexture.Height / Main.projFrames[Projectile.type];
                     if (middleFrameArea.Y + middleFrameArea.Height > LaserMiddleTexture.Height)
                         middleFrameArea.Y = 0;
                 }
@@ -226,9 +227,9 @@ namespace CalamityMod.Projectiles.Boss
                              laserEndCenter,
                              endFrameArea,
                              beamColor,
-                             projectile.rotation,
+                             Projectile.rotation,
                              LaserEndTexture.Size() * 0.5f,
-                             projectile.scale,
+                             Projectile.scale,
                              SpriteEffects.None,
                              0f);
             return false;
@@ -239,7 +240,7 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
         }
 
-        public override bool CanHitPlayer(Player target) => OwnerIsValid && projectile.scale >= 0.5f;
+        public override bool CanHitPlayer(Player target) => OwnerIsValid && Projectile.scale >= 0.5f;
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {

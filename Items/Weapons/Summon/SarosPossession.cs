@@ -23,23 +23,23 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 56;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_BetsyFlameBreath;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_BetsyFlameBreath;
 
-            item.summon = true;
-            item.mana = 10;
-            item.damage = 171;
-            item.knockBack = 4f;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 171;
+            Item.knockBack = 4f;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
+            Item.shootSpeed = 10f;
 
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void HoldItem(Player player)
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
             for (int j = 0; j < Main.projectile.Length; j++)
             {
                 Projectile proj = Main.projectile[j];
-                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
+                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != Item.shoot)
                 {
                     minionCount += proj.minionSlots;
                 }
@@ -70,13 +70,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Sirius>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 8);
-            recipe.AddTile(ModContent.TileType<CosmicAnvil>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Sirius>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

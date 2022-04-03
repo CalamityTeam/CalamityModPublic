@@ -29,7 +29,7 @@ namespace CalamityMod.Items
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             // Apply rarity coloration to the item's name.
-            TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
+            TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
                 ApplyRarityColor(item, nameLine);
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items
             // Adds "Does extra damage to enemies shot at point-blank range" to weapons capable of it.
             if (canFirePointBlankShots)
             {
-                TooltipLine line = new TooltipLine(mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
+                TooltipLine line = new TooltipLine(Mod, "PointBlankShot", "Does extra damage to enemies shot at point-blank range");
                 tooltips.Add(line);
             }
 
@@ -65,19 +65,19 @@ namespace CalamityMod.Items
             {
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
-                TooltipLine line = new TooltipLine(mod, "CalamityCharge", $"Current Charge: {displayedPercent:N1}%");
+                TooltipLine line = new TooltipLine(Mod, "CalamityCharge", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
 
             // Adds "Donor Item" and "Developer Item" to donor items and developer items respectively.
             if (donorItem)
             {
-                TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", CalamityUtils.DonatorItemColor));
+                TooltipLine line = new TooltipLine(Mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", CalamityUtils.DonatorItemColor));
                 tooltips.Add(line);
             }
             if (devItem)
             {
-                TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
+                TooltipLine line = new TooltipLine(Mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
                 tooltips.Add(line);
             }
         }
@@ -203,7 +203,7 @@ namespace CalamityMod.Items
             {
                 foreach (string line in AppliedEnchantment.Value.Description.Split('\n'))
                 {
-                    TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(line, Color.DarkRed));
+                    TooltipLine descriptionLine = new TooltipLine(Mod, "Enchantment", CalamityUtils.ColorMessage(line, Color.DarkRed));
                     tooltips.Add(descriptionLine);
                 }
             }
@@ -229,9 +229,9 @@ namespace CalamityMod.Items
             }
 
             // This function produces simple predicates to match a specific line of a tooltip, by number/index.
-            Func<Item, TooltipLine, bool> LineNum(int n) => (Item i, TooltipLine l) => l.mod == "Terraria" && l.Name == $"Tooltip{n}";
+            Func<Item, TooltipLine, bool> LineNum(int n) => (Item i, TooltipLine l) => l.Mod == "Terraria" && l.Name == $"Tooltip{n}";
             // This function produces simple predicates to match a specific line of a tooltip, by name.
-            Func<Item, TooltipLine, bool> LineName(string s) => (Item i, TooltipLine l) => l.mod == "Terraria" && l.Name == s;
+            Func<Item, TooltipLine, bool> LineName(string s) => (Item i, TooltipLine l) => l.Mod == "Terraria" && l.Name == s;
 
             // These functions are shorthand to invoke ApplyTooltipEdits using the above predicates.
             void EditTooltipByNum(int lineNum, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineNum(lineNum), action);
@@ -252,7 +252,7 @@ namespace CalamityMod.Items
             // Mirrors and Recall Potions cannot be used while a boss is alive.
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
                 ApplyTooltipEdits(tooltips,
-                    (i, l) => l.mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
+                    (i, l) => l.Mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
                     (line) => line.text += "\nCannot be used while you have the Boss Effects buff");
 
             // Rod of Discord cannot be used multiple times to hurt yourself
@@ -913,7 +913,7 @@ namespace CalamityMod.Items
         #region True Melee Damage Tooltip
         private void TrueMeleeDamageTooltip(Item item, IList<TooltipLine> tooltips)
         {
-            TooltipLine line = tooltips.FirstOrDefault((l) => l.mod == "Terraria" && l.Name == "Damage");
+            TooltipLine line = tooltips.FirstOrDefault((l) => l.Mod == "Terraria" && l.Name == "Damage");
 
             // If there somehow isn't a damage tooltip line, do not try to perform any edits.
             if (line is null)
@@ -946,7 +946,7 @@ namespace CalamityMod.Items
             float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
             if (stealthGenBoost > 0)
             {
-                TooltipLine StealthGen = new TooltipLine(mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
+                TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
                 {
                     isModifier = true
                 };
@@ -959,7 +959,7 @@ namespace CalamityMod.Items
         public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
         {
             // Special enchantment line color.
-            if (line.Name == "ItemName" && line.mod == "Terraria" && item.IsEnchanted())
+            if (line.Name == "ItemName" && line.Mod == "Terraria" && item.IsEnchanted())
             {
                 Color rarityColor = line.overrideColor ?? line.color;
                 Vector2 basePosition = new Vector2(line.X, line.Y);

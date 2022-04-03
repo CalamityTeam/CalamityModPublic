@@ -7,63 +7,64 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class RancorArm : ModProjectile
     {
         public Vector2 IdealPosition;
-        public Player Owner => Main.player[projectile.owner];
-        public float RotationDirection => projectile.rotation + projectile.ai[0];
-        public ref float Time => ref projectile.ai[1];
+        public Player Owner => Main.player[Projectile.owner];
+        public float RotationDirection => Projectile.rotation + Projectile.ai[0];
+        public ref float Time => ref Projectile.ai[1];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vengeful Arm");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 4;
-            projectile.friendly = true;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.timeLeft = 240;
-            projectile.hide = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 12;
-            projectile.ignoreWater = true;
+            Projectile.width = Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.timeLeft = 240;
+            Projectile.hide = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
+            Projectile.ignoreWater = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.frame);
-            writer.Write(projectile.rotation);
+            writer.Write(Projectile.frame);
+            writer.Write(Projectile.rotation);
             writer.WriteVector2(IdealPosition);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.frame = reader.ReadInt32();
-            projectile.rotation = reader.ReadSingle();
+            Projectile.frame = reader.ReadInt32();
+            Projectile.rotation = reader.ReadSingle();
             IdealPosition = reader.ReadVector2();
         }
 
         public override void AI()
         {
             // Decide a frame to use and adjust the hitbox based on it.
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 // Play a wraith death sound.
-                Main.PlaySound(SoundID.NPCDeath52, projectile.Center);
+                SoundEngine.PlaySound(SoundID.NPCDeath52, Projectile.Center);
 
-                projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+                Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
 
                 Vector2 newSize;
-                switch (projectile.frame)
+                switch (Projectile.frame)
                 {
                     case 0:
                         newSize = new Vector2(16f, 48f);
@@ -87,35 +88,35 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 // Find the lowest point.
-                Vector2 idealCenter = projectile.Center;
+                Vector2 idealCenter = Projectile.Center;
                 if (WorldUtils.Find(idealCenter.ToTileCoordinates(), Searches.Chain(new Searches.Down(25), new CustomConditions.SolidOrPlatform()), out Point result))
                 {
                     idealCenter = result.ToWorldCoordinates();
                 }
                 idealCenter.Y += 36f;
 
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)newSize.X, (int)newSize.Y);
+                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)newSize.X, (int)newSize.Y);
 
                 // Sometimes use a slanted rotation.
                 if (Main.rand.NextBool(3))
-                    projectile.rotation = Main.rand.NextFloatDirection() * 0.3f;
+                    Projectile.rotation = Main.rand.NextFloatDirection() * 0.3f;
 
                 IdealPosition = idealCenter;
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.localAI[0] = 1f;
+                Projectile.netUpdate = true;
             }
 
             // Rise from underneath the ideal position and fade in.
             // At the end of the projectile's lifetime the arm sinks back into the ground and withers away.
-            float descendCompletion = Utils.InverseLerp(0f, 24f, projectile.timeLeft, true);
+            float descendCompletion = Utils.InverseLerp(0f, 24f, Projectile.timeLeft, true);
             float riseCompletion = Utils.InverseLerp(0f, 30f, Time, true);
             float heightOffset = -58f;
-            if (projectile.height > 90f)
+            if (Projectile.height > 90f)
                 heightOffset += 22f;
 
-            projectile.Bottom = IdealPosition + Vector2.UnitY.RotatedBy(RotationDirection) * ((1f - riseCompletion * descendCompletion) * 64f + heightOffset);
-            projectile.Opacity = (float)Math.Pow(riseCompletion, 2.4) * descendCompletion;
-            projectile.scale = descendCompletion;
+            Projectile.Bottom = IdealPosition + Vector2.UnitY.RotatedBy(RotationDirection) * ((1f - riseCompletion * descendCompletion) * 64f + heightOffset);
+            Projectile.Opacity = (float)Math.Pow(riseCompletion, 2.4) * descendCompletion;
+            Projectile.scale = descendCompletion;
 
             Time++;
         }
@@ -123,9 +124,9 @@ namespace CalamityMod.Projectiles.Magic
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float _ = 0f;
-            Vector2 bottom = projectile.Bottom;
-            Vector2 top = projectile.Bottom - Vector2.UnitY.RotatedBy(RotationDirection) * projectile.height;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), bottom, top, projectile.width * projectile.scale, ref _);
+            Vector2 bottom = Projectile.Bottom;
+            Vector2 top = Projectile.Bottom - Vector2.UnitY.RotatedBy(RotationDirection) * Projectile.height;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), bottom, top, Projectile.width * Projectile.scale, ref _);
         }
 
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
@@ -140,17 +141,17 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            Rectangle frame = texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
-            Vector2 drawPosition = projectile.Center - Main.screenPosition;
-            Color light = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
-            Color drawColor = light * projectile.Opacity;
-            Color fadedColor = Color.Red * projectile.Opacity * projectile.scale * 0.4f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Color light = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16);
+            Color drawColor = light * Projectile.Opacity;
+            Color fadedColor = Color.Red * Projectile.Opacity * Projectile.scale * 0.4f;
             fadedColor.A = 0;
 
-            Vector2 scale = new Vector2(projectile.scale, 1f);
-            float afterimageOffset = projectile.Opacity * projectile.scale * 5f;
+            Vector2 scale = new Vector2(Projectile.scale, 1f);
+            float afterimageOffset = Projectile.Opacity * Projectile.scale * 5f;
 
             for (int i = 0; i < 6; i++)
             {

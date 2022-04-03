@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientSink : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSink(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));

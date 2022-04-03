@@ -13,42 +13,42 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Flare");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 560f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 18f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 560f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 18f;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.scale = 1.15f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.aiStyle = 99;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.scale = 1.15f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(5))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
-                projectile.Kill();
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceMelee = true;
             }
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

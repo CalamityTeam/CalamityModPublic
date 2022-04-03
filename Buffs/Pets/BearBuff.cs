@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class BearBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bear");
             Description.SetDefault("A guardian angel is following you.");

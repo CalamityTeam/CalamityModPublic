@@ -20,23 +20,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.mana = 24;
-            item.width = 38;
-            item.height = 54;
-            item.damage = 128;
-            item.noMelee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 18;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<BeastScythe>();
-            item.shootSpeed = 10f;
-            item.magic = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.mana = 24;
+            Item.width = 38;
+            Item.height = 54;
+            Item.damage = 128;
+            Item.noMelee = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 18;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<BeastScythe>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Magic;
+            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -60,14 +60,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemonScythe);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.DemonScythe).AddIngredient(ModContent.ItemType<CoreofChaos>(), 12).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.Bookcases).Register();
         }
     }
 }

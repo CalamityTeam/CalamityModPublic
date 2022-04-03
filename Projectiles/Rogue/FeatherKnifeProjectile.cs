@@ -18,29 +18,29 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 600;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 600;
             aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
+            Projectile.Calamity().rogue = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft % 35 == 0)
+            if (Projectile.timeLeft % 35 == 0)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.position, new Vector2(Projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceRogue = true;
                 }
@@ -49,15 +49,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.69), projectile.knockBack, projectile.owner);
+            int proj = Projectile.NewProjectile(Projectile.position, new Vector2(Projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.69), Projectile.knockBack, Projectile.owner);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceRogue = true;
         }
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.NextBool(2) && !projectile.noDropItem)
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<FeatherKnife>());
+            if (Main.rand.NextBool(2) && !Projectile.noDropItem)
+                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<FeatherKnife>());
         }
     }
 }

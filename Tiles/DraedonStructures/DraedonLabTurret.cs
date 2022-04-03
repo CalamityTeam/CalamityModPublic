@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -65,8 +65,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<MysteriousCircuitry>(), 8);
 
             Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
+            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
 
             TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
             te?.Kill(left, top);
@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile t = Main.tile[i, j];
-            if (t.frameX != 36 || t.frameY != 0)
+            if (t.TileFrameX != 36 || t.TileFrameY != 0)
                 return;
 
             TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
@@ -85,7 +85,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             int drawDirection = te.Direction;
             Color drawColor = Lighting.GetColor(i, j);
 
-            Texture2D tex = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             drawOffset.Y -= 2f;

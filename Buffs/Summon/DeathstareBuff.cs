@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DeathstareBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Miniature Eye of Cthulhu");
             Description.SetDefault("It's watching you");

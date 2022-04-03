@@ -16,22 +16,22 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.knockBack = 5f;
-            item.useTime = 6;
-            item.useAnimation = 10;
-            item.pick = 220;
-            item.tileBoost += 3;
+            Item.damage = 65;
+            Item.knockBack = 5f;
+            Item.useTime = 6;
+            Item.useAnimation = 10;
+            Item.pick = 220;
+            Item.tileBoost += 3;
 
-            item.melee = true;
-            item.width = 50;
-            item.height = 60;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 50;
+            Item.height = 60;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -39,11 +39,7 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

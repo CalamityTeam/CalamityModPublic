@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class WitherBlossomsBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wither Blossoms");
             Description.SetDefault("Pestilence surrounds you");

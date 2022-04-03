@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class LadBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Father");
             Description.SetDefault("A father of many floats around you");

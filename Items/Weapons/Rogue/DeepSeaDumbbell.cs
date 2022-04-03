@@ -21,25 +21,25 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 38;
-            item.height = 24;
-            item.damage = 466;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = false;
-            item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.height = 24;
+            Item.damage = 466;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = false;
+            Item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
+            Item.shootSpeed = 20f;
+            Item.Calamity().rogue = true;
 
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -48,19 +48,19 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = ItemUseStyleID.HoldingUp;
-                item.noMelee = false;
-                item.noUseGraphic = false;
-                item.autoReuse = false;
-                item.UseSound = SoundID.Item1;
+                Item.useStyle = ItemUseStyleID.HoldUp;
+                Item.noMelee = false;
+                Item.noUseGraphic = false;
+                Item.autoReuse = false;
+                Item.UseSound = SoundID.Item1;
             }
             else
             {
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.noMelee = true;
-                item.noUseGraphic = true;
-                item.autoReuse = true;
-                item.UseSound = SoundID.Item1;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.noMelee = true;
+                Item.noUseGraphic = true;
+                Item.autoReuse = true;
+                Item.UseSound = SoundID.Item1;
             }
             return base.CanUseItem(player);
         }

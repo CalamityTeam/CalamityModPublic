@@ -13,32 +13,32 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Heresy");
             Tooltip.SetDefault("Releases fire and souls upward from a held book\n" +
                 "As the book is held the power of both increases");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void SetDefaults()
         {
-            item.damage = 888;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 38;
-            item.height = 40;
-            item.useTime = item.useAnimation = 120;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_EtherianPortalDryadTouch;
-            item.knockBack = 0f;
+            Item.damage = 888;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = Item.useAnimation = 120;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_EtherianPortalDryadTouch;
+            Item.knockBack = 0f;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.Violet;
 
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<HeresyProj>();
-            item.channel = true;
-            item.shootSpeed = 0f;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<HeresyProj>();
+            Item.channel = true;
+            Item.shootSpeed = 0f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

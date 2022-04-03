@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.defense = 10;
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = ItemRarityID.Cyan;
-            item.accessory = true;
+            Item.defense = 10;
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -45,34 +45,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GrandGelatin>());
-            recipe.AddIngredient(ModContent.ItemType<SeaShell>());
-            recipe.AddIngredient(ModContent.ItemType<CrawCarapace>());
-            recipe.AddIngredient(ModContent.ItemType<FungalCarapace>());
-            recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
-            recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5); // mfw ingredient bloat
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GrandGelatin>());
-            recipe.AddIngredient(ModContent.ItemType<SeaShell>());
-            recipe.AddIngredient(ModContent.ItemType<FungalCarapace>());
-            recipe.AddIngredient(ModContent.ItemType<GiantShell>());
-            recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
-            recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandGelatin>()).AddIngredient(ModContent.ItemType<SeaShell>()).AddIngredient(ModContent.ItemType<CrawCarapace>()).AddIngredient(ModContent.ItemType<FungalCarapace>()).AddIngredient(ModContent.ItemType<GiantTortoiseShell>()).AddIngredient(ModContent.ItemType<RoverDrive>()).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandGelatin>()).AddIngredient(ModContent.ItemType<SeaShell>()).AddIngredient(ModContent.ItemType<FungalCarapace>()).AddIngredient(ModContent.ItemType<GiantShell>()).AddIngredient(ModContent.ItemType<GiantTortoiseShell>()).AddIngredient(ModContent.ItemType<RoverDrive>()).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

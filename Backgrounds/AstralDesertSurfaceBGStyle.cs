@@ -5,14 +5,14 @@ namespace CalamityMod.Backgrounds
 {
     public class AstralDesertSurfaceBGStyle : ModSurfaceBgStyle
     {
-        public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceFar");
+        public override int ChooseFarTexture() => Mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceFar");
 
-        public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceMiddle");
+        public override int ChooseMiddleTexture() => Mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceMiddle");
 
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             b -= 75f;
-            return mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceClose");
+            return Mod.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceClose");
         }
 
         public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.InAstral() && Main.LocalPlayer.ZoneDesert;

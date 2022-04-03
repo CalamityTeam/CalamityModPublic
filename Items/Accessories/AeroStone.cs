@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Aero Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Increases flight time, movement speed and jump speed by 10%");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 8));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 50;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.accessory = true;
+            Item.width = 40;
+            Item.height = 50;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
