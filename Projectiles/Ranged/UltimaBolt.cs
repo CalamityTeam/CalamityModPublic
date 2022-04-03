@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
             get => Projectile.ai[0];
             set => Projectile.ai[0] = value;
         }
-        public float DefaultHue => ((float)Math.Sin(Main.GlobalTime * 2.5f) + 1) * 0.5f;
+        public float DefaultHue => ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 2.5f) + 1) * 0.5f;
         public const int MaxBounces = 1;
         public override void SetStaticDefaults()
         {
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 float completionRatio = i / (float)Projectile.oldPos.Length;
                 Color color = GetColorFromHue((DefaultHue + completionRatio * 0.5f) % 1f) * (float)Math.Pow(1f - completionRatio, 2);
-                spriteBatch.Draw(texture,
+                Main.EntitySpriteDraw(texture,
                                  Projectile.oldPos[i] + texture.Size() * 0.5f - Main.screenPosition,
                                  null,
                                  color,

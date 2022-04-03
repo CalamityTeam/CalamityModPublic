@@ -76,25 +76,25 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else if (Projectile.ai[0] == 1f)
             {
-                Texture2D knife2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnife2");
+                Texture2D knife2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnife2").Value;
                 CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 3, knife2);
             }
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
 
             Vector2 origin = new Vector2(Projectile.width / 2, Projectile.height / 2);
             if (Projectile.ai[0] == 0f)
             {
-                Texture2D knife1Glow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnifeGlow");
-                spriteBatch.Draw(knife1Glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+                Texture2D knife1Glow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnifeGlow").Value;
+                Main.EntitySpriteDraw(knife1Glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
             }
             else if (Projectile.ai[0] == 1f)
             {
-                Texture2D knife2Glow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnife2Glow");
-                spriteBatch.Draw(knife2Glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+                Texture2D knife2Glow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/VeneratedKnife2Glow").Value;
+                Main.EntitySpriteDraw(knife2Glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
             }
         }
 

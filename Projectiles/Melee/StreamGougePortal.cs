@@ -61,29 +61,29 @@ namespace CalamityMod.Projectiles.Melee
             spearColor.A = 0;
 
             for (int i = 0; i < 2; i++)
-                spriteBatch.Draw(texture, spearDrawPosition, null, spearColor * Projectile.Opacity, Projectile.rotation, spearOrigin, Projectile.scale, 0, 0);
+                Main.EntitySpriteDraw(texture, spearDrawPosition, null, spearColor * Projectile.Opacity, Projectile.rotation, spearOrigin, Projectile.scale, 0, 0);
 
             Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal");
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float rotation = Main.GlobalTime * 6f + Projectile.identity * 1.45f;
+            float rotation = Main.GlobalTimeWrappedHourly * 6f + Projectile.identity * 1.45f;
 
             // Black portal.
             Color color = Color.Lerp(baseColor, Color.Black, 0.55f).MultiplyRGB(Color.DarkGray) * Projectile.Opacity;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, -rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, -rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
 
-            spriteBatch.SetBlendState(BlendState.Additive);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
 
             // Cyan portal.
             color = Color.Lerp(baseColor, Color.Cyan, 0.55f) * Projectile.Opacity * 1.4f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation * 0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation * 0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
 
             // Magenta portal.
             color = Color.Lerp(baseColor, Color.Fuchsia, 0.55f) * Projectile.Opacity * 1.4f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation * -0.7f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
-            spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation * -0.7f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
 

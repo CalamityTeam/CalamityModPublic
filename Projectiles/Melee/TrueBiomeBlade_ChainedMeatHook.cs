@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.velocity = Vector2.Zero;
                 Projectile.timeLeft = 2;
-                Vector2 idealPosition = Owner.Center - Owner.direction * Vector2.UnitX * 40f + Vector2.One.RotatedBy(Main.GlobalTime) * 10f;
+                Vector2 idealPosition = Owner.Center - Owner.direction * Vector2.UnitX * 40f + Vector2.One.RotatedBy(Main.GlobalTimeWrappedHourly) * 10f;
                 if ((idealPosition - Projectile.Center).Length() > 1500f)
                     Projectile.Center = idealPosition;
                 Projectile.Center = Vector2.Lerp(Projectile.Center, idealPosition, 0.05f);
@@ -140,26 +140,26 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            spriteBatch.Draw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             //Turn on additive blending
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
-            spriteBatch.Draw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             drawChain(spriteBatch);
 
             //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
-        public void drawChain(SpriteBatch spriteBatch)
+        public void drawChain(SpriteBatch Main.spriteBatch)
         {
             Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedChain");
 
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 scale = new Vector2(1, yScale);
 
                 Vector2 origin = new Vector2(frame.Width / 2, frame.Height); //Draw from center bottom of texture
-                spriteBatch.Draw(chainTex, Nodes[i] - Main.screenPosition, frame, Color.White * 0.5f, rotation, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(chainTex, Nodes[i] - Main.screenPosition, frame, Color.White * 0.5f, rotation, origin, scale, SpriteEffects.None, 0);
             }
         }
 

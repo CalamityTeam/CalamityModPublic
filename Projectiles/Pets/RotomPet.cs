@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Pets
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/RotomFanGlow"));
         }
 
-        private void Drawing(SpriteBatch spriteBatch, Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
+        private void Drawing(SpriteBatch Main.spriteBatch, Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
         {
             Texture2D texture = normal;
             switch (form)
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Pets
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override bool CanDamage() => false;

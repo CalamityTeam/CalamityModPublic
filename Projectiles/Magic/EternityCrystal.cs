@@ -170,14 +170,14 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 origin = frame.Size() / 2f;
 
             // Determine the offset factor of the crystals via a universal time-based sinusoid incorporated into a linear interpolation.
-            float outwardness = MathHelper.Lerp(2f, 5f, (float)Math.Cos(Main.GlobalTime) * 0.5f + 0.5f);
+            float outwardness = MathHelper.Lerp(2f, 5f, (float)Math.Cos(Main.GlobalTimeWrappedHourly) * 0.5f + 0.5f);
 
             for (float i = 0f; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i + MathHelper.PiOver2;
                 Vector2 offset = Vector2.UnitY.RotatedBy(angle).RotatedBy(Projectile.rotation);
                 Vector2 drawPosition = Projectile.Center - Main.screenPosition + offset * outwardness + Vector2.UnitY * Projectile.gfxOffY;
-                spriteBatch.Draw(myTexture, drawPosition, frame, trasparentCrystalColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(myTexture, drawPosition, frame, trasparentCrystalColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             }
             return true;
         }

@@ -345,7 +345,7 @@ namespace CalamityMod.DataStructures
 
         public float CalculateGemOffsetAngle(GemTechArmorGemType gemType)
         {
-            return MathHelper.TwoPi * (int)gemType / 6f + Main.GlobalTime * 3.41f;
+            return MathHelper.TwoPi * (int)gemType / 6f + Main.GlobalTimeWrappedHourly * 3.41f;
         }
 
         public Vector2 CalculateGemPosition(GemTechArmorGemType gemType)

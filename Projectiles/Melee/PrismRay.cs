@@ -115,9 +115,9 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the stars at the end of the laser.
             for (int i = 0; i < 6; i++)
             {
-                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 6f + Main.GlobalTime * 3f).ToRotationVector2() * Projectile.scale * 4f;
-                spriteBatch.Draw(texture, drawPosition, frame, fullbrightRayColor, Projectile.rotation, origin, Projectile.scale * 2f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(texture, drawPosition, frame, fullbrightRayColor, 0f, origin, Projectile.scale * 2f, SpriteEffects.None, 0f);
+                Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 6f + Main.GlobalTimeWrappedHourly * 3f).ToRotationVector2() * Projectile.scale * 4f;
+                Main.EntitySpriteDraw(texture, drawPosition, frame, fullbrightRayColor, Projectile.rotation, origin, Projectile.scale * 2f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPosition, frame, fullbrightRayColor, 0f, origin, Projectile.scale * 2f, SpriteEffects.None, 0);
             }
 
             // Draw the shimmering ray itself.
@@ -133,11 +133,11 @@ namespace CalamityMod.Projectiles.Melee
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 drawPosition = baseDrawPosition;
-                    drawPosition += (MathHelper.TwoPi * i / 3f + Main.GlobalTime * 3f).ToRotationVector2() * Projectile.scale * 2.5f;
+                    drawPosition += (MathHelper.TwoPi * i / 3f + Main.GlobalTimeWrappedHourly * 3f).ToRotationVector2() * Projectile.scale * 2.5f;
                     drawPosition += drawOffset;
 
-                    spriteBatch.Draw(texture, drawPosition, frame, fullbrightRayColor * drawFade * 0.8f, rotation, origin, scale, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(texture, drawPosition, frame, fadedRayColor * drawFade * 0.8f, rotation, origin, scale * 0.5f, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(texture, drawPosition, frame, fullbrightRayColor * drawFade * 0.8f, rotation, origin, scale, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(texture, drawPosition, frame, fadedRayColor * drawFade * 0.8f, rotation, origin, scale * 0.5f, SpriteEffects.None, 0);
                 }
             }
             return false;

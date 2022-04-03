@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Other
             float widthInterpolant = Utils.InverseLerp(0f, 0.16f, completionRatio, true) * Utils.InverseLerp(1f, 0.84f, completionRatio, true);
             widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);
             float baseWidth = MathHelper.Lerp(4f, 1f, widthInterpolant);
-            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTime * 2.6f + NPC.whoAmI * 1.3f + completionRatio), 16D));
+            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTimeWrappedHourly * 2.6f + NPC.whoAmI * 1.3f + completionRatio), 16D));
             return baseWidth + pulseWidth;
         }
 

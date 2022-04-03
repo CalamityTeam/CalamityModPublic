@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Boss
             // Draw start of beam
             Vector2 vector = Projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle = new Rectangle(0, beamStart.Height / maxFrames * frameDrawn, beamStart.Width, beamStart.Height / maxFrames);
-            spriteBatch.Draw(beamStart, vector, sourceRectangle, color, Projectile.rotation, new Vector2(beamStart.Width, beamStart.Height / maxFrames) / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(beamStart, vector, sourceRectangle, color, Projectile.rotation, new Vector2(beamStart.Width, beamStart.Height / maxFrames) / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             // Draw middle of beam
             drawLength -= (beamStart.Height / maxFrames / 2 + beamEnd.Height / maxFrames) * Projectile.scale;
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Boss
                     if (drawLength - i < rectangle.Height)
                         rectangle.Height = (int)(drawLength - i);
 
-                    spriteBatch.Draw(beamMiddle, center - Main.screenPosition, rectangle, color, Projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), Projectile.scale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(beamMiddle, center - Main.screenPosition, rectangle, color, Projectile.rotation, new Vector2(rectangle.Width / 2f, 0f), Projectile.scale, SpriteEffects.None, 0);
 
                     middleFrameDrawn++;
                     if (middleFrameDrawn >= maxFrames)
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Boss
             // Draw end of beam
             Vector2 vector2 = center - Main.screenPosition;
             sourceRectangle = new Rectangle(0, beamEnd.Height / maxFrames * frameDrawn, beamEnd.Width, beamEnd.Height / maxFrames);
-            spriteBatch.Draw(beamEnd, vector2, sourceRectangle, color, Projectile.rotation, new Vector2(beamEnd.Width, beamEnd.Height / maxFrames) / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(beamEnd, vector2, sourceRectangle, color, Projectile.rotation, new Vector2(beamEnd.Width, beamEnd.Height / maxFrames) / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }

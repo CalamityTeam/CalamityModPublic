@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Rectangle frame = new Rectangle(frameX * length, frameY * height, length, height);
             Vector2 origin = new Vector2(length / 2f, height / 2f);
-            spriteBatch.Draw(texture, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

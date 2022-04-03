@@ -71,15 +71,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
             var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
             comboTooltip.text = ComboTooltip;
-            comboTooltip.overrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+            comboTooltip.overrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
             var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
             parryTooltip.text = ParryTooltip;
-            parryTooltip.overrideColor = Color.Lerp(Color.Cyan, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.75f);
+            parryTooltip.overrideColor = Color.Lerp(Color.Cyan, Color.DeepSkyBlue, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.75f);
 
             var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
             blastTooltip.text = BlastTooltip;
-            blastTooltip.overrideColor = Color.Lerp(Color.HotPink, Color.Crimson, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.625f);
+            blastTooltip.overrideColor = Color.Lerp(Color.HotPink, Color.Crimson, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.625f);
         }
 
         public override void SetDefaults()
@@ -207,7 +207,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D handleTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosHandle");
             Texture2D bladeTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosGlow");
 
-            float bladeOpacity = (Charge > 0) ? 1f : MathHelper.Clamp((float)Math.Sin(Main.GlobalTime % MathHelper.Pi) * 2f, 0, 1) * 0.7f + 0.3f;
+            float bladeOpacity = (Charge > 0) ? 1f : MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.7f + 0.3f;
 
             spriteBatch.Draw(handleTexture, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
             spriteBatch.Draw(bladeTexture, position, null, drawColor * bladeOpacity, 0f, origin, scale, SpriteEffects.None, 0f);
@@ -227,7 +227,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 8) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
-            Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.75f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+            Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.75f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
             spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);

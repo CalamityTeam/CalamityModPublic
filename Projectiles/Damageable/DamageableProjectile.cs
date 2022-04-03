@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Damageable
             SafeSetDefaults();
             Life = LifeMax;
         }
-        public sealed override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public sealed override void PostDraw(SpriteBatch Main.spriteBatch, Color lightColor)
         {
             DrawHealthBar();
             MouseOverText();
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Damageable
         /// <summary>
         /// Copy of <see cref="ModProjectile.PostDraw(SpriteBatch, Color)"/> with integrations for this custom type.
         /// </summary>
-        public virtual void SafePostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public virtual void SafePostDraw(SpriteBatch Main.spriteBatch, Color lightColor)
         {
         }
         public sealed override void AI()

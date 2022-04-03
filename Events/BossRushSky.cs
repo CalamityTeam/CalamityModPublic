@@ -119,7 +119,7 @@ namespace CalamityMod.Events
                 int backInstances = (int)MathHelper.Lerp(6f, 24f, IncrementalInterest);
                 for (int i = 0; i < backInstances; i++)
                 {
-                    Vector2 drawOffset = (MathHelper.TwoPi * 2f * i / backInstances + Main.GlobalTime * 2.1f).ToRotationVector2() * backEyeOutwardness;
+                    Vector2 drawOffset = (MathHelper.TwoPi * 2f * i / backInstances + Main.GlobalTimeWrappedHourly * 2.1f).ToRotationVector2() * backEyeOutwardness;
                     spriteBatch.Draw(eyeTexture, drawPosition + drawOffset, null, fadedColor, 0f, eyeTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
                 }
             }

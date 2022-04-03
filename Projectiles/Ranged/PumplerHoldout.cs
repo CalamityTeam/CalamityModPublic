@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
             if (PumpkinsCharge > 0 && Overfilled == 0f)
             {
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(MathHelper.Clamp(1f - 0.20f * CurrentChargingFrames - 0.1f*(5f-PumpkinsCharge) , 0f, 1f));
@@ -232,9 +232,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Rectangle frameRectangle = ModContent.Request<Texture2D>(Texture).Value.Frame(1, 9, 0, Projectile.frame);
-            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, drawPosition, frameRectangle, lightColor, Projectile.rotation, frameRectangle.Size() * 0.5f, 1f, Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, drawPosition, frameRectangle, lightColor, Projectile.rotation, frameRectangle.Size() * 0.5f, 1f, Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

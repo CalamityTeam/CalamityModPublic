@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
                     projCenter += centerDir * chainHeight;
                     realCenter = mountedCenter - projCenter;
                     Color color = Lighting.GetColor((int)projCenter.X / 16, (int)(projCenter.Y / 16f));
-                    Main.spriteBatch.Draw(chainTexture, projCenter - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(chainTexture, projCenter - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0);
                 }
             }
 

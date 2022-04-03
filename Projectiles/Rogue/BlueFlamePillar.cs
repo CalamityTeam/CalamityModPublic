@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
             return false;
         }
     }

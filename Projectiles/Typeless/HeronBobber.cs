@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = -1;
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras(SpriteBatch Main.spriteBatch)
         {
             return Projectile.DrawFishingLine(ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));
         }

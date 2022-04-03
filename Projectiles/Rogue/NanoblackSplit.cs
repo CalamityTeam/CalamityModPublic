@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.spriteDirection == -1)
                 eff = SpriteEffects.FlipHorizontally;
             Vector2 origin = new Vector2(fWidthOverTwo, fHeightOverTwo);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NanoblackSplitGlow"),
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NanoblackSplitGlow"),
                 Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation,
                 origin, Projectile.scale, eff, 0f);
         }

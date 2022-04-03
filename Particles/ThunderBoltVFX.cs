@@ -55,7 +55,7 @@ namespace CalamityMod.Particles
 
             Color drawColor = Color.Lerp(Color.White, Color, (Time / (float)Lifetime));
 
-            SpriteEffects flip = (Main.GlobalTime % 30 < 15) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flip = (Main.GlobalTimeWrappedHourly % 30 < 15) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(tex, Position + Shake - Main.screenPosition, null, Color * Opacity * 0.6f, Rotation, Origin, Squish * Scale, flip, 0);
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, drawColor * Opacity, Rotation, Origin, Squish * Scale, flip, 0);

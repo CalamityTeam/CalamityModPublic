@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Color.SlateGray
             }) * Projectile.Opacity;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/PhotovisceratorLight");
             for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -157,8 +157,8 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 innerScale = new Vector2(1.25f) * intensity * 0.7f;
                 outerColor *= intensity * Projectile.scale;
                 innerColor *= intensity * Projectile.scale;
-                spriteBatch.Draw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.6f, SpriteEffects.None, 0);
-                spriteBatch.Draw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.6f, SpriteEffects.None, 0);
             }
             return false;
         }

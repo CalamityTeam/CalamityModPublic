@@ -284,7 +284,7 @@ namespace CalamityMod.Projectiles.Magic
                 bool isTail = i == Segments.Length - 1;
                 Texture2D segmentTexture = isTail ? tailTexture : bodyTexture;
                 Vector2 segmentOrigin = segmentTexture.Size() * 0.5f;
-                spriteBatch.Draw(segmentTexture, Segments[i].Center - Main.screenPosition, null, baseColor * ((255 - Segments[i].Alpha) / 255f), Segments[i].Rotation, segmentOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(segmentTexture, Segments[i].Center - Main.screenPosition, null, baseColor * ((255 - Segments[i].Alpha) / 255f), Segments[i].Rotation, segmentOrigin, Projectile.scale, SpriteEffects.None, 0);
             }
 
             // Jaw drawing.
@@ -301,7 +301,7 @@ namespace CalamityMod.Projectiles.Magic
                 jawPosition += Vector2.UnitX.RotatedBy(Projectile.rotation + JawRotation * i) * i * (jawBaseOffset + (float)Math.Sin(JawRotation) * 24f);
                 jawPosition -= Vector2.UnitY.RotatedBy(Projectile.rotation) * (38f + (float)Math.Sin(JawRotation) * 30f);
 
-                spriteBatch.Draw(jawTexture, jawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation + JawRotation * i, jawOrigin, Projectile.scale, jawSpriteEffect, 0f);
+                Main.EntitySpriteDraw(jawTexture, jawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation + JawRotation * i, jawOrigin, Projectile.scale, jawSpriteEffect, 0f);
             }
 
             // Portal drawing at the start of the devourer's lifetime.
@@ -309,7 +309,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Time < 60f)
             {
                 float currentFade = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(60f, 52f, Time, true);
-                currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f * MathHelper.Pi * 3f)) * 0.8f;
+                currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj");
                 Vector2 drawPos = PortalPosition - Main.screenPosition;
@@ -323,30 +323,30 @@ namespace CalamityMod.Projectiles.Magic
                 Vector2 origin = texture.Size() / 2f;
                 Vector2 scale = new Vector2(4f, 10f) * Projectile.Opacity * currentFade;
 
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, 0f, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, SpriteEffects.None, 0);
 
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2 + Main.GlobalTime * 3f * 0.25f, origin, scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorA, Main.GlobalTime * 3f * 0.25f, origin, scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2 + Main.GlobalTime * 3f * 0.5f, origin, scale * 0.8f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, Main.GlobalTime * 3f * 0.5f, origin, scale * 0.8f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver2 + Main.GlobalTimeWrappedHourly * 3f * 0.25f, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, Main.GlobalTimeWrappedHourly * 3f * 0.25f, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver2 + Main.GlobalTimeWrappedHourly * 3f * 0.5f, origin, scale * 0.8f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, Main.GlobalTimeWrappedHourly * 3f * 0.5f, origin, scale * 0.8f, SpriteEffects.None, 0);
 
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
 
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 + Main.GlobalTime * 3f * 0.75f, origin, scale * 0.6f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + Main.GlobalTime * 3f * 0.75f, origin, scale * 0.6f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 + Main.GlobalTime * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
-                spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + Main.GlobalTime * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 + Main.GlobalTimeWrappedHourly * 3f * 0.75f, origin, scale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + Main.GlobalTimeWrappedHourly * 3f * 0.75f, origin, scale * 0.6f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 + Main.GlobalTimeWrappedHourly * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + Main.GlobalTimeWrappedHourly * 3f, origin, scale * 0.4f, SpriteEffects.None, 0);
 
             }
 
             // Head drawing.
-            spriteBatch.Draw(headTexture, drawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation, headTextureOrigin, Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(headTexture, drawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation, headTextureOrigin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

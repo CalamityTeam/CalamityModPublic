@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
 
             // Initialize the flame trail drawer.
             if (FlameTrailDrawer is null)
@@ -245,8 +245,8 @@ namespace CalamityMod.Projectiles.Typeless
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             // Draw the base sprite and glowmask.
-            spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
-            spriteBatch.Draw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
 
             // Draw the flame trail and flame orb once ready.
             if (Time >= 90f)
@@ -256,9 +256,9 @@ namespace CalamityMod.Projectiles.Typeless
                 {
                     Color flameOrbColor = Color.LightCyan * flameOrbGlowIntensity * 0.125f;
                     flameOrbColor.A = 0;
-                    Vector2 flameOrbDrawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTime * 2f).ToRotationVector2();
+                    Vector2 flameOrbDrawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 2f).ToRotationVector2();
                     flameOrbDrawOffset *= flameOrbGlowIntensity * 3f;
-                    spriteBatch.Draw(orbTexture, drawPosition + flameOrbDrawOffset, frame, Projectile.GetAlpha(flameOrbColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(orbTexture, drawPosition + flameOrbDrawOffset, frame, Projectile.GetAlpha(flameOrbColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
                 }
 
                 Vector2 trailOffset = Projectile.Size * 0.5f;
@@ -266,7 +266,7 @@ namespace CalamityMod.Projectiles.Typeless
                 FlameTrailDrawer.Draw(Projectile.oldPos, trailOffset - Main.screenPosition, 61);
             }
 
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

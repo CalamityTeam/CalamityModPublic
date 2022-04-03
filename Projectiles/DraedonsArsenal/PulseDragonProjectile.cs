@@ -167,22 +167,22 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Vector2 drawPosition = bezierCurve.Evaluate(i / (float)totalChains);
                 float angle = (bezierCurve.Evaluate(i / (float)totalChains + 1f / totalChains) - drawPosition).ToRotation();
                 angle -= MathHelper.PiOver2;
-                spriteBatch.Draw(chainTexture, drawPosition - Main.screenPosition, null, lightColor, angle, chainTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(chainTexture, drawPosition - Main.screenPosition, null, lightColor, angle, chainTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
 
             // Aura drawing.
             for (int i = 0; i < 5; i++)
             {
                 Vector2 offset = (i / 5f * MathHelper.TwoPi).ToRotationVector2() * 24f;
-                float time = (float)Math.Sin(Main.GlobalTime * 1.8f);
-                float angle = time * MathHelper.Pi + Main.GlobalTime * 2.1f;
+                float time = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.8f);
+                float angle = time * MathHelper.Pi + Main.GlobalTimeWrappedHourly * 2.1f;
                 float scale = 1.1f + time * 0.2f;
-                spriteBatch.Draw(pulseTexture, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * 0.3f, angle, pulseTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(pulseTexture, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * 0.3f, angle, pulseTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
             }
 
             // Head drawing.
             SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(dragonHeadTexture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, dragonHeadTexture.Size() * 0.5f, Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(dragonHeadTexture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, dragonHeadTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

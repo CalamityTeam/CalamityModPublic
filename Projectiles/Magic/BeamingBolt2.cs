@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.ai[0] == 1f)
                 tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/BeamingThorn");
 
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

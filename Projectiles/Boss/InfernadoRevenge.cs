@@ -90,13 +90,13 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex");
             for (int i = 0; i < 110; i++)
             {
-                float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTime * MathHelper.TwoPi;
+                float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTimeWrappedHourly * MathHelper.TwoPi;
                 Color drawColor = Color.White * 0.04f;
                 drawColor.A = 0;
                 Vector2 drawPosition = bottom + angle.ToRotationVector2() * 4f - Main.screenPosition;
 
-                drawPosition += (angle + Main.GlobalTime * i / 16f).ToRotationVector2() * 6f;
-                spriteBatch.Draw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0f);
+                drawPosition += (angle + Main.GlobalTimeWrappedHourly * i / 16f).ToRotationVector2() * 6f;
+                Main.EntitySpriteDraw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, 0.9f, SpriteEffects.None, 0);
             }
 
             return false;

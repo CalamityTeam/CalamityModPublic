@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float loops = LoadedBolts + 1;
             if (LoadedBolts == ClockworkBow.MaxBolts) //If the bow is fully loaded, shave off the part where you draw the arrow that's charging currently
@@ -244,7 +244,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
                 Vector2 drawPosition = Owner.Center + PointingTo.RotatedBy(FlipFactor) * (20f + (Shift * 40)) - ShiftDown.RotatedBy(FlipFactor) * (BoltTexture.Width / 2) - Main.screenPosition;
 
-                spriteBatch.Draw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
+                Main.EntitySpriteDraw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
 
                 if (i == LoadedBolts - 1 || LoadedBolts == ClockworkBow.MaxBolts) //Don't forget to exit the shader region
                     spriteBatch.ExitShaderRegion();

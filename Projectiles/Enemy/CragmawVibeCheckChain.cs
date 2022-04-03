@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Enemy
             frameRectangle.Height /= 4;
             frameRectangle.Y += Projectile.frame * frameRectangle.Height;
 
-            spriteBatch.Draw(endTexture, drawPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(frameRectangle), Projectile.GetAlpha(lightColor), Projectile.rotation, frameRectangle.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(endTexture, drawPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(frameRectangle), Projectile.GetAlpha(lightColor), Projectile.rotation, frameRectangle.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             distanceToStart -= (frameRectangle.Height / 2 + chainTexture.Height) * Projectile.scale;
             Vector2 chainDrawPosition = drawPosition;
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Enemy
                     Point chainPositionTileCoords = chainDrawPosition.ToTileCoordinates();
                     Color colorAtChainPosition = Lighting.GetColor(chainPositionTileCoords.X, chainPositionTileCoords.Y);
                     colorAtChainPosition = Color.Lerp(colorAtChainPosition, Color.White, 0.3f);
-                    spriteBatch.Draw(chainTexture, chainDrawPosition - Main.screenPosition, new Rectangle?(chainTextureFrameRectangle), Projectile.GetAlpha(colorAtChainPosition), Projectile.rotation, chainTextureFrameRectangle.Bottom(), Projectile.scale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(chainTexture, chainDrawPosition - Main.screenPosition, new Rectangle?(chainTextureFrameRectangle), Projectile.GetAlpha(colorAtChainPosition), Projectile.rotation, chainTextureFrameRectangle.Bottom(), Projectile.scale, SpriteEffects.None, 0);
                     distanceMoved += chainTextureFrameRectangle.Height * Projectile.scale;
                     chainDrawPosition += directionToStart * chainTextureFrameRectangle.Height * Projectile.scale;
                 }

@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Boss
                 float thetaDelta = MathHelper.Pi * y / yMax;
                 float scale = Projectile.scale * MathHelper.Lerp(0.3f, 1.4f, y / yMax);
                 float alphaMultiplier = MathHelper.Lerp(1f, 0.6f, y / yMax);
-                spriteBatch.Draw(texture,
+                Main.EntitySpriteDraw(texture,
                                  bottomVector - Main.screenPosition - Vector2.UnitY * y,
                                  null,
                                  Color.White * Projectile.Opacity * 0.3f * alphaMultiplier,

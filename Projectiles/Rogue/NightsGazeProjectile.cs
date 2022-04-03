@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }
 
         public override void Kill(int timeLeft)

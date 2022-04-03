@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
             float globalTimeFactor = 5.3f;
             float endFadeFactor = 3.2f;
             float endFadeTerm = Utils.InverseLerp(0f, endFadeRatio * 0.5f, completionRatio, true) * endFadeFactor;
-            float cosArgument = completionRatio * completionRatioFactor - Main.GlobalTime * globalTimeFactor + endFadeTerm;
+            float cosArgument = completionRatio * completionRatioFactor - Main.GlobalTimeWrappedHourly * globalTimeFactor + endFadeTerm;
             float startingInterpolant = (float)Math.Cos(cosArgument) * 0.5f + 0.5f;
 
             float colorLerpFactor = 0.6f;

@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
             Color drawColour = Color.White;
 
             Vector2 origin = new Vector2(frameWidth / 2, frameHeight / 2);
-            spriteBatch.Draw(sprite, Projectile.Center - Main.screenPosition, new Rectangle(0, frameHeight * Projectile.frame, frameWidth, frameHeight), drawColour, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(sprite, Projectile.Center - Main.screenPosition, new Rectangle(0, frameHeight * Projectile.frame, frameWidth, frameHeight), drawColour, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
             return false;
         }
 

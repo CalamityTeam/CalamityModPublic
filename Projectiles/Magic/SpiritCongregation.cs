@@ -260,7 +260,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             int maxFrame = CurrentPower <= LargeMouthPowerLowerBound ? 6 : 9;
-            Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTime * maxFrame * 0.03f;
+            Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * maxFrame * 0.03f;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
             Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAura");
@@ -283,17 +283,17 @@ namespace CalamityMod.Projectiles.Magic
             SpriteEffects direction = Math.Cos(Projectile.rotation) > 0f ? SpriteEffects.None : SpriteEffects.FlipVertically;
 
             // Draw the outline aura below everything else.
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
 
             for (int i = 0; i < 3; i++)
-                spriteBatch.Draw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+                Main.EntitySpriteDraw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0f);
 
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
 
             // Draw the back with the specified shader.
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             shader.Parameters["edgeBorderSize"].SetValue(0f);
             shader.Parameters["borderShouldBeSolid"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderShouldBeSolid);
@@ -306,7 +306,7 @@ namespace CalamityMod.Projectiles.Magic
             shader.Parameters["generalBackgroundOffset"].SetValue(backgroundOffset);
             shader.Parameters["uWorldPosition"].SetValue(Projectile.position);
             shader.Parameters["uRotation"].SetValue(Projectile.rotation);
-            shader.Parameters["uTime"].SetValue(Main.GlobalTime);
+            shader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
             shader.Parameters["upscaleFactor"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / backTexture.Size() / maxFrame);
 
             // Prepare the background texture for loading.
@@ -316,10 +316,10 @@ namespace CalamityMod.Projectiles.Magic
             shader.CurrentTechnique.Passes[0].Apply();
 
             // Draw the normal texture.
-            spriteBatch.Draw(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
-            spriteBatch.ExitShaderRegion();
+            Main.EntitySpriteDraw(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.spriteBatch.ExitShaderRegion();
 
-            spriteBatch.Draw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
             return false;
         }
 

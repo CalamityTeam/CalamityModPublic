@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Typeless
             for (int i = 0; i < 20; i++)
             {
                 // Sprite
-                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, Projectile.rotation + (rotationOffset * i * i), tex.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, Projectile.rotation + (rotationOffset * i * i), tex.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0);
 
                 // Dust
                 Vector2 dustPos = dustCircle.RandomPointInCircle();

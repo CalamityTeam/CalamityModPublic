@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 sparkleScale = new Vector2(0.3f, 1f) * Projectile.Opacity * Projectile.scale;
             Vector2 orthogonalsparkleScale = new Vector2(0.3f, 2f) * Projectile.Opacity * Projectile.scale;
 
-            spriteBatch.Draw(sparkleTexture,
+            Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
                              sparkleColor,
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
                              orthogonalsparkleScale,
                              SpriteEffects.None,
                              0f);
-            spriteBatch.Draw(sparkleTexture,
+            Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
                              sparkleColor,
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Magic
                              sparkleScale,
                              SpriteEffects.None,
                              0f);
-            spriteBatch.Draw(sparkleTexture,
+            Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
                              orthogonalsparkleColor,
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Magic
                              orthogonalsparkleScale * 0.6f,
                              SpriteEffects.None,
                              0f);
-            spriteBatch.Draw(sparkleTexture,
+            Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
                              orthogonalsparkleColor,

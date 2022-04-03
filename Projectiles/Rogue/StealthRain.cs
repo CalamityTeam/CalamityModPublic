@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] == 1f)
             {
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/StealthRain2");
-                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
             return true;

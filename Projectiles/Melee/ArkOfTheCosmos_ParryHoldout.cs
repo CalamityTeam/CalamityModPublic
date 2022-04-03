@@ -194,10 +194,10 @@ namespace CalamityMod.Projectiles.Melee
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
-                    Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 1.2f) * 0.05f + 0.08f, 1, 0.65f + (float)Math.Sin(Main.GlobalTime * 7f) * 0.1f);
+                    Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * 0.05f + 0.08f, 1, 0.65f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 7f) * 0.1f);
 
-                    spriteBatch.Draw(barBG, drawPos, color * opacity);
-                    spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);
+                    Main.EntitySpriteDraw(barBG, drawPos, color * opacity);
+                    Main.EntitySpriteDraw(barFG, drawPos, frame, color * opacity * 0.8f);
                 }
                 return false;
             }
@@ -216,11 +216,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOriginBack = new Vector2(44f, 86); //Right on the hole
             Vector2 drawPosition = Owner.Center + Projectile.velocity * 15 + Projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
 
-            spriteBatch.Draw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
-            spriteBatch.Draw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
 
-            spriteBatch.Draw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
-            spriteBatch.Draw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             return false;
         }
 

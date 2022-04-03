@@ -1723,7 +1723,7 @@ namespace CalamityMod.NPCs.Providence
             for (int i = 0; i < totalProvidencesToDraw; i++)
             {
                 float offsetAngle = MathHelper.TwoPi * i * 2f / totalProvidencesToDraw;
-                float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTime * MathHelper.Pi);
+                float drawOffsetFactor = (float)Math.Sin(offsetAngle * 6f + Main.GlobalTimeWrappedHourly * MathHelper.Pi);
                 drawOffsetFactor *= (float)Math.Pow(burnIntensity, 3f) * 50f;
 
                 Vector2 drawOffset = offsetAngle.ToRotationVector2() * drawOffsetFactor;

@@ -68,8 +68,8 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor) //OMw to reuse way too much code from the entangling vines
         {
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
 
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 origin = new Vector2(lineTex.Width / 2f, lineTex.Height);
             Vector2 scale = new Vector2(0.2f, (DashEnd - DashStart).Length() / lineTex.Height);
 
-            spriteBatch.Draw(lineTex, DashStart - Main.screenPosition + Shake, null, Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, raise), rot, origin, scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(lineTex, DashStart - Main.screenPosition + Shake, null, Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, raise), rot, origin, scale, SpriteEffects.None, 0);
 
             Texture2D sparkTexture = GetTexture("CalamityMod/Particles/ThinSparkle");
             Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
@@ -91,12 +91,12 @@ namespace CalamityMod.Projectiles.Melee
 
             Rectangle frame = new Rectangle(0, 0, 14, 14);
 
-            spriteBatch.Draw(bloomTexture, DashEnd - Main.screenPosition, null, Color.CornflowerBlue * bump * 0.5f, 0, bloomTexture.Size() / 2f, bump * 6f * properBloomSize, SpriteEffects.None, 0);
-            spriteBatch.Draw(sparkTexture, DashEnd - Main.screenPosition, frame, Color.Lerp(Color.White, Color.CornflowerBlue, raise) * bump, raise * MathHelper.TwoPi, frame.Size() / 2f, bump * 3f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(bloomTexture, DashEnd - Main.screenPosition, null, Color.CornflowerBlue * bump * 0.5f, 0, bloomTexture.Size() / 2f, bump * 6f * properBloomSize, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(sparkTexture, DashEnd - Main.screenPosition, frame, Color.Lerp(Color.White, Color.CornflowerBlue, raise) * bump, raise * MathHelper.TwoPi, frame.Size() / 2f, bump * 3f, SpriteEffects.None, 0);
 
             //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

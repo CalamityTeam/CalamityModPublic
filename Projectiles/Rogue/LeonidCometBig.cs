@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/LeonidCometBigGlow");
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override void Kill(int timeLeft)

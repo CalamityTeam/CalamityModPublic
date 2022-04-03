@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Materials
 
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {
-            float pulse = Main.GlobalTime * 0.68f % 1f;
+            float pulse = Main.GlobalTimeWrappedHourly * 0.68f % 1f;
             float outwardness = pulse * baseScale * 8f;
             Color drawColor = Color.BlueViolet * (float)Math.Sqrt(1f - pulse) * 0.7f;
             drawColor.A = 0;

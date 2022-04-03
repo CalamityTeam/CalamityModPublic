@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < Flames.Length; i++)
                 {
                     int frameHeight2 = frameHeight * Flames[i].Frame;
-                    spriteBatch.Draw(texture,
+                    Main.EntitySpriteDraw(texture,
                                      Projectile.Center + Flames[i].Position - Main.screenPosition,
                                      new Rectangle?(new Rectangle(0, frameHeight2, texture.Width, frameHeight)),
                                      Projectile.GetAlpha(Color.White) * Flames[i].Alpha,

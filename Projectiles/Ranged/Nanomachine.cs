@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.Bullet;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.localAI[1] == 0)
                 Projectile.localAI[1] = Main.rand.Next(1, 3);

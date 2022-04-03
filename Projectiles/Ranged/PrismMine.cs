@@ -93,12 +93,12 @@ namespace CalamityMod.Projectiles.Ranged
                 float rotation = Projectile.AngleTo(destination);
                 float remainingDistance = Projectile.Distance(destination) - 30f;
                 float laserScale = 0.5f;
-                Rectangle frame = laserTexture.Frame(1, 7, 0, (int)(Main.GlobalTime * 10f + Projectile.identity * 3f) % 7);
+                Rectangle frame = laserTexture.Frame(1, 7, 0, (int)(Main.GlobalTimeWrappedHourly * 10f + Projectile.identity * 3f) % 7);
                 Vector2 laserOrigin = frame.Size() * 0.5f;
                 while (remainingDistance > frame.Height * laserScale)
                 {
                     Vector2 laserDrawPosition = Projectile.Center + Projectile.SafeDirectionTo(destination, -Vector2.UnitY) * remainingDistance - Main.screenPosition;
-                    spriteBatch.Draw(laserTexture, laserDrawPosition, frame, laserColor, rotation, laserOrigin, laserScale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(laserTexture, laserDrawPosition, frame, laserColor, rotation, laserOrigin, laserScale, SpriteEffects.None, 0);
                     remainingDistance -= frame.Height * laserScale;
                 }
             }
@@ -112,12 +112,12 @@ namespace CalamityMod.Projectiles.Ranged
                 drawLineTo(mine.Center, Color.White * fade);
             }
 
-            spriteBatch.Draw(baseTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(baseTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
             Rectangle glowFrame = glowTexture.Frame(1, 6, 0, (int)Time / 4 % 6);
             Color glowColor = Color.White * 0.5f;
             glowColor.A = 0;
-            spriteBatch.Draw(glowTexture, drawPosition, glowFrame, glowColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(glowTexture, drawPosition, glowFrame, glowColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

@@ -257,12 +257,12 @@ namespace CalamityMod.Projectiles.Melee
 
             //lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
-            spriteBatch.Draw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
 
             //Turn on additive blending
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Draw the tip of the flails here
             Texture2D flailBlade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
@@ -270,19 +270,19 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 flailOrigin = new Vector2(bladeFrame.Width / 2, bladeFrame.Height); //Draw from center bottom of texture
 
             float flailRotation = (chainPositions1[chainPositions1.Length - 2] - chainPositions1[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions1[chainPositions1.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(flailBlade, chainPositions1[chainPositions1.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             flailRotation = (chainPositions2[chainPositions2.Length - 2] - chainPositions2[chainPositions1.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions2[chainPositions2.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(flailBlade, chainPositions2[chainPositions2.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             flailRotation = (chainPositions3[chainPositions3.Length - 2] - chainPositions3[chainPositions3.Length - 3]).ToRotation() + MathHelper.PiOver2;
-            spriteBatch.Draw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(flailBlade, chainPositions3[chainPositions3.Length - 2] - Main.screenPosition, bladeFrame, Color.White, flailRotation, flailOrigin, 1, SpriteEffects.None, 0);
 
             drawOrigin = new Vector2(0f, blade.Height);
-            spriteBatch.Draw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawPos - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
@@ -331,7 +331,7 @@ namespace CalamityMod.Projectiles.Melee
             control1 += Vector2.UnitX.RotatedBy(MathHelper.TwoPi * seed3) * seed2 * 30f;
         }
 
-        private void CalculateChains(SpriteBatch spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
+        private void CalculateChains(SpriteBatch Main.spriteBatch, out Vector2[] chainPositions1, out Vector2[] chainPositions2, out Vector2[] chainPositions3)
         {
 
             if (ChainSwapTimer % 6 == 0 || whip1.Y == 0)
@@ -368,7 +368,7 @@ namespace CalamityMod.Projectiles.Melee
             DrawChain(spriteBatch, out chainPositions3, control0, control1, control2, control3);
         }
 
-        private void DrawChain(SpriteBatch spriteBatch, out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
+        private void DrawChain(SpriteBatch Main.spriteBatch, out Vector2[] chainPositions, Vector2 control0, Vector2 control1, Vector2 control2, Vector2 control3)
         {
 
             Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_LamentationsOfTheChainedFlail");
@@ -400,12 +400,12 @@ namespace CalamityMod.Projectiles.Melee
 
                     float chainOpacity = MathHelper.Clamp((i / (float)numPoints) * 3f, 0f, 1f);
 
-                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor * chainOpacity, rotation, origin, scale, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(tex, chainPositions[i] - Main.screenPosition, chainFrame, chainLightColor * chainOpacity, rotation, origin, scale, SpriteEffects.None, 0);
                 }
                 else
                 {
                     Vector2 origin = new Vector2(guardFrame.Width / 2, guardFrame.Height); //Draw from center bottom of texture
-                    spriteBatch.Draw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(tex, chainPositions[i] - Main.screenPosition, guardFrame, chainLightColor, rotation, origin, 1, SpriteEffects.None, 0);
 
                     if ((ChainSwapTimer % OmegaBiomeBlade.FlailBladeAttunement_FlailTime) == 1 && Main.rand.Next(3) == 0f)
                     {

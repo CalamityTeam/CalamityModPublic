@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 140);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft >= Lifetime - NoDrawFrames * Projectile.MaxUpdates)
                 return false;

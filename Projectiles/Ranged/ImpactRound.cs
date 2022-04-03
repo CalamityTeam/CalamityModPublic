@@ -61,6 +61,6 @@ namespace CalamityMod.Projectiles.Ranged
             damage = (int)(damage * damageMult);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => Projectile.timeLeft < 600;
+        public override bool PreDraw(ref Color lightColor) => Projectile.timeLeft < 600;
     }
 }

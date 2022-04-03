@@ -70,10 +70,10 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 sparkleScale = new Vector2(0.3f, 1f) * Projectile.Opacity * Projectile.scale;
             Vector2 orthogonalsparkleScale = new Vector2(0.3f, 2f) * Projectile.Opacity * Projectile.scale;
 
-            spriteBatch.Draw(sparkleTexture, drawPosition, null, sparkleColor, MathHelper.PiOver2 + Projectile.rotation, origin, orthogonalsparkleScale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(sparkleTexture, drawPosition, null,sparkleColor, Projectile.rotation, origin, sparkleScale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(sparkleTexture, drawPosition, null, orthogonalSparkleColor, MathHelper.PiOver2 + Projectile.rotation, origin, orthogonalsparkleScale * 0.6f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(sparkleTexture, drawPosition, null, orthogonalSparkleColor, Projectile.rotation, origin, sparkleScale * 0.6f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(sparkleTexture, drawPosition, null, sparkleColor, MathHelper.PiOver2 + Projectile.rotation, origin, orthogonalsparkleScale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(sparkleTexture, drawPosition, null,sparkleColor, Projectile.rotation, origin, sparkleScale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(sparkleTexture, drawPosition, null, orthogonalSparkleColor, MathHelper.PiOver2 + Projectile.rotation, origin, orthogonalsparkleScale * 0.6f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(sparkleTexture, drawPosition, null, orthogonalSparkleColor, Projectile.rotation, origin, sparkleScale * 0.6f, SpriteEffects.None, 0);
             return false;
         }
     }

@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
                 drawColor = Color.Lerp(drawColor, Color.Transparent, completionRatio);
 
                 Vector2 drawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
-                spriteBatch.Draw(boltTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.oldRot[i], boltTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(boltTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.oldRot[i], boltTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }

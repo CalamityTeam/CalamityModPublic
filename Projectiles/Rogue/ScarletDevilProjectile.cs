@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Rogue
                     drawColor.A = 0;
 
                     Vector2 drawOffset = (i / 7f * MathHelper.TwoPi).ToRotationVector2() * 2f;
-                    spriteBatch.Draw(spearTexture, Projectile.Center - Main.screenPosition + drawOffset, null, drawColor, Projectile.rotation, spearTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(spearTexture, Projectile.Center - Main.screenPosition + drawOffset, null, drawColor, Projectile.rotation, spearTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
                 }
             }
             return false;

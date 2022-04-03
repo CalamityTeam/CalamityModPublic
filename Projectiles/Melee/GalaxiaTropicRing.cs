@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public Vector2 starPosition(int MaxStars, int StarIndex, float diameter)
         {
-            float starHeight = (float)Math.Sin(Main.GlobalTime * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
-            float starWidth = (float)Math.Cos(Main.GlobalTime * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
+            float starHeight = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
+            float starWidth = (float)Math.Cos(Main.GlobalTimeWrappedHourly * 3 + StarIndex * MathHelper.TwoPi / (float)MaxStars);
 
             return Projectile.Center + Projectile.rotation.ToRotationVector2() * starWidth * (Projectile.scale * diameter * 0.4f) + (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (Projectile.scale * diameter * 0.4f);
         }
@@ -81,14 +81,14 @@ namespace CalamityMod.Projectiles.Melee
 
             Color ringColor = Mode == 0 ? new Color(255, 0, 0) * Fade : new Color(66, 0, 176) * Fade;
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            spriteBatch.Draw(bloomTexture, Projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
-            spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(bloomTexture, Projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0f);
 
-            spriteBatch.Draw(sigil, Projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTime * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, Projectile.scale + ((Main.GlobalTime * 5f) % 10) / 10f * 2f, 0f, 0f);
-            spriteBatch.Draw(sigil, Projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, Projectile.scale + ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f * 2f, 0f, 0f);
+            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, Projectile.scale, 0f, 0f);
 
             for (int i = 0; i < 5; i++)
             {
@@ -100,15 +100,15 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 origin = new Vector2(lineTexture.Width / 2f, lineTexture.Height);
                 Vector2 scale = new Vector2(0.3f, LineVector.Length() / lineTexture.Height);
 
-                spriteBatch.Draw(lineTexture, starPos - Main.screenPosition, null, Color.White * Fade * 0.7f, rot, origin, scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(lineTexture, starPos - Main.screenPosition, null, Color.White * Fade * 0.7f, rot, origin, scale, SpriteEffects.None, 0);
 
-                spriteBatch.Draw(bloomTexture, starPos - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 0.1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, ringColor * 0.5f, Main.GlobalTime * 5 + MathHelper.PiOver4 * i, starTexture.Size() / 2f, 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, starPos - Main.screenPosition, null, Color.White * Fade, Main.GlobalTime * 5, starTexture.Size() / 2f, 1.4f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bloomTexture, starPos - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 0.1f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(starTexture, starPos - Main.screenPosition, null, ringColor * 0.5f, Main.GlobalTimeWrappedHourly * 5 + MathHelper.PiOver4 * i, starTexture.Size() / 2f, 1f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(starTexture, starPos - Main.screenPosition, null, Color.White * Fade, Main.GlobalTimeWrappedHourly * 5, starTexture.Size() / 2f, 1.4f, SpriteEffects.None, 0);
             }
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

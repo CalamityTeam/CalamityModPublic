@@ -61,12 +61,12 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 float scale = MathHelper.Lerp(1f, 0.2f, i / CurrentLaserLength) * Projectile.scale;
                 Vector2 drawPosition = Projectile.Center - currentDirection * i * 4f - Main.screenPosition;
-                Color drawColor = Color.Lerp(Color.Lime, Color.YellowGreen, (float)Math.Cos(i / CurrentLaserLength * 2.1f - Main.GlobalTime * 2.5f) * 0.5f + 0.5f);
+                Color drawColor = Color.Lerp(Color.Lime, Color.YellowGreen, (float)Math.Cos(i / CurrentLaserLength * 2.1f - Main.GlobalTimeWrappedHourly * 2.5f) * 0.5f + 0.5f);
                 drawColor = Color.Lerp(drawColor, Color.Yellow, 0.55f);
                 drawColor = Color.Lerp(drawColor, Color.White, (float)Math.Pow(i / CurrentLaserLength, 3D));
                 drawColor.A = 0;
 
-                spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0);
             }
             return false;
         }

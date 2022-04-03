@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Head.Position = Projectile.Center + Projectile.velocity * 0.5f;
                 Head.Time = 0;
-                Head.Scale += (float)Math.Sin(Main.GlobalTime * 6) * 0.02f * Projectile.scale;
+                Head.Scale += (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.02f * Projectile.scale;
             }
 
 
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Main.rand.Next(2) == 0)
             {
-                Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.8f, 0, false, 0, true);
+                Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.8f, 0, false, 0, true);
                 GeneralParticleHandler.SpawnParticle(smoke);
 
                 if (Main.rand.Next(3) == 0)

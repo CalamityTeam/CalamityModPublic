@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Magic
                     break;
             }
             Vector2 origin = texture.Size() / 2f;
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
     }
 }

@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
 
             CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
 
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:LinearTransformation"].Apply();
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, 2, lightColor);
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

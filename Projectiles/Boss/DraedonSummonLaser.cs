@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
 
         private Color PrimitiveColorFunction(float completionRatio)
         {
-            return CalamityUtils.MulticolorLerp((Main.GlobalTime * 0.67f - completionRatio * 3f) % 1f, CalamityUtils.ExoPalette) * 1.2f;
+            return CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 0.67f - completionRatio * 3f) % 1f, CalamityUtils.ExoPalette) * 1.2f;
         }
 
         public override bool PreDraw(ref Color lightColor)

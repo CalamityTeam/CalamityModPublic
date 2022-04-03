@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Laser tail logic
 
-            Main.spriteBatch.Draw(laserTailTexture, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, laserTailTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(laserTailTexture, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, laserTailTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             // Laser body logic
 
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         sourceRectangle.Height = (int)(laserLength - laserLengthDelta);
                     }
-                    Main.spriteBatch.Draw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, Projectile.rotation, new Vector2((float)(sourceRectangle.Width / 2), 0f), Projectile.scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, Projectile.rotation, new Vector2((float)(sourceRectangle.Width / 2), 0f), Projectile.scale, SpriteEffects.None, 0);
                     laserLengthDelta += (float)sourceRectangle.Height * Projectile.scale;
                     centerDelta += Projectile.velocity * (float)sourceRectangle.Height * Projectile.scale;
                     sourceRectangle.Y += 16;
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Laser head logic
 
-            Main.spriteBatch.Draw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, Projectile.rotation, laserHeadTexture.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, Projectile.rotation, laserHeadTexture.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

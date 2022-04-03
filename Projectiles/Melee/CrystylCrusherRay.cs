@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // The core function of drawing a laser
-        public void DrawLaser(SpriteBatch spriteBatch, Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
+        public void DrawLaser(SpriteBatch Main.spriteBatch, Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
         {
             float r = unit.ToRotation() + rotation;
 
@@ -83,17 +83,17 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Color c = new Color(Main.DiscoR, 0, 255);
                 var origin = start + i * unit;
-                spriteBatch.Draw(texture, origin - Main.screenPosition,
+                Main.EntitySpriteDraw(texture, origin - Main.screenPosition,
                     new Rectangle(0, 26, 28, 26), i < transDist ? Color.Transparent : c, r,
                     new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
             }
 
             // Draws the laser 'tail'
-            spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
+            Main.EntitySpriteDraw(texture, start + unit * (transDist - step) - Main.screenPosition,
                 new Rectangle(0, 0, 28, 26), new Color(Main.DiscoR, 0, 255), r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 
             // Draws the laser 'head'
-            spriteBatch.Draw(texture, start + (Distance + step) * unit - Main.screenPosition,
+            Main.EntitySpriteDraw(texture, start + (Distance + step) * unit - Main.screenPosition,
                 new Rectangle(0, 52, 28, 26), new Color(Main.DiscoR, 0, 255), r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
         }
 

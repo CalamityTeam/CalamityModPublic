@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
 
             float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f) / 0.15f), 0f, 1f);
 
-            spriteBatch.Draw(tex, drawPosition, frame, lightColor * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, frame, lightColor * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
 
             return false;
         }
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Melee
 
             float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f) / 0.15f), 0f, 1f);
 
-            spriteBatch.Draw(tex, drawPosition, frame, Color.White * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, frame, Color.White * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
         }
 
 

@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Typeless
                 float radius = MathHelper.Lerp(MaxCrystalOffsetRadius, 0f, Projectile.ai[0] / CrystalsDrawTime);
                 Vector2 drawPositionOffset = angle.ToRotationVector2() * radius;
                 Vector2 drawPosition = Projectile.Center + drawPositionOffset;
-                spriteBatch.Draw(crystalTexture,
+                Main.EntitySpriteDraw(crystalTexture,
                                  drawPosition - Main.screenPosition,
                                  null,
                                  Color.White * opacity,

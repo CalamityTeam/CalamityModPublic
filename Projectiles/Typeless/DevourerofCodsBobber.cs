@@ -56,11 +56,11 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Projectile.ai[0] <= 1f)
             {
-                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             }
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras(SpriteBatch Main.spriteBatch)
         {
             Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
             return Projectile.DrawFishingLine(ModContent.ItemType<TheDevourerofCods>(), fishingLineColor);

@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Boss
             Color color34 = color33;
             Vector2 origin5 = value.Size() / 2f;
             Color color35 = color33 * 0.5f;
-            float num162 = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+            float num162 = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
             Vector2 vector29 = new Vector2(1f, 1.5f) * num162;
             Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
             color34 *= num162;
@@ -155,19 +155,19 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Vector2 drawPos = Projectile.oldPos[i] + vector28;
                     Color color = Projectile.GetAlpha(color34) * ((Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
-                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector29, spriteEffects, 0f);
-                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector30, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector29, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector30, SpriteEffects.None, 0);
 
                     color = Projectile.GetAlpha(color35) * ((Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
-                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector29 * 0.6f, spriteEffects, 0f);
-                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector30 * 0.6f, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector29 * 0.6f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(value, drawPos, null, color, Projectile.rotation, origin5, vector30 * 0.6f, SpriteEffects.None, 0);
                 }
             }
 
-            spriteBatch.Draw(value, vector28, null, color34, Projectile.rotation, origin5, vector29, spriteEffects, 0);
-            spriteBatch.Draw(value, vector28, null, color34, Projectile.rotation, origin5, vector30, spriteEffects, 0);
-            spriteBatch.Draw(value, vector28, null, color35, Projectile.rotation, origin5, vector29 * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(value, vector28, null, color35, Projectile.rotation, origin5, vector30 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, vector28, null, color34, Projectile.rotation, origin5, vector29, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, vector28, null, color34, Projectile.rotation, origin5, vector30, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, vector28, null, color35, Projectile.rotation, origin5, vector29 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, vector28, null, color35, Projectile.rotation, origin5, vector30 * 0.6f, spriteEffects, 0);
 
             return false;
         }

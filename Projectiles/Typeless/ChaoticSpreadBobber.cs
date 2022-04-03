@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras(SpriteBatch Main.spriteBatch)
         {
             if (fishingLineColor == PossibleLineColors[0])
                 Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);

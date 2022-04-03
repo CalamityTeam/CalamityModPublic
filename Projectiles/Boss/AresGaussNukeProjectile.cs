@@ -144,19 +144,19 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.EnterShaderRegion();
-            Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj");
+            Main.spriteBatch.EnterShaderRegion();
+            Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTime), 3)));
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTimeWrappedHourly), 3)));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.Lerp(Color.Yellow, Color.White, 0.5f));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - Projectile.timeLeft / (float)timeLeft);
 
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
-            spriteBatch.ExitShaderRegion();
+            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
+            Main.spriteBatch.ExitShaderRegion();
 
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow"), Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/AresGaussNukeProjectileGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 45f, targetHitbox);

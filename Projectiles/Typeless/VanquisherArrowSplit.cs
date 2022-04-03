@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 Texture2D baseTexture = ModContent.Request<Texture2D>(Texture).Value;
                 Rectangle frame = new Rectangle(0, 0, baseTexture.Width, baseTexture.Height);
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow").Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Ammo/VanquisherArrowGlow").Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
             }
         }
 

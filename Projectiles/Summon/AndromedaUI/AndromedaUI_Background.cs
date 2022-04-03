@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             return false;
         }
 
-        public void DrawBrackets(SpriteBatch spriteBatch)
+        public void DrawBrackets(SpriteBatch Main.spriteBatch)
         {
             Texture2D leftBracketTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracket" + (LeftBracketActive ? "Lit" : "")).Value;
             Texture2D leftBracketTextureHovered = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/LeftBracketHovered").Value;
@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                                          topBracketTexture.Width - 18, topBracketTexture.Height - 12);
             bool topBracketSelect = MouseRectangle.Intersects(topBracketFrame) && !BottomBracketActive;
 
-            spriteBatch.Draw(topBracketSelect ? topBracketTextureHovered : topBracketTexture,
+            Main.EntitySpriteDraw(topBracketSelect ? topBracketTextureHovered : topBracketTexture,
                              topBracketPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                                          leftBracketTexture.Width - 12, leftBracketTexture.Height - 18);
             bool leftBracketSelect = MouseRectangle.Intersects(leftBracketFrame) && !LeftBracketActive;
 
-            spriteBatch.Draw(leftBracketSelect ? leftBracketTextureHovered : leftBracketTexture,
+            Main.EntitySpriteDraw(leftBracketSelect ? leftBracketTextureHovered : leftBracketTexture,
                              leftBracketPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                                          rightBracketTexture.Width - 12, rightBracketTexture.Height - 18);
             bool rightBracketSelect = MouseRectangle.Intersects(rightBracketFrame) && !RightBracketActive;
 
-            spriteBatch.Draw(rightBracketSelect ? rightBracketTextureHovered : rightBracketTexture,
+            Main.EntitySpriteDraw(rightBracketSelect ? rightBracketTextureHovered : rightBracketTexture,
                              rightBracketPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,
@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             }
         }
 
-        public void DrawIcons(SpriteBatch spriteBatch)
+        public void DrawIcons(SpriteBatch Main.spriteBatch)
         {
             // Left Icon (Big/Small indicator)
             DrawLeftIcon(spriteBatch);
@@ -253,7 +253,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             DrawTopIcon(spriteBatch);
         }
 
-        public void DrawLeftIcon(SpriteBatch spriteBatch)
+        public void DrawLeftIcon(SpriteBatch Main.spriteBatch)
         {
             // Define icons to draw
             Texture2D smallIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/SmallIcon").Value;
@@ -296,7 +296,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                 }
             }
             // And finally draw
-            spriteBatch.Draw(textureToDraw,
+            Main.EntitySpriteDraw(textureToDraw,
                              drawPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,
@@ -307,7 +307,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              0f);
         }
 
-        public void DrawRightIcon(SpriteBatch spriteBatch)
+        public void DrawRightIcon(SpriteBatch Main.spriteBatch)
         {
             // Define icons to draw
             Texture2D thunderIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/ThunderIcon").Value;
@@ -373,7 +373,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             }
             // And finally draw the cooldown texture + the icon
             float chargeCompletionRatio = 1f - (RightIconCooldown / (float)GiantIbanRobotOfDoom.RightIconCooldownMax);
-            spriteBatch.Draw(thunderIndicatorCharge,
+            Main.EntitySpriteDraw(thunderIndicatorCharge,
                              Projectile.Center + new Vector2(34f, 30f) - Main.screenPosition,
                              new Rectangle(0, 0, thunderIndicatorCharge.Width, (int)(chargeCompletionRatio * thunderIndicatorCharge.Height)), // Fill up vertically
                              Color.White * Projectile.Opacity,
@@ -382,7 +382,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              Projectile.scale,
                              SpriteEffects.None,
                              0f);
-            spriteBatch.Draw(textureToDraw,
+            Main.EntitySpriteDraw(textureToDraw,
                              drawPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,
@@ -393,7 +393,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              1f);
         }
 
-        public void DrawTopIcon(SpriteBatch spriteBatch)
+        public void DrawTopIcon(SpriteBatch Main.spriteBatch)
         {
             // Define icons to draw
             Texture2D meleeIndicator = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaUI/MeleeIcon").Value;
@@ -438,7 +438,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                 }
             }
             // And finally draw
-            spriteBatch.Draw(textureToDraw,
+            Main.EntitySpriteDraw(textureToDraw,
                              drawPosition - Main.screenPosition,
                              null,
                              Color.White * Projectile.Opacity,

@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             for (int i = 0; i < 10; i++)
             {
-                spriteBatch.Draw(aura, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, -(Projectile.rotation * 0.2f) + (rotationOffset * i * i), aura.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(aura, Projectile.Center - Main.screenPosition, null, drawCol * drawTransparency, -(Projectile.rotation * 0.2f) + (rotationOffset * i * i), aura.Size() / 2f, Projectile.scale - (i * scaleStep), SpriteEffects.None, 0);
             }
 
             // Dust
@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             // Main sprite
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

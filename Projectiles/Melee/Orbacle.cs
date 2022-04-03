@@ -33,14 +33,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.SetBlendState(BlendState.Additive);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
 
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
             Color color = new Color(83, 137, 230); // Auric Blue but slightly more blue. (#5389e6)
-            spriteBatch.Draw(texture, drawPosition, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
-            spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            Main.EntitySpriteDraw(texture, drawPosition, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
         public override void AI()

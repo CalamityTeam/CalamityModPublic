@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
                     Vector2 particleDirection = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2();
                     Vector2 flyDirection = particleDirection.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4 / 2f, MathHelper.PiOver4 / 2f)) * Main.rand.NextFloat(15f, 35f);
 
-                    Particle smoke = new HeavySmokeParticle(Projectile.Center, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.4f, 1.3f) * Projectile.scale, 0.8f, 0, false, 0, true);
+                    Particle smoke = new HeavySmokeParticle(Projectile.Center, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.4f, 1.3f) * Projectile.scale, 0.8f, 0, false, 0, true);
                     GeneralParticleHandler.SpawnParticle(smoke);
 
                     if (Main.rand.Next(3) == 0)
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
                     Vector2 hitPositionDisplace = particleDirection.RotatedBy(MathHelper.PiOver2) * Main.rand.NextFloat(0f, 10f);
                     Vector2 flyDirection = particleDirection.RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)) * Main.rand.NextFloat(5f, 15f);
 
-                    Particle smoke = new HeavySmokeParticle(Projectile.Center + hitPositionDisplace, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(1.6f, 2.2f) * Projectile.scale, 0.8f, 0, false, 0, true);
+                    Particle smoke = new HeavySmokeParticle(Projectile.Center + hitPositionDisplace, flyDirection, Color.Lerp(Color.MidnightBlue, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(1.6f, 2.2f) * Projectile.scale, 0.8f, 0, false, 0, true);
                     GeneralParticleHandler.SpawnParticle(smoke);
 
                     if (Main.rand.Next(3) == 0)

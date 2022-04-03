@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Boss
             float upwardness = MathHelper.Lerp(0f, MaxUpwardRise, upwardnessRatio);
             if (Time >= TotalRitualTime - PulseTime)
             {
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 float pulseCompletionRatio = Utils.InverseLerp(TotalRitualTime - PulseTime, TotalRitualTime, Time, true);
                 Vector2 scale = Projectile.scale * (3f + pulseCompletionRatio * 5f) * new Vector2(1.5f, 1f);
                 DrawData drawData = new DrawData(ModContent.Request<Texture2D>("Terraria/Misc/Perlin"),
@@ -118,14 +118,14 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public void DrawStars(SpriteBatch spriteBatch, Vector2 offset)
+        public void DrawStars(SpriteBatch Main.spriteBatch, Vector2 offset)
         {
             Texture2D starTexture = ModContent.Request<Texture2D>(Texture);
             for (int i = 0; i < 6; i++)
             {
                 float angle = MathHelper.TwoPi * i / 6f + Time / 15f;
                 Vector2 angularOffset = angle.ToRotationVector2() * 4f;
-                spriteBatch.Draw(starTexture,
+                Main.EntitySpriteDraw(starTexture,
                                  Projectile.Center + angularOffset + offset - Main.screenPosition,
                                  null,
                                  Color.Cyan * 0.5f,
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Boss
                                  0.6f,
                                  SpriteEffects.None,
                                  0f);
-                spriteBatch.Draw(starTexture,
+                Main.EntitySpriteDraw(starTexture,
                                  Projectile.Center + angularOffset + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                                  null,
                                  Color.OrangeRed * 0.5f,
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
                                  SpriteEffects.None,
                                  0f);
             }
-            spriteBatch.Draw(starTexture,
+            Main.EntitySpriteDraw(starTexture,
                              Projectile.Center + offset - Main.screenPosition,
                              null,
                              Color.Cyan * 1.4f,
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Boss
                              0.6f,
                              SpriteEffects.None,
                              0f);
-            spriteBatch.Draw(starTexture,
+            Main.EntitySpriteDraw(starTexture,
                              Projectile.Center + offset * new Vector2(-1f, 1f) - Main.screenPosition,
                              null,
                              Color.OrangeRed * 1.1f,

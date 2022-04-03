@@ -291,7 +291,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture);
             Rectangle frame = texture.Frame(2, Main.projFrames[Projectile.type], ReleasingAcid.ToInt(), Projectile.frame);
-            spriteBatch.Draw(texture,
+            Main.EntitySpriteDraw(texture,
                              Projectile.Center - Main.screenPosition,
                              frame,
                              lightColor,

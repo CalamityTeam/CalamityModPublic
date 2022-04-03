@@ -49,35 +49,35 @@ namespace CalamityMod.Particles
             {
                 // Background.
                 case 0:
-                    Vector2 offset = Vector2.UnitX * Main.GlobalTime * 0.03f;
+                    Vector2 offset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * 0.03f;
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     break;
 
                 // Gaseous skulls.
                 case 1:
-                    offset = Vector2.One * (float)Math.Cos(Main.GlobalTime * 0.041f) * 2f;
-                    offset = offset.RotatedBy((float)Math.Cos(Main.GlobalTime * 0.08f) * 0.97f);
+                    offset = Vector2.One * (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.041f) * 2f;
+                    offset = offset.RotatedBy((float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.08f) * 0.97f);
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     break;
 
                 // Spooky faces 1.
                 case 2:
-                    offset = (Main.GlobalTime * 2.02f).ToRotationVector2() * 0.036f;
-                    offset.Y += (float)Math.Cos(Main.GlobalTime * 0.161f) * 0.5f + 0.5f;
+                    offset = (Main.GlobalTimeWrappedHourly * 2.02f).ToRotationVector2() * 0.036f;
+                    offset.Y += (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.161f) * 0.5f + 0.5f;
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     break;
 
                 // Spooky faces 2.
                 case 3:
-                    offset = Vector2.UnitX * Main.GlobalTime * -0.04f + (Main.GlobalTime * 1.89f).ToRotationVector2() * 0.03f;
-                    offset.Y += CalamityUtils.PerlinNoise2D(Main.GlobalTime * 0.187f, Main.GlobalTime * 0.193f, 2, 466920161) * 0.025f;
+                    offset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * -0.04f + (Main.GlobalTimeWrappedHourly * 1.89f).ToRotationVector2() * 0.03f;
+                    offset.Y += CalamityUtils.PerlinNoise2D(Main.GlobalTimeWrappedHourly * 0.187f, Main.GlobalTimeWrappedHourly * 0.193f, 2, 466920161) * 0.025f;
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     break;
 
                 // Spooky faces 3.
                 case 4:
-                    offset = Vector2.UnitX * Main.GlobalTime * 0.037f + (Main.GlobalTime * 1.77f).ToRotationVector2() * 0.04725f;
-                    offset.Y += CalamityUtils.PerlinNoise2D(Main.GlobalTime * 0.187f, Main.GlobalTime * 0.193f, 2, 577215664) * 0.05f;
+                    offset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * 0.037f + (Main.GlobalTimeWrappedHourly * 1.77f).ToRotationVector2() * 0.04725f;
+                    offset.Y += CalamityUtils.PerlinNoise2D(Main.GlobalTimeWrappedHourly * 0.187f, Main.GlobalTimeWrappedHourly * 0.193f, 2, 577215664) * 0.05f;
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     break;
             }

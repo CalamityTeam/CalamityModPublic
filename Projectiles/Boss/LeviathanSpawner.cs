@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
                 // As well as liquid disruption.
                 for (float x = -xArea; x <= xArea; x += 110f)
                 {
-                    float ripplePower = MathHelper.Lerp(4f, 10f, (float)Math.Sin(Main.GlobalTime + x / xArea * MathHelper.TwoPi) * 0.5f + 0.5f);
+                    float ripplePower = MathHelper.Lerp(4f, 10f, (float)Math.Sin(Main.GlobalTimeWrappedHourly + x / xArea * MathHelper.TwoPi) * 0.5f + 0.5f);
                     ripplePower *= MathHelper.Lerp(0.5f, 1f, Time / 300f);
 
                     WaterShaderData ripple = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();

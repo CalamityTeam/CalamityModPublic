@@ -1041,9 +1041,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             Color baseColor1 = EnragedState == (float)Enraged.Yes ? Color.Red : Color.Cyan;
             Color baseColor2 = EnragedState == (float)Enraged.Yes ? Color.IndianRed : Color.Cyan;
 
-            float fadeToWhite = MathHelper.Lerp(0f, 0.65f, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f);
+            float fadeToWhite = MathHelper.Lerp(0f, 0.65f, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             Color baseColor = Color.Lerp(baseColor1, Color.White, fadeToWhite);
-            Color color = Color.Lerp(baseColor, baseColor2, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f) * 0.65f;
+            Color color = Color.Lerp(baseColor, baseColor2, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f) * 0.8f) * 0.65f;
             color.A = 84;
             if (NPC.Opacity <= 0f)
                 return Color.Transparent;
@@ -1068,7 +1068,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             SpriteEffects spriteDirection = direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             float distanceFromHand = NPC.Distance(handPosition);
-            float frameTime = Main.GlobalTime * 0.9f % 1f;
+            float frameTime = Main.GlobalTimeWrappedHourly * 0.9f % 1f;
 
             // Draw back arms.
             if (backArm)

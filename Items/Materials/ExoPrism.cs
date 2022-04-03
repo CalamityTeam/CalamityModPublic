@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Materials
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {
-            float pulse = Main.GlobalTime * 0.75f % 1f;
+            float pulse = Main.GlobalTimeWrappedHourly * 0.75f % 1f;
             float outwardnessFactor = MathHelper.Lerp(0.9f, 1.3f, pulse);
             Color drawColor = Color.MintCream * (1f - pulse) * 0.27f;
             drawColor.A = 0;

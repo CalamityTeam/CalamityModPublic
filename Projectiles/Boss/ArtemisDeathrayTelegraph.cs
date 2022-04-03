@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
             if (TelegraphDelay >= TelegraphTotalTime)
                 return true;
 
-            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
+            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam").Value;
             float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
                 yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 15f);
@@ -108,8 +108,8 @@ namespace CalamityMod.Projectiles.Boss
             colorOuter *= 0.7f;
             colorInner *= 0.7f;
 
-            spriteBatch.Draw(laserTelegraph, Projectile.Center - Main.screenPosition, null, colorInner, OldVelocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0f);
-            spriteBatch.Draw(laserTelegraph, Projectile.Center - Main.screenPosition, null, colorOuter, OldVelocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(laserTelegraph, Projectile.Center - Main.screenPosition, null, colorInner, OldVelocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(laserTelegraph, Projectile.Center - Main.screenPosition, null, colorOuter, OldVelocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0);
 
             return false;
         }

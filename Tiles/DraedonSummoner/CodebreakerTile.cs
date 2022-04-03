@@ -155,7 +155,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Tile t = Main.tile[i, j];
             int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
             int frameXPos = t.TileFrameX;
-            int frameYPos = t.TileFrameY + Height * SheetSquare * (int)((Main.GlobalTime * 12f + left) % 8);
+            int frameYPos = t.TileFrameY + Height * SheetSquare * (int)((Main.GlobalTimeWrappedHourly * 12f + left) % 8);
 
             // Grab the tile entity because it stores the information regarding what is actually attached.
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);

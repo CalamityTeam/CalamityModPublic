@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Boss
             Color color44 = dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
             Vector2 vector = Projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, Projectile.rotation, texture2D19.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, Projectile.rotation, texture2D19.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             num223 -= (texture2D19.Height / 2 + texture2D21.Height) * Projectile.scale;
             Vector2 value20 = Projectile.Center;
             value20 += Projectile.velocity * Projectile.scale * texture2D19.Height / 2f;
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         rectangle7.Height = (int)(num223 - num224);
                     }
-                    Main.spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
                     num224 += rectangle7.Height * Projectile.scale;
                     value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
                     rectangle7.Y += 36;
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             Vector2 vector2 = value20 - Main.screenPosition;
             sourceRectangle2 = null;
-            Main.spriteBatch.Draw(texture2D21, vector2, sourceRectangle2, color44, Projectile.rotation, texture2D21.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D21, vector2, sourceRectangle2, color44, Projectile.rotation, texture2D21.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

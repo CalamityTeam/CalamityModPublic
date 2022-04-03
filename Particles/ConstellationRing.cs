@@ -51,8 +51,8 @@ namespace CalamityMod.Particles
             for (int i = 0; i < StarAmount; i++)
             {
 
-                float starHeight = (float)Math.Sin(Offset + Main.GlobalTime * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
-                float starWidth = (float)Math.Cos(Offset + Main.GlobalTime * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
+                float starHeight = (float)Math.Sin(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
+                float starWidth = (float)Math.Cos(Offset + Main.GlobalTimeWrappedHourly * SpinSpeed + i * MathHelper.TwoPi / (float)StarAmount);
 
                 Vector2 starPos = Position + Rotation.ToRotationVector2() * starWidth * (Squish.X * Scale * ringTexture.Width * 0.45f) + (Rotation + MathHelper.PiOver2).ToRotationVector2() * starHeight * (Squish.Y * Scale * ringTexture.Height * 0.45f);
 

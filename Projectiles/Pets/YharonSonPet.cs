@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Pets
             Vector2 origin = texture.Size() / new Vector2((float)xFrameAmt, (float)yFrameAmt) * 0.5f;
             Rectangle frame = texture.Frame(xFrameAmt, yFrameAmt, frameX, frameY);
             SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

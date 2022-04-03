@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
             Vector2 smokeSpeed = Main.rand.NextVector2Circular(10f, 10f);
-            Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Projectile.velocity / 2, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
+            Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Projectile.velocity / 2, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
             GeneralParticleHandler.SpawnParticle(smoke);
 
             if (Main.rand.Next(3) == 0)
@@ -108,19 +108,19 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             var tex = GetTexture("CalamityMod/Particles/Sparkle");
             float opacityFade = Projectile.timeLeft > 15 ? 1 : Projectile.timeLeft / 15f;
 
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.5f * opacityFade, Main.GlobalTime * 10f + MathHelper.PiOver4, tex.Size() / 2f, Projectile.scale * 1.5f, 0f, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.5f * opacityFade, Main.GlobalTimeWrappedHourly * 10f + MathHelper.PiOver4, tex.Size() / 2f, Projectile.scale * 1.5f, 0f, 0f);
 
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f * opacityFade, Main.GlobalTime * 10f, tex.Size() / 2f, Projectile.scale * 2f, 0f, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f * opacityFade, Main.GlobalTimeWrappedHourly * 10f, tex.Size() / 2f, Projectile.scale * 2f, 0f, 0f);
 
             //Back to normal
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(Sparkle);
 
                 Vector2 smokeSpeed = Main.rand.NextVector2Circular(20f, 20f);
-                Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Projectile.velocity / 2, Color.Lerp(Color.DarkRed, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(1.5f, 2.2f), 0.8f, 0, false, 0, true);
+                Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Projectile.velocity / 2, Color.Lerp(Color.DarkRed, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(1.5f, 2.2f), 0.8f, 0, false, 0, true);
                 GeneralParticleHandler.SpawnParticle(smoke);
 
                 if (Main.rand.Next(3) == 0)

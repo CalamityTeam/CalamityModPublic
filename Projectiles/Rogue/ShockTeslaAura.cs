@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[dust].noGravity = true;
             }
 
-            spriteBatch.Draw(sprite, Projectile.Center - Main.screenPosition, sourceRect, drawColour * opacity, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(sprite, Projectile.Center - Main.screenPosition, sourceRect, drawColour * opacity, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
             return false;
         }
 

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            spriteBatch.Draw
+            Main.spriteBatch.Draw
             (
                 texture,
                 Projectile.Center - Main.screenPosition,

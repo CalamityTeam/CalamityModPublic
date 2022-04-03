@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
                         Projectile.velocity = (Projectile.velocity.ToRotation().AngleTowards(Projectile.SafeDirectionTo(Owner.Center, Vector2.Zero).ToRotation(), MathHelper.Pi / 20f)).ToRotationVector2() * Projectile.velocity.Length() * 0.98f;
                     else
                         Projectile.velocity = (Projectile.velocity.ToRotation().AngleTowards(Projectile.SafeDirectionTo(Owner.Center, Vector2.Zero).ToRotation(), MathHelper.Pi)).ToRotationVector2() * Projectile.velocity.Length() * 1.05f;
-                    Projectile.rotation = Main.GlobalTime * 25f;
+                    Projectile.rotation = Main.GlobalTimeWrappedHourly * 25f;
                     Projectile.scale = MathHelper.Clamp((Owner.Center - Projectile.Center).Length() / (FourSeasonsGalaxia.AriesAttunement_Reach * 0.5f), 0.3f, 2f);
                     Projectile.timeLeft = 4;
                 }
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Melee
             if ((Projectile.Center - Owner.Center).Length() > FourSeasonsGalaxia.AriesAttunement_Reach)
                 Projectile.Center = Owner.Center + Owner.SafeDirectionTo(Projectile.Center, Vector2.Zero) * FourSeasonsGalaxia.AriesAttunement_Reach;
 
-            Projectile.rotation = Main.GlobalTime * 25f;
+            Projectile.rotation = Main.GlobalTimeWrappedHourly * 25f;
             //Make the owner look like theyre "holding" the sword bla bla
             Owner.heldProj = Projectile.whoAmI;
             Projectile.velocity = Owner.SafeDirectionTo(Projectile.Center, Vector2.Zero);
@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
             float smokeDistance = Projectile.scale * 62f;
             Vector2 smokePos = Main.rand.NextVector2Circular(smokeDistance, smokeDistance);
             Vector2 smokeSpeed = Utils.SafeNormalize(smokePos.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 0.1f * (1f + smokePos.Length() / 15f);
-            Particle smoke = new HeavySmokeParticle(Projectile.Center + smokePos, smokeSpeed, Color.Lerp(Color.Navy, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.4f, 1f) * Projectile.scale, 0.8f, 0, false, 0, true);
+            Particle smoke = new HeavySmokeParticle(Projectile.Center + smokePos, smokeSpeed, Color.Lerp(Color.Navy, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.4f, 1f) * Projectile.scale, 0.8f, 0, false, 0, true);
             GeneralParticleHandler.SpawnParticle(smoke);
 
             if (Main.rand.Next(3) == 0)
@@ -229,7 +229,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = sword.Size() / 2f;
             float drawRotation = Projectile.rotation + MathHelper.PiOver4;
 
-            spriteBatch.Draw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             return false;
         }

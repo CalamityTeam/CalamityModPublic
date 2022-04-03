@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Magic
 
         internal Color ColorFunction(float completionRatio)
         {
-            Color baseColor = Main.hslToRgb((Projectile.identity * 0.33f + completionRatio + Main.GlobalTime * 2f) % 1f, 1f, 0.54f);
+            Color baseColor = Main.hslToRgb((Projectile.identity * 0.33f + completionRatio + Main.GlobalTimeWrappedHourly * 2f) % 1f, 1f, 0.54f);
             return Color.Lerp(GetRocketColor(), baseColor, MathHelper.Clamp(completionRatio * 0.8f, 0f, 1f)) * Projectile.Opacity;
         }
 
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Magic
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + Projectile.velocity, 80);
 
             Texture2D rocketTexture = ModContent.Request<Texture2D>(Texture);
-            spriteBatch.Draw(rocketTexture,
+            Main.EntitySpriteDraw(rocketTexture,
                              Projectile.Center - Main.screenPosition,
                              rocketTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              GetRocketColor(),

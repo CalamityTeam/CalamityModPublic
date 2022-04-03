@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Materials
             if (Item.velocity.X != 0f)
                 return;
 
-            float pulse = (float)Math.Cos(1.61803398875f * Main.GlobalTime * 2f) + (float)Math.Cos(Math.E * Main.GlobalTime * 1.7f);
+            float pulse = (float)Math.Cos(1.61803398875f * Main.GlobalTimeWrappedHourly * 2f) + (float)Math.Cos(Math.E * Main.GlobalTimeWrappedHourly * 1.7f);
             pulse = pulse * 0.25f + 0.5f;
 
             // Sharpen the pulse with a power to give erratic fire bursts.

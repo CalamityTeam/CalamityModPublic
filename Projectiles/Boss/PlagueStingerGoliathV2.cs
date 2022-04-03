@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
             drawPos -= new Vector2(glow.Width, glow.Height / Main.projFrames[Projectile.type]) * 1f / 2f;
             drawPos += origin * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);
             Color color = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Color.Red);
-            Main.spriteBatch.Draw(glow, drawPos, null, color, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(glow, drawPos, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override void Kill(int timeLeft)

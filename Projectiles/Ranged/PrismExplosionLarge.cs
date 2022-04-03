@@ -47,13 +47,13 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 36; i++)
             {
-                Vector2 lightDrawPosition = drawPosition + (MathHelper.TwoPi * i / 36f + Main.GlobalTime * 5f).ToRotationVector2() * Projectile.scale * 20f;
+                Vector2 lightDrawPosition = drawPosition + (MathHelper.TwoPi * i / 36f + Main.GlobalTimeWrappedHourly * 5f).ToRotationVector2() * Projectile.scale * 20f;
                 Color lightBurstColor = CalamityUtils.MulticolorLerp(Projectile.timeLeft / 144f, CalamityUtils.ExoPalette);
                 lightBurstColor = Color.Lerp(lightBurstColor, Color.White, 0.4f) * Projectile.Opacity * 0.04f;
                 lightBurstColor.A = 0;
-                spriteBatch.Draw(lightTexture, lightDrawPosition, null, lightBurstColor, 0f, lightTexture.Size() * 0.5f, Projectile.scale * 4.5f, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(lightTexture, lightDrawPosition, null, lightBurstColor, 0f, lightTexture.Size() * 0.5f, Projectile.scale * 4.5f, SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, 0f, origin, 1.6f, SpriteEffects.None, 0);
             return false;
         }
     }

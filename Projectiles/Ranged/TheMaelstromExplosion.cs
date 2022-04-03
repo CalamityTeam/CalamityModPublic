@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 12f + Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 2f;
                 Vector2 afterimageDrawPosition = Projectile.Center + drawOffset - Main.screenPosition;
-                spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, afterimageDrawPosition, null, frontAfterimageColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0);
             }
             return false;
         }

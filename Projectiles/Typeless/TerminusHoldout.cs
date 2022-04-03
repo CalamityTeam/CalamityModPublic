@@ -152,11 +152,11 @@ namespace CalamityMod.Projectiles.Typeless
 
                 for (int i = 0; i < 10; i++)
                 {
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / 10f + Main.GlobalTime * 4.4f).ToRotationVector2() * outwardness;
-                    spriteBatch.Draw(texture, baseDrawPosition + drawOffset, null, afterimageColor, 0f, origin, Projectile.scale, direction, 0f);
+                    Vector2 drawOffset = (MathHelper.TwoPi * i / 10f + Main.GlobalTimeWrappedHourly * 4.4f).ToRotationVector2() * outwardness;
+                    Main.EntitySpriteDraw(texture, baseDrawPosition + drawOffset, null, afterimageColor, 0f, origin, Projectile.scale, direction, 0f);
                 }
             }
-            spriteBatch.Draw(texture, baseDrawPosition, null, baseColor, 0f, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, baseDrawPosition, null, baseColor, 0f, origin, Projectile.scale, direction, 0f);
 
             return false;
         }

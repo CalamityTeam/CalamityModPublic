@@ -2421,7 +2421,7 @@ namespace CalamityMod.Projectiles
             return null;
         }
 
-        public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(Projectile projectile, SpriteBatch Main.spriteBatch, Color lightColor)
         {
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
@@ -2463,7 +2463,7 @@ namespace CalamityMod.Projectiles
 
                     Main.spriteBatch.Draw(texture,
                         new Vector2(position9.X - Main.screenPosition.X + (projectile.width / 2) - texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + projectile.height - texture.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + projectile.gfxOffY),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0f);
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, SpriteEffects.None, 0);
                 }
             }
 

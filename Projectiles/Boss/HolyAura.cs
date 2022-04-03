@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() / 2f;
-            float time = Main.GlobalTime % 10f / 10f;
+            float time = Main.GlobalTimeWrappedHourly % 10f / 10f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             int drawnAmt = 30;
             float[] posX = new float[drawnAmt];
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 float rotation = MathHelper.PiOver2 + timeScalar * MathHelper.PiOver4 * -0.3f + (float)Math.PI * i;
 
-                spriteBatch.Draw(texture, drawPosition + new Vector2(posX[i], posY[i]), null, color, rotation, origin, new Vector2(size[i], size[i]) * scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture, drawPosition + new Vector2(posX[i], posY[i]), null, color, rotation, origin, new Vector2(size[i], size[i]) * scale, SpriteEffects.None, 0);
             }
 
             return false;

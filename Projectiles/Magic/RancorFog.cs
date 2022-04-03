@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.SetBlendState(BlendState.Additive);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
 
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * 0.5f;
@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Magic
             float opacity = Utils.InverseLerp(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;
             Color drawColor = new Color(236, 0, 68) * opacity;
             Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale;
-            spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0);
 
-            spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
             return false;
         }
     }

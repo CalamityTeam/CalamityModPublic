@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => Projectile.GetByUUID(Projectile.owner, Projectile.ai[1]);
             set => Projectile.ai[1] = value;
         }
-        public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTime * 10f) * 0.07f;
+        public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 10f) * 0.07f;
         public override float MaxLaserLength => 900f;
         public override float Lifetime => 70f;
         public override Color LaserOverlayColor => Color.Red;

@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 WaterShaderData wsd = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();
                 // A universal time-based sinusoid which updates extremely rapidly. GlobalTime is 0 to 3600, measured in seconds.
-                float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTime * 20f);
+                float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 20f);
                 Vector2 ripplePos = Projectile.position + new Vector2(beamDims.X * 0.5f, 0f).RotatedBy(Projectile.rotation);
                 // WaveData is encoded as a Color. Not sure why, considering Vector3 exists.
                 Color waveData = new Color(0.5f, 0.1f * Math.Sign(waveSine) + 0.5f, 0f, 1f) * Math.Abs(waveSine);

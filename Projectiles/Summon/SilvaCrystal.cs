@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Summon
                 SpriteBatch spritebatch = Main.spriteBatch;
                 double arg_F8BE_1 = (double)(num286 * MathHelper.PiOver2);
                 Vector2 center = default;
-                spritebatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, Projectile.rotation, origin11, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, Projectile.rotation, origin11, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }

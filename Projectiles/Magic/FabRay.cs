@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Magic
 
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTime * 3f) * 0.5f + 0.5f);
+            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
             float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
-            Color endColor = Color.Lerp(Color.Cyan, Color.HotPink, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTime * 4f) * 0.5f + 0.5f);
+            Color endColor = Color.Lerp(Color.Cyan, Color.HotPink, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
         }
 

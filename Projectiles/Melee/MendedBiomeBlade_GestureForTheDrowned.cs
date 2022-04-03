@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, blade.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            spriteBatch.Draw(blade, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
             return false;
         }
 

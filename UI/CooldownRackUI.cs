@@ -58,7 +58,7 @@ namespace CalamityMod.UI
             foreach (CooldownInstance instance in cooldownsToDraw)
             {
                 CooldownHandler handler = instance.handler;
-                float iconOpacity = (float)Math.Sin(Main.GlobalTime) * 0.1f + 0.6f;
+                float iconOpacity = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f + 0.6f;
 
                 // Icons get brighter if the mouse gets closer
                 iconOpacity += 0.3f * (1 - MathHelper.Clamp(Vector2.Distance(mouse.Center.ToVector2(), iconRectangle.Center.ToVector2()), 0f, 80f) / 80f);
@@ -66,7 +66,7 @@ namespace CalamityMod.UI
                 if (iconRectangle.Intersects(mouse))
                 {
                     mouseHover = handler.DisplayName;
-                    iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTime % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
+                    iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
                 }
 
                 if (CompactIcons)

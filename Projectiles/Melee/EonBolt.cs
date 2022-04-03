@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Head.Position = Projectile.Center + Projectile.velocity * 0.5f;
                 Head.Time = 0;
-                Head.Scale += (float)Math.Sin(Main.GlobalTime * 6) * 0.02f * Projectile.scale;
+                Head.Scale += (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.02f * Projectile.scale;
             }
 
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Main.rand.Next(2) == 0)
             {
-                Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, (float)Math.Sin(Main.GlobalTime * 6f)), 20, Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.28f, 0, false, 0, true);
+                Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 20, Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.28f, 0, false, 0, true);
                 GeneralParticleHandler.SpawnParticle(smoke);
 
                 if (Main.rand.Next(3) == 0)
@@ -86,11 +86,11 @@ namespace CalamityMod.Projectiles.Melee
 
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTime * 3f) * 0.5f + 0.5f);
+            float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
             float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
             Color colorHue = Main.hslToRgb(Hue, 1, 0.8f);
 
-            Color endColor = Color.Lerp(colorHue, Color.PaleTurquoise, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTime * 4f) * 0.5f + 0.5f);
+            Color endColor = Color.Lerp(colorHue, Color.PaleTurquoise, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
         }
 
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
             Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/GalaxiaBolt");
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }

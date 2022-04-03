@@ -146,14 +146,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Supercharged)
             {
                 Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/WulfrumRoverShield");
-                Rectangle frame = shieldTexture.Frame(1, 11, 0, (int)(Main.GlobalTime * 8) % 11);
+                Rectangle frame = shieldTexture.Frame(1, 11, 0, (int)(Main.GlobalTimeWrappedHourly * 8) % 11);
                 spriteBatch.Draw(shieldTexture,
                                  NPC.Center - Main.screenPosition + Vector2.UnitY * (NPC.gfxOffY + 6f),
                                  frame,
                                  Color.White * 0.625f,
                                  NPC.rotation,
                                  shieldTexture.Size() * 0.5f / new Vector2(1f, 11f),
-                                 NPC.scale + (float)Math.Cos(Main.GlobalTime) * 0.1f,
+                                 NPC.scale + (float)Math.Cos(Main.GlobalTimeWrappedHourly) * 0.1f,
                                  SpriteEffects.None,
                                  0f);
             }

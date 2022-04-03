@@ -97,11 +97,11 @@ namespace CalamityMod.Projectiles.Melee
 
             float swordSize = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f);
 
-            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, swordSize, 0f, 0f);
-            spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, swordSize, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, swordSize, 0f, 0f);
+            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, swordSize, 0f, 0f);
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Draw the laser
             Texture2D tex = GetTexture("CalamityMod/Particles/BloomLine");
@@ -110,18 +110,18 @@ namespace CalamityMod.Projectiles.Melee
             float size = Timer / MaxTime > 0.5f ? (float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.2f + 0.8f : (float)Math.Sin(Timer / MaxTime * MathHelper.Pi);
             size *= 3;
             Vector2 scale = new Vector2(size, Projectile.velocity.Length() / tex.Height);
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
 
             //Cap the lines
             Texture2D cap = GetTexture("CalamityMod/Particles/BloomLineCap");
             scale = new Vector2(size, size);
             origin = new Vector2(cap.Width / 2f, cap.Height);
-            spriteBatch.Draw(cap, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot + MathHelper.Pi, origin, scale, SpriteEffects.None, 0);
-            spriteBatch.Draw(cap, Projectile.Center + Projectile.velocity - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(cap, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot + MathHelper.Pi, origin, scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(cap, Projectile.Center + Projectile.velocity - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
 
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

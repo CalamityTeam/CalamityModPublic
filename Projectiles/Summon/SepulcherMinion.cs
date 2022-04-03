@@ -538,7 +538,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             float angerFactor = Utils.InverseLerp(300f, 280f, PlayerAttackCountdown, true) * Utils.InverseLerp(0f, 30f, PlayerAttackCountdown, true);
-            float afterimageOutwardness = MathHelper.Lerp(6f, 8f, (float)Math.Cos(Main.GlobalTime * 2.3f) * 0.5f + 0.5f) * angerFactor;
+            float afterimageOutwardness = MathHelper.Lerp(6f, 8f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 2.3f) * 0.5f + 0.5f) * angerFactor;
             Color backAfterimageColor = Color.Red * angerFactor;
             backAfterimageColor.A = 0;
 
@@ -565,10 +565,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(foreArmTexture, forearmDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                        Main.EntitySpriteDraw(foreArmTexture, forearmDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
                     }
                 }
-                spriteBatch.Draw(foreArmTexture, forearmDrawPosition, null, drawColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(foreArmTexture, forearmDrawPosition, null, drawColor, Arms[i].Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
                 Vector2 armDrawPosition = Arms[i].Limbs[1].Center - Main.screenPosition;
                 drawColor = Lighting.GetColor((int)(Arms[i].Limbs[1].Center.X / 16), (int)(Arms[i].Limbs[1].Center.Y / 16));
@@ -578,10 +578,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(armTexture, armDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
+                        Main.EntitySpriteDraw(armTexture, armDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
                     }
                 }
-                spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
+                Main.EntitySpriteDraw(armTexture, armDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, SpriteEffects.FlipVertically, 0f);
 
                 Vector2 handDrawPosition = armDrawPosition;
                 SpriteEffects handDirection = Arms[i].Direction ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -591,10 +591,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(handTexture, handDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
+                        Main.EntitySpriteDraw(handTexture, handDrawPosition + drawOffset, null, backAfterimageColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
                     }
                 }
-                spriteBatch.Draw(handTexture, handDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
+                Main.EntitySpriteDraw(handTexture, handDrawPosition, null, drawColor, Arms[i].Limbs[1].Rotation - MathHelper.PiOver2, handTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, handDirection, 0f);
             }
 
             // Draw the segments.
@@ -614,10 +614,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int j = 0; j < 4; j++)
                     {
                         Vector2 drawOffset = (MathHelper.TwoPi * j / 4f).ToRotationVector2() * afterimageOutwardness;
-                        spriteBatch.Draw(textureToUse, drawPosition + drawOffset, null, backAfterimageColor, Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                        Main.EntitySpriteDraw(textureToUse, drawPosition + drawOffset, null, backAfterimageColor, Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
                     }
                 }
-                spriteBatch.Draw(textureToUse, drawPosition, null, Projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(textureToUse, drawPosition, null, Projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
 
             drawPosition = Projectile.Center - Main.screenPosition;
@@ -631,7 +631,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 jawPosition = Projectile.Center - Main.screenPosition;
                 jawPosition += Vector2.UnitX.RotatedBy(Projectile.rotation + JawRotation * i) * i * (jawBaseOffset + (float)Math.Sin(JawRotation) * 14f);
                 jawPosition -= Vector2.UnitY.RotatedBy(Projectile.rotation) * (26f + (float)Math.Sin(JawRotation) * 8f);
-                spriteBatch.Draw(jawTexture, jawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation + JawRotation * i, jawTexture.Size() * 0.5f, Projectile.scale * 1.25f, jawSpriteEffect, 0f);
+                Main.EntitySpriteDraw(jawTexture, jawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation + JawRotation * i, jawTexture.Size() * 0.5f, Projectile.scale * 1.25f, jawSpriteEffect, 0f);
             }
 
             // Draw the head.
@@ -640,10 +640,10 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * afterimageOutwardness;
-                    spriteBatch.Draw(headTexture, drawPosition + drawOffset, null, backAfterimageColor, Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(headTexture, drawPosition + drawOffset, null, backAfterimageColor, Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0);
                 }
             }
-            spriteBatch.Draw(headTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(headTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0);
 
             // Draw demonic eyes if enraged.
             if (afterimageOutwardness > 0f)
@@ -652,7 +652,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     drawPosition = Projectile.Center - Main.screenPosition - Projectile.velocity.SafeNormalize(Vector2.Zero) * 3f * i;
                     Color fadeColor = Color.White * (1f - i / (float)Projectile.oldPos.Length);
-                    spriteBatch.Draw(eyesTexture, drawPosition, null, Projectile.GetAlpha(fadeColor), Projectile.oldRot[i], eyesTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(eyesTexture, drawPosition, null, Projectile.GetAlpha(fadeColor), Projectile.oldRot[i], eyesTexture.Size() * 0.5f, Projectile.scale * 1.25f, SpriteEffects.None, 0);
                 }
             }
 

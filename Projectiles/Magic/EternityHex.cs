@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public Color PrimitiveColorFunction(float completionRatio)
         {
-            float leftoverTimeScale = (float)Math.Sin(Main.GlobalTime * 4f) * 0.5f + 0.5f;
+            float leftoverTimeScale = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f;
             leftoverTimeScale *= 0.5f;
 
             Color headColor = Color.Lerp(Color.Black, Color.Magenta, 0.1f);

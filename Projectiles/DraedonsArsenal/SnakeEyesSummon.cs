@@ -259,7 +259,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             CalamityUtils.DrawAfterimagesCentered(Projectile, 0, Color.White, ProjectileID.Sets.TrailCacheLength[Projectile.type]);
             Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SnakeEye");
             Vector2 offsetVector = Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), Projectile.Size * 0.5f * EyeOutwardness);
-            spriteBatch.Draw(eyeTexture,
+            Main.EntitySpriteDraw(eyeTexture,
                              Projectile.Center + offsetVector - Main.screenPosition,
                              null,
                              Color.White,

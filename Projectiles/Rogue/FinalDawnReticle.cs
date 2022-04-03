@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D ring = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D symbol = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnReticleSymbol");
-            spriteBatch.Draw(symbol,
+            Main.EntitySpriteDraw(symbol,
                              Projectile.Center - Main.screenPosition,
                              null,
                              Projectile.GetAlpha(Color.White),
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
                              Projectile.scale,
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                              0f);
-            spriteBatch.Draw(ring,
+            Main.EntitySpriteDraw(ring,
                              Projectile.Center - Main.screenPosition,
                              null,
                              Projectile.GetAlpha(Color.White),

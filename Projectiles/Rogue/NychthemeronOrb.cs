@@ -108,11 +108,11 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D texDark = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NychthemeronOrb2");
             if (Projectile.ai[0] == 0f)
             {
-                spriteBatch.Draw(texLight, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texLight.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texLight, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texLight.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             }
             else if (Projectile.ai[0] == 1f)
             {
-                spriteBatch.Draw(texDark, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texDark.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texDark, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texDark.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }

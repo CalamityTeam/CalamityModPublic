@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Magic
             mainSwordColor.A = 160;
             SpriteEffects sfx = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-            spriteBatch.Draw(tex, drawPos, new Rectangle?(rect), mainSwordColor, Projectile.rotation, halfSpriteSize, Projectile.scale, sfx, 0f);
+            Main.EntitySpriteDraw(tex, drawPos, new Rectangle?(rect), mainSwordColor, Projectile.rotation, halfSpriteSize, Projectile.scale, sfx, 0f);
 
             // Draw the projectile's afterimages
             for (int i = 0; i < NumAfterimages; ++i)
@@ -175,7 +175,7 @@ namespace CalamityMod.Projectiles.Magic
                 float afterimageScale = MathHelper.Lerp(1.2f * Projectile.scale, 0.4f * Projectile.scale, i / (NumAfterimages - 1f));
 
                 Vector2 imageDrawPos = afterimagePos + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-                spriteBatch.Draw(tex, imageDrawPos, new Rectangle?(rect), afterimageLight, rotation, halfSpriteSize, afterimageScale, afterimageSfx, 0f);
+                Main.EntitySpriteDraw(tex, imageDrawPos, new Rectangle?(rect), afterimageLight, rotation, halfSpriteSize, afterimageScale, afterimageSfx, 0f);
             }
 
             return false;

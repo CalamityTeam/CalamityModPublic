@@ -298,17 +298,17 @@ namespace CalamityMod.Projectiles.Melee
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, 2, lightColor);
 
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
             GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0f);
             if (ChargePower >= MaxChargeTime)
-                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTime * 30) % 30f / 60f));
+                GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * 30) % 30f / 60f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
 
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-            spriteBatch.ExitShaderRegion();
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

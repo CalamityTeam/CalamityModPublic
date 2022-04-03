@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public Color TelegraphPrimitiveColor(float completionRatio)
         {
-            float colorInterpolant = (completionRatio * 1.2f + Main.GlobalTime * 0.26f) % 1f;
+            float colorInterpolant = (completionRatio * 1.2f + Main.GlobalTimeWrappedHourly * 0.26f) % 1f;
             float opacity = MathHelper.Lerp(0.2f, 0.425f, Projectile.Opacity) * Utils.InverseLerp(30f, 24f, Projectile.timeLeft, true);
             return CalamityUtils.MulticolorLerp(colorInterpolant, Color.Orange, Color.Red, Color.Crimson, Color.Red) * opacity;
         }

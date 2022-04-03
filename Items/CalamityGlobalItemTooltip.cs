@@ -130,7 +130,7 @@ namespace CalamityMod.Items
                 nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
             if (item.type == ModContent.ItemType<AngelicAlliance>())
             {
-                nameLine.overrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTime / 2f % 1f, new Color[]
+                nameLine.overrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
                 {
                     new Color(255, 196, 55),
                     new Color(255, 231, 107),
@@ -155,25 +155,25 @@ namespace CalamityMod.Items
                     };
                 if (nameLine != null)
                 {
-                    int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
+                    int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorSet.Count);
                     Color currentColor = colorSet[colorIndex];
                     Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
-                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
             if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
             {
-                if (Main.GlobalTime % 1f < 0.6f)
+                if (Main.GlobalTimeWrappedHourly % 1f < 0.6f)
                 {
                     nameLine.overrideColor = new Color(89, 229, 255);
                 }
-                else if (Main.GlobalTime % 1f < 0.8f)
+                else if (Main.GlobalTimeWrappedHourly % 1f < 0.8f)
                 {
-                    nameLine.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
+                    nameLine.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTimeWrappedHourly % 1f - 0.6f) / 0.2f);
                 }
                 else
                 {
-                    nameLine.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
+                    nameLine.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTimeWrappedHourly % 1f - 0.8f) / 0.2f);
                 }
             }
             if (item.type == ModContent.ItemType<Earth>())
@@ -186,10 +186,10 @@ namespace CalamityMod.Items
                             };
                 if (nameLine != null)
                 {
-                    int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
+                    int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % earthColors.Count);
                     Color currentColor = earthColors[colorIndex];
                     Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
-                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
             #endregion
@@ -964,7 +964,7 @@ namespace CalamityMod.Items
                 Color rarityColor = line.overrideColor ?? line.color;
                 Vector2 basePosition = new Vector2(line.X, line.Y);
 
-                float backInterpolant = (float)Math.Pow(Main.GlobalTime * 0.81f % 1f, 1.5f);
+                float backInterpolant = (float)Math.Pow(Main.GlobalTimeWrappedHourly * 0.81f % 1f, 1.5f);
                 Vector2 backScale = line.baseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
                 Color backColor = Color.Lerp(rarityColor, Color.DarkRed, backInterpolant) * (float)Math.Pow(1f - backInterpolant, 0.46f);
                 Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;

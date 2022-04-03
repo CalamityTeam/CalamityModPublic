@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Summon
                     goal += value2 * textureHeight;
                     drawVector = source - goal;
                     Color color = Lighting.GetColor((int)goal.X / 16, (int)(goal.Y / 16f));
-                    Main.spriteBatch.Draw(chain, goal - Main.screenPosition, sourceRectangle, color, rotation, chain.Size() / 2f, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(chain, goal - Main.screenPosition, sourceRectangle, color, rotation, chain.Size() / 2f, 1f, SpriteEffects.None, 0);
                 }
             }
             return true;
@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Summon
                 spriteEffects = SpriteEffects.FlipHorizontally;
             Color color = Lighting.GetColor((int)hostPlant.Center.X / 16, (int)(hostPlant.Center.Y / 16f));
 
-            Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

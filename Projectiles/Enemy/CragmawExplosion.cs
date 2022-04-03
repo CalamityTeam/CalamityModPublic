@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override bool PreDraw(ref Color lightColor)
         {
             Rectangle frame = new Rectangle(FrameX * Projectile.width, FrameY * Projectile.height, Projectile.width, Projectile.height);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0);
             return false;
         }
     }

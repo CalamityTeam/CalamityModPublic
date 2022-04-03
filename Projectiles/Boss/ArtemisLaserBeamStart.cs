@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Boss
         public override Color LaserOverlayColor => new Color(250, 180, 100, 100);
         public override Color LightCastColor => Color.White;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>(Texture).Value;
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle");
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd");
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle").Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd").Value;
         public override string Texture => "CalamityMod/Projectiles/Boss/AresLaserBeamStart";
 
         public override void SetStaticDefaults()
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
             Rectangle endFrameArea = LaserEndTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
 
             // Start texture drawing.
-            spriteBatch.Draw(LaserBeginTexture,
+            Main.EntitySpriteDraw(LaserBeginTexture,
                              Projectile.Center - Main.screenPosition,
                              startFrameArea,
                              beamColor,
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
                              LaserBeginTexture.Size() / 2f,
                              Projectile.scale,
                              SpriteEffects.FlipVertically,
-                             0f);
+                             0);
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength + middleFrameArea.Height;
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Boss
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
-                    spriteBatch.Draw(LaserMiddleTexture,
+                    Main.EntitySpriteDraw(LaserMiddleTexture,
                                      centerOnLaser - Main.screenPosition,
                                      middleFrameArea,
                                      beamColor,
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Boss
                                      LaserMiddleTexture.Size() * 0.5f,
                                      Projectile.scale,
                                      SpriteEffects.None,
-                                     0f);
+                                     0);
                     incrementalBodyLength += laserOffset;
                     centerOnLaser += Projectile.velocity * laserOffset;
                     middleFrameArea.Y += LaserMiddleTexture.Height / Main.projFrames[Projectile.type];
@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
-            spriteBatch.Draw(LaserEndTexture,
+            Main.EntitySpriteDraw(LaserEndTexture,
                              laserEndCenter,
                              endFrameArea,
                              beamColor,
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Boss
                              LaserEndTexture.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.FlipVertically,
-                             0f);
+                             0);
             return false;
         }
 

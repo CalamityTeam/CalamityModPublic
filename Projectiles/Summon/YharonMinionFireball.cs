@@ -68,12 +68,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
                     Color afterimageColor = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
-                    spriteBatch.Draw(texture, afterimageDrawPosition, frame, afterimageColor, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageColor, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
                 }
             }
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition - Vector2.UnitY * Projectile.gfxOffY;
-            spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
 
             return false;
         }

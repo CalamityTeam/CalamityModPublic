@@ -230,7 +230,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public Color TrailColor(float completionRatio)
         {
-            float hue = (Main.GlobalTime * -0.62f + completionRatio * 1.5f) % 1f;
+            float hue = (Main.GlobalTimeWrappedHourly * -0.62f + completionRatio * 1.5f) % 1f;
             float brightness = MathHelper.SmoothStep(0.5f, 1f, Utils.InverseLerp(0.3f, 0f, completionRatio, true));
             float opacity = Utils.InverseLerp(1f, 0.8f, completionRatio, true) * Projectile.Opacity;
             Color color = Main.hslToRgb(hue, 1f, brightness) * opacity;
@@ -253,14 +253,14 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             Vector2 origin = texture.Size() * 0.5f;
 
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:ArtAttack"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
             GameShaders.Misc["CalamityMod:ArtAttack"].Apply();
 
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 100);
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
 
-            spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, 0, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, 0, 0f);
             return false;
         }
 

@@ -114,7 +114,7 @@ namespace CalamityMod.Items.Weapons.Melee
             passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
 
             mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
-            mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+            mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
             blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
             blessingTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
@@ -276,7 +276,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
             Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
 
-            int currentFrame = ((int)Math.Floor(Main.GlobalTime * 15f)) % 7;
+            int currentFrame = ((int)Math.Floor(Main.GlobalTimeWrappedHourly * 15f)) % 7;
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
 
             spriteBatch.End();
@@ -300,7 +300,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
             Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
 
-            int currentFrame = ((int)Math.Floor(Main.GlobalTime * 15f)) % 7;
+            int currentFrame = ((int)Math.Floor(Main.GlobalTimeWrappedHourly * 15f)) % 7;
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
 
             spriteBatch.End();

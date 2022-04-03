@@ -63,8 +63,8 @@ namespace CalamityMod.Skies
             {
                 Vector2 centerRange = new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.1f / Auroras[i].Depth);
                 Auroras[i].Center = centerRange * (Auroras[i].CenterOffsetRatio * MathHelper.TwoPi).ToRotationVector2() + Vector2.UnitX * Main.screenWidth * 0.5f;
-                Auroras[i].Center.Y -= 180f + (float)Math.Cos(Main.GlobalTime * 1.2f + Auroras[i].CenterOffsetRatio * MathHelper.Pi) * 50f;
-                Auroras[i].CenterOffsetRatio += 1f / 1800f * MathHelper.Lerp(0.2f, 1f, auroraStrength) * (float)Math.Sin(Main.GlobalTime * 0.9f);
+                Auroras[i].Center.Y -= 180f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 1.2f + Auroras[i].CenterOffsetRatio * MathHelper.Pi) * 50f;
+                Auroras[i].CenterOffsetRatio += 1f / 1800f * MathHelper.Lerp(0.2f, 1f, auroraStrength) * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.9f);
             }
         }
 
@@ -115,10 +115,10 @@ namespace CalamityMod.Skies
                 for (int i = 0; i < Auroras.Length; i++)
                 {
                     float hue = 0.5f + Auroras[i].ColorHueOffset * 0.5f * MathHelper.Lerp(0.15f, 0.95f, auroraStrength);
-                    hue += (float)Math.Cos(Main.GlobalTime * 1.2f) * 0.25f;
+                    hue += (float)Math.Cos(Main.GlobalTimeWrappedHourly * 1.2f) * 0.25f;
                     hue %= 1f;
                     float scale = 1.4f / Auroras[i].Depth;
-                    scale += (float)Math.Cos(Main.GlobalTime * 0.7f + Auroras[i].CenterOffsetRatio * MathHelper.TwoPi) * 0.2f;
+                    scale += (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.7f + Auroras[i].CenterOffsetRatio * MathHelper.TwoPi) * 0.2f;
 
                     Color auroraColor = Main.hslToRgb(hue, 1f, 0.825f) * 0.85f;
                     auroraColor *= MathHelper.Lerp(0.3f, 1f, auroraStrength);
@@ -131,7 +131,7 @@ namespace CalamityMod.Skies
                         auroraColor *= 0.4f;
 
                     float yBrightness = MathHelper.Lerp(1.5f, 0.5f, 1f - MathHelper.Clamp((Auroras[i].Center.Y + 300f) / 200f, 0f, 1f)) * 1.3f;
-                    yBrightness *= MathHelper.Lerp(0.6f, 1.1f, (float)Math.Sin(Main.GlobalTime / 1.8f) * 0.5f + 0.5f);
+                    yBrightness *= MathHelper.Lerp(0.6f, 1.1f, (float)Math.Sin(Main.GlobalTimeWrappedHourly / 1.8f) * 0.5f + 0.5f);
                     if (yBrightness > 1.3f)
                         yBrightness = 1.3f;
                     auroraColor *= yBrightness;

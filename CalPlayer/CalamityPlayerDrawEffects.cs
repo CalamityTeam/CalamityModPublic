@@ -79,7 +79,7 @@ namespace CalamityMod.CalPlayer
 
         public static Color GetCurrentMoonlightDyeColor(float angleOffset = 0f)
         {
-            float interval = (float)Math.Cos(Main.GlobalTime * 0.6f + angleOffset) * 0.5f + 0.5f;
+            float interval = (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.6f + angleOffset) * 0.5f + 0.5f;
             interval = MathHelper.Clamp(interval, 0f, 0.995f);
             Color dayColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeDayColors.ToArray());
             Color nightColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeNightColors.ToArray());
@@ -177,10 +177,10 @@ namespace CalamityMod.CalPlayer
                     continue;
 
                 float drawOffsetAngle = modPlayer.GemTechState.CalculateGemOffsetAngle(gemType);
-                float gemOpacity = MathHelper.Lerp(0.85f, 1.05f, (float)Math.Cos(Main.GlobalTime * 2.3f) * 0.5f + 0.5f);
+                float gemOpacity = MathHelper.Lerp(0.85f, 1.05f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 2.3f) * 0.5f + 0.5f);
 
                 // Incorporate a sinusoidal pulse into the pulse factor.
-                pulseFactor *= (float)Math.Cos(Main.GlobalTime * 0.61f + drawOffsetAngle);
+                pulseFactor *= (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.61f + drawOffsetAngle);
 
                 // Somewhat unorthodox way of creating an illusion of gems being drawn behind the player via orbiting.
                 // Instead of actually messing with a Z position it simply fades away when the sine of the draw
@@ -192,7 +192,7 @@ namespace CalamityMod.CalPlayer
                 // Draw back afterimages.
                 for (int j = 0; j < 5; j++)
                 {
-                    Color backAfterimageColor = Main.hslToRgb((Main.GlobalTime * 0.47f + j / 5f) % 1f, 1f, 0.67f);
+                    Color backAfterimageColor = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.47f + j / 5f) % 1f, 1f, 0.67f);
                     backAfterimageColor = Color.Lerp(backAfterimageColor, Color.White, 0.64f) * gemOpacity * 0.24f;
                     Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * j / 5f).ToRotationVector2() * pulseFactor;
                     DrawData gemBackDrawData = new DrawData(gemTexture, drawPosition, null, backAfterimageColor, 0f, gemTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
@@ -200,7 +200,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Draw the main gem.
-                Color baseGemColor = Main.hslToRgb(Main.GlobalTime * 0.51f % 1f, 1f, 0.67f);
+                Color baseGemColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.51f % 1f, 1f, 0.67f);
                 baseGemColor = Color.Lerp(baseGemColor, Color.White, 0.56f);
                 baseGemColor.A = 105;
                 baseGemColor *= gemOpacity;
@@ -637,7 +637,7 @@ namespace CalamityMod.CalPlayer
                 Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
                 Color color = Color.White * 0.625f;
                 Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f / 11f);
-                float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
+                float scale = 1f + (float)Math.Cos(Main.GlobalTimeWrappedHourly) * 0.1f;
                 SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
                 DrawData data = new DrawData(texture, drawPos, frame, color, 0f, origin, scale, spriteEffects, 0);

@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             // Start texture drawing.
             Vector2 centerOnLaser = Projectile.Center + Projectile.velocity * Projectile.scale * 116f;
-            spriteBatch.Draw(LaserBeginTexture,
+            Main.EntitySpriteDraw(LaserBeginTexture,
                              centerOnLaser - Main.screenPosition,
                              startFrameArea,
                              beamColor,
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     centerOnLaser += Projectile.velocity * laserOffset;
                     incrementalBodyLength += laserOffset;
-                    spriteBatch.Draw(LaserMiddleTexture,
+                    Main.EntitySpriteDraw(LaserMiddleTexture,
                                      centerOnLaser - Main.screenPosition,
                                      middleFrameArea,
                                      beamColor,
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             Vector2 laserEndCenter = centerOnLaser + Projectile.velocity * endFrameArea.Height - Main.screenPosition;
-            spriteBatch.Draw(LaserEndTexture,
+            Main.EntitySpriteDraw(LaserEndTexture,
                              laserEndCenter,
                              endFrameArea,
                              beamColor,

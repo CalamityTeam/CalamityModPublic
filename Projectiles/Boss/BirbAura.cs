@@ -130,13 +130,13 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
             }
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraStart");
-            Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraEnd");
+            Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraStart").Value;
+            Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BirbAuraEnd").Value;
             float num223 = Projectile.localAI[1]; //length of laser
             Color color44 = new Color(128, 128, 128, 0);
             Vector2 vector = Projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            spriteBatch.Draw(texture2, vector, sourceRectangle2, color44, Projectile.rotation, texture2.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture2, vector, sourceRectangle2, color44, Projectile.rotation, texture2.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             num223 -= (texture2.Height / 2 + texture3.Height) * Projectile.scale;
             Vector2 value20 = Projectile.Center;
             value20 += Projectile.velocity * Projectile.scale * texture2.Height / 2f;
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         rectangle7.Height = (int)(num223 - num224);
                     }
-                    spriteBatch.Draw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0);
                     num224 += rectangle7.Height * Projectile.scale;
                     value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
                     rectangle7.Y += texture.Height;
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             Vector2 vector2 = value20 - Main.screenPosition;
             sourceRectangle2 = null;
-            spriteBatch.Draw(texture3, vector2, sourceRectangle2, color44, Projectile.rotation, texture3.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture3, vector2, sourceRectangle2, color44, Projectile.rotation, texture3.Frame(1, 1, 0, 0).Top(), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

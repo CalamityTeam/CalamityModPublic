@@ -105,29 +105,29 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Projectile.Kill();
         }
 
-        public void DrawPortal(SpriteBatch spriteBatch, Vector2 drawPosition, float opacity)
+        public void DrawPortal(SpriteBatch Main.spriteBatch, Vector2 drawPosition, float opacity)
         {
             Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal");
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
-            float rotation = Main.GlobalTime * 6f;
+            float rotation = Main.GlobalTimeWrappedHourly * 6f;
 
             // Black portal.
             Color color = Color.Lerp(baseColor, Color.Black, 0.55f).MultiplyRGB(Color.DarkGray) * opacity;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, -rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, -rotation, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
 
-            spriteBatch.SetBlendState(BlendState.Additive);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
 
             // Cyan portal.
             color = Color.Lerp(baseColor, Color.Cyan, 0.55f) * opacity * 1.6f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation * 0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation * 0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
 
             // Magenta portal.
             color = Color.Lerp(baseColor, Color.Fuchsia, 0.55f) * opacity * 1.6f;
-            spriteBatch.Draw(portalTexture, drawPosition, null, color, rotation * -0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(portalTexture, drawPosition, null, color, rotation * -0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None, 0);
 
-            spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Texture2D smear = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmear");
 
-                spriteBatch.EnterShaderRegion(BlendState.Additive);
+                Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
 
                 float rotation = Projectile.rotation - MathHelper.Pi / 5f;
                 if (SpinDirection == -1f)
@@ -146,8 +146,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Color smearColor = Color.Fuchsia * CalamityUtils.Convert01To010(SpinCompletion) * 0.9f;
                 Vector2 smearOrigin = smear.Size() * 0.5f;
 
-                spriteBatch.Draw(smear, Owner.Center - Main.screenPosition, null, smearColor, rotation, smearOrigin, Projectile.scale * 1.45f, 0, 0);
-                spriteBatch.ExitShaderRegion();
+                Main.EntitySpriteDraw(smear, Owner.Center - Main.screenPosition, null, smearColor, rotation, smearOrigin, Projectile.scale * 1.45f, 0, 0);
+                Main.spriteBatch.ExitShaderRegion();
             }
 
             // Make the spear go through the portal.
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (portalIsInteractable)
             {
-                spriteBatch.EnterShaderRegion();
+                Main.spriteBatch.EnterShaderRegion();
                 Vector2 intersectionNormal = portalDrawPosition + Main.screenPosition - Projectile.Center;
                 Vector2 worldOffset = Projectile.rotation.ToRotationVector2() * -45f;
                 Vector2 intersectionOffset = (portalDrawPosition + Main.screenPosition - Projectile.Center) * -1.5f;
@@ -173,10 +173,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
-            spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, 1f, 0, 0);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, 1f, 0, 0);
 
             if (portalIsInteractable)
-                spriteBatch.ExitShaderRegion();
+                Main.spriteBatch.ExitShaderRegion();
 
             // Draw the portal once ready.
             DrawPortal(spriteBatch, portalDrawPosition, portalOpacity);

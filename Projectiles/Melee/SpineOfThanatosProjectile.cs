@@ -199,8 +199,8 @@ namespace CalamityMod.Projectiles.Melee
                 float rotation = (WhipPoints[i + 1] - WhipPoints[i]).ToRotation() + MathHelper.PiOver2;
                 Vector2 drawPosition = WhipPoints[i] - Main.screenPosition;
                 Color color = Projectile.GetAlpha(Lighting.GetColor((int)WhipPoints[i].X / 16, (int)WhipPoints[i].Y / 16));
-                spriteBatch.Draw(whipSegmentTexture, drawPosition, null, color, rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
-                spriteBatch.Draw(whipSegmentGlowmaskTexture, drawPosition, null, Color.White, rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(whipSegmentTexture, drawPosition, null, color, rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(whipSegmentGlowmaskTexture, drawPosition, null, Color.White, rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             }
 
             return false;

@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(31f, 29f);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }
     }
 }

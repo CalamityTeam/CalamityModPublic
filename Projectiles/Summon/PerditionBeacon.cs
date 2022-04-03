@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 drawPosition = Target.Bottom - Main.screenPosition;
             drawPosition.Y -= 12f;
             Color drawColor = Color.White * DownwardCrossFade;
-            Main.spriteBatch.Draw(crossTexture, drawPosition, null, drawColor, Projectile.rotation, crossTexture.Size() * 0.5f, Projectile.scale * 0.85f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(crossTexture, drawPosition, null, drawColor, Projectile.rotation, crossTexture.Size() * 0.5f, Projectile.scale * 0.85f, SpriteEffects.None, 0);
         }
 
         public override bool? CanDamage() => false;

@@ -687,7 +687,7 @@ namespace CalamityMod.UI
                 {
                     if (EnrageTimer > 0)
                     {
-                        float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                        float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
                         float outwardness = EnrageTimer / (float)EnrageAnimationTime * 1.5f + pulse * 2f;
                         for (int i = 0; i < 4; i++)
                         {
@@ -700,7 +700,7 @@ namespace CalamityMod.UI
                 {
                     if (IncreasingDefenseOrDRTimer > 0)
                     {
-                        float pulse = (float)Math.Sin(Main.GlobalTime * 4.5f) * 0.5f + 0.5f;
+                        float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
                         float outwardness = IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime * 1.5f + pulse * 2f;
                         for (int i = 0; i < 4; i++)
                         {

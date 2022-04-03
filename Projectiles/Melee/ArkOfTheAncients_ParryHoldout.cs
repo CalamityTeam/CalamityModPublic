@@ -166,10 +166,10 @@ namespace CalamityMod.Projectiles.Melee
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
 
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
-                    Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+                    Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
-                    spriteBatch.Draw(barBG, drawPos, color * opacity);
-                    spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);
+                    Main.EntitySpriteDraw(barBG, drawPos, color * opacity);
+                    Main.EntitySpriteDraw(barFG, drawPos, frame, color * opacity * 0.8f);
 
 
                 }
@@ -183,15 +183,15 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOffset = Owner.Center + Projectile.velocity * DistanceFromPlayer.Length() - Main.screenPosition;
 
 
-            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
-            spriteBatch.Draw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             if (AlreadyParried > 0)
             {
                 drawOrigin = new Vector2(0f, 36f);
                 Rectangle frame = new Rectangle(24, 0, 36, 36);
                 drawOffset = Owner.Center + Projectile.velocity * (DistanceFromPlayer.Length() + 33) - Main.screenPosition;
-                spriteBatch.Draw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTime % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, Projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
+                Main.EntitySpriteDraw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, Projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
             }
 
             return false;

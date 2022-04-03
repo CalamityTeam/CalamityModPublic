@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Materials
             //Give it an outline. Make it look really important and shiny. The player must not confuse this for a random material
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
-            Color outlineColor = Color.Lerp(Color.Cyan, Color.Orange, (float)Math.Sin(Main.GlobalTime * 2f) * 0.5f + 0.5f);
+            Color outlineColor = Color.Lerp(Color.Cyan, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.5f + 0.5f);
             Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
 
             GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1 - outlineHSL.X, outlineHSL.Y, outlineHSL.Z));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            float outlineWidth = MathHelper.Lerp(2, 3, (float)Math.Sin(Main.GlobalTime * 2f) * 0.5f + 0.5f);
+            float outlineWidth = MathHelper.Lerp(2, 3, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.5f + 0.5f);
 
             for (float i = 0; i < 1; i += 0.25f)
             {

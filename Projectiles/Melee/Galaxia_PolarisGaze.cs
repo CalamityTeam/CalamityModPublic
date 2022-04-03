@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
                 else
                 {
                     Rings[i].Time = 0;
-                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTime * 10f - i * 0.5f)) * direction * (25 + bladeLenght * 0.33f * (i + 1))), Bounce(MathHelper.Clamp(Shred - 30 * i, 0, maxShred)));
+                    Rings[i].Position = Owner.Center + Vector2.Lerp(Vector2.Zero, ((0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 10f - i * 0.5f)) * direction * (25 + bladeLenght * 0.33f * (i + 1))), Bounce(MathHelper.Clamp(Shred - 30 * i, 0, maxShred)));
                     Rings[i].Rotation = direction.ToRotation();
                     Rings[i].Scale = Projectile.scale * 0.25f * (i + 1);
                     (Rings[i] as ConstellationRingVFX).Opacity = 0.5f + 0.5f * ShredRatio;
@@ -129,14 +129,14 @@ namespace CalamityMod.Projectiles.Melee
             {
                 PolarStar.Time = 0;
                 PolarStar.Position = Owner.Center + direction * 46 * Projectile.scale;
-                PolarStar.Rotation += (1 + (float)Math.Sin(Main.GlobalTime * 4f)) * 0.02f;
+                PolarStar.Rotation += (1 + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4f)) * 0.02f;
                 PolarStar.Scale = Projectile.scale * 2f;
             }
 
             if (Main.rand.NextBool())
             {
                 Vector2 smokeSpeed = direction.RotatedByRandom(MathHelper.PiOver4 * 0.3f) * Main.rand.NextFloat(10f, 30f) * (ShredRatio * 0.5f + 1f);
-                Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Owner.velocity, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * (ShredRatio * 0.5f + 1f), 0.8f, 0, false, 0, true);
+                Particle smoke = new HeavySmokeParticle(Projectile.Center, smokeSpeed + Owner.velocity, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f) * (ShredRatio * 0.5f + 1f), 0.8f, 0, false, 0, true);
                 GeneralParticleHandler.SpawnParticle(smoke);
 
                 if (Main.rand.Next(3) == 0)
@@ -306,7 +306,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = Owner.Center + direction * 10f - Main.screenPosition;
 
-            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             return false;
         }

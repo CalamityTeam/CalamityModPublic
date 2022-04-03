@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 12; i++)
             {
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f).ToRotationVector2() * (1f - Projectile.Opacity) * 6f;
-                spriteBatch.Draw(texture, drawPosition, null, afterimageLightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition, null, afterimageLightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             }
 
             // Draw specialized afterimages.
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Vector2 drawPosition = baseDrawPosition - Projectile.velocity * i * 0.45f;
                 Color afterimageColor = mainColor * (1f - i / 10f);
-                spriteBatch.Draw(texture, drawPosition, null, afterimageColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition, null, afterimageColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }

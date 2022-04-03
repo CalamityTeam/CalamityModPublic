@@ -176,8 +176,8 @@ namespace CalamityMod.Projectiles.Magic
 
             void restartShader(Texture2D texture, float opacity, float circularRotation, BlendState blendMode)
             {
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Immediate, blendMode, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, blendMode, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
 
@@ -194,17 +194,17 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             restartShader(outerCircleGlowmask, Projectile.Opacity, Projectile.rotation, BlendState.Additive);
-            spriteBatch.Draw(outerCircleGlowmask, drawPosition, null, Color.White, 0f, outerCircleGlowmask.Size() * 0.5f, Projectile.scale * 1.075f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(outerCircleGlowmask, drawPosition, null, Color.White, 0f, outerCircleGlowmask.Size() * 0.5f, Projectile.scale * 1.075f, SpriteEffects.None, 0);
 
             restartShader(outerCircleTexture, Projectile.Opacity * 0.7f, Projectile.rotation, BlendState.AlphaBlend);
-            spriteBatch.Draw(outerCircleTexture, drawPosition, null, Color.White, 0f, outerCircleTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(outerCircleTexture, drawPosition, null, Color.White, 0f, outerCircleTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
             restartShader(innerCircleGlowmask, Projectile.Opacity * 0.5f, 0f, BlendState.Additive);
-            spriteBatch.Draw(innerCircleGlowmask, drawPosition, null, Color.White, 0f, innerCircleGlowmask.Size() * 0.5f, Projectile.scale * 1.075f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(innerCircleGlowmask, drawPosition, null, Color.White, 0f, innerCircleGlowmask.Size() * 0.5f, Projectile.scale * 1.075f, SpriteEffects.None, 0);
 
             restartShader(innerCircleTexture, Projectile.Opacity * 0.7f, 0f, BlendState.AlphaBlend);
-            spriteBatch.Draw(innerCircleTexture, drawPosition, null, Color.White, 0f, innerCircleTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
-            spriteBatch.ExitShaderRegion();
+            Main.EntitySpriteDraw(innerCircleTexture, drawPosition, null, Color.White, 0f, innerCircleTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

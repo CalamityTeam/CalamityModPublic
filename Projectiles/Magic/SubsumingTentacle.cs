@@ -110,8 +110,8 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             if (Projectile.scale < 1f)
             {
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
                     scale = MathHelper.Clamp(scale, 0f, 2f);
                     Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
 
-                    spriteBatch.Draw(ModContent.Request<Texture2D>(Texture), drawPos, null, color, Projectile.rotation, ModContent.Request<Texture2D>(Texture).Size() / 2f, scale, SpriteEffects.None, 0f);
+                    Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture), drawPos, null, color, Projectile.rotation, ModContent.Request<Texture2D>(Texture).Size() / 2f, scale, SpriteEffects.None, 0);
                     tentacleShader.UseSaturation(i / (float)Projectile.oldPos.Length); // A "completion ratio" for the shader. Used to make the entire tentacle appear multi-colored.
                     tentacleShader.UseOpacity(1f / Projectile.oldPos.Length); // A "step value" for the shader. Used to give variance in color at each individual segment.
                     tentacleShader.Apply(null);
@@ -133,10 +133,10 @@ namespace CalamityMod.Projectiles.Magic
             }
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch Main.spriteBatch, Color drawColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

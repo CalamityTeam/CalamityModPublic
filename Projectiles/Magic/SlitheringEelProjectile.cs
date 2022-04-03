@@ -115,11 +115,11 @@ namespace CalamityMod.Projectiles.Magic
                     textureToUse = tailTexture;
 
                 drawPosition = Segments[i].CurrentPosition - Main.screenPosition;
-                spriteBatch.Draw(textureToUse, drawPosition, null, Projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(textureToUse, drawPosition, null, Projectile.GetAlpha(lightColor), Segments[i].Rotation, textureToUse.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
 
             drawPosition = Projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(headTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(headTexture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, headTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

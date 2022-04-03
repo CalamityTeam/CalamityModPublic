@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
         public override Color? GetAlpha(Color lightColor)
         {
             Color baseColor = Color.Lerp(Color.DarkGoldenrod, Color.Gold, Projectile.identity % 5f / 5f);
-            Color color = Color.Lerp(baseColor, Color.White, BurstIntensity * 0.5f + (float)Math.Cos(Main.GlobalTime * 2.7f) * 0.04f);
+            Color color = Color.Lerp(baseColor, Color.White, BurstIntensity * 0.5f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 2.7f) * 0.04f);
             color.A = 127;
             return color * Projectile.Opacity;
         }
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 drawPosition = Projectile.oldPos[j] + Projectile.Size * 0.5f + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 0.5f - Main.screenPosition;
                     float rotation = Projectile.oldRot[j];
 
-                    spriteBatch.Draw(texture, drawPosition, frame, drawColor, rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(texture, drawPosition, frame, drawColor, rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
                 }
             }
 

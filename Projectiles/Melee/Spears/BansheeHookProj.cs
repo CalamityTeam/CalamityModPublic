@@ -92,9 +92,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D alternateHookTexture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt") : ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = new Vector2(Projectile.spriteDirection == 1 ? alternateHookTexture.Width + 8f : -8f, -8f);
-            spriteBatch.Draw(alternateHookTexture, drawPosition, null,
+            Main.EntitySpriteDraw(alternateHookTexture, drawPosition, null,
                 new Color(255, 255, 255, 127), Projectile.rotation,
-                origin, Projectile.scale, SpriteEffects.None, 0f);
+                origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
             Vector2 origin = new Vector2(Projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
-            spriteBatch.Draw(texture, drawPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

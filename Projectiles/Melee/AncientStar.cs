@@ -96,24 +96,24 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Shine == 1f)
             {
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 Texture2D starTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/Sparkle");
                 Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
                 //Ajust the bloom's texture to be the same size as the star's
                 float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
-                Color color = Main.hslToRgb((Main.GlobalTime * 0.6f) % 1, 1, 0.85f);
-                float rotation = Main.GlobalTime * 8f;
+                Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.85f);
+                float rotation = Main.GlobalTimeWrappedHourly * 8f;
                 Vector2 sparkCenter = Projectile.Center - Main.screenPosition;
 
-                spriteBatch.Draw(bloomTexture, sparkCenter, null, color * 0.5f, 0, bloomTexture.Size() / 2f, 2 * properBloomSize, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, sparkCenter, null, color * 0.5f, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 1 * 0.75f, SpriteEffects.None, 0);
-                spriteBatch.Draw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 1, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bloomTexture, sparkCenter, null, color * 0.5f, 0, bloomTexture.Size() / 2f, 2 * properBloomSize, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(starTexture, sparkCenter, null, color * 0.5f, rotation + MathHelper.PiOver4, starTexture.Size() / 2f, 1 * 0.75f, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 1, SpriteEffects.None, 0);
 
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
 
             return false;

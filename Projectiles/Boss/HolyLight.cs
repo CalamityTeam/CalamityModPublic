@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
             Color color34 = color33;
             Vector2 origin5 = value.Size() / 2f;
             Color color35 = color33 * 0.5f;
-            float num162 = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+            float num162 = Utils.InverseLerp(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
             Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
             Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
             color34 *= num162;
@@ -83,15 +83,15 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color35, (float)Math.PI / 2f, origin5, vector29 * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color35, (float)Math.PI / 2f, origin5, vector29 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
 
-            spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
-            spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
 
             return false;
         }

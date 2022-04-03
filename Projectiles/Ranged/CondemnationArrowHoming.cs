@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             return Color.Lerp(c1, c2, (float)Math.Cos(Projectile.identity * 1.41f + Main.GlobalTime * 8f) * 0.5f + 0.5f) * Projectile.Opacity;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;

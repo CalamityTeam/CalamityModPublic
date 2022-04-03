@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             int afterimageCount = ProjectileID.Sets.TrailCacheLength[Projectile.type];
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Color drawColor = Color.Lerp(Color.LightGreen, Color.White, i / (float)(afterimageCount - 1f));
                 drawColor.A = (byte)(int)MathHelper.Lerp(105f, 0f, i / (float)(afterimageCount - 1f));
                 drawPosition -= Projectile.velocity.SafeNormalize(Vector2.Zero) * scaleFactor * 4.5f;
-                spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, Projectile.scale * scaleFactor, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, Projectile.scale * scaleFactor, SpriteEffects.None, 0);
             }
             return false;
         }

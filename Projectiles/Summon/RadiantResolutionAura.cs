@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void PostDraw(Color lightColor)
         {
             Texture2D currentTexture = ModContent.Request<Texture2D>(Texture);
-            spriteBatch.Draw(currentTexture,
+            Main.EntitySpriteDraw(currentTexture,
                 Projectile.Center - Main.screenPosition,
                 null,
                 lightColor,

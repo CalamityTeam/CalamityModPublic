@@ -528,7 +528,7 @@ namespace CalamityMod
         public static Color ColorSwap(Color firstColor, Color secondColor, float seconds)
         {
             double timeMult = (double)(MathHelper.TwoPi / seconds);
-            float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTime) + 1) * 0.5f);
+            float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTimeWrappedHourly) + 1) * 0.5f);
             return Color.Lerp(firstColor, secondColor, colorMePurple);
         }
         /// <summary>
@@ -586,7 +586,7 @@ namespace CalamityMod
 
         public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
         {
-            float time = Main.GlobalTime % 3f / 3f;
+            float time = Main.GlobalTimeWrappedHourly % 3f / 3f;
             Texture2D auroraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture");
             for (int i = 0; i < auroraCount; i++)
             {

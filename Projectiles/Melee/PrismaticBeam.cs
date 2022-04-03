@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
         public const int ChargeupTime = 100;
 
         public Player Owner => Main.player[Projectile.owner];
-        public override Color LaserOverlayColor => CalamityUtils.MulticolorLerp(Main.GlobalTime / ColorSet.Length % 1f, ColorSet);
+        public override Color LaserOverlayColor => CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / ColorSet.Length % 1f, ColorSet);
         public override Color LightCastColor => LaserOverlayColor;
         public override float Lifetime => 300f;
         public override float MaxScale => 1.5f;

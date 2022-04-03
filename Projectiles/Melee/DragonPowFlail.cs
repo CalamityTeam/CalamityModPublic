@@ -259,7 +259,7 @@ namespace CalamityMod.Projectiles.Melee
                 chainDrawPos += chainDirection * chainTex.Height;
                 posDiff = mountedCenter - chainDrawPos;
                 Color colorAtLoc = Lighting.GetColor((int)chainDrawPos.X / 16, (int)chainDrawPos.Y / 16);
-                Main.spriteBatch.Draw(chainTex, chainDrawPos - Main.screenPosition, sourceRectangle, colorAtLoc, rot, origin, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(chainTex, chainDrawPos - Main.screenPosition, sourceRectangle, colorAtLoc, rot, origin, 1f, SpriteEffects.None, 0);
             }
             return true;
         }

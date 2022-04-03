@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand");
-            spriteBatch.Draw(ModContent.Request<Texture2D>(Texture),
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture),
                              Projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY) - Main.screenPosition,
                              null,
                              lightColor,
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              Projectile.scale,
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                              0f);
-            spriteBatch.Draw(standTexture,
+            Main.EntitySpriteDraw(standTexture,
                              Projectile.Center - Main.screenPosition,
                              null,
                              lightColor,

@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = new Vector2(32f, 33f);
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ApoctolithGlow");
             Vector2 origin = new Vector2(32f, 33f);
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
     }
 }

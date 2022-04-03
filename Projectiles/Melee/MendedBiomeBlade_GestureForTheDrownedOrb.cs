@@ -237,8 +237,8 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOrigin = new Vector2(wave.Width / 2f, wave.Height / 2f);
                 Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-                spriteBatch.Draw(wave, drawOffset - Projectile.velocity, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.2f, drawRotation, drawOrigin, Projectile.scale - 0.2f, 0f, 0f);
-                spriteBatch.Draw(wave, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.5f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(wave, drawOffset - Projectile.velocity, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.2f, drawRotation, drawOrigin, Projectile.scale - 0.2f, 0f, 0f);
+                Main.EntitySpriteDraw(wave, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.5f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
                 return false;
             }
 
@@ -268,7 +268,7 @@ namespace CalamityMod.Projectiles.Melee
                     float slightfade = 1f - 0.24f * i;
                     Color darkenedColor = Color.Lerp(lightColor, Color.Black, i * 0.15f);
 
-                    spriteBatch.Draw(wave, drawOffset, frame, darkenedColor * MathHelper.Clamp(TimeSinceLanding / 30f, 0f, 1f) * slightfade, drawRotation, drawOrigin, Scale, flip, 0f);
+                    Main.EntitySpriteDraw(wave, drawOffset, frame, darkenedColor * MathHelper.Clamp(TimeSinceLanding / 30f, 0f, 1f) * slightfade, drawRotation, drawOrigin, Scale, flip, 0f);
                 }
 
 
@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOrigin = Projectile.Size / 2f;
                 Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-                spriteBatch.Draw(ball, drawOffset, null, lightColor * MathHelper.Clamp(1 - TimeSinceLanding / 10f, 0f, 1f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(ball, drawOffset, null, lightColor * MathHelper.Clamp(1 - TimeSinceLanding / 10f, 0f, 1f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
                 return false;
             }

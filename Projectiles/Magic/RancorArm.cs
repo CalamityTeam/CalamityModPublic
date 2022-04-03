@@ -156,10 +156,10 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < 6; i++)
             {
                 Vector2 afterimageOffsetVector = (MathHelper.TwoPi * i / 6f).ToRotationVector2() * afterimageOffset;
-                spriteBatch.Draw(texture, drawPosition + afterimageOffsetVector, frame, fadedColor, RotationDirection, origin, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition + afterimageOffsetVector, frame, fadedColor, RotationDirection, origin, scale, SpriteEffects.None, 0);
             }
 
-            spriteBatch.Draw(texture, drawPosition, frame, drawColor, RotationDirection, origin, scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, drawColor, RotationDirection, origin, scale, SpriteEffects.None, 0);
             return false;
         }
     }

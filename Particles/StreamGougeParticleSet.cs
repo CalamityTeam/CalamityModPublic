@@ -40,7 +40,7 @@ namespace CalamityMod.Particles
             {
                 // Background.
                 case 0:
-                    Vector2 offset = Vector2.UnitX * Main.GlobalTime * 0.045f;
+                    Vector2 offset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * 0.045f;
                     effect.Parameters["generalBackgroundOffset"].SetValue(offset);
                     effect.Parameters["upscaleFactor"].SetValue(Vector2.One * -0.3f);
                     break;

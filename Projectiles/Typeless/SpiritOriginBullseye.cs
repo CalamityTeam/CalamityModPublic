@@ -81,13 +81,13 @@ namespace CalamityMod.Projectiles.Typeless
             if (Target.IsABoss())
             {
                 bullseyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DaawnlightSpiritOriginBossBullseye");
-                frame = bullseyeTexture.Frame(1, 4, 0, (int)(Main.GlobalTime * 7f) % 4);
+                frame = bullseyeTexture.Frame(1, 4, 0, (int)(Main.GlobalTimeWrappedHourly * 7f) % 4);
                 rotation = 0f;
                 drawPosition.Y -= 17;
                 drawPosition.X -= 1;
             }
 
-            spriteBatch.Draw(bullseyeTexture, drawPosition, frame, Color.White * Projectile.Opacity, rotation, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(bullseyeTexture, drawPosition, frame, Color.White * Projectile.Opacity, rotation, frame.Size() * 0.5f, scale, SpriteEffects.None, 0);
             return false;
         }
     }

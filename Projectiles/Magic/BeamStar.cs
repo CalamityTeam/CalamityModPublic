@@ -76,11 +76,11 @@ namespace CalamityMod.Projectiles.Magic
             {
                 float scale = Projectile.scale * MathHelper.Lerp(0.9f, 0.6f, i / (float)Projectile.oldPos.Length) * 0.56f;
                 drawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
-                spriteBatch.Draw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
             }
 
             drawPosition = Projectile.Center - Main.screenPosition;
-            spriteBatch.Draw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(starTexture, drawPosition, null, Color.White, 0f, starTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

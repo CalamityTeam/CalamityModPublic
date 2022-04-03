@@ -314,7 +314,7 @@ namespace CalamityMod.Items.Weapons.Melee
             BiomeEnergyParticles.InterpolationSpeed = 0.1f;
             BiomeEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
 
-            Vector2 displacement = Vector2.UnitX.RotatedBy(Main.GlobalTime * 3f) * 2f * (float)Math.Sin(Main.GlobalTime);
+            Vector2 displacement = Vector2.UnitX.RotatedBy(Main.GlobalTimeWrappedHourly * 3f) * 2f * (float)Math.Sin(Main.GlobalTimeWrappedHourly);
 
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);

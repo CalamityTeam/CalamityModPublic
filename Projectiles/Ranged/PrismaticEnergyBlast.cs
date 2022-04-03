@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             // Start texture drawing.
             Rectangle beginFrame = LaserBeginTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            spriteBatch.Draw(LaserBeginTexture,
+            Main.EntitySpriteDraw(LaserBeginTexture,
                              Projectile.Center - Main.screenPosition,
                              beginFrame,
                              Color.White,
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
-                    spriteBatch.Draw(LaserMiddleTexture,
+                    Main.EntitySpriteDraw(LaserMiddleTexture,
                                      centerOnLaser - Main.screenPosition,
                                      middleFrame,
                                      Color.White,
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Ranged
             // End texture drawing.
             Rectangle endFrame = LaserEndTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Vector2 laserEndCenter = centerOnLaser - Main.screenPosition;
-            spriteBatch.Draw(LaserEndTexture,
+            Main.EntitySpriteDraw(LaserEndTexture,
                              laserEndCenter,
                              endFrame,
                              Color.White,

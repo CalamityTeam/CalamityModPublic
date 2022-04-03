@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Summon
             Color color = Color.White * 2.1f * Projectile.Opacity;
 
             if (Math.Abs(Projectile.rotation) > 0.008f)
-                Main.spriteBatch.Draw(beamTexture, drawPosition, null, color, Projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(beamTexture, drawPosition, null, color, Projectile.rotation, beamTexture.Frame().Bottom(), drawScale, SpriteEffects.None, 0);
             return false;
         }
     }

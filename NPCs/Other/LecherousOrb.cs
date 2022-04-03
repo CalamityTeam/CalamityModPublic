@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.Other
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             // Draw a faded version of the heart behind the main one that pulses.
-            float pulse = Main.GlobalTime * 1.9f % 1f;
+            float pulse = Main.GlobalTimeWrappedHourly * 1.9f % 1f;
             float pulseScale = NPC.scale * (1f + pulse * 0.33f);
             Color pulseColor = NPC.GetAlpha(Color.Red) * (1f - pulse) * 0.44f;
             spriteBatch.Draw(texture, drawPosition, NPC.frame, pulseColor, NPC.rotation, NPC.frame.Size() * 0.5f, pulseScale, direction, 0f);

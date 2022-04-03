@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float angle = MathHelper.TwoPi * i / totalCirclePoints;
                 float nextAngle = angle + MathHelper.TwoPi / totalCirclePoints;
-                float radiusOffset = (float)Math.Cos(Main.GlobalTime * 65f);
+                float radiusOffset = (float)Math.Cos(Main.GlobalTimeWrappedHourly * 65f);
                 Vector2 start = Projectile.Center + angle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
                 Vector2 end = Projectile.Center + nextAngle.ToRotationVector2() * (FieldRadius + radiusOffset) - Main.screenPosition;
 

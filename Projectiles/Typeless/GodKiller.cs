@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(11f, 23f);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GodKillerGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GodKillerGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }
 
         public override void Kill(int timeLeft)

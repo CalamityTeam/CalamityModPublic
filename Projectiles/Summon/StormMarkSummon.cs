@@ -154,9 +154,9 @@ namespace CalamityMod.Projectiles.Summon
             Color alpha5 = Projectile.GetAlpha(color25);
             Vector2 origin7 = rectangle11.Size() / 2f;
             Color color47 = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), color47, 0f, origin7, new Vector2(1f, 5f) * Projectile.scale * 2f, spriteEffects, 0f);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, Projectile.rotation, origin7, Projectile.scale, spriteEffects, 0f);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, 0f, origin7, new Vector2(1f, 8f) * Projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), color47, 0f, origin7, new Vector2(1f, 5f) * Projectile.scale * 2f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, Projectile.rotation, origin7, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, 0f, origin7, new Vector2(1f, 8f) * Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

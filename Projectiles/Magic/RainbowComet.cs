@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D cometTexture = ModContent.Request<Texture2D>(Texture);
-            spriteBatch.Draw(cometTexture,
+            Main.EntitySpriteDraw(cometTexture,
                              Projectile.Center + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition,
                              cometTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              Color.White * Projectile.Opacity,
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 80; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 263);
-                    dust.color = CalamityUtils.MulticolorLerp((Main.rand.NextFloat(0.4f) + Main.GlobalTime * 0.4f) % 0.999f, RainbowPartyCannon.ColorSet);
+                    dust.color = CalamityUtils.MulticolorLerp((Main.rand.NextFloat(0.4f) + Main.GlobalTimeWrappedHourly * 0.4f) % 0.999f, RainbowPartyCannon.ColorSet);
                     dust.scale = Main.rand.NextFloat(0.6f, 0.9f);
                     dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(12f, 16f);
                     dust.noGravity = true;

@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = frame.Size() * 0.5f;
 
-            spriteBatch.Draw(texture, drawPosition, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             return false;
         }
     }

@@ -131,11 +131,11 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.oldPos[1].HasNaNs())
                 Projectile.oldPos[1] = oldPosition;
 
-            spriteBatch.EnterShaderRegion();
+            Main.spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
-            spriteBatch.ExitShaderRegion();
+            Main.spriteBatch.ExitShaderRegion();
             return true;
         }
 

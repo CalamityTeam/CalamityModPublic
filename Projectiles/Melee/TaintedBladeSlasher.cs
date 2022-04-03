@@ -227,11 +227,11 @@ namespace CalamityMod.Projectiles.Melee
 
             // Draw the arms.
             float backArmRotation = Owner.AngleTo(BackArmAimPosition);
-            spriteBatch.Draw(forearmTexture, Owner.Center - Main.screenPosition, null, Color.White, backArmRotation - MathHelper.PiOver2, Vector2.UnitX * forearmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(forearmTexture, Owner.Center - Main.screenPosition, null, Color.White, backArmRotation - MathHelper.PiOver2, Vector2.UnitX * forearmTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
             Vector2 frontArmDrawPosition = Owner.Center + backArmRotation.ToRotationVector2() * ForearmLength + IdleMoveOffset;
             float frontArmRotation = Projectile.AngleFrom(frontArmDrawPosition);
-            spriteBatch.Draw(armTexture, frontArmDrawPosition - Main.screenPosition, null, Color.White, frontArmRotation - MathHelper.PiOver2, Vector2.UnitX * armTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(armTexture, frontArmDrawPosition - Main.screenPosition, null, Color.White, frontArmRotation - MathHelper.PiOver2, Vector2.UnitX * armTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
             float handRotation = frontArmRotation + MathHelper.PiOver2 + MathHelper.Pi;
             float bladeRotation = handRotation - MathHelper.PiOver4 + MathHelper.Pi + BladeRotationOffset;
@@ -271,10 +271,10 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the blade.
             Vector2 bladeDrawPosition = BladeCenterPosition - Main.screenPosition;
             SpriteEffects bladeDirection = Owner.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(bladeTexture, bladeDrawPosition, BladeFrame, Color.White, bladeRotation, BladeFrame.Size() * 0.5f, Projectile.scale, bladeDirection, 0f);
+            Main.EntitySpriteDraw(bladeTexture, bladeDrawPosition, BladeFrame, Color.White, bladeRotation, BladeFrame.Size() * 0.5f, Projectile.scale, bladeDirection, 0f);
 
             // Draw the hand.
-            spriteBatch.Draw(handTexture, FrontArmEnd - Main.screenPosition, null, Projectile.GetAlpha(Color.White), handRotation, handTexture.Size() * 0.5f, Projectile.scale, handDirection, 0f);
+            Main.EntitySpriteDraw(handTexture, FrontArmEnd - Main.screenPosition, null, Projectile.GetAlpha(Color.White), handRotation, handTexture.Size() * 0.5f, Projectile.scale, handDirection, 0f);
             return false;
         }
 

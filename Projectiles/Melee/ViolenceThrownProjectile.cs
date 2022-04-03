@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
 
         internal Color PrimitiveColorFunction(float completionRatio)
         {
-            float fadeInterpolant = (float)Math.Cos(Main.GlobalTime * -9f + completionRatio * 6f + Projectile.identity * 2f) * 0.5f + 0.5f;
+            float fadeInterpolant = (float)Math.Cos(Main.GlobalTimeWrappedHourly * -9f + completionRatio * 6f + Projectile.identity * 2f) * 0.5f + 0.5f;
 
             // Adjust the fade interpolant to be on a different scale via a linear interpolation.
             fadeInterpolant = MathHelper.Lerp(0.15f, 0.75f, fadeInterpolant);
@@ -226,7 +226,7 @@ namespace CalamityMod.Projectiles.Melee
                     rotation += 0.2f;
 
                 Color afterimageColor = Color.Lerp(lightColor, Color.Transparent, 1f - (float)Math.Pow(Utils.InverseLerp(0, 6, i), 1.4D)) * Projectile.Opacity;
-                spriteBatch.Draw(spearProjectile, drawPosition, null, afterimageColor, rotation, spearProjectile.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(spearProjectile, drawPosition, null, afterimageColor, rotation, spearProjectile.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
 
             return false;

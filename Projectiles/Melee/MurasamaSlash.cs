@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
             Rectangle frame = texture.Frame(2, 7, frameX, frameY);
             SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

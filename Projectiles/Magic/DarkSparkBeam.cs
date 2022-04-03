@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 DelegateMethods.v3_1 = color.ToVector3() * 0.3f;
-                float value43 = 0.1f * (float)Math.Sin(Main.GlobalTime * 20f);
+                float value43 = 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 20f);
                 Vector2 size = new Vector2(Projectile.velocity.Length() * Projectile.localAI[1], Projectile.width * Projectile.scale);
                 float num848 = Projectile.velocity.ToRotation();
                 if (Main.netMode != NetmodeID.Server)

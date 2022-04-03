@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + Projectile.gfxOffY);
             Color color = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Color.Red);
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/PlagueStingerGoliathGlow"), vector,
-                null, color, Projectile.rotation, vector11, Projectile.scale, spriteEffects, 0f);
+                null, color, Projectile.rotation, vector11, Projectile.scale, SpriteEffects.None, 0);
         }
     }
 }

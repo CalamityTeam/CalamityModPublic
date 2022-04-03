@@ -416,7 +416,7 @@ namespace CalamityMod.ILEditing
                 Main.TileInteractionLX = (Main.TileInteractionHX = (Main.TileInteractionLY = (Main.TileInteractionHY = -1)));
             }
 
-            Color flameColor = Color.Lerp(Color.DarkRed, Color.OrangeRed, (float)Math.Cos(Main.GlobalTime * 7.4f) * 0.5f + 0.5f);
+            Color flameColor = Color.Lerp(Color.DarkRed, Color.OrangeRed, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 7.4f) * 0.5f + 0.5f);
             Color cursorColor = flameColor * 1.9f;
             Vector2 baseDrawPosition = Main.MouseScreen + bonus;
 
@@ -438,14 +438,14 @@ namespace CalamityMod.ILEditing
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
                     Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura");
-                    Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTime * 12.3f) % 6);
-                    float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTime * 1.1f) * 0.5f + 0.5f);
+                    Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTimeWrappedHourly * 12.3f) % 6);
+                    float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f);
 
                     for (int i = 0; i < 12; i++)
                     {
                         Color auraColor = Color.Orange * Main.LocalPlayer.Calamity().blazingMouseAuraFade * 0.125f;
                         auraColor.A = 0;
-                        Vector2 offsetDrawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f + Main.GlobalTime * 5f).ToRotationVector2() * 2.5f;
+                        Vector2 offsetDrawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 5f).ToRotationVector2() * 2.5f;
                         offsetDrawPosition.Y -= 18f;
 
                         Main.spriteBatch.Draw(auraTexture, offsetDrawPosition, auraFrame, auraColor, 0f, auraFrame.Size() * 0.5f, Main.cursorScale * auraScale, SpriteEffects.None, 0f);

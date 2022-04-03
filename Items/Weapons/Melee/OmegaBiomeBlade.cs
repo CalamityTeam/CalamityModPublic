@@ -141,7 +141,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
 
                 mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
-                mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f);
+                mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
             }
 
             //If theres a secondary attunement
@@ -151,7 +151,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 passiveDescTooltip.overrideColor = secondaryAttunement.tooltipColor;
 
                 secondaryAttunementTooltip.text = "Passive Attunement : [" + secondaryAttunement.name + "]";
-                secondaryAttunementTooltip.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTime) * 0.5f), Color.Gray, 0.5f);
+                secondaryAttunementTooltip.overrideColor = Color.Lerp(Color.Lerp(secondaryAttunement.tooltipColor, secondaryAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f), Color.Gray, 0.5f);
             }
         }
 
@@ -362,7 +362,7 @@ namespace CalamityMod.Items.Weapons.Melee
             BiomeEnergyParticles.InterpolationSpeed = 0.1f;
             BiomeEnergyParticles.DrawSet(particleDrawCenter + Main.screenPosition);
 
-            Vector2 displacement = Vector2.UnitX.RotatedBy(Main.GlobalTime * 3f) * 2f * (float)Math.Sin(Main.GlobalTime);
+            Vector2 displacement = Vector2.UnitX.RotatedBy(Main.GlobalTimeWrappedHourly * 3f) * 2f * (float)Math.Sin(Main.GlobalTimeWrappedHourly);
 
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);

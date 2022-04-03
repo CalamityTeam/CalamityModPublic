@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
                     vector17 += value2 * num91;
                     vector18 = mountedCenter - vector17;
                     Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
-                    Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0);
                 }
             }
             return true;

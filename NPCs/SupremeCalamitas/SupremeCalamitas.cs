@@ -2889,8 +2889,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Color auraColor = NPC.GetAlpha(Color.Red) * 0.4f;
                 for (int i = 0; i < 7; i++)
                 {
-                    Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTime * 4f).ToRotationVector2();
-                    rotationalDrawOffset *= MathHelper.Lerp(3f, 4.25f, (float)Math.Cos(Main.GlobalTime * 4f) * 0.5f + 0.5f);
+                    Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTimeWrappedHourly * 4f).ToRotationVector2();
+                    rotationalDrawOffset *= MathHelper.Lerp(3f, 4.25f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
                     spriteBatch.Draw(texture2D15, vector43 + rotationalDrawOffset, frame, auraColor, NPC.rotation, vector11, NPC.scale * 1.1f, spriteEffects, 0f);
                 }
             }
@@ -2909,7 +2909,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Shield intensity is always high during invincibility, except during cast animations, so that she can be more easily seen.
             if (NPC.dontTakeDamage && attackCastDelay <= 0)
-                intensity = 0.75f + Math.Abs((float)Math.Cos(Main.GlobalTime * 1.7f)) * 0.1f;
+                intensity = 0.75f + Math.Abs((float)Math.Cos(Main.GlobalTimeWrappedHourly * 1.7f)) * 0.1f;
 
             // Make the forcefield weaker in the second phase as a means of showing desparation.
             if (NPC.ai[0] >= 3f)
@@ -2926,7 +2926,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (lifeRatio < 0.05f)
                 flickerPower += 0.1f;
             float opacity = forcefieldOpacity;
-            opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 5f, flickerPower)), 24D));
+            opacity *= MathHelper.Lerp(1f, MathHelper.Max(1f - flickerPower, 0.56f), (float)Math.Pow(Math.Cos(Main.GlobalTimeWrappedHourly * MathHelper.Lerp(3f, 5f, flickerPower)), 24D));
 
             // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
             if (!NPC.dontTakeDamage && (willCharge || NPC.ai[1] == 2f))
@@ -2973,7 +2973,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // And a laugh right before the charge.
             else if (willCharge && NPC.ai[1] != 2f && AttackCloseToBeingOver)
-                jawRotationOffset += MathHelper.Lerp(0.04f, -0.82f, (float)Math.Sin(Main.GlobalTime * 17.2f) * 0.5f + 0.5f);
+                jawRotationOffset += MathHelper.Lerp(0.04f, -0.82f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 17.2f) * 0.5f + 0.5f);
 
             Color shieldColor = Color.White * shieldOpacity;
             Texture2D shieldSkullTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldTop");

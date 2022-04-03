@@ -1060,7 +1060,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 // Determine the characteristics of the aura. This requires intermediate computations to determine if Thanatos is in its final phase as well as for pulsing.
                 bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
                 bool lastMechAlive = berserk && otherExoMechsAlive == 0;
-                float pulse = Main.GlobalTime * 0.72f % 1f;
+                float pulse = Main.GlobalTimeWrappedHourly * 0.72f % 1f;
                 float auraRadius = GetSlowdownAreaEdgeRadius(lastMechAlive) * auraGeneralPower * 1.25f;
                 Vector2 outerAuraScale = Vector2.One * auraRadius / auraTexture.Size();
                 Vector2 innerAuraScale = outerAuraScale * pulse * 1.2f;
@@ -1091,7 +1091,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 float targetHeadDistance = NPC.Distance(target.Center);
                 float reticleOpacity = Utils.InverseLerp(auraRadius * 0.5f - 40f, auraRadius * 0.5f + 100f, targetHeadDistance, true);
                 float reticleOffsetDistance = MathHelper.SmoothStep(300f, 0f, reticleOpacity);
-                float reticleFadeToWhite = ((float)Math.Cos(Main.GlobalTime * 6.8f) * 0.5f + 0.5f) * reticleOpacity * 0.67f;
+                float reticleFadeToWhite = ((float)Math.Cos(Main.GlobalTimeWrappedHourly * 6.8f) * 0.5f + 0.5f) * reticleOpacity * 0.67f;
                 Color reticleBaseColor = new Color(255, 0, 0, 127) * reticleOpacity;
                 Color reticleFlashBaseColor = Color.Lerp(reticleBaseColor, new Color(255, 255, 255, 0), reticleFadeToWhite) * reticleOpacity;
                 Vector2 origin = leftReticleTexture.Size() * 0.5f;

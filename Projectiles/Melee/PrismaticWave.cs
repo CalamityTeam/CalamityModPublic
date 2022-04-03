@@ -112,10 +112,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor)
         {
-            int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
+            int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorSet.Count);
             Color currentColor = colorSet[colorIndex];
             Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
-            return Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+            return Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
         }
 
         public override void Kill(int timeLeft)

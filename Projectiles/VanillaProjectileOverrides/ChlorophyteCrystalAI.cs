@@ -55,23 +55,23 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             return false;
         }
 
-        public static bool DoChlorophyteCrystalDrawing(SpriteBatch spriteBatch, Projectile projectile)
+        public static bool DoChlorophyteCrystalDrawing(SpriteBatch Main.spriteBatch, Projectile projectile)
         {
             //Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
             Texture2D texture = ModContent.Request<Texture2D>(projectile.Texture).Value; <- We have an issue
             Vector2 drawPosition = projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
 
-            float backglowColorInterpolant = MathHelper.Lerp(0.44f, 0.88f, (float)Math.Sin(Main.GlobalTime * 1.1f) * 0.5f + 0.5f);
+            float backglowColorInterpolant = MathHelper.Lerp(0.44f, 0.88f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f);
             Color backglowColor = Color.Lerp(Color.Cyan, Color.Lime, backglowColorInterpolant) * 0.37f;
             backglowColor.A = 0;
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 3f;
-                spriteBatch.Draw(texture, drawPosition + drawOffset, null, projectile.GetAlpha(backglowColor), projectile.rotation, origin, projectile.scale, 0, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition + drawOffset, null, projectile.GetAlpha(backglowColor), projectile.rotation, origin, projectile.scale, 0, 0f);
             }
 
-            spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(Color.White * 0.75f), projectile.rotation, origin, projectile.scale, 0, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, null, projectile.GetAlpha(Color.White * 0.75f), projectile.rotation, origin, projectile.scale, 0, 0f);
             return false;
         }
     }

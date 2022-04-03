@@ -215,7 +215,7 @@ namespace CalamityMod.Items.Weapons.Melee
             float tweakedScale = scale * (1 + extraScale); //Make the scale bigger to avoid crunching of the item
             Vector2 offset = (frontTexture.Size() * extraScale / 2f) * scale;
 
-            float backLayerOpacity = (Charge > 0) ? 1f : (float)Math.Sin(Main.GlobalTime * 0.9f) * 0.2f + 0.3f;
+            float backLayerOpacity = (Charge > 0) ? 1f : (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.9f) * 0.2f + 0.3f;
 
             spriteBatch.Draw(backTexture, position - offset, null, drawColor * backLayerOpacity, 0f, origin, tweakedScale, SpriteEffects.None, 0f); //Make the back scissor slightly transparent if the ark isnt charged
             spriteBatch.Draw(frontTexture, position - offset, null, drawColor, 0f, origin, tweakedScale, SpriteEffects.None, 0f);
@@ -245,7 +245,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 10) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
-            Color color = Main.hslToRgb(((float)Math.Sin(Main.GlobalTime * 0.6f) * 0.5f + 0.5f) * 0.15f, 1, 0.85f + (float)Math.Sin(Main.GlobalTime * 3f) * 0.1f);
+            Color color = Main.hslToRgb(((float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.6f) * 0.5f + 0.5f) * 0.15f, 1, 0.85f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
             spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);

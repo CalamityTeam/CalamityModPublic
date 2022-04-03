@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Main.rand.NextBool())
                     {
                         Vector2 smokeSpeed = direction.RotatedByRandom(MathHelper.PiOver4 * 0.3f) * Main.rand.NextFloat(10f, 30f) * 0.9f;
-                        Particle smoke = new HeavySmokeParticle(Projectile.Center + direction * 50f, smokeSpeed + Owner.velocity, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTime * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
+                        Particle smoke = new HeavySmokeParticle(Projectile.Center + direction * 50f, smokeSpeed + Owner.velocity, Color.Lerp(Color.Purple, Color.Indigo, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 30, Main.rand.NextFloat(0.6f, 1.2f), 0.8f, 0, false, 0, true);
                         GeneralParticleHandler.SpawnParticle(smoke);
 
                         if (Main.rand.Next(3) == 0)
@@ -294,7 +294,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(new Color(255, 129, 153));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            spriteBatch.Draw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
 
             CalamityUtils.ExitShaderRegion(spriteBatch);
 

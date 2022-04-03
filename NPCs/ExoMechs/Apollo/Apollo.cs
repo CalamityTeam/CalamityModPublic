@@ -1494,7 +1494,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
                     // Add a sinusoidal offset that goes based on time and completion ratio to create a waving-flag-like effect.
                     // This is dampened for the first few points to prevent weird offsets. It is also dampened by high velocity.
-                    float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 2.22f + Main.GlobalTime * 3.4f) * 1.36f;
+                    float sinusoidalRotationOffset = (float)Math.Sin(ribbonCompletionRatio * 2.22f + Main.GlobalTimeWrappedHourly * 3.4f) * 1.36f;
                     float sinusoidalRotationOffsetFactor = Utils.InverseLerp(0f, 0.37f, ribbonCompletionRatio, true) * direction * 24f;
                     sinusoidalRotationOffsetFactor *= Utils.InverseLerp(24f, 16f, NPC.velocity.Length(), true);
 
@@ -1520,7 +1520,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 float backAfterimageOffset = MathHelper.SmoothStep(0f, 2f, ChargeComboFlash);
                 for (int i = 0; i < instanceCount; i++)
                 {
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / instanceCount + Main.GlobalTime * 0.8f).ToRotationVector2() * backAfterimageOffset;
+                    Vector2 drawOffset = (MathHelper.TwoPi * i / instanceCount + Main.GlobalTimeWrappedHourly * 0.8f).ToRotationVector2() * backAfterimageOffset;
                     drawInstance(drawOffset, baseInstanceColor);
                 }
             }
