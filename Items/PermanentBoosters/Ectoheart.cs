@@ -35,21 +35,21 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated").Value;
             spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/Ectoheart_Animated").Value;
             spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/EctoheartGlow");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/PermanentBoosters/EctoheartGlow").Value;
             spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 8, 3, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.adrenalineBoostThree = true;
             }

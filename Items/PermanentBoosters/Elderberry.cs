@@ -43,7 +43,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 if (Main.myPlayer == player.whoAmI)
                 {
                     player.HealEffect(25);

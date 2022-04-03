@@ -40,7 +40,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.adrenalineBoostOne = true;
             }

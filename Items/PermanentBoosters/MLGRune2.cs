@@ -43,7 +43,7 @@ Consuming it does something that cannot be reversed");
             CalamityPlayer modPlayer = player.Calamity();
             if (player.itemAnimation > 0 && !modPlayer.extraAccessoryML && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 modPlayer.extraAccessoryML = true;
                 if (!CalamityWorld.onionMode)
                 {
