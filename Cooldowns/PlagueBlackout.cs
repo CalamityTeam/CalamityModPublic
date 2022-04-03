@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -17,7 +18,7 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => new Color(174, 237, 122);
         public override Color CooldownStartColor => Color.DarkSlateGray;
         public override Color CooldownEndColor => Color.DarkSlateGray;
-        public override LegacySoundStyle EndSound => instance.player.Calamity().Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/PlagueReaperRecharge");
+        public override LegacySoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/PlagueReaperRecharge");
 
         public override void OnCompleted()
         {
@@ -48,9 +49,9 @@ namespace CalamityMod.Cooldowns
 
         public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
-            Texture2D sprite = GetTexture(Texture);
-            Texture2D outline = GetTexture(OutlineTexture);
-            Texture2D overlay = GetTexture(OverlayTexture);
+            Texture2D sprite = Request<Texture2D>(Texture).Value;
+            Texture2D outline = Request<Texture2D>(OutlineTexture).Value;
+            Texture2D overlay = Request<Texture2D>(OverlayTexture).Value;
 
             //Draw the outline
             spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);

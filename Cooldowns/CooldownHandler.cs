@@ -112,9 +112,9 @@ namespace CalamityMod.Cooldowns
         /// </summary>
         public virtual void DrawExpanded(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
-            Texture2D sprite = ModContent.Request<Texture2D>(Texture);
-            Texture2D outline = ModContent.Request<Texture2D>(OutlineTexture);
-            Texture2D barBase = ModContent.Request<Texture2D>(ChargeBarTexture);
+            Texture2D sprite = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D outline = ModContent.Request<Texture2D>(OutlineTexture).Value;
+            Texture2D barBase = ModContent.Request<Texture2D>(ChargeBarTexture).Value;
 
             //Draw the ring
             spriteBatch.End();
@@ -138,9 +138,9 @@ namespace CalamityMod.Cooldowns
         /// </summary>
         public virtual void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
-            Texture2D sprite = ModContent.Request<Texture2D>(Texture);
-            Texture2D outline = ModContent.Request<Texture2D>(OutlineTexture);
-            Texture2D overlay = ModContent.Request<Texture2D>(OverlayTexture);
+            Texture2D sprite = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D outline = ModContent.Request<Texture2D>(OutlineTexture).Value;
+            Texture2D overlay = ModContent.Request<Texture2D>(OverlayTexture).Value;
             Color outlineColor = OutlineColor;
 
             //Draw the outline
@@ -171,7 +171,7 @@ namespace CalamityMod.Cooldowns
             }
             else
             {
-                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.Request<Texture2D>(ChargeBarBackTexture));
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.Request<Texture2D>(ChargeBarBackTexture).Value);
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseOpacity(opacity);
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseSaturation(1 - instance.Completion);
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].Apply();

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -18,7 +19,7 @@ namespace CalamityMod.Cooldowns
         public override void OnCompleted()
         {
             if (instance.player.whoAmI == Main.myPlayer)
-                Projectile.NewProjectile(instance.player.Center, Vector2.Zero, ProjectileType<AllianceTriangle>(), 0, 0f, instance.player.whoAmI);
+                Projectile.NewProjectile(new EntitySource_Parent(instance.player), instance.player.Center, Vector2.Zero, ProjectileType<AllianceTriangle>(), 0, 0f, instance.player.whoAmI);
         }
     }
 }

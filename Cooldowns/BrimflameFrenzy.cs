@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Cooldowns
@@ -16,7 +17,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - instance.Completion);
         public override Color CooldownEndColor => Color.Lerp(new Color(107, 6, 6), new Color(228, 78, 78), 1 - instance.Completion);
 
-        public override LegacySoundStyle EndSound => instance.player.Calamity().Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AbilitySounds/BrimflameRecharge");
+        public override LegacySoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/BrimflameRecharge");
 
 
         //Add red eyes to the icon
@@ -24,7 +25,7 @@ namespace CalamityMod.Cooldowns
         {
             base.DrawExpanded(spriteBatch, position, opacity, scale);
 
-            Texture2D sprite = GetTexture(Texture + "Eyes");
+            Texture2D sprite = Request<Texture2D>(Texture + "Eyes").Value;
             //Draw the icon
             spriteBatch.Draw(sprite, position, null, Color.Crimson * opacity * (1 - instance.Completion), 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }

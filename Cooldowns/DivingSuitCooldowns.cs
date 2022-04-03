@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
 
@@ -37,15 +38,15 @@ namespace CalamityMod.Cooldowns
 
         public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
-            Texture2D sprite = GetTexture(Texture);
-            Texture2D outline = GetTexture(OutlineTexture);
+            Texture2D sprite = Request<Texture2D>(Texture).Value;
+            Texture2D outline = Request<Texture2D>(OutlineTexture).Value;
 
             //Draw the outline
             spriteBatch.Draw(outline, position, null, OutlineColor * opacity, 0, outline.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             //Draw the icon
             spriteBatch.Draw(sprite, position, null, Color.White * opacity, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
-            DrawBorderStringEightWay(spriteBatch, Main.fontMouseText, (3 - instance.timeLeft).ToString(), position + new Vector2(-3, -3) * scale, CooldownStartColor, Color.Black, scale);
+            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, (3 - instance.timeLeft).ToString(), position + new Vector2(-3, -3) * scale, CooldownStartColor, Color.Black, scale);
         }
     }
 

@@ -2,6 +2,7 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -78,7 +79,7 @@ namespace CalamityMod.Items.Mounts
                 Vector2 vel = Main.rand.NextVector2Circular(15f, 15f);
                 int damage = (int)(180 * player.AverageDamage());
                 float kb = 1f;
-                Projectile birb = Projectile.NewProjectileDirect(GetProjectileSource_Misc(8), pos, vel, ModContent.ProjectileType<Minibirb>(), damage, kb, player.whoAmI);
+                Projectile birb = Projectile.NewProjectileDirect(new EntitySource_Parent(player), pos, vel, ModContent.ProjectileType<Minibirb>(), damage, kb, player.whoAmI);
                 if (birb.whoAmI.WithinBounds(Main.maxProjectiles))
                     birb.Calamity().forceTypeless = true;
             }
