@@ -40,7 +40,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             // siren & levi are available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-                player.TryGettingDevArmor();
+				player.TryGettingDevArmor(GetItemSource_OpenItem(Item.type));
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

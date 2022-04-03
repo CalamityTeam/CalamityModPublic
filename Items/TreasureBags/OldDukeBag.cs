@@ -32,16 +32,13 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Red;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
+            player.TryGettingDevArmor(GetItemSource_OpenItem(Item.type));
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

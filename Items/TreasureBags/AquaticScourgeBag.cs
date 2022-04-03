@@ -32,10 +32,7 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
@@ -43,7 +40,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             // AS is available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-                player.TryGettingDevArmor();
+				player.TryGettingDevArmor(GetItemSource_OpenItem(Item.type));
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
