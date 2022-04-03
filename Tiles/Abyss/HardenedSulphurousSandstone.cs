@@ -15,11 +15,11 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 32;
-            drop = ModContent.ItemType<Items.Placeables.HardenedSulphurousSandstone>();
+            DustType = 32;
+            ItemDrop = ModContent.ItemType<Items.Placeables.HardenedSulphurousSandstone>();
             AddMapEntry(new Color(76, 58, 59));
             mineResist = 1.45f;
-            soundType = SoundID.Dig;
+            SoundType = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (CalamityUtils.ParanoidTileRetrieval(i, j + 1).active() &&
+            if (CalamityUtils.ParanoidTileRetrieval(i, j + 1).HasTile &&
                 CalamityUtils.ParanoidTileRetrieval(i, j + 1).TileType == (ushort)ModContent.TileType<SulphurousVines>())
             {
                 WorldGen.KillTile(i, j + 1);
@@ -49,7 +49,7 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     if (WorldGen.InWorld(x, y))
                     {
-                        if (CalamityUtils.ParanoidTileRetrieval(x, y).active() &&
+                        if (CalamityUtils.ParanoidTileRetrieval(x, y).HasTile &&
                             CalamityUtils.ParanoidTileRetrieval(x, y).TileType == (ushort)ModContent.TileType<SulphurousVines>())
                         {
                             nearbyVineCount++;
@@ -59,7 +59,7 @@ namespace CalamityMod.Tiles.Abyss
             }
             if (Main.tile[i, j + 1] != null && nearbyVineCount < 5)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
+                if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
                         !Main.tile[i, j + 1].lava())
@@ -72,7 +72,7 @@ namespace CalamityMod.Tiles.Abyss
                                 flag13 = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].active() && !Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].bottomSlope())
                             {
                                 flag13 = true;
                                 break;

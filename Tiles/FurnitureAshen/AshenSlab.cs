@@ -13,12 +13,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
-            soundType = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
+            SoundType = SoundID.Tink;
             mineResist = 5f;
             minPick = 180;
             AddMapEntry(new Color(40, 24, 48));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
         int animationFrameWidth = 234;
 
@@ -503,7 +503,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                     uniqueAnimationFrameY = 0;
                     break;
             }
-            int animationFrameHeight = 90;
+            int AnimationFrameHeight = 90;
             int animationFrameWidth = 234;
             int xDrawPos = Main.tile[i, j].TileFrameX + (uniqueAnimationFrameX * animationFrameWidth);
             int yDrawPos = Main.tile[i, j].TileFrameY + (uniqueAnimationFrameY * animationFrameHeight);
@@ -513,11 +513,11 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -525,7 +525,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

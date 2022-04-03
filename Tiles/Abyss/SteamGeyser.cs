@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Geyser");
             AddMapEntry(new Color(150, 100, 50), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
             base.SetDefaults();
         }

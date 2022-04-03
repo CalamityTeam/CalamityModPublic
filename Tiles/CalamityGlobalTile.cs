@@ -106,10 +106,10 @@ namespace CalamityMod.Tiles
                     xTile += (frameY == 18) ? -1 : 1;
 
                 int yTile = j;
-                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].active();
-                while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
+                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile;
+                while (!Main.tile[xTile, yTile].HasTile || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
                 {
-                    if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].active())
+                    if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile)
                     {
                         slidingDownCactus = true;
                     }
@@ -143,10 +143,10 @@ namespace CalamityMod.Tiles
                 if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
                     return;
                 Tile t = Main.tile[xPos, yPos];
-                if (t != null && t.active() && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
+                if (t != null && t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
-                    if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
+                    if (!Main.tile[xPos, yPos].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                         NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
                 }
             }
@@ -538,7 +538,7 @@ namespace CalamityMod.Tiles
             Tile aboveTile = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
 
             // Prevent tiles below invincible tiles from being destroyed. This is like chests in vanilla.
-            return aboveTile.active() && checkTile.TileType != aboveTile.TileType && invincibleTiles.Contains(aboveTile.TileType);
+            return aboveTile.HasTile && checkTile.TileType != aboveTile.TileType && invincibleTiles.Contains(aboveTile.TileType);
         }
 
         public override bool CanExplode(int i, int j, int type)

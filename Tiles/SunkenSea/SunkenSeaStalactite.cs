@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoFail[Type] = true;
             Main.tileObsidianKill[Type] = true;
             Main.tileBlockLight[Type] = true;
-            dustType = 96;
+            DustType = 96;
             AddMapEntry(new Color(0, 50, 50));
 
             base.SetDefaults();

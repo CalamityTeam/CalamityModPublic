@@ -18,14 +18,14 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            dustType = 55;
-            drop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
+            DustType = 55;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);
             mineResist = 10f;
             minPick = 250;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j)

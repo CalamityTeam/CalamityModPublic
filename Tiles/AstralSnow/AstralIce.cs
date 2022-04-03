@@ -17,10 +17,10 @@ namespace CalamityMod.Tiles.AstralSnow
             CalamityUtils.MergeWithSnow(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            dustType = 173;
-            drop = ModContent.ItemType<Items.Placeables.AstralIce>();
+            DustType = 173;
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
-            soundType = SoundID.Item;
+            SoundType = SoundID.Item;
             soundStyle = 50;
 
             AddMapEntry(new Color(153, 143, 168));

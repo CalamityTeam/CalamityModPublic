@@ -40,8 +40,8 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(113, 90, 71), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
-            adjTiles = new int[] { TileID.Saplings };
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
+            AdjTiles = new int[] { TileID.Saplings };
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -60,7 +60,7 @@ namespace CalamityMod.Tiles.Abyss
                 }
                 Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
                 Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-                if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
+                if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
                 {
                     return;
                 }

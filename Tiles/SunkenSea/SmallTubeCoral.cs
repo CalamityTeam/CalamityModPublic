@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Small Tube Coral");
             AddMapEntry(new Color(0, 0, 80));

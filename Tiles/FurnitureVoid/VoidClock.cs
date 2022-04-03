@@ -10,11 +10,11 @@ namespace CalamityMod.Tiles.FurnitureVoid
         public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Obelisk");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.GrandfatherClocks };
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
         public override bool HasSmartInteract()

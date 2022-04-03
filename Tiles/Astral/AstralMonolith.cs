@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.LivingWood);
             CalamityUtils.SetMerge(Type, TileID.LivingMahogany);
 
-            drop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
         }
 
@@ -73,11 +73,11 @@ namespace CalamityMod.Tiles.Astral
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
-            if (!tile.halfBrick() && tile.slope() == 0)
+            if (!tile.IsHalfBlock && tile.slope() == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (tile.halfBrick())
+            else if (tile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -129,7 +129,7 @@ namespace CalamityMod.Tiles.Astral
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

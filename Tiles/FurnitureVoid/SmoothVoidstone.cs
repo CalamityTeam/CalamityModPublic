@@ -20,9 +20,9 @@ namespace CalamityMod.Tiles.FurnitureVoid
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             mineResist = 2.1f;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstone>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }
         int animationFrameWidth = 288;
@@ -222,11 +222,11 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -234,7 +234,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

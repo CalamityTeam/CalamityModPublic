@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Astral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Crate");
             AddMapEntry(new Color(47, 66, 90), name);
-            dustType = ModContent.DustType<AstralBlue>();
+            DustType = ModContent.DustType<AstralBlue>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -18,10 +18,10 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Vigorous Candle");
-            adjTiles = new int[] { TileID.Candles };
+            AdjTiles = new int[] { TileID.Candles };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
-            animationFrameHeight = 34;
+            AnimationFrameHeight = 34;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

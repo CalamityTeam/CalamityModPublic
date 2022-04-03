@@ -26,9 +26,9 @@ namespace CalamityMod.Tiles.Plates
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             mineResist = 1f;
-            drop = ModContent.ItemType<Items.Placeables.Plates.PlagueContainmentCells>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.PlagueContainmentCells>();
             AddMapEntry(new Color(128, 188, 67));
         }
 
@@ -70,11 +70,11 @@ namespace CalamityMod.Tiles.Plates
             //Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
 
             Tile trackTile = Main.tile[i, j];
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
             {
                 Main.spriteBatch.Draw(GlowTexture, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(GlowTexture, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -82,7 +82,7 @@ namespace CalamityMod.Tiles.Plates
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

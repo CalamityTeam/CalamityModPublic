@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
         {
             this.SetUpChandelier(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
-            adjTiles = new int[] { TileID.Chandeliers };
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

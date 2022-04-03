@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 36;
             TileObjectData.addTile(Type);
-            dustType = 7;
-            disableSmartCursor = true;
+            DustType = 7;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);

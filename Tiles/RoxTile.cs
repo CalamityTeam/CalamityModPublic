@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Roxcalibur");
             AddMapEntry(new Color(240, 77, 7), name);
-            disableSmartCursor = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Basin");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

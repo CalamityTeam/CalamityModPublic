@@ -19,9 +19,9 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Static Refiner");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
             //also counts as a Solidifier
-            adjTiles = new int[] { TileID.Solidifier };
+            AdjTiles = new int[] { TileID.Solidifier };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -75,7 +75,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Texture2D texture;
             if (Main.canDrawColorTile(i, j))
             {
-                texture = Main.tileAltTexture[Type, (int)tile.color()];
+                texture = Main.tileAltTexture[Type, (int)tile.TileColor];
             }
             else
             {

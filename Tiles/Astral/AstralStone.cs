@@ -19,10 +19,10 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.MergeAstralTiles(Type);
             CalamityUtils.MergeWithOres(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralStone>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralStone>();
 
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
 
             AddMapEntry(new Color(45, 36, 63));
 

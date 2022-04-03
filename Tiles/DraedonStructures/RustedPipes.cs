@@ -14,11 +14,11 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
             Main.tileMerge[Type][ModContent.TileType<LaboratoryPipePlating>()] = true;
 
-            soundType = SoundID.Item;
+            SoundType = SoundID.Item;
             soundStyle = 52;
-            dustType = 32;
+            DustType = 32;
             minPick = 30;
-            drop = ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPipes>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPipes>();
             AddMapEntry(new Color(128, 90, 77));
         }
 

@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Pot");
             AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
-            dustType = 29;
-            soundType = SoundID.Shatter;
+            DustType = 29;
+            SoundType = SoundID.Shatter;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

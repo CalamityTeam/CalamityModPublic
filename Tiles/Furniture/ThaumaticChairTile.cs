@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.Furniture
         {
             this.SetUpChair(true);
             AddMapEntry(new Color(236, 123, 89), Language.GetText("MapObject.Chair"));
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Chairs };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Chairs };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

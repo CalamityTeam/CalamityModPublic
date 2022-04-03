@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             this.SetUpDoorOpen(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.OpenDoor };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.OpenDoor };
             closeDoorID = ModContent.TileType<MonolithDoorClosed>();
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

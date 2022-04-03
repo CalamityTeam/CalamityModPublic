@@ -445,7 +445,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int i1 = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
                         int j = (int) ((double) Projectile.position.Y + (double) Projectile.height) / 16 + 1;
-                        if (WorldGen.SolidTile(i1, j) || Main.tile[i1, j].halfBrick() || ((int) Main.tile[i1, j].slope() > 0 || Projectile.type == 200))
+                        if (WorldGen.SolidTile(i1, j) || Main.tile[i1, j].IsHalfBlock || ((int) Main.tile[i1, j].slope() > 0 || Projectile.type == 200))
                         {
                             if (Projectile.type == 200)
                             {

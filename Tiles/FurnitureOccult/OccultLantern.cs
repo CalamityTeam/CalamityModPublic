@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureOccult
             this.SetUpLantern(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.HangingLanterns };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.HangingLanterns };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

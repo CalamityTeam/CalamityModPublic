@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Baby Ghost Bell Jar");
             AddMapEntry(new Color(64, 224, 208), name);

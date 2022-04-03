@@ -16,13 +16,13 @@ namespace CalamityMod.Tiles.Ores
             Main.tileValue[Type] = 690;
 
             CalamityUtils.MergeWithGeneral(Type);
-            drop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Hallowed Ore");
             AddMapEntry(new Color(250, 250, 150), name);
             mineResist = 3f;
             minPick = 180;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

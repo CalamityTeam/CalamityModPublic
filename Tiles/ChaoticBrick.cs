@@ -12,10 +12,10 @@ namespace CalamityMod.Tiles
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            dustType = 105;
-            drop = ModContent.ItemType<Items.Placeables.ChaoticBrick>();
+            DustType = 105;
+            ItemDrop = ModContent.ItemType<Items.Placeables.ChaoticBrick>();
             AddMapEntry(new Color(255, 0, 0));
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

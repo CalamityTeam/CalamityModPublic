@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureAstral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Dressers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Dressers };
             dresser = "Monolith Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithDresser>();
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

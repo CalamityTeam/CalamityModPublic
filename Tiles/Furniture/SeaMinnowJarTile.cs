@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Minnow Jar");
             AddMapEntry(new Color(65, 105, 225), name);

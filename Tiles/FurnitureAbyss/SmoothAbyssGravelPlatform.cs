@@ -10,11 +10,11 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

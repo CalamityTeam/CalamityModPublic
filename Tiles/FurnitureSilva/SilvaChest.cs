@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Silva Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChest>();
         }

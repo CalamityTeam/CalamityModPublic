@@ -13,9 +13,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");
             AddMapEntry(new Color(253, 221, 3), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Candles };
-            drop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candles };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

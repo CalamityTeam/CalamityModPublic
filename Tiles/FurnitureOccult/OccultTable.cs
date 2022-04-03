@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
         {
             this.SetUpTable(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
-            adjTiles = new int[] { TileID.Tables };
+            AdjTiles = new int[] { TileID.Tables };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.GrandfatherClocks };
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
         public override bool HasSmartInteract()

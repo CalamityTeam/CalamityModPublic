@@ -50,11 +50,11 @@ namespace CalamityMod.Tiles.DraedonStructures
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Lab Hologram Projector");
             AddMapEntry(new Color(99, 131, 199));
-            animationFrameHeight = 112;
+            AnimationFrameHeight = 112;
 
             // Spawn electric sparks when this tile is hit with a pickaxe.
-            dustType = 229;
-            soundType = SoundID.Tink;
+            DustType = 229;
+            SoundType = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -132,9 +132,9 @@ namespace CalamityMod.Tiles.DraedonStructures
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
 
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
                 spriteBatch.Draw(tileTexture, drawOffset, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
                 spriteBatch.Draw(tileTexture, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             return false;
         }

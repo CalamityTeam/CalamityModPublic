@@ -19,10 +19,10 @@ namespace CalamityMod.Tiles.Astral
             Main.tileWaterDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
 
-            dustType = ModContent.DustType<AstralBasic>();
+            DustType = ModContent.DustType<AstralBasic>();
 
             soundStyle = 1;
-            soundType = SoundID.Grass;
+            SoundType = SoundID.Grass;
 
             AddMapEntry(new Color(127, 111, 144));
 

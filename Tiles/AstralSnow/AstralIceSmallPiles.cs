@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.AstralSnow
             Main.tileNoFail[Type] = true;
             Main.tileObsidianKill[Type] = true;
 
-            dustType = ModContent.DustType<AstralBasic>();
+            DustType = ModContent.DustType<AstralBasic>();
             AddMapEntry(new Color(79, 61, 97));
 
             base.SetDefaults();

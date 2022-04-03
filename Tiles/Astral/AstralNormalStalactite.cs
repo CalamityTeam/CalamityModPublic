@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Astral
             Main.tileObsidianKill[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            dustType = ModContent.DustType<AstralBasic>();
+            DustType = ModContent.DustType<AstralBasic>();
 
             AddMapEntry(new Color(79, 61, 97));
 

@@ -24,13 +24,13 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeAstralTiles(Type);
 
             minPick = 210;
-            dustType = 173;
-            drop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
+            DustType = 173;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
             mineResist = 5f;
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;

@@ -15,9 +15,9 @@ namespace CalamityMod.Tiles.FurnitureExo
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");
             AddMapEntry(new Color(253, 221, 3), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Candles };
-            drop = ModContent.ItemType<ExoCandle>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candles };
+            ItemDrop = ModContent.ItemType<ExoCandle>();
         }
 
         public override bool CanExplode(int i, int j) => false;

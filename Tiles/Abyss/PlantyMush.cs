@@ -17,13 +17,13 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 2;
-            drop = ModContent.ItemType<Items.Placeables.PlantyMush>();
+            DustType = 2;
+            ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
             mineResist = 1f;
-            soundType = SoundID.Dig;
+            SoundType = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles.Abyss
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
+                if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
                         Main.tile[i, j + 1].WallType == (ushort)ModContent.WallType<AbyssGravelWall>() &&
@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Abyss
                                 flag13 = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].active() && !Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].bottomSlope())
                             {
                                 flag13 = true;
                                 break;

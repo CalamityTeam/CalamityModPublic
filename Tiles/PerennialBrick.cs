@@ -17,10 +17,10 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
-            soundType = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
+            SoundType = SoundID.Tink;
             AddMapEntry(new Color(17, 133, 46));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

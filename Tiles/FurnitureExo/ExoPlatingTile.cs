@@ -25,10 +25,10 @@ namespace CalamityMod.Tiles.FurnitureExo
             CalamityUtils.MergeDecorativeTiles(Type);
 
             mineResist = 3f;
-            soundType = SoundID.Tink;
-            drop = ModContent.ItemType<ExoPlating>();
+            SoundType = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<ExoPlating>();
             AddMapEntry(new Color(52, 67, 78));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -58,11 +58,11 @@ namespace CalamityMod.Tiles.FurnitureExo
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 
-            if (!tile.halfBrick() && tile.slope() == 0)
+            if (!tile.IsHalfBlock && tile.slope() == 0)
             {
                 spriteBatch.Draw(GlowTexture, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
-            else if (tile.halfBrick())
+            else if (tile.IsHalfBlock)
             {
                 spriteBatch.Draw(GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }

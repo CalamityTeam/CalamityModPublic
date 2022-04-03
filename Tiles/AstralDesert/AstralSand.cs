@@ -22,8 +22,8 @@ namespace CalamityMod.Tiles.AstralDesert
             CalamityUtils.MergeWithDesert(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            dustType = 108;
-            drop = ModContent.ItemType<Items.Placeables.AstralSand>();
+            DustType = 108;
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralSand>();
 
             AddMapEntry(new Color(187, 220, 237));
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.AstralDesert
             if (j < Main.maxTilesY)
             {
                 // tile[i, j+1] can still be null if it's on the edge of a chunk
-                if (Main.tile[i, j + 1] != null && !Main.tile[i, j + 1].active())
+                if (Main.tile[i, j + 1] != null && !Main.tile[i, j + 1].HasTile)
                 {
                     Main.tile[i, j].active(false);
                     Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralFallingSand>(), 15, 0f);
@@ -70,7 +70,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
         {
-            dustType = 108;
+            DustType = 108;
         }
 
         public override int SaplingGrowthType(ref int style)

@@ -13,9 +13,9 @@ namespace CalamityMod.Tiles.FurnitureAncient
         {
             this.SetUpLamp(true);
             AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
-            animationFrameHeight = 54;
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Lamps };
+            AnimationFrameHeight = 54;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Lamps };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

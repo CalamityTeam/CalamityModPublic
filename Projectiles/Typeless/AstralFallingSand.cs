@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Typeless
             Tile t = Main.tile[p.X, p.Y];
 
             // If the sand hit a half brick, but was mostly going downwards (at a lower than 45 degree angle), then stack atop the half brick.
-            if (t.halfBrick() && Projectile.velocity.Y > 0f && Math.Abs(Projectile.velocity.Y) > Math.Abs(Projectile.velocity.X))
+            if (t.IsHalfBlock && Projectile.velocity.Y > 0f && Math.Abs(Projectile.velocity.Y) > Math.Abs(Projectile.velocity.X))
                 t = Main.tile[p.X, --p.Y];
 
             // Under no circumstances can falling sand destroy minecart tracks.

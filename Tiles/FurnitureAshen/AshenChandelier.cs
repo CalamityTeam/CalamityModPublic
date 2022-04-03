@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             this.SetUpChandelier(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
-            animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Chandeliers };
+            AnimationFrameHeight = 54;
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

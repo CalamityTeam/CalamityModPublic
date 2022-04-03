@@ -58,7 +58,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
-            animationFrameHeight = 68;
+            AnimationFrameHeight = 68;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -138,9 +138,9 @@ namespace CalamityMod.Tiles.DraedonStructures
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
 
-            if (!t.halfBrick() && t.slope() == 0)
+            if (!t.IsHalfBlock && t.slope() == 0)
                 spriteBatch.Draw(tex, drawOffset, new Rectangle(frameXPos, frameYPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            else if (t.halfBrick())
+            else if (t.IsHalfBlock)
                 spriteBatch.Draw(tex, drawOffset + Vector2.UnitY * 8f, new Rectangle(frameXPos, frameYPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             return false;
         }

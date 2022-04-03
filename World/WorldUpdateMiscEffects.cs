@@ -258,7 +258,7 @@ namespace CalamityMod.World
                                     Tile tile = Main.tile[x, y];
                                     bool growTile = tenebris ? (tile.active() && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
-                                    bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.halfBrick() && !tile.lava();
+                                    bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.IsHalfBlock && !tile.lava();
 
                                     if (growTile && meetsAdditionalGrowConditions)
                                     {
@@ -278,19 +278,19 @@ namespace CalamityMod.World
                                             if (!tenebris)
                                             {
                                                 tile.active(true);
-                                                if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].halfBrick())
+                                                if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 0;
                                                 }
-                                                else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].halfBrick())
+                                                else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 18;
                                                 }
-                                                else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].halfBrick())
+                                                else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 36;
                                                 }
-                                                else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].halfBrick())
+                                                else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 54;
                                                 }

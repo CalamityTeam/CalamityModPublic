@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aged Security Chest");
             AddMapEntry(new Color(130, 119, 115), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
             chest = "Aged Security Chest";
             chestDrop = ModContent.ItemType<AgedSecurityChest>();
         }

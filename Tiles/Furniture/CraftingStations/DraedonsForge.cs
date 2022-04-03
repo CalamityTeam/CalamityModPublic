@@ -27,11 +27,11 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Draedon's Forge");
             AddMapEntry(new Color(230, 157, 41), name);
 
-            animationFrameHeight = 54;
-            disableSmartCursor = true;
-            dustType = DustID.Platinum; // 84
+            AnimationFrameHeight = 54;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            DustType = DustID.Platinum; // 84
 
-            adjTiles = new int[] {
+            AdjTiles = new int[] {
                 TileID.WorkBenches,
                 TileID.Chairs,
                 TileID.Tables,

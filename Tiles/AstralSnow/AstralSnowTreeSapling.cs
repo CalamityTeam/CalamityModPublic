@@ -38,8 +38,8 @@ namespace CalamityMod.Tiles.AstralSnow
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
-            dustType = Mod.Find<ModDust>("AstralBasic").Type;
-            adjTiles = new int[] { TileID.Saplings };
+            DustType = Mod.Find<ModDust>("AstralBasic").Type;
+            AdjTiles = new int[] { TileID.Saplings };
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

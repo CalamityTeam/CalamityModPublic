@@ -146,9 +146,9 @@ namespace CalamityMod
                 upLeft = true;
             if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
                 upRight = true;
-            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.IsHalfBlock && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
                 downLeft = true;
-            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.IsHalfBlock && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
                 downRight = true;
         }
 
@@ -183,7 +183,7 @@ namespace CalamityMod
             else
             {
                 Tile below = Main.tile[x, y + 1];
-                if (below != null && below.nactive() && !below.halfBrick() && below.slope() == 0)
+                if (below != null && below.nactive() && !below.IsHalfBlock && below.slope() == 0)
                     checkType = below.TileType;
             }
 

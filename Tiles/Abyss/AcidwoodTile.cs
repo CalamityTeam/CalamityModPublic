@@ -17,10 +17,10 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            drop = ModContent.ItemType<Acidwood>();
-            soundType = SoundID.Dig;
+            ItemDrop = ModContent.ItemType<Acidwood>();
+            SoundType = SoundID.Dig;
             AddMapEntry(new Color(218, 169, 97));
-            animationFrameHeight = 270;
+            AnimationFrameHeight = 270;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

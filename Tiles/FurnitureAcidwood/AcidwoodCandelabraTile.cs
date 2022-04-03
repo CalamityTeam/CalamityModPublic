@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candelabra");
             AddMapEntry(new Color(253, 221, 3), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Candelabras };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

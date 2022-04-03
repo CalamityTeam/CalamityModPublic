@@ -14,10 +14,10 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Twinkler in a Bottle");
             AddMapEntry(new Color(255, 99, 71), name);
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

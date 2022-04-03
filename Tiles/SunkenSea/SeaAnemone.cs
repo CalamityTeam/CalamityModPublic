@@ -9,12 +9,12 @@ namespace CalamityMod.Tiles.SunkenSea
     {
         public override void SetStaticDefaults()
         {
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Anemone");
             AddMapEntry(new Color(0, 0, 80));

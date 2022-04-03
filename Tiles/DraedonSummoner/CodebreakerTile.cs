@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("The Codebreaker");
             AddMapEntry(new Color(92, 107, 112), name);
-            animationFrameHeight = 144;
+            AnimationFrameHeight = 144;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -161,14 +161,14 @@ namespace CalamityMod.Tiles.DraedonSummoner
             TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(i, j, Width, Height, SheetSquare);
 
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            if (t.halfBrick())
+            if (t.IsHalfBlock)
                 offset.Y += 8f;
 
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
             Rectangle frame = new Rectangle(frameXPos, frameYPos, 16, 16);
 
-            if ((!t.halfBrick() && t.slope() == 0) || t.halfBrick())
+            if ((!t.IsHalfBlock && t.slope() == 0) || t.IsHalfBlock)
             {
                 spriteBatch.Draw(TileTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 

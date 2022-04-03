@@ -19,11 +19,11 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeSmoothTiles(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<ProfanedRock>());
 
-            soundType = SoundID.Tink;
+            SoundType = SoundID.Tink;
             mineResist = 4f;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
             AddMapEntry(new Color(122, 66, 59));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
         int animationFrameWidth = 234;
 

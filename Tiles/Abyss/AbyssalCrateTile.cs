@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyssal Crate");
             AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
-            dustType = 33;
+            DustType = 33;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

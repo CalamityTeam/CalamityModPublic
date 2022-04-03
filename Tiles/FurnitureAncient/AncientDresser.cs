@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles.FurnitureAncient
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Dressers };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Dressers };
             dresser = "Ancient Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientDresser>();
         }

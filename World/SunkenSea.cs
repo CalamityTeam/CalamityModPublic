@@ -495,7 +495,7 @@ namespace CalamityMod.World
                         {
                             if (flag3 ^ flag4)
                             {
-                                if (tile2.slope() == 0 && !tile2.halfBrick())
+                                if (tile2.slope() == 0 && !tile2.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5 + (flag3 ? -1 : 1), num6];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
@@ -513,7 +513,7 @@ namespace CalamityMod.World
                             }
                             if (flag ^ flag2)
                             {
-                                if (tile2.slope() == 0 && !tile2.halfBrick())
+                                if (tile2.slope() == 0 && !tile2.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5, num6 + (flag ? -1 : 1)];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
