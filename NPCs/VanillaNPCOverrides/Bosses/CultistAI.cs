@@ -915,7 +915,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     num59++;
                                     int num60 = Main.rand.Next(point2.X - num55, point2.X + num55 + 1);
                                     int num61 = Main.rand.Next(point2.Y - num55, point2.Y + num55 + 1);
-                                    if ((num61 < point2.Y - num57 || num61 > point2.Y + num57 || num60 < point2.X - num57 || num60 > point2.X + num57) && (num61 < point.Y - num56 || num61 > point.Y + num56 || num60 < point.X - num56 || num60 > point.X + num56) && !Main.tile[num60, num61].IsActuated)
+                                    if ((num61 < point2.Y - num57 || num61 > point2.Y + num57 || num60 < point2.X - num57 || num60 > point2.X + num57) && (num61 < point.Y - num56 || num61 > point.Y + num56 || num60 < point.X - num56 || num60 > point.X + num56) && !Main.tile[num60, num61].HasUnactuatedTile)
                                     {
                                         bool flag7 = true;
                                         if (flag7 && Collision.SolidTiles(num60 - num58, num60 + num58, num61 - num58, num61 + num58))

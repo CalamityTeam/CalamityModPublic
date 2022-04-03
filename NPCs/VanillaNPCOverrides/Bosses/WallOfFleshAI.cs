@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.localAI[0] == 0f)
             {
                 npc.localAI[0] = 1f;
-                Main.wofB = -1;
-                Main.wofT = -1;
+                Main.wofDrawAreaBottom = -1;
+                Main.wofDrawAreaTop = -1;
             }
 
             // Percent life remaining
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Set whoAmI variable
-            Main.wof = npc.whoAmI;
+            Main.wofNPCIndex = npc.whoAmI;
 
             // Set eye positions
             int num332 = (int)(npc.position.X / 16f);
@@ -129,19 +129,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
             num336 += 4;
-            if (Main.wofB == -1)
-                Main.wofB = num336 * 16;
-            else if (Main.wofB > num336 * 16)
+            if (Main.wofDrawAreaBottom == -1)
+                Main.wofDrawAreaBottom = num336 * 16;
+            else if (Main.wofDrawAreaBottom > num336 * 16)
             {
-                Main.wofB--;
-                if (Main.wofB < num336 * 16)
-                    Main.wofB = num336 * 16;
+                Main.wofDrawAreaBottom--;
+                if (Main.wofDrawAreaBottom < num336 * 16)
+                    Main.wofDrawAreaBottom = num336 * 16;
             }
-            else if (Main.wofB < num336 * 16)
+            else if (Main.wofDrawAreaBottom < num336 * 16)
             {
-                Main.wofB++;
-                if (Main.wofB > num336 * 16)
-                    Main.wofB = num336 * 16;
+                Main.wofDrawAreaBottom++;
+                if (Main.wofDrawAreaBottom > num336 * 16)
+                    Main.wofDrawAreaBottom = num336 * 16;
             }
 
             num335 = 0;
@@ -164,23 +164,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
             num336 -= 4;
-            if (Main.wofT == -1)
-                Main.wofT = num336 * 16;
-            else if (Main.wofT > num336 * 16)
+            if (Main.wofDrawAreaTop == -1)
+                Main.wofDrawAreaTop = num336 * 16;
+            else if (Main.wofDrawAreaTop > num336 * 16)
             {
-                Main.wofT--;
-                if (Main.wofT < num336 * 16)
-                    Main.wofT = num336 * 16;
+                Main.wofDrawAreaTop--;
+                if (Main.wofDrawAreaTop < num336 * 16)
+                    Main.wofDrawAreaTop = num336 * 16;
             }
-            else if (Main.wofT < num336 * 16)
+            else if (Main.wofDrawAreaTop < num336 * 16)
             {
-                Main.wofT++;
-                if (Main.wofT > num336 * 16)
-                    Main.wofT = num336 * 16;
+                Main.wofDrawAreaTop++;
+                if (Main.wofDrawAreaTop > num336 * 16)
+                    Main.wofDrawAreaTop = num336 * 16;
             }
 
             // Set Y velocity and position
-            float num339 = (Main.wofB + Main.wofT) / 2 - npc.height / 2;
+            float num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2 - npc.height / 2;
 
             if (npc.position.Y > num339 + 1f)
                 npc.velocity.Y = -1f;
@@ -385,18 +385,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[0] = 2f;
 
-                num339 = (Main.wofB + Main.wofT) / 2;
-                num339 = (num339 + Main.wofT) / 2f;
+                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                num339 = (num339 + Main.wofDrawAreaTop) / 2f;
                 int num354 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num354].ai[0] = 1f;
 
-                num339 = (Main.wofB + Main.wofT) / 2;
-                num339 = (num339 + Main.wofB) / 2f;
+                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                num339 = (num339 + Main.wofDrawAreaBottom) / 2f;
                 num354 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num354].ai[0] = -1f;
 
-                num339 = (Main.wofB + Main.wofT) / 2;
-                num339 = (num339 + Main.wofB) / 2f;
+                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                num339 = (num339 + Main.wofDrawAreaBottom) / 2f;
 
                 int num;
                 for (int num355 = 0; num355 < 11; num355 = num + 1)
@@ -418,31 +418,31 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Despawn
-            if (Main.wof < 0)
+            if (Main.wofNPCIndex < 0)
             {
                 npc.active = false;
                 return false;
             }
 
-            npc.realLife = Main.wof;
+            npc.realLife = Main.wofNPCIndex;
 
-            if (Main.npc[Main.wof].life > 0)
-                npc.life = Main.npc[Main.wof].life;
+            if (Main.npc[Main.wofNPCIndex].life > 0)
+                npc.life = Main.npc[Main.wofNPCIndex].life;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
 
             // Velocity, direction, and position
-            npc.position.X = Main.npc[Main.wof].position.X;
-            npc.direction = Main.npc[Main.wof].direction;
+            npc.position.X = Main.npc[Main.wofNPCIndex].position.X;
+            npc.direction = Main.npc[Main.wofNPCIndex].direction;
             npc.spriteDirection = npc.direction;
 
-            float num356 = (Main.wofB + Main.wofT) / 2;
+            float num356 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
             if (npc.ai[0] > 0f)
-                num356 = (num356 + Main.wofT) / 2f;
+                num356 = (num356 + Main.wofDrawAreaTop) / 2f;
             else
-                num356 = (num356 + Main.wofB) / 2f;
+                num356 = (num356 + Main.wofDrawAreaBottom) / 2f;
             num356 -= npc.height / 2;
 
             if (npc.position.Y > num356 + 1f)
@@ -491,9 +491,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // Percent life remaining
-                float lifeRatio = Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
+                float lifeRatio = Main.npc[Main.wofNPCIndex].life / (float)Main.npc[Main.wofNPCIndex].lifeMax;
 
-                bool charging = Main.npc[Main.wof].ai[3] == 1f;
+                bool charging = Main.npc[Main.wofNPCIndex].ai[3] == 1f;
 
                 // Set up enraged laser firing timer
                 float enragedLaserTimer = 300f;

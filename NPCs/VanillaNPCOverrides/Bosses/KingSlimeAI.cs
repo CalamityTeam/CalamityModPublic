@@ -432,12 +432,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if ((num240 < point4.Y - num237 || num240 > point4.Y + num237 || num239 < point4.X - num237 || num239 > point4.X + num237) &&
                     (num240 < point3.Y - num236 || num240 > point3.Y + num236 || num239 < point3.X - num236 || num239 > point3.X + num236) &&
-                    !Main.tile[num239, num240].IsActuated)
+                    !Main.tile[num239, num240].HasUnactuatedTile)
                 {
                     int num241 = num240;
                     int num242 = 0;
 
-                    if (Main.tile[num239, num241].IsActuated && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
+                    if (Main.tile[num239, num241].HasUnactuatedTile && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
                     {
                         num242 = 1;
                     }
@@ -446,7 +446,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
                         {
                             int y = num241 + num242;
-                            if (Main.tile[num239, y].IsActuated && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
+                            if (Main.tile[num239, y].HasUnactuatedTile && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
                             {
                                 num242--;
                                 break;

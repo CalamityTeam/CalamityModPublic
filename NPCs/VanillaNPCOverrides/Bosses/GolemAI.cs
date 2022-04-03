@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         for (int num621 = 0; num621 < 10; num621++)
                         {
-                            int num622 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                            int num622 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Torch, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity.Y *= 6f;
                             Main.dust[num622].velocity.X *= 3f;
                             if (Main.rand.Next(2) == 0)
@@ -304,10 +304,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                         for (int num623 = 0; num623 < 20; num623++)
                         {
-                            int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                            int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Torch, 0f, 0f, 100, default, 3f);
                             Main.dust[num624].noGravity = true;
                             Main.dust[num624].velocity.Y *= 10f;
-                            num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                            num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Torch, 0f, 0f, 100, default, 2f);
                             Main.dust[num624].velocity.X *= 2f;
                         }
 
