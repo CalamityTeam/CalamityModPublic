@@ -241,12 +241,12 @@ namespace CalamityMod.NPCs
                             if (num36 >= 0 && num36 < maxLength - 1)
                             {
                                 if (num36 % 2 == 0)
-                                    lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
+                                    lol = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
                                 else
-                                    lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
+                                    lol = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
                             }
                             else
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
+                                lol = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
 
                             Main.npc[lol].realLife = npc.whoAmI;
                             Main.npc[lol].ai[2] = npc.whoAmI;
@@ -897,7 +897,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < (death ? 1 : 2) && revenge)
                     {
-                        NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<Brimling>());
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<Brimling>());
                     }
                     SoundEngine.PlaySound(SoundID.Item8, vectorCenter);
                     npc.alpha = 255;
@@ -1265,7 +1265,7 @@ namespace CalamityMod.NPCs
                     int seekerDistance = death ? 180 : 150;
                     for (int i = 0; i < seekerAmt; i++)
                     {
-                        int spawn = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(i * seekerSpread) * seekerDistance)), (int)(npc.Center.Y + (Math.Cos(i * seekerSpread) * seekerDistance)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
+                        int spawn = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.Center.X + (Math.Sin(i * seekerSpread) * seekerDistance)), (int)(npc.Center.Y + (Math.Cos(i * seekerSpread) * seekerDistance)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
                         Main.npc[spawn].ai[0] = i * seekerSpread;
                     }
                 }
@@ -1298,8 +1298,8 @@ namespace CalamityMod.NPCs
                         }
                         else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
                         {
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
 
                             string key = "Mods.CalamityMod.CalamitasBossText2";
                             Color messageColor = Color.Orange;
@@ -2973,7 +2973,7 @@ namespace CalamityMod.NPCs
 
                         if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
 
                             if (death)
                             {
@@ -3077,7 +3077,7 @@ namespace CalamityMod.NPCs
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
 
                         if (death)
                         {
@@ -3297,7 +3297,7 @@ namespace CalamityMod.NPCs
                             // Now that the original worm doesn't exist, startCount can be zero.
                             // int startCount = npc.whoAmI + phase1Length + 1;
                             int startIndexHeadOne = 1;
-                            int headOneID = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadOne);
+                            int headOneID = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadOne);
                             Main.npc[headOneID].Calamity().newAI[0] = 1f;
                             Main.npc[headOneID].velocity = Vector2.Normalize(player.Center - Main.npc[headOneID].Center) * 16f;
                             Main.npc[headOneID].timeLeft *= 20;
@@ -3318,7 +3318,7 @@ namespace CalamityMod.NPCs
 
                             // Make sure the second split worm is also contiguous.
                             int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
-                            int headTwoID = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
+                            int headTwoID = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
                             Main.npc[headTwoID].Calamity().newAI[0] = 2f;
                             Main.npc[headTwoID].Calamity().newAI[3] = 600f;
                             Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
@@ -3422,9 +3422,9 @@ namespace CalamityMod.NPCs
                         {
                             int lol;
                             if (num36 >= 0 && num36 < maxLength - 1)
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), bodyType, npc.whoAmI);
+                                lol = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), bodyType, npc.whoAmI);
                             else
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), tailType, npc.whoAmI);
+                                lol = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), tailType, npc.whoAmI);
 
                             if (num36 % 2 == 0)
                                 Main.npc[lol].localAI[3] = 1f;
@@ -3930,12 +3930,12 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 1f;
                 for (int i = 0; i < darkEnergyAmt; i++)
                 {
-                    NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
-                    NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1f, 0f, 0f);
-                    NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
+                    NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
+                    NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1f, 0f, 0f);
+                    NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
                 }
-                NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 0.5f, 0f, 0f);
-                NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1.5f, 0f, 0f);
+                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 0.5f, 0f, 0f);
+                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1.5f, 0f, 0f);
             }
 
             // If there are any Dark Energies alive, change AI and don't take damage
@@ -4411,34 +4411,34 @@ namespace CalamityMod.NPCs
                         {
                             for (int i = 0; i < darkEnergyAmt; i++)
                             {
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 4f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 4f, 0f, 0f);
                             }
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1f, 0f, 0f);
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 3f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 3f, 0f, 0f);
                         }
                         else if (phase3)
                         {
                             for (int i = 0; i < darkEnergyAmt; i++)
                             {
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1.5f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 3f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1.5f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 3f, 0f, 0f);
                             }
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 0.5f, 0f, 0f);
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 2f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 0.5f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 2f, 0f, 0f);
                         }
                         else
                         {
                             for (int i = 0; i < darkEnergyAmt; i++)
                             {
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1f, 0f, 0f);
-                                NPC.NewNPC((int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 0f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 1f, 0f, 0f);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(i * spacing) * distance2)), (int)(vector.Y + (Math.Cos(i * spacing) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, i * spacing, 2f, 0f, 0f);
                             }
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1.5f, 0f, 0f);
-                            NPC.NewNPC((int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 2.5f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 1.5f, 0f, 0f);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(0) * distance2)), (int)(vector.Y + (Math.Cos(0) * distance2)), ModContent.NPCType<DarkEnergy>(), npc.whoAmI, 0f, 2.5f, 0f, 0f);
                         }
 
                         // Despawn potentially hazardous projectiles when entering a new phase
@@ -5088,7 +5088,7 @@ namespace CalamityMod.NPCs
                         {
                             Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);
                             if (Vector2.Distance(vector7, player.Center) > 150f)
-                                NPC.NewNPC((int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
                             npc.netUpdate = true;
                         }
                     }
@@ -5899,7 +5899,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
-                        NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>());
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>());
                     }
                 }
 
@@ -5941,8 +5941,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 100f;
-                        NPC.NewNPC((int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC((int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 
@@ -5975,8 +5975,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 150f;
-                        NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
-                        NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
                     }
                 }
 
@@ -6172,7 +6172,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-                        int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
+                        int num31 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
                         Main.npc[num31].target = npc.target;
                         Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
                         Main.npc[num31].netUpdate = true;
@@ -6228,8 +6228,8 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[2] += 100f;
                         float x = 900f - calamityGlobalNPC.newAI[2];
-                        NPC.NewNPC((int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC((int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 
@@ -6262,8 +6262,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 200f;
-                        NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
-                        NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
                     }
                 }
 
@@ -6540,8 +6540,8 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[2] += 150f;
                         float x = 900f - calamityGlobalNPC.newAI[2];
-                        NPC.NewNPC((int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC((int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 
@@ -6583,7 +6583,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-                        int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
+                        int num31 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
                         Main.npc[num31].target = npc.target;
                         Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
                         Main.npc[num31].netUpdate = true;
