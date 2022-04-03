@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
                 SoundEngine.PlaySound(SoundID.Item38, (int)npc.position.X, (int)npc.position.Y);
-                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
+                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
             }
 
             // Set up health value for spawning slimes
@@ -387,8 +387,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.rand.NextBool(250))
                             npcType = NPCID.Pinky;
 
-                        int num255 = NPC.NewNPC(x, y, npcType);
-                        Main.npc[num255].SetDefaults(npcType, -1f);
+                        int num255 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), x, y, npcType);
+                        Main.npc[num255].SetDefaults(npcType);
                         Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num255].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
                         Main.npc[num255].ai[0] = -1000 * Main.rand.Next(3);
@@ -432,12 +432,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if ((num240 < point4.Y - num237 || num240 > point4.Y + num237 || num239 < point4.X - num237 || num239 > point4.X + num237) &&
                     (num240 < point3.Y - num236 || num240 > point3.Y + num236 || num239 < point3.X - num236 || num239 > point3.X + num236) &&
-                    !Main.tile[num239, num240].nactive())
+                    !Main.tile[num239, num240].IsActuated)
                 {
                     int num241 = num240;
                     int num242 = 0;
 
-                    if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
+                    if (Main.tile[num239, num241].IsActuated && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
                     {
                         num242 = 1;
                     }
@@ -446,7 +446,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
                         {
                             int y = num241 + num242;
-                            if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
+                            if (Main.tile[num239, y].IsActuated && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
                             {
                                 num242--;
                                 break;
@@ -456,7 +456,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num240 += num242;
 
                     bool flag13 = true;
-                    if (flag13 && Main.tile[num239, num240].lava())
+                    if (flag13 && Main.tile[num239, num240].LiquidType == LiquidID.Lava)
                         flag13 = false;
                     if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
                         flag13 = false;

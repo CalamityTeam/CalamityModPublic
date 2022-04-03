@@ -649,7 +649,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 Vector2 vector11 = npc.Center + spinningpoint.RotatedBy(num36 * MathHelper.TwoPi / num31 - MathHelper.PiOver2);
                                 if (num35-- > 0)
                                 {
-                                    int num37 = NPC.NewNPC((int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI);
+                                    int num37 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI);
                                     Main.npc[num37].ai[3] = npc.whoAmI;
                                     Main.npc[num37].netUpdate = true;
                                     Main.npc[num37].localAI[1] = npc.localAI[1];
@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 vector19 = vec4 * scaleFactor;
                             vector19 = vector19.RotatedBy(num48 * num49 - (1.2566371f - num48) / 2f);
                             float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
-                            int num50 = NPC.NewNPC((int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
+                            int num50 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
                             Main.npc[num50].velocity = vector19;
                             num49++;
                         }
@@ -891,7 +891,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int i = 0; i < ancientDoomLimit; i++)
                             {
                                 float ai2 = i * 120;
-                                NPC.NewNPC((int)(player.Center.X + (float)(Math.Sin(i * 120) * 550)), (int)(player.Center.Y + (float)(Math.Cos(i * 120) * 550)),
+                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X + (float)(Math.Sin(i * 120) * 550)), (int)(player.Center.Y + (float)(Math.Cos(i * 120) * 550)),
                                     NPCID.AncientDoom, 0, npc.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                             }
                         }
@@ -915,7 +915,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     num59++;
                                     int num60 = Main.rand.Next(point2.X - num55, point2.X + num55 + 1);
                                     int num61 = Main.rand.Next(point2.Y - num55, point2.Y + num55 + 1);
-                                    if ((num61 < point2.Y - num57 || num61 > point2.Y + num57 || num60 < point2.X - num57 || num60 > point2.X + num57) && (num61 < point.Y - num56 || num61 > point.Y + num56 || num60 < point.X - num56 || num60 > point.X + num56) && !Main.tile[num60, num61].nactive())
+                                    if ((num61 < point2.Y - num57 || num61 > point2.Y + num57 || num60 < point2.X - num57 || num60 > point2.X + num57) && (num61 < point.Y - num56 || num61 > point.Y + num56 || num60 < point.X - num56 || num60 > point.X + num56) && !Main.tile[num60, num61].IsActuated)
                                     {
                                         bool flag7 = true;
                                         if (flag7 && Collision.SolidTiles(num60 - num58, num60 + num58, num61 - num58, num61 + num58))
@@ -923,7 +923,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                         if (flag7)
                                         {
-                                            NPC.NewNPC(num60 * 16 + 8, num61 * 16 + 8, NPCID.AncientDoom, 0, npc.whoAmI);
+                                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), num60 * 16 + 8, num61 * 16 + 8, NPCID.AncientDoom, 0, npc.whoAmI);
                                             break;
                                         }
                                     }
