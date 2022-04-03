@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -255,7 +255,7 @@ namespace CalamityMod.Projectiles.Summon
                                 Vector2 velocity = targetPos - Projectile.Center;
                                 velocity.Normalize();
                                 velocity *= speed;
-                                int shark = Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                int shark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                                 Main.projectile[shark].netUpdate = true;
                                 Projectile.netUpdate = true;
                             }
@@ -274,6 +274,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,7 +1,8 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -168,8 +169,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Vector2 source = hostPlant.Center;
-            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PlantationChain");
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PlantationChain").Value;
             Vector2 goal = Projectile.Center;
             Rectangle? sourceRectangle = null;
             float textureHeight = (float)chain.Height;
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
 
-            Texture2D texture = Main.projectileTexture[hostPlant.type];
+            Texture2D texture = TextureAssets.Projectile[hostPlant.type].Value;
             int height = texture.Height / Main.projFrames[hostPlant.type];
             int frameHeight = height * hostPlant.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Summon
                 spriteEffects = SpriteEffects.FlipHorizontally;
             Color color = Lighting.GetColor((int)hostPlant.Center.X / 16, (int)(hostPlant.Center.Y / 16f));
 
-            Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, spriteEffects, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

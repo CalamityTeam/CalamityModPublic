@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 source = new Vector2(Projectile.Center.X - 4f, Projectile.Center.Y);
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int spore = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
+                        int spore = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;
                     }
@@ -126,9 +126,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -81,13 +81,13 @@ namespace CalamityMod.Projectiles.Summon
                 int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(Projectile.localAI[1] / 320f, 0f, 1f));
                 if (Projectile.ai[0] >= timeNeeded && Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
                         Projectile.SafeDirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
                         (int)(Projectile.damage * 0.9),
                         3f,
                         Projectile.owner);
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
                         Projectile.SafeDirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
                         (int)(Projectile.damage * 0.9),
@@ -141,6 +141,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

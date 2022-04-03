@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
                     velocity.X *= (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
 
-                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
                 }
@@ -94,6 +94,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

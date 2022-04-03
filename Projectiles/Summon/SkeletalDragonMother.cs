@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -44,8 +44,8 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
-                        Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 4f, ModContent.ProjectileType<SkeletalDragonChild>(), Projectile.damage, Projectile.knockBack, player.whoAmI, Projectile.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
+                        Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SkeletalDragonChild>(), Projectile.damage, Projectile.knockBack, player.whoAmI, Projectile.whoAmI);
                 }
                 Projectile.localAI[0] = 1f;
             }
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.owner == player.whoAmI && Projectile.spriteDirection == (Projectile.SafeDirectionTo(target.Center).X > 0).ToDirectionInt())
                     {
-                        Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
                     }
                 }
             }

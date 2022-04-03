@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 8;
             Projectile.alpha = 255;
         }
-
 
         public override void AI()
         {
@@ -136,7 +135,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.spriteDirection = (shootVelocity.X > 0f).ToDirectionInt();
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(eyePosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartSummon>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), eyePosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartSummon>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
                 return;

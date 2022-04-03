@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
                         Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
                 }
                 SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-                int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), Projectile.damage, 4f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), Projectile.damage, 4f, Projectile.owner);
                 int beeArrayIndex = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {

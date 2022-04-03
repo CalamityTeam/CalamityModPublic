@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -175,7 +175,7 @@ namespace CalamityMod.Projectiles.Summon
             // Also release fireballs.
             if (distanceFromTarget > 220f)
             {
-                float interpolantToIdealVelocity = MathHelper.Lerp(0.05f, 0.3f, Utils.InverseLerp(300f, 560f, distanceFromTarget, true));
+                float interpolantToIdealVelocity = MathHelper.Lerp(0.05f, 0.3f, Utils.GetLerpValue(300f, 560f, distanceFromTarget, true));
                 Vector2 idealVelocity = Projectile.SafeDirectionTo(target.Center) * MathHelper.Min(distanceFromTarget, 14f);
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, interpolantToIdealVelocity);
 
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 shootPosition = Projectile.Center + Vector2.UnitX * Projectile.spriteDirection * 10f;
                         Vector2 shootVelocity = (target.Center - shootPosition).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection) * shootSpeed;
-                        Projectile.NewProjectile(shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shootPosition, shootVelocity, ModContent.ProjectileType<YharonMinionFireball>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
                     }
                 }
             }
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Summon
                 damage = (int)(damage * AngryChickenStaff.ReboundRamDamageFactor);
         }
 
-        public override bool CanDamage() => Projectile.localAI[0] > 1f;
+        public override bool? CanDamage() => Projectile.localAI[0] > 1f;
 
         public override bool PreDraw(ref Color lightColor)
         {

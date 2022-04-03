@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         if (dealDamage)
                         {
-                            Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
+                            Projectile aura = Projectile.NewProjectileDirect(Projectile.GetItemSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
                             if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
                                 aura.Calamity().forceMinion = true;
                         }
@@ -210,6 +210,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

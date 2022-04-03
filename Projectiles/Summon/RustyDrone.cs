@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         if (Projectile.owner == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(potentialTarget.Center, Vector2.Zero, ModContent.ProjectileType<RustyDroneTargetIndicator>(), 0, 0f, Projectile.owner, Projectile.whoAmI, potentialTarget.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), potentialTarget.Center, Vector2.Zero, ModContent.ProjectileType<RustyDroneTargetIndicator>(), 0, 0f, Projectile.owner, Projectile.whoAmI, potentialTarget.whoAmI);
                         }
                     }
                 }
@@ -138,13 +138,13 @@ namespace CalamityMod.Projectiles.Summon
                 Utils.PoofOfSmoke(Projectile.Center);
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
                         (int)(ExplosionShrapnelBaseDamage * player.MinionDamage()), 2f, Projectile.owner);
                 }
                 Projectile.Kill();
             }
         }
 
-        public override bool CanDamage() => Projectile.localAI[0] == 0f; // Only do damage from the initial 1 damage prick, and never again. This is a support summon.
+        public override bool? CanDamage() => Projectile.localAI[0] == 0f; // Only do damage from the initial 1 damage prick, and never again. This is a support summon.
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Summon
                                 vector156 = Projectile.Center + vector155.RotatedByRandom(0.78539818525314331) * (Main.rand.NextFloat() * 0.5f + 0.75f);
                             }
                             float x4 = Main.rgbToHsl(new Color(Main.DiscoR, 203, 103)).X;
-                            Projectile.NewProjectile(vector156.X, vector156.Y, 0f, 0f, ModContent.ProjectileType<SilvaCrystalExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, (float)Projectile.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector156, Vector2.Zero, ModContent.ProjectileType<SilvaCrystalExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, (float)Projectile.whoAmI);
                             num31 = num1083;
                         }
                         return;
@@ -213,9 +213,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

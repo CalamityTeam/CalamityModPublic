@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
@@ -430,7 +430,7 @@ namespace CalamityMod.Projectiles.Summon
             return null;
         }
 
-        public override bool CanDamage() => Projectile.ai[0] == 0f;
+        public override bool? CanDamage() => Projectile.ai[0] == 0f;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
