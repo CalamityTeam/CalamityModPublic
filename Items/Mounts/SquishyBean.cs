@@ -5,21 +5,21 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class SquishyBean : ModMountData
+    public class SquishyBean : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.buff = ModContent.BuffType<SquishyBeanBuff>();
-            mountData.heightBoost = 58;
-            mountData.fallDamage = -1;
-            mountData.runSpeed = 5f;
-            mountData.dashSpeed = 8f;
-            mountData.jumpHeight = 20;
-            mountData.acceleration = 0.1f;
-            mountData.jumpSpeed = 20f;
-            mountData.totalFrames = 4;
-            mountData.blockExtraJumps = true;
-            int[] array = new int[mountData.totalFrames];
+            MountData.buff = ModContent.BuffType<SquishyBeanBuff>();
+            MountData.heightBoost = 58;
+            MountData.fallDamage = -1;
+            MountData.runSpeed = 5f;
+            MountData.dashSpeed = 8f;
+            MountData.jumpHeight = 20;
+            MountData.acceleration = 0.1f;
+            MountData.jumpSpeed = 20f;
+            MountData.totalFrames = 4;
+            MountData.blockExtraJumps = true;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 switch (l)
@@ -38,37 +38,37 @@ namespace CalamityMod.Items.Mounts
                         break;
                 }
             }
-            mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
-            mountData.bodyFrame = 3;
-            mountData.yOffset = 19;
-            mountData.playerHeadOffset = 30;
-            mountData.standingFrameCount = 1;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = 4;
-            mountData.runningFrameDelay = 24;
-            mountData.runningFrameStart = 0;
-            mountData.flyingFrameCount = 0;
-            mountData.flyingFrameDelay = 0;
-            mountData.flyingFrameStart = 0;
-            mountData.inAirFrameCount = 1;
-            mountData.inAirFrameDelay = 12;
-            mountData.inAirFrameStart = 0;
-            mountData.idleFrameCount = 4;
-            mountData.idleFrameDelay = 12;
-            mountData.idleFrameStart = 0;
-            mountData.idleFrameLoop = true;
-            mountData.flyingFrameCount = 4;
-            mountData.flyingFrameDelay = 12;
-            mountData.flyingFrameStart = 0;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.inAirFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = 0;
+            MountData.bodyFrame = 3;
+            MountData.yOffset = 19;
+            MountData.playerHeadOffset = 30;
+            MountData.standingFrameCount = 1;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = 4;
+            MountData.runningFrameDelay = 24;
+            MountData.runningFrameStart = 0;
+            MountData.flyingFrameCount = 0;
+            MountData.flyingFrameDelay = 0;
+            MountData.flyingFrameStart = 0;
+            MountData.inAirFrameCount = 1;
+            MountData.inAirFrameDelay = 12;
+            MountData.inAirFrameStart = 0;
+            MountData.idleFrameCount = 4;
+            MountData.idleFrameDelay = 12;
+            MountData.idleFrameStart = 0;
+            MountData.idleFrameLoop = true;
+            MountData.flyingFrameCount = 4;
+            MountData.flyingFrameDelay = 12;
+            MountData.flyingFrameStart = 0;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.inAirFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
             }
         }
 

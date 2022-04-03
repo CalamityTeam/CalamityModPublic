@@ -22,7 +22,7 @@ namespace CalamityMod.Buffs.Pets
             bool PetProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<PineapplePetProj>()] <= 0;
             if (PetProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<PineapplePetProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.GetProjectileSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<PineapplePetProj>(), 0, 0f, player.whoAmI);
             }
         }
     }

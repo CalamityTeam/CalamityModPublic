@@ -1,6 +1,6 @@
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
@@ -15,14 +15,13 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().kamiBoost = true;
             if (player.buffTime[buffIndex] == 1)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
         }
     }
 }

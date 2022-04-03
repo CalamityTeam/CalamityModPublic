@@ -11,59 +11,60 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts.Minecarts
 {
-    public class DoGCartMount : ModMountData
+    public class DoGCartMount : ModMount
     {
         public const int SegmentCount = 18;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.Minecart = true;
-            mountData.MinecartDust = CreateSparkDust;
+            MountData.Minecart = true;
+			MountData.delegations = new MountDelegatesData();
+            MountData.delegations.MinecartDust = CreateSparkDust;
             MountID.Sets.Cart[ModContent.MountType<DoGCartMount>()] = true;
 
-            mountData.spawnDust = 173;
-            mountData.buff = ModContent.BuffType<DoGCartBuff>();
+            MountData.spawnDust = 173;
+            MountData.buff = ModContent.BuffType<DoGCartBuff>();
 
             // Movement fields.
-            mountData.flightTimeMax = 0;
-            mountData.fallDamage = 1f;
+            MountData.flightTimeMax = 0;
+            MountData.fallDamage = 1f;
 
             // Mechanical Cart in vanilla uses 20f and 0.1f respectively for these fields.
-            mountData.runSpeed = 22f;
-            mountData.acceleration = 0.16f;
+            MountData.runSpeed = 22f;
+            MountData.acceleration = 0.16f;
 
-            mountData.jumpHeight = 16;
-            mountData.jumpSpeed = 5.2f;
-            mountData.blockExtraJumps = true;
-            mountData.heightBoost = 12;
+            MountData.jumpHeight = 16;
+            MountData.jumpSpeed = 5.2f;
+            MountData.blockExtraJumps = true;
+            MountData.heightBoost = 12;
 
             // Drawing fields.
-            mountData.playerYOffsets = new int[] { 6, 6, 6 };
-            mountData.xOffset = 2;
-            mountData.yOffset = 12;
-            mountData.bodyFrame = 3;
+            MountData.playerYOffsets = new int[] { 6, 6, 6 };
+            MountData.xOffset = 2;
+            MountData.yOffset = 12;
+            MountData.bodyFrame = 3;
 
             // Animation fields.
-            mountData.totalFrames = 3;
-            mountData.standingFrameCount = 1;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = 3;
-            mountData.runningFrameDelay = 12;
-            mountData.runningFrameStart = 0;
-            mountData.flyingFrameCount = 0;
-            mountData.flyingFrameDelay = 0;
-            mountData.flyingFrameStart = 0;
-            mountData.inAirFrameCount = 0;
-            mountData.inAirFrameDelay = 0;
-            mountData.inAirFrameStart = 0;
-            mountData.idleFrameCount = 1;
-            mountData.idleFrameDelay = 10;
-            mountData.idleFrameStart = 0;
-            mountData.idleFrameLoop = false;
+            MountData.totalFrames = 3;
+            MountData.standingFrameCount = 1;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = 3;
+            MountData.runningFrameDelay = 12;
+            MountData.runningFrameStart = 0;
+            MountData.flyingFrameCount = 0;
+            MountData.flyingFrameDelay = 0;
+            MountData.flyingFrameStart = 0;
+            MountData.inAirFrameCount = 0;
+            MountData.inAirFrameDelay = 0;
+            MountData.inAirFrameStart = 0;
+            MountData.idleFrameCount = 1;
+            MountData.idleFrameDelay = 10;
+            MountData.idleFrameStart = 0;
+            MountData.idleFrameLoop = false;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.textureWidth = 74;
-                mountData.textureHeight = 114;
+                MountData.textureWidth = 74;
+                MountData.textureHeight = 114;
             }
         }
 
@@ -104,7 +105,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
         {
             Vector2 baseDirection = (CalculateIdealWormRotation(player) - MathHelper.PiOver2 + DelegateMethods.Minecart.rotation).ToRotationVector2();
             Vector2 waveOffset = baseDirection * (float)Math.Sin(MathHelper.Pi * index / player.Calamity().DoGCartSegments.Length + Main.GameUpdateCount / 14f) * 5f;
-            waveOffset *= Utils.InverseLerp(10f, 4f, player.velocity.Length(), true);
+            waveOffset *= Utils.GetLerpValue(10f, 4f, player.velocity.Length(), true);
 
             return waveOffset;
         }
@@ -131,9 +132,9 @@ namespace CalamityMod.Items.Mounts.Minecarts
                 if (segment is null)
                     break;
 
-                Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartBody");
+                Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartBody").Value;
                 if (i == SegmentCount - 1)
-                    segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartTail");
+                    segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartTail").Value;
                 Vector2 segmentDrawPosition = rotationAdjustedPositions[i] + CalculateSegmentWaveOffset(i, drawPlayer);
 
                 Color segmentColor = Lighting.GetColor((int)segmentDrawPosition.X / 16, (int)segmentDrawPosition.Y / 16);

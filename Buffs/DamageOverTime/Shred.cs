@@ -2,6 +2,8 @@ using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
@@ -21,7 +23,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = true;
+            BuffID.Sets.LongerExpertDebuff[Type] = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)
@@ -61,7 +63,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 if (applicator.miscCounter % FramesPerDamageTick == 0)
                 {
                     int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.GetDamage(DamageClass.Ranged));
-                    Projectile tick = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, applicator.whoAmI, target.whoAmI);
+                    Projectile tick = Projectile.NewProjectileDirect(target.GetSpawnSource_ForProjectile(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, applicator.whoAmI, target.whoAmI);
                     tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
                     tick.Calamity().canSupercrit = true;
                 }

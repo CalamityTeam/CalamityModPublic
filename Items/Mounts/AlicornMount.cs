@@ -10,62 +10,62 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class AlicornMount : ModMountData
+    public class AlicornMount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 234;
-            mountData.spawnDustNoGravity = true;
-            mountData.buff = ModContent.BuffType<AlicornBuff>();
-            mountData.heightBoost = 35;
-            mountData.fallDamage = 0f;
-            mountData.runSpeed = 5.6f;
-            mountData.dashSpeed = 16.8f;
-            mountData.flightTimeMax = 500;
-            mountData.fatigueMax = 0;
-            mountData.jumpHeight = 12;
-            mountData.acceleration = 0.4f;
-            mountData.jumpSpeed = 8.01f;
-            mountData.swimSpeed = 4f;
-            mountData.blockExtraJumps = false;
-            mountData.totalFrames = 15;
-            mountData.constantJump = false;
+            MountData.spawnDust = 234;
+            MountData.spawnDustNoGravity = true;
+            MountData.buff = ModContent.BuffType<AlicornBuff>();
+            MountData.heightBoost = 35;
+            MountData.fallDamage = 0f;
+            MountData.runSpeed = 5.6f;
+            MountData.dashSpeed = 16.8f;
+            MountData.flightTimeMax = 500;
+            MountData.fatigueMax = 0;
+            MountData.jumpHeight = 12;
+            MountData.acceleration = 0.4f;
+            MountData.jumpSpeed = 8.01f;
+            MountData.swimSpeed = 4f;
+            MountData.blockExtraJumps = false;
+            MountData.totalFrames = 15;
+            MountData.constantJump = false;
             int baseYOffset = 26;
-            int[] array = new int[mountData.totalFrames];
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = baseYOffset;
             }
             array[1] = array[3] = array[5] = array[7] = array[12] = baseYOffset - 2;
-            mountData.playerYOffsets = array;
-            mountData.xOffset = -4;
-            mountData.bodyFrame = 3;
-            mountData.yOffset = 5; //-8
-            mountData.playerHeadOffset = 36; //30
-            mountData.standingFrameCount = 1;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = 8; //7
-            mountData.runningFrameDelay = 42; //36
-            mountData.runningFrameStart = 1; //9
-            mountData.flyingFrameCount = 6; //0
-            mountData.flyingFrameDelay = 4; //0
-            mountData.flyingFrameStart = 9; //0
-            mountData.inAirFrameCount = 1; //1
-            mountData.inAirFrameDelay = 12; //12
-            mountData.inAirFrameStart = 10; //10
-            mountData.idleFrameCount = 1; //4
-            mountData.idleFrameDelay = 12; //12
-            mountData.idleFrameStart = 5;
-            mountData.idleFrameLoop = true;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.inAirFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = -4;
+            MountData.bodyFrame = 3;
+            MountData.yOffset = 5; //-8
+            MountData.playerHeadOffset = 36; //30
+            MountData.standingFrameCount = 1;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = 8; //7
+            MountData.runningFrameDelay = 42; //36
+            MountData.runningFrameStart = 1; //9
+            MountData.flyingFrameCount = 6; //0
+            MountData.flyingFrameDelay = 4; //0
+            MountData.flyingFrameStart = 9; //0
+            MountData.inAirFrameCount = 1; //1
+            MountData.inAirFrameDelay = 12; //12
+            MountData.inAirFrameStart = 10; //10
+            MountData.idleFrameCount = 1; //4
+            MountData.idleFrameDelay = 12; //12
+            MountData.idleFrameStart = 5;
+            MountData.idleFrameLoop = true;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.inAirFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMountExtra");
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMountExtra");
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
             }
         }
 
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Mounts
                 if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
+                        NPC.NewNPC(NPC.GetSpawnSourceForTownSpawn(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace CalamityMod.Items.Mounts
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fabsolVodka)
-                player.allDamage += 0.1f;
+                player.GetDamage(DamageClass.Generic) += 0.1f;
 
             if (player.velocity.Length() > 9f)
             {

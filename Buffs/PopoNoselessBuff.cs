@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs
@@ -12,7 +13,7 @@ namespace CalamityMod.Buffs
             Description.SetDefault("Your nose has been stolen!");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            canBeCleared = false;
+            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

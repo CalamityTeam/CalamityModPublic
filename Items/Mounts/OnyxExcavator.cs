@@ -12,56 +12,56 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class OnyxExcavator : ModMountData
+    public class OnyxExcavator : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 109;
-            mountData.spawnDustNoGravity = true;
-            mountData.buff = ModContent.BuffType<OnyxExcavatorBuff>();
-            mountData.heightBoost = 10;
-            mountData.fallDamage = 0f;
-            mountData.runSpeed = 8f;
-            mountData.flightTimeMax = 0;
-            mountData.jumpHeight = 5;
-            mountData.acceleration = 0.2f;
-            mountData.jumpSpeed = 3f;
-            mountData.swimSpeed = 0.5f;
-            mountData.totalFrames = 8;
-            int[] array = new int[mountData.totalFrames];
+            MountData.spawnDust = 109;
+            MountData.spawnDustNoGravity = true;
+            MountData.buff = ModContent.BuffType<OnyxExcavatorBuff>();
+            MountData.heightBoost = 10;
+            MountData.fallDamage = 0f;
+            MountData.runSpeed = 8f;
+            MountData.flightTimeMax = 0;
+            MountData.jumpHeight = 5;
+            MountData.acceleration = 0.2f;
+            MountData.jumpSpeed = 3f;
+            MountData.swimSpeed = 0.5f;
+            MountData.totalFrames = 8;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 2;
             }
             array[1] = 0;
             array[5] = 0;
-            mountData.playerYOffsets = array;
-            mountData.xOffset = 0; //-6
-            mountData.bodyFrame = 3;
-            mountData.yOffset = -1; //done
-            mountData.playerHeadOffset = 10;
-            mountData.standingFrameCount = 1;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = 8;
-            mountData.runningFrameDelay = 36; //36
-            mountData.runningFrameStart = mountData.standingFrameStart;
-            mountData.inAirFrameCount = mountData.standingFrameCount;
-            mountData.inAirFrameDelay = mountData.standingFrameDelay;
-            mountData.inAirFrameStart = mountData.standingFrameStart;
-            mountData.idleFrameCount = mountData.standingFrameCount;
-            mountData.idleFrameDelay = mountData.standingFrameDelay;
-            mountData.idleFrameStart = mountData.standingFrameStart;
-            mountData.idleFrameLoop = false;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.inAirFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = 0; //-6
+            MountData.bodyFrame = 3;
+            MountData.yOffset = -1; //done
+            MountData.playerHeadOffset = 10;
+            MountData.standingFrameCount = 1;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = 8;
+            MountData.runningFrameDelay = 36; //36
+            MountData.runningFrameStart = MountData.standingFrameStart;
+            MountData.inAirFrameCount = MountData.standingFrameCount;
+            MountData.inAirFrameDelay = MountData.standingFrameDelay;
+            MountData.inAirFrameStart = MountData.standingFrameStart;
+            MountData.idleFrameCount = MountData.standingFrameCount;
+            MountData.idleFrameDelay = MountData.standingFrameDelay;
+            MountData.idleFrameStart = MountData.standingFrameStart;
+            MountData.idleFrameLoop = false;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.inAirFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.backTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
-                mountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.backTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
+                MountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
             }
         }
 
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Mounts
                 if (Main.myPlayer == player.whoAmI)
                 {
                     int highestPickPower = 35; //35% if you have no pickaxes.
-                    for (int item = 0; item < Main.maxInventory; item++)
+                    for (int item = 0; item < Main.InventorySlotsTotal; item++)
                     {
                         if (player.inventory[item].pick <= 0)
                             continue;
@@ -213,13 +213,13 @@ namespace CalamityMod.Items.Mounts
                                     TileID.ElderCrystalStand
                                 };
 
-                                if (tile.active() && !player.noBuilding && !Main.tileContainer[tile.TileType] &&
+                                if (tile.HasTile && !player.noBuilding && !Main.tileContainer[tile.TileType] &&
                                     tileExcludeList.TrueForAll(z => tile.TileType != z) && pickReq < highestPickPower && canBreakTileCheck)
                                 {
                                     WorldGen.KillTile(x, y, false, false, false);
-                                    if (!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer)
+                                    if (!Main.tile[x, y].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                                     {
-                                        NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y, 0f, 0, 0, 0);
                                     }
                                 }
                             }

@@ -12,7 +12,6 @@ namespace CalamityMod.Buffs.Potions
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

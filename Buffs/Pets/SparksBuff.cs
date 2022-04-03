@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.Pets
             bool PetProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<Sparks>()] <= 0;
             if (PetProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(player.position.X + (player.width / 2), player.position.Y + (player.height / 2), 0f, 0f, ModContent.ProjectileType<Sparks>(), 0, 0f, player.whoAmI, 50f, 0f);
+                Projectile.NewProjectile(player.GetProjectileSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<Sparks>(), 0, 0f, player.whoAmI, 50f, 0f);
             }
         }
     }

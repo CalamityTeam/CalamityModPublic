@@ -9,27 +9,27 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class Crysthamyr : ModMountData
+    public class Crysthamyr : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 173;
-            mountData.spawnDustNoGravity = true;
-            mountData.buff = ModContent.BuffType<GazeOfCrysthamyrBuff>();
-            mountData.heightBoost = 36;
-            mountData.fallDamage = 0f;
-            mountData.runSpeed = 5f;
-            mountData.dashSpeed = 15f;
-            mountData.flightTimeMax = 750;
-            mountData.fatigueMax = 0;
-            mountData.jumpHeight = 12;
-            mountData.acceleration = 0.35f;
-            mountData.jumpSpeed = 9f;
-            mountData.swimSpeed = 6f;
-            mountData.blockExtraJumps = true;
-            mountData.totalFrames = 16;
-            mountData.constantJump = false;
-            int[] array = new int[mountData.totalFrames];
+            MountData.spawnDust = 173;
+            MountData.spawnDustNoGravity = true;
+            MountData.buff = ModContent.BuffType<GazeOfCrysthamyrBuff>();
+            MountData.heightBoost = 36;
+            MountData.fallDamage = 0f;
+            MountData.runSpeed = 5f;
+            MountData.dashSpeed = 15f;
+            MountData.flightTimeMax = 750;
+            MountData.fatigueMax = 0;
+            MountData.jumpHeight = 12;
+            MountData.acceleration = 0.35f;
+            MountData.jumpSpeed = 9f;
+            MountData.swimSpeed = 6f;
+            MountData.blockExtraJumps = true;
+            MountData.totalFrames = 16;
+            MountData.constantJump = false;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 30;
@@ -43,35 +43,35 @@ namespace CalamityMod.Items.Mounts
             array[10] = 40;
             array[12] = 28;
             array[14] = 28;
-            mountData.playerYOffsets = array;
-            mountData.xOffset = -56;
-            mountData.bodyFrame = 3;
-            mountData.yOffset = -20; //done
-            mountData.playerHeadOffset = 38; //30
-            mountData.standingFrameCount = 5;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = mountData.standingFrameCount;
-            mountData.runningFrameDelay = 48; //36
-            mountData.runningFrameStart = 11;
-            mountData.flyingFrameCount = 6;
-            mountData.flyingFrameDelay = mountData.flyingFrameCount;
-            mountData.flyingFrameStart = mountData.standingFrameCount;
-            mountData.inAirFrameCount = mountData.flyingFrameCount;
-            mountData.inAirFrameDelay = mountData.standingFrameDelay;
-            mountData.inAirFrameStart = mountData.standingFrameCount;
-            mountData.idleFrameCount = mountData.standingFrameCount; //done
-            mountData.idleFrameDelay = mountData.standingFrameDelay; //done
-            mountData.idleFrameStart = mountData.standingFrameStart;
-            mountData.idleFrameLoop = true;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.runningFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = -56;
+            MountData.bodyFrame = 3;
+            MountData.yOffset = -20; //done
+            MountData.playerHeadOffset = 38; //30
+            MountData.standingFrameCount = 5;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = MountData.standingFrameCount;
+            MountData.runningFrameDelay = 48; //36
+            MountData.runningFrameStart = 11;
+            MountData.flyingFrameCount = 6;
+            MountData.flyingFrameDelay = MountData.flyingFrameCount;
+            MountData.flyingFrameStart = MountData.standingFrameCount;
+            MountData.inAirFrameCount = MountData.flyingFrameCount;
+            MountData.inAirFrameDelay = MountData.standingFrameDelay;
+            MountData.inAirFrameStart = MountData.standingFrameCount;
+            MountData.idleFrameCount = MountData.standingFrameCount; //done
+            MountData.idleFrameDelay = MountData.standingFrameDelay; //done
+            MountData.idleFrameStart = MountData.standingFrameStart;
+            MountData.idleFrameLoop = true;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.runningFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/CrysthamyrExtra");
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/CrysthamyrExtra");
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
             }
         }
 

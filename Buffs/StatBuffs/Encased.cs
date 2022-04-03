@@ -1,7 +1,7 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
@@ -13,8 +13,7 @@ namespace CalamityMod.Buffs.StatBuffs
             Description.SetDefault("30 defense and +30% damage reduction, but...");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
-            canBeCleared = false;
+            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

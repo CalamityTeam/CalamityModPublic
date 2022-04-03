@@ -8,23 +8,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class AngryDogMount : ModMountData
+    public class AngryDogMount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 192;
-            mountData.spawnDustNoGravity = true;
-            mountData.buff = ModContent.BuffType<TundraLeashBuff>();
-            mountData.heightBoost = 36; //8
-            mountData.fallDamage = 0.3f;
-            mountData.runSpeed = 6.5f;
-            mountData.flightTimeMax = 0;
-            mountData.jumpHeight = 16;
-            mountData.acceleration = 0.21f;
-            mountData.jumpSpeed = 7f;
-            mountData.swimSpeed = 3f;
-            mountData.totalFrames = 13;
-            int[] array = new int[mountData.totalFrames];
+            MountData.spawnDust = 192;
+            MountData.spawnDustNoGravity = true;
+            MountData.buff = ModContent.BuffType<TundraLeashBuff>();
+            MountData.heightBoost = 36; //8
+            MountData.fallDamage = 0.3f;
+            MountData.runSpeed = 6.5f;
+            MountData.flightTimeMax = 0;
+            MountData.jumpHeight = 16;
+            MountData.acceleration = 0.21f;
+            MountData.jumpSpeed = 7f;
+            MountData.swimSpeed = 3f;
+            MountData.totalFrames = 13;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 28;
@@ -33,31 +33,31 @@ namespace CalamityMod.Items.Mounts
             array[4] = 26;
             array[7] = 26;
             array[10] = 26;
-            mountData.playerYOffsets = array;
-            mountData.xOffset = -6;
-            mountData.bodyFrame = 3;
-            mountData.yOffset = 15; //done
-            mountData.playerHeadOffset = 38;
-            mountData.standingFrameCount = 6;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = mountData.standingFrameCount;
-            mountData.runningFrameDelay = 36; //36
-            mountData.runningFrameStart = mountData.standingFrameCount;
-            mountData.inAirFrameCount = 1;
-            mountData.inAirFrameDelay = mountData.standingFrameDelay;
-            mountData.inAirFrameStart = mountData.standingFrameDelay;
-            mountData.idleFrameCount = mountData.standingFrameCount; //done
-            mountData.idleFrameDelay = mountData.standingFrameDelay; //done
-            mountData.idleFrameStart = mountData.standingFrameStart;
-            mountData.idleFrameLoop = true;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.inAirFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = -6;
+            MountData.bodyFrame = 3;
+            MountData.yOffset = 15; //done
+            MountData.playerHeadOffset = 38;
+            MountData.standingFrameCount = 6;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = MountData.standingFrameCount;
+            MountData.runningFrameDelay = 36; //36
+            MountData.runningFrameStart = MountData.standingFrameCount;
+            MountData.inAirFrameCount = 1;
+            MountData.inAirFrameDelay = MountData.standingFrameDelay;
+            MountData.inAirFrameStart = MountData.standingFrameDelay;
+            MountData.idleFrameCount = MountData.standingFrameCount; //done
+            MountData.idleFrameDelay = MountData.standingFrameDelay; //done
+            MountData.idleFrameStart = MountData.standingFrameStart;
+            MountData.idleFrameLoop = true;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.inAirFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
             }
         }
 

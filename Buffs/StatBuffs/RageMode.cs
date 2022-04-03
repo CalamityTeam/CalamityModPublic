@@ -1,7 +1,8 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
@@ -15,8 +16,7 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
             Main.buffNoTimeDisplay[Type] = true; // Because duration is variable, time is not displayed.
-            longerExpertDebuff = false;
-            canBeCleared = false;
+            BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -33,7 +33,7 @@ namespace CalamityMod.Buffs.StatBuffs
             // Otherwise, Rage Mode ends instantly.
             else
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
                 player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
                 mp.rageModeActive = false;
                 mp.rage = 0f;
