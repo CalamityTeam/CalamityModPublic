@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = Projectile.height = 32;
             Projectile.aiStyle = 27;
-            aiType = ProjectileID.LightBeam;
+            AIType = ProjectileID.LightBeam;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 80;
@@ -77,14 +77,14 @@ namespace CalamityMod.Projectiles.Melee
             DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             Main.spriteBatch.End(); //Haha sup babe what if i restarted the spritebatch way too many times haha /blushes
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
 
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f)), Projectile.rotation, tex.Size() * 0.5f, 1f, 0f, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.HotPink, Color.GreenYellow, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f)), Projectile.rotation, tex.Size() * 0.5f, 1f, 0f, 0);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_SwordBeamProc)
+            if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_SwordBeamProc)
                 sword.OnHitProc = true;
         }
 

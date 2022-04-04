@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
             {
-                Projectile.NewProjectile(Owner.Center + direction * 30f, Projectile.velocity * 1.25f, ProjectileType<AncientBeam>(), (int)(Projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center + direction * 30f, Projectile.velocity * 1.25f, ProjectileType<AncientBeam>(), (int)(Projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
                 HasFired = 1f;
             }
 
@@ -120,9 +120,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncients").Value;
+            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow").Value;
 
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             float extraAngle = Owner.direction < 0 ? MathHelper.PiOver2 : 0f;
@@ -143,8 +142,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0f);
-            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, flip, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0);
+            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, flip, 0);
 
             return false;
         }

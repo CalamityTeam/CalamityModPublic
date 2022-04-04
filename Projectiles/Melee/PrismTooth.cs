@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
             positionOffset = positionOffset.RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + Projectile.velocity * 42f + positionOffset;
-            Projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Lifetime - Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 12f, Time, true) * Utils.GetLerpValue(Lifetime, Lifetime - 12f, Lifetime - Projectile.timeLeft, true);
 
             // Destroy trees within the range of the past 20 oldPos positions.
             for (int i = 0; i < 20; i++)
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee
             Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
 
             // Ignore tiles that are not active and are not breakable by axes.
-            if (!tileAtPosition.active() || !Main.tileAxe[tileAtPosition.TileType])
+            if (!tileAtPosition.HasTile || !Main.tileAxe[tileAtPosition.TileType])
                 return;
 
             // Don't attempt to mine the tile if for whatever reason it's not supposed to be broken.
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor) => Color.White;
 
-        internal float WidthFunction(float completionRatio) => Projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true)) + 1f;
+        internal float WidthFunction(float completionRatio) => Projectile.scale * 24f * (1f - Utils.GetLerpValue(0.7f, 1f, completionRatio, true)) + 1f;
 
         internal Color ColorFunction(float completionRatio)
         {
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.oldPos[1] = oldPosition;
 
             Main.spriteBatch.EnterShaderRegion();
-            GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak").Value);
 
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
             Main.spriteBatch.ExitShaderRegion();

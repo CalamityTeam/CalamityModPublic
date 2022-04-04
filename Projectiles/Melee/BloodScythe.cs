@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.velocity *= 0.935f;
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.1f;
-            Projectile.Opacity = Utils.InverseLerp(1f, 6f, Projectile.velocity.Length(), true);
+            Projectile.Opacity = Utils.GetLerpValue(1f, 6f, Projectile.velocity.Length(), true);
             if (Projectile.Opacity <= 0f)
                 Projectile.Kill();
 

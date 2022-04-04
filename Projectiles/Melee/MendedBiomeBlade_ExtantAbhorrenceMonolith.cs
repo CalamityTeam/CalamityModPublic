@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.hide = true;
         }
 
-        public override bool CanDamage() => WaitTimer <= 0;
+        public override bool? CanDamage() => WaitTimer <= 0;
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -60,9 +60,9 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + ((Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * Height()), Width(), ref collisionPoint);
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
 
         public override void AI()
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WaitTimer > 0)
                 return false;
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith");
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith").Value;
 
             float drawAngle = Projectile.rotation;
             Rectangle frame = new Rectangle(0 + (int)Variant * 94, 0, 94, 420);
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
 
             float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f) / 0.15f), 0f, 1f);
 
-            Main.EntitySpriteDraw(tex, drawPosition, frame, lightColor * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, frame, lightColor * opacity, drawAngle, drawOrigin, drawScale, 0f, 0);
 
             return false;
         }
@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Melee
             if (WaitTimer > 0)
                 return;
 
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith_Glow");
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrenceMonolith_Glow").Value;
 
             float drawAngle = Projectile.rotation;
             Rectangle frame = new Rectangle(0 + (int)Variant * 94, 0, 94, 420);
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Melee
 
             float opacity = MathHelper.Clamp(1f - ((Timer - 0.85f) / 0.15f), 0f, 1f);
 
-            Main.EntitySpriteDraw(tex, drawPosition, frame, Color.White * opacity, drawAngle, drawOrigin, drawScale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawPosition, frame, Color.White * opacity, drawAngle, drawOrigin, drawScale, 0f, 0);
         }
 
 

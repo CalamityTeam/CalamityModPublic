@@ -87,12 +87,12 @@ namespace CalamityMod.Projectiles.Melee
                     Owner.velocity *= 0.1f; //Abrupt stop
                     Owner.Calamity().LungingDown = false;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/SwiftSlice"), Owner.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SwiftSlice"), Owner.Center);
 
                     if (Owner.whoAmI == Main.myPlayer)
                     {
-                        Projectile proj = Projectile.NewProjectileDirect(Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(Projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                        if (proj.modProjectile is DecaysRetortDash dash)
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(Projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                        if (proj.ModProjectile is DecaysRetortDash dash)
                         {
                             dash.DashStart = PowerLungeStart;
                             dash.DashEnd = Owner.Center;
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.GiveIFrames(TrueBiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
             if (Owner.whoAmI == Main.myPlayer)
             {
-                if (Owner.HeldItem.modItem is TrueBiomeBlade sword)
+                if (Owner.HeldItem.ModItem is TrueBiomeBlade sword)
                 {
                     sword.PowerLungeCounter++;
                     if (sword.PowerLungeCounter == 3)
@@ -173,8 +173,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetort");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade").Value;
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_DecaysRetort").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -183,25 +183,25 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Owner.Center + direction * 10f - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, tex.Height);
 
-            Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             if (dashTimer > 0f && dashTimer < maxDash)
             {
                 float thrustRatio = (float)Math.Sin(dashTimer / maxDash * MathHelper.Pi);
-                Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale * (1 + thrustRatio * 0.2f), 0f, 0f);
+                Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale * (1 + thrustRatio * 0.2f), 0f, 0);
             }
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 600;
-            aiType = ProjectileID.LightBeam;
+            AIType = ProjectileID.LightBeam;
         }
 
         public override void AI()

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 velocity = velocity.SafeNormalize(Vector2.Zero) * laserSpeed;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMelee = true;
                 }
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void PostDraw(Color lightColor)
         {
             Vector2 origin = new Vector2(10f, 10f);
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/ObliteratorYoyoGlow"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/ObliteratorYoyoGlow").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 2f, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

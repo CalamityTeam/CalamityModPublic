@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
         }
 
-        public override bool CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
+        public override bool? CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void GeneralParryEffects()
         {
-            ArkoftheAncients sword = (Owner.HeldItem.modItem as ArkoftheAncients);
+            ArkoftheAncients sword = (Owner.HeldItem.ModItem as ArkoftheAncients);
             if (sword != null)
                 sword.Charge = 10f;
 
@@ -159,8 +159,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.myPlayer == Owner.whoAmI)
                 {
-                    var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-                    var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+                    var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+                    var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
                     Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -36) - barBG.Size() / 2;
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
@@ -168,30 +168,27 @@ namespace CalamityMod.Projectiles.Melee
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
                     Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
 
-                    Main.EntitySpriteDraw(barBG, drawPos, color * opacity);
-                    Main.EntitySpriteDraw(barFG, drawPos, frame, color * opacity * 0.8f);
-
-
+                    Main.spriteBatch.Draw(barBG, drawPos, color * opacity);
+                    Main.spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);
                 }
                 return false;
             }
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncients").Value;
+            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow").Value;
 
             float drawRotation = Projectile.rotation + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = Owner.Center + Projectile.velocity * DistanceFromPlayer.Length() - Main.screenPosition;
 
-
-            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
-            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
+            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             if (AlreadyParried > 0)
             {
                 drawOrigin = new Vector2(0f, 36f);
                 Rectangle frame = new Rectangle(24, 0, 36, 36);
                 drawOffset = Owner.Center + Projectile.velocity * (DistanceFromPlayer.Length() + 33) - Main.screenPosition;
-                Main.EntitySpriteDraw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, Projectile.scale + AlreadyParried / ParryTime, 0f, 0f);
+                Main.EntitySpriteDraw(glowmask, drawOffset, frame, Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1, 1, 0.8f) * (1 - AlreadyParried / ParryTime), drawRotation, drawOrigin, Projectile.scale + AlreadyParried / ParryTime, 0f, 0);
             }
 
             return false;

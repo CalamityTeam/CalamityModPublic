@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
             Rectangle frame = texture.Frame(2, 7, frameX, frameY);
             SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             return false;
         }
 
@@ -141,6 +141,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 0, 0, 0);
 
-        //public override bool CanDamage() => Slashing;
+        //public override bool? CanDamage() => Slashing;
     }
 }

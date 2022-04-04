@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast2>(), (int)((double)damage * 0.75), knockback, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast2>(), (int)((double)damage * 0.75), knockback, Main.myPlayer);
             }
         }
 

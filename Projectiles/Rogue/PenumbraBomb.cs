@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -37,13 +37,13 @@ namespace CalamityMod.Projectiles.Rogue
             //Hitbox Fixing
             if (Projectile.direction == 1)
             {
-                drawOffsetX = -4;
-                drawOriginOffsetX = -5;
+                DrawOffsetX = -4;
+                DrawOriginOffsetX = -5;
             }
             else
             {
-                drawOffsetX = -11;
-                drawOriginOffsetX = 5;
+                DrawOffsetX = -11;
+                DrawOriginOffsetX = 5;
             }
 
             //Alpha

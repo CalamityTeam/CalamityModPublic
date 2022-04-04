@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            drawOffsetX = 1;
-            drawOriginOffsetY = 4;
+            DrawOffsetX = 1;
+            DrawOriginOffsetY = 4;
 
             // Update animation
             Projectile.frameCounter++;
@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
             ai1 *= Main.rand.NextBool() ? -1f : 1f;
 
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, Projectile.owner, ai0, ai1);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, Projectile.owner, ai0, ai1);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
 
-            var tex = GetTexture("CalamityMod/Particles/MediumMist");
+            var tex = Request<Texture2D>("CalamityMod/Particles/MediumMist").Value;
             Rectangle frame = tex.Frame(1, 3, 0, variant);
             Main.EntitySpriteDraw(tex, Projectile.position - Main.screenPosition, frame, mistColor * 0.5f * ((255f - Projectile.alpha) / 255f), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 

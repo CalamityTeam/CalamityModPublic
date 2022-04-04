@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,20 +50,20 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-            if (target.life <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
+            if (target.life <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
-                (FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-            if (target.statLife <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
+            if (target.statLife <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
-                (FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }
 

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.extraUpdates = 1;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.BoulderStaffOfEarth;
+            AIType = ProjectileID.BoulderStaffOfEarth;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

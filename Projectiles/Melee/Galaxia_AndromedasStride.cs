@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 16;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return (State == 1);
         }
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
                     //WOahhh do a ring of projectiles!! woahhh
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 30;
                         }
@@ -152,14 +152,14 @@ namespace CalamityMod.Projectiles.Melee
                         //Projectiles!!! wah!!!
                         for (int i = 0; i < 9; i++)
                         {
-                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                            Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                             {
                                 blast.timeLeft = 50;
                             }
                         }
 
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * Projectile.scale), -direction * 16f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction * 16f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
             proj.scale = 3f;
             proj.timeLeft = 50;
 
@@ -253,8 +253,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
-                if (proj.modProjectile is AndromedasStrideBoltSpawner spawner)
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.ModProjectile is AndromedasStrideBoltSpawner spawner)
                 {
                     spawner.WaitTimer = (1 - projSize) * 34f;
                     spawner.OriginDirection = direction;
@@ -277,7 +277,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/GalaxiaExtra").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -285,7 +285,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            CalamityUtils.EnterShaderRegion(spriteBatch);
+            Main.spriteBatch.EnterShaderRegion();
 
             if (OverCharge < 0)
                 OverCharge = 0f;
@@ -295,8 +295,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
             Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
-
-            CalamityUtils.ExitShaderRegion(spriteBatch);
+            Main.spriteBatch.ExitShaderRegion();
 
             return false;
         }

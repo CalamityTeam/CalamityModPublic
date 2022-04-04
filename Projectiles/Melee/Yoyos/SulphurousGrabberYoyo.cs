@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                         if (Main.rand.NextBool(10))
                             projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
                         float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-                        Projectile.NewProjectile(Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
                     }
                     bubbleCounter = 0;
                 }
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             if (bubbleStronk)
             {
-                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble");
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble").Value;
                 CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, tex);
             }
             return false;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 600;
-            aiType = ProjectileID.SporeCloud;
+            AIType = ProjectileID.SporeCloud;
         }
 
         public override void AI()
@@ -55,6 +55,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            // TODO -- Make this use proper i-frame variables.
             target.immune[Projectile.owner] = 8;
             OnHitEffects(target.Center, crit);
             target.AddBuff(BuffID.Venom, 180);

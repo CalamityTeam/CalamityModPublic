@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -133,13 +133,13 @@ namespace CalamityMod.Projectiles.Melee
                 for (int num333 = num330; num333 < num330 + num332; num333++)
                 {
                     Tile tile = Main.tile[num331, num333];
-                    if (tile.active() && (Main.tileSolid[(int)tile.TileType] || tile.liquid != 0))
+                    if (tile.HasTile && (Main.tileSolid[(int)tile.TileType] || tile.LiquidAmount != 0))
                     {
                         num330 = num333;
                         break;
                     }
                 }
-                int num335 = Projectile.NewProjectile((float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
+                int num335 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
                 Main.projectile[num335].netUpdate = true;
             }
         }

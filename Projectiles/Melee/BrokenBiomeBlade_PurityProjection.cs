@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = Projectile.height = 32;
             Projectile.aiStyle = 27;
-            aiType = ProjectileID.LightBeam;
+            AIType = ProjectileID.LightBeam;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 40;

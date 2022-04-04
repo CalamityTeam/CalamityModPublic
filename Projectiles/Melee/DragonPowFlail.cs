@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Melee
         // ai[1] = tick counter used to spawn projectiles and control transparency
         public override void AI()
         {
-            drawOffsetX = 0;
-            drawOriginOffsetY = -11;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = 0;
+            DrawOriginOffsetY = -11;
+            DrawOriginOffsetX = 0;
 
             Player owner = Main.player[Projectile.owner];
 
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
                 float sparkVariety = Main.rand.Next(3);
 
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.Center, vel, type, damage, kb, Projectile.owner, sparkVariety, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vel, type, damage, kb, Projectile.owner, sparkVariety, 0f);
             }
         }
 
@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int idx = Projectile.NewProjectile(startPos, fallVec, type, waterfallDamage, waterfallKB, Projectile.owner, 0f, 0f);
+                    int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, fallVec, type, waterfallDamage, waterfallKB, Projectile.owner, 0f, 0f);
                     Main.projectile[idx].timeLeft = 100;
                     Main.projectile[idx].tileCollide = false;
                 }
@@ -228,7 +228,7 @@ namespace CalamityMod.Projectiles.Melee
             Player owner = Main.player[Projectile.owner];
             Vector2 mountedCenter = owner.MountedCenter;
             Color transparent = Color.Transparent;
-            Texture2D chainTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/DragonPowChain");
+            Texture2D chainTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/DragonPowChain").Value;
             Vector2 chainDrawPos = Projectile.Center;
 
             Rectangle? sourceRectangle = null;

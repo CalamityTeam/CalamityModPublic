@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         private Player Owner => Main.player[Projectile.owner];
 
-        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as BiomeBlade).CanUseItem(Owner) : false;
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as BiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && Owner.CheckSolidGround(1, 3);
         public ref float ChanneledState => ref Projectile.ai[0];
         public ref float ChannelTimer => ref Projectile.ai[1];
@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement temporaryAttunementStorage = (associatedItem.modItem as BiomeBlade).mainAttunement;
-                (associatedItem.modItem as BiomeBlade).mainAttunement = (associatedItem.modItem as BiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as BiomeBlade).secondaryAttunement = temporaryAttunementStorage;
+                Attunement temporaryAttunementStorage = (associatedItem.ModItem as BiomeBlade).mainAttunement;
+                (associatedItem.ModItem as BiomeBlade).mainAttunement = (associatedItem.ModItem as BiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as BiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
             }
 
@@ -92,11 +92,11 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (ChannelTimer >= ChannelTime)
                 {
-                    Attune((BiomeBlade)associatedItem.modItem);
+                    Attune((BiomeBlade)associatedItem.ModItem);
                     Projectile.timeLeft = 120;
                     ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
 
-                    Color particleColor = (associatedItem.modItem as BiomeBlade).mainAttunement.tooltipColor;
+                    Color particleColor = (associatedItem.ModItem as BiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -166,10 +166,10 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
-            if ((associatedItem.modItem as BiomeBlade).mainAttunement == null && (associatedItem.modItem as BiomeBlade).secondaryAttunement != null)
+            if ((associatedItem.ModItem as BiomeBlade).mainAttunement == null && (associatedItem.ModItem as BiomeBlade).secondaryAttunement != null)
             {
-                (associatedItem.modItem as BiomeBlade).mainAttunement = (associatedItem.modItem as BiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as BiomeBlade).secondaryAttunement = null;
+                (associatedItem.ModItem as BiomeBlade).mainAttunement = (associatedItem.ModItem as BiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as BiomeBlade).secondaryAttunement = null;
             }
 
             //Cool particles
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
 
             else if (ChanneledState == 1f)
             {
-                Texture2D tex = GetTexture(Texture);
+                Texture2D tex = Request<Texture2D>(Texture).Value;
                 Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f)), 1f);
                 SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.EntitySpriteDraw(tex, Projectile.position - Main.screenPosition, null, lightColor * (Projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (Projectile.timeLeft / 60f)), flip, 0);

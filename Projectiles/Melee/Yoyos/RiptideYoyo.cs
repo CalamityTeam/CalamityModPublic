@@ -38,28 +38,28 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 switch (Main.rand.Next(1, 9))
                 {
                     case 1:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 1.2f/*X Increment*/, 0.2f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 1.2f/*X Increment*/, 0.2f/*Y Increment*/);
                         break;
                     case 2:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 5, -5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, 0.7f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 5, -5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, 0.7f/*Y Increment*/);
                         break;
                     case 3:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 10, 0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.2f/*X Increment*/, 1.2f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 10, 0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.2f/*X Increment*/, 1.2f/*Y Increment*/);
                         break;
                     case 4:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, 0.7f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, 0.7f/*Y Increment*/);
                         break;
                     case 5:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -0, 10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -1.2f/*X Increment*/, -0.2f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -0, 10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -1.2f/*X Increment*/, -0.2f/*Y Increment*/);
                         break;
                     case 6:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, -0.7f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -5, 5, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.7f/*X Increment*/, -0.7f/*Y Increment*/);
                         break;
                     case 7:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -10, -0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.2f/*X Increment*/, -1.2f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -10, -0, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, -0.2f/*X Increment*/, -1.2f/*Y Increment*/);
                         break;
                     case 8:
-                        Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, -10, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, -0.7f/*Y Increment*/);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, -10, -10, ModContent.ProjectileType<AquaStream>(), 4, 0.0f, Projectile.owner, 0.7f/*X Increment*/, -0.7f/*Y Increment*/);
                         break;
                 }
             }

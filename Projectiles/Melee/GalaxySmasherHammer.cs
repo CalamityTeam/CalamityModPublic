@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,9 +44,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -12;
-            drawOriginOffsetY = -5;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -12;
+            DrawOriginOffsetY = -5;
+            DrawOriginOffsetX = 0;
 
             // Produces violet dust constantly while in flight. This lights the hammer.
             int numDust = 2;
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;

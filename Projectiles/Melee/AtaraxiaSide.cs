@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -28;
-            drawOriginOffsetY = -2;
-            drawOriginOffsetX = 12;
+            DrawOffsetX = -28;
+            DrawOriginOffsetY = -2;
+            DrawOriginOffsetX = 12;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Light
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projVec = projVec.RotatedBy(angleVariance);
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.Center, projVec, splitID, damage, 1.5f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, projVec, splitID, damage, 1.5f, Main.myPlayer);
             }
         }
     }

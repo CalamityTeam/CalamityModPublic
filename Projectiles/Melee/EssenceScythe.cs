@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 10;
             Projectile.timeLeft = 300;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.DeathSickle;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()

@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
                     }
-                    Projectile.NewProjectile(Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
 
                 }
 
@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Owner.Center, Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
                         }
                         CanDirectFire = false;
                         AngleReset = Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One).ToRotation();
@@ -260,12 +260,12 @@ namespace CalamityMod.Projectiles.Melee
 
             if (CurrentState != 1)
             {
-                if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_WhirlwindProc)
+                if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_WhirlwindProc)
                     sword.OnHitProc = true;
                 return;
             }
 
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade blade && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_SwordThrowProc)
+            if (Owner.HeldItem.ModItem is OmegaBiomeBlade blade && Main.rand.NextFloat() <= OmegaBiomeBlade.WhirlwindAttunement_SwordThrowProc)
                 blade.OnHitProc = true;
 
             lastTarget = target;
@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
             }
-            Projectile sigil = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
+            Projectile sigil = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
             sigil.timeLeft = OmegaBiomeBlade.WhirlwindAttunement_SigilTime;
         }
 
@@ -293,8 +293,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_SwordsmithsPride").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -302,11 +302,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
@@ -331,7 +331,7 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].Apply();
             }
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             if (CurrentState == 1f && snapTimer > 0)
             {
@@ -340,14 +340,14 @@ namespace CalamityMod.Projectiles.Melee
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
         public void drawChain(float snapProgress, float retractProgress)
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMightChain");
+            Texture2D chainTex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMightChain").Value;
 
             float opacity = retractProgress < 0.5 ? 1 : (retractProgress - 0.5f) / 0.5f;
 

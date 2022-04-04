@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     public class TrueBiomeBladeHoldout : ModProjectile //Visuals
     {
         private Player Owner => Main.player[Projectile.owner];
-        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as OmegaBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead;
         public ref float ChanneledState => ref Projectile.ai[0];
         public ref float ChannelTimer => ref Projectile.ai[1];
@@ -64,9 +64,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement temporaryAttunementStorage = (associatedItem.modItem as OmegaBiomeBlade).mainAttunement;
-                (associatedItem.modItem as OmegaBiomeBlade).mainAttunement = (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
+                Attunement temporaryAttunementStorage = (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement;
+                (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement = (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
             }
 
@@ -90,8 +90,8 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (ChannelTimer == ChannelTime - 15)
                 {
-                    Attune((OmegaBiomeBlade)associatedItem.modItem);
-                    Color particleColor = (associatedItem.modItem as OmegaBiomeBlade).mainAttunement.tooltipColor;
+                    Attune((OmegaBiomeBlade)associatedItem.ModItem);
+                    Color particleColor = (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
             bool ocean = Owner.ZoneBeach || Owner.Calamity().ZoneSulphur;
-            bool holy = Owner.ZoneHoly;
+            bool hallow = Owner.ZoneHallow;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
                 attunement = Attunement.attunementArray[(int)AttunementID.SuperPogo];
             if (astral || marine)
                 attunement = Attunement.attunementArray[(int)AttunementID.Shockwave];
-            if (holy)
+            if (hallow)
                 attunement = Attunement.attunementArray[(int)AttunementID.Whirlwind]; //Putting holy check  at the end so it may override hallowed variants of biomes
 
             //If the owner already had the attunement , break out of it (And unswap)
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
             //Chunger
-            var Sound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), Projectile.Center);
+            var Sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ThunderStrike"), Projectile.Center);
             CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             Particle thunder = new ThunderBoltVFX(Projectile.Center + Vector2.UnitY * 20f, Main.rand.NextBool() ? Main.rand.NextBool() ? Color.Goldenrod : Color.GreenYellow : Main.rand.NextBool() ? Color.Cyan : Color.Magenta, 0f, 1.5f, Vector2.One, 1f, 15f, Projectile, 20f);
             GeneralParticleHandler.SpawnParticle(thunder);
@@ -179,10 +179,10 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
-            if ((associatedItem.modItem as OmegaBiomeBlade).mainAttunement == null && (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement != null)
+            if ((associatedItem.ModItem as OmegaBiomeBlade).mainAttunement == null && (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement != null)
             {
-                (associatedItem.modItem as OmegaBiomeBlade).mainAttunement = (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement = null;
+                (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement = (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement = null;
             }
         }
 
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (ChanneledState == 0f && ChannelTimer > 10f)
             {
-                Texture2D tex = GetTexture(Texture);
+                Texture2D tex = Request<Texture2D>(Texture).Value;
                 Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, tex.Size() / 2, 1, 0, 0);
 
                 return false;
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (ChanneledState == 1f)
             {
-                Texture2D tex = GetTexture(Texture);
+                Texture2D tex = Request<Texture2D>(Texture).Value;
                 Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f)), 1f);
                 SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.EntitySpriteDraw(tex, Projectile.position - Main.screenPosition, null, lightColor * (Projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (Projectile.timeLeft / 60f)), flip, 0);

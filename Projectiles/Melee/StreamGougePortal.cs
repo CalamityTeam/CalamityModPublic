@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,13 +40,13 @@ namespace CalamityMod.Projectiles.Melee
             // Play a slice sound when spawning.
             if (Projectile.localAI[0] == 0f)
             {
-                Main.PlayTrackedSound(CalamityUtils.GetTrackableSound("Sounds/Custom/SwiftSlice"), Projectile.Center);
+                SoundEngine.PlayTrackedSound(CalamityUtils.GetTrackableSound("CalamityMod/Sounds/Custom/SwiftSlice"), Projectile.Center);
                 Projectile.localAI[0] = 1f;
             }
 
-            float spearOutwardness = MathHelper.Lerp(4f, 52f, Utils.InverseLerp(0f, 18f, Time, true));
+            float spearOutwardness = MathHelper.Lerp(4f, 52f, Utils.GetLerpValue(0f, 18f, Time, true));
             Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * spearOutwardness;
-            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(0f, 10f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 8f, Time, true) * Utils.GetLerpValue(0f, 10f, Projectile.timeLeft, true);
             Projectile.scale = Projectile.Opacity;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Time++;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/StreamGouge");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/StreamGouge").Value;
             Vector2 spearDrawPosition = SpearCenter - Main.screenPosition;
             Vector2 spearOrigin = texture.Size() * 0.5f;
             Color spearColor = Main.hslToRgb(Projectile.identity % 10f / 40f + 0.67f, 1f, 0.5f);
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < 2; i++)
                 Main.EntitySpriteDraw(texture, spearDrawPosition, null, spearColor * Projectile.Opacity, Projectile.rotation, spearOrigin, Projectile.scale, 0, 0);
 
-            Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal");
+            Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal").Value;
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

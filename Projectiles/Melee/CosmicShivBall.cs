@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
                 int directionSign = Main.rand.NextBool(2).ToDirectionInt();
                 Vector2 spawnPos = new Vector2(target.Center.X + directionSign * 650, Projectile.Center.Y + Main.rand.Next(-500, 501));
                 Vector2 velocity = Vector2.Normalize(target.Center - spawnPos) * 30f;
-                Projectile.NewProjectile(spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
             }
             int starMax = Main.rand.Next(6, 11); // 6 to 10 stars
             for (int i = -starMax / 2; i < starMax / 2; i++)
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
                 int ySpawnAdditive = Main.rand.Next(-40, 41);
                 Vector2 toSpawn = target.Center - new Vector2(0f, 800f + ySpawnAdditive).RotatedBy(MathHelper.ToRadians(i * 11f / starMax));
                 Vector2 toTarget = Vector2.Normalize(target.Center - toSpawn) * 35f;
-                Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
             target.AddBuff(BuffID.Frostburn, 60);
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
                     target.StrikeNPC(damage, 0f, 0, crit, false, false);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, 0f, 0f, crit ? 1 : 0, 0, 0);
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, damage, 0f, 0f, crit ? 1 : 0, 0, 0);
                 }
             }
         }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -127,9 +127,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -28;
-            drawOriginOffsetY = -2;
-            drawOriginOffsetX = 12;
+            DrawOffsetX = -28;
+            DrawOriginOffsetY = -2;
+            DrawOriginOffsetX = 12;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Run homing code
@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // Cannot deal damage for the first several frames of existence.
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return Projectile.timeLeft < Lifespan - IntangibleFrames;
         }

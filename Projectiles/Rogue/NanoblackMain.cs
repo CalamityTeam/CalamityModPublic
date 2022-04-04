@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -43,9 +43,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            drawOffsetX = -11;
-            drawOriginOffsetY = -4;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -11;
+            DrawOriginOffsetY = -4;
+            DrawOriginOffsetX = 0;
 
             // Initialize the frame counter and random blade delay on the very first frame.
             if (Projectile.timeLeft == Lifetime)

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         // Terror Blasts do nothing until they explode.
-        public override bool CanDamage() => Projectile.localAI[0] > 0f;
+        public override bool? CanDamage() => Projectile.localAI[0] > 0f;
 
         public override void Kill(int timeLeft)
         {

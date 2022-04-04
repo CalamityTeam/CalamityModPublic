@@ -84,8 +84,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients");
-            Texture2D glowmask = GetTexture("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncients").Value;
+            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TrueArkoftheAncientsGlow").Value;
 
             float displace = 10 * (1f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.8f));
 
@@ -97,14 +97,14 @@ namespace CalamityMod.Projectiles.Melee
 
             float swordSize = 1.4f + ((float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.6f);
 
-            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, swordSize, 0f, 0f);
-            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, swordSize, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, swordSize, 0f, 0);
+            Main.EntitySpriteDraw(glowmask, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, swordSize, 0f, 0);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Draw the laser
-            Texture2D tex = GetTexture("CalamityMod/Particles/BloomLine");
+            Texture2D tex = Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
             float rot = angle + MathHelper.PiOver2;
             Vector2 origin = new Vector2(tex.Width / 2f, tex.Height);
             float size = Timer / MaxTime > 0.5f ? (float)Math.Sin(Timer / MaxTime * MathHelper.Pi) * 0.2f + 0.8f : (float)Math.Sin(Timer / MaxTime * MathHelper.Pi);
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot, origin, scale, SpriteEffects.None, 0);
 
             //Cap the lines
-            Texture2D cap = GetTexture("CalamityMod/Particles/BloomLineCap");
+            Texture2D cap = Request<Texture2D>("CalamityMod/Particles/BloomLineCap").Value;
             scale = new Vector2(size, size);
             origin = new Vector2(cap.Width / 2f, cap.Height);
             Main.EntitySpriteDraw(cap, Projectile.Center - Main.screenPosition, null, Color.LightPink, rot + MathHelper.Pi, origin, scale, SpriteEffects.None, 0);
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

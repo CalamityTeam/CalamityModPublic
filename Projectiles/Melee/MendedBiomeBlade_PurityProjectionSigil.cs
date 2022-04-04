@@ -37,7 +37,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-
             Lighting.AddLight(Projectile.Center, 0.75f, 1f, 0.24f);
             int dustParticle = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 75, 0f, 0f, 100, default, 0.9f);
             Main.dust[dustParticle].noGravity = true;

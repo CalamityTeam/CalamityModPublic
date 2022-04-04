@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 16;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return (State == 1);
         }
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
-                    var chargeSound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                    var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
                     if (chargeSound != null)
                         chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Melee
             //Only create the central monolith if over half charge
             if (Charge / MaxCharge < 0.5f)
                 return;
-            Projectile.NewProjectile(Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
 
             //Only create the side monoliths if over 3/4th charge
             if (Charge / MaxCharge < 0.75f)
@@ -231,8 +231,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
-                if (proj.modProjectile is ExtantAbhorrenceMonolith monolith)
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.ModProjectile is ExtantAbhorrenceMonolith monolith)
                     monolith.WaitTimer = (1 - projSize) * 34f;
             }
 
@@ -251,8 +251,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_ExtantAbhorrence").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -260,11 +260,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Just in case
             if (OverCharge < 0)
@@ -277,11 +277,11 @@ namespace CalamityMod.Projectiles.Melee
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

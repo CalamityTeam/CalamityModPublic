@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,9 +26,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            drawOffsetX = -8;
-            drawOriginOffsetY = 0;
-            drawOriginOffsetX = -2;
+            DrawOffsetX = -8;
+            DrawOriginOffsetY = 0;
+            DrawOriginOffsetX = -2;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Vector2 pos = Projectile.Center;
             Projectile.localAI[0] += 1f;

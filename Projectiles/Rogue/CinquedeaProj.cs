@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            drawOriginOffsetY = 11;
-            drawOffsetX = -22;
+            DrawOriginOffsetY = 11;
+            DrawOffsetX = -22;
 
             bool stealthstrike = Projectile.ai[1] == 1 && Projectile.penetrate == 1;
             if (Projectile.spriteDirection == 1)

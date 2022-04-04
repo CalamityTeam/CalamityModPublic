@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            drawOffsetX = 1;
-            drawOriginOffsetY = 4;
+            DrawOffsetX = 1;
+            DrawOriginOffsetY = 4;
 
             // Continuously trail dust
             int trailDust = 1;

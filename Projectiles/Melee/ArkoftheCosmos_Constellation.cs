@@ -146,11 +146,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Particles != null)
             {
                 Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
-
                 foreach (Particle particle in Particles)
-                {
-                    particle.CustomDraw(spriteBatch);
-                }
+                    particle.CustomDraw(Main.spriteBatch);
 
                 Main.spriteBatch.ExitShaderRegion();
             }

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
                 bendOffset *= CurrentBendFactor * CalamityUtils.Convert01To010(i / 12f);
 
                 // Smoothly zero out the bending effects if the current position is near the owner.
-                bendOffset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(startingPosition, Projectile.Center, i / 12f) + bendOffset), true);
+                bendOffset *= Utils.GetLerpValue(0f, 300f, Owner.Distance(Vector2.Lerp(startingPosition, Projectile.Center, i / 12f) + bendOffset), true);
                 initialPoints.Add(Vector2.Lerp(startingPosition, Projectile.Center, i / 12f) + bendOffset);
             }
             initialPoints.Add(Projectile.Center);
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
             if (InitialDirectionRotation == 0f)
                 InitialDirectionRotation = WhipOutwardness.ToRotation() - MathHelper.PiOver2;
 
-            float attackCompletionRatio = Utils.InverseLerp(Lifetime, FlyBackTime, Projectile.timeLeft, true);
+            float attackCompletionRatio = Utils.GetLerpValue(Lifetime, FlyBackTime, Projectile.timeLeft, true);
 
             // Normally swing from a "cone" to a collision area that causes both whips to collide.
             float baseSwingAngle = MathHelper.Lerp(-1.1f, 1.57f, 1f - attackCompletionRatio);
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), Projectile.damage * 2, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), Projectile.damage * 2, 0f, Projectile.owner);
 
             // Fire a bunch of rays rays.
             int rayDamage = (int)(Projectile.damage * 1.5);
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (potentialTarget != null && targetAimDisparity < MathHelper.Pi * 0.27f)
                     prismEndPosition = potentialTarget.Center + potentialTarget.velocity * 4f;
 
-                int prismRay = Projectile.NewProjectile(prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, Projectile.knockBack * 0.2f, Projectile.owner);
+                int prismRay = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, Projectile.knockBack * 0.2f, Projectile.owner);
                 if (Main.projectile.IndexInRange(prismRay))
                 {
                     Main.projectile[prismRay].ModProjectile<PrismRay>().RayHue = i / (float)LaserRayCount;
@@ -192,8 +192,8 @@ namespace CalamityMod.Projectiles.Melee
                     whipTexturePath = "CalamityMod/Projectiles/Melee/SpineOfThanatosTail";
                 else
                     whipTexturePath = $"CalamityMod/Projectiles/Melee/SpineOfThanatosBody{i % 2 + 1}";
-                Texture2D whipSegmentTexture = ModContent.Request<Texture2D>(whipTexturePath);
-                Texture2D whipSegmentGlowmaskTexture = ModContent.Request<Texture2D>($"{whipTexturePath}Glowmask");
+                Texture2D whipSegmentTexture = ModContent.Request<Texture2D>(whipTexturePath).Value;
+                Texture2D whipSegmentGlowmaskTexture = ModContent.Request<Texture2D>($"{whipTexturePath}Glowmask").Value;
 
                 Vector2 origin = whipSegmentTexture.Size() * 0.5f;
                 float rotation = (WhipPoints[i + 1] - WhipPoints[i]).ToRotation() + MathHelper.PiOver2;

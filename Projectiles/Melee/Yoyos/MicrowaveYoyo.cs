@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -51,10 +51,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Sound is done manually, so that it can loop correctly.
             if (mmmmmm is null)
             {
-                mmmmmm = ModContent.GetSound("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").CreateInstance();
+                mmmmmm = ModContent.Request<ModSound>("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").Value.Sound.Value.CreateInstance();
                 mmmmmm.IsLooped = true;
                 CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
-                Main.PlaySoundInstance(mmmmmm);
+                mmmmmm.Play();
+                SoundInstanceGarbageCollector.Track(mmmmmm);
             }
             else if (!mmmmmm.IsDisposed)
                 CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Spawn invisible but damaging aura projectile
             if (Projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(Projectile.damage * 0.35), Projectile.knockBack, Projectile.owner, Projectile.identity, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(Projectile.damage * 0.35), Projectile.knockBack, Projectile.owner, Projectile.identity, 0f);
                 spawnedAura = true;
             }
 
@@ -110,7 +111,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void PostDraw(Color lightColor)
         {
             Rectangle frame = new Rectangle(0, 0, 20, 16);
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/MicrowaveYoyoGlow"), Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/MicrowaveYoyoGlow").Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -118,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.life <= 0 && soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 soundCooldown = 45;
             }
         }
@@ -128,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.statLife <= 0 && soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                 soundCooldown = 45;
             }
         }

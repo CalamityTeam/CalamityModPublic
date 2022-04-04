@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -99,8 +99,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/RemsRevengeChain");
+            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/RemsRevengeChain").Value;
             Vector2 projCenter = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)chainTexture.Width * 0.5f, (float)chainTexture.Height * 0.5f);
@@ -142,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<WitherDebuff>(), 240);
             hitCounter++;
             if (hitCounter < 6)
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
             if (hitCounter > 3)
             {
                 Projectile.ai[0] = 1f;

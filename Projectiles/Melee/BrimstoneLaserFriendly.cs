@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 2;
             Projectile.height = 2;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.DeathLaser;
+            AIType = ProjectileID.DeathLaser;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.scale = 2f;

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -26,9 +26,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -5;
-            drawOriginOffsetY = -1;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -5;
+            DrawOriginOffsetY = -1;
+            DrawOriginOffsetX = 0;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Slow down exponentially and fade away

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -33,9 +33,9 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             // Draw offsets
-            drawOffsetX = -10;
-            drawOriginOffsetY = -10;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -10;
+            DrawOriginOffsetY = -10;
+            DrawOriginOffsetX = 0;
 
             // Play sound and set rotation on frame 1
             if (Projectile.localAI[0] == 0f)

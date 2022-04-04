@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,17 +53,17 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.spriteDirection == 1)
             {
                 Projectile.rotation += MathHelper.ToRadians(45f);
-                drawOffsetX = -26;
-                drawOriginOffsetX = 13;
-                drawOriginOffsetY = 2;
+                DrawOffsetX = -26;
+                DrawOriginOffsetX = 13;
+                DrawOriginOffsetY = 2;
             }
             //Rotating 45 degrees if shooting right
             if (Projectile.spriteDirection == -1)
             {
                 Projectile.rotation -= MathHelper.ToRadians(45f);
-                drawOffsetX = 2;
-                drawOriginOffsetX = -13;
-                drawOriginOffsetY = 2;
+                DrawOffsetX = 2;
+                DrawOriginOffsetX = -13;
+                DrawOriginOffsetY = 2;
             }
 
             if (Main.rand.NextBool(3))

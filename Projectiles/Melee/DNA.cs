@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.CrystalVileShardHead;
+            AIType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
                         }
                         int num49 = Projectile.damage;
                         float num50 = Projectile.knockBack;
-                        int number = Projectile.NewProjectile(Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, num48, num49, num50, Projectile.owner, 0f, Projectile.ai[1] + 1f);
+                        int number = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, num48, num49, num50, Projectile.owner, 0f, Projectile.ai[1] + 1f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }

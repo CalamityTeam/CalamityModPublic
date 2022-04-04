@@ -1,4 +1,4 @@
-﻿using CalamityMod.Particles;
+using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
                 NPC potentialTarget = TargetNext(target.Center, i);
                 if (potentialTarget == null)
                     break;
-                Projectile proj = Projectile.NewProjectileDirect(target.Center, target.SafeDirectionTo(potentialTarget.Center, Vector2.Zero) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, target.SafeDirectionTo(potentialTarget.Center, Vector2.Zero) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
                 proj.scale = 2f;
             }
             Array.Clear(excludedTargets, 0, 3);
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if ((lastConstellation == null || !lastConstellation.active) && Owner.whoAmI == Main.myPlayer && ChainSwapTimer > 20)
             {
-                lastConstellation = Projectile.NewProjectileDirect(Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(Projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
+                lastConstellation = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(Projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
             }
 
             ChainSwapTimer++;
@@ -223,13 +223,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra2");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/GalaxiaExtra2").Value;
 
             Vector2 drawPos = Projectile.Center;
             Vector2 drawOrigin = sword.Size() / 2f;
             float drawRotation = Projectile.rotation + MathHelper.PiOver4;
 
-            Main.EntitySpriteDraw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawPos - Main.screenPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             return false;
         }

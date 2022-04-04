@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -105,6 +105,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            // TODO -- Why are there so many incorrectly programmed i-frame sets
             target.immune[Projectile.owner] = 5;
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }

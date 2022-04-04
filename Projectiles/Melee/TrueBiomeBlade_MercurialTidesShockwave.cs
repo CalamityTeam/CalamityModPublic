@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 60;
         }
 
-        public override bool CanDamage() => Projectile.timeLeft < 40;
+        public override bool? CanDamage() => Projectile.timeLeft < 40;
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -87,13 +87,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_BlastProc)
+            if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_BlastProc)
                 sword.OnHitProc = true;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesShockwave");
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTidesShockwave").Value;
 
             float drawAngle = Projectile.rotation;
             int animFrame = 6 - (int)Math.Ceiling(Projectile.timeLeft / 10f);
@@ -102,8 +102,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 drawOrigin = frame.Size() / 2f;
 
-            Main.EntitySpriteDraw(tex, drawPosition, frame, Color.White, drawAngle, drawOrigin, Projectile.scale, 0f, 0f);
-
+            Main.EntitySpriteDraw(tex, drawPosition, frame, Color.White, drawAngle, drawOrigin, Projectile.scale, 0f, 0);
 
             return false;
         }

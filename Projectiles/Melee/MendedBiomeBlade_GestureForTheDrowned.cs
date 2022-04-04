@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override void AI()
         {
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Owner.Center, direction * 0.1f + Owner.velocity, ProjectileType<GestureForTheDrownedOrb>(), Projectile.damage, 0, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, direction * 0.1f + Owner.velocity, ProjectileType<GestureForTheDrownedOrb>(), Projectile.damage, 0, Owner.whoAmI);
                 }
 
                 Particle Sparkle = new CritSpark(Projectile.Center, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(7.5f, 20f), Color.White, Main.rand.NextBool() ? Color.CornflowerBlue : Color.DodgerBlue, 0.1f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 3f);
@@ -68,14 +68,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D blade = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
+            Texture2D blade = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, blade.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             return false;
         }
 

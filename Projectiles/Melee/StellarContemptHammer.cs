@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -11;
-            drawOriginOffsetY = -10;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -11;
+            DrawOriginOffsetY = -10;
+            DrawOriginOffsetX = 0;
 
             Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0.6f);
 
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
                 float AI1 = Main.rand.Next(3);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();

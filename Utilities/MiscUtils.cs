@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -14,6 +14,7 @@ using CalamityMod.NPCs.SunkenSea;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace CalamityMod
         /// <param name="path">The path to the sound file.</param>
         public static TerrariaAudio.CustomSoundStyle GetTrackableSound(string path)
         {
-            return new TerrariaAudio.CustomSoundStyle(CalamityMod.Instance.GetSound(path), TerrariaAudio.SoundType.Sound);
+            return new TerrariaAudio.CustomSoundStyle(ModContent.Request<SoundEffect>(path, AssetRequestMode.ImmediateLoad), TerrariaAudio.SoundType.Sound);
         }
 
         public static void DisplayLocalizedText(string key, Color? textColor = null)

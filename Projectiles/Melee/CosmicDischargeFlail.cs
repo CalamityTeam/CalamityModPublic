@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
@@ -44,8 +44,9 @@ namespace CalamityMod.Projectiles.Melee
         public override int TailStartY => 114;
         public override int TailHeight => 84;
 
-        //All of this wouldnt be here if depthLayer fucking worked, i wanna hit someone - Shucks
-        //the hell you mean, depthlayer is a useless fucking variable bro - Iban 2022
+        // All of this wouldnt be here if depthLayer fucking worked, i wanna hit someone - Shucks
+        // the hell you mean, depthlayer is a useless fucking variable bro - Iban 2022
+        // Not necessarily. Terraria is just made in such a way that we're forced to use sprite batch states that ignore it - Dominic 2022
         public override void PostDraw(Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
@@ -108,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             if (Projectile.localAI[1] <= 0f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), Projectile.damage, 10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), Projectile.damage, 10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             Projectile.localAI[1] = 4f;
             player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);

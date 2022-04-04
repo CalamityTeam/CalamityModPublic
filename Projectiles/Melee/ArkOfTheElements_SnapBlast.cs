@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = (int)MaxTime + 2;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return HoldProgress > 0;
         }
@@ -180,21 +180,20 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Texture2D sliceTex = GetTexture("CalamityMod/Particles/BloomLine");
+            Texture2D sliceTex = Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
             Color sliceColor = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
             float rot = Projectile.rotation + MathHelper.PiOver2;
             Vector2 nitpickShiftCorrection = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f; //Ngl these minor nitpick variables probably be horrible to understand when decompiled into Vector43
             Vector2 sliceScale = new Vector2(0.2f * (1 - SnapProgress) ,ThrustDisplaceRatio() * 242f);
-            Main.EntitySpriteDraw(sliceTex, Projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
-
+            Main.EntitySpriteDraw(sliceTex, Projectile.Center + nitpickShiftCorrection - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0);
 
             //Draw the scissors
             if (HoldProgress <= 0.4f)
             {
-                Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
-                Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
+                Texture2D frontBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsRight").Value;
+                Texture2D backBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsLeft").Value;
 
                 float snippingRotation = Projectile.rotation + MathHelper.PiOver4;
                 float snippingRotationBack = Projectile.rotation + MathHelper.PiOver4 * 1.75f;
@@ -211,14 +210,14 @@ namespace CalamityMod.Projectiles.Melee
                 Color drawColor = Color.Orange * opacity * 0.9f;
                 Color drawColorBack = Color.HotPink * opacity * 0.9f;
 
-                Main.EntitySpriteDraw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
-                Main.EntitySpriteDraw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0);
+                Main.EntitySpriteDraw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             }
 
             //Draw the rip
             if (HoldProgress > 0)
             {
-                Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
+                Texture2D lineTex = Request<Texture2D>("CalamityMod/Particles/ThinEndedLine").Value;
 
                 Vector2 Shake = HoldProgress > 0.2f ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (1 - HoldProgress * 5f) * 0.5f;
                 float raise = (float)Math.Sin(HoldProgress * MathHelper.PiOver2);
@@ -258,7 +257,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
 
