@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (counter == 0)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
             }
 
             counter++;

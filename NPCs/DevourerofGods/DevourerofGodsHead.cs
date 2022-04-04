@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 // Play music after the transiton BS
                 if (CalamityWorld.DoGSecondStageCountdown == 530)
-                    music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size and become visible again.
                 if (CalamityWorld.DoGSecondStageCountdown == 60)
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             // Summon Thots
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
                                 for (int i = 0; i < 3; i++)
                                     NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -1099,7 +1099,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             {
                                 for (int num953 = num182; num953 < num183; num953++)
                                 {
-                                    if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
+                                    if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].HasUnactuatedTile && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
                                     {
                                         Vector2 vector105;
                                         vector105.X = num952 * 16;
@@ -1333,7 +1333,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), player.position);
 
                             for (int i = 0; i < 2; i++)
                                 NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -1355,7 +1355,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         spawnDoGCountdown--;
                         if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
                             NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
                         }
@@ -1753,7 +1753,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         {
                             for (int num953 = num182; num953 < num183; num953++)
                             {
-                                if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
+                                if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].HasUnactuatedTile && (Main.tileSolid[Main.tile[num952, num953].TileType] || (Main.tileSolidTop[Main.tile[num952, num953].TileType] && Main.tile[num952, num953].TileFrameY == 0))) || Main.tile[num952, num953].LiquidAmount > 64))
                                 {
                                     Vector2 vector105;
                                     vector105.X = num952 * 16;
@@ -2051,7 +2051,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), player.Center);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), player.Center);
         }
 
         public void DoDeathAnimation()
@@ -2059,7 +2059,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Play a sound at the start.
             if (DeathAnimationTimer == 1f)
             {
-                var soundInstance = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), NPC.Center);
+                var soundInstance = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), NPC.Center);
                 CalamityUtils.SafeVolumeChange(ref soundInstance, 1.6f);
             }
 
@@ -2126,12 +2126,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    var soundInstance = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), NPC.Center);
+                    var soundInstance = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerAttack"), NPC.Center);
                     CalamityUtils.SafeVolumeChange(ref soundInstance, 1.6f);
 
                     for (int i = 0; i < 3; i++)
                     {
-                        soundInstance = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), NPC.Center);
+                        soundInstance = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), NPC.Center);
                         if (soundInstance != null)
                         {
                             soundInstance.Pitch = -MathHelper.Lerp(0.1f, 0.4f, i / 3f);
@@ -2366,7 +2366,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
             }
             if (NPC.life <= 0)
             {

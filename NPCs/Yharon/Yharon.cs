@@ -469,7 +469,7 @@ namespace CalamityMod.NPCs.Yharon
                         Main.dust[num1470].velocity = Vector2.Normalize(value16) * 3f;
                     }
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
 
                 NPC.ai[2] += 1f;
@@ -579,7 +579,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (doFastCharge)
                         {
@@ -642,7 +642,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -683,7 +683,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                 {
@@ -709,7 +709,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -833,7 +833,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
 
                         if (NPC.ai[2] == phaseSwitchTimer + 15f)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == phaseSwitchTimer + 15f)
                         {
@@ -877,7 +877,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (doFastCharge)
                         {
@@ -948,7 +948,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (NPC.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     flareDustBulletHellSpawn = vectorCenter + NPC.velocity.RotatedBy(MathHelper.PiOver2 * -NPC.direction) * spinTime / (MathHelper.TwoPi * 3f);
                 }
 
@@ -1005,7 +1005,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                     Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -1028,7 +1028,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1064,7 +1064,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 12f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 NPC.ai[2] += 1f;
 
@@ -1190,7 +1190,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
 
                         if (NPC.ai[2] == phaseSwitchTimer + 15f)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == phaseSwitchTimer + 15f)
                         {
@@ -1234,7 +1234,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (doFastCharge)
                         {
@@ -1311,7 +1311,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (NPC.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     flareDustBulletHellSpawn = vectorCenter + NPC.velocity.RotatedBy(MathHelper.PiOver2 * -NPC.direction) * spinTime / (MathHelper.TwoPi * 3f);
                 }
 
@@ -1368,7 +1368,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == fireTornadoPhaseTimer - 30)
                     Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -1392,7 +1392,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1429,7 +1429,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 19f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 NPC.ai[2] += 1f;
 
@@ -1476,7 +1476,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -1877,7 +1877,7 @@ namespace CalamityMod.NPCs.Yharon
 
                         float timeBeforeTeleport = teleportPhaseTimer - 15f;
                         if (NPC.ai[1] == phaseSwitchTimer + timeBeforeTeleport)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[1] == phaseSwitchTimer + timeBeforeTeleport)
                         {
@@ -1900,7 +1900,7 @@ namespace CalamityMod.NPCs.Yharon
                             NPC.rotation = NPC.rotation.AngleTowards(newRotation, amount);
 
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         NPC.localAI[1] += 1f;
 
@@ -2019,7 +2019,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 2f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 ChargeDust(7, pie);
 
@@ -2059,7 +2059,7 @@ namespace CalamityMod.NPCs.Yharon
                     int direction = (targetData.Center.X > vectorCenter.X) ? 1 : -1;
                     NPC.velocity = new Vector2(direction, 0f) * fireballBreathPhaseVelocity;
                     NPC.direction = NPC.spriteDirection = direction;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonFire"), NPC.Center);
                 }
 
                 if (NPC.ai[1] >= fireballBreathTimer)
@@ -2121,7 +2121,7 @@ namespace CalamityMod.NPCs.Yharon
                         NPC.rotation += pie;
 
                     NPC.velocity = vector6 * splittingFireballBreathPhaseVelocity;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonFire"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonFire"), NPC.Center);
                 }
                 else
                 {
@@ -2159,7 +2159,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 if (NPC.ai[1] == 1f)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     flareDustBulletHellSpawn = NPC.Center + NPC.velocity.RotatedBy(MathHelper.PiOver2 * -NPC.direction) * spinTime / (MathHelper.TwoPi * 3f);
                 }
 
@@ -2297,7 +2297,7 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         if (NPC.ai[1] == 20f || NPC.ai[1] == 80f || NPC.ai[1] == 140f)
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                             DoFireRing(expertMode ? 300 : 180, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), NPC.target, 1f);
                         }
@@ -2308,7 +2308,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 if (NPC.ai[1] >= flareSpawnPhaseTimer)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter, Vector2.Zero, ModContent.ProjectileType<BigFlare2>(), 0, 0f, Main.myPlayer, 1f, NPC.target + 1);
@@ -2324,7 +2324,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 7f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 ChargeDust(14, pie);
 
@@ -2354,7 +2354,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == 15f)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoarShort"), (int)NPC.position.X, (int)NPC.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] == 15f)
                 {
@@ -2411,7 +2411,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                     }
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
 
                 NPC.ai[2] += 1f;

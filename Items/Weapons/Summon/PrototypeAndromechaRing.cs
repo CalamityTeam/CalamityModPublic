@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     player.Calamity().andromedaCripple = CrippleTime;
                     player.AddBuff(ModContent.BuffType<AndromedaCripple>(), player.Calamity().andromedaCripple);
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AndromedaCripple"), position);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AndromedaCripple"), position);
                 }
                 return false;
             }

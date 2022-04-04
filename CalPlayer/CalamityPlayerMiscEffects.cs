@@ -378,7 +378,7 @@ namespace CalamityMod.CalPlayer
                 if (playFullRageSound)
                 {
                     playFullRageSound = false;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/FullRage"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/FullRage"), (int)Player.position.X, (int)Player.position.Y);
                 }
             }
             else
@@ -387,7 +387,7 @@ namespace CalamityMod.CalPlayer
             // This is how much Adrenaline will be changed by this frame.
             float adrenalineDiff = 0;
             bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-            bool wofAndNotHell = Main.wof >= 0 && Player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+            bool wofAndNotHell = Main.wofNPCIndex >= 0 && Player.position.Y < (float)((Main.maxTilesY - 200) * 16);
 
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
             if (adrenalineModeActive)
@@ -424,7 +424,7 @@ namespace CalamityMod.CalPlayer
                 if (playFullAdrenalineSound)
                 {
                     playFullAdrenalineSound = false;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/FullAdrenaline"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/FullAdrenaline"), (int)Player.position.X, (int)Player.position.Y);
                 }
             }
             else
@@ -1162,7 +1162,7 @@ namespace CalamityMod.CalPlayer
                 silvaCountdown -= 1;
                 if (silvaCountdown <= 0)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
                     Player.AddCooldown(SilvaRevive.ID, CalamityUtils.SecondsToFrames(5 * 60));
                 }
 
