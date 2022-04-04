@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             chest = "Cosmilite Chest";
-            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChest>();
+            ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -40,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
