@@ -1,10 +1,11 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Armor
 {
@@ -78,7 +79,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.brimflameSet = true;
             player.GetDamage(DamageClass.Magic) += 0.15f;
             player.GetCritChance(DamageClass.Magic) += 15;
-            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             player.setBonus = "Grants an additional 15% increased magic damage and crit\n" +
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +
                 "While under this effect, your damage is significantly boosted\n" +

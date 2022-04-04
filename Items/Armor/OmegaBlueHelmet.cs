@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using System.Linq;
 
 namespace CalamityMod.Items.Armor
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             player.setBonus = "Increases armor penetration by 15\n" +
                 "10% increased damage and critical strike chance and +2 max minions\n" +
                 "Short-ranged tentacles heal you by sucking enemy life\n" +

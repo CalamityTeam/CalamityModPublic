@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Items
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.NormalityRelocatorHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.NormalityRelocatorHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             foreach (TooltipLine line2 in list)
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")

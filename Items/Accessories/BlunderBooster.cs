@@ -1,8 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
+        //Todo - Check if its trying to replace the other rogue jetpack. If its the case, return true.
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -41,7 +43,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.PlaguePackHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             foreach (TooltipLine line in list)
             {
                 if (line.Mod == "Terraria" && line.Name == "Tooltip3")

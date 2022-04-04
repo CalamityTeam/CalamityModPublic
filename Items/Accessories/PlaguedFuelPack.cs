@@ -1,7 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
+        //Todo : Check if the slot contains the other rogue jetpack, in which case, let the player swap accs
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -39,7 +41,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.PlaguePackHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             foreach (TooltipLine line in list)
             {
                 if (line.Mod == "Terraria" && line.Name == "Tooltip2")

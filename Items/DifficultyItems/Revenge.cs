@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -51,8 +51,8 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string rageKey = CalamityMod.RageHotKey.TooltipHotkeyString();
-            string adrenKey = CalamityMod.AdrenalineHotKey.TooltipHotkeyString();
+            string rageKey = CalamityMod.RageHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string adrenKey = CalamityMod.AdrenalineHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             foreach (TooltipLine line2 in list)
             {
                 if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
