@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles
             int style = frameX / 18;
             int banner = CalamityUtils.GetBannerItem(style);
             if (banner != -1)
-                Item.NewItem(i * 16, j * 16, 16, 48, banner);
+                Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, banner);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
