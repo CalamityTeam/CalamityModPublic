@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Vector2 projPos = Projectile.Center + Projectile.velocity;
             Vector2 projVel = Projectile.velocity * 0.75f;
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(projPos, projVel, ModContent.ProjectileType<VoidEssence>(), damage, kb, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), projPos, projVel, ModContent.ProjectileType<VoidEssence>(), damage, kb, Projectile.owner, 0f, 0f);
 
             // Play a screaming soul sound effect (unused Shadowflame Hex Doll noise)
             SoundEngine.PlaySound(SoundID.Item104, Projectile.Center);

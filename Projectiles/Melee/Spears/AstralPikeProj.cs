@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
@@ -56,7 +56,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
                             star.ai[0] = 3f;
                         }
                     }
-
                 }
             }
         }
