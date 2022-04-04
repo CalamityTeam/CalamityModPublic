@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             // Fade in.
-            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Time, true);
 
             if (!Owner.channel)
             {
@@ -83,13 +83,13 @@ namespace CalamityMod.Projectiles.Melee
         internal Color PrimitiveColorFunction(float completionRatio)
         {
             float averageRotation = Projectile.oldRot.Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
-            float opacity = Projectile.Opacity * Utils.InverseLerp(0.75f, 0.45f, completionRatio, true) * 0.5f;
-            opacity *= Utils.InverseLerp(0.125f, 0.15f, Math.Abs(SwingSine), true);
+            float opacity = Projectile.Opacity * Utils.GetLerpValue(0.75f, 0.45f, completionRatio, true) * 0.5f;
+            opacity *= Utils.GetLerpValue(0.125f, 0.15f, Math.Abs(SwingSine), true);
 
             float rotationAdjusted = MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi;
             float oldRotationAdjusted = MathHelper.WrapAngle(Projectile.oldRot[1]) + MathHelper.Pi;
 
-            return Color.Lerp(Color.Red * 1.1f, Color.DarkRed, Utils.InverseLerp(0f, 0.5f, completionRatio, true)) * opacity;
+            return Color.Lerp(Color.Red * 1.1f, Color.DarkRed, Utils.GetLerpValue(0f, 0.5f, completionRatio, true)) * opacity;
         }
 
         internal float PrimitiveWidthFunction(float completionRatio) => Projectile.height * 0.48f;
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
             if (SliceAfterimageDrawer is null)
                 SliceAfterimageDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
-            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture"));
+            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture").Value);
 
             Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 

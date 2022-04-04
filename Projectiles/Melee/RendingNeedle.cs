@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
         internal Color ColorFunction(float completionRatio)
         {
             float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
-            float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
+            float fadeOpacity = Utils.GetLerpValue(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
 
             Color endColor = Color.Lerp(Color.Cyan, Color.Crimson, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
@@ -91,21 +91,21 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.timeLeft > 35)
                 return false;
 
-            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/RendingNeedle");
+            Texture2D texture = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingNeedle").Value;
 
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak").Value);
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Utils.SafeNormalize(Projectile.velocity, Vector2.Zero) * 30.5f - Main.screenPosition, 30);
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Texture2D starTexture = GetTexture("CalamityMod/Particles/Sparkle");
-            Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D starTexture = Request<Texture2D>("CalamityMod/Particles/Sparkle").Value;
+            Texture2D bloomTexture = Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.EntitySpriteDraw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 2, SpriteEffects.None, 0);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 
             return false;

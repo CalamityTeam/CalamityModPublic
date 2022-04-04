@@ -77,11 +77,11 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.timeLeft > 35)
                 return false;
 
-            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/SolarNeedle");
+            Texture2D texture = Request<Texture2D>("CalamityMod/Projectiles/Melee/SolarNeedle").Value;
 
             if (Empowered == 1f)
             {
-                CalamityUtils.EnterShaderRegion(spriteBatch);
+                Main.spriteBatch.EnterShaderRegion();
                 Color outlineColor = Color.Lerp(Color.White, Color.OrangeRed, Timer / MaxTime);
                 Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
                 float outlineThickness = MathHelper.Clamp(Timer / MaxTime * 4f, 0f, 3f);
@@ -92,19 +92,19 @@ namespace CalamityMod.Projectiles.Melee
 
                 for (float i = 0; i < 1; i += 0.125f)
                 {
-                    Main.EntitySpriteDraw(texture, Projectile.Center + (i * MathHelper.TwoPi + Projectile.rotation).ToRotationVector2() * outlineThickness - Main.screenPosition, null, outlineColor, Projectile.rotation, texture.Size() / 2f, Projectile.scale, 0f, 0f);
+                    Main.EntitySpriteDraw(texture, Projectile.Center + (i * MathHelper.TwoPi + Projectile.rotation).ToRotationVector2() * outlineThickness - Main.screenPosition, null, outlineColor, Projectile.rotation, texture.Size() / 2f, Projectile.scale, 0f, 0);
                 }
-                CalamityUtils.ExitShaderRegion(spriteBatch);
+                Main.spriteBatch.ExitShaderRegion();
             }
 
 
             DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Texture2D starTexture = GetTexture("CalamityMod/Particles/Sparkle");
-            Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D starTexture = Request<Texture2D>("CalamityMod/Particles/Sparkle").Value;
+            Texture2D bloomTexture = Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)starTexture.Height / (float)bloomTexture.Height;
 
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.EntitySpriteDraw(starTexture, sparkCenter, null, Color.White, rotation, starTexture.Size() / 2f, 2, SpriteEffects.None, 0);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 
             return false;

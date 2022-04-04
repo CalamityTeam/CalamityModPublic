@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
             //Explode into cosmic bolts
             for (int i = 0; i < 3; i++)
             {
-                Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee)), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
+                Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee)), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
                 {
                     blast.timeLeft = 100;
                 }
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Melee
         {
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
+            Texture2D lineTex = Request<Texture2D>("CalamityMod/Particles/ThinEndedLine").Value;
 
             Vector2 Shake = Projectile.timeLeft < 15 ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (15 - Projectile.timeLeft / 5f) * 0.5f;
             float bump = (float)Math.Sin(((20f - Projectile.timeLeft) / 20f) * MathHelper.Pi);
@@ -83,8 +83,8 @@ namespace CalamityMod.Projectiles.Melee
 
             Main.EntitySpriteDraw(lineTex, DashStart - Main.screenPosition + Shake, null, Color.Lerp(Color.White, Color.CornflowerBlue * 0.7f, raise), rot, origin, scale, SpriteEffects.None, 0);
 
-            Texture2D sparkTexture = GetTexture("CalamityMod/Particles/ThinSparkle");
-            Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D sparkTexture = Request<Texture2D>("CalamityMod/Particles/ThinSparkle").Value;
+            Texture2D bloomTexture = Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
             //Ajust the bloom's texture to be the same size as the star's
             float properBloomSize = (float)sparkTexture.Width / (float)bloomTexture.Height;
 
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

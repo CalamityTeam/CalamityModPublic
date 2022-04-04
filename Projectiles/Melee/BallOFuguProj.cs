@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Melee
                 vector63.Normalize();
                 vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
             }
         }
 
@@ -106,8 +106,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/BallOFuguChain");
+            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/BallOFuguChain").Value;
             Vector2 vector17 = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);

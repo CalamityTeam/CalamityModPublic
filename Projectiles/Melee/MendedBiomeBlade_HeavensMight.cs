@@ -206,8 +206,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/TrueBiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMight").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -226,7 +226,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 Main.spriteBatch.End(); //Haha sup babe what if i restarted the spritebatch way too many times haha /blushes
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 Vector2 afterimageDrawOrigin = new Vector2(0f, blade.Height);
                 for (int i = 0; i < Projectile.oldRot.Length; ++i)
@@ -236,15 +236,15 @@ namespace CalamityMod.Projectiles.Melee
                     Main.spriteBatch.Draw(blade, drawOffset, null, color * MathHelper.Lerp(0f, 0.5f, MathHelper.Clamp((Empowerment / maxEmpowerment - 0.4f) / 0.1f, 0f, 1f)), afterimageRotation, afterimageDrawOrigin, Projectile.scale - 0.2f * ((i / (float)Projectile.oldRot.Length)), 0f, 0f);
                 }
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
 
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].Apply();
             }
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             if (CurrentState == 1f && snapTimer > 0)
             {
@@ -267,14 +267,14 @@ namespace CalamityMod.Projectiles.Melee
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
 
         public void drawChain(float snapProgress, float retractProgress)
         {
-            Texture2D chainTex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMightChain");
+            Texture2D chainTex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_HeavensMightChain").Value;
 
             float opacity = retractProgress < 0.5 ? 1 : (retractProgress - 0.5f) / 0.5f;
 

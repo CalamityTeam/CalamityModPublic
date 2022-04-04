@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -38,7 +38,6 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int num41 = 0; num41 < 2; num41++)
                 {
-                    Vector2 value8 = Vector2.UnitX * -15f;
                     value8 = -Vector2.UnitY.RotatedBy((double)(Projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7;
                     int num42 = Dust.NewDust(Projectile.Center, 0, 0, 27, 0f, 0f, 160, default, 1f);
                     Main.dust[num42].scale = 1f;

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.penetrate = 6;
-            drawOffsetX = -10;
-            drawOriginOffsetY = 0;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -10;
+            DrawOriginOffsetY = 0;
+            DrawOriginOffsetX = 0;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 40;
             Projectile.extraUpdates = 2;

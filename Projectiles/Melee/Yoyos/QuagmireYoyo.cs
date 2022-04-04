@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 int proj;
                 if (Main.rand.NextBool(10))
                 {
-                    proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.35f, Projectile.velocity.Y * 0.35f, ProjectileID.SporeGas, (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
+                    proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.35f, Projectile.velocity.Y * 0.35f, ProjectileID.SporeGas, (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
                 if (Main.rand.NextBool(30))
                 {
-                    proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ProjectileID.SporeGas2, (int)(Projectile.damage * 0.6), Projectile.knockBack, Projectile.owner);
+                    proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ProjectileID.SporeGas2, (int)(Projectile.damage * 0.6), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
                 if (Main.rand.NextBool(50))
                 {
-                    proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.15f, Projectile.velocity.Y * 0.15f, ProjectileID.SporeGas3, (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
+                    proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.15f, Projectile.velocity.Y * 0.15f, ProjectileID.SporeGas3, (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;

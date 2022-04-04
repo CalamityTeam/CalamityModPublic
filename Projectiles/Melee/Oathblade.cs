@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = true;
             Projectile.penetrate = 1;
-            aiType = ProjectileID.DemonScythe;
+            AIType = ProjectileID.DemonScythe;
         }
 
         public override void AI()

@@ -1,18 +1,18 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class GaelSkull : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ark of the Cosmos' Superior Cousin");
+            DisplayName.SetDefault("No Longer Ark of the Cosmos' Superior Cousin");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             Main.projFrames[Projectile.type] = 5;
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.scale == 1.75f)
                 Projectile.damage /= 2;
             Projectile.Damage();
-            SoundEngine.PlaySound((int)SoundType.NPCKilled, (int)Projectile.Center.X, (int)Projectile.Center.Y, 52, 0.4f);
+            SoundEngine.PlaySound(SoundID.NPCDeath52, Projectile.Center);
             for (int i = 0; i < 3; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 218, 0f, 0f, 100, default, 1.5f);

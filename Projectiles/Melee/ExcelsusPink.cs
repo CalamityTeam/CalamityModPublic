@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
                 color = new Color(255, 255, 255, 100);
             }
             Vector2 origin = new Vector2(39f, 46f);
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/ExcelsusPinkGlow"), Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/ExcelsusPinkGlow").Value, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

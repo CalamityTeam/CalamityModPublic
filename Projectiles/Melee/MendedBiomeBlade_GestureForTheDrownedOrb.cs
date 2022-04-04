@@ -73,9 +73,9 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + Utils.SafeNormalize(Projectile.velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * halfLenght, Projectile.Center - Utils.SafeNormalize(Projectile.velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * halfLenght, 40f, ref collisionPoint);
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
 
         public override void AI()
@@ -232,20 +232,20 @@ namespace CalamityMod.Projectiles.Melee
 
             if (WaterMode)
             {
-                Texture2D wave = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrownedAquaWave");
+                Texture2D wave = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrownedAquaWave").Value;
                 float drawRotation = Projectile.velocity.ToRotation() + MathHelper.Pi;
                 Vector2 drawOrigin = new Vector2(wave.Width / 2f, wave.Height / 2f);
                 Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-                Main.EntitySpriteDraw(wave, drawOffset - Projectile.velocity, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.2f, drawRotation, drawOrigin, Projectile.scale - 0.2f, 0f, 0f);
-                Main.EntitySpriteDraw(wave, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.5f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(wave, drawOffset - Projectile.velocity, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.2f, drawRotation, drawOrigin, Projectile.scale - 0.2f, 0f, 0);
+                Main.EntitySpriteDraw(wave, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.5f) * 0.5f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
                 return false;
             }
 
 
             if (HasLanded == 1f && TimeSinceLanding > 10f)
             {
-                Texture2D wave = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrownedWave");
+                Texture2D wave = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrownedWave").Value;
                 Rectangle frame = new Rectangle(0, 0 + 110 * Projectile.frame, 40, 110);
 
                 float drawRotation = 0f;
@@ -268,7 +268,7 @@ namespace CalamityMod.Projectiles.Melee
                     float slightfade = 1f - 0.24f * i;
                     Color darkenedColor = Color.Lerp(lightColor, Color.Black, i * 0.15f);
 
-                    Main.EntitySpriteDraw(wave, drawOffset, frame, darkenedColor * MathHelper.Clamp(TimeSinceLanding / 30f, 0f, 1f) * slightfade, drawRotation, drawOrigin, Scale, flip, 0f);
+                    Main.EntitySpriteDraw(wave, drawOffset, frame, darkenedColor * MathHelper.Clamp(TimeSinceLanding / 30f, 0f, 1f) * slightfade, drawRotation, drawOrigin, Scale, flip, 0);
                 }
 
 
@@ -278,12 +278,12 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
-                Texture2D ball = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned");
+                Texture2D ball = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_GestureForTheDrowned").Value;
                 float drawRotation = Projectile.rotation;
                 Vector2 drawOrigin = Projectile.Size / 2f;
                 Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-                Main.EntitySpriteDraw(ball, drawOffset, null, lightColor * MathHelper.Clamp(1 - TimeSinceLanding / 10f, 0f, 1f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(ball, drawOffset, null, lightColor * MathHelper.Clamp(1 - TimeSinceLanding / 10f, 0f, 1f), drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
                 return false;
             }

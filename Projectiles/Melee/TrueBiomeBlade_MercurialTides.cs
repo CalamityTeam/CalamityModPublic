@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 16;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return (State == 1);
         }
@@ -114,8 +114,8 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.timeLeft = 2;
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
-                    var chargeSound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                    var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
                     if (chargeSound != null)
                         chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
@@ -127,9 +127,9 @@ namespace CalamityMod.Projectiles.Melee
                     Charge = MaxCharge;
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
-                        Projectile.NewProjectile(Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
             proj.timeLeft = 81;
 
 
@@ -224,8 +224,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
-                if (proj.modProjectile is MercurialTidesMonolith monolith)
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                if (proj.ModProjectile is MercurialTidesMonolith monolith)
                 {
                     monolith.WaitTimer = (1 - projSize) * 34f;
                     monolith.OriginDirection = direction;
@@ -245,14 +245,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             damage = (int)(damage * (1f + OmegaBiomeBlade.ShockwaveAttunement_FullChargeBoost * (float)Math.Pow(Charge / MaxCharge, 2)));
 
-            if (Owner.HeldItem.modItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_SwordProc)
+            if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.ShockwaveAttunement_SwordProc)
                 sword.OnHitProc = true;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTides");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/TrueBiomeBlade_MercurialTides").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -260,11 +260,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //Just in case
             if (OverCharge < 0)
@@ -277,11 +277,11 @@ namespace CalamityMod.Projectiles.Melee
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

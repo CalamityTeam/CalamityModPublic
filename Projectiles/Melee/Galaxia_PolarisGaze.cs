@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = FourSeasonsGalaxia.PolarisAttunement_LocalIFrames;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return Shred >= FourSeasonsGalaxia.PolarisAttunement_LocalIFrames; //Prevent spam click abuse
         }
@@ -167,21 +167,21 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee)), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee)), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 100;
                         }
                     }
 
 
-                    Projectile proj = Projectile.NewProjectileDirect(Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarisGazeDash>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
-                    if (proj.modProjectile is PolarisGazeDash dash)
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarisGazeDash>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    if (proj.ModProjectile is PolarisGazeDash dash)
                     {
                         dash.DashStart = DashStart;
                         dash.DashEnd = Owner.Center;
@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.NPCHit43, Projectile.Center);
             if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
             }
             if (Dashing)
             {
@@ -298,7 +298,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sword = GetTexture("CalamityMod/Items/Weapons/Melee/GalaxiaExtra");
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/GalaxiaExtra").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -306,7 +306,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, sword.Height);
             Vector2 drawOffset = Owner.Center + direction * 10f - Main.screenPosition;
 
-            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             return false;
         }

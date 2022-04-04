@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             if (tileCheck)
                 dust.noLight = true;
 
-            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.ToRadians(45);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45);
         }
 
         public override void Kill(int timeLeft)

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float ChargeTime => ref Projectile.ai[0];
         public ref float GeneralTime => ref Projectile.ai[1];
         public ref float PostSwingRepositionDelay => ref Projectile.localAI[0];
-        public ref bool RMBChannel => ref (Owner.HeldItem.modItem as OldLordOathsword).RMBchannel;
+        public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as OldLordOathsword).RMBchannel;
         public bool LMBUse => Owner.altFunctionUse != 2 && !RMBChannel && Owner.itemAnimation > 0;
         public ref float ChargePower => ref Projectile.localAI[1];
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/OldLordOathsword";
         public override int AssociatedItemID => ModContent.ItemType<OldLordOathsword>();
         public override int IntendedProjectileType => ModContent.ProjectileType<OldLordOathswordProj>();
-        public override bool CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
+        public override bool? CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
 
         public override void SetStaticDefaults()
         {
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Melee
                 Direction = Owner.direction;
 
             float swingCompletion = Owner.itemAnimation / (float)Owner.itemAnimationMax;
-            float swingSpeedInterpolant = Utils.InverseLerp(1f, 0.8f, swingCompletion, true) * Utils.InverseLerp(-0.11f, 0.12f, swingCompletion, true);
+            float swingSpeedInterpolant = Utils.GetLerpValue(1f, 0.8f, swingCompletion, true) * Utils.GetLerpValue(-0.11f, 0.12f, swingCompletion, true);
             float swingInterpolant = (float)Math.Sin(Math.Pow(swingCompletion, 1.15) * MathHelper.TwoPi);
             if (swingInterpolant < 0f)
             {
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Release flames.
                 if (Main.myPlayer == Projectile.owner && GeneralTime % 6f == 5f)
-                    Projectile.NewProjectile(Projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
 
                 if (Main.myPlayer == Projectile.owner)
                 {
@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Raise the blade and do charge effects upwards if channeling.
             float horizontalBladeOffset = -4f;
-            float chargeInterpolant = Utils.InverseLerp(0f, 35f, ChargeTime, true);
+            float chargeInterpolant = Utils.GetLerpValue(0f, 35f, ChargeTime, true);
             if (CurrentState == SwingState.Channeling)
             {
                 baseRotation = MathHelper.PiOver2 * -Direction;
@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Melee
             // Decide how far out the blade should go.
             float bladeOffsetFactor = 0.5f + chargeInterpolant * 0.3f;
             if (chargeInterpolant <= 0f)
-                bladeOffsetFactor += Utils.InverseLerp(0.5f, 0.7f, swingCompletion, true) * Utils.InverseLerp(1f, 0.7f, swingCompletion, true) * 0.45f;
+                bladeOffsetFactor += Utils.GetLerpValue(0.5f, 0.7f, swingCompletion, true) * Utils.GetLerpValue(1f, 0.7f, swingCompletion, true) * 0.45f;
 
             // Offset the blade so that the handle is attached to the owner's hand.
             Vector2 bladeOffset = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Projectile.width * bladeOffsetFactor;
@@ -305,7 +305,7 @@ namespace CalamityMod.Projectiles.Melee
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(0.7f - ((Main.GlobalTimeWrappedHourly * 30) % 30f / 60f));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword");
+            var texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordOathsword").Value;
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, Projectile.Size / 2f, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.ExitShaderRegion();
@@ -317,7 +317,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ItemLoader.OnHitNPC(Owner.ActiveItem(), Owner, target, damage, knockback, crit);
             NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
-            PlayerHooks.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
+            PlayerLoader.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
         }
 
         public override void Kill(int timeLeft) => Owner.fullRotation = 0f;

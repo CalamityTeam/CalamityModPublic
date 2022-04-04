@@ -118,8 +118,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
-            Texture2D tex = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BiomeBlade").Value;
+            Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort").Value;
 
             float drawAngle = direction.ToRotation();
             float drawRotation = drawAngle + MathHelper.PiOver4;
@@ -128,19 +128,19 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Owner.Center + direction * 10f - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset + displace, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, tex.Height);
             drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 24f * Projectile.scale) - Main.screenPosition;
 
-            Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(tex, drawOffset + displace, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

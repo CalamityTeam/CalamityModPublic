@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
                 Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 for (int num105 = 0; num105 < 50; num105++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
@@ -139,8 +139,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/ClamCrusherChain");
+            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/ClamCrusherChain").Value;
             Vector2 vector17 = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
@@ -184,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.ai[0] = 1f;
             Projectile.netUpdate = true;
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
         }
     }
 }

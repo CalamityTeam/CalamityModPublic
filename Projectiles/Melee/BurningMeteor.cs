@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.alpha = num58;
             }
-            Projectile.rotation = Projectile.velocity.ToRotation() - 1.57079637f;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)

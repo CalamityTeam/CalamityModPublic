@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 foreach (Particle particle in Particles)
                 {
-                    particle.CustomDraw(spriteBatch);
+                    particle.CustomDraw(Main.spriteBatch);
                 }
 
                 Main.spriteBatch.ExitShaderRegion();

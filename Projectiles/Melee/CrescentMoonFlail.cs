@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
                 vectorBruh -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
                 Vector2 newCenter = player.RotatedRelativePoint(Main.player[Projectile.owner].position + vectorBruh, true) + Projectile.velocity;
                 int moonDamage = (int)(Projectile.damage * 0.18f);
-                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), moonDamage, 0f, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), moonDamage, 0f, Projectile.owner, 0f, 0f);
                 moonCounter = 6;
             }
         }

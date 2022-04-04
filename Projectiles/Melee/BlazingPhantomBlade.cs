@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 5;
             Projectile.timeLeft = 180;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.DeathSickle;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(Projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 100);
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,10 +21,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             DresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override bool CreateDust(int i, int j, ref int type)
         {

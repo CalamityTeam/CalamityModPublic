@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            drawOffsetX = -11;
-            drawOriginOffsetY = -10;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -11;
+            DrawOriginOffsetY = -10;
+            DrawOriginOffsetX = 0;
 
             // ai[0] stores whether the knife is returning. If 0, it isn't. If 1, it is.
             if (Projectile.ai[0] == 0f)

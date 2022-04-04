@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            drawOffsetX = -40;
-            drawOriginOffsetY = -3;
-            drawOriginOffsetX = 18;
+            DrawOffsetX = -40;
+            DrawOriginOffsetY = -3;
+            DrawOriginOffsetX = 18;
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             // Light

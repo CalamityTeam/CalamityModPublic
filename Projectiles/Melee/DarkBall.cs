@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (int num228 = num225; num228 < num226; num228++)
                     {
-                        if (Main.tile[num227, num228] != null && Main.tile[num227, num228].nactive() && (Main.tileSolid[(int)Main.tile[num227, num228].TileType] || (Main.tileSolidTop[(int)Main.tile[num227, num228].TileType] && Main.tile[num227, num228].TileFrameY == 0)))
+                        if (Main.tile[num227, num228] != null && Main.tile[num227, num228].HasUnactuatedTile && (Main.tileSolid[(int)Main.tile[num227, num228].TileType] || (Main.tileSolidTop[(int)Main.tile[num227, num228].TileType] && Main.tile[num227, num228].TileFrameY == 0)))
                         {
                             Vector2 vector19;
                             vector19.X = (float)(num227 * 16);

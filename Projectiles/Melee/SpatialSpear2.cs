@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < numProj + 1; i++)
                     {
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(Projectile.Center, perturbedSpeed, ModContent.ProjectileType<SpatialSpear3>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<SpatialSpear3>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                     }
                 }
             }

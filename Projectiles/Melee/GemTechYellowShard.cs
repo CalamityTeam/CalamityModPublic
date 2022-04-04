@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,11 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Opacity = (float)System.Math.Sqrt(Projectile.timeLeft / 45f);
         }
 
-        public override void Kill(int timeLeft)
-        {
-        }
-
         // Cannot deal damage for the first several frames of existence.
-        public override bool CanDamage() => Time >= IntangibleFrames;
+        public override bool? CanDamage() => Time >= IntangibleFrames;
     }
 }

@@ -73,11 +73,11 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             for (int i = 0; i < 4; i++) //Draw extra copies
             {
-                var tex = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra");
+                var tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade_AridGrandeurExtra").Value;
 
                 float drawAngle = direction.ToRotation();
 
@@ -92,12 +92,12 @@ namespace CalamityMod.Projectiles.Melee
 
                 float opacityFade = Projectile.timeLeft > 15 ? 1 : Projectile.timeLeft / 15f;
 
-                Main.EntitySpriteDraw(tex, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(tex, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f * opacityFade, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             }
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             // Fade in.
-            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Time, true);
 
             if (Owner.channel)
             {
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int i = 0; i < 75; i++)
                 {
-                    Dust fire = Dust.NewDustPerfect(Owner.Center, DustID.Fire);
+                    Dust fire = Dust.NewDustPerfect(Owner.Center, 6);
                     fire.velocity = (MathHelper.TwoPi * i / 75f).ToRotationVector2() * 4f - Vector2.UnitY * 3f;
                     fire.scale = 1.4f;
                     fire.noGravity = true;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Melee
                 // Play a splatter and impact sound.
                 SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, Projectile.Center);
 
-                float damageInterpolant = Utils.InverseLerp(950f, 2000f, damage, true);
+                float damageInterpolant = Utils.GetLerpValue(950f, 2000f, damage, true);
                 float impactAngularVelocity = MathHelper.Lerp(0.08f, 0.2f, damageInterpolant);
                 float impactParticleScale = MathHelper.Lerp(0.6f, 1f, damageInterpolant);
                 impactAngularVelocity *= Main.rand.NextBool().ToDirectionInt() * Main.rand.NextFloat(0.75f, 1.25f);
@@ -173,8 +173,8 @@ namespace CalamityMod.Projectiles.Melee
 
         internal float PrimitiveWidthFunction(float completionRatio)
         {
-            float tipWidthFactor = MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0.01f, 0.04f, completionRatio));
-            float bodyWidthFactor = (float)Math.Pow(Utils.InverseLerp(1f, 0.04f, completionRatio), 0.9D);
+            float tipWidthFactor = MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0.01f, 0.04f, completionRatio));
+            float bodyWidthFactor = (float)Math.Pow(Utils.GetLerpValue(1f, 0.04f, completionRatio), 0.9D);
             return (float)Math.Pow(tipWidthFactor * bodyWidthFactor, 0.1D) * 30f;
         }
 
@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Melee
             if (StreakDrawer is null)
                 StreakDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak").Value);
 
             Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Owner.channel)
                     rotation += 0.2f;
 
-                Color afterimageColor = Color.Lerp(lightColor, Color.Transparent, 1f - (float)Math.Pow(Utils.InverseLerp(0, 6, i), 1.4D)) * Projectile.Opacity;
+                Color afterimageColor = Color.Lerp(lightColor, Color.Transparent, 1f - (float)Math.Pow(Utils.GetLerpValue(0, 6, i), 1.4D)) * Projectile.Opacity;
                 Main.EntitySpriteDraw(spearProjectile, drawPosition, null, afterimageColor, rotation, spearProjectile.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             }
 

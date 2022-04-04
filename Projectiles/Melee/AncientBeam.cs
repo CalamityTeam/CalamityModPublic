@@ -71,8 +71,6 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(Projectile.Center, 14, 14, dustType, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default, 1.3f);
             }
 
-
-
             if (Projectile.velocity.Length() < 1.0f)
                 Projectile.Kill();
         }

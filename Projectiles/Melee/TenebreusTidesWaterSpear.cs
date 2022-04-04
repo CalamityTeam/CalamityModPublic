@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -206,14 +206,11 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             int height = texture.Height / Main.projFrames[Projectile.type];
             int frameHeight = height * Projectile.frame;
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == -1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             // Do not do damage if a tile is hit OR if projectile has 'split' and hasn't been live for more than 5 frames
             if ((((int)(Projectile.ai[0] - 1f) / penetrationAmt == 0 && penetrationAmt < 3) || Projectile.ai[1] < 5f) && Projectile.ai[0] != 0f)

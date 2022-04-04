@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -31,10 +32,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             num = fail ? 1 : 3;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

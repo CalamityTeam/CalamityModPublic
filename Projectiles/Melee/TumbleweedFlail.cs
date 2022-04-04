@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -97,8 +97,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
-            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/TumbleweedChain");
+            Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/TumbleweedChain").Value;
             Vector2 vector17 = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
@@ -156,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
             }
             Projectile.Kill();
         }

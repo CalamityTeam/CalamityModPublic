@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -46,9 +46,9 @@ namespace CalamityMod.Projectiles.Rogue
         // ai[1] = Current spin speed. Negative speeds are also allowed.
         public override void AI()
         {
-            drawOffsetX = -10;
-            drawOriginOffsetY = 0;
-            drawOriginOffsetX = 0;
+            DrawOffsetX = -10;
+            DrawOriginOffsetY = 0;
+            DrawOriginOffsetX = 0;
 
             // On the very first frame, clear any invalid starting target variable and create some dust.
             // Also grab the damage type based on ai[0].

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
         }
 
-        public override bool CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
+        public override bool? CanDamage() => Timer <= ParryTime && AlreadyParried == 0f;
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -54,14 +54,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public void GeneralParryEffects()
         {
-            ArkoftheElements sword = (Owner.HeldItem.modItem as ArkoftheElements);
+            ArkoftheElements sword = (Owner.HeldItem.ModItem as ArkoftheElements);
             if (sword != null)
             {
                 sword.Charge = 10f;
                 sword.Combo = 0f;
             }
             SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            var chunder = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
+            var chunder = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
             SafeVolumeChange(ref chunder, 1.3f);
 
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
@@ -187,8 +187,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.myPlayer == Owner.whoAmI)
                 {
-                    var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-                    var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+                    var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+                    var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
                     Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -36) - barBG.Size() / 2;
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);
@@ -196,16 +196,16 @@ namespace CalamityMod.Projectiles.Melee
                     float opacity = Timer <= ParryTime + 25f ? (Timer - ParryTime) / 25f : (MaxTime - Timer <= 8) ? Projectile.timeLeft / 8f : 1f;
                     Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * 0.05f + 0.08f, 1, 0.65f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 7f) * 0.1f);
 
-                    Main.EntitySpriteDraw(barBG, drawPos, color * opacity);
-                    Main.EntitySpriteDraw(barFG, drawPos, frame, color * opacity * 0.8f);
+                    Main.spriteBatch.Draw(barBG, drawPos, color * opacity);
+                    Main.spriteBatch.Draw(barFG, drawPos, frame, color * opacity * 0.8f);
                 }
                 return false;
             }
 
-            Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRight");
-            Texture2D frontBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow");
-            Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeft");
-            Texture2D backBladeGlow = GetTexture("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow");
+            Texture2D frontBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsRight").Value;
+            Texture2D frontBladeGlow = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsRightGlow").Value;
+            Texture2D backBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsLeft").Value;
+            Texture2D backBladeGlow = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingScissorsLeftGlow").Value;
 
             float snippingRotation = Projectile.rotation + MathHelper.PiOver4;
             float snippingRotationBack = Projectile.rotation + MathHelper.PiOver4 * 1.75f;
@@ -217,11 +217,11 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOriginBack = new Vector2(22, 109); //Right on the hole
             Vector2 drawPosition = Owner.Center + Projectile.velocity * 15 + Projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
 
-            Main.EntitySpriteDraw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
-            Main.EntitySpriteDraw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(backBlade, drawPosition, null, lightColor, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0);
+            Main.EntitySpriteDraw(backBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0);
 
-            Main.EntitySpriteDraw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
-            Main.EntitySpriteDraw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(frontBlade, drawPosition, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
+            Main.EntitySpriteDraw(frontBladeGlow, drawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             return false;
         }
 

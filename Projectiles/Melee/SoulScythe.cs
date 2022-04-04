@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 420;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            aiType = ProjectileID.DeathSickle;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }

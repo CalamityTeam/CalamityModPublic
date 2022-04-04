@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 projBottom = Projectile.Center + new Vector2(-handle.Width / 2, handle.Height / 2).RotatedBy(Projectile.rotation + MathHelper.PiOver4) * 0.75f;
             DrawChain(projBottom, out Vector2[] chainPositions);
 
-            float drawRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
+            float drawRotation = (projBottom - chainPositions[^2]).ToRotation() + MathHelper.PiOver4; //Face away from the last point of the bezier curve
             drawRotation += SnapCoyoteTime > 0 ? MathHelper.Pi : 0; //During coyote time the blade flips for some reason. Prevent that from happening
             drawRotation += Projectile.spriteDirection < 0 ? 0f : 0f;
 

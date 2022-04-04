@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,10 +27,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             return false;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 

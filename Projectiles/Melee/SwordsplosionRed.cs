@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.penetrate = 3;
             Projectile.timeLeft = 200;
-            aiType = ProjectileID.EnchantedBeam;
+            AIType = ProjectileID.EnchantedBeam;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

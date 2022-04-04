@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 3;
         }
-        public override Color SpecialDrawColor => new Color(255, 200, 0);
+        public override Color SpecialDrawColor => new(255, 200, 0);
         public override int ExudeDustType => ModContent.DustType<AstralOrange>();
         public override int WhipDustType => ModContent.DustType<AstralOrange>();
         public override int HandleHeight => 60;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (Projectile.localAI[1] <= 0f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), Projectile.damage / 2, knockback, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), Projectile.damage / 2, knockback, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             Projectile.localAI[1] = 4f;
         }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,6 +8,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             get
             {
-                Texture2D bladeTexture = Main.itemTexture[(int)SwordItemID];
+                Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID];
                 Rectangle bladeFrame = bladeTexture.Frame(1, 1, 0, 0);
                 bool hasMultipleFrames = Main.itemAnimations[(int)SwordItemID] != null;
                 if (hasMultipleFrames)
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
                     return baseAimPosition;
 
                 Vector2 endSwingPosition = Owner.Center + Vector2.UnitX * Owner.direction * 510f;
-                return Vector2.SmoothStep(baseAimPosition, endSwingPosition, Utils.InverseLerp(0f, 0.67f, AttackCompletionRatio, true) * Utils.InverseLerp(1f, 0.67f, AttackCompletionRatio, true));
+                return Vector2.SmoothStep(baseAimPosition, endSwingPosition, Utils.GetLerpValue(0f, 0.67f, AttackCompletionRatio, true) * Utils.GetLerpValue(1f, 0.67f, AttackCompletionRatio, true));
             }
         }
         public Vector2 IdleMoveOffset
@@ -99,7 +100,7 @@ namespace CalamityMod.Projectiles.Melee
                 return FrontArmEnd + BladeOffsetDirection * offsetFactor;
             }
         }
-        public float BladeRotationOffset => MathHelper.Lerp(MathHelper.PiOver2, 0f, Utils.InverseLerp(0f, 0.17f, 1f - AttackCompletionRatio, true)) * -Owner.direction;
+        public float BladeRotationOffset => MathHelper.Lerp(MathHelper.PiOver2, 0f, Utils.GetLerpValue(0f, 0.17f, 1f - AttackCompletionRatio, true)) * -Owner.direction;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
@@ -144,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Variant == 1)
                 swingOffsetAngle -= 0.7f;
             swingOffsetAngle *= Owner.direction;
-            swingOffsetAngle = MathHelper.Lerp(0f, swingOffsetAngle, Utils.InverseLerp(0f, 0.16f, AttackCompletionRatio, true));
+            swingOffsetAngle = MathHelper.Lerp(0f, swingOffsetAngle, Utils.GetLerpValue(0f, 0.16f, AttackCompletionRatio, true));
 
             if (Owner.itemAnimation == 0)
                 swingOffsetAngle = 0f;
@@ -201,7 +202,7 @@ namespace CalamityMod.Projectiles.Melee
 
         internal Color PrimitiveColorFunction(float completionRatio)
         {
-            float opacity = Utils.InverseLerp(0.8f, 0.52f, completionRatio, true) * Utils.InverseLerp(1f, 0.81f, AttackCompletionRatio, true);
+            float opacity = Utils.GetLerpValue(0.8f, 0.52f, completionRatio, true) * Utils.GetLerpValue(1f, 0.81f, AttackCompletionRatio, true);
             Color startingColor = Color.Lerp(Color.Red, Color.DarkRed, 0.4f);
             Color endingColor = Color.Lerp(Color.DarkRed, Color.Purple, 0.77f);
             return Color.Lerp(startingColor, endingColor, (float)Math.Pow(completionRatio, 0.37f)) * opacity;
@@ -212,18 +213,18 @@ namespace CalamityMod.Projectiles.Melee
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:FadingSolidTrail"]);
 
-            Texture2D forearmTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedForearm");
-            Texture2D armTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedArm");
-            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand");
+            Texture2D forearmTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedForearm").Value;
+            Texture2D armTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedArm").Value;
+            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand").Value;
 
             // Reflect the 1st hand variant horizontally.
             SpriteEffects handDirection = SpriteEffects.None;
             if (Variant == (Owner.direction == -1).ToInt())
             {
-                handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand2");
+                handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand2").Value;
                 handDirection = SpriteEffects.FlipHorizontally;
             }
-            Texture2D bladeTexture = Main.itemTexture[(int)SwordItemID];
+            Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID];
 
             // Draw the arms.
             float backArmRotation = Owner.AngleTo(BackArmAimPosition);
@@ -241,7 +242,7 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the trail behind the blade.
             if (Owner.itemAnimation > 0)
             {
-                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BladeTrailUVMap"));
+                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BladeTrailUVMap").Value);
                 GameShaders.Misc["CalamityMod:FadingSolidTrail"].Shader.Parameters["shouldFlip"].SetValue((float)(Owner.direction == -1).ToInt());
 
                 Vector2 bottom = BladeCenterPosition - BladeOffsetDirection * BladeFrame.Height * 0.5f - Main.screenPosition;
@@ -271,10 +272,10 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the blade.
             Vector2 bladeDrawPosition = BladeCenterPosition - Main.screenPosition;
             SpriteEffects bladeDirection = Owner.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Main.EntitySpriteDraw(bladeTexture, bladeDrawPosition, BladeFrame, Color.White, bladeRotation, BladeFrame.Size() * 0.5f, Projectile.scale, bladeDirection, 0f);
+            Main.EntitySpriteDraw(bladeTexture, bladeDrawPosition, BladeFrame, Color.White, bladeRotation, BladeFrame.Size() * 0.5f, Projectile.scale, bladeDirection, 0);
 
             // Draw the hand.
-            Main.EntitySpriteDraw(handTexture, FrontArmEnd - Main.screenPosition, null, Projectile.GetAlpha(Color.White), handRotation, handTexture.Size() * 0.5f, Projectile.scale, handDirection, 0f);
+            Main.EntitySpriteDraw(handTexture, FrontArmEnd - Main.screenPosition, null, Projectile.GetAlpha(Color.White), handRotation, handTexture.Size() * 0.5f, Projectile.scale, handDirection, 0);
             return false;
         }
 
@@ -292,7 +293,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ItemLoader.OnHitNPC(Owner.ActiveItem(), Owner, target, damage, knockback, crit);
             NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
-            PlayerHooks.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
+            PlayerLoader.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
         }
     }
 }

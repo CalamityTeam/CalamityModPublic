@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = Projectile.height = 32;
             Projectile.aiStyle = 27;
-            aiType = ProjectileID.LightBeam;
+            AIType = ProjectileID.LightBeam;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = TrueBiomeBlade.DefaultAttunement_BeamTime;

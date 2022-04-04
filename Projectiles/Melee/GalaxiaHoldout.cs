@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
     public class GalaxiaHoldout : ModProjectile //Visuals. Now much simpler than before!
     {
         private Player Owner => Main.player[Projectile.owner];
-        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as FourSeasonsGalaxia).CanUseItem(Owner) : false;
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as FourSeasonsGalaxia).CanUseItem(Owner) : false;
         public ref float Initialized => ref Projectile.ai[0];
         public ref float CycleDirection => ref Projectile.ai[1];
 
@@ -51,11 +51,11 @@ namespace CalamityMod.Projectiles.Melee
                 associatedItem = Owner.HeldItem;
 
                 //Switch up the attunements
-                Reattune((FourSeasonsGalaxia)associatedItem.modItem);
+                Reattune((FourSeasonsGalaxia)associatedItem.ModItem);
 
                 //Do particles around the player
 
-                Color particleColor = (associatedItem.modItem as FourSeasonsGalaxia).mainAttunement.tooltipColor;
+                Color particleColor = (associatedItem.ModItem as FourSeasonsGalaxia).mainAttunement.tooltipColor;
                 for (int i = 0; i <= 5; i++)
                 {
                     Vector2 displace = Vector2.UnitX * 20 * Main.rand.NextFloat(-1f, 1f);
@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Chunger
-            var Sound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ThunderStrike"), Projectile.Center);
+            var Sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ThunderStrike"), Projectile.Center);
             CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;

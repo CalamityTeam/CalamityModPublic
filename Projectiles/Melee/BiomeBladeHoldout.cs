@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     public class BiomeBladeHoldout : ModProjectile //Visuals
     {
         private Player Owner => Main.player[Projectile.owner];
-        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.modItem as TrueBiomeBlade).CanUseItem(Owner) : false;
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as TrueBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && Owner.CheckSolidGround(1, 3);
         public ref float ChanneledState => ref Projectile.ai[0];
         public ref float ChannelTimer => ref Projectile.ai[1];
@@ -64,9 +64,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement temporaryAttunementStorage = (associatedItem.modItem as TrueBiomeBlade).mainAttunement;
-                (associatedItem.modItem as TrueBiomeBlade).mainAttunement = (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
+                Attunement temporaryAttunementStorage = (associatedItem.ModItem as TrueBiomeBlade).mainAttunement;
+                (associatedItem.ModItem as TrueBiomeBlade).mainAttunement = (associatedItem.ModItem as TrueBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as TrueBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
             }
 
@@ -89,11 +89,11 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (ChannelTimer >= ChannelTime)
                 {
-                    Attune((TrueBiomeBlade)associatedItem.modItem);
+                    Attune((TrueBiomeBlade)associatedItem.ModItem);
                     Projectile.timeLeft = 120;
                     ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
 
-                    Color particleColor = (associatedItem.modItem as TrueBiomeBlade).mainAttunement.tooltipColor;
+                    Color particleColor = (associatedItem.ModItem as TrueBiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
             bool desert = Owner.ZoneDesert;
             bool hell = Owner.ZoneUnderworldHeight;
             bool ocean = Owner.ZoneBeach || Owner.Calamity().ZoneSulphur;
-            bool holy = Owner.ZoneHoly;
+            bool hallow = Owner.ZoneHallow;
             bool astral = Owner.Calamity().ZoneAstral;
             bool marine = Owner.Calamity().ZoneAbyss || Owner.Calamity().ZoneSunkenSea;
 
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee
                 attunement = Attunement.attunementArray[(int)AttunementID.TrueTropical];
             if (evil)
                 attunement = Attunement.attunementArray[(int)AttunementID.TrueEvil];
-            if (holy)
+            if (hallow)
                 attunement = Attunement.attunementArray[(int)AttunementID.Holy];
             if (astral)
                 attunement = Attunement.attunementArray[(int)AttunementID.Astral];
@@ -163,10 +163,10 @@ namespace CalamityMod.Projectiles.Melee
                 return;
             }
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
-            if ((associatedItem.modItem as TrueBiomeBlade).mainAttunement == null && (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement != null)
+            if ((associatedItem.ModItem as TrueBiomeBlade).mainAttunement == null && (associatedItem.ModItem as TrueBiomeBlade).secondaryAttunement != null)
             {
-                (associatedItem.modItem as TrueBiomeBlade).mainAttunement = (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement;
-                (associatedItem.modItem as TrueBiomeBlade).secondaryAttunement = null;
+                (associatedItem.ModItem as TrueBiomeBlade).mainAttunement = (associatedItem.ModItem as TrueBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as TrueBiomeBlade).secondaryAttunement = null;
             }
         }
 
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Melee
 
             else if (ChanneledState == 1f)
             {
-                Texture2D tex = GetTexture(Texture);
+                Texture2D tex = Request<Texture2D>(Texture).Value;
                 Vector2 squishyScale = new Vector2(Math.Abs((float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f)), 1f);
                 SpriteEffects flip = (float)Math.Sin(MathHelper.Pi + MathHelper.TwoPi * Projectile.timeLeft / 30f) > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.EntitySpriteDraw(tex, Projectile.position - Main.screenPosition, null, lightColor * (Projectile.timeLeft / 60f), 0, tex.Size() / 2, squishyScale * (2f - (Projectile.timeLeft / 60f)), flip, 0);

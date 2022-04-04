@@ -1,4 +1,4 @@
-﻿using CalamityMod.Particles;
+using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = (int)MaxTime + 2;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return HoldProgress > 0;
         }
@@ -168,13 +168,14 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Dashing = false;
                     Owner.velocity *= 0.1f; //Abrupt stop
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
 
                     if (Owner.whoAmI == Main.myPlayer)
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            Projectile blast = Projectile.NewProjectileDirect(Owner.Center, Main.rand.NextVector2CircularEdge(28, 28), ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SlashBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.07f);
+                            var source = Projectile.GetProjectileSource_FromThis();
+                            Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), source, Owner.Center, Main.rand.NextVector2CircularEdge(28, 28), ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SlashBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.07f);
                             {
                                 blast.timeLeft = 100;
                             }
@@ -262,20 +263,19 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Texture2D sliceTex = GetTexture("CalamityMod/Particles/BloomLine");
+            Texture2D sliceTex = Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
             Color sliceColor = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
             float rot = Projectile.rotation + MathHelper.PiOver2;
             Vector2 sliceScale = new Vector2(0.2f * (1 - SnapProgress) ,ThrustDisplaceRatio() * 242f);
-            Main.EntitySpriteDraw(sliceTex, Projectile.Center - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0f);
-
+            Main.EntitySpriteDraw(sliceTex, Projectile.Center - Main.screenPosition, null, sliceColor, rot, new Vector2(sliceTex.Width / 2f, sliceTex.Height), sliceScale, 0f, 0);
 
             //Draw the scissors
             if (HoldProgress <= 0.4f)
             {
-                Texture2D frontBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsLeft");
-                Texture2D backBlade = GetTexture("CalamityMod/Projectiles/Melee/SunderingScissorsRight");
+                Texture2D frontBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;
+                Texture2D backBlade = Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRight").Value;
 
                 float snippingRotation = Projectile.rotation + MathHelper.PiOver4;
                 float drawRotation = MathHelper.Lerp(snippingRotation - MathHelper.PiOver4, snippingRotation, RotationRatio());
@@ -289,14 +289,14 @@ namespace CalamityMod.Projectiles.Melee
                 Color drawColor = Color.Tomato * opacity * 0.9f;
                 Color drawColorBack = Color.DeepSkyBlue * opacity * 0.9f;
 
-                Main.EntitySpriteDraw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0f);
-                Main.EntitySpriteDraw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(backBlade, drawPosition, null, drawColorBack, drawRotationBack, drawOriginBack, Projectile.scale, 0f, 0);
+                Main.EntitySpriteDraw(frontBlade, drawPosition, null, drawColor * opacity, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             }
 
             //Draw the rip
             if (HoldProgress > 0)
             {
-                Texture2D lineTex = GetTexture("CalamityMod/Particles/ThinEndedLine");
+                Texture2D lineTex = Request<Texture2D>("CalamityMod/Particles/ThinEndedLine").Value;
 
                 Vector2 Shake = HoldProgress > 0.2f ? Vector2.Zero : Vector2.One.RotatedByRandom(MathHelper.TwoPi) * (1 - HoldProgress * 5f) * 0.5f;
                 float raise = (float)Math.Sin(HoldProgress * MathHelper.PiOver2);
@@ -307,7 +307,6 @@ namespace CalamityMod.Projectiles.Melee
                 float lineOpacity = StitchProgress < 0.75f ? 1f : 1 - (StitchProgress - 0.75f) * 4f;
 
                 Main.EntitySpriteDraw(lineTex, Projectile.Center - Main.screenPosition + Shake, null, Color.Lerp(Color.White, Color.OrangeRed * 0.7f, raise) * lineOpacity, rot, origin, scale, SpriteEffects.None, 0);
-
 
                 //Draw the stitches
                 if (StitchProgress > 0)
@@ -336,7 +335,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
 

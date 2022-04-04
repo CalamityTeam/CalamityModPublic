@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             int projID = ModContent.ProjectileType<TerrorBlast>();
             int blastDamage = (int)(Projectile.damage * TerrorBlade.TerrorBlastMultiplier);
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, projID, blastDamage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, projID, blastDamage, Projectile.knockBack, Projectile.owner);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

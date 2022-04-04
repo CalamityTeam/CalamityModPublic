@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Melee;
-            aiType = ProjectileID.VilethornTip;
+            AIType = ProjectileID.VilethornTip;
         }
     }
 }

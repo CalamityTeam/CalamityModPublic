@@ -49,9 +49,9 @@ namespace CalamityMod.Projectiles.Melee
         public override float Lifetime => 300f;
         public override float MaxScale => 1.5f;
         public override float MaxLaserLength => 2200f;
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart").Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid").Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd").Value;
 
         public override void SetStaticDefaults()
         {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void DetermineScale()
         {
-            Projectile.scale = Time < ChargeupTime ? 0f : Utils.InverseLerp(0f, 40f, Projectile.timeLeft, true) * MaxScale;
+            Projectile.scale = Time < ChargeupTime ? 0f : Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true) * MaxScale;
         }
 
         public override float DetermineLaserLength()

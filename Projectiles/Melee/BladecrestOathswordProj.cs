@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BladecrestOathsword";
         public override int AssociatedItemID => ModContent.ItemType<BladecrestOathsword>();
         public override int IntendedProjectileType => ModContent.ProjectileType<BladecrestOathswordProj>();
-        public override bool CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
+        public override bool? CanDamage() => CurrentState != 0; //Could also disable the damage during the channel state,
 
         public override void SetStaticDefaults()
         {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if ((swingCompletion > 0f && swingCompletion < 1f) || PostSwingRepositionDelay > 0f)
             {
-                swingSpeedInterpolant = MathHelper.Lerp(swingSpeedInterpolant, 1f, Utils.InverseLerp(0f, 0.2f, swingCompletion, true));
+                swingSpeedInterpolant = MathHelper.Lerp(swingSpeedInterpolant, 1f, Utils.GetLerpValue(0f, 0.2f, swingCompletion, true));
 
                 float horizontalAngle = MathHelper.Lerp(-1.2f, 2.6f, (float)Math.Pow(MathHelper.SmoothStep(0f, 1f, swingCompletion), 3D)) * Direction;
                 Matrix offsetLinearTransformation = Matrix.CreateRotationZ(horizontalAngle);
@@ -100,13 +100,12 @@ namespace CalamityMod.Projectiles.Melee
                 aimDirection3D = Vector3.Transform(Vector3.UnitX, offsetLinearTransformation);
             }
 
-            // Fuck this shit.
-            // The code is kept around if we want the holdout effect but I'm honestly not going to continue Criticism Whack-a-Mole with this frankly arbitrary visual.
+            // Disable the holdout effect. This was decided after indeciciveness with what would be best.
             else
                 Projectile.Opacity = 0f;
 
             // Determine the horizontal stretch offset of the blade. This is used in matrix math below to create 2.5D visuals.
-            BladeHorizontalFactor = MathHelper.Lerp(1f, 1.5f, (aimDirection3D.X * 0.5f + 0.5f) * Utils.InverseLerp(1f, 0.8f, unchangedSwingCompletion, true));
+            BladeHorizontalFactor = MathHelper.Lerp(1f, 1.5f, (aimDirection3D.X * 0.5f + 0.5f) * Utils.GetLerpValue(1f, 0.8f, unchangedSwingCompletion, true));
 
             float baseRotation = new Vector2(aimDirection3D.X, aimDirection3D.Y).ToRotation();
 
@@ -129,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation = Projectile.rotation.AngleTowards(idealRotation, swingSpeedInterpolant * 0.45f).AngleLerp(idealRotation, swingSpeedInterpolant * 0.2f);
 
             // Offset the blade so that the handle is attached to the owner's hand.
-            float horizontalBladeOffset = MathHelper.Lerp(-4f, 10f, Utils.InverseLerp(1f, 0.72f, unchangedSwingCompletion, true) * Utils.InverseLerp(0f, 0.28f, unchangedSwingCompletion, true));
+            float horizontalBladeOffset = MathHelper.Lerp(-4f, 10f, Utils.GetLerpValue(1f, 0.72f, unchangedSwingCompletion, true) * Utils.GetLerpValue(0f, 0.28f, unchangedSwingCompletion, true));
             Vector2 bladeOffset = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Projectile.width * 0.5f;
             bladeOffset += new Vector2(Direction * horizontalBladeOffset, 2f).RotatedBy(Owner.fullRotation) + Vector2.UnitY * Owner.gfxOffY;
             Projectile.position += bladeOffset;
@@ -153,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
                     bloodScytheShootVelocity.Y *= 0.04f;
                     bloodScytheShootVelocity = bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
                     Vector2 bloodScytheSpawnPosition = Projectile.Center + bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
-                    Projectile.NewProjectile(bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
                 }
             }
         }
@@ -209,7 +208,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ItemLoader.OnHitNPC(Owner.ActiveItem(), Owner, target, damage, knockback, crit);
             NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
-            PlayerHooks.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
+            PlayerLoader.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
         }
     }
 }

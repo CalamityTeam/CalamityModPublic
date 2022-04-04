@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 56;
             Projectile.height = 56;
             Projectile.aiStyle = 18;
-            aiType = ProjectileID.DeathSickle;
+            AIType = ProjectileID.DeathSickle;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int k = 0; k < 3; k++)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-35, 36) * 0.2f, Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-35, 36) * 0.2f, Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
                     (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.15f, Main.myPlayer, 1f, 0f);
                 }
             }

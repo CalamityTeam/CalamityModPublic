@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = BiomeBlade.HotAttunement_LocalIFrames;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             return Projectile.timeLeft <= 2; //Prevent spam click abuse
         }
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 if (Owner.HeldItem.type == ItemType<BiomeBlade>())
-                    (Owner.HeldItem.modItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
+                    (Owner.HeldItem.ModItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
             }
         }
 
@@ -174,10 +174,10 @@ namespace CalamityMod.Projectiles.Melee
             damage = (int)(currentDamage * damageReduction);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget(target);
-        public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget(target);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => ShredTarget();
+        public override void OnHitPvp(Player target, int damage, bool crit) => ShredTarget();
 
-        private void ShredTarget(Entity target)
+        private void ShredTarget()
         {
             if (Main.myPlayer != Owner.whoAmI)
                 return;
@@ -200,8 +200,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = GetTexture("CalamityMod/Items/Weapons/Melee/BiomeBlade");
-            Texture2D blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur");
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BiomeBlade").Value;
+            Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur").Value;
 
             int bladeAmount = 4;
 
@@ -211,21 +211,21 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOrigin = new Vector2(0f, handle.Height);
             Vector2 drawOffset = Owner.Center + direction * 10f - Main.screenPosition;
 
-            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(handle, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
             //Turn on additive blending
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
             drawOrigin = new Vector2(0f, blade.Height);
             drawOffset = Owner.Center + (drawAngle.ToRotationVector2() * 32f * Projectile.scale) - Main.screenPosition;
 
-            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(blade, drawOffset, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.9f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
 
 
             for (int i = 0; i < bladeAmount; i++) //Draw extra copies
             {
-                blade = GetTexture("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra");
+                blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeurExtra").Value;
 
                 drawAngle = direction.ToRotation();
 
@@ -238,12 +238,12 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 drawOffsetStraight = Owner.Center + direction * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 7) * 10 - Main.screenPosition; //How far from the player
                 Vector2 drawDisplacementAngle = direction.RotatedBy(MathHelper.PiOver2) * circleCompletion.ToRotationVector2().Y * (20 + 40 * ShredRatio); //How far perpendicularly
 
-                Main.EntitySpriteDraw(blade, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+                Main.EntitySpriteDraw(blade, drawOffsetStraight + drawDisplacementAngle, null, Color.Lerp(Color.White, lightColor, 0.5f) * 0.8f, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             }
 
             //Back to normal
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

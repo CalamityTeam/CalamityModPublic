@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = true;
             Projectile.penetrate = 3;
             Projectile.timeLeft = Lifetime;
-            drawOffsetX = -10;
+            DrawOffsetX = -10;
             Projectile.Calamity().rogue = true;
         }
 

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            aiType = ProjectileID.BoneJavelin;
+            AIType = ProjectileID.BoneJavelin;
         }
 
         public override void AI()

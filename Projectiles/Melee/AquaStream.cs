@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust dust;
                 // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
                 Vector2 position = Projectile.Center;
-                dust = Terraria.Dust.NewDustPerfect(position, 33, new Vector2(0f, 0f), 0, new Color(0, 142, 255), 2.368421f);
+                dust = Dust.NewDustPerfect(position, 33, new Vector2(0f, 0f), 0, new Color(0, 142, 255), 2.368421f);
                 dust.noGravity = true;
             }
         }

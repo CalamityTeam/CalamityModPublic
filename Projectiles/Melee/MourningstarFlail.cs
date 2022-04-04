@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
             // If it is to be rebalanced, consider replacing it with the FuckYou projectile (which does not mess with I-frames)
             if (Projectile.localAI[1] <= 0f && Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, Projectile.damage, knockback, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, Projectile.damage, knockback, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[proj].usesLocalNPCImmunity = true;
                 Main.projectile[proj].localNPCHitCooldown = 4;
             }

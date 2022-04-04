@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
                 //reset player fall damage
                 player.fallStart = (int)(player.position.Y / 16f);
                 //Spawns the shockwave
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RoxShockwave>(), 300, 12, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RoxShockwave>(), 300, 12, Projectile.owner);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 Projectile.Kill();
                 //Pretty things

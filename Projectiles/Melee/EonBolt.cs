@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
         internal Color ColorFunction(float completionRatio)
         {
             float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
-            float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
+            float fadeOpacity = Utils.GetLerpValue(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
             Color colorHue = Main.hslToRgb(Hue, 1, 0.8f);
 
             Color endColor = Color.Lerp(colorHue, Color.PaleTurquoise, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
@@ -105,10 +105,10 @@ namespace CalamityMod.Projectiles.Melee
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak").Value);
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
-            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/GalaxiaBolt");
+            Texture2D texture = GetTexture("CalamityMod/Projectiles/Melee/GalaxiaBolt").Value;
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             return false;

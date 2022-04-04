@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -94,6 +94,6 @@ namespace CalamityMod.Projectiles.Melee
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 170);
 
         // Don't suffer from the same issues Murasama did in the past; encouraging people to kill their wrists for some extra DPS is bad lmao
-        public override bool CanDamage() => Projectile.frameCounter > 6;
+        public override bool? CanDamage() => Projectile.frameCounter > 6;
     }
 }
