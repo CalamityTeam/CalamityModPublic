@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,12 +41,9 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int numOrbs = 8;
             Vector2 clickPos = Main.MouseWorld;
@@ -55,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 // Choose random firing stagger values for each orb to create a desynchronized barrage of lasers
                 float timingStagger = Main.rand.Next(OrbFireRate);
-                Projectile.NewProjectile(clickPos, vel, type, damage, knockBack, player.whoAmI, ai0: timingStagger);
+                Projectile.NewProjectile(source, clickPos, vel, type, damage, knockback, player.whoAmI, ai0: timingStagger);
 
                 vel = vel.RotatedBy(MathHelper.TwoPi / numOrbs);
             }

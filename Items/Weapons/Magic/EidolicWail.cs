@@ -1,8 +1,8 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 1f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
             Item.rare = ItemRarityID.Purple;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream");
             Item.autoReuse = true;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();

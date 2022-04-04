@@ -1,6 +1,8 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class YateveoBloomSpear : BaseSpearProjectile

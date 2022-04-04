@@ -1,6 +1,7 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             dresser = "Otherworldly Dresser";
-            dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultDresser>();
+            DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -54,7 +55,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, dresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
             Chest.DestroyChest(i, j);
         }
     }

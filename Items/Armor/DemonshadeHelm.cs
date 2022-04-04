@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using static CalamityMod.CalPlayer.CalamityPlayer;
+using System.Linq;
 
 namespace CalamityMod.Items.Armor
 {
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             player.setBonus = "100% increased minion damage and +10 max minions\n" +
                 "All attacks inflict the demon flame debuff\n" +
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +

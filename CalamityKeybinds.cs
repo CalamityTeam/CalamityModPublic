@@ -7,7 +7,7 @@ namespace CalamityMod
     {
         public static ModKeybind NormalityRelocatorHotKey { get; private set; }
         public static ModKeybind AegisHotKey { get; private set; }
-        public static ModKeybind TarraHotKey { get; private set; }
+        public static ModKeybind SetBonusHotKey { get; private set; }
         public static ModKeybind RageHotKey { get; private set; }
         public static ModKeybind AdrenalineHotKey { get; private set; }
         public static ModKeybind AstralTeleportHotKey { get; private set; }
@@ -28,7 +28,7 @@ namespace CalamityMod
             RageHotKey = KeybindLoader.RegisterKeybind(Mod, "Rage Mode", "V");
             AdrenalineHotKey = KeybindLoader.RegisterKeybind(Mod, "Adrenaline Mode", "B");
             AegisHotKey = KeybindLoader.RegisterKeybind(Mod, "Elysian Guard", "N");
-            TarraHotKey = KeybindLoader.RegisterKeybind(Mod, "Armor Set Bonus", "Y");
+            SetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "Armor Set Bonus", "Y");
             AstralTeleportHotKey = KeybindLoader.RegisterKeybind(Mod, "Astral Teleport", "P");
             AstralArcanumUIHotkey = KeybindLoader.RegisterKeybind(Mod, "Astral Arcanum UI Toggle", "O");
             MomentumCapacitatorHotkey = KeybindLoader.RegisterKeybind(Mod, "Momentum Capacitor Effect", "U");
@@ -49,7 +49,7 @@ namespace CalamityMod
             RageHotKey = null;
             AdrenalineHotKey = null;
             AegisHotKey = null;
-            TarraHotKey = null;
+            SetBonusHotKey = null;
             AstralTeleportHotKey = null;
             AstralArcanumUIHotkey = null;
             MomentumCapacitatorHotkey = null;

@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,14 +29,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.MomentumCapacitatorHotkey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
-                {
-                    line2.text = "Press " + hotkey + " to consume 30% of your maximum stealth to create an energy field at the cursor position";
-                }
-            }
+            string hotkey = CalamityKeybinds.MomentumCapacitatorHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to consume 30% of your maximum stealth to create an energy field at the cursor position";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

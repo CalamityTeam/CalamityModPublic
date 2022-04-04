@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -56,17 +57,17 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override Vector2? HoldoutOffset() => Vector2.Zero;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile[] pair = new Projectile[2];
             for(int i = 0; i < 2; ++i)
             {
                 // Pick a random direction somewhere behind the player
-                float shootAngle = (float)Math.Atan2(speedY, speedX);
+                float shootAngle = (float)Math.Atan2(velocity.Y, velocity.X);
                 Vector2 offset = Main.rand.NextVector2Unit(MathHelper.Pi - SpawnAngleSpread, 2f * SpawnAngleSpread).RotatedBy(shootAngle);
                 // Set how far away this sword is spawning
                 offset *= Main.rand.NextFloat(MinSpawnDist, MaxSpawnDist);
@@ -74,8 +75,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 Vector2 spawnPos = position + offset;
                 float randSpeed = Main.rand.NextFloat(1f - SpeedRandomness, 1f + SpeedRandomness);
                 float randAngle = Main.rand.NextFloat(-Inaccuracy, Inaccuracy);
-                Vector2 velocity = randSpeed * new Vector2(speedX, speedY).RotatedBy(randAngle);
-                Projectile p = Projectile.NewProjectileDirect(spawnPos, velocity, type, damage, knockBack, player.whoAmI);
+                Vector2 velocityReal = randSpeed * velocity.RotatedBy(randAngle);
+                Projectile p = Projectile.NewProjectileDirect(source, spawnPos, velocityReal, type, damage, knockback, player.whoAmI);
                 pair[i] = p;
             }
 

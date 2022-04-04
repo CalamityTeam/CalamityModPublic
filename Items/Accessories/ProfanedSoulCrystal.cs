@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -31,18 +32,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Profaned Soul Crystal");
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
-                "Requires 10 minion slots to use in order to grant the following effects\n" +
-                "All non-summon weapons are converted into powerful summon variations\n" +
-                "Falling below 50% life will empower these attacks\n" +
-                "[c/f05a5a:Transforms Melee attacks into a barrage of spears]\n" +
-                "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball]\n" +
-                "[c/85e092:Transforms Ranged attacks into a flurry of fireballs and meteors]\n" +
-                "[c/e97451:Transforms Rogue attacks into a deadly crystalline spiral]\n" +
-                "Summons and empowers the profaned babs to fight alongside you\n" +
-                "You are no longer affected by burn out when hit\n" +
-                "Provides buffs depending on the time of day\n" +
-                "Thinking back, it was a boring life\n" +
-                "[c/FFBF49:And so we burn it all in the name of purity]");
+                "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -67,39 +57,36 @@ namespace CalamityMod.Items.Accessories
             bool draedon = CalamityWorld.downedExoMechs;
             if (!scal || !draedon)
             {
-                int index = 0;
-                foreach (TooltipLine line in tooltips)
-                {
-                    if (line.Mod == "Terraria" && line.Name.StartsWith("Tooltip"))
-                    {
-                        if (line.Name == "Tooltip0")
-                        {
-                            index = tooltips.IndexOf(line);
-                        }
-                        else
-                        {
-                            line.text = "";
-                        }
-                    }
-                    else if (line.Mod == "Terraria" && line.text.Contains("Sell price"))
-                    {
-                        line.text = "";
-                    }
-
-                }
                 string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure
-                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", rejectionReason + "\nMerchants will reject a defiled soul such as this."));
+
+                TooltipLine lineLock = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+                if (lineLock != null)
+                    lineLock.Text = rejectionReason + "\nMerchants will reject a defiled soul such as this.";
+
+                TooltipLine linePrice = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Sell price");
+                if (linePrice != null)
+                    linePrice.Text = "";
+
             }
+
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
                 int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
-                foreach (TooltipLine line in tooltips)
-                {
-                    if (line.Mod == "Terraria" && line.Name == "Tooltip5")
-                    {
-                        line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
-                    }
-                }
+
+                if (line != null)
+                    line.Text = "Requires 10 minion slots to use in order to grant the following effects\n" +
+                "All non-summon weapons are converted into powerful summon variations\n" +
+                "Falling below 50% life will empower these attacks\n" +
+                "[c/f05a5a:Transforms Melee attacks into a barrage of spears]\n" +
+                "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]\n" +
+                "[c/85e092:Transforms Ranged attacks into a flurry of fireballs and meteors]\n" +
+                "[c/e97451:Transforms Rogue attacks into a deadly crystalline spiral]\n" +
+                "Summons and empowers the profaned babs to fight alongside you\n" +
+                "You are no longer affected by burn out when hit\n" +
+                "Provides buffs depending on the time of day\n" +
+                "Thinking back, it was a boring life\n" +
+                "[c/FFBF49:And so we burn it all in the name of purity]";
             }
         }
 

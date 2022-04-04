@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,15 +32,17 @@ namespace CalamityMod.Items.Mounts
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.ExoChairSpeedupHotkey.TooltipHotkeyString();
-            string hotkey2 = CalamityMod.ExoChairSlowdownHotkey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
-                    line2.text = $"Hold {hotkey} while sitting in the throne to move much faster";
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
-                    line2.text = $"And hold {hotkey2} to move much slower";
-            }
+            string hotkey = CalamityKeybinds.ExoChairSpeedupHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey2 = CalamityKeybinds.ExoChairSlowdownHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            TooltipLine line2 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null)
+                line.Text = $"Hold {hotkey} while sitting in the throne to move much faster";
+
+            if (line2 != null)
+                line2.Text = $"And hold {hotkey2} to move much slower";
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Placeables;
+﻿using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.Furniture.CorruptionEffigy>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.Furniture.CorruptionEffigy>());
         }
     }
 }

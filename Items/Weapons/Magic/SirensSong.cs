@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float xDist = Main.mouseX + Main.screenPosition.X - position.X;
             float yDist = Main.mouseY + Main.screenPosition.Y - position.Y;
@@ -46,12 +47,12 @@ namespace CalamityMod.Items.Weapons.Magic
             float soundPitch = soundMult * 2f - 1f;
             soundPitch = MathHelper.Clamp(soundPitch, -1f, 1f);
 
-            speedX += Main.rand.NextFloat(-0.75f, 0.75f);
-            speedY += Main.rand.NextFloat(-0.75f, 0.75f);
-            speedX *= soundMult + 0.25f;
-            speedY *= soundMult + 0.25f;
+            velocity.X += Main.rand.NextFloat(-0.75f, 0.75f);
+            velocity.Y += Main.rand.NextFloat(-0.75f, 0.75f);
+            velocity.X *= soundMult + 0.25f;
+            velocity.Y *= soundMult + 0.25f;
 
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, soundPitch, 0f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, soundPitch, 0f);
             return false;
         }
     }

@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             chest = "Statigel Chest";
-            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelChest>();
+            ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -39,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 

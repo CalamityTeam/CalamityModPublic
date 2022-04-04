@@ -1,9 +1,10 @@
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -35,13 +36,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 10f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int i = 0; i < Main.rand.Next(3, 5 + 1); i++)
+			int cloudAmt = Main.rand.Next(3, 5 + 1);
+            for (int i = 0; i < cloudAmt; i++)
             {
-                Vector2 velocity = new Vector2(speedX, speedY) * Main.rand.NextFloat(0.9f, 1.1f);
+                Vector2 velocityReal = velocity * Main.rand.NextFloat(0.9f, 1.1f);
                 float angle = Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(30f);
-                Projectile.NewProjectile(position, velocity.RotatedBy(angle), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocityReal.RotatedBy(angle), type, damage, knockback, player.whoAmI);
             }
             return false;
         }

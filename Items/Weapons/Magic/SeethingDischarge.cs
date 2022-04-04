@@ -1,6 +1,8 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 6.75f;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound");
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
@@ -33,17 +35,17 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 6f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + 10f * 0.05f;
-            float SpeedY = speedY + 10f * 0.05f;
-            float SpeedX2 = speedX - 10f * 0.05f;
-            float SpeedY2 = speedY - 10f * 0.05f;
-            float SpeedX3 = speedX + 0f * 0.05f;
-            float SpeedY3 = speedY + 0f * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SeethingDischargeBrimstoneHellblast>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            float SpeedX = velocity.X + 10f * 0.05f;
+            float SpeedY = velocity.Y + 10f * 0.05f;
+            float SpeedX2 = velocity.X - 10f * 0.05f;
+            float SpeedY2 = velocity.Y - 10f * 0.05f;
+            float SpeedX3 = velocity.X + 0f * 0.05f;
+            float SpeedY3 = velocity.Y + 0f * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SeethingDischargeBrimstoneHellblast>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

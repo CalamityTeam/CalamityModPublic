@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
             float manaRatio = (float)player.statMana / player.statManaMax2;
             bool injectionNerf = player.Calamity().astralInjection;
             if (injectionNerf)
@@ -48,9 +49,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
             // 20% to 160% damage. Astral Injection caps it at 111% damage.
             float damageRatio = 0.2f + 1.4f * manaRatio;
-            int finalDamage = (int)(damage * damageRatio);
+            damage = (int)(damage * damageRatio);
+		}
 
-            Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, finalDamage, knockBack, player.whoAmI);
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            float manaRatio = (float)player.statMana / player.statManaMax2;
+            bool injectionNerf = player.Calamity().astralInjection;
+            if (injectionNerf)
+                manaRatio = MathHelper.Min(manaRatio, 0.65f);
+
+            Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
             proj.scale = 0.75f + 0.75f * manaRatio;
             return false;
         }

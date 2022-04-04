@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
@@ -39,14 +41,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.AegisHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip5")
-                {
-                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
-                }
-            }
+            string hotkey = CalamityKeybinds.AegisHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
@@ -37,10 +37,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Projectile.localAI[0] = 0f;
                 if (Main.myPlayer == Projectile.owner)
-                {
-                    Projectile.NewProjectile(Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
-                        Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<Feather>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
-                }
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<Feather>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
             }
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Projectile.Kill();
         }
 
-        public void DrawPortal(SpriteBatch spriteBatch, Vector2 drawPosition, float opacity)
+        public void DrawPortal(Vector2 drawPosition, float opacity)
         {
             Texture2D portalTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal").Value;
             Vector2 origin = portalTexture.Size() * 0.5f;
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Main.spriteBatch.ExitShaderRegion();
 
             // Draw the portal once ready.
-            DrawPortal(Main.spriteBatch, portalDrawPosition, portalOpacity);
+            DrawPortal(portalDrawPosition, portalOpacity);
 
             return false;
         }

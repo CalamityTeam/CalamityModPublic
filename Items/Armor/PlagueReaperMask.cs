@@ -1,10 +1,11 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Armor
 {
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
                 "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
                 "Getting hit causes plague cinders to rain from above\n" +

@@ -1,7 +1,8 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Armor
 {
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             int stormMana = (int)(manaCost * player.manaCost);
-            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
             player.setBonus = "Press " + hotkey + " to call an ancient storm to the cursor location\n" +
                     "The ancient storm costs " + stormMana + " mana and benefits from both summon and rogue bonuses\n" +
                     "Rogue stealth strikes spawn homing eaters on enemy hits\n" +

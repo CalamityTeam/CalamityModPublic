@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -61,16 +61,23 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
             var comboTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
-            comboTooltip.text = ComboTooltip;
-            comboTooltip.overrideColor = Color.Crimson;
-
+            if (comboTooltip != null)
+            {
+                comboTooltip.Text = ComboTooltip;
+                comboTooltip.OverrideColor = Color.Crimson;
+            }
             var parryTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-            parryTooltip.text = ParryTooltip;
-            parryTooltip.overrideColor = Color.Orange;
-
+            if (parryTooltip != null)
+            {
+                parryTooltip.Text = ParryTooltip;
+                parryTooltip.OverrideColor = Color.Orange;
+            }
             var blastTooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
-            blastTooltip.text = BlastTooltip;
-            blastTooltip.overrideColor = Color.Gold;
+            if (blastTooltip != null)
+            {
+                blastTooltip.Text = BlastTooltip;
+                blastTooltip.OverrideColor = Color.Gold;
+            }
         }
 
         public override void SetDefaults()

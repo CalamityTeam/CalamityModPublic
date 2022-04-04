@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,17 +41,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(20f, 20f);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(20f, 20f);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
             Vector2 flameSpawnPosition = player.RotatedRelativePoint(player.MountedCenter, true);
             flameSpawnPosition += velocity.SafeNormalize(Vector2.Zero) * 105f;
-            Projectile.NewProjectile(flameSpawnPosition, velocity, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, flameSpawnPosition, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
 

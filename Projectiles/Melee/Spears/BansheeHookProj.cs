@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,7 +36,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float TravelSpeed => 22f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.Center + Projectile.velocity * 0.5f,
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                                     Projectile.Center + Projectile.velocity * 0.5f,
                                      Projectile.velocity * 0.8f, ModContent.ProjectileType<BansheeHookScythe>(),
                                      Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D alternateHookTexture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt") : ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D alternateHookTexture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt").Value : ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = new Vector2(Projectile.spriteDirection == 1 ? alternateHookTexture.Width + 8f : -8f, -8f);
             Main.EntitySpriteDraw(alternateHookTexture, drawPosition, null,
                 new Color(255, 255, 255, 127), Projectile.rotation,
@@ -101,7 +102,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void PostDraw(Color lightColor)
         {
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
+            Texture2D texture = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow").Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow").Value;
             Vector2 origin = new Vector2(Projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
             Main.EntitySpriteDraw(texture, drawPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }
@@ -125,7 +126,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center, Vector2.Zero,
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                    target.Center, Vector2.Zero,
                     ModContent.ProjectileType<BansheeHookBoom>(), (int)(damage * 0.25),
                     10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }

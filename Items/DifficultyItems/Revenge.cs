@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -51,19 +52,16 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string rageKey = CalamityMod.RageHotKey.TooltipHotkeyString();
-            string adrenKey = CalamityMod.AdrenalineHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
-                {
-                    line2.text = "Enables the Rage mechanic. When Rage is maxed press " + rageKey + " to activate Rage Mode.";
-                }
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
-                {
-                    line2.text = "Enables the Adrenaline mechanic. When Adrenaline is maxed press " + adrenKey + " to activate Adrenaline Mode.";
-                }
-            }
+            string rageKey = CalamityKeybinds.RageHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string adrenKey = CalamityKeybinds.AdrenalineHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+
+            TooltipLine lineRage = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            if (lineRage != null)
+                lineRage.Text = "Enables the Rage mechanic. When Rage is maxed press " + rageKey + " to activate Rage Mode.";
+
+            TooltipLine lineAdrenaline = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+            if (lineAdrenaline != null)
+                lineAdrenaline.Text = "Enables the Adrenaline mechanic. When Adrenaline is maxed press " + adrenKey + " to activate Adrenaline Mode.";
         }
 
         // Can only be used in Expert worlds. The Revengeance check is a failsafe that allows you to disable rev in normal mode worlds if it gets enabled for whatever reason.

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (damageTooltip != null)
             {
                 // Replace the word "throwing" with "rogue" in the item's damage line.
-                string text = damageTooltip.text.Replace(" throwing ", " rogue ");
+                string text = damageTooltip.Text.Replace(" throwing ", " rogue ");
 
                 // Split visible damage into stealth and non-stealth damage values if the player has the stealth mechanic available to them.
                 Player p = Main.LocalPlayer;
@@ -142,7 +142,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     }
                 }
 
-                damageTooltip.text = text;
+                damageTooltip.Text = text;
             }
 
             // Add a tooltip line for the stealth strike damage bonus of the item's prefix, if applicable.

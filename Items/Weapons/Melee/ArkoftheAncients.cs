@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -43,8 +43,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
 
             var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
-            tooltip.text = ParryTooltip;
-            tooltip.overrideColor = Color.CornflowerBlue;
+            if (tooltip != null)
+            {
+                tooltip.Text = ParryTooltip;
+                tooltip.OverrideColor = Color.CornflowerBlue;
+            }
         }
 
         public override void SetDefaults()
