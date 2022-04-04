@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             dresser = "Monolith Dresser";
-            dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithDresser>();
+            DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -79,7 +79,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, dresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
             Chest.DestroyChest(i, j);
         }
     }

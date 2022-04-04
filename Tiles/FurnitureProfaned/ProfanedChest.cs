@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             chest = "Profaned Chest";
-            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedChest>();
+            ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 

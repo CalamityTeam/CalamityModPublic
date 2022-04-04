@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             dresser = "Cosmilite Dresser";
-            dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>();
+            DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, dresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
             Chest.DestroyChest(i, j);
         }
     }

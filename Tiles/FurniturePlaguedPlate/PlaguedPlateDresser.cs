@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             dresser = "Plagued Dresser";
-            dresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
+            DresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
         public override bool HasSmartInteract()
@@ -53,7 +53,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, dresserDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
             Chest.DestroyChest(i, j);
         }
     }
