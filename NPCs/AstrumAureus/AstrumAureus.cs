@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -378,7 +378,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 20;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstrumAureusHit"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstrumAureusHit"), NPC.Center);
             }
 
             for (int k = 0; k < 5; k++)

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -2810,7 +2810,7 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f)
                 {
                     // Play stomp sound
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
 
                     // Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
                     npc.TargetClosest();
@@ -3221,7 +3221,7 @@ namespace CalamityMod.NPCs
                 {
                     if (calamityGlobalNPC.newAI[0] != 3f)
                     {
-                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/AstrumDeusSplit"), player.Center);
                         calamityGlobalNPC.newAI[0] = 3f;
                         npc.defense = 12;
                         calamityGlobalNPC.DR = 0.075f;
@@ -3338,7 +3338,7 @@ namespace CalamityMod.NPCs
                                 netMessage.Send();
                             }
 
-                            SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/AstrumDeusSplit"), player.Center);
                         }
                         return;
                     }
@@ -3477,7 +3477,7 @@ namespace CalamityMod.NPCs
                     {
                         for (int l = num14; l < num15; l++)
                         {
-                            if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[Main.tile[k, l].TileType] || (Main.tileSolidTop[Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].LiquidAmount > 64))
+                            if (Main.tile[k, l] != null && ((Main.tile[k, l].HasUnactuatedTile && (Main.tileSolid[Main.tile[k, l].TileType] || (Main.tileSolidTop[Main.tile[k, l].TileType] && Main.tile[k, l].TileFrameY == 0))) || Main.tile[k, l].LiquidAmount > 64))
                             {
                                 Vector2 vector2;
                                 vector2.X = k * 16;
@@ -5523,7 +5523,7 @@ namespace CalamityMod.NPCs
 
                 // Play tired sound
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeHuff"), player.Center);
 
                 calamityGlobalNPC.newAI[0] -= malice ? 1.5f : 1f;
                 if (calamityGlobalNPC.newAI[0] <= 0f)
@@ -5724,7 +5724,7 @@ namespace CalamityMod.NPCs
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
                 }
 
                 npc.ai[2] += 1f;
@@ -5889,12 +5889,12 @@ namespace CalamityMod.NPCs
 
                 // Play sounds and spawn Tooth Balls
                 if (npc.ai[2] == 0f)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] % toothBallBelchPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 40f == 0f && npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -5934,7 +5934,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound and spawn sharks
                 if (npc.ai[2] == num9 - 30)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num9 - 90)
                 {
@@ -5968,7 +5968,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6153,7 +6153,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6167,7 +6167,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6206,7 +6206,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6255,7 +6255,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6463,7 +6463,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound
                 if (npc.ai[2] == num12 / 2)
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num12 / 2)
                 {
@@ -6518,7 +6518,7 @@ namespace CalamityMod.NPCs
                 // Play sound
                 if (npc.ai[2] == num9 - 30)
                 {
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -6564,7 +6564,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6578,7 +6578,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
                 {
                     if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
-                        SoundEngine.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

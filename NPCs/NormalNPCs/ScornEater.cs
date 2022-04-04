@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         else
                             NPC.velocity.Y = 12f;
                     }
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScornJump"), (int)NPC.Center.X, (int)NPC.Center.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScornJump"), (int)NPC.Center.X, (int)NPC.Center.Y);
                 }
                 NPC.netUpdate = true;
             }
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 7;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/ScornHurt"), NPC.Center);
             }
             for (int k = 0; k < 5; k++)
             {

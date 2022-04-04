@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), NPC.Center);
 
                 halfLife = true;
             }
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
                 }
             }
 
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
 
                     return;
                 }
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         NPC.netUpdate = true;
                         NPC.netSpam -= 5;
 
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGDash"), NPC.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/PlagueSounds/PBGDash"), NPC.Center);
                         return;
                     }
 
@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
 
                     return;
                 }
@@ -630,7 +630,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
                 }
             }
 
@@ -712,7 +712,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
                 }
             }
 
@@ -786,7 +786,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
                 }
             }
 
@@ -810,7 +810,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
                     return;
                 }
 
@@ -826,7 +826,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), NPC.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), NPC.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {

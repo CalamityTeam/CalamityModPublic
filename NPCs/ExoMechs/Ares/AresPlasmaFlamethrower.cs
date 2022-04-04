@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             NPC.ai[3] += 1f;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
                                 Vector2 plasmaBoltVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresPlasmaFireball>();
                                 int damage = NPC.GetProjectileDamage(type);

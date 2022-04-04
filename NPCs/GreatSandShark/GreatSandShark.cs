@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             if (NPC.soundDelay <= 0)
             {
                 NPC.soundDelay = 480;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
             }
 
             if (NPC.localAI[3] >= 1f || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 1000f)
@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     }
                 }
 

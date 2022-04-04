@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
                         if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge"), NPC.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge"), NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 {
                                     int type = ModContent.ProjectileType<ThanatosLaser>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), NPC.Center);
+                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(player.Center - NPC.Center);
                                     Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
                                     Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -469,7 +469,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     float offset = 84f;
                                     float offset2 = 16f;
                                     Vector2 source = horizontalLaserSweep ? new Vector2(NPC.Center.X - offset2 * NPC.direction, NPC.Center.Y + offset) : new Vector2(NPC.Center.X + offset * NPC.direction, NPC.Center.Y + offset2);
-                                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), source);
+                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), source);
                                     Vector2 laserVelocity = Vector2.Normalize(lookAt - source);
                                     if (laserVelocity.HasNaNs())
                                         laserVelocity = -Vector2.UnitY;
