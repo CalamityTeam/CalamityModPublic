@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         int num10 = ProjectileID.SaucerScrap;
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
-                        Projectile.NewProjectile(vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
                         NPC.netUpdate = true;
                     }
                 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
@@ -243,9 +243,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                     float cloudSpawnOutwardness = (AttackTimer - cloudSummonDelay) / cloudSummonRate * 50f;
 
                     Vector2 spawnPosition = NPC.Top + new Vector2(cloudSpawnOutwardness, -36);
-                    Projectile.NewProjectileDirect(spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectileDirect(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
                     spawnPosition = NPC.Top + new Vector2(-cloudSpawnOutwardness, -36);
-                    Projectile.NewProjectileDirect(spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectileDirect(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
                 }
             }
 
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     float angle = MathHelper.TwoPi / totalTornadosToSummon * i;
                     Vector2 spawnPosition = Target.Center + angle.ToRotationVector2() * 620f;
-                    Projectile.NewProjectile(spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer);
                 }
             }
 

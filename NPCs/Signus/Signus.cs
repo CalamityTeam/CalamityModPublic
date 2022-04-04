@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.Signus
                             num1072 *= num1073;
                             int type = ModContent.ProjectileType<SignusScythe>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, NPC.target + 1);
                         }
                     }
                 }
@@ -583,7 +583,7 @@ namespace CalamityMod.NPCs.Signus
                             SoundEngine.PlaySound(SoundID.Item73, NPC.position);
                             int type = ModContent.ProjectileType<EssenceDust>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
                         }
                     }
 

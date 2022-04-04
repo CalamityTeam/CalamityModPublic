@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 30f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
+                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 30f), 8, 8, DustID.Torch, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[rightDust].noGravity = true;
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X + 80f, NPC.Center.Y + 45f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 2f);
+                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X + 80f, NPC.Center.Y + 45f), 8, 8, DustID.Torch, 0f, 0f, 0, default, 2f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[rightDust].noGravity = true;
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    leftDust = Dust.NewDust(new Vector2(NPC.Center.X - 80f, NPC.Center.Y + 45f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 2f);
+                    leftDust = Dust.NewDust(new Vector2(NPC.Center.X - 80f, NPC.Center.Y + 45f), 8, 8, DustID.Torch, 0f, 0f, 0, default, 2f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Dust leftDustExpr2 = Main.dust[leftDust];
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X + 60f, NPC.Center.Y + 60f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
+                    rightDust = Dust.NewDust(new Vector2(NPC.Center.X + 60f, NPC.Center.Y + 60f), 8, 8, DustID.Torch, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Dust rightDustExpr2 = Main.dust[rightDust];
@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    leftDust = Dust.NewDust(new Vector2(NPC.Center.X - 60f, NPC.Center.Y + 60f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
+                    leftDust = Dust.NewDust(new Vector2(NPC.Center.X - 60f, NPC.Center.Y + 60f), 8, 8, DustID.Torch, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[leftDust].noGravity = true;

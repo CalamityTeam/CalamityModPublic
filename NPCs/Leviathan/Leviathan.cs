@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -350,7 +350,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer);
                                 if (soundDelay <= 0)
                                 {
                                     soundDelay = 120;

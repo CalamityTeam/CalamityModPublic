@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.SulphurousSea
                     Vector2 rockSpawnPosition = new Vector2(16f * -NPC.spriteDirection + NPC.Center.X, NPC.Bottom.Y - 6f);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        boulderIndex = Projectile.NewProjectile(rockSpawnPosition, Vector2.Zero, ModContent.ProjectileType<CrabBoulder>(), 29, 6f);
+                        boulderIndex = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), rockSpawnPosition, Vector2.Zero, ModContent.ProjectileType<CrabBoulder>(), 29, 6f);
                         NPC.netUpdate = true;
                     }
                 }

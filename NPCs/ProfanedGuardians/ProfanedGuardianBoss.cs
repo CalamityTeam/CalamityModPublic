@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
-                                Projectile.NewProjectile(vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
                             }
                         }
                     }
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-                            Projectile.NewProjectile(NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
 
                         spearType++;

@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                         int type = ProjectileID.CultistBossLightningOrb;
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -469,7 +469,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             float ai = Main.rand.Next(100);
                             int type = ProjectileID.CultistBossLightningOrbArc;
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
 

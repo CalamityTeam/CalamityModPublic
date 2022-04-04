@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     Vector2 shootFromVector = new Vector2(NPC.Center.X, NPC.Center.Y - 20f);
                     Vector2 velocity = new Vector2(0f, -15f);
-                    int nuke = Projectile.NewProjectile(shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, NPC.target, 0f);
+                    int nuke = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, NPC.target, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }

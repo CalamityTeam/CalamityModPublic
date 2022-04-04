@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.HiveMind
                         num943 *= num944;
                         int type = ModContent.ProjectileType<VileClot>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         NPC.netUpdate = true;
                     }
                 }

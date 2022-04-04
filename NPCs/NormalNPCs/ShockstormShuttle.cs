@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             velocity.Y += Main.rand.Next(-20, 21);
                             velocity.X *= targetDist;
                             velocity.Y *= targetDist;
-                            Projectile.NewProjectile(npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

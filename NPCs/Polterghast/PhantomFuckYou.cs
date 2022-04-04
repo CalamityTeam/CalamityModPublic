@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Polterghast
                         int damage = NPC.GetProjectileDamage(type);
                         float maxVelocity = 8f * tileEnrageMult;
                         float acceleration = 1.15f + (tileEnrageMult - 1f) * 0.15f;
-                        Projectile.NewProjectile(NPC.Center, direction, type, damage, 1f, NPC.target, maxVelocity, acceleration);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, direction, type, damage, 1f, NPC.target, maxVelocity, acceleration);
                     }
                     NPC.ai[2] = 0f;
                 }

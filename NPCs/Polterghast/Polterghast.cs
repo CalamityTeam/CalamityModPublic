@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -658,7 +658,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
                             }
                         }
@@ -686,7 +686,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
                             }
                         }
@@ -788,7 +788,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < numProj; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast2>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
                             }
                         }
@@ -817,7 +817,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < numProj; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
                             }
                         }
@@ -918,7 +918,7 @@ namespace CalamityMod.NPCs.Polterghast
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                 }
                                 int spawnX = (int)(NPC.width / 2);
                                 for (int sand = 0; sand < 5; sand++)
-                                    Projectile.NewProjectile(NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             NPC.ai[2] = -30f;

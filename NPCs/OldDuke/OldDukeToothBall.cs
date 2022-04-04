@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using System;
@@ -247,13 +247,13 @@ namespace CalamityMod.NPCs.OldDuke
                 {
                     float velocity = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? Main.rand.Next(6, 10) : Main.rand.Next(7, 11);
                     Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-                    int proj = Projectile.NewProjectile(NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                     Main.projectile[proj].timeLeft = 360;
                 }
 
                 type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
                 damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
 
             return true;

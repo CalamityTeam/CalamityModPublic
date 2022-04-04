@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Weapons.Typeless;
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         SoundEngine.PlaySound(SoundID.Item20, NPC.position);
                         int type = ModContent.ProjectileType<FlareDust>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * NPC.velocity.Length() * 1.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * NPC.velocity.Length() * 1.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
                     }
                 }
 
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-                            Projectile.NewProjectile(NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                         }
                     }
                 }

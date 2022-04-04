@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.Leviathan
                         NPC.alpha = Utils.Clamp(NPC.alpha + 9, 0, 255);
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.alpha >= 255 && oldAlpha < 255)
                         {
-                            Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
                             HasBegunSummoningLeviathan = true;
                             NPC.netUpdate = true;
                         }
@@ -615,7 +615,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
                         Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-                        Projectile.NewProjectile(spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
                     }
                 }
 

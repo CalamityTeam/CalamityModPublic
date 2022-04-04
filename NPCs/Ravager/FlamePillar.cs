@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.Ravager
                             Vector2 velocity = new Vector2(speedX, speedY);
                             int type = ModContent.ProjectileType<RavagerFlame>();
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
                         NPC.ai[2] += 1f;
                         NPC.localAI[0] = 0f;

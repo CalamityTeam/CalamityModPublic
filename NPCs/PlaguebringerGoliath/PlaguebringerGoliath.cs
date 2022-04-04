@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -759,7 +759,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         }
 
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
                         NPC.netUpdate = true;
                     }
 
@@ -847,7 +847,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                     Vector2 spawn = vectorCenter; // Normal = 96, Malice = 144
                                     spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Malice = -144 to 156
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                    Projectile.NewProjectile(spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
                                 }
                             }
                         }
