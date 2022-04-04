@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,17 +38,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 14f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(7, 7);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(7, 7);
 
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 5).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15).AddTile(TileID.DemonAltar).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -91,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

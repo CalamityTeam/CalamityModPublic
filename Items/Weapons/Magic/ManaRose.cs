@@ -1,8 +1,8 @@
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -35,10 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 10f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(10, 10);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
 
         public override void AddRecipes()
         {

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,23 +33,20 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 12f;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, -5);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-15, -5);
 
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ItemID.BeeGun).AddIngredient(ItemID.WaspGun).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.LunarCraftingStation).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i <= 3; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-35, 36) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-35, 36) * 0.05f;
+                int wasps = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI);
                 if (wasps.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[wasps].penetrate = 1;
@@ -57,9 +55,9 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             for (int i = 0; i <= 3; i++)
             {
-                float SpeedX2 = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
-                float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(Item.damage), player.beeKB(0f), player.whoAmI);
+                float SpeedX2 = velocity.X + (float)Main.rand.Next(-35, 36) * 0.05f;
+                float SpeedY2 = velocity.Y + (float)Main.rand.Next(-35, 36) * 0.05f;
+                int bees = Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(Item.damage), player.beeKB(0f), player.whoAmI);
                 if (bees.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bees].penetrate = 1;

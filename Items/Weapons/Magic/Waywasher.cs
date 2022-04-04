@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,11 +35,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<WaywasherProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            float SpeedX = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<WaywasherProj>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

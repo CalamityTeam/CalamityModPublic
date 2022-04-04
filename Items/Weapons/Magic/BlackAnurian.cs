@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 43;
+            Item.damage = 21;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 58;
@@ -34,21 +35,18 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<BlackAnurianBubble>();
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = 2;
-            for (int index = 0; index < num6; ++index)
+            int planktonAmt = 2;
+            for (int index = 0; index < planktonAmt; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BlackAnurianPlankton>(), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-25, 26) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-25, 26) * 0.05f;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BlackAnurianPlankton>(), damage, knockback, player.whoAmI);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
     }

@@ -3,6 +3,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 30;
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).AddIngredient(ModContent.ItemType<InfernalRift>()).AddIngredient(ItemID.AquaScepter).AddRecipeGroup("CursedFlameIchor", 20).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float speed = Item.shootSpeed;
@@ -67,11 +68,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
-            Vector2 velocity = Main.MouseWorld - source;
+            Vector2 velocityReal = Main.MouseWorld - source;
             Vector2 upperVelocityLimit = new Vector2(xVec, yVec).SafeNormalize(Vector2.UnitY) * speed;
-            velocity = velocity.SafeNormalize(upperVelocityLimit) * speed;
-            velocity = Vector2.Lerp(velocity, upperVelocityLimit, 0.25f);
-            Projectile.NewProjectile(source, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            velocityReal = velocityReal.SafeNormalize(upperVelocityLimit) * speed;
+            velocityReal = Vector2.Lerp(velocityReal, upperVelocityLimit, 0.25f);
+            Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

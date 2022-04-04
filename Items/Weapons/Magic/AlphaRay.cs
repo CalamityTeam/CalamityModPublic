@@ -1,10 +1,11 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -42,17 +43,17 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.35f, velocity.Y * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.6625), knockback, player.whoAmI);
                 int laserAmt = 3;
-                float SpeedX = speedX + Main.rand.NextFloat(-1f, 1f);
-                float SpeedY = speedY + Main.rand.NextFloat(-1f, 1f);
+                float SpeedX = velocity.X + Main.rand.NextFloat(-1f, 1f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-1f, 1f);
                 for (int i = 0; i < laserAmt; ++i)
                 {
-                    int laser = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.15f, SpeedY * 1.15f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack * 0.4f, player.whoAmI);
+                    int laser = Projectile.NewProjectile(source, position.X, position.Y, SpeedX * 1.15f, SpeedY * 1.15f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockback * 0.4f, player.whoAmI);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }
@@ -62,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num117 = 0.314159274f;
                 int num118 = 3;
-                Vector2 vector7 = new Vector2(speedX, speedY);
+                Vector2 vector7 = velocity;
                 vector7.Normalize();
                 vector7 *= 80f;
                 bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
@@ -74,8 +75,8 @@ namespace CalamityMod.Items.Weapons.Magic
                     {
                         value9 -= vector7;
                     }
-                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 1.5f, speedY * 1.5f, type, (int)(damage * 0.8), knockBack, player.whoAmI);
-                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack * 0.4f, player.whoAmI);
+                    Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X * 1.5f, velocity.Y * 1.5f, type, (int)(damage * 0.8), knockback, player.whoAmI);
+                    int laser = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X * 2f, velocity.Y * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockback * 0.4f, player.whoAmI);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }

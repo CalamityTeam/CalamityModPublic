@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             player.statLife -= 3;
             if (player.statLife <= 0)
@@ -49,11 +49,11 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = speedX + Main.rand.Next(-120, 121) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-120, 121) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.5f, SpeedY * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockBack, player.whoAmI);
+                float SpeedX = velocity.X + Main.rand.Next(-120, 121) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-120, 121) * 0.05f;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX * 1.5f, SpeedY * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockback, player.whoAmI);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX * 0.66f, speedY * 0.66f, type, damage, knockBack, player.whoAmI, 1f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.66f, velocity.Y * 0.66f, type, damage, knockback, player.whoAmI, 1f, 0f);
             return false;
         }
 

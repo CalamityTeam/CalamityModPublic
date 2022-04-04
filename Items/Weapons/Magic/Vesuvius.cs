@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,15 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Yellow;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
@@ -61,17 +54,17 @@ namespace CalamityMod.Items.Weapons.Magic
             return 0.75f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                int num6 = Main.rand.Next(4, 6);
-                for (int index = 0; index < num6; ++index)
+                int meteorAmt = Main.rand.Next(4, 6);
+                for (int i = 0; i < meteorAmt; ++i)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
                     float ai0 = (float)Main.rand.Next(6);
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
                 }
                 return false;
             }
@@ -119,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Magic
                     float num114 = num78;
                     float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
                     float ai0 = (float)Main.rand.Next(6);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockback, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
                 }
                 return false;
             }
