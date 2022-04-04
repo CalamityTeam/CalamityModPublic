@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -65,11 +66,11 @@ namespace CalamityMod.Items.Weapons.Magic
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MelterAmp>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MelterAmp>(), damage, knockback, player.whoAmI);
                 return false;
             }
             else
@@ -82,11 +83,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 else
                 {
-                    speedX *= 1.5f;
-                    speedY *= 1.5f;
+                    velocity.X *= 1.5f;
+                    velocity.Y *= 1.5f;
                     type = ModContent.ProjectileType<MelterNote2>();
                 }
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 return false;
             }
         }

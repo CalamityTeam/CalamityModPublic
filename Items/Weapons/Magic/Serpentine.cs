@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 10f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int owner = player.whoAmI;
             float num72 = Item.shootSpeed;
@@ -74,19 +75,19 @@ namespace CalamityMod.Items.Weapons.Magic
             //velY = 0f;
             //vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             //vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            int curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SerpentineHead>(), damage, knockBack, owner);
+            int curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineHead>(), damage, knockback, owner);
 
             int prev = curr;
-            curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SerpentineBody>(), damage, knockBack, owner, (float)prev);
+            curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineBody>(), damage, knockback, owner, (float)prev);
 
             prev = curr;
-            curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SerpentineBody>(), damage, knockBack, owner, (float)prev);
+            curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineBody>(), damage, knockback, owner, (float)prev);
 
             prev = curr;
-            curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SerpentineBody>(), damage, knockBack, owner, (float)prev);
+            curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineBody>(), damage, knockback, owner, (float)prev);
 
             prev = curr;
-            curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SerpentineTail>(), damage, knockBack, owner, (float)prev);
+            curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineTail>(), damage, knockback, owner, (float)prev);
             Main.projectile[prev].localAI[1] = (float)curr;
             Main.projectile[prev].netUpdate = true;
             return false;

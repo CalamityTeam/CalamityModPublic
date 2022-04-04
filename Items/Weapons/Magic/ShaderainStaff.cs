@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             num78 *= num80;
             num79 *= num80;
-            int num154 = Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<ShadeNimbusCloud>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            int num154 = Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<ShadeNimbusCloud>(), damage, knockback, player.whoAmI, 0f, 0f);
             Main.projectile[num154].ai[0] = (float)Main.mouseX + Main.screenPosition.X;
             Main.projectile[num154].ai[1] = (float)Main.mouseY + Main.screenPosition.Y;
             return false;

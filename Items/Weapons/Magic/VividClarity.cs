@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,12 +44,9 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(20, 20);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(20, 20);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float speed = Item.shootSpeed;
@@ -67,11 +65,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
-            Vector2 velocity = Main.MouseWorld - source;
+            Vector2 velocityReal = Main.MouseWorld - source;
             Vector2 velocityVariation = new Vector2(xPos, yPos).SafeNormalize(Vector2.UnitY) * speed;
-            velocity = velocity.SafeNormalize(velocityVariation) * speed;
-            velocity = Vector2.Lerp(velocity, velocityVariation, 0.25f);
-            Projectile.NewProjectile(source, velocity, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
+            velocityReal = velocityReal.SafeNormalize(velocityVariation) * speed;
+            velocityReal = Vector2.Lerp(velocityReal, velocityVariation, 0.25f);
+            Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
             return false;
         }
 

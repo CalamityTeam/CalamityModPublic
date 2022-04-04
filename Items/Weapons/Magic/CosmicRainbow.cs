@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,12 +41,12 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).AddIngredient(ItemID.RainbowGun).AddIngredient(ItemID.PearlwoodBow).AddIngredient(ModContent.ItemType<MeldiateBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
             int num118 = 3;
-            Vector2 vector7 = new Vector2(speedX, speedY);
+            Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 60f;
             bool flag11 = Collision.CanHit(vector, 0, 0, vector + vector7, 0, 0);
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     value9 -= vector7;
                 }
-                int rainbow = Projectile.NewProjectile(vector.X + value9.X, vector.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int rainbow = Projectile.NewProjectile(source, vector.X + value9.X, vector.Y + value9.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
                 Main.projectile[rainbow].usesLocalNPCImmunity = true;
                 Main.projectile[rainbow].localNPCHitCooldown = 10;
             }
@@ -102,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-15, 16) * 0.01f;
                 float speedY5 = num79 + (float)Main.rand.Next(-15, 16) * 0.01f;
-                int rainbow2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int rainbow2 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
                 Main.projectile[rainbow2].usesLocalNPCImmunity = true;
                 Main.projectile[rainbow2].localNPCHitCooldown = 10;
             }

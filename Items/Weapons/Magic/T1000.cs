@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,11 +48,11 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).AddIngredient(ModContent.ItemType<Purge>()).AddIngredient(ModContent.ItemType<PurgeGuzzler>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 12).AddIngredient(ModContent.ItemType<DivineGeode>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootVelocity = velocity;
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-            Projectile.NewProjectile(position, shootDirection, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, shootDirection, type, damage, knockback, player.whoAmI);
             return false;
         }
     }

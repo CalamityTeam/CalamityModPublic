@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,16 +40,16 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 v = new Vector2(speedX, speedY);
+            Vector2 v = velocity;
             float offset = 3f;
 
             // Fire four orbs at once
-            Projectile.NewProjectile(position, v + offset * Vector2.UnitX, type, damage, knockBack, player.whoAmI, 1f);
-            Projectile.NewProjectile(position, v - offset * Vector2.UnitX, type, damage, knockBack, player.whoAmI, 1f);
-            Projectile.NewProjectile(position, v + offset * Vector2.UnitY, type, damage, knockBack, player.whoAmI, 1f);
-            Projectile.NewProjectile(position, v - offset * Vector2.UnitY, type, damage, knockBack, player.whoAmI, 1f);
+            Projectile.NewProjectile(source, position, v + offset * Vector2.UnitX, type, damage, knockback, player.whoAmI, 1f);
+            Projectile.NewProjectile(source, position, v - offset * Vector2.UnitX, type, damage, knockback, player.whoAmI, 1f);
+            Projectile.NewProjectile(source, position, v + offset * Vector2.UnitY, type, damage, knockback, player.whoAmI, 1f);
+            Projectile.NewProjectile(source, position, v - offset * Vector2.UnitY, type, damage, knockback, player.whoAmI, 1f);
             return false;
         }
 

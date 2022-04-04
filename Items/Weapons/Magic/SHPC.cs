@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,21 +37,15 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-35, -10);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-35, -10);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
             }
             else
             {
@@ -72,15 +67,15 @@ namespace CalamityMod.Items.Weapons.Magic
             return 0.14f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 for (int shootAmt = 0; shootAmt < 3; shootAmt++)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPL>(), damage, knockBack * 0.5f, player.whoAmI, 0f, 0f);
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPL>(), damage, knockback * 0.5f, player.whoAmI, 0f, 0f);
                 }
                 return false;
             }
@@ -88,9 +83,9 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 for (int shootAmt = 0; shootAmt < 3; shootAmt++)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPB>(), (int)(damage * 1.1), knockBack, player.whoAmI, 0f, 0f);
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPB>(), (int)(damage * 1.1), knockback, player.whoAmI, 0f, 0f);
                 }
                 return false;
             }

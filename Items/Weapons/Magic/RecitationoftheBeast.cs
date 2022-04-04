@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,20 +41,20 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 20;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float spread = 60f * 0.0174f;
-            double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
+            double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
             double deltaAngle = spread / 6f;
             double offsetAngle;
             int i;
             for (i = 0; i < 3; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), type, damage, knockBack, Main.myPlayer, 0f, 0f);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), type, damage, knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(source, player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), type, damage, knockback, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(source, player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), type, damage, knockback, Main.myPlayer, 0f, 0f);
             }
             return false;
         }

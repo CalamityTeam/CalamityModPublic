@@ -1,9 +1,9 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {

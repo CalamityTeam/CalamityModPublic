@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,12 +37,9 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 16f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num72 = Item.shootSpeed;
@@ -74,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num133 *= num80;
                 float x2 = vector2.X;
                 float y2 = vector2.Y;
-                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<PlagueFang>(), damage, knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<PlagueFang>(), damage, knockback, Main.myPlayer, 0f, 0f);
             }
             return false;
         }

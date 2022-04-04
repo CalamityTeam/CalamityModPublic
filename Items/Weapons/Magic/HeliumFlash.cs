@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Weapons.Magic
         // TODO -- Fancy visual flare doesn't work with resprited Helium Flash, adjust dust positions
         /*
         // Creates dust at the tip of the staff when used.
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 dir = new Vector2(speedX, speedY);
-            double angle = Math.Atan2(speedY, speedX) + MathHelper.PiOver4;
+            Vector2 dir = velocity;
+            double angle = Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver4;
             dir = dir.SafeNormalize(Vector2.Zero);
             dir *= 64f * 1.4142f; // distance to gleaming point on staff
             Vector2 dustPos = position + dir;

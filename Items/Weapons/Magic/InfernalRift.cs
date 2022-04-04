@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).AddIngredient(ItemID.SkyFracture).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddIngredient(ItemID.SoulofFright, 10).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num72 = Item.shootSpeed;
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Vector2 vector15 = new Vector2(num78, num79).SafeNormalize(Vector2.UnitY) * num72;
             vector14 = vector14.SafeNormalize(vector15) * num72;
             vector14 = Vector2.Lerp(vector14, vector15, 0.25f);
-            Projectile.NewProjectile(vector13, vector14, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, vector13, vector14, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

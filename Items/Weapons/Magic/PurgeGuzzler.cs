@@ -1,6 +1,8 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4.5f;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
             Item.shoot = ModContent.ProjectileType<HolyLaser>();
             Item.shootSpeed = 6f;
 
@@ -36,13 +38,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
-
             // Fire extra lasers to the left and right
-            Projectile.NewProjectile(position, velocity.RotatedBy(-Spread), type, damage, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position, velocity.RotatedBy(+Spread), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(-Spread), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(+Spread), type, damage, knockback, player.whoAmI);
 
             // Still also fire the center laser
             return true;

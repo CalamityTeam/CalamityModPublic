@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine tooltips = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
             if (line != null)
                 line.OverrideColor = new Color((int)MathHelper.Lerp(156f, 255f, Main.DiscoR / 256f), 108, 251);

@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,13 +37,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 25f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 beadVelocity = new Vector2(speedX, speedY) + Main.rand.NextVector2Square(-2.5f, 2.5f);
-            Projectile.NewProjectile(position, beadVelocity, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Vector2 beadVelocity = velocity + Main.rand.NextVector2Square(-2.5f, 2.5f);
+            Projectile.NewProjectile(source, position, beadVelocity, type, damage, knockback, player.whoAmI);
 
             if (Main.rand.NextBool(3))
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LightBall>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LightBall>(), damage * 2, knockback, player.whoAmI);
 
             return false;
         }

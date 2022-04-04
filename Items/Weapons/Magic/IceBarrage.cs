@@ -3,6 +3,8 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.mana = 180;
             Item.noMelee = true;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/IceBarrageCast");
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
@@ -43,22 +45,16 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useAmmo = ModContent.ItemType<BloodRune>();
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return CalamityGlobalItem.HasEnoughAmmo(player, Item, 2);
-        }
+        public override bool CanUseItem(Player player) => CalamityGlobalItem.HasEnoughAmmo(player, Item, 2);
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            return false;
-        }
+        public override bool CanConsumeAmmo(Player player) => false;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             vector2.X = Main.mouseX + Main.screenPosition.X;
             vector2.Y = Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, vector2, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
 
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 2);
 
@@ -70,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe(1).AddIngredient(ItemID.BlizzardStaff).AddIngredient(ItemID.IceRod).AddIngredient(ModContent.ItemType<IcicleStaff>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18).AddTile(TileID.IceMachine).Register();
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle rectangle)
         {
             player.itemLocation.X -= 8f * player.direction;
             player.itemRotation = player.direction * MathHelper.ToRadians(-45f);

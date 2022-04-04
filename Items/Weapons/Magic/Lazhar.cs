@@ -36,13 +36,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
-        }
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            velocity.X += (float)Main.rand.Next(-15, 16) * 0.05f;
+            velocity.Y += (float)Main.rand.Next(-15, 16) * 0.05f;
+		}
 
         public override void AddRecipes()
         {

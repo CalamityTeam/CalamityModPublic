@@ -1,9 +1,10 @@
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -37,25 +38,22 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 24f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num106 = 2 + Main.rand.Next(3);
             for (int num107 = 0; num107 < num106; num107++)
             {
                 float num110 = 0.025f * (float)num107;
-                speedX += (float)Main.rand.Next(-35, 36) * num110;
-                speedY += (float)Main.rand.Next(-35, 36) * num110;
-                float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                velocity.X += (float)Main.rand.Next(-35, 36) * num110;
+                velocity.Y += (float)Main.rand.Next(-35, 36) * num110;
+                float num84 = velocity.Length();
                 num84 = Item.shootSpeed / num84;
-                speedX *= num84;
-                speedY *= num84;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Leaf, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                velocity.X *= num84;
+                velocity.Y *= num84;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
+                Projectile.NewProjectile(source, position, velocity, ProjectileID.Leaf, damage, knockback, player.whoAmI);
             }
             return false;
         }
