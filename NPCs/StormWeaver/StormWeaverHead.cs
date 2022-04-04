@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             soundCenter = Main.player[Main.myPlayer].Center;
 
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
 
                             if (Main.netMode != NetmodeID.Server)
                             {
@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
                     else
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
 
                     NPC.localAI[1] = 2f;
 

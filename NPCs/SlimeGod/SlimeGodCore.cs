@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         calamityGlobalNPC.newAI[2] = NPC.life;
                         calamityGlobalNPC.newAI[3] = 1f;
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SlimeGodPossession"), (int)NPC.position.X, (int)NPC.position.Y);
                     }
                 }
 
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         NPC.ai[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         NPC.velocity = Vector2.UnitY * -12f;
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SlimeGodExit"), (int)NPC.position.X, (int)NPC.position.Y);
                         for (int i = 0; i < 20; i++)
                         {
                             int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);

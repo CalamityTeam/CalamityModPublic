@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (seeker.type == NPC.type)
                     {
                         if (seeker == NPC)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), SCal.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), SCal.Center);
                         break;
                     }
                 }

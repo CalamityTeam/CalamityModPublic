@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 174;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVortex"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/OldDukeVortex"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
             }
 
             if (Projectile.timeLeft > 85)

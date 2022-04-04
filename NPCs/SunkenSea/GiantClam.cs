@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.SunkenSea
                                 NPC.netUpdate = true;
                                 NPC.noGravity = false;
                                 attack = -1;
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)NPC.position.X, (int)NPC.position.Y);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)NPC.position.X, (int)NPC.position.Y);
                                 for (int stompDustArea = (int)NPC.position.X - 30; stompDustArea < (int)NPC.position.X + NPC.width + 60; stompDustArea += 30)
                                 {
                                     for (int stompDustAmount = 0; stompDustAmount < 5; stompDustAmount++)

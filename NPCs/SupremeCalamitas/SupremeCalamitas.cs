@@ -1014,7 +1014,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             for (int i = 0; i < 24; i++)
                             {
-                                Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
+                                Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
                                 brimstoneFire.color = Color.Red;
                                 brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                                 brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
@@ -1044,7 +1044,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         for (int i = 0; i < 24; i++)
                         {
-                            Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
+                            Dust brimstoneFire = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Torch);
                             brimstoneFire.color = Color.Red;
                             brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
                             brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
@@ -1363,7 +1363,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num824 *= 0.5f;
                         }
@@ -1440,7 +1440,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
                                 num827 = num828 / num827;
                                 num825 *= num827;
@@ -1469,7 +1469,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
                                 num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
                                 num827 = num828 / num827;
                                 num825 *= num827;
@@ -1498,7 +1498,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 for (int num186 = 0; num186 < 8; num186++)
                                 {
                                     num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -1561,7 +1561,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
                         }
 
                         NPC.ai[1] = 2f;
@@ -1615,7 +1615,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num413 *= 0.5f;
                         }
@@ -1680,7 +1680,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                                 num415 = player.position.X + (player.width / 2) - vector40.X;
                                 num416 = player.position.Y + (player.height / 2) - vector40.Y;
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -1731,7 +1731,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.HeldItem;
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num833 *= 0.5f;
                         }
@@ -1801,7 +1801,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 float num837 = 5f * uDieLul;
                                 int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
                                 num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
@@ -1868,7 +1868,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), NPC.Center);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SupremeCalamitasSpawn"), NPC.Center);
                     }
                 }
 
@@ -2017,7 +2017,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num824 *= 0.5f;
                         }
@@ -2093,7 +2093,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             int randomShot = Main.rand.Next(6);
                             if (randomShot == 0 && canFireSplitingFireball)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
                                 num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
@@ -2122,7 +2122,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                             else if (randomShot == 1 && canFireSplitingFireball)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
                                 num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
@@ -2151,7 +2151,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                             else
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
                                 for (int num186 = 0; num186 < 8; num186++)
@@ -2210,7 +2210,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
                         }
 
                         NPC.ai[1] = 2f;
@@ -2262,7 +2262,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num413 *= 0.5f;
                         }
@@ -2327,7 +2327,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                                 num415 = player.position.X + (player.width / 2) - vector40.X;
                                 num416 = player.position.Y + (player.height / 2) - vector40.Y;
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -2379,7 +2379,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
                             num833 *= 0.5f;
                         }
@@ -2452,7 +2452,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 NPC.localAI[1] = 0f;
                                 float num837 = 5f * uDieLul;
                                 int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
@@ -2567,7 +2567,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.netUpdate = true;
                 }
 
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
             }
         }
 

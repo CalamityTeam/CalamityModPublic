@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (Main.player[NPC.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 NPC.TargetClosest(false);
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/SepulcherDeath"), Main.player[NPC.target].Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/SepulcherDeath"), Main.player[NPC.target].Center);
                 NPC.life = 0;
                 NPC.HitEffect();
                 NPC.active = false;

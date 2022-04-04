@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.npc[OwnerIndex].Calamity().newAI[2] % laserFireRate == 0f)
             {
                 // Play a laser sound to go with the beams.
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Main.npc[OwnerIndex].Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Main.npc[OwnerIndex].Center);
 
                 if (Projectile.owner == Main.myPlayer)
                 {

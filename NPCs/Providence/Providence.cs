@@ -727,7 +727,7 @@ namespace CalamityMod.NPCs.Providence
                             Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
 
                         if (calamityGlobalNPC.newAI[3] == 10f && nightTime)
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyRay"), (int)NPC.position.X, (int)NPC.position.Y);
 
                         if (calamityGlobalNPC.newAI[3] > 10f && calamityGlobalNPC.newAI[3] < 150f)
                         {
@@ -1270,7 +1270,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
                             {
-                                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"),
+                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyRay"),
                                     (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
                             }
 
@@ -1331,7 +1331,7 @@ namespace CalamityMod.NPCs.Providence
             if (DeathAnimationTimer == 1f)
             {
                 if (Main.netMode != NetmodeID.Server && Main.LocalPlayer.WithinRange(NPC.Center, 4800f))
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceDeathAnimation").WithVolume(1.65f), Main.LocalPlayer.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceDeathAnimation").WithVolume(1.65f), Main.LocalPlayer.Center);
 
                 DespawnSpecificProjectiles();
 
@@ -1353,7 +1353,7 @@ namespace CalamityMod.NPCs.Providence
             // above defeat scene sound.
             if (DeathAnimationTimer == 92f)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyBlastImpact"), NPC.Center);
                 SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionBoom>(), 0, 0f);
@@ -1921,7 +1921,7 @@ namespace CalamityMod.NPCs.Providence
             if (NPC.soundDelay == 0 && !Dying)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), NPC.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/ProvidenceHurt"), NPC.Center);
             }
 
             int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;

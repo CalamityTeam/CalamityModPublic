@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Reduce acceleration if target is holding a true melee weapon.
             Item targetSelectedItem = Target.inventory[Target.selectedItem];
-            if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+            if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                 acceleration *= 0.5f;
 
             int verticalSpeed = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (PunchCounter >= PunchCounterLimit)
                 {
                     PunchCounter = 0f;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
                     int type = ModContent.ProjectileType<SupremeCataclysmFist>();
                     int damage = NPC.GetProjectileDamage(type);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
                     DartBurstCounter = 0f;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
 
                     // TODO -- Consider changing this to use RotatedBy or ToRotationVector2.
                     float speed = 7f;

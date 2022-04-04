@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Skies;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             // Nuke explosion sound
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
 
             // Nuke gores
             Gore.NewGore(Projectile.position, Projectile.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);

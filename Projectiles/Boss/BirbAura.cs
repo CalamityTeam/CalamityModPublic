@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     timer = 15f;
                     Vector2 fireFrom = new Vector2(target.Center.X, target.Center.Y - 900f);
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)target.Center.X, (int)target.Center.Y - 300);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)target.Center.X, (int)target.Center.Y - 300);
                     Vector2 ai0 = target.Center - fireFrom;
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;

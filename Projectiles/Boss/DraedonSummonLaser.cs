@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
                 for (int i = 0; i < 36; i++)
                 {
                     Dust exoDust = Dust.NewDustPerfect(Projectile.BottomRight, 267);
