@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         if (screamTimer == screamLimit)
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CorvinaScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/CorvinaScream"), (int)NPC.position.X, (int)NPC.position.Y);
                             if (Main.netMode != NetmodeID.Server)
                             {
                                 if (!Main.player[NPC.target].dead && Main.player[NPC.target].active)

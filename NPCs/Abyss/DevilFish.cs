@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DevilFishMask" + i), 1f);
                 }
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/DevilMaskBreak"), (int)NPC.position.X, (int)NPC.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/DevilMaskBreak"), (int)NPC.position.X, (int)NPC.position.Y);
             }
 
             if (NPC.wet)

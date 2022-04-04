@@ -97,14 +97,14 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.soundDelay <= 0)
                 {
                     NPC.soundDelay = 420;
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
             }
             else
             {
                 if (Main.rand.NextBool(900))
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
             }
             if (NPC.ai[2] > 0f)

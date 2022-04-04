@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
@@ -85,11 +85,11 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.soundDelay = 360;
                 if (hasBeenHit)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
                 else
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperSearchRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperSearchRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                 }
             }
             if (phase3 || phase1)
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.Abyss
                             Main.dust[num21].noLight = true;
                             Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                         }
-                        SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     }
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= (float)num16)

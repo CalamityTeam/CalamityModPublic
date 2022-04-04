@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (!CalamityWorld.downedAquaticScourge)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
                 string sulfSeaBoostKey = "Mods.CalamityMod.WetWormBossText";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;

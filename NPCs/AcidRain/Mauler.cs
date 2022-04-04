@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Roar as a telegraph. The placement of the sound is offset such that the player and ideally determine the determine where the charge will come from.
             if (AttackTimer == chargeDelay - telegraphTime)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), Target.Center + Target.SafeDirectionTo(NPC.Center) * 300f);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"), Target.Center + Target.SafeDirectionTo(NPC.Center) * 300f);
 
             // Charge.
             if (AttackTimer == chargeDelay)
