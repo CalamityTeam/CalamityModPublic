@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
@@ -37,7 +37,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 3).AddIngredient(ItemID.Granite, 5).AddIngredient(ItemID.Marble, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnyGoldBar", 3)
+                .AddIngredient(ItemID.Granite, 5)
+                .AddIngredient(ItemID.Marble, 5)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

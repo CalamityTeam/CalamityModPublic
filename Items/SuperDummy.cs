@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.NormalNPCs;
+﻿using CalamityMod.NPCs.NormalNPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -97,7 +97,9 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.TargetDummy).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.TargetDummy)
+                .Register();
         }
     }
 }

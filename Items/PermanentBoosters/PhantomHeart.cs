@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -54,7 +54,11 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RuinousSoul>(), 10).AddIngredient(ModContent.ItemType<Phantoplasm>(), 100).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<RuinousSoul>(10)
+                .AddIngredient<Phantoplasm>(100)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -56,7 +56,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.BlueBerries).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<UnholyEssence>(), 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.LifeFruit, 5)
+                .AddIngredient(ItemID.BlueBerries)
+                .AddIngredient<UeliaceBar>(10)
+                .AddIngredient<DivineGeode>(10)
+                .AddIngredient<UnholyEssence>(20)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -55,7 +55,15 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.OrangeBloodroot).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddIngredient(ItemID.SoulofMight, 5).AddIngredient(ItemID.SoulofSight, 5).AddIngredient(ItemID.SoulofFright, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.LifeFruit, 5)
+                .AddIngredient(ItemID.OrangeBloodroot)
+                .AddIngredient<BloodOrb>(10)
+                .AddIngredient(ItemID.SoulofMight, 5)
+                .AddIngredient(ItemID.SoulofSight, 5)
+                .AddIngredient(ItemID.SoulofFright, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

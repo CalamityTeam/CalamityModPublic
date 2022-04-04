@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,10 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 16).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<WulfrumShard>(16)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

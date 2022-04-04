@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +62,10 @@ Right click to use as a hammer");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<CruptixBar>(7)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

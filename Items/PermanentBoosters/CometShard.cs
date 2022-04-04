@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +53,12 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 10).AddIngredient(ItemID.FallenStar, 20).AddIngredient(ModContent.ItemType<Stardust>(), 150).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.MeteoriteBar, 10)
+                .AddIngredient(ItemID.FallenStar, 20)
+                .AddIngredient<Stardust>(150)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

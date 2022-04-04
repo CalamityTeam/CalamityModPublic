@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -57,7 +57,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.SkyBlueFlower).AddIngredient(ItemID.FragmentSolar, 15).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 2).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.LifeFruit, 5)
+                .AddIngredient(ItemID.SkyBlueFlower)
+                .AddIngredient(ItemID.FragmentSolar, 15)
+                .AddIngredient<HellcasterFragment>(2)
+                .AddIngredient<AscendantSpiritEssence>()
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

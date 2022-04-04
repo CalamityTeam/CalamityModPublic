@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -25,7 +25,11 @@ namespace CalamityMod.Items
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddIngredient(ItemID.IronBar, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<SulfuricScale>(20)
+                .AddIngredient(ItemID.IronBar, 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

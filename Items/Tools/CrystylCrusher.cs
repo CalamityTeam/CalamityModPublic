@@ -118,7 +118,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("LunarPickaxe").AddIngredient(ModContent.ItemType<BlossomPickaxe>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe()
+                .AddRecipeGroup("LunarPickaxe")
+                .AddIngredient<BlossomPickaxe>()
+                .AddIngredient<ShadowspecBar>(5)
+                .AddTile<DraedonsForge>()
+                .Register();
         }
     }
 }

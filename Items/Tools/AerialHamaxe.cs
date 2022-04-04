@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,11 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.SunplateBlock, 5).AddTile(TileID.SkyMill).Register();
+            CreateRecipe()
+                .AddIngredient<AerialiteBar>(6)
+                .AddIngredient(ItemID.SunplateBlock, 5)
+                .AddTile(TileID.SkyMill)
+                .Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

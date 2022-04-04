@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -55,7 +55,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LifeFruit, 5).AddIngredient(ItemID.TealMushroom).AddIngredient(ModContent.ItemType<TrapperBulb>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.LifeFruit, 5)
+                .AddIngredient(ItemID.TealMushroom)
+                .AddIngredient<TrapperBulb>(5)
+                .AddIngredient<BarofLife>(5)
+                .AddIngredient<LivingShard>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +53,13 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 25).AddIngredient(ModContent.ItemType<AstralBar>(), 25).AddIngredient(ItemID.FragmentNebula, 20).AddIngredient(ItemID.FallenStar, 50).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.MeteoriteBar, 25)
+                .AddIngredient<AstralBar>(25)
+                .AddIngredient(ItemID.FragmentNebula, 20)
+                .AddIngredient(ItemID.FallenStar, 50)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

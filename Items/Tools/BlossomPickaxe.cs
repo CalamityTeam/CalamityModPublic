@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +37,10 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<UeliaceBar>(7)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

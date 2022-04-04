@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -60,7 +60,14 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<InfernaCutter>()).AddRecipeGroup("LunarHamaxe").AddIngredient(ModContent.ItemType<MolluskHusk>(), 10).AddIngredient(ModContent.ItemType<DraedonBar>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<InfernaCutter>()
+                .AddRecipeGroup("LunarHamaxe")
+                .AddIngredient<MolluskHusk>(10)
+                .AddIngredient<DraedonBar>(5)
+                .AddIngredient<UeliaceBar>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

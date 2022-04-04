@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,7 +42,12 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SandBlock, 50).AddRecipeGroup("AnyAdamantiteBar", 10).AddIngredient(ItemID.AncientCloth, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SandBlock, 50)
+                .AddRecipeGroup("AnyAdamantiteBar", 10)
+                .AddIngredient(ItemID.AncientCloth, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,7 +25,10 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CalamitousEssence>()).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 3).Register();
+            CreateRecipe()
+                .AddIngredient<CalamitousEssence>()
+                .AddIngredient<BloodstoneCore>(3)
+                .Register();
         }
     }
 }

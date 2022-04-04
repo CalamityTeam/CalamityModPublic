@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,7 +36,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 15).AddIngredient(ItemID.Gel, 30).AddIngredient(ItemID.HellstoneBar, 5).AddTile(ModContent.TileType<StaticRefiner>()).Register();
+            CreateRecipe()
+                .AddIngredient<PurifiedGel>(15)
+                .AddIngredient(ItemID.Gel, 30)
+                .AddIngredient(ItemID.HellstoneBar, 5)
+                .AddTile<StaticRefiner>()
+                .Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

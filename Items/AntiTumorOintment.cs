@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -27,7 +27,11 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ItemID.BottledWater).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.DemoniteBar, 5)
+                .AddIngredient(ItemID.BottledWater)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

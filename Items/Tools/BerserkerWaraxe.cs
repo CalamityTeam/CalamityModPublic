@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,10 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 9).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<DraedonBar>(9)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

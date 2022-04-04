@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -73,7 +73,13 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FellerofEvergreens>()).AddIngredient(ItemID.PurificationPowder, 20).AddIngredient(ItemID.PixieDust, 20).AddIngredient(ItemID.CrystalShard, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<FellerofEvergreens>()
+                .AddIngredient(ItemID.PurificationPowder, 20)
+                .AddIngredient(ItemID.PixieDust, 20)
+                .AddIngredient(ItemID.CrystalShard, 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

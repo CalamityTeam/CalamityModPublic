@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
@@ -28,7 +28,11 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LivingShard>(), 2).AddIngredient(ItemID.Silk, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<LivingShard>(2)
+                .AddIngredient(ItemID.Silk, 5)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

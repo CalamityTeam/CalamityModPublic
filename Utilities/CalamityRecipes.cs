@@ -1,4 +1,4 @@
-using CalamityMod.Items;
+﻿using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Critters;
@@ -28,16 +28,64 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 2).AddTile(TileID.WorkBenches).ReplaceResult(ItemID.Leather);
-            CreateRecipe(1).AddIngredient(ItemID.Lens).AddIngredient(ItemID.BlackDye).AddTile(TileID.DyeVat).ReplaceResult(ItemID.BlackLens);
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 5).AddTile(TileID.Anvils).ReplaceResult(ItemID.FallenStar);
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<HallowedOre>(), 4).AddTile(TileID.AdamantiteForge).ReplaceResult(ItemID.HallowedBar);
-            CreateRecipe(20).AddIngredient(ItemID.EmptyBullet, 20).AddIngredient(ItemID.ExplosivePowder, 1).AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI);
-            CreateRecipe(1).AddIngredient(ItemID.StoneBlock, 5).AddIngredient(ItemID.Ruby, 2).AddIngredient(ItemID.HealingPotion).AddTile(TileID.Anvils).ReplaceResult(ItemID.LifeCrystal);
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlantyMush>(), 10).AddIngredient(ModContent.ItemType<LivingShard>()).AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.LifeFruit);
-            CreateRecipe(33).AddIngredient(ItemID.Torch, 33).AddIngredient(ModContent.ItemType<SeaPrism>()).AddTile(TileID.Anvils).ReplaceResult(ItemID.UltrabrightTorch);
-            CreateRecipe(1).AddIngredient(ItemID.PiggyBank).AddIngredient(ItemID.Feather, 2).AddIngredient(ModContent.ItemType<BloodOrb>()).AddIngredient(ItemID.GoldCoin, 15).AddRecipeGroup("AnyGoldBar", 8).AddTile(TileID.Anvils).ReplaceResult(ItemID.MoneyTrough);
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SuperDummy>()).AddTile(TileID.Anvils).ReplaceResult(ItemID.TargetDummy);
+            CreateRecipe()
+                .AddIngredient(ItemID.Vertebrae, 2)
+                .AddTile(TileID.WorkBenches)
+                .ReplaceResult(ItemID.Leather);
+
+            CreateRecipe()
+                .AddIngredient(ItemID.Lens)
+                .AddIngredient(ItemID.BlackDye)
+                .AddTile(TileID.DyeVat)
+                .ReplaceResult(ItemID.BlackLens);
+
+            CreateRecipe()
+                .AddIngredient<Stardust>(5)
+                .AddTile(TileID.Anvils)
+                .ReplaceResult(ItemID.FallenStar);
+
+            CreateRecipe()
+                .AddIngredient<HallowedOre>(4)
+                .AddTile(TileID.AdamantiteForge)
+                .ReplaceResult(ItemID.HallowedBar);
+
+            CreateRecipe(20)
+                .AddIngredient(ItemID.EmptyBullet, 20)
+                .AddIngredient(ItemID.ExplosivePowder, 1)
+                .AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI);
+
+            CreateRecipe()
+                .AddIngredient(ItemID.StoneBlock, 5)
+                .AddIngredient(ItemID.Ruby, 2)
+                .AddIngredient(ItemID.HealingPotion)
+                .AddTile(TileID.Anvils)
+                .ReplaceResult(ItemID.LifeCrystal);
+
+            CreateRecipe()
+                .AddIngredient<PlantyMush>(10)
+                .AddIngredient<LivingShard>()
+                .AddTile(TileID.MythrilAnvil)
+                .ReplaceResult(ItemID.LifeFruit);
+
+            CreateRecipe(33)
+                .AddIngredient(ItemID.Torch, 33)
+                .AddIngredient<SeaPrism>()
+                .AddTile(TileID.Anvils)
+                .ReplaceResult(ItemID.UltrabrightTorch);
+
+            CreateRecipe()
+                .AddIngredient(ItemID.PiggyBank)
+                .AddIngredient(ItemID.Feather, 2)
+                .AddIngredient<BloodOrb>()
+                .AddIngredient(ItemID.GoldCoin, 15)
+                .AddRecipeGroup("AnyGoldBar", 8)
+                .AddTile(TileID.Anvils)
+                .ReplaceResult(ItemID.MoneyTrough);
+
+            CreateRecipe()
+                .AddIngredient<SuperDummy>()
+                .AddTile(TileID.Anvils)
+                .ReplaceResult(ItemID.TargetDummy);
         }
 
         // Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
@@ -381,17 +429,6 @@ namespace CalamityMod
                 s.requiredItem[0].stack = 4;
             });
         }
-
-        // Change the recipes to be like 1.4
-        private static void EditTier3HardmodeBarRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.AdamantiteBar || x.createItem.type == ItemID.TitaniumBar).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 4;
-            });
-        }
-
 
         // Change the recipes to be consistent on each tier and less cost for pickaxe. (I'm aware some recipes already have the proper recipe amounts but consider this futureproofing and laziness)
         private static void EditHardmodeOreSetRecipes()
