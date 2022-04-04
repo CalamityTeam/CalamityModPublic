@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), target.Center);
             if (chargeCooldown > 0)
                 return;
             chargeCooldown = 60;

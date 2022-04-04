@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Projectile.ai[0] == 0f)
             {
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/YanmeiKnifeHit"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/YanmeiKnifeHit"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 Projectile.ai[0] = 1f;
             }
             Main.player[Projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             if (Time == 25f)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BossRushEnd"), Main.LocalPlayer.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BossRushEnd"), Main.LocalPlayer.Center);
 
             Projectile.Center = Owner.Center;
             BossRushEvent.SyncEndTimer((int)Time);

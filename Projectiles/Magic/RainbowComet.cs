@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
                     dust.noGravity = true;
                 }
 
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), Projectile.Center);
             }
         }
     }

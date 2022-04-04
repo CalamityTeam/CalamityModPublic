@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Pets
                         idleBarkTimer++;
                         if (idleBarkTimer > 1080 && Main.rand.NextBool(2))
                         {
-                            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/KendraBark"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/KendraBark"), (int)Projectile.position.X, (int)Projectile.position.Y);
                             chosenIdle = 3;
                             idleBarkTimer = 0;
                             idleTimer = 0;

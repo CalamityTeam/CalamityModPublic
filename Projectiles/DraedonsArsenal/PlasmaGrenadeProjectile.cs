@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaGrenadeExplosion"), (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaGrenadeExplosion"), (int)Projectile.position.X, (int)Projectile.position.Y);
             if (Projectile.Calamity().stealthStrike)
             {
                 if (Main.myPlayer == Projectile.owner)

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (!playedSound)
                 {
-                    SoundEngine.PlaySound(Main.rand.NextBool(100) ? Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater") : Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                    SoundEngine.PlaySound(Main.rand.NextBool(100) ? SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/Sunskater") : SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
                     playedSound = true;
                 }
             }

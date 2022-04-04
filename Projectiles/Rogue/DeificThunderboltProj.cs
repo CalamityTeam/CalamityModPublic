@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                 bool stealthStrike = Projectile.Calamity().stealthStrike;
                 if (stealthStrike)
                 {
-                    SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 }
                 int amt = stealthStrike ? 5 : 1;
                 float damageMult = stealthStrike ? 0.5f : 1f;

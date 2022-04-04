@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(Projectile.damage * 0.2), 0f, Projectile.owner);
                 }
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 // Stealth strikes also cause any existing fireballs to home in on their targets
                 FireballStuff(true);
 
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             else if (PanType == SearedPanTypes.Golden)
             {
                 modPlayer.searedPanCounter = 0;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 // Golden pans simply cause all fireballs to home in on their targets
                 FireballStuff(true);
             }

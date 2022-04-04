@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostAI()
         {
             if (Projectile.frameCounter == 0)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
 
             // Determine frames.
             Projectile.frameCounter++;

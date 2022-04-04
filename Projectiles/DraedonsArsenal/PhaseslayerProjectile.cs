@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private void OnShrinkEffects()
         {
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle"), Projectile.Center);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/MechGaussRifle"), Projectile.Center);
             if (Main.dedServ)
                 return;
 
@@ -254,7 +254,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 // The sound delay doubles as the sword beam's cooldown.
                 Projectile.soundDelay = SwordBeamCooldown;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), Projectile.Center);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ELRFire"), Projectile.Center);
             }
         }
 

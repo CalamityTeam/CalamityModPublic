@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 90;
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BazookaRocket"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BazookaRocket"), (int)Projectile.position.X, (int)Projectile.position.Y);
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 30f)

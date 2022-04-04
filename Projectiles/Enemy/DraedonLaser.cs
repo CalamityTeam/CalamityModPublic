@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (Projectile.localAI[0] == 0f)
             {
                 // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
-                var sound = SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), Projectile.Center);
+                var sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
                 if (sound != null)
                     sound.Volume *= 0.35f;
 

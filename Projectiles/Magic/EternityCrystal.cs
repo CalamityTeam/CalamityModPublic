@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 randomCirclePointVector = randomCirclePointVector.RotatedBy(MathHelper.TwoPi / starPoints);
             }
-            SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
+            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
             Projectile.Kill();
         }
         public override bool PreDraw(ref Color lightColor)
