@@ -1,7 +1,8 @@
-using CalamityMod.Items.Placeables.FurnitureExo;
+﻿using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             chest = "Exo Chest";
-            chestDrop = ModContent.ItemType<ExoChest>();
+            ChestDrop = ModContent.ItemType<ExoChest>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -41,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
