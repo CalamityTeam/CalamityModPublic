@@ -40,13 +40,11 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.AngelicAllianceHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y); ;
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip4")
-                {
-                    line2.text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
-                }
-            }
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to grace yourself in divinity for 15 seconds";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

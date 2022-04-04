@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Tools
 {
@@ -91,13 +92,10 @@ namespace CalamityMod.Items.Tools
         {
             if (Item.useStyle == ItemUseStyleID.Shoot)
             {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.Mod == "Terraria" && line2.Name == "TileBoost")
-                    {
-                        line2.text = "";
-                    }
-                }
+                TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "TileBoost");
+
+                if (line != null)
+                    line.Text = "";
             }
         }
 

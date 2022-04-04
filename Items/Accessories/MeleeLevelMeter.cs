@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -105,11 +106,11 @@ namespace CalamityMod.Items.Accessories
                     critGain = 3;
                     break;
             }
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
-                {
-                    line2.text = "Tells you how high your melee proficiency is\n" +
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null)
+                line.Text = "Tells you how high your melee proficiency is\n" +
                 "While equipped you will gain melee proficiency faster\n" +
                 "The higher your melee level the higher your melee damage, speed, and critical strike chance\n" +
                 "Melee proficiency (max of 12500): " + (level - (level > 12500 ? 1 : 0)) + "\n" +
@@ -117,8 +118,6 @@ namespace CalamityMod.Items.Accessories
                 "Melee damage increase: " + damageGain + "%\n" +
                 "Melee speed increase: " + meleeSpeed + "%\n" +
                 "Melee crit increase: " + critGain + "%";
-                }
-            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

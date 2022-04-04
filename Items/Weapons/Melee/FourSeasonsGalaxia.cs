@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -107,17 +107,29 @@ namespace CalamityMod.Items.Weapons.Melee
                 return;
             }
 
-            effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
-            effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
+            if (effectDescTooltip != null)
+            {
+                effectDescTooltip.Text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+                effectDescTooltip.OverrideColor = mainAttunement.tooltipColor;
+            }
 
-            passiveDescTooltip.text = mainAttunement.passive_description;
-            passiveDescTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
+            if (passiveDescTooltip != null)
+            {
+                passiveDescTooltip.Text = mainAttunement.passive_description;
+                passiveDescTooltip.OverrideColor = mainAttunement.tooltipPassiveColor;
+            }
 
-            mainAttunementTooltip.text = "Active Attunement : [" + mainAttunement.name + "]";
-            mainAttunementTooltip.overrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+            if (mainAttunementTooltip != null)
+            {
+                mainAttunementTooltip.Text = "Active Attunement : [" + mainAttunement.name + "]";
+                mainAttunementTooltip.OverrideColor = Color.Lerp(mainAttunement.tooltipColor, mainAttunement.tooltipColor2, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+            }
 
-            blessingTooltip.text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
-            blessingTooltip.overrideColor = mainAttunement.tooltipPassiveColor;
+            if (blessingTooltip != null)
+            {
+                blessingTooltip.Text = "Passive Blessing : [" + mainAttunement.passive_name + "]";
+                blessingTooltip.OverrideColor = mainAttunement.tooltipPassiveColor;
+            }
         }
         #endregion
 

@@ -44,13 +44,10 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.PlaguePackHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            foreach (TooltipLine line in list)
-            {
-                if (line.Mod == "Terraria" && line.Name == "Tooltip3")
-                {
-                    line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts";
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts";
         }
 
         public override void AddRecipes()

@@ -35,13 +35,10 @@ namespace CalamityMod.Items
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.NormalityRelocatorHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
-                {
-                    line2.text = "Press " + hotkey + " to teleport to the position of the mouse";
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to teleport to the position of the mouse";
         }
 
         public override void UpdateInventory(Player player)

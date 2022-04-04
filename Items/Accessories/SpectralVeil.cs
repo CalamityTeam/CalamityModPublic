@@ -32,13 +32,10 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.SpectralVeilHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip1")
-                {
-                    line2.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable";
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a mid-range teleport and render you momentarily invulnerable";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

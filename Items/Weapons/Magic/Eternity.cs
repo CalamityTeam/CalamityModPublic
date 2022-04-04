@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -51,8 +51,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
-            tt2.text = $"[" + DisoHex + "There's pictures of ponies in the book]";
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null)
+                line.Text = $"[" + DisoHex + "There's pictures of ponies in the book]";
         }
         public static string DisoHex => "c/" +
             ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2")

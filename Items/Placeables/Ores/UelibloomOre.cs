@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -25,19 +25,8 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.width = 10;
             Item.height = 10;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Red;
-            Item.value = Item.sellPrice(silver: 50);
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
         }
     }
 }

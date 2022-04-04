@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -105,11 +106,11 @@ namespace CalamityMod.Items.Accessories
                     critGain = 3;
                     break;
             }
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
-                {
-                    line2.text = "Tells you how high your ranged proficiency is\n" +
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null)
+                line.Text = "Tells you how high your ranged proficiency is\n" +
                 "While equipped you will gain ranged proficiency faster\n" +
                 "The higher your ranged level the higher your ranged damage, critical strike chance, and movement speed\n" +
                 "Ranged proficiency (max of 12500): " + (level - (level > 12500 ? 1 : 0)) + "\n" +
@@ -117,8 +118,6 @@ namespace CalamityMod.Items.Accessories
                 "Ranged damage increase: " + damageGain + "%\n" +
                 "Movement speed increase: " + moveSpeed + "%\n" +
                 "Ranged crit increase: " + critGain + "%";
-                }
-            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

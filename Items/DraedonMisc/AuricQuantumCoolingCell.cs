@@ -36,7 +36,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria").overrideColor = Color.DarkRed;
+            tooltips.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria").OverrideColor = Color.DarkRed;
             CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5, true);
         }
 

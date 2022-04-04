@@ -34,13 +34,10 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.AstralArcanumUIHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
-                {
-                    line2.text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

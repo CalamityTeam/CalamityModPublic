@@ -1,10 +1,11 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -36,11 +37,10 @@ namespace CalamityMod.Items.Accessories
                 heldItem = player.ActiveItem();
 
             // Replace the vanilla tooltip with a full stat readout
-            foreach (TooltipLine l in list)
-            {
-                if (l.Mod == "Terraria" && l.Name == "Tooltip0")
-                    l.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null)
+                line.Text = CreateStatMeterTooltip(player, modPlayer, heldItem);
 
             // To save screen space, favorited tooltips do not exist for the Stat Meter
             list.RemoveAll(l => l.Mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
@@ -88,27 +88,27 @@ namespace CalamityMod.Items.Accessories
             // Append item stats only if the held item isn't null, and base it off of the item's damage type.
             if (heldItem != null && !heldItem.IsAir)
             {
-                if (heldItem.melee)
+                if (heldItem.DamageType == DamageClass.Melee)
                 {
                     sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
                         .Append("% | True Melee Damage: ").Append(modPlayer.damageStats[5])
                         .Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
                         .Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
                 }
-                else if (heldItem.ranged)
+                else if (heldItem.DamageType == DamageClass.Ranged)
                 {
                     sb.Append("Ranged Damage: ").Append(modPlayer.damageStats[1])
                         .Append("% | Ranged Crit Chance: ").Append(modPlayer.critStats[1])
                         .Append("%\nAmmo Consumption Chance: ").Append(ammoConsumption).Append("%\n\n");
                 }
-                else if (heldItem.magic)
+                else if (heldItem.DamageType == DamageClass.Magic)
                 {
                     sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
                         .Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
                         .Append("%\nMana Usage: ").Append(manaCost)
                         .Append("% | Mana Regen: ").Append(manaRegen).Append("\n\n");
                 }
-                else if (heldItem.summon)
+                else if (heldItem.DamageType == DamageClass.Summon)
                 {
                     sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
                         .Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");

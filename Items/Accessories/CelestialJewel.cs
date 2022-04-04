@@ -32,13 +32,10 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             string hotkey = CalamityKeybinds.AstralTeleportHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip2")
-                {
-                    line2.text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
@@ -103,31 +103,46 @@ namespace CalamityMod.Items.Weapons.Melee
             var mainAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip3" && x.Mod == "Terraria");
             var secondaryAttunementTooltip = list.FirstOrDefault(x => x.Name == "Tooltip4" && x.Mod == "Terraria");
 
-            //Default stuff
-            effectDescTooltip.text = "Does nothing..yet\nRepairing the blade seems to have improved its attuning capacities";
-            effectDescTooltip.overrideColor = new Color(163, 163, 163);
+            if (effectDescTooltip != null)
+            {
+                //Default stuff
+                effectDescTooltip.Text = "Does nothing..yet\nRepairing the blade seems to have improved its attuning capacities";
+                effectDescTooltip.OverrideColor = new Color(163, 163, 163);
+            }
 
-            mainAttunementTooltip.text = "Main Attunement : [None]";
-            mainAttunementTooltip.overrideColor = new Color(163, 163, 163);
+            if (mainAttunementTooltip != null)
+            {
+                mainAttunementTooltip.Text = "Main Attunement : [None]";
+                mainAttunementTooltip.OverrideColor = new Color(163, 163, 163);
+            }
 
-            secondaryAttunementTooltip.text = "Secondary Attunement : [None]";
-            secondaryAttunementTooltip.overrideColor = new Color(163, 163, 163);
+            if (secondaryAttunementTooltip != null)
+            {
+                secondaryAttunementTooltip.Text = "Secondary Attunement : [None]";
+                secondaryAttunementTooltip.OverrideColor = new Color(163, 163, 163);
+            }
 
             //If theres a main attunement
             if (mainAttunement != null)
             {
-                effectDescTooltip.text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra ;
-                effectDescTooltip.overrideColor = mainAttunement.tooltipColor;
+                if (effectDescTooltip != null)
+                {
+                    effectDescTooltip.Text = mainAttunement.function_description + "\n" + mainAttunement.function_description_extra;
+                    effectDescTooltip.OverrideColor = mainAttunement.tooltipColor;
+                }
 
-                mainAttunementTooltip.text = "Main Attunement : [" + mainAttunement.name + "]";
-                mainAttunementTooltip.overrideColor = mainAttunement.tooltipColor;
+                if (mainAttunementTooltip != null)
+                {
+                    mainAttunementTooltip.Text = "Main Attunement : [" + mainAttunement.name + "]";
+                    mainAttunementTooltip.OverrideColor = mainAttunement.tooltipColor;
+                }
             }
 
             //If theres a secondary attunement
-            if (secondaryAttunement != null)
+            if (secondaryAttunement != null && secondaryAttunementTooltip != null)
             {
-                secondaryAttunementTooltip.text = "Secondary Attunement : [" + secondaryAttunement.name + "]";
-                secondaryAttunementTooltip.overrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
+                secondaryAttunementTooltip.Text = "Secondary Attunement : [" + secondaryAttunement.name + "]";
+                secondaryAttunementTooltip.OverrideColor = Color.Lerp(secondaryAttunement.tooltipColor, Color.Gray, 0.5f);
             }
         }
         #endregion

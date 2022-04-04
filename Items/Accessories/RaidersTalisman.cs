@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -29,13 +30,10 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.Mod == "Terraria" && line2.Name == "Tooltip3")
-                {
-                    line2.text = "Rogue Crit Level: " + critLevel;
-                }
-            }
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+
+            if (line != null)
+                line.Text = "Rogue Crit Level: " + critLevel;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

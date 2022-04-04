@@ -1,9 +1,10 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Potions
 {
@@ -42,13 +43,10 @@ namespace CalamityMod.Items.Potions
         {
             if (Main.LocalPlayer.pStone)
             {
-                foreach (TooltipLine line2 in list)
-                {
-                    if (line2.Mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
-                        line2.text = "Only gives 37 seconds of Potion Sickness";
-                    }
-                }
+                TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+                if (line != null)
+                    line.Text = "Only gives 37 seconds of Potion Sickness";
             }
         }
 

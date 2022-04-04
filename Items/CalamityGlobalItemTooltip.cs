@@ -34,7 +34,7 @@ namespace CalamityMod.Items
                 ApplyRarityColor(item, nameLine);
 
             // If the item is true melee, add a true melee damage number adjacent to the standard damage number.
-            if (item.melee && (item.shoot == ProjectileID.None || trueMelee) && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
+            if (item.DamageType == DamageClass.Melee && (item.shoot == ProjectileID.None || trueMelee) && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
                 TrueMeleeDamageTooltip(item, tooltips);
 
             // Modify all vanilla tooltips before appending mod mechanics (if any).
@@ -993,7 +993,7 @@ namespace CalamityMod.Items
         {
             TooltipLine line = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge1", "You don't have sufficient knowledge to create this yet");
             TooltipLine line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "A specific schematic must be deciphered first");
-            line.overrideColor = line2.overrideColor = Color.Cyan;
+            line.OverrideColor = line2.OverrideColor = Color.Cyan;
 
             bool allowedDueToOldWorld = allowOldWorlds && CalamityWorld.IsWorldAfterDraedonUpdate;
             tooltips.AddWithCondition(line, !ArsenalTierGatedRecipe.HasTierBeenLearned(tier) && !allowedDueToOldWorld);
