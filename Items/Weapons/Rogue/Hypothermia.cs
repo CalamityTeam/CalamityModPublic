@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -45,17 +46,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 16;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int stealthDamage = (int)(damage * 1.2f);
                 for (int i = 0; i < 4; ++i)
                 {
-                    Vector2 chunkVelocity = new Vector2(speedX, speedY).RotatedByRandom(0.07f) * Main.rand.NextFloat(1.1f, 1.18f);
-                    int stealth = Projectile.NewProjectile(position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), stealthDamage, knockBack, player.whoAmI);
+                    Vector2 chunkVelocity = velocity.RotatedByRandom(0.07f) * Main.rand.NextFloat(1.1f, 1.18f);
+                    int stealth = Projectile.NewProjectile(source, position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), stealthDamage, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
@@ -70,10 +71,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             for (int i = 0; i < projAmt; ++i)
             {
-                float SpeedX = speedX + Main.rand.NextFloat(-2f, 2f);
-                float SpeedY = speedY + Main.rand.NextFloat(-2f, 2f);
+                float SpeedX = velocity.X + Main.rand.NextFloat(-2f, 2f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-2f, 2f);
                 int texID = Main.rand.Next(4);
-                Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI, texID, 0f);
+                Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), type, damage, knockback, player.whoAmI, texID, 0f);
             }
 
             return false;

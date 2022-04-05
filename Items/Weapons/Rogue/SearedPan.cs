@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().donorItem = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float mode = 1f;
             if (player.Calamity().searedPanCounter >= 3)
@@ -59,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 player.Calamity().searedPanCounter = 0;
                 mode = 3f;
             }
-            int pan = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, mode);
+            int pan = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, mode);
             if (mode > 1f && pan.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[pan].extraUpdates++;

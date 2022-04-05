@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -47,11 +48,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             flat += lifeAmount * 0.1f * player.RogueDamage();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int dagger = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CorpusAvertorStealth>(), (int)(damage * 3.5f), knockBack * 2f, player.whoAmI);
+                int dagger = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<CorpusAvertorStealth>(), (int)(damage * 3.5f), knockback * 2f, player.whoAmI);
                 if (dagger.WithinBounds(Main.maxProjectiles))
                     Main.projectile[dagger].Calamity().stealthStrike = true;
                 return false;

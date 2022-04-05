@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
@@ -38,7 +39,7 @@ Stealth strikes throw three high speed spears");
             Item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
@@ -46,8 +47,8 @@ Stealth strikes throw three high speed spears");
                 float rotation = MathHelper.ToRadians(3);
                 for (int i = 0; i < numProj + 1; i++)
                 {
-                    Vector2 perturbedSpeed = new Vector2(speedX - 3f, speedY - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), Math.Max(damage / 3, 1), knockBack, player.whoAmI);
+                    Vector2 perturbedSpeed = new Vector2(velocity.X - 3f, velocity.Y - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), Math.Max(damage / 3, 1), knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }

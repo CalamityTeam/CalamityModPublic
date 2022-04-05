@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -38,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 18;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 18;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Checks if stealth is avalaible to shoot a spread of 3 darts
             if (player.Calamity().StealthStrikeAvailable())
@@ -48,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float spread = 7;
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX * 1.25f, speedY * 1.25f).RotatedBy(MathHelper.ToRadians(spread));
-                    int p = Projectile.NewProjectile(position, perturbedspeed, ModContent.ProjectileType<MonkeyDart>(), Math.Max(damage / 3, 1), knockBack, player.whoAmI, 1);
+                    Vector2 perturbedspeed = new Vector2(velocity.X * 1.25f, velocity.Y * 1.25f).RotatedBy(MathHelper.ToRadians(spread));
+                    int p = Projectile.NewProjectile(source, position, perturbedspeed, ModContent.ProjectileType<MonkeyDart>(), Math.Max(damage / 3, 1), knockback, player.whoAmI, 1);
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().stealthStrike = true;
                     spread -= 7;

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -61,7 +62,7 @@ Stealth strikes launch all 4 sphere types at once");
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int sphereType = Utils.SelectRandom(Main.rand, new int[]
             {
@@ -85,15 +86,15 @@ Stealth strikes launch all 4 sphere types at once");
 
                 foreach (int projectileType in projectilesToShoot)
                 {
-                    Vector2 shootVelocity = new Vector2(speedX, speedY) + Main.rand.NextVector2Square(-1.5f, 1.5f);
-                    int stealth = Projectile.NewProjectile(position, shootVelocity, projectileType, (int)(damage * 0.625f), knockBack, player.whoAmI);
+                    Vector2 shootVelocity = velocity + Main.rand.NextVector2Square(-1.5f, 1.5f);
+                    int stealth = Projectile.NewProjectile(source, position, shootVelocity, projectileType, (int)(damage * 0.625f), knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), sphereType, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, sphereType, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

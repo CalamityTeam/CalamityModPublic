@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,11 +42,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe(1).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddRecipeGroup("AnyAdamantiteBar", 4).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stabDevice = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                int stabDevice = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (stabDevice.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stabDevice].Calamity().stealthStrike = true;
                 return false;

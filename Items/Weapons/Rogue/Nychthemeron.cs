@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int orbDamage = (int)(damage * 0.75f);
 
@@ -62,21 +63,21 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int j = 0; j < Item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
-                    int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockBack, player.whoAmI, 0f, 1f);
+                    int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + Main.rand.NextFloat(-spread, spread), velocity.Y + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockback, player.whoAmI, 0f, 1f);
                     Projectile p = Main.projectile[pIndex];
                     if (pIndex.WithinBounds(Main.maxProjectiles))
                         p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, (int)(orbDamage * 0.675f), knockBack, pID, player, true);
+                    CreateOrbs(position, (int)(orbDamage * 0.675f), knockback, pID, player, true);
                 }
             }
             else
             {
-                int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 int pID = Main.projectile[pIndex].identity;
 
-                CreateOrbs(position, orbDamage, knockBack, pID, player, false);
+                CreateOrbs(position, orbDamage, knockback, pID, player, false);
             }
             return false;
         }
@@ -103,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 30).AddIngredient(ItemID.LightShard).AddIngredient(ItemID.DarkShard).AddRecipeGroup("AnyMythrilBar", 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player, bool stealth)
+        private static void CreateOrbs(Vector2 position, int damage, float knockback, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
 
@@ -149,8 +150,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 rotationOffset += MathHelper.ToRadians(72f);
             }
 
-            int orb1 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb1Col, projectileID);
-            int orb2 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb2Col, projectileID);
+            int orb1 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb1Col, projectileID);
+            int orb2 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb2Col, projectileID);
             if (orb1.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[orb1].localAI[1] = pos;

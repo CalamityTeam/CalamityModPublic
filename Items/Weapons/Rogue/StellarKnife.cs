@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -39,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 4;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[Item.shoot] < knifeLimit)
             {
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     knifeAmt = knifeLimit - player.ownedProjectileCounts[Item.shoot];
                 if (knifeAmt <= 0)
                 {
-                    int knife = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    int knife = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                     if (knife.WithinBounds(Main.maxProjectiles))
                         Main.projectile[knife].Calamity().stealthStrike = true;
                 }
@@ -60,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
                 {
-                    speedX *= 0.9f;
-                    Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int knife2 = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
+                    velocity.X *= 0.9f;
+                    Vector2 perturbedspeed = new Vector2(velocity.X, velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int knife2 = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
                     if (knife2.WithinBounds(Main.maxProjectiles))
                         Main.projectile[knife2].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1, 3);

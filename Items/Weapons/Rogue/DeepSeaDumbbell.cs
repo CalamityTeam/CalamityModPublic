@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -73,11 +74,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Reset flex multiplier on direct hits.
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) => flexMult = 1f;
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => flexMult = 1f;
         public override void OnHitPvp(Player player, Player target, int damage, bool crit) => flexMult = 1f;
 
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Alt fire doesn't actually shoot anything. It flexes, increasing the damage of the next attack.
             if (player.altFunctionUse == 2)
@@ -89,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
                 damage = (int)(damage * 1.3);
 
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = true;
 

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,18 +35,18 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 10f;
             Item.autoReuse = true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool bloodMoon = Main.bloodMoon;
-            Vector2 initialVelocity = new Vector2(speedX, speedY);
+            Vector2 initialVelocity = velocity;
             if (bloodMoon)
             {
-                knockBack *= 3f;
+                knockback *= 3f;
             }
             if (player.Calamity().StealthStrikeAvailable())
             {
                 initialVelocity *= 2f;
-                int p = Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockback, player.whoAmI);
                 if (p.WithinBounds(Main.maxProjectiles))
                     Main.projectile[p].Calamity().stealthStrike = true;
             }
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 initialVelocity *= Main.rand.NextFloat(0.85f, 1.3f);
                 initialVelocity = initialVelocity.RotatedByRandom(MathHelper.ToRadians(10f)); //random spread
-                Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectile>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectile>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

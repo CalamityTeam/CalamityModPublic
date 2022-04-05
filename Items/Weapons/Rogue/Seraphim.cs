@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Rogue;
@@ -47,10 +48,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe(1).AddIngredient(ModContent.ItemType<ShatteredSun>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
-            int knife = Projectile.NewProjectile(position + velocity, velocity, type, damage, knockBack, player.whoAmI);
+
+            int knife = Projectile.NewProjectile(source, position + velocity, velocity, type, damage, knockback, player.whoAmI);
             if (Main.projectile.IndexInRange(knife))
                 Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 
@@ -62,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     float offsetAngle = MathHelper.Lerp(-0.97f, 0.97f, i / (float)(StealthStrikeLightCount - 1f));
                     Vector2 lightShootVelocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 23f;
-                    Projectile.NewProjectile(position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), stealthDamage, knife, player.whoAmI, 1f);
+                    Projectile.NewProjectile(source, position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), stealthDamage, knife, player.whoAmI, 1f);
                 }
             }
             return false;

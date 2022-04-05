@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -36,13 +37,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                speedX *= 0.7f;
-                speedY *= 0.7f;
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                velocity.X *= 0.7f;
+                velocity.Y *= 0.7f;
+                int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[proj].Calamity().stealthStrike = true;
@@ -56,7 +57,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MangroveChakram>()).AddIngredient(ModContent.ItemType<FlameScythe>()).AddIngredient(ModContent.ItemType<TerraDisk>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MangroveChakram>()).
+                AddIngredient(ModContent.ItemType<FlameScythe>()).
+                AddIngredient(ModContent.ItemType<TerraDisk>()).
+                AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).
+                AddIngredient(ModContent.ItemType<BarofLife>(), 5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

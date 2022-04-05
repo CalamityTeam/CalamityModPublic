@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
@@ -60,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
 
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             position += velocity * 3f;
-            int proj = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && Main.projectile.IndexInRange(proj))
                 Main.projectile[proj].Calamity().stealthStrike = true;
             return false;
