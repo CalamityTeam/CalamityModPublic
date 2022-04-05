@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
@@ -40,25 +41,25 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 8;
 
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<Cinquedea>()).AddRecipeGroup("AnyMythrilBar", 6).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.6f, ModContent.ProjectileType<StormfrontRazorProjectile>(), (int)(damage * 1.1f), knockBack, player.whoAmI, 0, 10f);
+                int p = Projectile.NewProjectile(source, position, velocity * 1.6f, ModContent.ProjectileType<StormfrontRazorProjectile>(), (int)(damage * 1.1f), knockback, player.whoAmI, 0, 10f);
                 if (p.WithinBounds(Main.maxProjectiles))
                     Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<StormfrontRazorProjectile>(), damage, knockBack, player.whoAmI, 0, 1f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<StormfrontRazorProjectile>(), damage, knockback, player.whoAmI, 0, 1f);
                 return false;
             }
         }

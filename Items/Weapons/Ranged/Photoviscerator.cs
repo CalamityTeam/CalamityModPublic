@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -65,15 +66,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-15, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Alt fire: Shoot an Exo Flare Cluster.
             if (player.altFunctionUse == 2)
             {
                 int projID = ModContent.ProjectileType<ExoFlareCluster>();
-                Vector2 velocity = new Vector2(speedX, speedY);
+
                 position += velocity.ToRotation().ToRotationVector2() * 80f;
-                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * AltFireShootSpeed, projID, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.SafeNormalize(Vector2.Zero) * AltFireShootSpeed, projID, damage, knockback, player.whoAmI);
                 return false;
             }
 
@@ -81,18 +82,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Left click: Exo Fire, with a chance of Exo Light Bombs.
             for (int i = 0; i < 2; i++)
             {
-                Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f) * Main.rand.NextFloat(0.97f, 1.03f);
-                Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
+
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             if (player.itemAnimation == 1)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Vector2 velocity = new Vector2(speedX, speedY) * 0.7f;
+
                     position += velocity.ToRotation().ToRotationVector2() * 64f;
                     int yDirection = (i == 0).ToDirectionInt();
                     velocity = velocity.RotatedBy(0.2f * yDirection);
-                    Projectile lightBomb = Projectile.NewProjectileDirect(position, velocity, ModContent.ProjectileType<ExoLight>(), damage, knockBack, player.whoAmI);
+                    Projectile lightBomb = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<ExoLight>(), damage, knockback, player.whoAmI);
 
                     lightBomb.localAI[1] = yDirection;
                     lightBomb.netUpdate = true;

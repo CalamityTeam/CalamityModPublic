@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,18 +37,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
 
                 if (type == ProjectileID.WoodenArrowFriendly)
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockback, player.whoAmI);
                 else
                 {
-                    int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }

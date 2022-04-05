@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
             float sSpeed = Item.shootSpeed;
@@ -85,13 +86,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 vector2 += new Vector2(num208, num209);
             }
-            Projectile.NewProjectile(position.X, position.Y - player.gravDir * 4f, num208, num209, type, damage, knockback, i, 0f, (float)Main.rand.Next(12) / 6f);
+            Projectile.NewProjectile(source, position.X, position.Y - player.gravDir * 4f, num208, num209, type, damage, knockback, i, 0f, (float)Main.rand.Next(12) / 6f);
             int num6 = Main.rand.Next(2, 4);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-60, 61) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-60, 61) * 0.05f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-60, 61) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-60, 61) * 0.05f;
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

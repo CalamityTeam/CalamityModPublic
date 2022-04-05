@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -61,7 +62,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).AddRecipeGroup("AnyMythrilBar", 10).AddIngredient(ItemID.SoulofFright, 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddIngredient(ItemID.SoulofFright, 20).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

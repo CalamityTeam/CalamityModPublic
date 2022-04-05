@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -64,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 playerPos.X = Main.mouseX + Main.screenPosition.X;
                 playerPos.Y = Main.mouseY + Main.screenPosition.Y;
                 spinningpoint = spinningpoint.RotatedBy(Math.PI / 2D, default);
-                Projectile.NewProjectile(playerPos + spinningpoint, spinningpoint, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                Projectile.NewProjectile(source, playerPos + spinningpoint, spinningpoint, type, damage, knockback, player.whoAmI, 0f, 1f);
             }
             return false;
         }

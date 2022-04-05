@@ -172,6 +172,7 @@ namespace CalamityMod.NPCs
             "Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
             "Ortho", // <@!264984390910738432> (Worcuus#5225)
             "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
+            "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
         };
         #endregion
 

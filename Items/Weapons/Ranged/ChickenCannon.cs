@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ChickenCannonHeld>()] <= 0 || player.altFunctionUse == 2;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Play a sound and detonate all in-flight rockets, but don't shoot anything.
             if (player.altFunctionUse == 2)
@@ -62,10 +64,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 return false;
             }
 
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI, 1);
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ChickenCannonHeld>(), 0, 0f, player.whoAmI, 1);
             // Otherwise just play a grenade launcher sound and fire a rocket.
             //Main.PlaySound(SoundID.Item61, position);
-            //Projectile.NewProjectile(position, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
+            //Projectile.NewProjectile(source, position, velocity, item.shoot, damage, knockback, player.whoAmI);
             return false;
         }
 

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -56,41 +57,41 @@ namespace CalamityMod.Items.Weapons.Summon
             return true;
         }
 
-        public static void SummonBaseMechworm(int damage, float knockBack, Player owner, out int tailIndex)
+        public static void SummonBaseMechworm(IEntitySource source, int damage, float knockback, Player owner, out int tailIndex)
         {
             tailIndex = -1;
             if (Main.myPlayer != owner.whoAmI)
                 return;
 
-            int curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormHead>(), damage, knockBack, owner.whoAmI, 0f, 0f);
-            curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            int curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormHead>(), damage, knockback, owner.whoAmI, 0f, 0f);
+            curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
             int prev = curr;
-            curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
             Main.projectile[prev].localAI[1] = curr;
             prev = curr;
-            curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
             Main.projectile[prev].localAI[1] = curr;
 
             tailIndex = curr;
         }
 
-        public static void AddSegmentToMechworm(int tailIndex, int damage, float knockBack, Player owner)
+        public static void AddSegmentToMechworm(IEntitySource source, int tailIndex, int damage, float knockback, Player owner)
         {
             if (Main.myPlayer != owner.whoAmI)
                 return;
 
             Vector2 spawnPosition = Main.projectile[tailIndex].Center;
             Projectile tailAheadSegment = Main.projectile.Take(Main.maxProjectiles).FirstOrDefault(proj => MechwormBody.SameIdentity(proj, owner.whoAmI, (int)Main.projectile[tailIndex].ai[0]));
-            int body = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner.whoAmI, tailAheadSegment.identity, 0f);
+            int body = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, tailAheadSegment.identity, 0f);
             int body2 = body;
-            body = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner.whoAmI, Main.projectile[body].identity, 0f);
+            body = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[body].identity, 0f);
 
             var m = Main.projectileIdentity;
             Main.projectile[tailIndex].ai[0] = Main.projectile[body].identity;
             Main.projectile[tailIndex].netUpdate = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int head = -1;
             int tail = -1;
@@ -113,9 +114,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
             }
             if (head == -1 && tail == -1)
-                SummonBaseMechworm(damage, knockBack, player, out _);
+                SummonBaseMechworm(source, damage, knockback, player, out _);
             else if (head != -1 && tail != -1)
-                AddSegmentToMechworm(tail, damage, knockBack, player);
+                AddSegmentToMechworm(source, tail, damage, knockback, player);
             return false;
         }
     }

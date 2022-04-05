@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using CalamityMod.TileEntities;
 using CalamityMod.CustomRecipes;
 using System.Collections.Generic;
+using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -56,7 +57,14 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
+                AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

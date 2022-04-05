@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -43,16 +44,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int bulletAmt = 4;
             if (player.altFunctionUse == 2)
             {
                 for (int index = 0; index < bulletAmt; ++index)
                 {
-                    float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
-                    float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
-                    int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    float SpeedX = velocity.X + Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedY = velocity.Y + Main.rand.Next(-30, 31) * 0.05f;
+                    int shot = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
                 return false;
@@ -61,10 +62,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 for (int index = 0; index < bulletAmt; ++index)
                 {
-                    float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
-                    float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedX = velocity.X + Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedY = velocity.Y + Main.rand.Next(-30, 31) * 0.05f;
                     int shredderBoltDamage = (int)(0.85f * damage);
-                    int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ChargedBlast>(), shredderBoltDamage, knockBack, player.whoAmI, 0f, 0f);
+                    int shot = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ChargedBlast>(), shredderBoltDamage, knockback, player.whoAmI, 0f, 0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
                 return false;

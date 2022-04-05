@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,11 +42,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 10).AddTile(TileID.Anvils).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MeteorFistProj>(), damage, knockBack, player.whoAmI, 0f, 4f);
+                int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MeteorFistProj>(), damage, knockback, player.whoAmI, 0f, 4f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;

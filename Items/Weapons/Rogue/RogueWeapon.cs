@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+using Terraria.DataStructures;
+using CalamityMod.CalPlayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         // Simply add the player's dedicated rogue crit chance.
         // Rogue crit isn't boosted by Calamity universal crit boosts, so this won't double-add universal crit.
-        public override void GetWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref int crit)
         {
             crit += player.Calamity().throwingCrit;
         }

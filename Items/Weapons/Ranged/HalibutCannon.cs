@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -37,16 +38,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item38, (int)player.Center.X, (int)player.Center.Y);
 
             int bulletAmt = Main.rand.Next(25, 36);
             for (int index = 0; index < bulletAmt; ++index)
             {
-                float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
-                int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
+                int shot = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                 Main.projectile[shot].timeLeft = 120;
             }
 

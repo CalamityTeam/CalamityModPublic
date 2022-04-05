@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -50,14 +51,14 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
                 if (!player.HasCooldown(Cooldowns.UniverseSplitter.ID))
                 {
                     player.AddCooldown(Cooldowns.UniverseSplitter.ID, CalamityUtils.SecondsToFrames(45));
-                    Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
                     for (int i = 0; i < 36; i++)
                     {
                         float angle = MathHelper.TwoPi / 36f * i + Main.rand.NextFloat(MathHelper.TwoPi / 36f);
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 else
                 {
-                    Projectile.NewProjectile(position, Vector2.UnitY * 3f, ProjectileID.SaucerScrap, 5, 0f, player.whoAmI);
+                    Projectile.NewProjectile(source, position, Vector2.UnitY * 3f, ProjectileID.SaucerScrap, 5, 0f, player.whoAmI);
                 }
             }
             return false;

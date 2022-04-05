@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -42,19 +43,19 @@ Stealth strikes are super fast and pierce infinitely");
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 4;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float ai1 = 0f;
             if (player.Calamity().StealthStrikeAvailable())
             {
-                speedX *= StealthSpeedMult;
-                speedY *= StealthSpeedMult;
+                velocity.X *= StealthSpeedMult;
+                velocity.Y *= StealthSpeedMult;
                 ai1 = 1f;
             }
 
-            int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, ai1);
+            int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, ai1);
             if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

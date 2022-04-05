@@ -1,9 +1,11 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,15 +48,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerUse = 0.32f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
             float offsetAngle = Main.rand.NextFloat(0.2f, 0.4f);
             velocity += player.velocity;
             float velocityAngle = velocity.ToRotation();
-            Projectile projectile = Projectile.NewProjectileDirect(position, velocity, type, damage, knockBack, player.whoAmI, velocityAngle, Main.rand.NextFloat(30f, PulseDragonProjectile.MaximumPossibleOutwardness));
+            Projectile projectile = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockBack, player.whoAmI, velocityAngle, Main.rand.NextFloat(30f, PulseDragonProjectile.MaximumPossibleOutwardness));
             projectile.localAI[0] = 1f;
-            projectile = Projectile.NewProjectileDirect(position, velocity.RotatedBy(offsetAngle), type, damage, knockBack, player.whoAmI, velocityAngle + offsetAngle, Main.rand.NextFloat(30f, PulseDragonProjectile.MaximumPossibleOutwardness));
+            projectile = Projectile.NewProjectileDirect(source, position, velocity.RotatedBy(offsetAngle), type, damage, knockBack, player.whoAmI, velocityAngle + offsetAngle, Main.rand.NextFloat(30f, PulseDragonProjectile.MaximumPossibleOutwardness));
             projectile.localAI[0] = -1f;
             return false;
         }
@@ -63,7 +64,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).AddIngredient(ModContent.ItemType<DubiousPlating>(), 18).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddIngredient(ItemID.LunarBar, 4).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 18).
+                AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).
+                AddIngredient(ItemID.LunarBar, 4).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

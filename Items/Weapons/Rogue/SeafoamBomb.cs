@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -41,11 +42,11 @@ Stealth strikes are faster and explode into 5 bubbles");
             CreateRecipe(1).AddIngredient(ItemID.Bomb, 25).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.Anvils).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX + speedX / 3, speedY + speedY / 3), type, damage, knockBack, player.whoAmI);
+                int stealth = Projectile.NewProjectile(source, position, new Vector2(velocity.X + velocity.X / 3, velocity.Y + velocity.Y / 3), type, damage, knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -38,11 +39,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Convert wooden arrows to Jester's Arrows
             if (type == ProjectileID.WoodenArrowFriendly)
@@ -51,9 +52,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = 0; i < 3; i++)
             {
                 int randomExtraUpdates = Main.rand.Next(3);
-                float SpeedX = speedX + Main.rand.NextFloat(-10f, 10f) * 0.05f;
-                float SpeedY = speedY + Main.rand.NextFloat(-10f, 10f) * 0.05f;
-                int arrow = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                float SpeedX = velocity.X + Main.rand.NextFloat(-10f, 10f) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-10f, 10f) * 0.05f;
+                int arrow = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                 Main.projectile[arrow].noDropItem = true;
                 Main.projectile[arrow].extraUpdates += randomExtraUpdates; //0 to 2 extra updates
                 if (type == ProjectileID.JestersArrow)

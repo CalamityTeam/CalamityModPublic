@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddIngredient(ItemID.Amethyst, 4).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 vector2.X = Main.mouseX + Main.screenPosition.X;
                 vector2.Y = Main.mouseY + Main.screenPosition.Y;
-                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<ApexShark>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<ApexShark>(), damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

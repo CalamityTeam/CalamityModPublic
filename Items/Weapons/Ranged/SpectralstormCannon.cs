@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -45,20 +46,20 @@ namespace CalamityMod.Items.Weapons.Ranged
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-            int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+            float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+            int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             if (flare.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[flare].timeLeft = 200;
                 Main.projectile[flare].Calamity().forceRanged = true;
             }
 
-            float SpeedX2 = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-            float SpeedY2 = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-            int soul = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI, 2f, 0f);
+            float SpeedX2 = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
+            float SpeedY2 = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+            int soul = Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockback, player.whoAmI, 2f, 0f);
             if (soul.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[soul].timeLeft = 600;

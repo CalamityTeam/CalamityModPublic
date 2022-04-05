@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -45,15 +46,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         // Disable vanilla ammo consumption
         public override bool ConsumeAmmo(Player player) => false;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             type = Item.shoot;
             int bulletAmt = Main.rand.Next(25,35);
             for (int i = 0; i < bulletAmt; i++)
             {
-                float newSpeedX = speedX + Main.rand.NextFloat(-15f, 15f);
-                float newSpeedY = speedY + Main.rand.NextFloat(-15f, 15f);
-                Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockBack, player.whoAmI);
+                float newSpeedX = velocity.X + Main.rand.NextFloat(-15f, 15f);
+                float newSpeedY = velocity.Y + Main.rand.NextFloat(-15f, 15f);
+                Projectile.NewProjectile(source, position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockback, player.whoAmI);
             }
 
             // Consume 5 ammo per shot

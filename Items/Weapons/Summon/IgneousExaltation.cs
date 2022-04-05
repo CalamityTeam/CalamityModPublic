@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2 && totalMinionSlots < player.maxMinions)
             {
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 int swordCount = 0;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -36,11 +37,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)(damage * 0.4), 0f, player.whoAmI);
+            float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)(damage * 0.4), 0f, player.whoAmI);
             return true;
         }
 

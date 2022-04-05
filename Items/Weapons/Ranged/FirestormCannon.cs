@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -49,16 +50,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             return 1f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 int num6 = Main.rand.Next(4, 6);
                 for (int index = 0; index < num6; ++index)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockBack, player.whoAmI);
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-50, 51) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-50, 51) * 0.05f;
+                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[flare].penetrate = 1;
@@ -73,9 +74,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                 int num6 = Main.rand.Next(1, 3);
                 for (int index = 0; index < num6; ++index)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[flare].Calamity().forceRanged = true;

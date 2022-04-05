@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float totalSlots = 0f;
             for (int i = 0; i < Main.projectile.Length; i++)
@@ -49,11 +50,11 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             if (totalSlots < player.maxMinions)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<DormantBrimseekerAura>()] <= 0f)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DormantBrimseekerAura>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<DormantBrimseekerAura>(), damage * 2, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -1,10 +1,12 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -50,10 +52,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerAltUse = 0f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
-            Projectile north = Projectile.NewProjectileDirect(Main.MouseWorld + Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-            Projectile south = Projectile.NewProjectileDirect(Main.MouseWorld - Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            Projectile north = Projectile.NewProjectileDirect(source, Main.MouseWorld + Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            Projectile south = Projectile.NewProjectileDirect(source, Main.MouseWorld - Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             north.ai[1] = 1f;
             south.ai[1] = 0f;
 
@@ -74,8 +76,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             {
                 if (Main.projectile[i].type == type && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
                 {
-                    ((PoleWarperSummon)Main.projectile[i].modProjectile).Time = 0f;
-                    ((PoleWarperSummon)Main.projectile[i].modProjectile).AngularOffset = MathHelper.TwoPi * magnetIndex / magnetCount;
+                    ((PoleWarperSummon)Main.projectile[i].ModProjectile).Time = 0f;
+                    ((PoleWarperSummon)Main.projectile[i].ModProjectile).AngularOffset = MathHelper.TwoPi * magnetIndex / magnetCount;
                     magnetIndex++;
                 }
             }
@@ -87,7 +89,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).
+                AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).
+                AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

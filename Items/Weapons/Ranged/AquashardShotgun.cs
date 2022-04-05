@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
@@ -38,25 +39,25 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 6;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num6 = Main.rand.Next(2, 4);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-40, 41) * 0.05f;
 
                 if (type == ProjectileID.Bullet)
                 {
-                    int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockBack, player.whoAmI);
+                    int projectile = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockback, player.whoAmI);
                     Main.projectile[projectile].timeLeft = 200;
                 }
                 else
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

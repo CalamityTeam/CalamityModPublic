@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -46,15 +47,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             int bulletAmt = 4;
             for (int index = 0; index < bulletAmt; ++index)
             {
                 velocity.X += Main.rand.Next(-15, 16) * 0.05f;
                 velocity.Y += Main.rand.Next(-15, 16) * 0.05f;
-                int proj = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
             }
 
@@ -94,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
 
-                int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
@@ -105,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
 
-                proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
@@ -125,7 +126,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
 
-                int proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
@@ -136,7 +137,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
 
-                proj = Projectile.NewProjectile(vector2, velocity2, type, extraBulletDamage, knockBack, player.whoAmI);
+                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;

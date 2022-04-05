@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -70,8 +71,15 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            // Old worlds can craft the cell immediately for the sake of being able to easily fight Draedon in endgame worlds.
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuricBar>(), 2).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8).AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<CoreofEleum>(), 6).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<AuricBar>(), 2).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).
+                AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).
+                AddIngredient(ModContent.ItemType<CoreofEleum>(), 6).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

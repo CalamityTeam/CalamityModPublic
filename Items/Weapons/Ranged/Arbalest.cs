@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -42,9 +43,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 20;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item5, (int)player.Center.X, (int)player.Center.Y);
 
@@ -60,9 +61,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             int spread = (int)(30f * spreadScale);
             for (int i = 0; i < totalProjectiles; i++)
             {
-                float SpeedX = speedX + Main.rand.Next(-spread, spread + 1) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-spread, spread + 1) * 0.05f;
-                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * arrowScale), knockBack * arrowScale, player.whoAmI);
+                float SpeedX = velocity.X + Main.rand.Next(-spread, spread + 1) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-spread, spread + 1) * 0.05f;
+                int proj = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * arrowScale), knockback * arrowScale, player.whoAmI);
                 Main.projectile[proj].scale = arrowScale;
                 Main.projectile[proj].extraUpdates += 1;
                 Main.projectile[proj].noDropItem = true;

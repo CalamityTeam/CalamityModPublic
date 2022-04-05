@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -65,11 +67,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? FullAutoFireRateMult : 1f;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             SoundEngine.PlaySound(SoundID.Item38, position);
             bool doDust = false;
-            Vector2 vel = new Vector2(speedX, speedY);
+            Vector2 vel = velocity;
             int[] bulletIDs = new int[PelletsPerShot];
             float spreadFactor = 1f;
 
@@ -114,7 +116,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = 0; i < PelletsPerShot; ++i)
             {
                 Vector2 rotatedVel = vel.RotatedBy(angleOffset);
-                Projectile.NewProjectile(position, rotatedVel, bulletIDs[i], damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, rotatedVel, bulletIDs[i], damage, knockback, player.whoAmI);
                 angleOffset += Spread * spreadFactor;
 
                 if (doDust)

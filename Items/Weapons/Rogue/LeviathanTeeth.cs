@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool stealthStrike = false;
             int teethCount;
@@ -55,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             for (int i = 0; i < teethCount; i++)
             {
-                float offsetSpeedX = speedX + Main.rand.NextFloat(-4f, 4f);
-                float offsetSpeedY = speedY + Main.rand.NextFloat(-4f, 4f);
+                float offsetSpeedX = velocity.X + Main.rand.NextFloat(-4f, 4f);
+                float offsetSpeedY = velocity.Y + Main.rand.NextFloat(-4f, 4f);
 
                 if (stealthStrike)
                 {
-                    int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX * 1.5f, offsetSpeedY * 1.5f, type, damage, knockBack * 10f, player.whoAmI);
+                    int tooth = Projectile.NewProjectile(source, position.X, position.Y, offsetSpeedX * 1.5f, offsetSpeedY * 1.5f, type, damage, knockback * 10f, player.whoAmI);
                     if (tooth.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[tooth].Calamity().stealthStrike = true;
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 }
                 else
                 {
-                    int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX, offsetSpeedY, type, damage, knockBack, player.whoAmI);
+                    int tooth = Projectile.NewProjectile(source, position.X, position.Y, offsetSpeedX, offsetSpeedY, type, damage, knockback, player.whoAmI);
                     if (tooth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
                 }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityPlayer mp = player.Calamity();
 
@@ -48,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int stealthDamage = damage * 2;
                 float stealthSpeedMult = 1.4f;
-                Vector2 stealthVelocity = new Vector2(speedX, speedY) * stealthSpeedMult;
-                int stealth = Projectile.NewProjectile(position, stealthVelocity, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
+                Vector2 stealthVelocity = velocity * stealthSpeedMult;
+                int stealth = Projectile.NewProjectile(source, position, stealthVelocity, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = true;
             }
@@ -78,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     default:
                         break;
                 }
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), utensil, (int)(damage * dmgMult), knockBack * kbMult, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, utensil, (int)(damage * dmgMult), knockback * kbMult, player.whoAmI);
             }
 
             counter++;

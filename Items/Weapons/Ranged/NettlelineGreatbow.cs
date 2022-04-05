@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -37,12 +39,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
             int num118 = 4;
-            Vector2 vector7 = new Vector2(speedX, speedY);
+            Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 40f;
             bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
@@ -54,13 +56,13 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                int num121 = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -72,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     default:
                         break;
                 }
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                int index = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
             }
             return false;

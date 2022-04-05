@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
@@ -38,12 +39,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter);
             float piOver10 = MathHelper.Pi * 0.1f;
             int totalProjectiles = 5;
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             velocity.Normalize();
             velocity *= 40f;
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                             newType = ModContent.ProjectileType<TyphoonArrow>();
                             break;
                     }
-                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, newType, (int)(damage * 1.1), knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, velocity.X, velocity.Y, newType, (int)(damage * 1.1), knockback, player.whoAmI);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].arrow = true;
@@ -78,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 else
                 {
-                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }

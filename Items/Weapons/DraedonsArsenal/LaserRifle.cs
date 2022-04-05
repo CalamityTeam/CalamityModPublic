@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -72,7 +73,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddIngredient(ItemID.LunarBar, 4).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).
+                AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).
+                AddIngredient(ItemID.LunarBar, 4).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

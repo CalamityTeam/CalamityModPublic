@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (spread > 6)
             {
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 finalShot = true;
             }
 
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             float rotation = MathHelper.ToRadians(spread);
             if (!finalShot)
             {
@@ -76,13 +77,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 for (int i = 0; i < totalLoops; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, velocity.RotatedBy(-rotation * (i + 1)), type, (int)(damage * 0.5), knockBack * 0.5f, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(-rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
                     Main.projectile[proj].extraUpdates += spread;
-                    int proj2 = Projectile.NewProjectile(position, velocity.RotatedBy(+rotation * (i + 1)), type, (int)(damage * 0.5), knockBack * 0.5f, player.whoAmI);
+                    int proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(+rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
                     Main.projectile[proj2].extraUpdates += spread;
                 }
 
-                int proj3 = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, spread);
+                int proj3 = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage, knockback, player.whoAmI, 0f, spread);
                 Main.projectile[proj3].extraUpdates += spread;
 
                 spread++;
@@ -91,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage * 2, knockBack * 2f, player.whoAmI, 0f, 10f);
+                    int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage * 2, knockback * 2f, player.whoAmI, 0f, 10f);
                     Main.projectile[proj].extraUpdates += 9;
                 }
 

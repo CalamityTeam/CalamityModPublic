@@ -1,7 +1,8 @@
-using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.DataStructures
@@ -29,7 +30,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int copy = Projectile.NewProjectile(owner.Center, Vector2.Zero, Type, OriginalDamage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
+            int copy = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, Type, OriginalDamage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
 
             if (Main.projectile.IndexInRange(copy))
             {
@@ -62,7 +63,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int body = Projectile.NewProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), OriginalDamage, OriginalKnockback, owner.whoAmI);
+            int body = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), OriginalDamage, OriginalKnockback, owner.whoAmI);
 
             // If there was not enough space for even the body to be created, don't both trying to create even more projectiles needlessly.
             if (!Main.projectile.IndexInRange(body))
@@ -70,7 +71,7 @@ namespace CalamityMod.DataStructures
 
             while (HeadCount > 0)
             {
-                Projectile.NewProjectile(owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), OriginalDamage, OriginalKnockback, owner.whoAmI, body);
+                Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), OriginalDamage, OriginalKnockback, owner.whoAmI, body);
                 HeadCount--;
             }
         }
@@ -92,7 +93,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            Endogenesis.SummonEndoCooper(AttackMode, Main.MouseWorld, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
+            Endogenesis.SummonEndoCooper(new EntitySource_ByProjectileSourceId(1), AttackMode, Main.MouseWorld, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
             Main.projectile[bodyIndex].Calamity().RequiresManualResurrection = true;
             Main.projectile[limbsIndex].Calamity().RequiresManualResurrection = true;
         }

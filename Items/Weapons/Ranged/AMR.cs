@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -42,19 +44,19 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset() => new Vector2(-30, 0);
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<Shroomer>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet)
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AMRShot>(), damage, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 1.3), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.3), knockback, player.whoAmI);
 
             return false;
         }

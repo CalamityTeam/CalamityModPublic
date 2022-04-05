@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -66,12 +67,12 @@ namespace CalamityMod.Items.Weapons.Summon
                     }
                 }
 
-                Projectile newBlade = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 (newBlade.modProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
                 newBlade.netUpdate = true;
                 swordCount++;
 
-                newBlade = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 (newBlade.modProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
                 newBlade.netUpdate = true;
                 swordCount++;

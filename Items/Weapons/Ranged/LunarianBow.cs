@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -37,12 +39,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float piOver10 = MathHelper.Pi * 0.1f;
             int projAmt = 2;
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             velocity.Normalize();
             velocity *= 15f;
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
@@ -54,10 +56,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
 
                 if (type == ProjectileID.WoodenArrowFriendly)
-                    Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source + offset, velocity, ModContent.ProjectileType<LunarBolt>(), damage, knockback, player.whoAmI);
                 else
                 {
-                    int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source + offset, velocity, type, damage, knockback, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }

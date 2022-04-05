@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonSummoner;
@@ -27,7 +27,12 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ChargingStationItem>()).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).AddIngredient(ModContent.ItemType<DubiousPlating>(), 35).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<ChargingStationItem>()).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 35).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,14 +42,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-14f, 0f);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Always fires Radiant Arrows regardless of ammo used
             type = Item.shoot;
 
             // The arrow appears from a random location "on the bow".
             // They are also moved backwards so that they have some time to build up past positions. This helps make them not appear out of thin air.
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             Vector2 offset = Vector2.Normalize(velocity.RotatedBy(MathHelper.PiOver2));
             position += offset * Main.rand.NextFloat(-19f, 19f);
             position -= 3f * velocity;

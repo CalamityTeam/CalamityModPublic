@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -35,14 +36,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int index = 7;
             for (int i = -index; i <= index; i += index)
             {
                 int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                int spear = Projectile.NewProjectile(position, perturbedSpeed, projType, damage, knockBack, player.whoAmI);
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+                int spear = Projectile.NewProjectile(source, position, perturbedSpeed, projType, damage, knockback, player.whoAmI);
                 if (spear.WithinBounds(Main.maxProjectiles))
                     Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }

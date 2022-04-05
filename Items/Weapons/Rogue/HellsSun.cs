@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,13 +64,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), (int)(damage * SdamageMult), knockBack, player.whoAmI);
+                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<HellsSunProj>(), (int)(damage * SdamageMult), knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[stealth].Calamity().stealthStrike = true;

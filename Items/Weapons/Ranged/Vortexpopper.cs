@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -72,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float scaleFactor2 = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
                 Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default) * scaleFactor2;
-                int num99 = Projectile.NewProjectile(position.X, position.Y, vector6.X, vector6.Y, ProjectileID.Xenopopper, damage, knockBack, player.whoAmI, ai, 0f);
+                int num99 = Projectile.NewProjectile(source, position.X, position.Y, vector6.X, vector6.Y, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
                 Main.projectile[num99].localAI[0] = (float)type;
                 Main.projectile[num99].localAI[1] = 12f;
             }
@@ -97,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.Xenopopper, damage, knockBack, player.whoAmI, ai, 0f);
+                int projectile = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
                 Main.projectile[projectile].localAI[0] = (float)type;
                 Main.projectile[projectile].localAI[1] = 12f;
             }

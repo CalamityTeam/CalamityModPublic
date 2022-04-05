@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -62,14 +63,14 @@ namespace CalamityMod.Items.Weapons.Summon
             return slimeSlots >= 1;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
             float damageMult = ((float)Math.Log(slimeSlots, 8f)) + 1f;
             position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            int slime = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI);
+            velocity.X = 0;
+            velocity.Y = 0;
+            int slime = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * damageMult), knockback, player.whoAmI);
             Main.projectile[slime].minionSlots = slimeSlots;
             return false;
         }

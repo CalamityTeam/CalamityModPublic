@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -77,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     num149 *= num80;
                     float x4 = vector2.X;
                     float y4 = vector2.Y;
-                    int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    int stealth = Projectile.NewProjectile(source, x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
@@ -97,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     num149 *= num80;
                     float x4 = vector2.X;
                     float y4 = vector2.Y;
-                    Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
                 }
             }
             return false;

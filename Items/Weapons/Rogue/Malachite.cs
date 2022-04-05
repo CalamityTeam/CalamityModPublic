@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -65,15 +66,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             return 2f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float dmgMult = 1f;
             if (player.Calamity().StealthStrikeAvailable())
             {
                 for (float i = -6.5f; i <= 6.5f; i += 6.5f)
                 {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, damage * 2, knockBack, player.whoAmI);
+                    Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, type, damage * 2, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 dmgMult = 1f;
             }
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * dmgMult), knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, type, (int)(damage * dmgMult), knockback, player.whoAmI);
             return false;
         }
     }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using System;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Arrow;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
             float num72 = Main.rand.Next(25, 30);
@@ -87,17 +88,17 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i);
+                    int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i);
                     Main.projectile[num121].noDropItem = true;
-                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i);
+                    int num122 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i);
                     Main.projectile[num122].noDropItem = true;
-                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i);
+                    int num123 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i);
                     Main.projectile[num123].noDropItem = true;
                 }
             }

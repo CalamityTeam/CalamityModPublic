@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -65,13 +66,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             return 0.75f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float stealthDamageFactor = player.Calamity().StealthStrikeAvailable() ? 1.25f : 1f;
 
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
             {
-                int bomb = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * stealthDamageFactor), knockBack, player.whoAmI);
+                int bomb = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * stealthDamageFactor), knockback, player.whoAmI);
                 if (bomb.WithinBounds(Main.maxProjectiles))
                     Main.projectile[bomb].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
                 return false;
@@ -81,8 +82,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float dmgMult = 0.5f;
                 for (float i = -2.5f; i < 3f; ++i)
                 {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                    Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * dmgMult * stealthDamageFactor), knockBack, player.whoAmI);
+                    Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+                    Projectile.NewProjectile(source, position, perturbedSpeed, type, (int)(damage * dmgMult * stealthDamageFactor), knockback, player.whoAmI);
                 }
             }
             return false;

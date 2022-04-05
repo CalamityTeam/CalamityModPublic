@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,11 +38,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + Main.rand.NextFloat(-15f, 15f) * 0.05f;
-            float SpeedY = speedY + Main.rand.NextFloat(-15f, 15f) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4, 11), 0f);
+            float SpeedX = velocity.X + Main.rand.NextFloat(-15f, 15f) * 0.05f;
+            float SpeedY = velocity.Y + Main.rand.NextFloat(-15f, 15f) * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, Main.rand.Next(4, 11), 0f);
             return false;
         }
 
