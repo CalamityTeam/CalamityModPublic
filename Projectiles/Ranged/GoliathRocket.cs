@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
                         value20 -= value21 * (float)num517;
                         num518 += Projectile.oldVelocity.X / 6f;
                         num519 += Projectile.oldVelocity.Y / 6f;
-                        int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage(Projectile.damage), Main.player[Projectile.owner].beeKB(0f), Main.myPlayer);
+                        int bee = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), value20.X, value20.Y, num518, num519, Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage(Projectile.damage), Main.player[Projectile.owner].beeKB(0f), Main.myPlayer);
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;

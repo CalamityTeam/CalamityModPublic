@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 vector80 = Projectile.rotation.ToRotationVector2();
-                    Projectile.NewProjectile(Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
 
                 Lighting.AddLight(Projectile.Center, 0.3f, 0.75f, 0.9f);
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2 vector80 = Projectile.rotation.ToRotationVector2();
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
     }
 }

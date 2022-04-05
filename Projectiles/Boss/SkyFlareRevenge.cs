@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.Yharon;
+﻿using CalamityMod.NPCs.Yharon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int type = ModContent.ProjectileType<InfernadoRevenge>();
                 int damage = Projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
-                int nado = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, type, damage, 4f, Main.myPlayer, 16f, 50f);
+                int nado = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, type, damage, 4f, Main.myPlayer, 16f, 50f);
                 Main.projectile[nado].Bottom = Projectile.Center;
                 Main.projectile[nado].netUpdate = true;
             }

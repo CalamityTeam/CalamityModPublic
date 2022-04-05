@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Ranged
             float shootSpeed = heldItem.shootSpeed * 1.5f;
             float knockback = Owner.GetWeaponKnockback(heldItem, heldItem.knockBack);
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;
-            Projectile.NewProjectile(tipPosition, shootVelocity, projectileType, PumpkinDamage, knockback, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), tipPosition, shootVelocity, projectileType, PumpkinDamage, knockback, Projectile.owner, 0f, 0f);
         }
 
         private void UpdateProjectileHeldVariables(Vector2 armPosition)

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
                         int num415 = (int)(Projectile.position.Y + (float)Projectile.height + 4f);
-                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Shaderain>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Shaderain>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
                         {
                             velocity = -Vector2.UnitY;
                         }
-                        Projectile.NewProjectile(source, velocity, projType, dmg, kBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, projType, dmg, kBack, Projectile.owner);
                     }
                 }
                 else if (!canShoot)

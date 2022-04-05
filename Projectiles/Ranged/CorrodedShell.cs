@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Summon;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int aura = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(Projectile.damage * 0.15), Projectile.knockBack, Projectile.owner);
+                    int aura = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(Projectile.damage * 0.15), Projectile.knockBack, Projectile.owner);
                     if (aura.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[aura].Calamity().forceRanged = true;

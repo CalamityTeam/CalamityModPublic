@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Magic
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), Projectile.damage, Projectile.knockBack * 30f, Main.myPlayer, 16f, 16f);
+                int num236 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), Projectile.damage, Projectile.knockBack * 30f, Main.myPlayer, 16f, 16f);
                 Main.projectile[num236].netUpdate = true;
             }
         }

@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 dustVelocity = shootVelocity + dustInaccuracy * dustOnlySpread;
                         if (actuallyShoot)
                         {
-                            Projectile godRay = Projectile.NewProjectileDirect(laserStartPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            Projectile godRay = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), laserStartPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             // Tell this Phased God Ray exactly which way it should be waving.
                             godRay.localAI[1] = i * 0.5f;
                         }

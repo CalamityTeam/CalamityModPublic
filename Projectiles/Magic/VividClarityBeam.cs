@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.localAI[1] >= 29f && Projectile.owner == Main.myPlayer)
             {
                 Projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VividOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VividOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
 
             Projectile.localAI[0] += 1f;

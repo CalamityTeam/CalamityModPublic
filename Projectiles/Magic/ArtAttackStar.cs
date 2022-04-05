@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Magic
 
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        int strike = Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, i);
+                        int strike = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, i);
                         if (Main.projectile.IndexInRange(strike))
                             Main.projectile[strike].Calamity().forceMelee = true;
                     }

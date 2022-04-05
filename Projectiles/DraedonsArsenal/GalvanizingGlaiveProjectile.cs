@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override Action<Projectile> EffectBeforeReelback => proj =>
         {
             Vector2 offset = Projectile.velocity.SafeNormalize(Vector2.UnitY) * Projectile.width;
-            Projectile.NewProjectile(Projectile.Center + offset, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f, ModContent.ProjectileType<GaussEnergy>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + offset, Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f, ModContent.ProjectileType<GaussEnergy>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
         };
 
         public override bool PreDraw(ref Color lightColor)
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextBool(12))
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, Projectile.owner, 0f, target.whoAmI);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, Projectile.owner, 0f, target.whoAmI);
         }
     }
 }

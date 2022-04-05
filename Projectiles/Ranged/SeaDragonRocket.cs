@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int k = 0; k < projAmt; k++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<RocketFire>(), (int)(Projectile.damage * 0.33), 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<RocketFire>(), (int)(Projectile.damage * 0.33), 0f, Projectile.owner);
                 }
             }
         }

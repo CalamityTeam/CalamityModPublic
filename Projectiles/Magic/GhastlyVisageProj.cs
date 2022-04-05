@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Magic
                         vector20 = -Vector2.UnitY;
                     }
                     Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -10f, 10f);
-                    int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
+                    int num44 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
                 }
                 else
                 {

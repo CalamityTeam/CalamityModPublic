@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
                             vector20 = -Vector2.UnitY;
                         }
                         Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(vector21, vector20, num42, weaponDamage2, weaponKnockback2, Projectile.owner);
+                        int num44 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector21, vector20, num42, weaponDamage2, weaponKnockback2, Projectile.owner);
                         Main.projectile[num44].noDropItem = true;
                     }
                 }

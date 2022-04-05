@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f, 0.1f);
-                    int flames = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner);
+                    int flames = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner);
                     if (flames.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[flames].Calamity().forceRanged = true;

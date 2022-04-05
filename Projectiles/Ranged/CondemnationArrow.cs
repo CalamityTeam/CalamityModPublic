@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = -1; i <= 1; i += 2)
                 {
                     Vector2 shootVelocity = Projectile.velocity.RotatedBy(i * 0.036f);
-                    Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<CondemnationArrowHoming>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<CondemnationArrowHoming>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

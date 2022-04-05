@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(Projectile.Center, velocity2 + Vector2.Normalize(Projectile.velocity) * -6f, type, (int)Math.Round(Projectile.damage * 0.5), 0f, Main.myPlayer);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity2 + Vector2.Normalize(Projectile.velocity) * -6f, type, (int)Math.Round(Projectile.damage * 0.5), 0f, Main.myPlayer);
                     }
                 }
             }
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Boss
                 // Explosion waves
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile explosion = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), Projectile.damage, 0f, Main.myPlayer);
+                    Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AresGaussNukeProjectileBoom>(), Projectile.damage, 0f, Main.myPlayer);
                     if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         // Make the max explosion radius decrease over time, creating a ring effect.

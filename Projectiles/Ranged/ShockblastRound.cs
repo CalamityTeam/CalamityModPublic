@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Healing;
+﻿using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Shockblast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.ai[1]);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Shockblast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.ai[1]);
                 Main.projectile[proj].scale = (Projectile.ai[1] * 0.5f) + 1f;
             }
             return true;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Shockblast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.ai[1]);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Shockblast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.ai[1]);
                 Main.projectile[proj].scale = (Projectile.ai[1] * 0.5f) + 1f;
             }
 

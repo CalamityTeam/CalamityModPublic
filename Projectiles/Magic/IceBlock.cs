@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Vector2 projdir = new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-10f, 10f));
                 Vector2 projpos = Projectile.Center + new Vector2(Main.rand.NextFloat(-50f, 50f), Main.rand.NextFloat(-50f, 50f));
-                Projectile.NewProjectile(projpos, projdir, ModContent.ProjectileType<IceBlockIcicle>(), (int)(Projectile.damage * 0.2f), 4f, Projectile.owner, Main.rand.Next(0, 2), 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), projpos, projdir, ModContent.ProjectileType<IceBlockIcicle>(), (int)(Projectile.damage * 0.2f), 4f, Projectile.owner, Main.rand.Next(0, 2), 0f);
             }
         }
     }

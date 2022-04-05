@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] == 60f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExoTornado>(), Projectile.damage, 2f, Projectile.owner, 1f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExoTornado>(), Projectile.damage, 2f, Projectile.owner, 1f, 0f);
             }
             if (Projectile.localAI[1] >= 120f)
             {

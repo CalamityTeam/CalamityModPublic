@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int k = 0; k < totalProjectiles; k++)
                 {
                     Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                    Projectile.NewProjectile(Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer);
                 }
             }
 

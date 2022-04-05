@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                         // Use charge when firing a laser.
                         modItem.Charge -= GatlingLaser.HoldoutChargeUse;
-                        Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, Projectile.knockBack, Projectile.owner, ai0, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, Projectile.knockBack, Projectile.owner, ai0, 0f);
                     }
                     else
                     {

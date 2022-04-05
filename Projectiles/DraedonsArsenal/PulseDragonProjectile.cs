@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             if (Main.myPlayer != Projectile.owner)
                 return;
-            Projectile field = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile field = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (field.whoAmI.WithinBounds(Main.maxProjectiles))
             {
                 field.Calamity().forceMelee = true;

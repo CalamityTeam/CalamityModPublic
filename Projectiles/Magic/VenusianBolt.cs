@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 int explosionDamage = Projectile.damage;
                 float explosionKB = 6f;
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, Projectile.owner);
 
                 int cinderDamage = (int)(Projectile.damage * 0.75);
                 float cinderKB = 0f;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     cinderVel.Normalize();
                     cinderVel *= Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, Projectile.owner);
                 }
             }
         }

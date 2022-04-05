@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 v = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     v.Normalize();
                     v *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, v.X, v.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), cloudDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, v.X, v.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), cloudDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

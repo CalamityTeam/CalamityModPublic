@@ -126,14 +126,14 @@ namespace CalamityMod.Projectiles.Magic
             if (endTile.nactive() && (Main.tileSolid[endTile.TileType] || Main.tileSolidTop[endTile.TileType]) && !endTile.IsHalfBlock && endTile.slope() == 0)
             {
                 Vector2 armSpawnPosition = endOfLaserTileCoords.ToWorldCoordinates();
-                Projectile.NewProjectile(armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), Projectile.damage * 2 / 3, 0f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), Projectile.damage * 2 / 3, 0f, Projectile.owner);
             }
         }
 
         public void CreateTileHitEffects()
         {
             Vector2 endOfLaser = Projectile.Center + Projectile.velocity * (LaserLength - Main.rand.NextFloat(12f, 72f));
-            Projectile.NewProjectile(endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), endOfLaser, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Projectile.owner);
 
             if (Main.rand.NextBool(2))
             {
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Magic
                     cinderSpeed *= 1.2f;
                 }
                 Vector2 cinderVelocity = Vector2.Lerp(-Projectile.velocity, -Vector2.UnitY, 0.45f).RotatedByRandom(0.72f) * cinderSpeed;
-                Projectile.NewProjectile(endOfLaser, cinderVelocity, type, damage, 0f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), endOfLaser, cinderVelocity, type, damage, 0f, Projectile.owner);
             }
 
             FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(endOfLaser + Main.rand.NextVector2Circular(10f, 10f) + Projectile.velocity * 40f, 135f);

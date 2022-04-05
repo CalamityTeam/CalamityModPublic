@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 spawnVelocity = (Projectile.oldPos[i - 1] - Projectile.oldPos[i]).SafeNormalize(Vector2.Zero);
                         spawnVelocity = spawnVelocity.RotatedBy(offsetAngle);
                         spawnVelocity *= Main.rand.NextFloat(12f, 18f);
-                        Projectile.NewProjectile(spawnPosition, spawnVelocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 2f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, spawnVelocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 2f, Projectile.owner);
                     }
                 }
             }

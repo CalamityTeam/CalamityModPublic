@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -115,12 +115,12 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     if (Projectile.localAI[1] == 1f)
                     {
-                        int num230 = Projectile.NewProjectile(Projectile.Center.X - (float)(Projectile.direction * 30), Projectile.Center.Y - 4f, (float)-(float)Projectile.direction * 0.01f, 0f, ModContent.ProjectileType<SeasSearingSpout>(), Projectile.damage, 3f, Projectile.owner, 16f, 8f);
+                        int num230 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X - (float)(Projectile.direction * 30), Projectile.Center.Y - 4f, (float)-(float)Projectile.direction * 0.01f, 0f, ModContent.ProjectileType<SeasSearingSpout>(), Projectile.damage, 3f, Projectile.owner, 16f, 8f);
                         Main.projectile[num230].netUpdate = true;
                     }
                     else
                     {
-                        int num230 = Projectile.NewProjectile(Projectile.Center.X - (float)(Projectile.direction * 30), Projectile.Center.Y - 4f, (float)-(float)Projectile.direction * 0.01f, 0f, ModContent.ProjectileType<WaterSpout>(), Projectile.damage, 3f, Projectile.owner, 16f, 8f);
+                        int num230 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X - (float)(Projectile.direction * 30), Projectile.Center.Y - 4f, (float)-(float)Projectile.direction * 0.01f, 0f, ModContent.ProjectileType<WaterSpout>(), Projectile.damage, 3f, Projectile.owner, 16f, 8f);
                         Main.projectile[num230].netUpdate = true;
                     }
                 }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int k = 0; k < 45; k++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-                    int ice = Projectile.NewProjectile(Projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.05f), 2f, Projectile.owner, 0f, (float)Main.rand.Next(3));
+                    int ice = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.05f), 2f, Projectile.owner, 0f, (float)Main.rand.Next(3));
                     Main.projectile[ice].timeLeft = 600;
                     // Main.projectile[ice].melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                     Main.projectile[ice].Calamity().forceMagic = true;
@@ -138,16 +138,16 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.height = pheight;
                 Projectile.Center = projcenter;
                 Vector2 pos1 = new Vector2(Projectile.Center.X, Projectile.Center.Y - (Projectile.height * 0.5f) - 44f);
-                int block1 = Projectile.NewProjectile(pos1, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 0f, 0f);
+                int block1 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos1, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 0f, 0f);
                 Main.projectile[block1].Center = pos1;
                 Vector2 pos2 = new Vector2(Projectile.Center.X + (Projectile.width * 0.5f) + 48f, Projectile.Center.Y);
-                int block2 = Projectile.NewProjectile(pos2, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 1f, 0f);
+                int block2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos2, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 1f, 0f);
                 Main.projectile[block2].Center = pos2;
                 Vector2 pos3 = new Vector2(Projectile.Center.X, Projectile.Center.Y + (Projectile.height * 0.5f) + 44f);
-                int block3 = Projectile.NewProjectile(pos3, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 2f, 0f);
+                int block3 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos3, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 2f, 0f);
                 Main.projectile[block3].Center = pos3;
                 Vector2 pos4 = new Vector2(Projectile.Center.X - (Projectile.width * 0.5f) - 49f, Projectile.Center.Y);
-                int block4 = Projectile.NewProjectile(pos4, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 3f, 0f);
+                int block4 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos4, Vector2.Zero, ModContent.ProjectileType<IceBlock>(), (int)(Projectile.damage * 0.3f), 5f, Projectile.owner, 3f, 0f);
                 Main.projectile[block4].Center = pos4;
             }
             if (Projectile.ai[0] > 90)
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.ai[1] >= 5f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                    int ice = Projectile.NewProjectile(Projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.05f), 2f, Projectile.owner, 0f, (float)Main.rand.Next(3));
+                    int ice = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.05f), 2f, Projectile.owner, 0f, (float)Main.rand.Next(3));
                     if (ice.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[ice].timeLeft = 600;

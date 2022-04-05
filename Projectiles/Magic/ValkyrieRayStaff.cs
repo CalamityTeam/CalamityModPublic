@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
                 FiringEffects(gemPos);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile laser = Projectile.NewProjectileDirect(gemPos, Projectile.velocity, ModContent.ProjectileType<ValkyrieRayBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile laser = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), gemPos, Projectile.velocity, ModContent.ProjectileType<ValkyrieRayBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     laser.Center = gemPos;
                 }
             }

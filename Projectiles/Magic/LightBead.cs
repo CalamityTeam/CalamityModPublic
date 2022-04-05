@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int b = 0; b < beadAmt; b++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<LightBeadSplit>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<LightBeadSplit>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

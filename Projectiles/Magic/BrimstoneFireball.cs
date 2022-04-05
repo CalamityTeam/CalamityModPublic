@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         velocity.Normalize();
                         velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
-                        Projectile.NewProjectile(Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(Projectile.damage * 0.85), 0f, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(Projectile.damage * 0.85), 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }

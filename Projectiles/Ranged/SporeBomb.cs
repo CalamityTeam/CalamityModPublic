@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int s = 0; s < sporeAmt; s++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int proj = Projectile.NewProjectile(Projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(Projectile.damage * 0.25), 0f, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(Projectile.damage * 0.25), 0f, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceRanged = true;

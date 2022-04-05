@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     Segment segmentToShootFrom = Segments[Main.rand.Next(Segments.Length)];
                     Vector2 shootVelocity = (target.Center - segmentToShootFrom.Center).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.25f) * 18f;
-                    Projectile.NewProjectile(segmentToShootFrom.Center, shootVelocity, ModContent.ProjectileType<ApotheosisEnergy>(), Projectile.damage / 2, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), segmentToShootFrom.Center, shootVelocity, ModContent.ProjectileType<ApotheosisEnergy>(), Projectile.damage / 2, 0f, Projectile.owner);
                 }
 
                 if (Main.rand.NextBool(10))

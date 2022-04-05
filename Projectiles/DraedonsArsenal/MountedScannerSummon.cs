@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.Center,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                                          Projectile.SafeDirectionTo(target.Center, Vector2.UnitY),
                                          ModContent.ProjectileType<MountedScannerLaser>(),
                                          Projectile.damage,

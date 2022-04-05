@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChickenExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChickenExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.Center.X, (int)Projectile.Center.Y);
             for (int i = 0; i < 40; i++)

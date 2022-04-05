@@ -89,13 +89,13 @@ namespace CalamityMod.Projectiles.Boss
                 if (Projectile.ai[0] % 10f == 9f)
                 {
                     Vector2 velocity = new Vector2(0f, -18f).RotatedByRandom(0.7f);
-                    Projectile.NewProjectile(Projectile.Top + new Vector2(Main.rand.NextFloat(-80f, 80f), 100f), velocity,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + new Vector2(Main.rand.NextFloat(-80f, 80f), 100f), velocity,
                         ModContent.ProjectileType<OldDukeSummonDrop>(), 65, 2f);
                 }
                 if (Projectile.ai[0] % 35f == 34f)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-3f, 3f), -7f - Main.rand.NextFloat(4f, 12f)).RotatedByRandom(0.5f);
-                    Projectile.NewProjectile(Projectile.Top + new Vector2(Main.rand.NextFloat(-30f, 30f), 100f), velocity,
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + new Vector2(Main.rand.NextFloat(-30f, 30f), 100f), velocity,
                         ModContent.ProjectileType<OldDukeGore>(), 65, 2f);
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Environment
             {
                 int projectileType = ModContent.ProjectileType<SmokeTelegraph>();
                 float randomVelocity = Main.rand.NextFloat() + 0.5f;
-                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 0, 0f, Projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 0, 0f, Projectile.owner, 0f, 0f);
                 Main.projectile[proj].netUpdate = true;
                 initialized = true;
             }
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Environment
                 projectileType = ModContent.ProjectileType<BrimstoneGeyser>();
             }
             float randomVelocity = Main.rand.NextFloat() + 0.5f;
-            int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 20, 2f, Projectile.owner, 0f, 0f);
+            int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 20, 2f, Projectile.owner, 0f, 0f);
             Main.projectile[proj].friendly = false;
             Main.projectile[proj].netUpdate = true;
         }

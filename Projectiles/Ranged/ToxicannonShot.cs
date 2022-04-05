@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     float angle = MathHelper.TwoPi * i / count;
                     angle += Main.rand.NextFloat(0.1f, 0.35f) * Main.rand.NextBool(2).ToDirectionInt();
-                    Projectile.NewProjectile(Projectile.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 16f),
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 16f),
                         ModContent.ProjectileType<ToxicannonDrop>(), Projectile.damage, 2.5f, Projectile.owner);
                 }
             }

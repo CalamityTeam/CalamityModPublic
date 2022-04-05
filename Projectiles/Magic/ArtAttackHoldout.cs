@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.localAI[0] == 0f)
                 {
                     Vector2 initialStarVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * 15f;
-                    Projectile.NewProjectile(Projectile.Center, initialStarVelocity, ModContent.ProjectileType<ArtAttackStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, initialStarVelocity, ModContent.ProjectileType<ArtAttackStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.localAI[0] = 1f;
                 }
 

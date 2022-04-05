@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyAura>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack * 0.5f, Projectile.owner, Projectile.identity, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyAura>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack * 0.5f, Projectile.owner, Projectile.identity, 0f);
                 spawnedAura = true;
             }
             float dustOffsetX = Projectile.velocity.X * 0.5f;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
                 CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 192);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 //DO NOT REMOVE THIS PROJECTILE
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 
                 int dustType = Main.rand.NextBool(2) ? 107 : 234;
                 if (Main.rand.NextBool(4))
@@ -148,8 +148,8 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < 4; i++)
                 {
                     double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int proj1 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner, 0f, 1f);
-                    int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner, 0f, 1f);
+                    int proj1 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner, 0f, 1f);
+                    int proj2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner, 0f, 1f);
                 }
             }
         }

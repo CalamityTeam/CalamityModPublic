@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
             if (Projectile.owner == Main.myPlayer)
             {
-                int flash = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
+                int flash = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                 Main.projectile[flash].usesLocalNPCImmunity = true;
                 Main.projectile[flash].localNPCHitCooldown = 10;
             }

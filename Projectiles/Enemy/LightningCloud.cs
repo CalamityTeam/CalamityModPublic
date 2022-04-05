@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Enemy
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), Projectile.Center);
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.UnitY * 7f;
-                    Projectile.NewProjectile(Projectile.Bottom, velocity, ProjectileID.CultistBossLightningOrbArc, Projectile.damage, 0f, Projectile.owner, MathHelper.PiOver2, ai);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Bottom, velocity, ProjectileID.CultistBossLightningOrbArc, Projectile.damage, 0f, Projectile.owner, MathHelper.PiOver2, ai);
                 }
             }
 

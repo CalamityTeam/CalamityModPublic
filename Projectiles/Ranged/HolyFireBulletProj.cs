@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int blastDamage = (int)(Projectile.damage * HolyFireBullet.ExplosionMultiplier);
                 float scale = 0.85f + Main.rand.NextFloat() * 1.15f;
-                int boom = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, Projectile.knockBack, Projectile.owner, 0f, scale);
+                int boom = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, Projectile.knockBack, Projectile.owner, 0f, scale);
 
                 // Only declare the explosion as ranged class if the bullet itself is ranged class.
                 if (boom.WithinBounds(Main.maxProjectiles) && Projectile.ranged)

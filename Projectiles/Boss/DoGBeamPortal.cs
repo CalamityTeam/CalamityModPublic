@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.World;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Boss
                         for (int i = 0; i < totalProjectiles; i++)
                         {
                             Vector2 velocity = new Vector2(0f, -speed).RotatedBy(radians * i);
-                            Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<DoGBeam>(), 0, 0f, Projectile.owner, Projectile.damage, 0f);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DoGBeam>(), 0, 0f, Projectile.owner, Projectile.damage, 0f);
                         }
                     }
                 }

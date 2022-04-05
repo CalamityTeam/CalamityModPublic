@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NorfleetExplosion>(), (int)(Projectile.damage * 0.3), Projectile.knockBack * 0.1f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NorfleetExplosion>(), (int)(Projectile.damage * 0.3), Projectile.knockBack * 0.1f, Projectile.owner);
             }
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);

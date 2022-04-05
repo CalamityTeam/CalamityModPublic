@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Magic
                 SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
 
                 if (Main.myPlayer == Projectile.owner)
-                    Projectile.NewProjectile(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.identity);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.identity);
             }
         }
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     if (targetCount >= MaxLaserCountPerShot)
                         break;
-                    Projectile laser = Projectile.NewProjectileDirect(Projectile.Center,
+                    Projectile laser = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                                                                       Projectile.SafeDirectionTo(target.Center) * 4f,
                                                                       ModContent.ProjectileType<TrackingDiskLaser>(),
                                                                       damage,
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 NPC potentialTarget = Projectile.Center.ClosestNPCAt(MaxTargetSearchDistance);
                 if (potentialTarget != null)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

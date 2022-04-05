@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / ThePrince.FlameSplitCount + offsetAngle).ToRotationVector2() * 8f;
                 Vector2 flameSpawnPosition = Projectile.Center + shootVelocity;
-                Projectile.NewProjectile(flameSpawnPosition, shootVelocity, ModContent.ProjectileType<PrinceFlameSmall>(), damage, kb, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), flameSpawnPosition, shootVelocity, ModContent.ProjectileType<PrinceFlameSmall>(), damage, kb, Projectile.owner);
             }
         }
 

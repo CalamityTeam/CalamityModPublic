@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0f);
             SoundEngine.PlaySound(SoundID.Item62, (int)Projectile.position.X, (int)Projectile.position.Y);
             Projectile.penetrate--;
             if (Projectile.penetrate <= 0)
@@ -88,14 +88,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 1f, 0f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 1f, 0f);
             SoundEngine.PlaySound(SoundID.Item62, (int)Projectile.position.X, (int)Projectile.position.Y);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[Projectile.owner] = 2;
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0f);
         }
     }
 }

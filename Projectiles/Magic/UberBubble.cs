@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int numBubbles = 0; numBubbles < 3; numBubbles++)
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * (Main.rand.NextFloat() * 2f), Projectile.velocity.Y * (Main.rand.NextFloat() * 2f), ModContent.ProjectileType<BlueBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * (Main.rand.NextFloat() * 2f), Projectile.velocity.Y * (Main.rand.NextFloat() * 2f), ModContent.ProjectileType<BlueBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

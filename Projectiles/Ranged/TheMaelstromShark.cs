@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TheMaelstromExplosion>(), Projectile.damage, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TheMaelstromExplosion>(), Projectile.damage, 0f, Projectile.owner);
         }
 
         public override bool PreDraw(ref Color lightColor)

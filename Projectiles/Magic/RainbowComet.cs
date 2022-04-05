@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 18; i++)
                 {
                     Vector2 velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 20f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 1f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PartySparkle>(), Projectile.damage, 1f, Projectile.owner);
                 }
 
                 // And release a bunch of rockets.
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                     velocity = velocity.RotatedBy(MathHelper.Lerp(-1.1f, 1.1f, i / (float)(int)RainbowRocket.PartyCannonExplosionType.Count));
                     velocity *= Main.rand.NextFloat(7f, 15f);
 
-                    Projectile rocket = Projectile.NewProjectileDirect(Projectile.Center, velocity, ModContent.ProjectileType<RainbowRocket>(), Projectile.damage * 3, 1f, Projectile.owner);
+                    Projectile rocket = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<RainbowRocket>(), Projectile.damage * 3, 1f, Projectile.owner);
                     rocket.ai[1] = i;
                 }
             }

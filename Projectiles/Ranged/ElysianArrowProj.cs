@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
             num16 *= num18;
             if (Projectile.owner == Main.myPlayer)
             {
-                int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage / 2, 5f, Projectile.owner, 0f, 0f);
+                int num19 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage / 2, 5f, Projectile.owner, 0f, 0f);
                 Main.projectile[num19].ai[1] = Projectile.position.Y;
             }
         }

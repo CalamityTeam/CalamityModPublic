@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -111,13 +111,13 @@ namespace CalamityMod.Projectiles.Boss
                 if (tornadoType < 5)
                 {
                     int num235 = Main.expertMode ? 180 : 300; //720
-                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), num235, 4f, Main.myPlayer, 16f, 15f + (revenge ? 4f : 0f));
+                    int num236 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), num235, 4f, Main.myPlayer, 16f, 15f + (revenge ? 4f : 0f));
                     Main.projectile[num236].netUpdate = true;
                 }
                 else
                 {
                     int num235 = Main.expertMode ? 230 : 400; //920
-                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado>(), num235, 4f, Main.myPlayer, 16f, 16f + (revenge ? 4f : 0f));
+                    int num236 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado>(), num235, 4f, Main.myPlayer, 16f, 16f + (revenge ? 4f : 0f));
                     Main.projectile[num236].netUpdate = true;
                 }
             }

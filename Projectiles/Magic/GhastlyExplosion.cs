@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     vector8.Normalize();
                     vector8 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), vector8.X, vector8.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, Projectile.ai[0], 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), vector8.X, vector8.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, Projectile.ai[0], 0f);
                     num3 = num119;
                 }
             }

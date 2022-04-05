@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 spread = Main.rand.NextVector2CircularEdge(shootSpeed, shootSpeed);
                         Vector2 shootVelocity = shootDirection * shootSpeed + inaccuracyRatio * spread;
                         Vector2 splitBarrelPos = gunBarrelPos + i * LaserOffsetByAnimationFrame[Projectile.frame] * perp;
-                        Projectile.NewProjectile(splitBarrelPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), splitBarrelPos, shootVelocity, projID, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                         SpawnFiringDust(splitBarrelPos, shootVelocity);
                     }
                 }

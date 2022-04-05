@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -70,11 +70,11 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 CalamityUtils.ExplosionGores(Projectile.Center, 10);
 
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScorchedEarthBlast>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScorchedEarthBlast>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
                 for (int j = 0; j < 5; j++)
                 {
                     Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(8f, 10f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<ScorchedEarthClusterBomb>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ScorchedEarthClusterBomb>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
                 }
             }
         }

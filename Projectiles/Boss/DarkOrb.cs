@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Boss
                             for (int i = 0; i < totalProjectiles; i++)
                             {
                                 Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
-                                Projectile.NewProjectile(Projectile.Center, vector, Projectile.type, Projectile.damage, 0f, Main.myPlayer, Main.rand.Next(6), 0f);
+                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector, Projectile.type, Projectile.damage, 0f, Main.myPlayer, Main.rand.Next(6), 0f);
                             }
                         }
 
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Boss
                             for (int i = 0; i < totalProjectiles; i++)
                             {
                                 Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
-                                Projectile.NewProjectile(Projectile.Center, vector, Projectile.type, Projectile.damage, 0f, Main.myPlayer, Main.rand.Next(2), 0f);
+                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector, Projectile.type, Projectile.damage, 0f, Main.myPlayer, Main.rand.Next(2), 0f);
                             }
                         }
 
@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Boss
                             {
                                 Vector2 vector2 = splitOnce ? Projectile.velocity.RotatedBy(MathHelper.ToRadians(i * spread)) : new Vector2(0f, -3f).RotatedBy(radians * i);
 
-                                int proj = Projectile.NewProjectile(Projectile.Center, vector + vector2, Projectile.type, Projectile.damage, 0f, Main.myPlayer, 8f, 0f);
+                                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector + vector2, Projectile.type, Projectile.damage, 0f, Main.myPlayer, 8f, 0f);
 
                                 Main.projectile[proj].timeLeft = Projectile.timeLeft / 2;
                                 if (Main.projectile[proj].timeLeft < 150)

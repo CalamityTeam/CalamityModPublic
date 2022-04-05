@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
 
             for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver4 / 2f)
             {
-                Projectile.NewProjectile(Projectile.Center, i.ToRotationVector2() * 9f, ModContent.ProjectileType<AstralCrystalInvisibleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, i.ToRotationVector2() * 9f, ModContent.ProjectileType<AstralCrystalInvisibleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 

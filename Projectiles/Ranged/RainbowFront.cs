@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Projectile.localAI[0] > 4f)
                 {
                     Projectile.localAI[0] = 3f;
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * (1f / 1000f), Projectile.velocity.Y * (1f / 1000f), ModContent.ProjectileType<RainbowTrail>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * (1f / 1000f), Projectile.velocity.Y * (1f / 1000f), ModContent.ProjectileType<RainbowTrail>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
                 if (Projectile.timeLeft > num1)
                     Projectile.timeLeft = num1;

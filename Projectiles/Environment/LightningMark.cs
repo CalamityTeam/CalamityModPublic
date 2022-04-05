@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Environment
 
                     int damage = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
 
-                    int proj = Projectile.NewProjectile(fireFrom, velocity, ProjectileID.CultistBossLightningOrbArc, damage, 0f, Projectile.owner, ai0.ToRotation(), ai);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), fireFrom, velocity, ProjectileID.CultistBossLightningOrbArc, damage, 0f, Projectile.owner, ai0.ToRotation(), ai);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].extraUpdates += 11;

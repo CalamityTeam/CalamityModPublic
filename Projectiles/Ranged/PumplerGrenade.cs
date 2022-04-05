@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PumplerGrenadeExplosion>(), (int)(Projectile.damage), Projectile.knockBack, Projectile.owner, NPCHit ? 1 : 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PumplerGrenadeExplosion>(), (int)(Projectile.damage), Projectile.knockBack, Projectile.owner, NPCHit ? 1 : 0);
             }
             Projectile.Kill();
         }

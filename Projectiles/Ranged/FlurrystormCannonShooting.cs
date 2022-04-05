@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 sourceS = source + Utils.RandomVector2(Main.rand, -5f, 5f);
                     snowballVel.X += Main.rand.NextFloat(-2.25f, 2.25f);
                     snowballVel.Y += Main.rand.NextFloat(-2.25f, 2.25f);
-                    int snowball = Projectile.NewProjectile(sourceS, snowballVel, projType, dmg, kBack, Projectile.owner);
+                    int snowball = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), sourceS, snowballVel, projType, dmg, kBack, Projectile.owner);
                     if (snowball.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[snowball].noDropItem = true;
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Ranged
                             chunkVel = -Vector2.UnitY;
                         }
                         Vector2 sourceC = source + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int iceChunk = Projectile.NewProjectile(sourceC, chunkVel, ModContent.ProjectileType<FlurrystormIceChunk>(), (int)(dmg * 1.5), (int)(kBack * 1.5), Projectile.owner, 0f, chunkVel.Y);
+                        int iceChunk = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), sourceC, chunkVel, ModContent.ProjectileType<FlurrystormIceChunk>(), (int)(dmg * 1.5), (int)(kBack * 1.5), Projectile.owner, 0f, chunkVel.Y);
                         Main.projectile[iceChunk].extraUpdates += fireRate / 2; //0 to 2
                     }
                 }

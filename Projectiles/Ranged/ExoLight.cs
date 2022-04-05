@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 16f;
-                    Projectile.NewProjectileDirect(Projectile.Center, vel, projID, Projectile.damage, Projectile.knockBack * 0.3f, Projectile.owner);
+                    Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vel, projID, Projectile.damage, Projectile.knockBack * 0.3f, Projectile.owner);
                 }
             }
         }

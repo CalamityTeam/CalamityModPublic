@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.myPlayer != Projectile.owner || ExplodedYet || LaserLength <= 60f)
                 return;
 
-            Projectile.NewProjectile(laserEnd, Vector2.Zero, ModContent.ProjectileType<PrismExplosionLarge>(), Projectile.damage / 2, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), laserEnd, Vector2.Zero, ModContent.ProjectileType<PrismExplosionLarge>(), Projectile.damage / 2, 0f, Projectile.owner);
 
             if (!ExplodedYet)
             {

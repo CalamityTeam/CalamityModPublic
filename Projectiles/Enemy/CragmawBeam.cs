@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Vector2 acidSpawnPosition = Projectile.Center + Projectile.velocity * Projectile.localAI[1] * Main.rand.NextFloat(0.1f, 0.8f);
                 if (!Main.player[Player.FindClosest(acidSpawnPosition, 1, 1)].WithinRange(acidSpawnPosition, 300f))
-                    Projectile.NewProjectile(acidSpawnPosition, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<CragmawAcidDrop>(), Projectile.damage / 2, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), acidSpawnPosition, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<CragmawAcidDrop>(), Projectile.damage / 2, 0f);
             }
 
             if (WorldGen.SolidTile((int)(beamEndPosiiton.X / 16), (int)(beamEndPosiiton.Y / 16)))

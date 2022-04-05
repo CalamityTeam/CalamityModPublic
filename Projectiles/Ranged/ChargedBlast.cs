@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int k = 0; k < projectiles; k++)
                 {
-                    Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, ModContent.ProjectileType<ChargedBlast2>(),
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, ModContent.ProjectileType<ChargedBlast2>(),
                     (int)((double)Projectile.damage * 0.85), (float)(int)((double)Projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -57,12 +57,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TacticiansElectricBoom>(), Projectile.damage / 2, 0f, Projectile.owner);
         }
     }
 }

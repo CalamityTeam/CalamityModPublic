@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -99,12 +99,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int x = 0; x < 3; x++)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<YharonFireball2>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<YharonFireball2>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX += 3f;
                 }
                 for (int x = 0; x < 2; x++)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<YharonFireball2>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<YharonFireball2>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX2 += 10f;
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int b = 0; b < 2; b++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<TerraBulletSplit>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TerraBulletSplit>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
                 }
             }
             SoundEngine.PlaySound(SoundID.Item118, Projectile.position);

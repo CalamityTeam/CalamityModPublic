@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
                 flareShootTimer = 60;
             }

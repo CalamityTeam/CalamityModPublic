@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (target.life <= 0)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
                 if (crit)
                 {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (target.statLife <= 0)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
                 if (crit)
                 {

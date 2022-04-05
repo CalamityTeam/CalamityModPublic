@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = -8; i <= 8; i += 8)
             {
                 Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CardClubSplit>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CardClubSplit>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
             }
             SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
         }

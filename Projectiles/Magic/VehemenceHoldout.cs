@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Item heldItem = Owner.ActiveItem();
             Vector2 shootVelocity = Projectile.velocity * heldItem.shootSpeed;
-            Projectile.NewProjectile(Projectile.Center, shootVelocity, ModContent.ProjectileType<Vehemence>(), (int)(Owner.MagicDamage() * heldItem.damage), heldItem.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<Vehemence>(), (int)(Owner.MagicDamage() * heldItem.damage), heldItem.knockBack, Projectile.owner);
         }
 
         private void CreateChargeDust()
