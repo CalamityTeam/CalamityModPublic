@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -96,7 +96,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VenusianTrident>()).AddIngredient(ModContent.ItemType<CalamitasInferno>()).AddIngredient(ModContent.ItemType<ForbiddenSun>()).AddIngredient(ItemID.FragmentSolar, 20).AddIngredient(ItemID.FragmentNebula, 5).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<VenusianTrident>()
+                .AddIngredient<CalamitasInferno>()
+                .AddIngredient<ForbiddenSun>()
+                .AddIngredient(ItemID.FragmentSolar, 20)
+                .AddIngredient(ItemID.FragmentNebula, 5)
+                .AddIngredient<AuricBar>()
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }
