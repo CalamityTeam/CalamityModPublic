@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -64,6 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<LightningThing>()) < 3 &&
                 player.statLife <= player.statLifeMax2 * 0.5f &&
                 Main.myPlayer == player.whoAmI)
@@ -74,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     new Conditions.IsSolid()
                 }), out Point spawnPosition))
                 {
-                    Projectile.NewProjectile(spawnPosition.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
+                    Projectile.NewProjectile(source, spawnPosition.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
                 }
             }
             if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))
@@ -99,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
+                            Projectile.NewProjectile(source, player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
                                                      Vector2.Zero,
                                                      ModContent.ProjectileType<GaelExplosion>(),
                                                      (int)(Item.damage * player.MeleeDamage()),
@@ -111,13 +114,14 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 // Check CalamityPlayer.cs
                 return false;
             }
+
             switch (player.Calamity().gaelSwipes % 3)
             {
                 //Two small, quick skulls
@@ -126,14 +130,14 @@ namespace CalamityMod.Items.Weapons.Melee
                     float rotation = MathHelper.ToRadians(10f);
                     for (int i = 0; i < numProj; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+                        Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
                     }
                     break;
                 //Giant, slow, fading skull
                 case 1:
                     int largeSkullDmg = (int)(damage * 1.5f);
-                    int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, largeSkullDmg, knockBack, player.whoAmI, ai1:1f);
+                    int projectileIndex = Projectile.NewProjectile(source, position, velocity * 0.5f, type, largeSkullDmg, knockback, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;
             }

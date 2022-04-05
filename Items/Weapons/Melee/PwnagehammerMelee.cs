@@ -1,3 +1,6 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,17 +39,16 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 10;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 speed = new Vector2(speedX, speedY);
-            Vector2 yeetOffset = Vector2.Normalize(speed) * 40f;
+            Vector2 yeetOffset = Vector2.Normalize(velocity) * 40f;
             if (Collision.CanHit(position, 0, 0, position + yeetOffset, 0, 0))
             {
                 position += yeetOffset;
             }
-            Projectile.NewProjectile(position, speed, type, damage, knockBack, player.whoAmI, Main.rand.NextBool(5) ? 1f : -1f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Main.rand.NextBool(5) ? 1f : -1f);
             return false;
         }
 

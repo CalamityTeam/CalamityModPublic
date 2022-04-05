@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables;
@@ -36,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void AddRecipes()
         {
@@ -65,13 +67,13 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             float lifeRatio = target.life / (float)target.lifeMax;
             float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);
 
             damage = (int)(damage * multiplier);
-            knockBack *= multiplier;
+            knockback *= multiplier;
 
             if (!crit)
                 crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance(DamageClass.Melee)) * multiplier, 0f, 99f), 100);

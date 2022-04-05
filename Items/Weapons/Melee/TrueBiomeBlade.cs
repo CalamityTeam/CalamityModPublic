@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
@@ -233,12 +235,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             if (mainAttunement == null)
                 return;
 
-            mult += mainAttunement.DamageMultiplier - 1;
+            flat += (Item.damage * (mainAttunement.DamageMultiplier - 1f));
         }
 
         public void SafeCheckAttunements()
@@ -289,9 +291,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
+                var source = player.GetProjectileSource_Item(Item);
                 bool mayAttune = player.StandingStill() && !player.mount.Active && player.CheckSolidGround(1, 3);
                 Vector2 displace = new Vector2(18f, 0f);
-                Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
+                Projectile.NewProjectile(source, player.Top + displace, Vector2.Zero, ProjectileType<BiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
         }
 
@@ -317,18 +320,18 @@ namespace CalamityMod.Items.Weapons.Melee
              n.type == ProjectileType<GestureForTheDrowned>()));
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (mainAttunement == null)
                 return false;
 
             ComboResetTimer = 1f;
-            return mainAttunement.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack, ref Combo, ref StoredLunges, ref PowerLungeCounter);
+            return mainAttunement.Shoot(player, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref StoredLunges, ref PowerLungeCounter);
         }
 
 
         //This is only used for the purity sigil effect of the default attunement
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (mainAttunement == null || mainAttunement.id != AttunementID.TrueDefault || player.whoAmI != Main.myPlayer)
                 return;
@@ -343,7 +346,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     return;
                 }
             }
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
+            var source = player.GetProjectileSource_Item(Item);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
         }
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.White, Color.White, 0.04f, 20f);
@@ -354,7 +358,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade");
+            Texture2D itemTexture = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade").Value;
 
             if (mainAttunement == null)
             {
@@ -387,7 +391,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D itemTexture = GetTexture("CalamityMod/Projectiles/Melee/MendedBiomeBlade"); //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal
+            Texture2D itemTexture = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade").Value; //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -45,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 3f;
@@ -86,12 +88,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 3f;
@@ -133,7 +136,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 

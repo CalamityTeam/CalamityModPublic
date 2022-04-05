@@ -1,4 +1,6 @@
-﻿using CalamityMod.DataStructures;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
@@ -13,6 +15,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader.IO;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -141,17 +144,15 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         #region Saving and syncing attunements
-        public override bool CloneNewInstances => true;
-
         public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
 
             if (Main.mouseItem.type == ItemType<BiomeBlade>())
-                item.modItem.HoldItem(Main.player[Main.myPlayer]);
+                item.ModItem.HoldItem(Main.player[Main.myPlayer]);
 
-            (clone as BiomeBlade).mainAttunement = (item.modItem as BiomeBlade).mainAttunement;
-            (clone as BiomeBlade).secondaryAttunement = (item.modItem as BiomeBlade).secondaryAttunement;
+            (clone as BiomeBlade).mainAttunement = (item.ModItem as BiomeBlade).mainAttunement;
+            (clone as BiomeBlade).secondaryAttunement = (item.ModItem as BiomeBlade).secondaryAttunement;
 
             //As funny as a Broken Broken Biome Blade would be, its also quite funny to make it turn into that. This is only done for a new instance of the item since the goblin tinkerer changes prevent it from happening through reforging
             if (clone.Item.prefix == PrefixID.Broken)
@@ -163,35 +164,15 @@ namespace CalamityMod.Items.Weapons.Melee
             return clone;
         }
 
-        public override ModItem Clone() //ditto
-        {
-            var clone = base.Clone();
-
-            (clone as BiomeBlade).mainAttunement = mainAttunement;
-            (clone as BiomeBlade).secondaryAttunement = secondaryAttunement;
-
-            if (clone.Item.prefix == PrefixID.Broken)
-            {
-                clone.Item.Prefix(PrefixID.Legendary);
-                clone.Item.prefix = PrefixID.Legendary;
-            }
-
-            return clone;
-        }
-
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
             int attunement1 = mainAttunement == null? -1 : (int)mainAttunement.id;
             int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement.id;
-            TagCompound tag = new TagCompound
-            {
-                { "mainAttunement", attunement1 },
-                { "secondaryAttunement", attunement2 }
-            };
-            return tag;
+            tag["mainAttunement"] = attunement1;
+            tag["secondaryAttunement"] = attunement2;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
@@ -218,12 +199,9 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         #endregion
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            if (mainAttunement == null)
-                return;
-
-            mult += mainAttunement.DamageMultiplier - 1;
+            flat += (int)(Item.damage * (mainAttunement.DamageMultiplier - 1f));
         }
 
         public void SafeCheckAttunements()
@@ -237,7 +215,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
-
+            var source = player.GetProjectileSource_Item(Item);
             player.Calamity().rightClickListener = true;
             player.Calamity().mouseWorldListener = true;
 
@@ -272,7 +250,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 bool mayAttune = player.StandingStill() && !player.mount.Active && player.CheckSolidGround(1, 3);
                 Vector2 displace = new Vector2(18f, 0f);
-                Projectile.NewProjectile(player.Top + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
+                Projectile.NewProjectile(source, player.Top + displace, Vector2.Zero, ProjectileType<BrokenBiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
             }
         }
 
@@ -295,7 +273,7 @@ namespace CalamityMod.Items.Weapons.Melee
              n.type == ProjectileType<AridGrandeur>()));
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (mainAttunement == null)
                 return false;
@@ -303,7 +281,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int powerLungeCounter = 0; //Unused here
             ComboResetTimer = 1f;
-            return mainAttunement.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack, ref Combo, ref CanLunge, ref powerLungeCounter);
+            return mainAttunement.Shoot(player, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref CanLunge, ref powerLungeCounter);
         }
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 20f);
@@ -314,7 +292,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D itemTexture = Main.itemTexture[Item.type];
+            Texture2D itemTexture = TextureAssets.Item[Item.type].Value;
             Rectangle itemFrame = (Main.itemAnimations[Item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[Item.type].GetFrame(itemTexture);
 
             if (mainAttunement == null)

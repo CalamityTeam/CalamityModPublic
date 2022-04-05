@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
@@ -40,14 +42,14 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source2, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Shoot 3 oathblades in a spread
             int index = 8;
             for (int j = -index; j <= index; j += index)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(j));
-                Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+                Vector2 perturbedSpeed = new Vector2(velocity.X, velocity.Y).RotatedBy(MathHelper.ToRadians(j));
+                Projectile.NewProjectile(source2, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
 
             //Not actually sure what this middle code does
@@ -96,9 +98,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 direction.X += Main.rand.NextFloat(-40f, 40f) * 0.02f;
                 direction.Y += Main.rand.NextFloat(-40f, 40f) * 0.02f;
                 direction.Y *= -1;
-                Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, Main.rand.Next(5));
-                Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
-                Projectile.NewProjectile(source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                Projectile.NewProjectile(source2, source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockback, player.whoAmI, 0f, Main.rand.Next(5));
+                Projectile.NewProjectile(source2, source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source2, source, direction, ModContent.ProjectileType<DemonBlast>(), damage, knockback, player.whoAmI, 0f, 1f);
             }
             return false;
         }

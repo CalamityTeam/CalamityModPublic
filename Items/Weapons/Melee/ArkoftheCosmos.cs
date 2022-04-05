@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -114,7 +115,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 15;
 
         public override bool AltFunctionUse(Player player) => true;
 

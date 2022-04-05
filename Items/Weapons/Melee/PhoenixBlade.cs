@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Typeless;
@@ -48,17 +49,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void OnHitEffects(Player player, Vector2 targetPos, float kBack, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
-            int boom = Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, kBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            int boom = Projectile.NewProjectile(source, targetPos, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, kBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             if (boom.WithinBounds(Main.maxProjectiles))
                 Main.projectile[boom].Calamity().forceMelee = true;
 
             float randomSpeedX = Main.rand.Next(5);
             float randomSpeedY = Main.rand.Next(3, 7);
-            Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), damage, kBack, player.whoAmI);
-            Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), damage, kBack, player.whoAmI);
+            Projectile.NewProjectile(source, targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), damage, kBack, player.whoAmI);
+            Projectile.NewProjectile(source, targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), damage, kBack, player.whoAmI);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

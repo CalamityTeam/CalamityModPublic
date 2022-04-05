@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();
                 velocity *= 8f;
-                Projectile.NewProjectile(targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(source, targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
             }
         }
 

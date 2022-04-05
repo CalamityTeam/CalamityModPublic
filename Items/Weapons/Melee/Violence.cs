@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -38,10 +40,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player) => player.altFunctionUse == 2 || player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootVelocity = new Vector2(speedX, speedY);
-            Projectile.NewProjectile(position, shootVelocity, type, damage, knockBack, player.whoAmI, 0f, shootVelocity.ToRotation());
+            Vector2 shootVelocity = new Vector2(velocity.X, speedY);
+            Projectile.NewProjectile(source, position, shootVelocity, type, damage, knockback, player.whoAmI, 0f, shootVelocity.ToRotation());
             return false;
         }
     }

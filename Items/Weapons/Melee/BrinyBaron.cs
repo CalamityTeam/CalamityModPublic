@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -63,9 +65,9 @@ namespace CalamityMod.Items.Weapons.Melee
             return 0.75f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), (int)(damage * 0.43), knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Razorwind>(), (int)(damage * 0.43), knockback, player.whoAmI);
             return false;
         }
 
@@ -77,20 +79,22 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, Item.knockBack, player.whoAmI);
         }
     }
 }

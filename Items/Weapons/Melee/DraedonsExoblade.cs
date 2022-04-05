@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -49,11 +50,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             if (target.life <= (target.lifeMax * 0.05f))
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), damage, knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), damage, knockback, Main.myPlayer);
 
             target.ExoDebuffs();
             SoundEngine.PlaySound(SoundID.Item88, player.Center);
@@ -71,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, knockback, player.whoAmI, 0f, ai1);
+                    Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, knockback, player.whoAmI, 0f, ai1);
                 }
             }
 
@@ -85,11 +87,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             if (target.statLife <= (target.statLifeMax2 * 0.05f))
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, Item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), damage, Item.knockBack, Main.myPlayer);
 
             target.ExoDebuffs();
             SoundEngine.PlaySound(SoundID.Item88, player.Center);
@@ -107,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, Item.knockBack, player.whoAmI, 0f, ai1);
+                    Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<Exocomet>(), damage, Item.knockBack, player.whoAmI, 0f, ai1);
                 }
             }
 

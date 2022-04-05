@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -55,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (health)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 SoundEngine.PlaySound(SoundID.Item74, targetPos);
                 targetPos.X += (float)(targetWidth / 2);
                 targetPos.Y += (float)(targetHeight / 2);
@@ -82,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int i = 0; i < bloodAmt; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), kBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), kBack, player.whoAmI, 0f, 0f);
                 }
             }
         }

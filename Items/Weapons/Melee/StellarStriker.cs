@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -46,8 +48,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 SpawnFlares(player, Item.knockBack, damage, crit);
         }
 
-        private void SpawnFlares(Player player, float knockBack, int damage, bool crit)
+        private void SpawnFlares(Player player, float knockback, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             SoundEngine.PlaySound(SoundID.Item88, player.position);
             int i = Main.myPlayer;
             float num72 = Item.shootSpeed;
@@ -95,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(damage * 0.5), knockBack, i, 0f, (float)Main.rand.Next(3));
+                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(damage * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceMelee = true;
             }

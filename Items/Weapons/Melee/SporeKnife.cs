@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -44,14 +45,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
+            var source = player.GetProjectileSource_Item(Item);
+            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), Item.knockBack, Main.myPlayer);
+            var source = player.GetProjectileSource_Item(Item);
+            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), Item.knockBack, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }

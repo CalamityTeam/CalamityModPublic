@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -158,37 +160,23 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         #region saving and syncing attunements
-        public override bool CloneNewInstances => true;
-
         public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<FourSeasonsGalaxia>())
-                item.modItem.HoldItem(Main.player[Main.myPlayer]);
-            (clone as FourSeasonsGalaxia).mainAttunement = (item.modItem as FourSeasonsGalaxia).mainAttunement;
+                item.ModItem.HoldItem(Main.player[Main.myPlayer]);
+            (clone as FourSeasonsGalaxia).mainAttunement = (item.ModItem as FourSeasonsGalaxia).mainAttunement;
 
             return clone;
         }
 
-        public override ModItem Clone() //ditto
-        {
-            var clone = base.Clone();
-            (clone as FourSeasonsGalaxia).mainAttunement = mainAttunement;
-
-            return clone;
-        }
-
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
             int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
-            TagCompound tag = new TagCompound
-            {
-                { "mainAttunement", attunement1 },
-            };
-            return tag;
+            tag["mainAttunement"] = attunement1;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             int attunement1 = tag.GetInt("mainAttunement");
 
@@ -207,19 +195,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (mainAttunement == null)
                 return false;
             return true;
         }
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            if (mainAttunement == null)
-                return;
-
-            mult += mainAttunement.DamageMultiplier - 1;
+            flat += (int)(Item.damage * (mainAttunement.DamageMultiplier - 1f));
         }
 
         public void SafeCheckAttunements()
@@ -261,7 +246,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<GalaxiaHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<GalaxiaHoldout>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
+                var source = player.GetProjectileSource_Item(Item);
+                Projectile.NewProjectile(source, player.Top, Vector2.Zero, ProjectileType<GalaxiaHoldout>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
         }
 
@@ -285,8 +271,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
-            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
-            Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
+            Texture2D itemTexture = Request<Texture2D>((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn").Value;
+            Texture2D outlineTexture = Request<Texture2D>((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline").Value;
 
             int currentFrame = ((int)Math.Floor(Main.GlobalTimeWrappedHourly * 15f)) % 7;
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
@@ -309,8 +295,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement == null)
                 mainAttunement = Attunement.attunementArray[(int)AttunementID.Phoenix];
 
-            Texture2D itemTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn");
-            Texture2D outlineTexture = GetTexture((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline");
+            Texture2D itemTexture = Request<Texture2D>((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDusk" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawn").Value;
+            Texture2D outlineTexture = Request<Texture2D>((mainAttunement.id == AttunementID.Polaris || mainAttunement.id == AttunementID.Andromeda) ? "CalamityMod/Items/Weapons/Melee/GalaxiaDuskOutline" : "CalamityMod/Items/Weapons/Melee/GalaxiaDawnOutline").Value;
 
             int currentFrame = ((int)Math.Floor(Main.GlobalTimeWrappedHourly * 15f)) % 7;
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);

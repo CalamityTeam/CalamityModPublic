@@ -1,3 +1,6 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,13 +43,13 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults.
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, new Vector2(velocity.X, speedY), type, damage, knockback, player.whoAmI);
             return false;
         }
     }

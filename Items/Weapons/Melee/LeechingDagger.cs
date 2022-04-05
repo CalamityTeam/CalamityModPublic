@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -46,12 +47,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
+            var source = player.GetProjectileSource_Item(Item);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
+            var source = player.GetProjectileSource_Item(Item);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using System;
 using Terraria;
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             SoundEngine.PlaySound(SoundID.Item14, target.position);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(Item.shootSpeed, Item.shootSpeed) - spread / 2;
@@ -47,13 +49,14 @@ namespace CalamityMod.Items.Weapons.Melee
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), knockback, Main.myPlayer);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), knockback, Main.myPlayer);
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             SoundEngine.PlaySound(SoundID.Item14, target.position);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(Item.shootSpeed, Item.shootSpeed) - spread / 2;
@@ -63,8 +66,8 @@ namespace CalamityMod.Items.Weapons.Melee
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), Item.knockBack, Main.myPlayer);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), Item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), Item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f) * 0.3), Item.knockBack, Main.myPlayer);
             }
         }
     }

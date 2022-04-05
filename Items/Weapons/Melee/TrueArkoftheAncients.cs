@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,9 +26,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
         public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
         public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
-
-
-        public override bool CloneNewInstances => true;
 
         const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 160 less damage\n" +
@@ -88,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Melee
             player.Calamity().mouseWorldListener = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
@@ -96,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     float angle = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).ToRotation();
                     Vector2 laserVector = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 600;
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, laserVector, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, laserVector, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -105,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
 
                 else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                    Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<TrueArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
             }
@@ -116,7 +115,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (Charge > 0)
                 damage = (int)(chargeDamageMultiplier * damage);
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueArkoftheAncientsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
+            Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<TrueArkoftheAncientsSwungBlade>(), damage, knockback, player.whoAmI, Combo, Charge);
             Combo *= -1f;
 
             //Shoot an extra star projectile every upwards swing
@@ -124,12 +123,12 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 //Only shoot the center star if theres no charge
                 if (Charge == 0)
-                    Projectile.NewProjectile(player.Center + Utils.SafeNormalize(new Vector2(speedX, speedY), Vector2.Zero) * 20, new Vector2(speedX, speedY), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center + Utils.SafeNormalize(velocity, Vector2.Zero) * 20, velocity, ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
 
-                Vector2 Shift = Utils.SafeNormalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 30;
+                Vector2 Shift = Utils.SafeNormalize(velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 30;
 
-                Projectile.NewProjectile(player.Center + Shift, new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
-                Projectile.NewProjectile(player.Center - Shift, new Vector2(speedX, speedY).RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(source, player.Center + Shift, velocity.X.RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(source, player.Center - Shift, velocity.X.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI, Charge > 0 ? 1 : 0);
             }
 
 
@@ -144,15 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as TrueArkoftheAncients).Charge = (item.modItem as TrueArkoftheAncients).Charge;
-
-            return clone;
-        }
-        public override ModItem Clone()
-        {
-            var clone = base.Clone();
-
-            (clone as TrueArkoftheAncients).Charge = Charge;
+            (clone as TrueArkoftheAncients).Charge = (item.ModItem as TrueArkoftheAncients).Charge;
 
             return clone;
         }
@@ -177,8 +168,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge <= 0)
                 return;
 
-            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
             float barScale = 1.5f;
 

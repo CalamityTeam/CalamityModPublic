@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -40,17 +42,17 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int numShots = 2;
             for (int i = 0; i < numShots; ++i)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float ai1 = Main.rand.NextFloat() + 0.5f;
                 // TODO -- unchecked type addition math assumes we can guarantee load order
                 // this is extremely unsafe and load order may become non deterministic in 1.4
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), damage, knockBack, player.whoAmI, 0.0f, ai1);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), damage, knockback, player.whoAmI, 0.0f, ai1);
             }
             return false;
         }

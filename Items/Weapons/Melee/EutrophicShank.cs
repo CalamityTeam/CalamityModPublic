@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -42,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num6 = Main.rand.Next(1, 2);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-60, 61) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-60, 61) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-60, 61) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-60, 61) * 0.05f;
+                int projectile = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.4), knockback, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

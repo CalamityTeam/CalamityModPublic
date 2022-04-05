@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
@@ -42,6 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             int num251 = Main.rand.Next(2, 4);
             for (int num252 = 0; num252 < num251; num252++)
             {
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {
@@ -76,6 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             int num251 = Main.rand.Next(2, 4);
             for (int num252 = 0; num252 < num251; num252++)
             {
@@ -86,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {

@@ -1,3 +1,5 @@
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -43,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe(1).AddIngredient(ItemID.StarWrath).AddIngredient(ItemID.SoulofMight, 20).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.DarkShard).AddIngredient(ItemID.LightShard).AddTile(TileID.LunarCraftingStation).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -87,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-100, 101) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-100, 101) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalacticaComet>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                int projectile = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalacticaComet>(), damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }
@@ -96,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(4))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(2) ? 164 : 229);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(2) ? 164 : 229);
             }
         }
 

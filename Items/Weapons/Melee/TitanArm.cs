@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Boosting crit in SetDefaults along with knockback seemed to severely inflate the reforging price. Guaranteed crits for more knockback.
-        public override void GetWeaponCrit(Player player, ref int crit) => crit = 100;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit = 100;
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

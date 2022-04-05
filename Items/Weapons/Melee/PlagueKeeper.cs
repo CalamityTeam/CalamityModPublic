@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -42,13 +43,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
-                int bee = Projectile.NewProjectile(player.Center, Vector2.Zero, player.beeType(),
+                int bee = Projectile.NewProjectile(source, player.Center, Vector2.Zero, player.beeType(),
                     player.beeDamage(damage / 3), player.beeKB(0f), player.whoAmI);
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {
@@ -60,13 +62,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             if (crit)
                 damage /= 2;
 
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
-                int bee = Projectile.NewProjectile(player.Center, Vector2.Zero, player.beeType(),
+                int bee = Projectile.NewProjectile(source, player.Center, Vector2.Zero, player.beeType(),
                     player.beeDamage(damage / 3), player.beeKB(0f), player.whoAmI);
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {

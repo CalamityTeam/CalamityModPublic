@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
@@ -205,41 +207,26 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         #region Saving and syncing attunements
-        public override bool CloneNewInstances => true;
-
         public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<OmegaBiomeBlade>())
-                item.modItem.HoldItem(Main.player[Main.myPlayer]);
-            (clone as OmegaBiomeBlade).mainAttunement = (item.modItem as OmegaBiomeBlade).mainAttunement;
-            (clone as OmegaBiomeBlade).secondaryAttunement = (item.modItem as OmegaBiomeBlade).secondaryAttunement;
+                item.ModItem.HoldItem(Main.player[Main.myPlayer]);
+            (clone as OmegaBiomeBlade).mainAttunement = (item.ModItem as OmegaBiomeBlade).mainAttunement;
+            (clone as OmegaBiomeBlade).secondaryAttunement = (item.ModItem as OmegaBiomeBlade).secondaryAttunement;
 
             return clone;
         }
 
-        public override ModItem Clone() //ditto
-        {
-            var clone = base.Clone();
-            (clone as OmegaBiomeBlade).mainAttunement = mainAttunement;
-            (clone as OmegaBiomeBlade).secondaryAttunement = secondaryAttunement;
-
-            return clone;
-        }
-
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
             int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
             int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement.id;
-            TagCompound tag = new TagCompound
-            {
-                { "mainAttunement", attunement1 },
-                { "secondaryAttunement", attunement2 }
-            };
-            return tag;
+            tag["mainAttunement"] = attunement1;
+            tag["secondaryAttunement"] = attunement2;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");
@@ -267,12 +254,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         #endregion
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             if (mainAttunement == null)
                 return;
 
-            mult += mainAttunement.DamageMultiplier - 1;
+            flat += (Item.damage * (mainAttunement.DamageMultiplier - 1f));
         }
 
         public void SafeCheckAttunements()
@@ -320,6 +307,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             //PAssive effetcsts only happen on the side of the owner
+            var source = player.GetProjectileSource_Item(Item);
             if (secondaryAttunement != null)
             {
                 if (secondaryAttunement.id != AttunementID.FlailBlade || MeatHook == null || !MeatHook.active)
@@ -327,7 +315,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null)
                 {
-                    MeatHook = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
+                    MeatHook = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
                 }
 
                 secondaryAttunement.PassiveEffect(player, ref UseTimer, ref OnHitProc, MeatHook);
@@ -340,7 +328,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<TrueBiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                Projectile.NewProjectile(player.Top, Vector2.Zero, ProjectileType<TrueBiomeBladeHoldout>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(source, player.Top, Vector2.Zero, ProjectileType<TrueBiomeBladeHoldout>(), 0, 0, player.whoAmI);
             }
         }
 
@@ -359,7 +347,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         //No need for any wacky zany hijinx in the shoot method for once??? damn
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) => mainAttunement == null ? false : true;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => mainAttunement == null ? false : true;
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.White, Color.White, 0.04f, 20f);
         internal static void UpdateAllParticleSets()
@@ -374,7 +362,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             position.Y -= 6f * scale;
 
-            Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
+            Texture2D itemTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra").Value;
             Rectangle itemFrame = (Main.itemAnimations[Item.type] == null) ? itemTexture.Frame() : Main.itemAnimations[Item.type].GetFrame(itemTexture);
 
             // Draw all particles.
@@ -405,7 +393,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 return true;
 
             //Draw the charged version if you can
-            Texture2D itemTexture = GetTexture("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra");
+            Texture2D itemTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra").Value;
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
         }

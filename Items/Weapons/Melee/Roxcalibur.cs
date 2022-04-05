@@ -1,4 +1,7 @@
-﻿using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -48,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 8;
 
         public override void AddRecipes()
         {
@@ -105,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return RoxCanAlt >= Item.useAnimation + 5 && player.position.Y != player.oldPosition.Y && !player.mount.Active && player.gravDir != -1;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             //Modifies the altfire use style and the location of the sprite of the weapon
             if (player.altFunctionUse == 2)
@@ -154,7 +157,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override float MeleeSpeedMultiplier(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             //If you use alt fire it can hold the sword for way longer
             if (player.altFunctionUse == 2)
@@ -200,7 +203,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
@@ -223,7 +226,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     positionx = position.X - 8;
                 }
-                Projectile.NewProjectile(positionx, positiony - (player.height / 10f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
+                Projectile.NewProjectile(source, positionx, positiony - (player.height / 10f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
                 //Resets the cooldown after shooting
                 if (Roxcooldown >= 600)
                 {
@@ -239,8 +242,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     //Else shoot the spread of rock shards
                     int rotation = Main.rand.Next(-10, 11);
-                    Vector2 pertubedspeed = new Vector2(speedX / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
-                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
+                    Vector2 pertubedspeed = new Vector2(velocity.X / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
+                    Projectile.NewProjectile(source, position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
                 }
                 RoxCanAlt = 0;
 
@@ -248,7 +251,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (Item.useStyle == ItemUseStyleID.HoldUp)
             {

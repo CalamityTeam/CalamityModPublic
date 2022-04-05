@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -44,17 +45,17 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Every time the item spawns more meteors, play a violent, bass heavy sound to add onto Star Wrath's use sound.
             SoundEngine.PlaySound(SoundID.Item70, player.Center);
 
-            Vector2 originalVelocity = new Vector2(speedX, speedY);
+            Vector2 originalVelocity = new Vector2(velocity.X, speedY);
             float speed = originalVelocity.Length();
             for (int i = 0; i < ProjectilesPerBarrage; ++i)
             {
                 float randomSpeed = speed * Main.rand.NextFloat(0.7f, 1.4f);
-                CalamityUtils.ProjectileRain(Main.MouseWorld, 290f, 130f, 850f, 1100f, randomSpeed, type, damage, knockBack, player.whoAmI);
+                CalamityUtils.ProjectileRain(Main.MouseWorld, 290f, 130f, 850f, 1100f, randomSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // LATER -- Providence specifically is immune to Coldheart Icicle. There is probably a better way to do this
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             damage = 1;
             crit = false;

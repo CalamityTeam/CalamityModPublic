@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -35,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             int totalProjectiles = 4;
             float radians = MathHelper.TwoPi / totalProjectiles;
             int type = ModContent.ProjectileType<IceBombFriendly>();
@@ -46,12 +48,13 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetProjectileSource_Item(Item);
             int totalProjectiles = 4;
             float radians = MathHelper.TwoPi / totalProjectiles;
             int type = ModContent.ProjectileType<IceBombFriendly>();
@@ -63,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, Main.myPlayer);
             }
         }
 
