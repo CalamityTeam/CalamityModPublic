@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Projectiles.Ranged;
@@ -39,20 +40,20 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num6 = Main.rand.Next(1, 3);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
                 type = Utils.SelectRandom(Main.rand, new int[]
                 {
                     ModContent.ProjectileType<AstralStar>(),
                     ProjectileID.Starfury,
                     ModContent.ProjectileType<FallenStarProj>()
                 });
-                int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                int star = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                 if (star.WithinBounds(Main.maxProjectiles))
                     Main.projectile[star].Calamity().forceRanged = true;
             }

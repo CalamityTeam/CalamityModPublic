@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,19 +43,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 4; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-60, 61) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-60, 61) * 0.05f;
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-60, 61) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-60, 61) * 0.05f;
+                int index = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
             }
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
             int num118 = 2;
-            Vector2 vector7 = new Vector2(speedX, speedY);
+            Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 10f;
             bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
@@ -65,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
+                int projectile = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
                 if (projectile.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projectile].Calamity().forceRanged = true;
             }

@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -41,12 +43,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet)
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SpykerProj>(), damage, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
             return false;
         }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Ranged;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe(1).AddIngredient(ItemID.Revolver).AddIngredient(ModContent.ItemType<ClaretCannon>()).AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int card = Utils.SelectRandom(Main.rand, new int[]
             {
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 ModContent.ProjectileType<CardClub>()
             });
 
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, card, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, card, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -46,7 +48,7 @@ Replaces standard bullets with High Velocity Bullets
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 30;
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 
@@ -55,17 +57,17 @@ Replaces standard bullets with High Velocity Bullets
             CreateRecipe(1).AddIngredient(ModContent.ItemType<P90>()).AddIngredient(ModContent.ItemType<Minigun>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet) {
                 type = ProjectileID.BulletHighVelocity;
                 damage += 4; // in 1.4, HVBs deal 11 damage and Musket Balls deal 7
             }
 
-            speedX += Main.rand.NextFloat(-XYInaccuracy, XYInaccuracy);
-            speedY += Main.rand.NextFloat(-XYInaccuracy, XYInaccuracy);
-            Vector2 vel = new Vector2(speedX, speedY);
-            Projectile shot = Projectile.NewProjectileDirect(position, vel, type, damage, knockBack, player.whoAmI);
+            velocity.X += Main.rand.NextFloat(-XYInaccuracy, XYInaccuracy);
+            velocity.Y += Main.rand.NextFloat(-XYInaccuracy, XYInaccuracy);
+            Vector2 vel = velocity;
+            Projectile shot = Projectile.NewProjectileDirect(source, position, vel, type, damage, knockback, player.whoAmI);
             CalamityGlobalProjectile cgp = shot.Calamity();
             cgp.canSupercrit = true;
             cgp.appliesSomaShred = true;

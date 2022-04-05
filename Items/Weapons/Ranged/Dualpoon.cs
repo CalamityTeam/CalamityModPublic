@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -40,12 +41,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float piOverTen = MathHelper.Pi * 0.1f;
             int projCount = 2;
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             velocity.Normalize();
             velocity *= 40f;
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     offset -= velocity;
                 }
-                Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -61,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
@@ -69,15 +70,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 damage = (int)(damage * 1.2);
                 for (int index = 0; index < flameAmt; ++index)
                 {
-                    float SpeedX = speedX + Main.rand.NextFloat(-1.25f, 1.25f);
-                    float SpeedY = speedY + Main.rand.NextFloat(-1.25f, 1.25f);
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.8f), knockBack, player.whoAmI);
+                    float SpeedX = velocity.X + Main.rand.NextFloat(-1.25f, 1.25f);
+                    float SpeedY = velocity.Y + Main.rand.NextFloat(-1.25f, 1.25f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.8f), knockback, player.whoAmI);
                 }
             }
             else
             {
                 damage = (int)(damage * 0.94);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PristineFire>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

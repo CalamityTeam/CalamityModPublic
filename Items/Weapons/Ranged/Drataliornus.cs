@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -69,7 +71,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2) //tsunami
             {
@@ -78,19 +80,19 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 int flameDamage = (int)(damage * RightClickDamageRatio);
 
                 const float num3 = 0.471238898f;
-                Vector2 spinningpoint = new Vector2(speedX, speedY);
+                Vector2 spinningpoint = velocity;
                 spinningpoint.Normalize();
                 spinningpoint *= 36f;
                 for (int index1 = 0; index1 < numFlames; ++index1)
                 {
                     float num8 = index1 - (numFlames - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, flameID, flameDamage, knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(source, position.X + vector2_5.X, position.Y + vector2_5.Y, velocity.X, velocity.Y, flameID, flameDamage, knockback, player.whoAmI, 1f, 0f);
                 }
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusBow>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DrataliornusBow>(), 0, 0f, player.whoAmI);
             }
 
             return false;

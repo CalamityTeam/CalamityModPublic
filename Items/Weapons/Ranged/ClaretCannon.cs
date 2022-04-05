@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -46,12 +47,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 4).AddTile(TileID.LunarCraftingStation).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet)
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 
             return false;
         }

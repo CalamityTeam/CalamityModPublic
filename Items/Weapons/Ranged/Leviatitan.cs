@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,20 +41,20 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-15, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
-            float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
 
             if (type == ProjectileID.Bullet)
             {
                 if (Main.rand.NextBool(3))
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)(damage * 1.5), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)(damage * 1.5), knockback, player.whoAmI);
                 else
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockback, player.whoAmI);
             }
             else
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
 
             return false;
         }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,30 +47,30 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 3; index++)
             {
-                float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 
                 if (type == ProjectileID.Bullet)
                 {
-                    int bullet = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.ExplosiveBullet, damage, knockBack, player.whoAmI);
+                    int bullet = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ProjectileID.ExplosiveBullet, damage, knockback, player.whoAmI);
                     Main.projectile[bullet].usesLocalNPCImmunity = true;
                     Main.projectile[bullet].localNPCHitCooldown = 10;
                 }
                 else
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             player.Calamity().hellbornBoost = 600;
             damage *= 10;
-            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Ranged) - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Ranged) - 1f)), 0f, 0, false);
             float num50 = 3.4f;
             float num51 = 1.6f;
             float num52 = 4f;

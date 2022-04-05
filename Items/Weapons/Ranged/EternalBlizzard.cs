@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -35,11 +36,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-            int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockBack, player.whoAmI);
+            float SpeedX = velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
+            int index = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockback, player.whoAmI);
             Main.projectile[index].noDropItem = true;
 
             return true;

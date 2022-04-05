@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -61,9 +63,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override float UseTimeMultiplier(Player player) => player.Calamity().mouseRight ? 5f : 1f;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootVelocity = velocity;
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
             Vector2 gunTip = position + shootDirection * Item.scale * 126f;
             gunTip.Y -= 6f;
@@ -75,13 +77,13 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     Vector2 newShootVelocity = shootVelocity * Main.rand.NextFloat(1f, 1.45f);
                     newShootVelocity = newShootVelocity.RotatedByRandom(0.15f);
-                    Projectile.NewProjectile(gunTip, newShootVelocity, Item.shoot, (int)(damage * 1.08), knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, gunTip, newShootVelocity, Item.shoot, (int)(damage * 1.08), knockback, player.whoAmI);
                 }
             }
 
             // Snipe blast. Done via a held projectile.
             else
-                Projectile.NewProjectile(gunTip, shootVelocity, ModContent.ProjectileType<SurgeDriverHoldout>(), 0, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, gunTip, shootVelocity, ModContent.ProjectileType<SurgeDriverHoldout>(), 0, knockback, player.whoAmI);
             return false;
         }
     }

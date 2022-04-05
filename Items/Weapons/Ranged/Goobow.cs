@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -36,12 +38,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float piOver10 = 0.1f * MathHelper.Pi;
             int projAmt = 2;
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             velocity.Normalize();
             velocity *= 20f;
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
@@ -53,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     offset -= velocity;
                 }
-                int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
+                int index = Projectile.NewProjectile(source + offset, velocity * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
                 if (index.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[index].Calamity().forceRanged = true;

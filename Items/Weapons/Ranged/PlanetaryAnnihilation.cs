@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float speedX4 = num78 + Main.rand.Next(-120, 121) * 0.02f;
                     float speedY5 = num79 + Main.rand.Next(-120, 121) * 0.02f;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<PlanetaryAnnihilationProj>(), damage, knockBack, player.whoAmI, 0f, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<PlanetaryAnnihilationProj>(), damage, knockback, player.whoAmI, 0f, i);
                 }
             }
             else
@@ -96,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float speedX4 = num78 + Main.rand.Next(-120, 121) * 0.02f;
                     float speedY5 = num79 + Main.rand.Next(-120, 121) * 0.02f;
-                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI);
+                    int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
                     Main.projectile[num121].noDropItem = true;
                 }
             }

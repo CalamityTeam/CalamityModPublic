@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -45,15 +46,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             return CalamityGlobalItem.HasEnoughAmmo(player, Item, 5);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
+
             if (velocity.Length() > 5f)
             {
                 velocity.Normalize();
                 velocity *= 5f;
             }
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockback, player.whoAmI, 0f, 0f);
 
             // Consume 5 ammo per shot
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 5);

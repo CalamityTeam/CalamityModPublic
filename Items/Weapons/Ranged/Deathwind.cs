@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,19 +44,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DeathwindGlow"));
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 4; ++index)
             {
-                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DWArrow>(), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DWArrow>(), damage, knockback, player.whoAmI);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockBack, player.whoAmI);
+                    int num121 = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockback, player.whoAmI);
                     Main.projectile[num121].noDropItem = true;
                 }
             }

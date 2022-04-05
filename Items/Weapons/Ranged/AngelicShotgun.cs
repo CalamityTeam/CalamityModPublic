@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -53,10 +55,10 @@ Fighting 'til the war's won");
             return new Vector2(-17, -3);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int NumBullets = Main.rand.Next(5, 8);
-            Vector2 baseVelocity = new Vector2(speedX, speedY).SafeNormalize(Vector2.Zero) * BulletSpeed;
+            Vector2 baseVelocity = velocity.SafeNormalize(Vector2.Zero) * BulletSpeed;
 
             // Fire a shotgun spread of bullets.
             for (int i = 0; i < NumBullets; ++i)
@@ -66,9 +68,9 @@ Fighting 'til the war's won");
                 Vector2 randomVelocity = baseVelocity + new Vector2(dx, dy);
 
                 if (type == ProjectileID.Bullet)
-                    Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockback, player.whoAmI);
                 else
-                    Projectile.NewProjectile(position, randomVelocity, type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source, position, randomVelocity, type, damage, knockback, player.whoAmI);
             }
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
@@ -112,7 +114,7 @@ Fighting 'til the war's won");
             mouseDist = laserSpeed / mouseDist;
             mouseDX *= mouseDist;
             mouseDY *= mouseDist;
-            Projectile.NewProjectile(rrp, new Vector2(mouseDX, mouseDY + Main.rand.NextFloat(-0.8f, 0.8f)), ModContent.ProjectileType<AngelicBeam>(), laserDamage, laserKB, player.whoAmI);
+            Projectile.NewProjectile(source, rrp, new Vector2(mouseDX, mouseDY + Main.rand.NextFloat(-0.8f, 0.8f)), ModContent.ProjectileType<AngelicBeam>(), laserDamage, laserKB, player.whoAmI);
 
             // Play the sound of the laser beam
             SoundEngine.PlaySound(SoundID.Item72, player.Center);

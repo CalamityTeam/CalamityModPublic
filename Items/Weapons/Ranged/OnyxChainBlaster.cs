@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -40,22 +41,22 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
+
 
             // Fire the Onyx Shard that is characteristic of the Onyx Blaster
             // The shard deals 250% damage and double knockback
             int shardDamage = (int)(2.5f * damage);
             float shardKB = 2f * knockBack;
             Vector2 offset = new Vector2(Main.rand.Next(-25, 26) * 0.05f, Main.rand.Next(-25, 26) * 0.05f);
-            Projectile shard = Projectile.NewProjectileDirect(position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
+            Projectile shard = Projectile.NewProjectileDirect(source, position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
             shard.timeLeft = (int)(shard.timeLeft * 1.25f);
 
             for (int i = 0; i < 4; i++)
             {
                 offset = new Vector2(Main.rand.Next(-45, 46) * 0.05f, Main.rand.Next(-45, 46) * 0.05f);
-                Projectile.NewProjectile(position, velocity + offset, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity + offset, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -39,11 +40,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 15;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HandheldTankShell>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HandheldTankShell>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -41,14 +42,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num6 = Main.rand.Next(3, 5);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-25, 26) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-25, 26) * 0.05f;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

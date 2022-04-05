@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -38,21 +39,21 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 14;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 14;
 
         public override Vector2? HoldoutOffset() => new Vector2(0, -10);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-2, 3) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-2, 3) * 0.05f;
+            float SpeedX = velocity.X + (float)Main.rand.Next(-2, 3) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-2, 3) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockback, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

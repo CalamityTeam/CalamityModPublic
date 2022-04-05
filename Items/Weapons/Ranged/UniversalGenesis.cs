@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
@@ -46,9 +48,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, -8f);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootVelocity = new Vector2(speedX, speedY);
+            Vector2 shootVelocity = velocity;
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
             Vector2 gunTip = position + shootDirection * Item.scale * 100f;
             gunTip.Y -= 10f;
@@ -58,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (float i = -tightness * 5f; i <= tightness * 5f; i += tightness * 2f)
             {
                 Vector2 perturbedSpeed = shootVelocity.RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(gunTip, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, gunTip, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
 
             // Stars from above
@@ -87,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 yDist *= travelDist;
                 float xVel = xDist + Main.rand.NextFloat(-0.6f, 0.6f);
                 float yVel = yDist + Main.rand.NextFloat(-0.6f, 0.6f);
-                int star = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockBack, player.whoAmI, i, 1f);
+                int star = Projectile.NewProjectile(source, spawnPos.X, spawnPos.Y, xVel, yVel, ModContent.ProjectileType<UniversalGenesisStar>(), starDmg, knockback, player.whoAmI, i, 1f);
                 Main.projectile[star].extraUpdates = 2;
                 Main.projectile[star].localNPCHitCooldown = 30;
             }

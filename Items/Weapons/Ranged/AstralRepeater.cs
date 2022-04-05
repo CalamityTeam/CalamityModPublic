@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override void AddRecipes()
         {

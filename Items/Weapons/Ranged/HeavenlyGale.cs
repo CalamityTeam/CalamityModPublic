@@ -1,3 +1,5 @@
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -55,14 +57,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 vel = new Vector2(speedX, speedY);
+            Vector2 vel = velocity;
             float piOver10 = MathHelper.Pi * 0.1f;
 
             // This is not related to speed, but rather placing the arrows correctly along the large bow.
-            Vector2 baseOffset = new Vector2(speedX, speedY);
+            Vector2 baseOffset = velocity;
             baseOffset.Normalize();
             baseOffset *= 40f;
 
@@ -82,12 +84,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     // Teal exo arrows deal less damage.
                     float dmgMult = thisArrowType == ProjectileType<TealExoArrow>() ? 0.66f : 1f;
                     int finalDamage = (int)(damage * dmgMult);
-                    Projectile.NewProjectile(source + offset, vel, thisArrowType, finalDamage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(source + offset, vel, thisArrowType, finalDamage, knockback, player.whoAmI);
                 }
                 else
                 {
                     int normalArrowDamage = (int)(damage * NormalArrowDamageMult);
-                    int proj = Projectile.NewProjectile(source + offset, vel, type, normalArrowDamage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(source + offset, vel, type, normalArrowDamage, knockback, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }
