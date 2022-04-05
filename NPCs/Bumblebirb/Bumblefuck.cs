@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             if (phase2)
             {
-                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Bumblebirb/BirbGlow");
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Bumblebirb/BirbGlow").Value;
                 Color color40 = Color.Lerp(Color.White, Color.Red, 0.5f);
                 color36 = Color.Red;
 

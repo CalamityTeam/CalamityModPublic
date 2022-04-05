@@ -981,7 +981,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (currentPhase > 1)
             {
                 string phase = "CalamityMod/NPCs/Cryogen/Cryogen_Phase" + currentPhase;
-                Texture2D texture = ModContent.Request<Texture2D>(phase);
+                Texture2D texture = ModContent.Request<Texture2D>(phase).Value;
 
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (NPC.spriteDirection == 1)

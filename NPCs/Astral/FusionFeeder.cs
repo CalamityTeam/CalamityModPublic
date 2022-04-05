@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Fusion Feeder");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/FusionFeederGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/FusionFeederGlow").Value;
             Main.npcFrameCount[NPC.type] = 4;
         }
 

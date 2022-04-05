@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hiveling");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HivelingGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HivelingGlow").Value;
             Main.npcFrameCount[NPC.type] = 4;
         }
 

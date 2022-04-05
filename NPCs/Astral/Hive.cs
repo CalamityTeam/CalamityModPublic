@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hive");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HiveGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HiveGlow").Value;
             Main.npcFrameCount[NPC.type] = 6;
         }
 

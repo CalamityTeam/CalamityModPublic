@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.Calamitas
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/SoulSeekerGlow").Value;
             Color glow = Color.Lerp(Color.White, Color.Red, colorLerpAmt);
 
             if (CalamityConfig.Instance.Afterimages)

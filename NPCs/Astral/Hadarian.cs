@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow").Value;
             Main.npcFrameCount[NPC.type] = 7;
         }
 

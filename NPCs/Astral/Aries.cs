@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Aries");
             Main.npcFrameCount[NPC.type] = 8;
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AriesGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AriesGlow").Value;
         }
 
         public override void SetDefaults()

@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Vector2 laserTop = laserBottom - Vector2.UnitY * LaserTelegraphLength;
                 Utils.DrawLine(spriteBatch, laserBottom, laserTop, Color.Lerp(Color.Lime, Color.Transparent, LaserTelegraphOpacity));
             }
-            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow"));
+            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value);
         }
 
         public override void NPCLoot() => DropHelper.DropItemChance(NPC, ModContent.ItemType<LeadCore>(), 30);

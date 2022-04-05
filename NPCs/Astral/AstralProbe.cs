@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.Astral
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralProbeGlow");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralProbeGlow").Value;
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, Color.White * 0.6f, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 

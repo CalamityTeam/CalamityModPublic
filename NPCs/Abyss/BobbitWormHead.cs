@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools;
@@ -224,9 +224,9 @@ namespace CalamityMod.NPCs.Abyss
                     drawPositionY = Main.npc[(int)NPC.ai[2]].Center.Y - center.Y;
                     drawPositionY += 4f;
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Height)), color, rotation,
-                        new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Width * 0.5f, (float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Value, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Value.Height)), color, rotation,
+                        new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Value.Width * 0.5f, (float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/BobbitWormSegment").Value.Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;

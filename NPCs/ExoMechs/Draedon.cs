@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.ExoMechs
             spriteBatch.EnterShaderRegion();
 
             Texture2D texture = Main.npcTexture[NPC.type];
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
             Rectangle frame = NPC.frame;
 
             Vector2 drawPosition = NPC.Center - Main.screenPosition - Vector2.UnitY * 38f;

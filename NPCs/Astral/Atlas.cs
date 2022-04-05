@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Astral
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AtlasGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AtlasGlow").Value;
         }
 
         public override void SetDefaults()

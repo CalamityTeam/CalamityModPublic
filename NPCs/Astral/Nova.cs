@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 8;
 
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/NovaGlow");
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/NovaGlow").Value;
         }
 
         public override void SetDefaults()

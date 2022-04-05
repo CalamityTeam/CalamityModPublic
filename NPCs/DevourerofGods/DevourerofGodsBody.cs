@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             bool useOtherTextures = phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
-            Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS") : Main.npcTexture[NPC.type];
+            Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS").Value : Main.npcTexture[NPC.type];
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 
             Vector2 vector43 = NPC.Center - Main.screenPosition;
@@ -303,13 +303,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (useOtherTextures)
                 {
-                    texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow");
+                    texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow").Value;
                     Color color36 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
                     spriteBatch.Draw(texture2D15, vector43, NPC.frame, color36, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
 
-                texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow2") : ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyGlow");
+                texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodySGlow2").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyGlow").Value;
                 Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
                 spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

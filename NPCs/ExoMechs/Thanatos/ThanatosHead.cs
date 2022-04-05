@@ -1032,7 +1032,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosHeadGlow");
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosHeadGlow").Value;
             spriteBatch.Draw(texture, center, NPC.frame, Color.White * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
             SmokeDrawer.DrawSet(NPC.Center);
@@ -1044,7 +1044,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 spriteBatch.SetBlendState(BlendState.Additive);
 
                 // A large, faded circle. Is rescaled to fit the radius of the slowdown area.
-                Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/THanosAura");
+                Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/THanosAura").Value;
 
                 float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
@@ -1079,12 +1079,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                 Player target = Main.player[NPC.target];
 
-                Texture2D leftReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleLeft");
-                Texture2D rightReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleRight");
-                Texture2D topReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleTop");
-                Texture2D bottomReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleHead");
-                Texture2D leftReticleProngTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleProngLeft");
-                Texture2D rightReticleProngTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleProngRight");
+                Texture2D leftReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleLeft").Value;
+                Texture2D rightReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleRight").Value;
+                Texture2D topReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleTop").Value;
+                Texture2D bottomReticleTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleHead").Value;
+                Texture2D leftReticleProngTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleProngLeft").Value;
+                Texture2D rightReticleProngTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ThanatosReticleProngRight").Value;
 
                 // The reticle fades away and moves farther away from the target the closer they are to the aura.
                 // Once far away, the reticle will flash between red and white as an indicator.

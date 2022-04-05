@@ -609,7 +609,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             spriteBatch.Draw(texture, center, frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
-            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresLaserCannonGlow");
+            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresLaserCannonGlow").Value;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -638,7 +638,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if ((NPC.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
             {
                 //Also draw a telegraph line aha
-                Texture2D lineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLine");
+                Texture2D lineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
                 Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, NPC.Calamity().newAI[2] / deathrayTelegraphDuration);
                 spriteBatch.Draw(lineTex, CoreSpritePosition - NPC.rotation.ToRotationVector2() * NPC.spriteDirection * 104 - Main.screenPosition, null, outlineColor, NPC.rotation - MathHelper.PiOver2 * NPC.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * NPC.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
 
