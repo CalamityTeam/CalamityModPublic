@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Fires one large and two small projectiles which stay together in formation.
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Play the Terra Blade sound upon firing
             SoundEngine.PlaySound(SoundID.Item60, position);
@@ -50,22 +51,21 @@ namespace CalamityMod.Items.Weapons.Melee
             // Center projectile
             int centerID = ModContent.ProjectileType<AtaraxiaMain>();
             int centerDamage = damage;
-            Vector2 centerVel = new Vector2(speedX, speedY);
-            Projectile.NewProjectile(position, centerVel, centerID, centerDamage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, centerID, centerDamage, knockback, player.whoAmI, 0f, 0f);
 
             // Side projectiles (these deal 75% damage)
             int sideID = ModContent.ProjectileType<AtaraxiaSide>();
             int sideDamage = (int)(0.75f * centerDamage);
-            Vector2 speed = new Vector2(speedX, speedY);
-            speed.Normalize();
-            speed *= 22f;
+            Vector2 originalVelocity = velocity;
+            velocity.Normalize();
+            velocity *= 22f;
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 leftOffset = speed.RotatedBy(MathHelper.PiOver4, default);
-            Vector2 rightOffset = speed.RotatedBy(-MathHelper.PiOver4, default);
-            leftOffset -= 1.4f * speed;
-            rightOffset -= 1.4f * speed;
-            Projectile.NewProjectile(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
+            Vector2 leftOffset = velocity.RotatedBy(MathHelper.PiOver4, default);
+            Vector2 rightOffset = velocity.RotatedBy(-MathHelper.PiOver4, default);
+            leftOffset -= 1.4f * velocity;
+            rightOffset -= 1.4f * velocity;
+            Projectile.NewProjectile(source, new Vector2(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, new Vector2(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

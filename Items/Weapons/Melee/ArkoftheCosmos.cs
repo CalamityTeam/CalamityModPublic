@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -132,14 +133,14 @@ namespace CalamityMod.Items.Weapons.Melee
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ArkoftheCosmosSwungBlade>());
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 if (Charge > 0 && player.controlUp)
                 {
-                    float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI, Charge);
+                    float angle = velocity.ToRotation();
+                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, velocity, ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI, Charge);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -148,7 +149,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
 
                 else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                    Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheCosmosParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
             }
@@ -158,14 +159,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
             float scissorState = Combo == 4 ? 2 : Combo % 2;
 
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheCosmosSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);
+            Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheCosmosSwungBlade>(), damage, knockback, player.whoAmI, scissorState, Charge);
 
 
             //Shoot projectiles
             if (scissorState != 2)
             {
-                Vector2 throwVector = new Vector2(speedX, speedY);
-                Projectile.NewProjectile(player.Center + Utils.SafeNormalize(throwVector, Vector2.Zero) * 20, new Vector2(speedX, speedY) * 1.4f, ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center + Utils.SafeNormalize(velocity, Vector2.Zero) * 20, velocity * 1.4f, ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockback, player.whoAmI);
             }
 
             Combo += 1;

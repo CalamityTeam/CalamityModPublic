@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -122,14 +123,14 @@ namespace CalamityMod.Items.Weapons.Melee
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ArkoftheElementsSwungBlade>());
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 if (Charge > 0 && player.controlUp)
                 {
-                    float angle = new Vector2(speedX, speedY).ToRotation();
-                    Projectile.NewProjectile(player.Center + angle.ToRotationVector2() * 90f, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
+                    float angle = velocity.ToRotation();
+                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, velocity, ProjectileType<ArkoftheElementsSnapBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
@@ -138,7 +139,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
 
                 else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                    Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheElementsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
 
                 return false;
             }
@@ -147,7 +148,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage = (int)(chargeDamageMultiplier * damage);
             float scissorState = Combo == ComboLenght ? 2 : Combo % 2;
 
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockBack, player.whoAmI, scissorState, Charge);
+            Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheElementsSwungBlade>(), damage, knockback, player.whoAmI, scissorState, Charge);
 
             Combo += 1;
             if (Combo > ComboLenght)
@@ -159,19 +160,18 @@ namespace CalamityMod.Items.Weapons.Melee
             //Shoot projectiles every upwards swing
             if (scissorState == 1f)
             {
-                Vector2 throwVector = new Vector2(speedX, speedY);
                 float empoweredNeedles = Charge > 0 ? 1f : 0f;
-                Projectile.NewProjectile(player.Center + Utils.SafeNormalize(throwVector, Vector2.Zero) * 20, new Vector2(speedX, speedY) * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * needleDamageMultiplier), knockBack, player.whoAmI, empoweredNeedles);
+                Projectile.NewProjectile(source, player.Center + Utils.SafeNormalize(velocity, Vector2.Zero) * 20, velocity * 2.8f, ProjectileType<SolarNeedle>(), (int)(damage * needleDamageMultiplier), knockback, player.whoAmI, empoweredNeedles);
 
 
-                Vector2 Shift = Utils.SafeNormalize(new Vector2(speedX, speedY).RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 20;
+                Vector2 Shift = Utils.SafeNormalize(velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 20;
 
-                Projectile.NewProjectile(player.Center + Shift, throwVector.RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center + Shift * 1.2f, throwVector.RotatedBy(MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center + Shift, velocity.RotatedBy(MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center + Shift * 1.2f, velocity.RotatedBy(MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
 
 
-                Projectile.NewProjectile(player.Center - Shift, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center - Shift * 1.2f, throwVector.RotatedBy(-MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center - Shift, velocity.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center - Shift * 1.2f, velocity.RotatedBy(-MathHelper.PiOver4 * 0.4f) * 0.8f, ProjectileType<ElementalGlassStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
             }
 
             Charge--;

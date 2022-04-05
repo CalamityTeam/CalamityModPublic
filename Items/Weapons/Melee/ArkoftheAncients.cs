@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
@@ -81,12 +82,12 @@ namespace CalamityMod.Items.Weapons.Melee
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ArkoftheAncientsSwungBlade>());
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+                    Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
                 return false;
             }
 
@@ -96,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (Charge > 0)
                 damage = (int)(chargeDamageMultiplier * damage);
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<ArkoftheAncientsSwungBlade>(), damage, knockBack, player.whoAmI, Combo, Charge);
+            Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<ArkoftheAncientsSwungBlade>(), damage, knockback, player.whoAmI, Combo, Charge);
 
             Combo *= -1f;
             Charge --;
