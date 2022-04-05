@@ -166,8 +166,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             if (HopCooldown <= 0f && Projectile.oldPosition.Y == Projectile.position.Y)
             {
-                float hopXMult = Utils.InverseLerp(50f, 500f, targetPosition.X - Projectile.Center.X, true);
-                float hopYMult = Utils.InverseLerp(40f, 300f, targetPosition.Y - Projectile.Center.Y, true);
+                float hopXMult = Utils.GetLerpValue(50f, 500f, targetPosition.X - Projectile.Center.X, true);
+                float hopYMult = Utils.GetLerpValue(40f, 300f, targetPosition.Y - Projectile.Center.Y, true);
                 float hopSpeedX = MathHelper.Lerp(4f, 17f, hopXMult) * Math.Sign(targetPosition.X - Projectile.Center.X);
                 float hopSpeedY = -1 * MathHelper.Lerp(8f, 23f, hopYMult);
 

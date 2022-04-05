@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Magic
             if (completionRatio < 0.1f)
                 width = (float)Math.Sin(completionRatio / 0.1f * MathHelper.PiOver2) * maxWidthOutwardness + 0.1f;
             else
-                width = MathHelper.Lerp(maxWidthOutwardness, 0f, Utils.InverseLerp(0.1f, 1f, completionRatio, true));
+                width = MathHelper.Lerp(maxWidthOutwardness, 0f, Utils.GetLerpValue(0.1f, 1f, completionRatio, true));
             return width * Projectile.Opacity;
         }
 

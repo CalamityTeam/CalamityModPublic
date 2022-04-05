@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void FindFrame(int frameHeight)
         {
             float slashCounter = SlashCounter + (SlashingFromRight ? 0f : SlashCounterLimit);
-            float slashInterpolant = Utils.InverseLerp(0f, SlashCounterLimit * 2f, slashCounter, true);
+            float slashInterpolant = Utils.GetLerpValue(0f, SlashCounterLimit * 2f, slashCounter, true);
             if (AttackDelayTimer < 120f)
             {
                 NPC.frameCounter += 0.15f;

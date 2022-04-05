@@ -39,9 +39,9 @@ namespace CalamityMod.Projectiles.Boss
             float[] hue = new float[drawnAmt];
             float[] size = new float[drawnAmt];
             int totalTime = 210;
-            float colorChangeAmt = Utils.InverseLerp(0f, 60f, Projectile.timeLeft, true) * Utils.InverseLerp(totalTime, totalTime - 60, Projectile.timeLeft, true);
-            float colorChangeAmt2 = Utils.InverseLerp(0f, 60f, Projectile.timeLeft, true) * Utils.InverseLerp(totalTime, 90f, Projectile.timeLeft, true);
-            colorChangeAmt2 = Utils.InverseLerp(0.2f, 0.5f, colorChangeAmt2, true);
+            float colorChangeAmt = Utils.GetLerpValue(0f, 60f, Projectile.timeLeft, true) * Utils.GetLerpValue(totalTime, totalTime - 60, Projectile.timeLeft, true);
+            float colorChangeAmt2 = Utils.GetLerpValue(0f, 60f, Projectile.timeLeft, true) * Utils.GetLerpValue(totalTime, 90f, Projectile.timeLeft, true);
+            colorChangeAmt2 = Utils.GetLerpValue(0.2f, 0.5f, colorChangeAmt2, true);
             float sizeScale = 0.8f;
             float sizeScalar = (1f - sizeScale) / drawnAmt;
             float yPosOffset = 60f;

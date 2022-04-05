@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.Center = Target.Center;
             if (Time < 90f)
             {
-                float completionRatio = Utils.InverseLerp(0f, 90f, Time, true);
+                float completionRatio = Utils.GetLerpValue(0f, 90f, Time, true);
                 float offsetRatioOnSprite = (float)Math.Sin(completionRatio * MathHelper.ToRadians(720f)) * 0.5f + 0.5f;
                 Vector2 dustInitialPosition = Vector2.Lerp(Target.Top, Target.Bottom, offsetRatioOnSprite);
                 for (int i = 0; i < 4; i++)
@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 for (int i = 0; i < 50; i++)
                 {
-                    float angle = MathHelper.TwoPi / 50f * i + Utils.InverseLerp(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
-                    float radius = MathHelper.Lerp(0f, 25f, Utils.InverseLerp(90f, 150f, Time, true));
+                    float angle = MathHelper.TwoPi / 50f * i + Utils.GetLerpValue(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
+                    float radius = MathHelper.Lerp(0f, 25f, Utils.GetLerpValue(90f, 150f, Time, true));
                     Dust dust = Dust.NewDustPerfect(Target.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     if (Main.rand.NextBool(6))

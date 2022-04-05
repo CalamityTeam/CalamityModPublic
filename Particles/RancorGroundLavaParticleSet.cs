@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace CalamityMod.Particles
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 Vector2 origin = fusableParticleBase.Size() * 0.5f;
                 Vector2 scale = Vector2.One * particle.Size / fusableParticleBase.Size() * new Vector2(1f, 0.5f);
-                Color drawColor = Color.Lerp(BorderColor, new Color(0f, 0f, 1f), Utils.InverseLerp(120f, 135f, particle.Size, true) * 0.1f) * 1.4f;
+                Color drawColor = Color.Lerp(BorderColor, new Color(0f, 0f, 1f), Utils.GetLerpValue(120f, 135f, particle.Size, true) * 0.1f) * 1.4f;
                 Main.spriteBatch.Draw(fusableParticleBase, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }
         }

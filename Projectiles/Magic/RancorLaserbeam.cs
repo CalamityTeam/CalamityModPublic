@@ -1,4 +1,4 @@
-using CalamityMod.Buffs;
+﻿using CalamityMod.Buffs;
 using CalamityMod.Particles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -158,9 +158,9 @@ namespace CalamityMod.Projectiles.Magic
         private Color PrimitiveColorFunction(float completionRatio)
         {
             Color vibrantColor = Color.Lerp(Color.Blue, Color.Red, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.67f - completionRatio / LaserLength * 29f) * 0.5f + 0.5f);
-            float opacity = Projectile.Opacity * Utils.InverseLerp(0.97f, 0.9f, completionRatio, true) *
-                Utils.InverseLerp(0f, MathHelper.Clamp(15f / LaserLength, 0f, 0.5f), completionRatio, true) *
-                (float)Math.Pow(Utils.InverseLerp(60f, 270f, LaserLength, true), 3D);
+            float opacity = Projectile.Opacity * Utils.GetLerpValue(0.97f, 0.9f, completionRatio, true) *
+                Utils.GetLerpValue(0f, MathHelper.Clamp(15f / LaserLength, 0f, 0.5f), completionRatio, true) *
+                (float)Math.Pow(Utils.GetLerpValue(60f, 270f, LaserLength, true), 3D);
             return Color.Lerp(vibrantColor, Color.White, 0.5f) * opacity * 2f;
         }
 

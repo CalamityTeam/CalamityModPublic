@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
-            if (Projectile.frameCounter++ >= (int)MathHelper.Lerp(10f, 1f, Utils.InverseLerp(0f, 200f, Time, true)))
+            if (Projectile.frameCounter++ >= (int)MathHelper.Lerp(10f, 1f, Utils.GetLerpValue(0f, 200f, Time, true)))
             {
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
                 Projectile.frameCounter = 0;

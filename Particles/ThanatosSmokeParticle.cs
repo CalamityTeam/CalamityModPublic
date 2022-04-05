@@ -31,10 +31,10 @@ namespace CalamityMod.Particles
             RelativeOffset -= (BaseMoveRotation + Main.rand.NextFloat(-0.18f, 0.18f)).ToRotationVector2() * RelativePower * 4.5f;
 
             Color = Color.DarkRed;
-            Color = Color.Lerp(Color, new Color(154, 139, 138), (float)Math.Pow(Utils.InverseLerp(0f, 0.57f, LifetimeCompletion, true), 2D) * 0.5f + 0.5f);
+            Color = Color.Lerp(Color, new Color(154, 139, 138), (float)Math.Pow(Utils.GetLerpValue(0f, 0.57f, LifetimeCompletion, true), 2D) * 0.5f + 0.5f);
             Color.A = 92;
 
-            float opacity = Utils.InverseLerp(1f, 0.85f, LifetimeCompletion, true);
+            float opacity = Utils.GetLerpValue(1f, 0.85f, LifetimeCompletion, true);
             Color *= opacity;
         }
 

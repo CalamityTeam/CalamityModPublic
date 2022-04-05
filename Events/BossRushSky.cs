@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -68,7 +68,7 @@ namespace CalamityMod.Events
                 return 1f;
 
             float fadeRatio = BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime;
-            return Utils.InverseLerp(0.57f, 1f, fadeRatio, true);
+            return Utils.GetLerpValue(0.57f, 1f, fadeRatio, true);
         }
 
         public override Color OnTileColor(Color inColor) => new Color(Vector4.Lerp(GeneralColor.ToVector4() * 0.5f, inColor.ToVector4(), 1f - GetIntensity()));
@@ -89,8 +89,8 @@ namespace CalamityMod.Events
             {
                 Texture2D whiteTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocLight");
                 Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
-                float fadeToWhite = Utils.InverseLerp(110f, 140f, BossRushEvent.EndTimer, true);
-                fadeToWhite *= Utils.InverseLerp(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
+                float fadeToWhite = Utils.GetLerpValue(110f, 140f, BossRushEvent.EndTimer, true);
+                fadeToWhite *= Utils.GetLerpValue(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
                 float backScale = MathHelper.Lerp(0.01f, 8f, fadeToWhite);
                 Color backFadeColor = Color.White * fadeToWhite * 0.64f;
 

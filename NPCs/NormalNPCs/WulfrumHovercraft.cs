@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -221,11 +221,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 SubphaseTime++;
                 if (SubphaseTime < swoopSlowdownTime)
                 {
-                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.InverseLerp(45f, 0f, SubphaseTime));
+                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.GetLerpValue(45f, 0f, SubphaseTime));
                 }
                 if (SubphaseTime >= swoopType - swoopSlowdownTime)
                 {
-                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.InverseLerp(swoopType - 45f, swoopType, SubphaseTime));
+                    swoopVelocity *= MathHelper.Lerp(1f, 0.75f, Utils.GetLerpValue(swoopType - 45f, swoopType, SubphaseTime));
                 }
                 swoopVelocity.Y *= 0.5f;
 

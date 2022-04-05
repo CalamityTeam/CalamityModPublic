@@ -734,7 +734,7 @@ namespace CalamityMod.NPCs.Providence
                             int dustAmt = (int)MathHelper.Lerp(4f, 8f, calamityGlobalNPC.newAI[3] / spawnAnimationTime);
                             for (int m = 0; m < dustAmt; m++)
                             {
-                                float fade = MathHelper.Lerp(1.3f, 0.7f, NPC.Opacity) * Utils.InverseLerp(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
+                                float fade = MathHelper.Lerp(1.3f, 0.7f, NPC.Opacity) * Utils.GetLerpValue(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
                                 Color newColor = Main.hslToRgb(calamityGlobalNPC.newAI[3] / 180f, 1f, 0.5f);
 
                                 if (!nightTime)
@@ -1371,7 +1371,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             // Idly release harmless cindiers.
-            int shootRate = (int)MathHelper.Lerp(12f, 5f, Utils.InverseLerp(0f, 250f, DeathAnimationTimer, true));
+            int shootRate = (int)MathHelper.Lerp(12f, 5f, Utils.GetLerpValue(0f, 250f, DeathAnimationTimer, true));
             if (DeathAnimationTimer % shootRate == shootRate - 1f)
             {
                 for (int i = 0; i < 3; i++)
@@ -1424,7 +1424,7 @@ namespace CalamityMod.NPCs.Providence
             // A factor which measures how much of the distance shortening shave-off should be taken into account.
             // It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
             // This shave-off does not happen when guardians are present.
-            float shorterDistanceFade = Utils.InverseLerp(0f, 120f, aiTimer, true);
+            float shorterDistanceFade = Utils.GetLerpValue(0f, 120f, aiTimer, true);
             if (!guardianAlive)
             {
                 maxDistance = baseDistance;
@@ -1433,7 +1433,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             float drawFireDistanceStart = maxDistance - 800f;
-            return Utils.InverseLerp(drawFireDistanceStart, maxDistance, distanceToTarget, true);
+            return Utils.GetLerpValue(drawFireDistanceStart, maxDistance, distanceToTarget, true);
         }
 
         private void DespawnSpecificProjectiles(bool dying = false)
@@ -1718,7 +1718,7 @@ namespace CalamityMod.NPCs.Providence
                 spriteBatch.Draw(textureGlow2, vector43, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
             }
 
-            float burnIntensity = Utils.InverseLerp(0f, 45f, DeathAnimationTimer, true);
+            float burnIntensity = Utils.GetLerpValue(0f, 45f, DeathAnimationTimer, true);
             int totalProvidencesToDraw = (int)MathHelper.Lerp(1f, 30f, burnIntensity);
             for (int i = 0; i < totalProvidencesToDraw; i++)
             {

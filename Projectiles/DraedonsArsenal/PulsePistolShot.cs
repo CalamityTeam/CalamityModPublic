@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     angleOffset = MathHelper.Clamp(angleOffset, -0.2f, 0.2f);
                     Projectile.velocity = Projectile.velocity.RotatedBy(angleOffset);
                 }
-                float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.InverseLerp(10f, 50f, Time, true));
+                float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(10f, 50f, Time, true));
 
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 234);
                 dust.noGravity = true;

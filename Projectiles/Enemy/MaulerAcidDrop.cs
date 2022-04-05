@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Enemy
             Player target = Main.player[Player.FindClosest(Projectile.Center, 1, 1)];
             if (Projectile.WithinRange(target.Center, 1200f) && Projectile.timeLeft < 210)
                 Projectile.velocity = (Projectile.velocity * 59f + Projectile.SafeDirectionTo(target.Center) * homingSpeed) / 60f;
-            Projectile.Opacity = Utils.InverseLerp(0f, 25f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 25f, Projectile.timeLeft, true);
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 

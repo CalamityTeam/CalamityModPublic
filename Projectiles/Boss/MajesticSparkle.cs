@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             // Go 33% across the color spectrum throughout the sparkle's lifetime instead of using a static color.
             ColorSpectrumHue = (ColorSpectrumHue + 0.333f / Lifetime) % 0.999f;
 
-            Projectile.Opacity = Utils.InverseLerp(0f, FadeinTime, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - FadeoutTime, Time, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, FadeinTime, Time, true) * Utils.GetLerpValue(Lifetime, Lifetime - FadeoutTime, Time, true);
             Projectile.velocity = Projectile.velocity.RotatedBy(Math.Sin(Time / 30f) * 0.0125f);
 
             Time++;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
             Color sparkleColor = Main.hslToRgb(ColorSpectrumHue, 1f, 0.5f) * Projectile.Opacity * 0.5f;
             sparkleColor.A = 0;
 
-            sparkleColor *= MathHelper.Lerp(1f, 1.5f, Utils.InverseLerp(Lifetime * 0.5f - 15f, Lifetime * 0.5f + 15f, Time, true));
+            sparkleColor *= MathHelper.Lerp(1f, 1.5f, Utils.GetLerpValue(Lifetime * 0.5f - 15f, Lifetime * 0.5f + 15f, Time, true));
 
             Color orthogonalSparkleColor = Color.Lerp(sparkleColor, Color.White, 0.5f) * 0.5f;
 

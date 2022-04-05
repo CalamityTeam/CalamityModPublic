@@ -60,12 +60,12 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
-            Projectile.scale = Utils.InverseLerp(-1f, 15f, Projectile.timeLeft, true) * Utils.InverseLerp(Lifetime + 1f, Lifetime - 15f, Projectile.timeLeft, true);
+            Projectile.scale = Utils.GetLerpValue(-1f, 15f, Projectile.timeLeft, true) * Utils.GetLerpValue(Lifetime + 1f, Lifetime - 15f, Projectile.timeLeft, true);
         }
 
         private float PrimitiveWidthFunction(float completionRatio)
         {
-            return Utils.InverseLerp(1f, 0.96f, completionRatio, true) * Utils.InverseLerp(0f, 0.016f, completionRatio, true) * Projectile.scale * 20f;
+            return Utils.GetLerpValue(1f, 0.96f, completionRatio, true) * Utils.GetLerpValue(0f, 0.016f, completionRatio, true) * Projectile.scale * 20f;
         }
 
         private Color PrimitiveColorFunction(float completionRatio)

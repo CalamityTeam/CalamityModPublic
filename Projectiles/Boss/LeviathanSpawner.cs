@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity > 1f)
                 Projectile.Opacity = 1f;
 
-            Main.LocalPlayer.Calamity().GeneralScreenShakePower = (float)Math.Pow(Utils.InverseLerp(180f, 290f, Time, true), 0.3D) * 6f;
-            Main.LocalPlayer.Calamity().GeneralScreenShakePower += CalamityUtils.Convert01To010((float)Math.Pow(Utils.InverseLerp(300f, 440f, Time, true), 0.5D)) * 10f;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower = (float)Math.Pow(Utils.GetLerpValue(180f, 290f, Time, true), 0.3D) * 6f;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower += CalamityUtils.Convert01To010((float)Math.Pow(Utils.GetLerpValue(300f, 440f, Time, true), 0.5D)) * 10f;
 
             if (Projectile.timeLeft == 45)
             {

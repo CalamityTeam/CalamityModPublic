@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (TalkTimer <= HologramFadeinTime)
             {
                 HologramEffectTimer = TalkTimer;
-                NPC.Opacity = Utils.InverseLerp(0f, 8f, TalkTimer, true);
+                NPC.Opacity = Utils.GetLerpValue(0f, 8f, TalkTimer, true);
             }
 
             // Play the stand up animation after teleportation.
@@ -228,8 +228,8 @@ namespace CalamityMod.NPCs.ExoMechs
             // Make the screen rumble and summon the exo mechs.
             if (TalkTimer > ExoMechChooseDelay + 8f && TalkTimer < ExoMechPhaseDialogueTime)
             {
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(4200f, 1400f, Main.LocalPlayer.Distance(PlayerToFollow.Center), true) * 18f;
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(ExoMechChooseDelay + 5f, ExoMechPhaseDialogueTime, TalkTimer, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.GetLerpValue(4200f, 1400f, Main.LocalPlayer.Distance(PlayerToFollow.Center), true) * 18f;
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.GetLerpValue(ExoMechChooseDelay + 5f, ExoMechPhaseDialogueTime, TalkTimer, true);
             }
 
             // Summon the selected exo mech.
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 NPC.velocity *= 0.96f;
 
-                float moveSpeed = MathHelper.Lerp(2f, 8f, Utils.InverseLerp(45f, 275f, NPC.Distance(hoverDestination), true));
+                float moveSpeed = MathHelper.Lerp(2f, 8f, Utils.GetLerpValue(45f, 275f, NPC.Distance(hoverDestination), true));
                 NPC.Center = NPC.Center.MoveTowards(hoverDestination, moveSpeed);
             }
             else
@@ -525,7 +525,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override Color? GetAlpha(Color drawColor)
         {
-            float teleportFade = Utils.InverseLerp(0f, HologramFadeinTime, HologramEffectTimer, true);
+            float teleportFade = Utils.GetLerpValue(0f, HologramFadeinTime, HologramEffectTimer, true);
             Color color = Color.Lerp(drawColor, Color.Cyan, 1f - (float)Math.Pow(teleportFade, 5D));
             color.A = (byte)(int)(teleportFade * 255f);
 

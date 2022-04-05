@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (potentialTarget != null)
                     HomeInOnTarget(potentialTarget);
 
-                float accelerationFactor = MathHelper.SmoothStep(1.025f, 1.015f, Utils.InverseLerp(6f, 24f, Projectile.velocity.Length(), true));
+                float accelerationFactor = MathHelper.SmoothStep(1.025f, 1.015f, Utils.GetLerpValue(6f, 24f, Projectile.velocity.Length(), true));
                 if (Projectile.velocity.Length() < 24f)
                     Projectile.velocity *= accelerationFactor;
             }
@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Magic
         public void HomeInOnTarget(NPC target)
         {
             float oldSpeed = Projectile.velocity.Length();
-            float delayFactor = Utils.InverseLerp(20f, 35f, Time, true);
+            float delayFactor = Utils.GetLerpValue(20f, 35f, Time, true);
             float homeSpeed = MathHelper.Lerp(0f, 0.075f, delayFactor);
 
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(target.Center) * 16f, homeSpeed);
             Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * oldSpeed;
-            Projectile.position += (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * MathHelper.Lerp(25f, 1f, Utils.InverseLerp(100f, 360f, Projectile.Distance(target.Center), true)) * delayFactor;
+            Projectile.position += (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * MathHelper.Lerp(25f, 1f, Utils.GetLerpValue(100f, 360f, Projectile.Distance(target.Center), true)) * delayFactor;
         }
 
         public Dust CreateDustInstance()

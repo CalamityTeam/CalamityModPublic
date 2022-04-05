@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Magic
                 if (potentialTarget != null)
                     HomeInOnTarget(projectile, potentialTarget, time);
 
-                float accelerationFactor = MathHelper.SmoothStep(1.03f, 1.015f, Utils.InverseLerp(6f, 24f, projectile.velocity.Length(), true));
+                float accelerationFactor = MathHelper.SmoothStep(1.03f, 1.015f, Utils.GetLerpValue(6f, 24f, projectile.velocity.Length(), true));
                 if (projectile.velocity.Length() < 21f + soulPower * 2f)
                     projectile.velocity *= accelerationFactor;
             }
-            projectile.Opacity = Utils.InverseLerp(0f, 15f, time, true);
+            projectile.Opacity = Utils.GetLerpValue(0f, 15f, time, true);
             projectile.frameCounter++;
             if (projectile.frameCounter % 5f == 4f)
                 projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
         public static void HomeInOnTarget(Projectile projectile, NPC target, float time)
         {
             float oldSpeed = projectile.velocity.Length();
-            float delayFactor = Utils.InverseLerp(20f, 35f, time, true);
+            float delayFactor = Utils.GetLerpValue(20f, 35f, time, true);
             float homeSpeed = MathHelper.Lerp(0f, 0.075f, delayFactor);
 
             projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(target.Center) * 16f, homeSpeed);
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int j = 0; j < Projectile.oldPos.Length / 2; j++)
                 {
-                    float fade = (float)Math.Pow(1f - Utils.InverseLerp(0f, Projectile.oldPos.Length / 2, j, true), 2D);
+                    float fade = (float)Math.Pow(1f - Utils.GetLerpValue(0f, Projectile.oldPos.Length / 2, j, true), 2D);
                     Color drawColor = Color.Lerp(Projectile.GetAlpha(lightColor), Color.White * Projectile.Opacity, j / Projectile.oldPos.Length) * fade;
                     Vector2 drawPosition = Projectile.oldPos[j] + Projectile.Size * 0.5f + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 1.5f - Main.screenPosition;
                     float rotation = Projectile.oldRot[j];

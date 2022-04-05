@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             // Factor in the critical strike chance the player isn't getting to use.
             float convertedCritBonus = StoredCritConversionRatio * mp.spiritOriginConvertedCrit;
 
-            float useTimeInterpolant = Utils.InverseLerp(MinUseTimeForSlowBonus, MaxSlowBonusUseTime, p.ActiveItem().useTime, true);
+            float useTimeInterpolant = Utils.GetLerpValue(MinUseTimeForSlowBonus, MaxSlowBonusUseTime, p.ActiveItem().useTime, true);
             float slowWeaponBonus = MathHelper.Lerp(0f, MaxSlowWeaponBonus, useTimeInterpolant);
             return baseCritMult * (1f + convertedCritBonus + slowWeaponBonus);
         }

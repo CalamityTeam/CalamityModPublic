@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -55,10 +55,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // The faster the projectile itself is, the slower the dust, and the longer it lasts.
             // This is done to give the projectile a "streak" movement the faster it is versus a expansion.
             int dustCount = HasCollidedWithATile ? 5 : 12;
-            float baseSpeedRatio = Utils.InverseLerp(6f, 14f, Projectile.velocity.Length(), true);
+            float baseSpeedRatio = Utils.GetLerpValue(6f, 14f, Projectile.velocity.Length(), true);
             float speed = MathHelper.Lerp(6f, 1.8f, (float)Math.Pow(baseSpeedRatio, 3f));
             if (!HasCollidedWithATile)
-                speed += MathHelper.Lerp(-6f, 4f, Utils.InverseLerp(10f, 150f, Time, true));
+                speed += MathHelper.Lerp(-6f, 4f, Utils.GetLerpValue(10f, 150f, Time, true));
             float persistence = MathHelper.Lerp(0f, 0.8f, baseSpeedRatio);
             for (int i = 0; i < dustCount; i++)
             {

@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
                 TimeCountdown--;
             }
             else
-                Projectile.scale = Utils.InverseLerp(60000f, 59945f, Projectile.timeLeft, true) * Utils.InverseLerp(60f, 115f, CalamityWorld.DoGSecondStageCountdown, true);
+                Projectile.scale = Utils.GetLerpValue(60000f, 59945f, Projectile.timeLeft, true) * Utils.GetLerpValue(60f, 115f, CalamityWorld.DoGSecondStageCountdown, true);
 
             if ((CalamityWorld.DoGSecondStageCountdown < 60f && TimeCountdown == 0f) || NPCs.CalamityGlobalNPC.DoGHead == -1 || TimeCountdown == 1f)
                 Projectile.Kill();

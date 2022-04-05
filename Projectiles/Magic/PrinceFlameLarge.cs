@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
             // Dissipate at the end of the projectile's lifetime.
             if (dissipating)
             {
-                Projectile.frame = (int)Math.Round(MathHelper.Lerp(4f, 7f, Utils.InverseLerp(FadeoutTime, 0f, Projectile.timeLeft, true)));
+                Projectile.frame = (int)Math.Round(MathHelper.Lerp(4f, 7f, Utils.GetLerpValue(FadeoutTime, 0f, Projectile.timeLeft, true)));
                 Projectile.velocity *= 0.95f;
                 return;
             }

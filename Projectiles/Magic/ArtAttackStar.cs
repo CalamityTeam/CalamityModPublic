@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Vector2 destination = Main.MouseWorld;
             float distanceFromTarget = Projectile.Distance(destination);
-            float moveInterpolant = Utils.InverseLerp(0f, 100f, distanceFromTarget, true) * Utils.InverseLerp(600f, 400f, distanceFromTarget, true);
+            float moveInterpolant = Utils.GetLerpValue(0f, 100f, distanceFromTarget, true) * Utils.GetLerpValue(600f, 400f, distanceFromTarget, true);
             Vector2 targetCenterOffsetVec = destination - Projectile.Center;
             float movementSpeed = MathHelper.Min(60f, targetCenterOffsetVec.Length());
             Vector2 idealVelocity = targetCenterOffsetVec.SafeNormalize(Vector2.Zero) * movementSpeed;
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void DoShapeHitAreaChecks(List<Vector2> cleanOldPositions, int shapeEndPoint)
         {
-            float damageFactor = MathHelper.Lerp(1f, ArtAttack.MaxDamageBoostFactor, Utils.InverseLerp(0f, ArtAttack.MaxDamageBoostTime, Time, true));
+            float damageFactor = MathHelper.Lerp(1f, ArtAttack.MaxDamageBoostFactor, Utils.GetLerpValue(0f, ArtAttack.MaxDamageBoostTime, Time, true));
             int damage = (int)(Projectile.damage * damageFactor);
             for (int i = 0; i < Main.maxNPCs; i++)
             {
@@ -231,16 +231,16 @@ namespace CalamityMod.Projectiles.Magic
         public Color TrailColor(float completionRatio)
         {
             float hue = (Main.GlobalTimeWrappedHourly * -0.62f + completionRatio * 1.5f) % 1f;
-            float brightness = MathHelper.SmoothStep(0.5f, 1f, Utils.InverseLerp(0.3f, 0f, completionRatio, true));
-            float opacity = Utils.InverseLerp(1f, 0.8f, completionRatio, true) * Projectile.Opacity;
+            float brightness = MathHelper.SmoothStep(0.5f, 1f, Utils.GetLerpValue(0.3f, 0f, completionRatio, true));
+            float opacity = Utils.GetLerpValue(1f, 0.8f, completionRatio, true) * Projectile.Opacity;
             Color color = Main.hslToRgb(hue, 1f, brightness) * opacity;
-            color.A = (byte)(int)(Utils.InverseLerp(0f, 0.2f, completionRatio) * 128);
+            color.A = (byte)(int)(Utils.GetLerpValue(0f, 0.2f, completionRatio) * 128);
             return color;
         }
 
         public float TrailWidth(float completionRatio)
         {
-            float widthInterpolant = Utils.InverseLerp(-0.1f, 0.25f, completionRatio, true) * Utils.InverseLerp(1.1f, 0.5f, completionRatio, true);
+            float widthInterpolant = Utils.GetLerpValue(-0.1f, 0.25f, completionRatio, true) * Utils.GetLerpValue(1.1f, 0.5f, completionRatio, true);
             return MathHelper.SmoothStep(0f, 20f, widthInterpolant);
         }
 

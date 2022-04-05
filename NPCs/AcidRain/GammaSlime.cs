@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Buffs.StatDebuffs;
@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.AcidRain
         public float DustAngleMultiplier1;
         public float DustAngleMultiplier2;
         public Player Target => Main.player[NPC.target];
-        public float LaserTelegraphPower => Utils.InverseLerp(540f, 480f, LaserShootCountdown, true);
+        public float LaserTelegraphPower => Utils.GetLerpValue(540f, 480f, LaserShootCountdown, true);
         public float LaserTelegraphLength => MathHelper.Lerp(20f, 550f, LaserTelegraphPower);
         public float LaserTelegraphOpacity => MathHelper.Lerp(0.3f, 0.9f, LaserTelegraphPower);
         public ref float GammaAcidShootTimer => ref NPC.ai[0];

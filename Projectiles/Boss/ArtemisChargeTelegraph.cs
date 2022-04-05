@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Center = ThingToAttachTo.Center + Projectile.velocity * 50f;
 
             // Determine opacity
-            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 8f, Projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -75,14 +75,14 @@ namespace CalamityMod.Projectiles.Boss
         public Color TelegraphPrimitiveColor(float completionRatio)
         {
             float colorInterpolant = (completionRatio * 1.2f + Main.GlobalTimeWrappedHourly * 0.26f) % 1f;
-            float opacity = MathHelper.Lerp(0.2f, 0.425f, Projectile.Opacity) * Utils.InverseLerp(30f, 24f, Projectile.timeLeft, true);
+            float opacity = MathHelper.Lerp(0.2f, 0.425f, Projectile.Opacity) * Utils.GetLerpValue(30f, 24f, Projectile.timeLeft, true);
             return CalamityUtils.MulticolorLerp(colorInterpolant, Color.Orange, Color.Red, Color.Crimson, Color.Red) * opacity;
         }
 
         public float TelegraphPrimitiveWidth(float completionRatio)
         {
             // Used to determine the degree to which the ends of the telegraph should smoothen away.
-            float endSmoothenFactor = Utils.InverseLerp(1f, 0.995f, completionRatio, true);
+            float endSmoothenFactor = Utils.GetLerpValue(1f, 0.995f, completionRatio, true);
             return endSmoothenFactor * Projectile.Opacity * 22f;
         }
 

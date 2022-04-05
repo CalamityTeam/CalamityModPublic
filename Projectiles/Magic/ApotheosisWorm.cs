@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Time <= 90f)
             {
-                int visibleSegmentIndex = (int)MathHelper.Lerp(0f, Segments.Length, Utils.InverseLerp(15f, 70f, Time, true));
+                int visibleSegmentIndex = (int)MathHelper.Lerp(0f, Segments.Length, Utils.GetLerpValue(15f, 70f, Time, true));
                 if (segmentIndex < visibleSegmentIndex)
                 {
                     Segments[segmentIndex].Alpha -= 17;
@@ -308,7 +308,7 @@ namespace CalamityMod.Projectiles.Magic
             // This is extremely similar to the portal created when DoG teleports.
             if (Time < 60f)
             {
-                float currentFade = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(60f, 52f, Time, true);
+                float currentFade = Utils.GetLerpValue(0f, 8f, Time, true) * Utils.GetLerpValue(60f, 52f, Time, true);
                 currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
                 Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj");

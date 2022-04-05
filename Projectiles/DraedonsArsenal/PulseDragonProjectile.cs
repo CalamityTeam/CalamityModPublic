@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             if (Projectile.timeLeft >= Lifetime - ChargeTime)
             {
-                float time = Utils.InverseLerp(Lifetime, Lifetime - ChargeTime, Projectile.timeLeft, true);
+                float time = Utils.GetLerpValue(Lifetime, Lifetime - ChargeTime, Projectile.timeLeft, true);
                 float offsetAngle = MathHelper.Lerp(-1.1f, 1.5f, time); // Set the range of the offset to -1.8 and 1.8 based off of the time.
                 offsetAngle *= Projectile.localAI[0]; // Incorporate direction into the offset angle.
 
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 Vector2 offset = Vector2.UnitX * -SwingDirection;
                 offset *= Outwardness * (float)Math.Sin(i / 20f * MathHelper.Pi);
-                offset *= Utils.InverseLerp(0f, 300f, Owner.Distance(Vector2.Lerp(mountedCenter, Projectile.Center, i / 20f) + offset), true);
+                offset *= Utils.GetLerpValue(0f, 300f, Owner.Distance(Vector2.Lerp(mountedCenter, Projectile.Center, i / 20f) + offset), true);
                 bezierPoints.Add(Vector2.Lerp(mountedCenter, Projectile.Center, i / 20f) + offset);
             }
             bezierPoints.Add(Projectile.Center);

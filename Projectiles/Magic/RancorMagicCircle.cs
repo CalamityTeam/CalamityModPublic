@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
 using System;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void AdjustVisualValues()
         {
-            Projectile.scale = Utils.InverseLerp(0f, 35f, Time, true) * 1.4f;
+            Projectile.scale = Utils.GetLerpValue(0f, 35f, Time, true) * 1.4f;
             Projectile.Opacity = (float)Math.Pow(Projectile.scale / 1.4f, 2D);
             Projectile.rotation -= MathHelper.ToRadians(Projectile.scale * 4f);
         }

@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
             // Calculate the scale of the cinder.
             else
             {
-                Projectile.scale = Utils.InverseLerp(0f, 20f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 20f, Time, true);
+                Projectile.scale = Utils.GetLerpValue(0f, 20f, Time, true) * Utils.GetLerpValue(Lifetime, Lifetime - 20f, Time, true);
                 Projectile.scale *= MathHelper.Lerp(0.5f, 1f, Projectile.identity % 6f / 6f);
             }
 

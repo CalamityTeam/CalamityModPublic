@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Lighting.AddLight(Projectile.Center, 0.2f, 0.01f, 0.1f);
             Projectile.ai[0] += 1f;
-            Projectile.Opacity = Utils.InverseLerp(0f, 10f * Projectile.MaxUpdates, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 10f * Projectile.MaxUpdates, Projectile.timeLeft, true);
 
             int shootRate = Projectile.npcProj ? 40 : 12;
             if (Projectile.owner == Main.myPlayer && Projectile.ai[0] % shootRate == 0f)
@@ -68,14 +68,14 @@ namespace CalamityMod.Projectiles.Magic
         internal Color ColorFunction(float completionRatio)
         {
             float fadeToEnd = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
-            float fadeOpacity = Utils.InverseLerp(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
+            float fadeOpacity = Utils.GetLerpValue(1f, 0.64f, completionRatio, true) * Projectile.Opacity;
             Color endColor = Color.Lerp(Color.Cyan, Color.HotPink, (float)Math.Sin(completionRatio * MathHelper.Pi * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(Color.White, endColor, fadeToEnd) * fadeOpacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.InverseLerp(0f, 0.3f, completionRatio, true), 2D);
+            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
             return MathHelper.Lerp(0f, 32f * Projectile.Opacity, expansionCompletion);
         }
 

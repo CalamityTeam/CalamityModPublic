@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Time++;
-            Projectile.Opacity = Utils.InverseLerp(0f, 20f, Time, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 20f, Time, true);
             Projectile.velocity = Projectile.velocity.RotatedBy(Math.Sin(Time / 30f) * 0.0125f);
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 

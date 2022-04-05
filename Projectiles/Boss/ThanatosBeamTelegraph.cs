@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)Projectile.ai[0]) ? Main.npc[(int)Projectile.ai[0]] : null;
-        public float ConvergenceRatio => MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(25f, 120f, Time, true));
+        public float ConvergenceRatio => MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(25f, 120f, Time, true));
         public ref float StartingRotationalOffset => ref Projectile.ai[1];
         public ref float ConvergenceAngle => ref Projectile.localAI[0];
         public ref float Time => ref Projectile.localAI[1];
@@ -73,14 +73,14 @@ namespace CalamityMod.Projectiles.Boss
         {
             Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
 
-            float verticalScale = Utils.InverseLerp(0f, 20f, Time, true) * Utils.InverseLerp(0f, 16f, Projectile.timeLeft, true) * 4f;
+            float verticalScale = Utils.GetLerpValue(0f, 20f, Time, true) * Utils.GetLerpValue(0f, 16f, Projectile.timeLeft, true) * 4f;
 
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, verticalScale);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 2.2f);
 
             Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, Time / Lifetime * 2f % 1f); // Iterate through crimson and red twice and then flash.
-            colorOuter = Color.Lerp(colorOuter, Color.White, Utils.InverseLerp(40f, 0f, Projectile.timeLeft, true) * 0.8f);
+            colorOuter = Color.Lerp(colorOuter, Color.White, Utils.GetLerpValue(40f, 0f, Projectile.timeLeft, true) * 0.8f);
             Color colorInner = Color.Lerp(colorOuter, Color.White, 0.5f);
 
             colorInner *= 0.85f;

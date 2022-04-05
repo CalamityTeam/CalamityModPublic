@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.World;
@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Boss
                 float completionRatio = i / (float)points.Count;
 
                 // Noise offsets should taper off at the ends of the line.
-                float offsetMuffleFactor = Utils.InverseLerp(0.12f, 0.25f, completionRatio, true) * Utils.InverseLerp(0.88f, 0.75f, completionRatio, true);
+                float offsetMuffleFactor = Utils.GetLerpValue(0.12f, 0.25f, completionRatio, true) * Utils.GetLerpValue(0.88f, 0.75f, completionRatio, true);
 
                 // Give a sense of time for the noise on the vertical axis. This is achieved via a 0-1 constricted sinusoid.
                 float noiseY = (float)Math.Cos(completionRatio * 17.2f + Main.GlobalTimeWrappedHourly * 10.7f) * 0.5f + 0.5f;

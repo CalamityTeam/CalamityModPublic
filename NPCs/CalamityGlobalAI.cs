@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.Astral;
+﻿using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
@@ -9886,7 +9886,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[1] == 1f)
             {
                 fadeOutTimer++;
-                npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.InverseLerp(500f, 600f, fadeOutTimer, true));
+                npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.GetLerpValue(500f, 600f, fadeOutTimer, true));
 
                 // Reset the idle play sound if it didn't get activated before for some reason.
                 if (Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)

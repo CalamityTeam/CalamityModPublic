@@ -57,8 +57,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile.rotation += MathHelper.ToRadians(8f); // Spin 2 win.
-            Projectile.alpha = (int)MathHelper.Lerp(255, 0, Utils.InverseLerp(0f, 20f, Time, true)); // Fade in completely after 20 frames.
-            Projectile.scale = MathHelper.Lerp(StartingScale, IdealScale, Utils.InverseLerp(0f, 30f, Time, true)); // Expand completely after 30 frames.
+            Projectile.alpha = (int)MathHelper.Lerp(255, 0, Utils.GetLerpValue(0f, 20f, Time, true)); // Fade in completely after 20 frames.
+            Projectile.scale = MathHelper.Lerp(StartingScale, IdealScale, Utils.GetLerpValue(0f, 30f, Time, true)); // Expand completely after 30 frames.
 
             // Determine the ideal scale in the first frame.
             if (IdealScale == 0f)

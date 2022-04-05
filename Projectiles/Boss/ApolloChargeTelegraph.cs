@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Determine opacity
             float telegraphTotalTime = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
-            Projectile.Opacity = Utils.InverseLerp(0f, 6f, Projectile.timeLeft, true) * Utils.InverseLerp(telegraphTotalTime, telegraphTotalTime - 6f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 6f, Projectile.timeLeft, true) * Utils.GetLerpValue(telegraphTotalTime, telegraphTotalTime - 6f, Projectile.timeLeft, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -108,8 +108,8 @@ namespace CalamityMod.Projectiles.Magic
 
             // Rise from underneath the ideal position and fade in.
             // At the end of the projectile's lifetime the arm sinks back into the ground and withers away.
-            float descendCompletion = Utils.InverseLerp(0f, 24f, Projectile.timeLeft, true);
-            float riseCompletion = Utils.InverseLerp(0f, 30f, Time, true);
+            float descendCompletion = Utils.GetLerpValue(0f, 24f, Projectile.timeLeft, true);
+            float riseCompletion = Utils.GetLerpValue(0f, 30f, Time, true);
             float heightOffset = -58f;
             if (Projectile.height > 90f)
                 heightOffset += 22f;

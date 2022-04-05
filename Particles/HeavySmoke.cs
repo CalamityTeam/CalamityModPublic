@@ -51,7 +51,7 @@ namespace CalamityMod.Particles
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
             Velocity *= 0.85f;
 
-            float opacity = Utils.InverseLerp(1f, 0.85f, LifetimeCompletion, true);
+            float opacity = Utils.GetLerpValue(1f, 0.85f, LifetimeCompletion, true);
             Color *= opacity;
         }
 

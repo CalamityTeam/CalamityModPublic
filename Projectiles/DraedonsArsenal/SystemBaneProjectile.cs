@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (!Projectile.Calamity().stealthStrike)
                 return;
             int totalCirclePoints = 55;
-            float generalOpacity = Utils.InverseLerp(0f, 30f, Projectile.timeLeft, true) * Utils.InverseLerp(480f, 450f, Projectile.timeLeft, true);
+            float generalOpacity = Utils.GetLerpValue(0f, 30f, Projectile.timeLeft, true) * Utils.GetLerpValue(480f, 450f, Projectile.timeLeft, true);
             Texture2D lightningTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj");
             for (int i = 0; i < totalCirclePoints; i++)
             {

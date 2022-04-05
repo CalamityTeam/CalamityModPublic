@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Roar prior to releasing bubbles.
             if (AttackTimer <= roarDelay)
-                CurrentFrame = (int)Math.Round(Utils.InverseLerp(0f, roarDelay, AttackTimer, true) * 5f);
+                CurrentFrame = (int)Math.Round(Utils.GetLerpValue(0f, roarDelay, AttackTimer, true) * 5f);
 
             // Animate as usual a bit after roaring.
             else if (AttackTimer >= roarDelay + shootDelay)

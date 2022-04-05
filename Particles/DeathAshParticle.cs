@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -229,8 +229,8 @@ namespace CalamityMod.Particles
             Time++;
             Scale = MathHelper.Clamp(Scale - (brightness < 0.1f ? 0.08f : 0.008f), 0f, 1f);
 
-            float dissipationFactor = Utils.InverseLerp(6f, 16f, Velocity.Length(), true);
-            float velocityInterpolant = Utils.InverseLerp(25f - dissipationFactor * 10f, 80f - dissipationFactor * 45f, Time, true);
+            float dissipationFactor = Utils.GetLerpValue(6f, 16f, Velocity.Length(), true);
+            float velocityInterpolant = Utils.GetLerpValue(25f - dissipationFactor * 10f, 80f - dissipationFactor * 45f, Time, true);
             Vector2 idealVelocity = new Vector2(Main.windSpeed * MathHelper.Lerp(0.8f, 1.2f, (float)Math.Sin(Center.Y / 50f + ID)) * 20f, (float)Math.Sin(Main.time / 20f + ID * 0.01f) * 3f - 1f);
             Velocity = Vector2.Lerp(Velocity, idealVelocity, velocityInterpolant * 0.16f);
             Center += Velocity;

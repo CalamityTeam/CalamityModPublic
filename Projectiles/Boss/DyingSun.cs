@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Projectile.scale += 0.08f;
             Radius = Projectile.scale * 42f;
-            Projectile.Opacity = Utils.InverseLerp(8f, 42f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(8f, 42f, Projectile.timeLeft, true);
 
             Time++;
         }

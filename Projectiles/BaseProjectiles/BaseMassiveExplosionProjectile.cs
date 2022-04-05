@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -25,14 +25,14 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         {
             if (UsesScreenshake)
             {
-                float screenShakePower = GetScreenshakePower(Projectile.timeLeft / (float)Lifetime) * Utils.InverseLerp(1300f, 0f, Projectile.Distance(Main.LocalPlayer.Center), true);
+                float screenShakePower = GetScreenshakePower(Projectile.timeLeft / (float)Lifetime) * Utils.GetLerpValue(1300f, 0f, Projectile.Distance(Main.LocalPlayer.Center), true);
                 if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < screenShakePower)
                     Main.LocalPlayer.Calamity().GeneralScreenShakePower = screenShakePower;
             }
 
             // Expand outward.
             CurrentRadius = MathHelper.Lerp(CurrentRadius, MaxRadius, 0.25f);
-            Projectile.scale = MathHelper.Lerp(1.2f, 5f, Utils.InverseLerp(Lifetime, 0f, Projectile.timeLeft, true));
+            Projectile.scale = MathHelper.Lerp(1.2f, 5f, Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft, true));
 
             // Adjust the hitbox.
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(CurrentRadius * Projectile.scale), (int)(CurrentRadius * Projectile.scale));
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            float pulseCompletionRatio = Utils.InverseLerp(Lifetime, 0f, Projectile.timeLeft, true);
+            float pulseCompletionRatio = Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft, true);
             Vector2 scale = new Vector2(1.5f, 1f);
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Projectile.Size * scale * 0.5f;
             Rectangle drawArea = new Rectangle(0, 0, Projectile.width, Projectile.height);

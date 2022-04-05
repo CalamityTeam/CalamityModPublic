@@ -32,9 +32,9 @@ namespace CalamityMod.Particles
             RelativeOffset.Y -= RelativePower * 3f;
 
             Color = Color.Lerp(BrightColor, DarkColor, LifetimeCompletion);
-            Color = Color.Lerp(Color, Color.SaddleBrown, Utils.InverseLerp(0.95f, 0.7f, LifetimeCompletion, true));
-            Color = Color.Lerp(Color, Color.White, Utils.InverseLerp(0.1f, 0.25f, LifetimeCompletion, true) * Utils.InverseLerp(0.4f, 0.25f, LifetimeCompletion, true) * 0.7f);
-            Color *= Utils.InverseLerp(0f, 0.15f, LifetimeCompletion, true) * Utils.InverseLerp(1f, 0.8f, LifetimeCompletion, true) * 0.6f;
+            Color = Color.Lerp(Color, Color.SaddleBrown, Utils.GetLerpValue(0.95f, 0.7f, LifetimeCompletion, true));
+            Color = Color.Lerp(Color, Color.White, Utils.GetLerpValue(0.1f, 0.25f, LifetimeCompletion, true) * Utils.GetLerpValue(0.4f, 0.25f, LifetimeCompletion, true) * 0.7f);
+            Color *= Utils.GetLerpValue(0f, 0.15f, LifetimeCompletion, true) * Utils.GetLerpValue(1f, 0.8f, LifetimeCompletion, true) * 0.6f;
             Color.A = 50;
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
                 float effectRate = MathHelper.Lerp(0.4f, 1f, Time / (Lifetime * Projectile.MaxUpdates - 40));
                 float random = Main.rand.NextFloat();
 
-                Projectile.Opacity = Utils.InverseLerp(Lifetime * Projectile.MaxUpdates, (Lifetime - 60f) * Projectile.MaxUpdates, Time, true);
+                Projectile.Opacity = Utils.GetLerpValue(Lifetime * Projectile.MaxUpdates, (Lifetime - 60f) * Projectile.MaxUpdates, Time, true);
 
                 // Spawn a bunch of swirling dust and do damage.
                 if (random <= effectRate)
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Magic
             // This value causes the lemniscate to smoothen out and look better.
             float scale = 2f / (3f - (float)Math.Cos(2 * LemniscateAngle));
 
-            float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.InverseLerp(0f, 120f, Time, true));
+            float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
             Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(LemniscateAngle), (float)Math.Sin(2f * LemniscateAngle) / 2f);
 
             Projectile.Center = target.Center + lemniscateOffset * outwardMultiplier;
@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Color headColor = Color.Lerp(Color.Black, Color.Magenta, 0.1f);
             Color tailColor = Color.Lerp(Color.Magenta, Color.Cyan, completionRatio * 0.5f + leftoverTimeScale);
-            float opacity = (float)Math.Pow(Utils.InverseLerp(1f, 0.61f, completionRatio, true), 0.4) * Projectile.Opacity;
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.61f, completionRatio, true), 0.4) * Projectile.Opacity;
             float fadeToMagenta = MathHelper.SmoothStep(0f, 1f, (float)Math.Pow(completionRatio, 0.6D));
 
             return Color.Lerp(headColor, tailColor, fadeToMagenta) * opacity;
@@ -230,7 +230,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public float PrimitiveWidthFunction(float completionRatio)
         {
-            float widthInterpolant = Utils.InverseLerp(0f, 0.12f, completionRatio, true);
+            float widthInterpolant = Utils.GetLerpValue(0f, 0.12f, completionRatio, true);
             return MathHelper.SmoothStep(1f, 10f, widthInterpolant);
         }
 

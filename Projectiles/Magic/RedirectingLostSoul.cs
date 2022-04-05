@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
 
             for (int j = 0; j < Projectile.oldPos.Length / 2; j++)
             {
-                float fade = (float)Math.Pow(1f - Utils.InverseLerp(0f, Projectile.oldPos.Length / 2, j, true), 2D);
+                float fade = (float)Math.Pow(1f - Utils.GetLerpValue(0f, Projectile.oldPos.Length / 2, j, true), 2D);
                 Color drawColor = Projectile.GetAlpha(lightColor) * fade;
                 Vector2 drawPosition = Projectile.oldPos[j] + Projectile.Size * 0.5f - Main.screenPosition;
                 float rotation = Projectile.oldRot[j];

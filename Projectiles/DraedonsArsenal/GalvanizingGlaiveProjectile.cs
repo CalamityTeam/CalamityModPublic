@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Player player = Main.player[Projectile.owner];
             float animationRatio = player.itemAnimation / (float)player.itemAnimationMax;
-            DelegateMethods.f_1 = Utils.InverseLerp(0f, 0.4f, animationRatio, true) * Utils.InverseLerp(1f, 0.6f, animationRatio, true);
+            DelegateMethods.f_1 = Utils.GetLerpValue(0f, 0.4f, animationRatio, true) * Utils.GetLerpValue(1f, 0.6f, animationRatio, true);
             DelegateMethods.c_1 = Color.White;
             List<Vector2> oldPositions = new List<Vector2>()
             {

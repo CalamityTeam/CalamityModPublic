@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
 
             Vector2 destination = (Target.gravDir == 1f ? Target.Top : Target.Bottom) + Target.direction * Vector2.UnitX * 4f;
-            float speed = MathHelper.Lerp(7f, 23f, Utils.InverseLerp(10f, ChaseMaxDistance, NPC.Distance(destination), true));
+            float speed = MathHelper.Lerp(7f, 23f, Utils.GetLerpValue(10f, ChaseMaxDistance, NPC.Distance(destination), true));
             NPC.velocity = NPC.SafeDirectionTo(destination) * speed;
 
             if (NPC.WithinRange(destination, 45f))

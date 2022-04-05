@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
     public class HeresyProj : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 275f, Time, true));
+        public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0f, 275f, Time, true));
         public ref float Time => ref Projectile.ai[0];
         public ref float AttackTimer => ref Projectile.ai[1];
         public override void SetStaticDefaults()
@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
-            if (AttackTimer >= Main.rand.Next(20, 28) - (int)MathHelper.Lerp(0f, 16f, Utils.InverseLerp(0f, 120f, Time, true)))
+            if (AttackTimer >= Main.rand.Next(20, 28) - (int)MathHelper.Lerp(0f, 16f, Utils.GetLerpValue(0f, 120f, Time, true)))
                 ReleaseThings();
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
             Projectile.frameCounter++;
-            if (Projectile.frameCounter >= (int)MathHelper.Lerp(10f, 2f, Utils.InverseLerp(0f, 180f, Time, true)))
+            if (Projectile.frameCounter >= (int)MathHelper.Lerp(10f, 2f, Utils.GetLerpValue(0f, 180f, Time, true)))
             {
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
                 Projectile.frameCounter = 0;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            float glowOutwardness = MathHelper.SmoothStep(0f, 4f, Utils.InverseLerp(90f, 270f, Time, true));
+            float glowOutwardness = MathHelper.SmoothStep(0f, 4f, Utils.GetLerpValue(90f, 270f, Time, true));
             Texture2D bookTexture = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = bookTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Vector2 drawPosition;

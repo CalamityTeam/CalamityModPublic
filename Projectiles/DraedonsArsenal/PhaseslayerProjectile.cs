@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     // The distance ratio ranges from 0 (your mouse is directly on the player) to 1 (your mouse is at the max range considered, or any further distance).
                     float mouseDistance = Projectile.Distance(Main.MouseWorld);
-                    float distRatio = Utils.InverseLerp(0f, MaximumMouseRange, mouseDistance, true);
+                    float distRatio = Utils.GetLerpValue(0f, MaximumMouseRange, mouseDistance, true);
 
                     // This formula ensures that the sword has a sudden and extremely harsh responsiveness penalty when the mouse is close to the player.
                     // Otherwise it controls perfectly fine.
@@ -225,9 +225,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 // Idle lightning frames.
                 if (adjustFrameCounter >= 50 && adjustFrameCounter <= 78)
-                    Projectile.frame = (int)MathHelper.Lerp(1, 9, Utils.InverseLerp(50, 75, adjustFrameCounter, true));
+                    Projectile.frame = (int)MathHelper.Lerp(1, 9, Utils.GetLerpValue(50, 75, adjustFrameCounter, true));
                 if (adjustFrameCounter >= 90 && adjustFrameCounter <= 120)
-                    Projectile.frame = (int)MathHelper.Lerp(10, 18, Utils.InverseLerp(90, 117, adjustFrameCounter, true));
+                    Projectile.frame = (int)MathHelper.Lerp(10, 18, Utils.GetLerpValue(90, 117, adjustFrameCounter, true));
 
                 // Fadeout frames.
                 if (FadeoutTime > 5)
@@ -274,9 +274,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             float averageRotation = Projectile.oldRot.Take(20).Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
             float deltaAngle = Math.Abs(averageRotation - (MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi));
             float opacity = Projectile.Opacity;
-            opacity *= Utils.InverseLerp(StandardSwingSpeed * 0.7f, StandardSwingSpeed, AngularDamageFactor, true);
-            opacity *= (float)Math.Pow(Utils.InverseLerp(1f, 0.45f, completionRatio, true), 4D);
-            opacity *= (float)Math.Pow(Utils.InverseLerp(0.9f, 1.1f, deltaAngle, true), 2D);
+            opacity *= Utils.GetLerpValue(StandardSwingSpeed * 0.7f, StandardSwingSpeed, AngularDamageFactor, true);
+            opacity *= (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D);
+            opacity *= (float)Math.Pow(Utils.GetLerpValue(0.9f, 1.1f, deltaAngle, true), 2D);
 
             float rotationAdjusted = MathHelper.WrapAngle(Projectile.rotation) + MathHelper.Pi;
             float oldRotationAdjusted = MathHelper.WrapAngle(Projectile.oldRot[1]) + MathHelper.Pi;

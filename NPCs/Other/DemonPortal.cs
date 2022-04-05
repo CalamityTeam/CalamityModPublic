@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Other
         public override void AI()
         {
             NPC.rotation += 0.18f;
-            NPC.Opacity = Utils.InverseLerp(0f, 30f, Time, true) * Utils.InverseLerp(420f, 390f, Time, true);
+            NPC.Opacity = Utils.GetLerpValue(0f, 30f, Time, true) * Utils.GetLerpValue(420f, 390f, Time, true);
             NPC.velocity = Vector2.Zero;
             NPC.scale = NPC.Opacity;
 

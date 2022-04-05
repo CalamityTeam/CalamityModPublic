@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Healing;
+﻿using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Other
         public void FadeAway()
         {
             NPC.dontTakeDamage = true;
-            NPC.Opacity = Utils.InverseLerp(50f, 0f, FadeAwayTimer, true);
+            NPC.Opacity = Utils.GetLerpValue(50f, 0f, FadeAwayTimer, true);
 
             // Become inactive after fading away completely.
             if (NPC.Opacity <= 0f)

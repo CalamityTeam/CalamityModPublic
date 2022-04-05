@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
 
             // Fade in and handle visuals.
-            Projectile.Opacity = Utils.InverseLerp(0f, 12f, Projectile.timeLeft, true) * Utils.InverseLerp(1200f, 1188f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 12f, Projectile.timeLeft, true) * Utils.GetLerpValue(1200f, 1188f, Projectile.timeLeft, true);
             Projectile.spriteDirection = (Projectile.velocity.X > 0f).ToDirectionInt();
             Time++;
 

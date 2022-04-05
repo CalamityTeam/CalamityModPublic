@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.Perforator
             Vector2 distanceFromDestination = destination - NPC.Center;
 
             // Inverse lerp returns the percentage of progress between A and B
-            float lerpValue = Utils.InverseLerp(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+            float lerpValue = Utils.GetLerpValue(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
 
             // Min velocity
             float minVelocity = distanceFromDestination.Length();

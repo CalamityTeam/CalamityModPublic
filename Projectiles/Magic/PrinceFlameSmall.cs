@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.frameCounter++;
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Projectile.timeLeft, true);
 
             if (Time > AttackDelay)
                 CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 600f, 14f, 32f);

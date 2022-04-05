@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Fade out and release some gaseous particles.
             if (AttackTimer <= teleportFadeoutTime)
             {
-                float fadeoutCompletion = Utils.InverseLerp(0f, teleportFadeoutTime, AttackTimer, true);
+                float fadeoutCompletion = Utils.GetLerpValue(0f, teleportFadeoutTime, AttackTimer, true);
                 float particleSpawnRate = MathHelper.Clamp(fadeoutCompletion + 0.6f, 0.5f, 1f);
                 NPC.Opacity = MathHelper.Lerp(1f, 0f, fadeoutCompletion);
 
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             // Fade in and release some particles.
             if (AttackTimer > teleportFadeoutTime && AttackTimer <= teleportFadeoutTime + teleportFadeinTime)
             {
-                float fadeinCompletion = Utils.InverseLerp(teleportFadeoutTime, teleportFadeoutTime + teleportFadeinTime, AttackTimer, true);
+                float fadeinCompletion = Utils.GetLerpValue(teleportFadeoutTime, teleportFadeoutTime + teleportFadeinTime, AttackTimer, true);
                 float particleSpawnRate = MathHelper.Clamp(fadeinCompletion + 0.6f, 0.5f, 1f);
                 NPC.Opacity = fadeinCompletion;
 

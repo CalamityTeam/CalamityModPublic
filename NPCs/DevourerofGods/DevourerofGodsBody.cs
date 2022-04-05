@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.World;
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile portal = Main.projectile[Main.npc[(int)NPC.ai[2]].ModNPC<DevourerofGodsHead>().PortalIndex];
-                        float newOpacity = 1f - Utils.InverseLerp(270f, 100f, NPC.Distance(portal.Center), true);
+                        float newOpacity = 1f - Utils.GetLerpValue(270f, 100f, NPC.Distance(portal.Center), true);
                         if (newOpacity > 0f && NPC.Opacity > newOpacity)
                         {
                             NPC.Opacity = newOpacity;

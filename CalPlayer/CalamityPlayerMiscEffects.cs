@@ -679,7 +679,7 @@ namespace CalamityMod.CalPlayer
             // Otherwise, if the intensity is too weak, but still presernt, cause the player to release holy cinders.
             else if (providenceBurnIntensity > 0f)
             {
-                int cinderCount = (int)MathHelper.Lerp(1f, 4f, Utils.InverseLerp(0f, 0.45f, providenceBurnIntensity, true));
+                int cinderCount = (int)MathHelper.Lerp(1f, 4f, Utils.GetLerpValue(0f, 0.45f, providenceBurnIntensity, true));
                 for (int i = 0; i < cinderCount; i++)
                 {
                     if (!Main.rand.NextBool(3))
@@ -1143,7 +1143,7 @@ namespace CalamityMod.CalPlayer
             int auricDyeCount = Player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<AuricDye>());
             if (auricDyeCount > 0)
             {
-                int sparkCreationChance = (int)MathHelper.Lerp(15f, 50f, Utils.InverseLerp(4f, 1f, auricDyeCount, true));
+                int sparkCreationChance = (int)MathHelper.Lerp(15f, 50f, Utils.GetLerpValue(4f, 1f, auricDyeCount, true));
                 if (Main.rand.NextBool(sparkCreationChance))
                 {
                     Dust spark = Dust.NewDustDirect(Player.position, Player.width, Player.height, 267);

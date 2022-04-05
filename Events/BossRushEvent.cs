@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -468,7 +468,7 @@ namespace CalamityMod.Events
             }
 
             if (EndTimer > 0)
-                BossRushSky.CurrentInterest = MathHelper.Lerp(0.5f, 0.75f, Utils.InverseLerp(5f, 145f, EndTimer, true));
+                BossRushSky.CurrentInterest = MathHelper.Lerp(0.5f, 0.75f, Utils.GetLerpValue(5f, 145f, EndTimer, true));
             BossRushSky.CurrentInterestMin = MathHelper.Lerp(0f, 0.5f, (float)Math.Pow(BossRushStage / (float)Bosses.Count, 5D));
         }
 

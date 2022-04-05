@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Projectile.netUpdate = true;
             }
 
-            float energyRadius = MathHelper.Lerp(MaxChargeRadius * 0.333f, MaxChargeRadius, Utils.InverseLerp(0f, ChargeTime, Time, true));
-            float energySphereSpeedMax = MathHelper.Lerp(MaxEnergyParticleSpeed, MinEnergyParticleSpeed, Utils.InverseLerp(0f, ChargeTime, Time, true));
+            float energyRadius = MathHelper.Lerp(MaxChargeRadius * 0.333f, MaxChargeRadius, Utils.GetLerpValue(0f, ChargeTime, Time, true));
+            float energySphereSpeedMax = MathHelper.Lerp(MaxEnergyParticleSpeed, MinEnergyParticleSpeed, Utils.GetLerpValue(0f, ChargeTime, Time, true));
 
             // Charge up dust.
             if (Projectile.velocity.Length() == 0f && !Main.dedServ)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public static float CalculateMovementSpeedInterpolant(Player player)
         {
             float milesPerHour = player.velocity.Length() * 225f / 44f;
-            float movementSpeedInterpolant = Utils.InverseLerp(0f, MovementSpeedBoostMphThreshold, milesPerHour, true);
+            float movementSpeedInterpolant = Utils.GetLerpValue(0f, MovementSpeedBoostMphThreshold, milesPerHour, true);
             return (float)Math.Pow(movementSpeedInterpolant, 5D / 3D);
         }
 

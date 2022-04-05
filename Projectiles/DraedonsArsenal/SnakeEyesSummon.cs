@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 EyeRotation = Projectile.AngleTo(player.Center);
                 EyeOutwardness = MathHelper.Lerp(EyeOutwardness, 1f, 0.15f);
-                Projectile.Center = Vector2.SmoothStep(OldCenter, player.Center - Vector2.UnitY * 80f, Utils.InverseLerp(0f, 35f, Time % 150f));
+                Projectile.Center = Vector2.SmoothStep(OldCenter, player.Center - Vector2.UnitY * 80f, Utils.GetLerpValue(0f, 35f, Time % 150f));
             }
             else
             {

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Other
 
         public override void AI()
         {
-            NPC.Opacity = Utils.InverseLerp(0f, 15f, Time, true);
+            NPC.Opacity = Utils.GetLerpValue(0f, 15f, Time, true);
             NPC.velocity = Vector2.Zero;
 
             if (Main.myPlayer == NPC.target)
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.Other
 
         public override void NPCLoot()
         {
-            int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.InverseLerp(45f, 540f, Time, true));
+            int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.GetLerpValue(45f, 540f, Time, true));
             for (int i = 0; i < heartsToGive; i++)
                 DropHelper.DropItem(NPC, ItemID.Heart);
         }

@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float idealFlySpeed = 14f;
 
                     float oldVelocity = NPC.velocity.Length();
-                    float horizontalInterpolant = Utils.InverseLerp(1200f, 600f, NPC.Center.Y, true);
+                    float horizontalInterpolant = Utils.GetLerpValue(1200f, 600f, NPC.Center.Y, true);
                     Vector2 idealDirection = NPC.velocity.SafeNormalize(-Vector2.UnitY);
                     idealDirection = Vector2.Lerp(idealDirection, Vector2.UnitX * Math.Sign(idealDirection.X), horizontalInterpolant);
                     NPC.velocity = idealDirection * MathHelper.Lerp(oldVelocity, idealFlySpeed, 0.1f);
@@ -490,7 +490,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (PortalIndex != -1)
                     {
                         Projectile portal = Main.projectile[PortalIndex];
-                        float newOpacity = 1f - Utils.InverseLerp(200f, 130f, NPC.Distance(portal.Center), true);
+                        float newOpacity = 1f - Utils.GetLerpValue(200f, 130f, NPC.Distance(portal.Center), true);
                         if (Main.netMode != NetmodeID.MultiplayerClient && newOpacity > 0f && NPC.Opacity > newOpacity)
                         {
                             NPC.Opacity = newOpacity;
@@ -2103,7 +2103,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // Slow down but maintain a specific direction.
-            float idealSpeed = MathHelper.Lerp(8.4f, 4f, Utils.InverseLerp(15f, 210f, DeathAnimationTimer, true));
+            float idealSpeed = MathHelper.Lerp(8.4f, 4f, Utils.GetLerpValue(15f, 210f, DeathAnimationTimer, true));
             if (NPC.velocity.Length() != idealSpeed)
                 NPC.velocity = NPC.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(NPC.velocity.Length(), idealSpeed, 0.08f);
 
@@ -2115,7 +2115,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (DeathAnimationTimer >= 120f && DeathAnimationTimer < 370f && DeathAnimationTimer % 3f == 0f)
             {
-                int segmentToDestroy = (int)(Utils.InverseLerp(120f, 370f, DeathAnimationTimer, true) * 60f);
+                int segmentToDestroy = (int)(Utils.GetLerpValue(120f, 370f, DeathAnimationTimer, true) * 60f);
                 destroySegment(segmentToDestroy, ref DestroyedSegmentCount);
             }
 
@@ -2143,11 +2143,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (DeathAnimationTimer >= 410f && DeathAnimationTimer < 470f && DeathAnimationTimer % 2f == 0f)
             {
-                int segmentToDestroy = (int)(Utils.InverseLerp(410f, 470f, DeathAnimationTimer, true) * 10f) + 60;
+                int segmentToDestroy = (int)(Utils.GetLerpValue(410f, 470f, DeathAnimationTimer, true) * 10f) + 60;
                 destroySegment(segmentToDestroy, ref DeathAnimationTimer);
             }
 
-            float light = Utils.InverseLerp(430f, 465f, DeathAnimationTimer, true);
+            float light = Utils.GetLerpValue(430f, 465f, DeathAnimationTimer, true);
             MoonlordDeathDrama.RequestLight(light, Main.LocalPlayer.Center);
 
             if (DeathAnimationTimer >= 485f)

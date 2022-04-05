@@ -30,13 +30,13 @@ namespace CalamityMod.Particles
         public override void Update()
         {
             float distanceToCenter = RelativeOffset.Length();
-            Scale = MathHelper.SmoothStep(0.05f, 0.125f, Utils.InverseLerp(EdgeOffset, 6f, distanceToCenter, true));
-            Scale *= Utils.InverseLerp(Lifetime, Lifetime - 10f, Time, true);
+            Scale = MathHelper.SmoothStep(0.05f, 0.125f, Utils.GetLerpValue(EdgeOffset, 6f, distanceToCenter, true));
+            Scale *= Utils.GetLerpValue(Lifetime, Lifetime - 10f, Time, true);
 
             if (distanceToCenter > 4.5f)
                 RelativeOffset = Vector2.Lerp(RelativeOffset, Vector2.Zero, InterpolationSpeed);
 
-            Color = Color.Lerp(EdgeColor, CenterColor, Utils.InverseLerp(0f, 0.67f, LifetimeCompletion, true));
+            Color = Color.Lerp(EdgeColor, CenterColor, Utils.GetLerpValue(0f, 0.67f, LifetimeCompletion, true));
             Color.A = 50;
         }
     }

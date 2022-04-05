@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     for (int i = 0; i < 50; i++)
                     {
-                        float angle = MathHelper.TwoPi / 50f * i + Utils.InverseLerp(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
+                        float angle = MathHelper.TwoPi / 50f * i + Utils.GetLerpValue(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
                         Dust dust = Dust.NewDustPerfect(target.Center + angle.ToRotationVector2() * 10f, 226);
                         dust.velocity = Vector2.Zero;
                         if (Main.rand.NextBool(6))

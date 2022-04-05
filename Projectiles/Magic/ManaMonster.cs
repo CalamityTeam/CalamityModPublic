@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Time < NPCAttackTime)
             {
-                Projectile.Opacity = Utils.InverseLerp(0f, 30f, Time, true);
+                Projectile.Opacity = Utils.GetLerpValue(0f, 30f, Time, true);
                 if (Projectile.velocity.Length() < 27f)
                     Projectile.velocity *= 1.05f;
             }
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.velocity *= 1.04f;
 
                 // Fade out.
-                Projectile.Opacity = Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true);
+                Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Projectile.timeLeft, true);
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;

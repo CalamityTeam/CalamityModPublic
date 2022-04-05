@@ -571,7 +571,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     NPC.Opacity = MathHelper.Lerp(NPC.Opacity, 0f, 0.065f);
                     NPC.velocity = Vector2.Lerp(Vector2.UnitY * -4f, Vector2.Zero, (float)Math.Sin(MathHelper.Pi * NPC.Opacity));
-                    forcefieldOpacity = Utils.InverseLerp(0.1f, 0.6f, NPC.Opacity, true);
+                    forcefieldOpacity = Utils.GetLerpValue(0.1f, 0.6f, NPC.Opacity, true);
                     if (NPC.alpha >= 230)
                     {
                         if (DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive)
@@ -2493,7 +2493,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 heartSpawnPositions.Add(new Vector2(spawnX2 - spawnXAdd * i - 50, tempSpawnY + spawnYAdd * i));
             }
 
-            float castCompletion = Utils.InverseLerp(sepulcherSpawnCastTime - 25f, 0f, attackCastDelay, true);
+            float castCompletion = Utils.GetLerpValue(sepulcherSpawnCastTime - 25f, 0f, attackCastDelay, true);
             Vector2 armPosition = NPC.Center + Vector2.UnitX * NPC.spriteDirection * -8f;
 
             // Emit dust at the arm position as a sort of magic effect.
@@ -2586,7 +2586,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Draw some magic dust much like the sandstorm elemental cast that approaches where the brothers will spawn.
             if (attackCastDelay < brothersSpawnCastTime - 45f && attackCastDelay >= 60f)
             {
-                float castCompletion = Utils.InverseLerp(brothersSpawnCastTime - 45f, 60f, attackCastDelay);
+                float castCompletion = Utils.GetLerpValue(brothersSpawnCastTime - 45f, 60f, attackCastDelay);
 
                 Vector2 leftDustPosition = Vector2.CatmullRom(leftOfCircle + Vector2.UnitY * 1000f, leftOfCircle, catastropheSpawnPosition, catastropheSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
                 Vector2 rightDustPosition = Vector2.CatmullRom(rightOfCircle + Vector2.UnitY * 1000f, rightOfCircle, cataclysmSpawnPosition, cataclysmSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
@@ -2604,7 +2604,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Make some magic effects at where the bros will spawn.
             if (attackCastDelay < 60f)
             {
-                float burnPower = Utils.InverseLerp(60f, 20f, attackCastDelay);
+                float burnPower = Utils.GetLerpValue(60f, 20f, attackCastDelay);
                 if (attackCastDelay == 0f)
                     burnPower = 4f;
 
@@ -2824,9 +2824,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (FrameType == FrameAnimationType.BlastPunchCast && (NPC.localAI[1] > shootRate - 18 || NPC.localAI[1] <= 15f))
             {
                 if (NPC.localAI[1] > shootRate - 18)
-                    NPC.frame.Y = (int)MathHelper.Lerp(0, 3, Utils.InverseLerp(shootRate - 18, shootRate, NPC.localAI[1], true));
+                    NPC.frame.Y = (int)MathHelper.Lerp(0, 3, Utils.GetLerpValue(shootRate - 18, shootRate, NPC.localAI[1], true));
                 else
-                    NPC.frame.Y = (int)MathHelper.Lerp(3, 5, Utils.InverseLerp(0f, 15f, NPC.localAI[1], true));
+                    NPC.frame.Y = (int)MathHelper.Lerp(3, 5, Utils.GetLerpValue(0f, 15f, NPC.localAI[1], true));
                 NPC.frame.Y += (int)FrameType * 6;
             }
             else

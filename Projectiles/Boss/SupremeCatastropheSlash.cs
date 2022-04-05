@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.frame = Projectile.frameCounter / 7 % Main.projFrames[Projectile.type];
 
             // Fade in and handle visuals.
-            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Projectile.timeLeft, true) * Utils.InverseLerp(1500f, 1492f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 8f, Projectile.timeLeft, true) * Utils.GetLerpValue(1500f, 1492f, Projectile.timeLeft, true);
             Projectile.spriteDirection = (Projectile.velocity.X > 0f).ToDirectionInt();
             Time++;
 

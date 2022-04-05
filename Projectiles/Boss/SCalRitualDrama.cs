@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Boss
             // If SCal is already present, this does not happen.
             if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
             {
-                SCalSky.OverridingIntensity = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(90f, TotalRitualTime - 25f, Time, true);
-                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 4f;
+                SCalSky.OverridingIntensity = Utils.GetLerpValue(90f, TotalRitualTime - 25f, Time, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.GetLerpValue(90f, TotalRitualTime - 25f, Time, true);
+                Main.LocalPlayer.Calamity().GeneralScreenShakePower *= Utils.GetLerpValue(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 4f;
             }
 
             // Summon SCal right before the ritual effect ends.
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SupremeCalamitasSpawn"), Projectile.Center);
 
             // Make a sudden screen shake.
-            Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.InverseLerp(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 16f;
+            Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.GetLerpValue(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 16f;
 
             // Generate a dust explosion at the ritual's position.
             float burstDirectionVariance = 3;

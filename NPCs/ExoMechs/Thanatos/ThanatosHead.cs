@@ -1054,8 +1054,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                 // A general factor for the aura.
                 // Used to cause fade-ins/outs as the attack starts/stops.
-                float auraGeneralPower = Utils.InverseLerp(0f, deathrayTelegraphDuration * 0.333f, NPC.Calamity().newAI[2], true);
-                auraGeneralPower *= Utils.InverseLerp(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration, NPC.Calamity().newAI[2], true);
+                float auraGeneralPower = Utils.GetLerpValue(0f, deathrayTelegraphDuration * 0.333f, NPC.Calamity().newAI[2], true);
+                auraGeneralPower *= Utils.GetLerpValue(deathrayTelegraphDuration + deathrayDuration, deathrayTelegraphDuration + deathrayDuration, NPC.Calamity().newAI[2], true);
 
                 // Determine the characteristics of the aura. This requires intermediate computations to determine if Thanatos is in its final phase as well as for pulsing.
                 bool berserk = lifeRatio < 0.4f || (otherExoMechsAlive == 0 && lifeRatio < 0.7f);
@@ -1089,7 +1089,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 // The reticle fades away and moves farther away from the target the closer they are to the aura.
                 // Once far away, the reticle will flash between red and white as an indicator.
                 float targetHeadDistance = NPC.Distance(target.Center);
-                float reticleOpacity = Utils.InverseLerp(auraRadius * 0.5f - 40f, auraRadius * 0.5f + 100f, targetHeadDistance, true);
+                float reticleOpacity = Utils.GetLerpValue(auraRadius * 0.5f - 40f, auraRadius * 0.5f + 100f, targetHeadDistance, true);
                 float reticleOffsetDistance = MathHelper.SmoothStep(300f, 0f, reticleOpacity);
                 float reticleFadeToWhite = ((float)Math.Cos(Main.GlobalTimeWrappedHourly * 6.8f) * 0.5f + 0.5f) * reticleOpacity * 0.67f;
                 Color reticleBaseColor = new Color(255, 0, 0, 127) * reticleOpacity;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
             // Without this, it may render over the fullblack that the game renders for obscured tiles.
             float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
             LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
-            Projectile.Opacity = Utils.InverseLerp(210f, 195f, Projectile.timeLeft, true) * Utils.InverseLerp(0f, 90f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(210f, 195f, Projectile.timeLeft, true) * Utils.GetLerpValue(0f, 90f, Projectile.timeLeft, true);
             Projectile.rotation += Projectile.velocity.X * 0.004f;
             Projectile.velocity *= 0.985f;
         }
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float opacity = Utils.InverseLerp(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;
+            float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;
             Color drawColor = new Color(236, 0, 68) * opacity;
             Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale;
             Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0);

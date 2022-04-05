@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -58,14 +58,14 @@ namespace CalamityMod.Projectiles.Magic
         internal Color ColorFunction(float completionRatio)
         {
             float fadeToEnd = MathHelper.Lerp(0.25f, 0.5f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
-            fadeToEnd *= 1f - Utils.InverseLerp(0.35f, 0f, completionRatio, true);
+            fadeToEnd *= 1f - Utils.GetLerpValue(0.35f, 0f, completionRatio, true);
             Color endColor = Color.Lerp(Color.Cyan, Color.HotPink, Projectile.identity % 2);
             return Color.Lerp(Color.White, endColor, fadeToEnd) * Projectile.Opacity * 0.7f;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.InverseLerp(0f, 0.2f, completionRatio, true), 2D);
+            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.2f, completionRatio, true), 2D);
             return MathHelper.Lerp(0f, 22f, expansionCompletion) * Projectile.Opacity;
         }
 

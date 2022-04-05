@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -1671,7 +1671,7 @@ namespace CalamityMod.Items
             float currentPower = 0f;
             int calamitasNPCIndex = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
             if (calamitasNPCIndex != -1)
-                currentPower = Utils.InverseLerp(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
+                currentPower = Utils.GetLerpValue(11750f, 1000f, Main.LocalPlayer.Distance(Main.npc[calamitasNPCIndex].Center), true);
 
             Vector2 particleDrawCenter = position + new Vector2(12f, 16f) * Main.inventoryScale;
 

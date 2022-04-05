@@ -119,8 +119,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.TargetClosest(false);
 
             Vector2 idealMovePosition = SegmentToAttachTo.Center;
-            float sideFactor = MathHelper.Lerp(200f, 18f, Utils.InverseLerp(-0.51f, -0.06f, NPC.rotation, true));
-            float aheadFactor = MathHelper.Lerp(284f, 680f, Utils.InverseLerp(-0.51f, -0.06f, NPC.rotation, true));
+            float sideFactor = MathHelper.Lerp(200f, 18f, Utils.GetLerpValue(-0.51f, -0.06f, NPC.rotation, true));
+            float aheadFactor = MathHelper.Lerp(284f, 680f, Utils.GetLerpValue(-0.51f, -0.06f, NPC.rotation, true));
             idealMovePosition += (SegmentToAttachTo.rotation + NPC.rotation * NPC.direction - MathHelper.PiOver2).ToRotationVector2() * NPC.scale * aheadFactor;
             idealMovePosition += (SegmentToAttachTo.rotation + NPC.rotation * NPC.direction - MathHelper.PiOver2 + MathHelper.PiOver2 * NPC.direction).ToRotationVector2() * NPC.scale * sideFactor;
             NPC.Center = idealMovePosition;

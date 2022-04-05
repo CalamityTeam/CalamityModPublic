@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Fade-effects.
             if (Projectile.timeLeft < 40f)
-                Projectile.Opacity = Utils.InverseLerp(0f, 40f, Projectile.timeLeft, true);
+                Projectile.Opacity = Utils.GetLerpValue(0f, 40f, Projectile.timeLeft, true);
             else
                 Projectile.alpha = Utils.Clamp(Projectile.alpha - 30, 0, 255);
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
                 baseColor = Color.Lerp(baseColor, Color.Fuchsia, (completionRatio - 0.66f) / 0.33f);
             else
             {
-                float whiteFade = (float)Math.Sin(Utils.InverseLerp(0.0f, 0.2f, completionRatio, true) * MathHelper.Pi + Main.GlobalTimeWrappedHourly * 3f) * 0.45f;
+                float whiteFade = (float)Math.Sin(Utils.GetLerpValue(0.0f, 0.2f, completionRatio, true) * MathHelper.Pi + Main.GlobalTimeWrappedHourly * 3f) * 0.45f;
                 baseColor = Color.Lerp(baseColor, Color.White, whiteFade);
             }
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
             if (completionRatio < 0.2f)
                 width = (float)Math.Sin(completionRatio / 0.2f * MathHelper.PiOver2) * maxWidthOutwardness + 0.1f;
             else
-                width = MathHelper.Lerp(maxWidthOutwardness, 0f, Utils.InverseLerp(0.2f, 1f, completionRatio, true));
+                width = MathHelper.Lerp(maxWidthOutwardness, 0f, Utils.GetLerpValue(0.2f, 1f, completionRatio, true));
             return width * Projectile.Opacity;
         }
 
