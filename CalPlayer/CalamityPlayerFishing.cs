@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Events;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
@@ -18,17 +18,23 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems;
+using Terraria.DataStructures;
 
 namespace CalamityMod.CalPlayer
 {
     public partial class CalamityPlayer : ModPlayer
     {
         #region Catch Fish
-        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+        public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
-            bool water = liquidType == 0;
-            bool lava = liquidType == 1;
-            bool honey = liquidType == 2;
+            int bait = attempt.playerFishingConditions.BaitItemType;
+            int power = attempt.playerFishingConditions.BaitPower + attempt.playerFishingConditions.PolePower;
+            int questFish = attempt.questFish;
+            int poolSize = attempt.waterTilesCount;
+            bool water = !attempt.inHoney && !attempt.inLava;
+            bool lava = attempt.inLava;
+            bool honey = attempt.inHoney;
 
             Point point = Player.Center.ToTileCoordinates();
             bool canSulphurFish = false;
@@ -47,35 +53,35 @@ namespace CalamityMod.CalPlayer
                 canSulphurFish = true;
 
             // Old Duke spawn
-            if (canSulphurFish && bait.type == ModContent.ItemType<BloodwormItem>() && water && !BossRushEvent.BossRushActive)
+            if (canSulphurFish && bait == ModContent.ItemType<BloodwormItem>() && water && !BossRushEvent.BossRushActive)
             {
-                CalamityGlobalNPC.OldDukeSpawn(Player.whoAmI, ModContent.NPCType<OldDuke>(), bait.type);
+                CalamityGlobalNPC.OldDukeSpawn(Player.whoAmI, ModContent.NPCType<OldDuke>(), bait);
             }
 
             // Quest Fish
             if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
             {
-                caughtType = ModContent.ItemType<EutrophicSandfish>();
+                itemDrop = ModContent.ItemType<EutrophicSandfish>();
                 return;
             }
             if (ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
             {
-                caughtType = ModContent.ItemType<SurfClam>();
+                itemDrop = ModContent.ItemType<SurfClam>();
                 return;
             }
             if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
             {
-                caughtType = ModContent.ItemType<Serpentuna>();
+                itemDrop = ModContent.ItemType<Serpentuna>();
                 return;
             }
             if (ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
             {
-                caughtType = ModContent.ItemType<Brimlish>();
+                itemDrop = ModContent.ItemType<Brimlish>();
                 return;
             }
             if (ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
             {
-                caughtType = ModContent.ItemType<Slurpfish>();
+                itemDrop = ModContent.ItemType<Slurpfish>();
                 return;
             }
 
@@ -105,7 +111,7 @@ namespace CalamityMod.CalPlayer
                             fishList.Add(ItemID.ArmoredCavefish);
                             fishList.Add(ItemID.Stinkfish);
                             fishList.Add(ItemID.SpecularFish);
-                            fishList.AddWithCondition<int>(ItemID.ChaosFish, Player.ZoneHoly);
+                            fishList.AddWithCondition<int>(ItemID.ChaosFish, Player.ZoneHallow);
                             fishList.AddWithCondition<int>(ItemID.VariegatedLardfish, Player.ZoneJungle);
                         }
                         if (Player.ZoneOverworldHeight || Player.ZoneSkyHeight)
@@ -116,8 +122,8 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ItemID.Ebonkoi, Player.ZoneCorrupt);
                         fishList.AddWithCondition<int>(ItemID.CrimsonTigerfish, Player.ZoneCrimson);
                         fishList.AddWithCondition<int>(ItemID.Hemopiranha, Player.ZoneCrimson);
-                        fishList.AddWithCondition<int>(ItemID.PrincessFish, Player.ZoneHoly);
-                        fishList.AddWithCondition<int>(ItemID.Prismite, Player.ZoneHoly);
+                        fishList.AddWithCondition<int>(ItemID.PrincessFish, Player.ZoneHallow);
+                        fishList.AddWithCondition<int>(ItemID.Prismite, Player.ZoneHallow);
                         fishList.AddWithCondition<int>(ItemID.Damselfish, Player.ZoneSkyHeight);
                         fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
                         fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
@@ -129,7 +135,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int fishAmt = fishList.Count;
                         int caughtFish = fishList[Main.rand.Next(fishAmt)];
-                        caughtType = caughtFish;
+                        itemDrop = caughtFish;
                         return;
                     }
                 }
@@ -170,7 +176,7 @@ namespace CalamityMod.CalPlayer
                         if (Main.rand.NextBool(chanceForBiomeCrate))
                         {
                             if (ZoneCalamity)
-                                caughtType = ModContent.ItemType<BrimstoneCrate>();
+                                itemDrop = ModContent.ItemType<BrimstoneCrate>();
                         }
                     }
                 }
@@ -222,24 +228,24 @@ namespace CalamityMod.CalPlayer
                                         break;
                                 }
                             }
-                            if (Player.ZoneSnow && Player.ZoneRockLayerHeight && (Player.ZoneCorrupt || Player.ZoneCrimson || Player.ZoneHoly))
+                            if (Player.ZoneSnow && Player.ZoneRockLayerHeight && (Player.ZoneCorrupt || Player.ZoneCrimson || Player.ZoneHallow))
                             {
                                 rareItemList.Add(ItemID.ScalyTruffle);
                             }
                             rareItemList.AddWithCondition<int>(ItemID.Toxikarp, Player.ZoneCorrupt);
                             rareItemList.AddWithCondition<int>(ItemID.Bladetongue, Player.ZoneCrimson);
-                            rareItemList.AddWithCondition<int>(ItemID.CrystalSerpent, Player.ZoneHoly);
+                            rareItemList.AddWithCondition<int>(ItemID.CrystalSerpent, Player.ZoneHallow);
 
                             if (rareItemList.Any())
                             {
                                 int rareItemAmt = rareItemList.Count;
                                 int caughtRareItem = rareItemList[Main.rand.Next(rareItemAmt)];
-                                caughtType = caughtRareItem;
+                                itemDrop = caughtRareItem;
                             }
                         }
                         else if (Main.rand.NextBool(chanceForGoldCrate))
                         {
-                            caughtType = ItemID.GoldenCrate;
+                            itemDrop = ItemID.GoldenCrate;
                         }
                         else if (Main.rand.NextBool(chanceForBiomeCrate))
                         {
@@ -250,7 +256,7 @@ namespace CalamityMod.CalPlayer
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
                             biomeCrateList.AddWithCondition<int>(ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
                             biomeCrateList.AddWithCondition<int>(ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
-                            biomeCrateList.AddWithCondition<int>(ItemID.HallowedFishingCrate, Player.ZoneHoly);
+                            biomeCrateList.AddWithCondition<int>(ItemID.HallowedFishingCrate, Player.ZoneHallow);
                             biomeCrateList.AddWithCondition<int>(ItemID.DungeonFishingCrate, Player.ZoneDungeon);
                             biomeCrateList.AddWithCondition<int>(ItemID.JungleFishingCrate, Player.ZoneJungle);
                             biomeCrateList.AddWithCondition<int>(ItemID.FloatingIslandFishingCrate, Player.ZoneSkyHeight);
@@ -259,16 +265,16 @@ namespace CalamityMod.CalPlayer
                             {
                                 int biomeCrateAmt = biomeCrateList.Count;
                                 int caughtBiomeCrate = biomeCrateList[Main.rand.Next(biomeCrateAmt)];
-                                caughtType = caughtBiomeCrate;
+                                itemDrop = caughtBiomeCrate;
                             }
                         }
                         else if (Main.rand.NextBool(chanceForIronCrate))
                         {
-                            caughtType = ItemID.IronCrate;
+                            itemDrop = ItemID.IronCrate;
                         }
                         else
                         {
-                            caughtType = ItemID.WoodenCrate;
+                            itemDrop = ItemID.WoodenCrate;
                         }
                         return;
                     }
@@ -277,7 +283,7 @@ namespace CalamityMod.CalPlayer
 
             if (water)
             {
-                if (caughtType == ItemID.WoodenCrate || caughtType == ItemID.IronCrate || caughtType == ItemID.GoldenCrate || caughtType == ItemID.FrogLeg || caughtType == ItemID.BalloonPufferfish || caughtType == ItemID.ZephyrFish)
+                if (itemDrop == ItemID.WoodenCrate || itemDrop == ItemID.IronCrate || itemDrop == ItemID.GoldenCrate || itemDrop == ItemID.FrogLeg || itemDrop == ItemID.BalloonPufferfish || itemDrop == ItemID.ZephyrFish)
                 {
                     return;
                 }
@@ -285,15 +291,15 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = ModContent.ItemType<FishofNight>();
+                        itemDrop = ModContent.ItemType<FishofNight>();
                     }
                 }
 
-                if (Player.ZoneHoly && Player.ZoneRockLayerHeight && Main.hardMode)
+                if (Player.ZoneHallow && Player.ZoneRockLayerHeight && Main.hardMode)
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = ModContent.ItemType<FishofLight>();
+                        itemDrop = ModContent.ItemType<FishofLight>();
                     }
                 }
 
@@ -301,7 +307,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = Main.rand.NextBool() ? ModContent.ItemType<SunbeamFish>() : ModContent.ItemType<FishofFlight>();
+                        itemDrop = Main.rand.NextBool() ? ModContent.ItemType<SunbeamFish>() : ModContent.ItemType<FishofFlight>();
                     }
                 }
 
@@ -309,7 +315,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(10))
                     {
-                        caughtType = ModContent.ItemType<EnchantedStarfish>();
+                        itemDrop = ModContent.ItemType<EnchantedStarfish>();
                     }
                 }
 
@@ -317,7 +323,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = ModContent.ItemType<StuffedFish>();
+                        itemDrop = ModContent.ItemType<StuffedFish>();
                     }
                 }
 
@@ -325,7 +331,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = ModContent.ItemType<GlimmeringGemfish>();
+                        itemDrop = ModContent.ItemType<GlimmeringGemfish>();
                     }
                 }
 
@@ -333,7 +339,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25) && Main.hardMode)
                     {
-                        caughtType = ModContent.ItemType<FishofEleum>();
+                        itemDrop = ModContent.ItemType<FishofEleum>();
                     }
                 }
 
@@ -341,7 +347,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(Main.hardMode ? 100 : 40))
                     {
-                        caughtType = ModContent.ItemType<Spadefish>();
+                        itemDrop = ModContent.ItemType<Spadefish>();
                     }
                 }
 
@@ -350,39 +356,39 @@ namespace CalamityMod.CalPlayer
                     int astralFish = Main.rand.Next(100);
                     if (astralFish >= 85) // 15%
                     {
-                        caughtType = ModContent.ItemType<ProcyonidPrawn>();
+                        itemDrop = ModContent.ItemType<ProcyonidPrawn>();
                     }
                     else if (astralFish <= 84 && astralFish >= 70) // 15%
                     {
-                        caughtType = ModContent.ItemType<ArcturusAstroidean>();
+                        itemDrop = ModContent.ItemType<ArcturusAstroidean>();
                     }
                     else if (astralFish <= 69 && astralFish >= 55) // 15%
                     {
-                        caughtType = ModContent.ItemType<AldebaranAlewife>();
+                        itemDrop = ModContent.ItemType<AldebaranAlewife>();
                     }
                     else if (Player.cratePotion && astralFish <= 18 && astralFish >= 9) // 10%
                     {
-                        caughtType = ModContent.ItemType<AstralCrate>();
+                        itemDrop = ModContent.ItemType<AstralCrate>();
                     }
                     else if (!Player.cratePotion && astralFish <= 13 && astralFish >= 9) // 5%
                     {
-                        caughtType = ModContent.ItemType<AstralCrate>();
+                        itemDrop = ModContent.ItemType<AstralCrate>();
                     }
                     else if (astralFish <= 8 && astralFish >= 6) // 3%
                     {
-                        caughtType = ModContent.ItemType<UrsaSergeant>();
+                        itemDrop = ModContent.ItemType<UrsaSergeant>();
                     }
                     else if (astralFish <= 5 && astralFish >= 3) // 3%
                     {
-                        caughtType = ModContent.ItemType<GacruxianMollusk>();
+                        itemDrop = ModContent.ItemType<GacruxianMollusk>();
                     }
                     else if (astralFish <= 2 && astralFish >= 0) // 3%
                     {
-                        caughtType = ModContent.ItemType<PolarisParrotfish>();
+                        itemDrop = ModContent.ItemType<PolarisParrotfish>();
                     }
                     else // 36% w/o crate pot, 31% w/ crate pot
                     {
-                        caughtType = ModContent.ItemType<TwinklingPollox>();
+                        itemDrop = ModContent.ItemType<TwinklingPollox>();
                         return;
                     }
                 }
@@ -392,57 +398,57 @@ namespace CalamityMod.CalPlayer
                     int sunkenFish = Main.rand.Next(100);
                     if (sunkenFish >= 85 && Main.hardMode) // 15%
                     {
-                        caughtType = ModContent.ItemType<ScarredAngelfish>();
+                        itemDrop = ModContent.ItemType<ScarredAngelfish>();
                     }
                     else if (sunkenFish <= 84 && sunkenFish >= 70) // 15%
                     {
-                        caughtType = ModContent.ItemType<SunkenSailfish>();
+                        itemDrop = ModContent.ItemType<SunkenSailfish>();
                     }
                     else if (sunkenFish <= 69 && sunkenFish >= 55) // 15%
                     {
-                        caughtType = ModContent.ItemType<CoralskinFoolfish>();
+                        itemDrop = ModContent.ItemType<CoralskinFoolfish>();
                     }
                     else if (Player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) // 10%
                     {
-                        caughtType = ModContent.ItemType<SunkenCrate>();
+                        itemDrop = ModContent.ItemType<SunkenCrate>();
                     }
                     else if (!Player.cratePotion && sunkenFish <= 13 && sunkenFish >= 9) // 5%
                     {
-                        caughtType = ModContent.ItemType<SunkenCrate>();
+                        itemDrop = ModContent.ItemType<SunkenCrate>();
                     }
                     else if (sunkenFish <= 31 && sunkenFish >= 29) // 3%
                     {
-                        caughtType = ModContent.ItemType<GreenwaveLoach>();
+                        itemDrop = ModContent.ItemType<GreenwaveLoach>();
                     }
                     else if (sunkenFish <= 8 && sunkenFish >= 6 && Main.hardMode) // 3%
                     {
-                        caughtType = ModContent.ItemType<SerpentsBite>();
+                        itemDrop = ModContent.ItemType<SerpentsBite>();
                     }
                     else if (sunkenFish <= 5 && sunkenFish >= 3) // 3%
                     {
-                        caughtType = ModContent.ItemType<RustedJingleBell>();
+                        itemDrop = ModContent.ItemType<RustedJingleBell>();
                     }
-                    else if (sunkenFish <= 2 && sunkenFish >= 0 && CalamityWorld.downedDesertScourge) // 3%
+                    else if (sunkenFish <= 2 && sunkenFish >= 0 && DownedBossSystem.downedDesertScourge) // 3%
                     {
-                        caughtType = ModContent.ItemType<SparklingEmpress>();
+                        itemDrop = ModContent.ItemType<SparklingEmpress>();
                     }
                     else // 38% w/o crate pot, 33% w/ crate pot + 18% if prehardmode
                     {
-                        caughtType = ModContent.ItemType<PrismaticGuppy>();
+                        itemDrop = ModContent.ItemType<PrismaticGuppy>();
                         return;
                     }
                 }
 
-                if (Player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25))
+                if (Player.FindBuffIndex(BuffID.Gills) > -1 && DownedBossSystem.downedCalamitas && Main.rand.NextBool(25))
                 {
-                    caughtType = ModContent.ItemType<Floodtide>();
+                    itemDrop = ModContent.ItemType<Floodtide>();
                 }
 
-                if (junk)
+                if (attempt.common)
                 {
                     if (canSulphurFish)
                     {
-                        caughtType = ModContent.ItemType<PlantyMush>();
+                        itemDrop = ModContent.ItemType<PlantyMush>();
                     }
                     return;
                 }
@@ -459,10 +465,10 @@ namespace CalamityMod.CalPlayer
                     }
                     switch (Main.rand.Next(4))
                     {
-                        case 0: caughtType = ModContent.ItemType<IronBoots>(); break; //movement acc
-                        case 1: caughtType = ModContent.ItemType<DepthCharm>(); break; //regen acc
-                        case 2: caughtType = ModContent.ItemType<AnechoicPlating>(); break; //defense acc
-                        case 3: caughtType = ModContent.ItemType<StrangeOrb>(); break; //light pet
+                        case 0: itemDrop = ModContent.ItemType<IronBoots>(); break; //movement acc
+                        case 1: itemDrop = ModContent.ItemType<DepthCharm>(); break; //regen acc
+                        case 2: itemDrop = ModContent.ItemType<AnechoicPlating>(); break; //defense acc
+                        case 3: itemDrop = ModContent.ItemType<StrangeOrb>(); break; //light pet
                     }
                     return;
                 }*/
@@ -471,11 +477,11 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(15))
                     {
-                        caughtType = ModContent.ItemType<PlantyMush>();
+                        itemDrop = ModContent.ItemType<PlantyMush>();
                     }
                     if (Main.rand.NextFloat() < 0.08f)
                     {
-                        caughtType = Utils.SelectRandom(Main.rand, new int[]
+                        itemDrop = Utils.SelectRandom(Main.rand, new int[]
                         {
                             ModContent.ItemType<AlluringBait>(),
                             ModContent.ItemType<AbyssalAmulet>()
@@ -483,11 +489,11 @@ namespace CalamityMod.CalPlayer
                     }
                     if (Player.cratePotion && Main.rand.NextBool(5)) // 20%
                     {
-                        caughtType = ModContent.ItemType<AbyssalCrate>();
+                        itemDrop = ModContent.ItemType<AbyssalCrate>();
                     }
                     else if (!Player.cratePotion && Main.rand.NextBool(10)) // 10%
                     {
-                        caughtType = ModContent.ItemType<AbyssalCrate>();
+                        itemDrop = ModContent.ItemType<AbyssalCrate>();
                     }
                 }
 
@@ -495,7 +501,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(25))
                     {
-                        caughtType = ModContent.ItemType<Xerocodile>();
+                        itemDrop = ModContent.ItemType<Xerocodile>();
                     }
                 }
             }
@@ -507,43 +513,43 @@ namespace CalamityMod.CalPlayer
                     int cragFish = Main.rand.Next(100);
                     if (cragFish >= 85) // 15%
                     {
-                        caughtType = ModContent.ItemType<CoastalDemonfish>();
+                        itemDrop = ModContent.ItemType<CoastalDemonfish>();
                     }
                     else if (cragFish <= 84 && cragFish >= 70) // 15%
                     {
-                        caughtType = ModContent.ItemType<BrimstoneFish>();
+                        itemDrop = ModContent.ItemType<BrimstoneFish>();
                     }
                     else if (cragFish <= 69 && cragFish >= 55) // 15%
                     {
-                        caughtType = ModContent.ItemType<Shadowfish>();
+                        itemDrop = ModContent.ItemType<Shadowfish>();
                     }
                     else if (cragFish <= 54 && cragFish >= 41 && Main.hardMode) // 14%
                     {
-                        caughtType = ModContent.ItemType<ChaoticFish>();
+                        itemDrop = ModContent.ItemType<ChaoticFish>();
                     }
                     else if (Player.cratePotion && cragFish <= 30 && cragFish >= 21) // 10%
                     {
-                        caughtType = ModContent.ItemType<BrimstoneCrate>();
+                        itemDrop = ModContent.ItemType<BrimstoneCrate>();
                     }
                     else if (!Player.cratePotion && cragFish <= 25 && cragFish >= 21) // 5%
                     {
-                        caughtType = ModContent.ItemType<BrimstoneCrate>();
+                        itemDrop = ModContent.ItemType<BrimstoneCrate>();
                     }
-                    else if (cragFish <= 20 && cragFish >= 11 && CalamityWorld.downedProvidence) // 10%
+                    else if (cragFish <= 20 && cragFish >= 11 && DownedBossSystem.downedProvidence) // 10%
                     {
-                        caughtType = ModContent.ItemType<Bloodfin>();
+                        itemDrop = ModContent.ItemType<Bloodfin>();
                     }
                     else if (cragFish <= 10 && cragFish >= (Main.hardMode ? 8 : 6)) // 5% (3% hardmode)
                     {
-                        caughtType = ModContent.ItemType<DragoonDrizzlefish>();
+                        itemDrop = ModContent.ItemType<DragoonDrizzlefish>();
                     }
                     else if (cragFish <= 2 && cragFish >= 0) // 3%
                     {
-                        caughtType = ModContent.ItemType<CharredLasher>();
+                        itemDrop = ModContent.ItemType<CharredLasher>();
                     }
                     else // 32% w/o crate pot, 27% w/ crate pot, add 10% pre-Prov, add another 12% prehardmode
                     {
-                        caughtType = ModContent.ItemType<CragBullhead>();
+                        itemDrop = ModContent.ItemType<CragBullhead>();
                     }
                 }
             }
@@ -551,7 +557,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Get Fishing Level
-        public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
+        public override void GetFishingLevel(Item fishingRod, Item bait, ref float fishingLevel)
         {
             if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
                 fishingLevel = (int)(fishingLevel * 1.1f);

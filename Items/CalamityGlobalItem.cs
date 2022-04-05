@@ -1424,11 +1424,11 @@ namespace CalamityMod.Items
                  * Post-Yharon = 4
                  */
 
-                if (CalamityWorld.downedYharon)
+                if (DownedBossSystem.downedYharon)
                     player.statDefense += 3;
-                else if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
+                else if (DownedBossSystem.downedPolterghast || DownedBossSystem.downedDoG)
                     player.statDefense += 2;
-                else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence)
+                else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || DownedBossSystem.downedProvidence)
                     player.statDefense += 1;
 
                 player.endurance += 0.0025f;
@@ -1445,11 +1445,11 @@ namespace CalamityMod.Items
                  * Post-Yharon = 8
                  */
 
-                if (CalamityWorld.downedYharon)
+                if (DownedBossSystem.downedYharon)
                     player.statDefense += 6;
-                else if (CalamityWorld.downedDoG)
+                else if (DownedBossSystem.downedDoG)
                     player.statDefense += 4;
-                else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
+                else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
                     player.statDefense += 3;
                 else if (NPC.downedGolemBoss || NPC.downedMoonlord)
                     player.statDefense += 2;
@@ -1470,13 +1470,13 @@ namespace CalamityMod.Items
                  * Post-Yharon = 11
                  */
 
-                if (CalamityWorld.downedYharon)
+                if (DownedBossSystem.downedYharon)
                     player.statDefense += 8;
-                else if (CalamityWorld.downedDoG)
+                else if (DownedBossSystem.downedDoG)
                     player.statDefense += 6;
-                else if (CalamityWorld.downedPolterghast)
+                else if (DownedBossSystem.downedPolterghast)
                     player.statDefense += 5;
-                else if (CalamityWorld.downedProvidence)
+                else if (DownedBossSystem.downedProvidence)
                     player.statDefense += 4;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 3;
@@ -1497,13 +1497,13 @@ namespace CalamityMod.Items
                  * Post-Yharon = 15
                  */
 
-                if (CalamityWorld.downedYharon)
+                if (DownedBossSystem.downedYharon)
                     player.statDefense += 11;
-                else if (CalamityWorld.downedDoG)
+                else if (DownedBossSystem.downedDoG)
                     player.statDefense += 8;
-                else if (CalamityWorld.downedPolterghast)
+                else if (DownedBossSystem.downedPolterghast)
                     player.statDefense += 6;
-                else if (CalamityWorld.downedProvidence)
+                else if (DownedBossSystem.downedProvidence)
                     player.statDefense += 5;
                 else if (NPC.downedMoonlord)
                     player.statDefense += 4;

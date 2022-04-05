@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedCryogen;
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedCryogen;
 
         public override string TownNPCName() => "Permafrost";
 

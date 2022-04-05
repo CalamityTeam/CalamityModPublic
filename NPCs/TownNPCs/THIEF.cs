@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
             nextSlot++;
-            if (CalamityWorld.downedSlimeGod)
+            if (DownedBossSystem.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
                 shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
                 nextSlot++;
             }
-            if (CalamityWorld.downedCalamitas)
+            if (DownedBossSystem.downedCalamitas)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
                 shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
@@ -334,19 +334,19 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.downedYharon)
+            if (DownedBossSystem.downedYharon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);

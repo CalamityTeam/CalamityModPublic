@@ -1,7 +1,8 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
@@ -11,7 +12,7 @@ namespace CalamityMod.World.Planets
     {
         private Rectangle _area;
 
-        public static void GenerateAllBasePlanetoids(GenerationProgress progress)
+        public static void GenerateAllBasePlanetoids(GenerationProgress progress, GameConfiguration config)
         {
             progress.Message = "Creating a new solar system";
 

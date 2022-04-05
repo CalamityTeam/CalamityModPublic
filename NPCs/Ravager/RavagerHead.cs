@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = null;
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.defense *= 2;
                 NPC.lifeMax *= 4;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead

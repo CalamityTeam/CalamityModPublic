@@ -143,7 +143,7 @@ namespace CalamityMod.Tiles
                 if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
                     return;
                 Tile t = Main.tile[xPos, yPos];
-                if (t != null && t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
+                if (t != null && t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && DownedBossSystem.downedDesertScourge)))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].HasTile && Main.netMode != NetmodeID.SinglePlayer)

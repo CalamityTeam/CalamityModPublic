@@ -130,9 +130,9 @@ namespace CalamityMod.Events
                         playerCount++;
                     }
                 }
-                if (CalamityWorld.downedPolterghast)
+                if (DownedBossSystem.downedPolterghast)
                     return (int)(Math.Log(playerCount + Math.E - 1) * 170f);
-                else if (CalamityWorld.downedAquaticScourge)
+                else if (DownedBossSystem.downedAquaticScourge)
                     return (int)(Math.Log(playerCount + Math.E - 1) * 135f);
                 else
                     return (int)(Math.Log(playerCount + Math.E - 1) * 110f);
@@ -143,7 +143,7 @@ namespace CalamityMod.Events
         /// </summary>
         public static void TryStartEvent(bool forceRain = false)
         {
-            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || BossRushEvent.BossRushActive)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !DownedBossSystem.downedAquaticScourge) || BossRushEvent.BossRushActive)
                 return;
 
             int playerCount = 0;
@@ -252,7 +252,7 @@ namespace CalamityMod.Events
             }
 
             // Summon Old Duke tornado post-Polter as needed
-            if (CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 1)
+            if (DownedBossSystem.downedPolterghast && CalamityWorld.acidRainPoints == 1)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                 CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
@@ -296,8 +296,8 @@ namespace CalamityMod.Events
                     Main.maxRaining = 0f;
                     if (win)
                     {
-                        CalamityWorld.downedEoCAcidRain = true;
-                        CalamityWorld.downedAquaticScourgeAcidRain = CalamityWorld.downedAquaticScourge;
+                        DownedBossSystem.downedEoCAcidRain = true;
+                        DownedBossSystem.downedAquaticScourgeAcidRain = DownedBossSystem.downedAquaticScourge;
                     }
                     CalamityWorld.triedToSummonOldDuke = false;
                     CalamityMod.StopRain();
@@ -338,7 +338,7 @@ namespace CalamityMod.Events
         {
             // Attempt to start the acid rain at the 4:29AM.
             // This does not happen if a player has the Broken Water Filter in use.
-            bool increasedEventChance = !CalamityWorld.downedEoCAcidRain || (!CalamityWorld.downedAquaticScourgeAcidRain && CalamityWorld.downedAquaticScourge) || (!CalamityWorld.downedBoomerDuke && CalamityWorld.downedPolterghast);
+            bool increasedEventChance = !DownedBossSystem.downedEoCAcidRain || (!DownedBossSystem.downedAquaticScourgeAcidRain && DownedBossSystem.downedAquaticScourge) || (!DownedBossSystem.downedBoomerDuke && DownedBossSystem.downedPolterghast);
             if ((int)Main.time == (int)(Main.nightLength - 1f) && !Main.dayTime && Main.rand.NextBool(increasedEventChance ? 3 : 300))
             {
                 bool shouldNotStartEvent = false;
@@ -360,7 +360,7 @@ namespace CalamityMod.Events
             }
 
             // Attempt to force an Acid Rain immediately after the EoC is dead when someone wanders to the sea.
-            if (NPC.downedBoss1 && !CalamityWorld.downedEoCAcidRain && !CalamityWorld.forcedRainAlready)
+            if (NPC.downedBoss1 && !DownedBossSystem.downedEoCAcidRain && !CalamityWorld.forcedRainAlready)
             {
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                 {
@@ -387,9 +387,9 @@ namespace CalamityMod.Events
         {
             Dictionary<int, AcidRainSpawnData> possibleEnemies = PossibleEnemiesPreHM;
 
-            if (CalamityWorld.downedAquaticScourge)
+            if (DownedBossSystem.downedAquaticScourge)
                 possibleEnemies = PossibleEnemiesAS;
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
                 possibleEnemies = PossibleEnemiesPolter;
 
             if (CalamityWorld.rainingAcid)
@@ -397,7 +397,7 @@ namespace CalamityMod.Events
                 if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
                 {
                     CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                     {
                         CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                     }
@@ -405,11 +405,11 @@ namespace CalamityMod.Events
                     // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
                     Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
                 }
-                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? PossibleMinibossesPolter : PossibleMinibossesAS;
+                Dictionary<int, AcidRainSpawnData> possibleMinibosses = DownedBossSystem.downedPolterghast ? PossibleMinibossesPolter : PossibleMinibossesAS;
                 if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
                 {
                     CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                     {
                         CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                     }
@@ -421,7 +421,7 @@ namespace CalamityMod.Events
 
             CalamityWorld.acidRainPoints = (int)MathHelper.Max(0, CalamityWorld.acidRainPoints); // To prevent negative completion ratios
 
-            if (CalamityWorld.rainingAcid && CalamityWorld.downedPolterghast &&
+            if (CalamityWorld.rainingAcid && DownedBossSystem.downedPolterghast &&
                 npc.type == ModContent.NPCType<OldDuke>() &&
                 CalamityWorld.acidRainPoints <= 2f)
             {

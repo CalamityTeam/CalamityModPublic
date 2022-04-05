@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (CalamityWorld.downedSCal && CalamityWorld.downedExoMechs && (player.Calamity().minionSlotStat - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce)
+            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.Calamity().minionSlotStat - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce)
             {
                 player.Calamity().profanedCrystalBuffs = true;
             }
@@ -48,13 +48,13 @@ namespace CalamityMod.Buffs.StatBuffs
                         (enrage ? "\nYour weakened life force fuels your desperate attacks" : "");
                 }
             }
-            else if (CalamityWorld.downedSCal && CalamityWorld.downedExoMechs)
+            else if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs)
             {
                 tip = "Your profaned soul is constrained by your insufficient summoning powers";
             }
             else
             {
-                tip = !CalamityWorld.downedExoMechs ? "The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations" : "The profaned soul within has been defiled by the powerful magic of a supreme witch";
+                tip = !DownedBossSystem.downedExoMechs ? "The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations" : "The profaned soul within has been defiled by the powerful magic of a supreme witch";
             }
         }
     }

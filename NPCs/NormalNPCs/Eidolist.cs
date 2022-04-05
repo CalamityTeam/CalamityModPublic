@@ -337,7 +337,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<EidolonTablet>(), !NPC.LunarApocalypseIsUp, 0.25f);
             int minLumenyl = Main.expertMode ? 10 : 8;
             int maxLumenyl = Main.expertMode ? 14 : 10;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
             DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1f, 3, 5);
         }
     }

@@ -695,7 +695,7 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables for buffing the AI
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -1235,7 +1235,7 @@ namespace CalamityMod.NPCs
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -1894,7 +1894,7 @@ namespace CalamityMod.NPCs
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -2175,7 +2175,7 @@ namespace CalamityMod.NPCs
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -4234,7 +4234,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Destroy all Dark Energies if their total HP is below 20%
-                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1) ? 12000 : 3000;
+                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : (CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel1) ? 12000 : 3000;
                 int totalDarkEnergiesSpawned = darkEnergyAmt * 3 + 2;
                 int totalDarkEnergyMaxHP = darkEnergyMaxHP * totalDarkEnergiesSpawned;
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);
@@ -6671,7 +6671,7 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables for buffing the AI
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;

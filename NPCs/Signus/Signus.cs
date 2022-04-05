@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Signus
             NPC.height = 130;
             NPC.defense = 60;
 
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
+            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel3;
             NPC.LifeMaxNERB(notDoGFight ? 297000 : 73000, notDoGFight ? 356400 : 87600, 240000);
 
             // If fought alone, Signus plays his own theme
@@ -751,7 +751,7 @@ namespace CalamityMod.NPCs.Signus
         public override void NPCLoot()
         {
             // Only drop items if fought at full strength
-            bool fullStrength = !CalamityWorld.downedSentinel3 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = !DownedBossSystem.downedSentinel3 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
@@ -759,7 +759,7 @@ namespace CalamityMod.NPCs.Signus
                 DropHelper.DropBags(NPC);
 
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<SignusTrophy>(), 10);
-                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
+                bool lastSentinelKilled = DownedBossSystem.downedSentinel1 && DownedBossSystem.downedSentinel2 && !DownedBossSystem.downedSentinel3;
                 DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
 
                 if (!Main.expertMode)
@@ -798,14 +798,14 @@ namespace CalamityMod.NPCs.Signus
                 }
 
                 // Mark DoG fight sentinels as dead
-                CalamityWorld.downedSecondSentinels = true;
+                DownedBossSystem.downedSecondSentinels = true;
                 CalamityNetcode.SyncWorld();
             }
 
             // Mark Signus as dead
             if (fullStrength)
             {
-                CalamityWorld.downedSentinel3 = true;
+                DownedBossSystem.downedSentinel3 = true;
                 CalamityNetcode.SyncWorld();
             }
         }

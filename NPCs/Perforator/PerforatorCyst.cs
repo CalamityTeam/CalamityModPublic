@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.Perforator
             if (spawnInfo.playerSafe || anyBossElements || !crimson)
                 return 0f;
 
-            if (NPC.downedBoss2 && !CalamityWorld.downedPerforator)
+            if (NPC.downedBoss2 && !DownedBossSystem.downedPerforator)
                 return 1.5f;
 
             return Main.hardMode ? 0.05f : 0.5f;

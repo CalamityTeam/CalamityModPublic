@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.lavaImmune = true;
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 NPC.damage = 110;
                 NPC.defense = 20;
@@ -257,8 +257,8 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<LanternoftheSoul>(), CalamityWorld.downedProvidence, 20, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<LanternoftheSoul>(), DownedBossSystem.downedProvidence, 20, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
         }
 

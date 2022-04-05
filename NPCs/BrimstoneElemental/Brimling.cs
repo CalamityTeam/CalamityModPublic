@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 NPC.lifeMax = 26000;
             }
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             bool goIntoShell = NPC.life <= NPC.lifeMax * 0.25;
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
                 boostDR = true;

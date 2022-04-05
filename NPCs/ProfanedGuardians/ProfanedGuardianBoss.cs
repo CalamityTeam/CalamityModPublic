@@ -481,10 +481,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItemChance(NPC, ModContent.ItemType<RelicOfDeliverance>(), 4);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<SamuraiBadge>(), 10);
             DropHelper.DropItem(NPC, ModContent.ItemType<ProfanedCoreUnlimited>());
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !DownedBossSystem.downedGuardians);
 
             // Mark the Profaned Guardians as dead
-            CalamityWorld.downedGuardians = true;
+            DownedBossSystem.downedGuardians = true;
             CalamityNetcode.SyncWorld();
         }
 

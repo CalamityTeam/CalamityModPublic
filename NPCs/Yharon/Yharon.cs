@@ -2827,7 +2827,7 @@ namespace CalamityMod.NPCs.Yharon
         #region Loot
         public override void NPCLoot()
         {
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedYharon);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedYharon);
 
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
@@ -2872,10 +2872,10 @@ namespace CalamityMod.NPCs.Yharon
 
             // Other
             // DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeYharon>(), true, !DownedBossSystem.downedYharon);
 
             // If Yharon has not been killed yet, notify players of Auric Ore
-            if (!CalamityWorld.downedYharon)
+            if (!DownedBossSystem.downedYharon)
             {
                 CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.6f, 0.8f, 10, 20);
 
@@ -2885,7 +2885,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // Mark Yharon as dead
-            CalamityWorld.downedYharon = true;
+            DownedBossSystem.downedYharon = true;
             CalamityNetcode.SyncWorld();
         }
 

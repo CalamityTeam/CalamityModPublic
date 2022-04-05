@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.SandShark;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FusionFeederBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 65;
                 NPC.defense = 22;

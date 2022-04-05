@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 NPC.damage = 80;
                 NPC.defense = 20;
@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<BlightedLens>(), Main.hardMode, 2, 1, 1);
             DropHelper.DropItemChance(NPC, ItemID.Lens, 2);

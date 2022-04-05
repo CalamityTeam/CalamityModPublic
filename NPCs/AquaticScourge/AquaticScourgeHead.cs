@@ -195,10 +195,10 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             DropHelper.DropItem(NPC, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !DownedBossSystem.downedAquaticScourge);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSulphurSea>(), true, !DownedBossSystem.downedAquaticScourge);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, DownedBossSystem.downedAquaticScourge);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<SeasSearing>(), !Main.expertMode, 0.1f);
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
-            if (!CalamityWorld.downedAquaticScourge)
+            if (!DownedBossSystem.downedAquaticScourge)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             }
 
             // Mark Aquatic Scourge as dead
-            CalamityWorld.downedAquaticScourge = true;
+            DownedBossSystem.downedAquaticScourge = true;
             CalamityNetcode.SyncWorld();
         }
 

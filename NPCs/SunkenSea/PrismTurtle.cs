@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 1, 1, 3);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<PrismShard>(), DownedBossSystem.downedDesertScourge, 1, 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

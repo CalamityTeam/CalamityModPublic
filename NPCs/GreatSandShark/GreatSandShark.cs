@@ -603,7 +603,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<GrandScale>(), Main.expertMode, 3, 1, 1);
 
             // Mark Great Sand Shark as dead
-            CalamityWorld.downedGSS = true;
+            DownedBossSystem.downedGSS = true;
             CalamityNetcode.SyncWorld();
         }
 

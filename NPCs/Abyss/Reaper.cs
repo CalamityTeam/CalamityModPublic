@@ -653,10 +653,10 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItem(NPC, ModContent.ItemType<AnechoicCoating>(), 2, 3);
             int minCells = Main.expertMode ? 14 : 10;
             int maxCells = Main.expertMode ? 22 : 17;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            if (CalamityWorld.downedPolterghast)
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ReaperTooth>(), DownedBossSystem.downedPolterghast, 1f, 3, 4);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DeepSeaDumbbell>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
+            if (DownedBossSystem.downedPolterghast)
             {
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<Valediction>(), 3);
             }

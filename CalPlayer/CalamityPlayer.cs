@@ -78,6 +78,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Audio;
+using CalamityMod.BiomeManagers;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1069,15 +1070,18 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Biome
-        public bool ZoneCalamity = false;
-        public bool ZoneAstral = false;
-        public bool ZoneSunkenSea = false;
-        public bool ZoneSulphur = false;
-        public bool ZoneAbyss = false;
-        public bool ZoneAbyssLayer1 = false;
-        public bool ZoneAbyssLayer2 = false;
-        public bool ZoneAbyssLayer3 = false;
-        public bool ZoneAbyssLayer4 = false;
+        public bool ZoneCalamity => Player.InModBiome(ModContent.GetInstance<BrimstoneCragsBiome>());
+        public bool ZoneAstral => Player.InModBiome(ModContent.GetInstance<AbovegroundAstralBiome>()) ||
+            Player.InModBiome(ModContent.GetInstance<AbovegroundAstralSnowBiome>()) ||
+            Player.InModBiome(ModContent.GetInstance<AbovegroundAstralDesertBiome>()) ||
+            Player.InModBiome(ModContent.GetInstance<UndergroundAstralBiome>());
+        public bool ZoneSunkenSea => Player.InModBiome(ModContent.GetInstance<SunkenSeaBiome>());
+        public bool ZoneSulphur => Player.InModBiome(ModContent.GetInstance<SulphurousSeaBiome>());
+        public bool ZoneAbyss => ZoneAbyssLayer1 || ZoneAbyssLayer2 || ZoneAbyssLayer3 || ZoneAbyssLayer4;
+        public bool ZoneAbyssLayer1 => Player.InModBiome(ModContent.GetInstance<AbyssLayer1Biome>());
+        public bool ZoneAbyssLayer2 => Player.InModBiome(ModContent.GetInstance<AbyssLayer2Biome>());
+        public bool ZoneAbyssLayer3 => Player.InModBiome(ModContent.GetInstance<AbyssLayer3Biome>());
+        public bool ZoneAbyssLayer4 => Player.InModBiome(ModContent.GetInstance<AbyssLayer4Biome>());
         public bool abyssDeath = false;
         public int abyssBreathCD;
         public float caveDarkness = 0f;
@@ -1225,7 +1229,7 @@ namespace CalamityMod.CalPlayer
             cooldowns = new Dictionary<string, CooldownInstance>(16);
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
             var boost = new List<string>();
             boost.AddWithCondition("extraAccessoryML", extraAccessoryML);
@@ -1301,40 +1305,34 @@ namespace CalamityMod.CalPlayer
                 cooldownsTag.Add(id, singleCDTag);
             }
 
-            return new TagCompound
-            {
-                { "boost", boost },
-                { "rage", rage },
-                { "stress", rage * (10000 / 100f) }, // Backwards compatibility -- save new rage as old stress.
-                { "adrenaline", adrenaline },
-                { "aquaticBoostPower", aquaticBoost },
-                { "sCalDeathCount", sCalDeathCount },
-                { "sCalKillCount", sCalKillCount },
-                { "meleeLevel", meleeLevel },
-                { "exactMeleeLevel", exactMeleeLevel },
-                { "rangedLevel", rangedLevel },
-                { "exactRangedLevel", exactRangedLevel },
-                { "magicLevel", magicLevel },
-                { "exactMagicLevel", exactMagicLevel },
-                { "summonLevel", summonLevel },
-                { "exactSummonLevel", exactSummonLevel },
-                { "rogueLevel", rogueLevel },
-                { "exactRogueLevel", exactRogueLevel },
-                { "deathCount", deathCount },
-                { "itemTypeLastReforged", itemTypeLastReforged },
-                { "reforgeTierSafety", reforgeTierSafety },
-                { "moveSpeedStat", moveSpeedStat },
-                { "defenseDamage", totalDefenseDamage },
-                { "defenseDamageRecoveryFrames", defenseDamageRecoveryFrames },
-                { "totalDefenseDamageRecoveryFrames", totalDefenseDamageRecoveryFrames },
-                { "totalSpeedrunTicks", totalTicks },
-                { "lastSplitType", lastSplitType },
-                { "lastSplitTicks", lastSplit.Ticks },
-                { "cooldowns", cooldownsTag }
-            };
+            tag["boost"] = boost;
+            tag["rage"] = rage;
+            tag["adrenaline"] = adrenaline;
+            tag["aquaticBoostPower"] = aquaticBoost;
+            tag["sCalDeathCount"] = sCalDeathCount;
+            tag["sCalKillCount"] = sCalKillCount;
+            tag["meleeLevel"] = meleeLevel;
+            tag["exactMeleeLevel"] = exactMeleeLevel;
+            tag["rangedLevel"] = rangedLevel;
+            tag["exactRangedLevel"] = exactRangedLevel;
+            tag["magicLevel"] = magicLevel;
+            tag["exactMagicLevel"] = exactMagicLevel;
+            tag["summonLevel"] = summonLevel;
+            tag["exactSummonLevel"] = exactSummonLevel;
+            tag["rogueLevel"] = rogueLevel;
+            tag["exactRogueLevel"] = exactRogueLevel;
+            tag["itemTypeLastReforged"] = itemTypeLastReforged;
+            tag["reforgeTierSafety"] = reforgeTierSafety;
+            tag["moveSpeedStat"] = moveSpeedStat;
+            tag["defenseDamage"] = totalDefenseDamage;
+            tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
+            tag["totalSpeedrunTicks"] = totalDefenseDamageRecoveryFrames;
+            tag["lastSplitType"] = lastSplitType;
+            tag["lastSplitTicks"] = lastSplit.Ticks;
+            tag["cooldowns"] = cooldownsTag;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             var boost = tag.GetList<string>("boost");
             extraAccessoryML = boost.Contains("extraAccessoryML");
@@ -1501,9 +1499,9 @@ namespace CalamityMod.CalPlayer
                     (NPC.downedFishron ? 0.01f : 0f) + // 0.15
                     (NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
-                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
-                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
+                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
+                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * integerTypeBoost;
             }
@@ -2592,6 +2590,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region BiomeStuff
+
         internal static readonly FieldInfo EffectsField = typeof(SkyManager).GetField("_effects", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public override void UpdateBiomeVisuals()
@@ -2687,145 +2686,16 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateBiomes()
         {
-            Point point = Player.Center.ToTileCoordinates();
-            ZoneCalamity = CalamityWorld.calamityTiles > 50;
-            ZoneAstral = !Player.ZoneDungeon && (CalamityWorld.astralTiles > 950 || (Player.ZoneSnow && CalamityWorld.astralTiles > 300));
-            ZoneSunkenSea = CalamityWorld.sunkenSeaTiles > 150;
-
-            int x = Main.maxTilesX;
-            int y = Main.maxTilesY;
-            int genLimit = x / 2;
-            int abyssChasmY = y - 250;
-            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
-
-            bool abyssPosX = false;
-            bool sulphurPosX = false;
-            bool abyssPosY = point.Y <= abyssChasmY;
-            if (CalamityWorld.abyssSide)
-            {
-                if (point.X < 380)
-                {
-                    sulphurPosX = true;
-                }
-                if (point.X < abyssChasmX + 80)
-                {
-                    abyssPosX = true;
-                }
-            }
-            else
-            {
-                if (point.X > Main.maxTilesX - 380)
-                {
-                    sulphurPosX = true;
-                }
-                if (point.X > abyssChasmX - 80)
-                {
-                    abyssPosX = true;
-                }
-            }
-
-            ZoneAbyss = point.Y > (Main.rockLayer - y * 0.05) &&
-                !Player.lavaWet &&
-                !Player.honeyWet &&
-                abyssPosY &&
-                abyssPosX;
-
-            ZoneAbyssLayer1 = ZoneAbyss &&
-                point.Y <= (Main.rockLayer + y * 0.03);
-
-            ZoneAbyssLayer2 = ZoneAbyss &&
-                point.Y > (Main.rockLayer + y * 0.03) &&
-                point.Y <= (Main.rockLayer + y * 0.14);
-
-            ZoneAbyssLayer3 = ZoneAbyss &&
-                point.Y > (Main.rockLayer + y * 0.14) &&
-                point.Y <= (Main.rockLayer + y * 0.26);
-
-            ZoneAbyssLayer4 = ZoneAbyss &&
-                point.Y > (Main.rockLayer + y * 0.26);
-
-            ZoneSulphur = (CalamityWorld.sulphurTiles >= 300 || (Player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
-
             //Overriding 1.4's ass req boosts
             if (Main.snowTiles > 300)
                 Player.ZoneSnow = true;
         }
-
-        public override bool CustomBiomesMatch(Player other)
-        {
-            CalamityPlayer modOther = other.Calamity();
-
-            // least common biomes checked first so it short circuits as rapidly as possible
-            return ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4 &&
-                ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 &&
-                ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 &&
-                ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 &&
-                ZoneCalamity == modOther.ZoneCalamity &&
-                ZoneSulphur == modOther.ZoneSulphur &&
-                ZoneSunkenSea == modOther.ZoneSunkenSea &&
-                ZoneAbyss == modOther.ZoneAbyss &&
-                ZoneAstral == modOther.ZoneAstral;
-        }
-
-        public override void CopyCustomBiomesTo(Player other)
-        {
-            CalamityPlayer modOther = other.Calamity();
-            modOther.ZoneCalamity = ZoneCalamity;
-            modOther.ZoneAstral = ZoneAstral;
-            modOther.ZoneSulphur = ZoneSulphur;
-            modOther.ZoneSunkenSea = ZoneSunkenSea;
-            modOther.ZoneAbyss = ZoneAbyss;
-            modOther.ZoneAbyssLayer1 = ZoneAbyssLayer1;
-            modOther.ZoneAbyssLayer2 = ZoneAbyssLayer2;
-            modOther.ZoneAbyssLayer3 = ZoneAbyssLayer3;
-            modOther.ZoneAbyssLayer4 = ZoneAbyssLayer4;
-        }
-
-        public override void SendCustomBiomes(BinaryWriter writer)
-        {
-            BitsByte flags = new BitsByte();
-            flags[0] = ZoneCalamity;
-            flags[1] = ZoneAstral;
-            flags[2] = ZoneAbyss;
-            flags[3] = ZoneAbyssLayer1;
-            flags[4] = ZoneAbyssLayer2;
-            flags[5] = ZoneAbyssLayer3;
-            flags[6] = ZoneAbyssLayer4;
-            flags[7] = ZoneSulphur;
-
-            BitsByte flags2 = new BitsByte();
-            flags2[0] = ZoneSunkenSea;
-
-            writer.Write(flags);
-            writer.Write(flags2);
-        }
-
-        public override void ReceiveCustomBiomes(BinaryReader reader)
-        {
-            BitsByte flags = reader.ReadByte();
-            ZoneCalamity = flags[0];
-            ZoneAstral = flags[1];
-            ZoneAbyss = flags[2];
-            ZoneAbyssLayer1 = flags[3];
-            ZoneAbyssLayer2 = flags[4];
-            ZoneAbyssLayer3 = flags[5];
-            ZoneAbyssLayer4 = flags[6];
-            ZoneSulphur = flags[7];
-
-            BitsByte flags2 = reader.ReadByte();
-            ZoneSunkenSea = flags2[0];
-        }
-
         public override Texture2D GetMapBackgroundImage()
         {
             if (ZoneSulphur)
-            {
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/SulphurBG");
-            }
+                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/SulphurBG").Value;
             if (ZoneAstral)
-            {
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/AstralBG");
-            }
+                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/AstralBG").Value;
             return null;
         }
         #endregion
@@ -3863,9 +3733,9 @@ namespace CalamityMod.CalPlayer
                     (NPC.downedFishron ? 0.01f : 0f) + // 0.15
                     (NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
-                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
-                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
+                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
+                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 meleeSpeedMult += floatTypeBoost * 0.25f;
             }
             if (eArtifact)
@@ -4098,7 +3968,7 @@ namespace CalamityMod.CalPlayer
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                return CalamityWorld.downedSCal; //no easy moneycoins for post doggo/yhar
+                return DownedBossSystem.downedSCal; //no easy moneycoins for post doggo/yhar
             return base.CanSellItem(vendor, shopInventory, item);
         }
 
@@ -8831,19 +8701,19 @@ namespace CalamityMod.CalPlayer
                 // start with a vanilla cost of zero instead of 3 silver
                 price -= Item.buyPrice(0, 0, 3, 0);
 
-                if (CalamityWorld.downedYharon)
+                if (DownedBossSystem.downedYharon)
                     price += Item.buyPrice(0, 9, 0, 0);
-                else if (CalamityWorld.downedDoG)
+                else if (DownedBossSystem.downedDoG)
                     price += Item.buyPrice(0, 6, 0, 0);
-                else if (CalamityWorld.downedProvidence)
+                else if (DownedBossSystem.downedProvidence)
                     price += Item.buyPrice(0, 3, 20, 0);
                 else if (NPC.downedMoonlord)
                     price += Item.buyPrice(0, 2, 0, 0);
-                else if (NPC.downedFishron || CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger)
+                else if (NPC.downedFishron || DownedBossSystem.downedPlaguebringer || DownedBossSystem.downedScavenger)
                     price += Item.buyPrice(0, 1, 20, 0);
                 else if (NPC.downedGolemBoss)
                     price += Item.buyPrice(0, 0, 90, 0);
-                else if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+                else if (NPC.downedPlantBoss || DownedBossSystem.downedCalamitas)
                     price += Item.buyPrice(0, 0, 60, 0);
                 else if (NPC.downedMechBossAny)
                     price += Item.buyPrice(0, 0, 40, 0);

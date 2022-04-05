@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (anyBossElements || spawnInfo.playerSafe || !corrupt)
                 return 0f;
 
-            if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
+            if (NPC.downedBoss2 && !DownedBossSystem.downedHiveMind)
                 return 1.5f;
 
             return Main.hardMode ? 0.05f : 0.5f;

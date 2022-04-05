@@ -230,9 +230,9 @@ namespace CalamityMod.CalPlayer
 
                 Player.lifeRegenTime = 0;
                 lifeRegenLost += 6;
-                if (CalamityWorld.downedAquaticScourge)
+                if (DownedBossSystem.downedAquaticScourge)
                     lifeRegenLost += 6;
-                if (CalamityWorld.downedPolterghast)
+                if (DownedBossSystem.downedPolterghast)
                     lifeRegenLost += 12;
             }
 
@@ -731,9 +731,9 @@ namespace CalamityMod.CalPlayer
                     (NPC.downedFishron ? 0.01f : 0f) + // 0.15
                     (NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
-                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
-                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
+                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
+                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 int regenBoost = 1 + (integerTypeBoost / 5);
                 bool lesserEffect = false;

@@ -339,10 +339,10 @@ namespace CalamityMod.NPCs.Abyss
         {
             int minLumenyl = Main.expertMode ? 3 : 2;
             int maxLumenyl = Main.expertMode ? 4 : 3;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f, minLumenyl, maxLumenyl);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.5f, minLumenyl, maxLumenyl);
             int minCells = Main.expertMode ? 8 : 6;
             int maxCells = Main.expertMode ? 11 : 8;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)

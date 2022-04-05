@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return CalamityWorld.downedCLAM && CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedCLAM && DownedBossSystem.downedDesertScourge;
         }
 
         public override string TownNPCName()
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Some of these beings I had thought previously to be only legends. To see them in all their glory... what a macabre privilege.");
             }
 
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 dialogue.Add("To see that Tyrant’s serpent free of its shackles. It gave me chills.");
             }
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.TownNPCs
             string worldEvil = WorldGen.crimson ? "Crimson" : "Corruption";
             string displayThisText = "If this shows up, something went wrong.";
 
-            if (CalamityWorld.downedYharon)
+            if (DownedBossSystem.downedYharon)
             {
                 switch (NPC.Calamity().newAI[0] % 3f)
                 {
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.TownNPCs
                         break;
                 }
             }
-            else if (CalamityWorld.downedDoG)
+            else if (DownedBossSystem.downedDoG)
             {
                 switch (NPC.Calamity().newAI[0] % 3f)
                 {
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.TownNPCs
                         break;
                 }
             }
-            else if (CalamityWorld.downedPolterghast)
+            else if (DownedBossSystem.downedPolterghast)
             {
                 switch (NPC.Calamity().newAI[0] % 2f)
                 {
@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.TownNPCs
                         break;
                 }
             }
-            else if (CalamityWorld.downedProvidence)
+            else if (DownedBossSystem.downedProvidence)
             {
                 switch (NPC.Calamity().newAI[0] % 3f)
                 {
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 switch (NPC.Calamity().newAI[0] % 8f)
                 {
                     case 0f:
-                        displayThisText = !CalamityWorld.downedCryogen ? "Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed." : "You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.";
+                        displayThisText = !DownedBossSystem.downedCryogen ? "Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed." : "You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.";
                         break;
                     case 1f:
                         displayThisText = "I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.";
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.TownNPCs
                   shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 nextSlot++;
             }
-            if (CalamityWorld.downedBoomerDuke)
+            if (DownedBossSystem.downedBoomerDuke)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);

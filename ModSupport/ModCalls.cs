@@ -1,9 +1,10 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
@@ -40,25 +41,25 @@ namespace CalamityMod
                 case "acid rain eoc":
                 case "acidrain eoc":
                 case "acidraineoc":
-                    return CalamityWorld.downedEoCAcidRain;
+                    return DownedBossSystem.downedEoCAcidRain;
 
                 case "desertscourge":
                 case "desert scourge":
-                    return CalamityWorld.downedDesertScourge;
+                    return DownedBossSystem.downedDesertScourge;
 
                 case "clam":
                 case "giantclam":
                 case "giant clam":
-                    return CalamityWorld.downedCLAM;
+                    return DownedBossSystem.downedCLAM;
 
                 case "crabulon":
-                    return CalamityWorld.downedCrabulon;
+                    return DownedBossSystem.downedCrabulon;
 
                 case "hivemind":
                 case "hive mind":
                 case "thehivemind":
                 case "the hive mind":
-                    return CalamityWorld.downedHiveMind;
+                    return DownedBossSystem.downedHiveMind;
 
                 case "perforator":
                 case "perforators":
@@ -68,13 +69,13 @@ namespace CalamityMod
                 case "perforator hive":
                 case "theperforatorhive":
                 case "the perforator hive":
-                    return CalamityWorld.downedPerforator;
+                    return DownedBossSystem.downedPerforator;
 
                 case "slimegod":
                 case "slime god":
                 case "theslimegod":
                 case "the slime god":
-                    return CalamityWorld.downedSlimeGod;
+                    return DownedBossSystem.downedSlimeGod;
 
                 case "hmclam":
                 case "clamhm":
@@ -88,10 +89,10 @@ namespace CalamityMod
                 case "hardmode clam":
                 case "hardmodegiantclam":
                 case "hardmode giant clam":
-                    return CalamityWorld.downedCLAMHardMode;
+                    return DownedBossSystem.downedCLAMHardMode;
 
                 case "cryogen":
-                    return CalamityWorld.downedCryogen;
+                    return DownedBossSystem.downedCryogen;
 
                 case "acid rain 2":
                 case "acidrain 2":
@@ -104,15 +105,15 @@ namespace CalamityMod
                 case "acidrain aquaticscourge":
                 case "acidrainscourge":
                 case "acidrainaquaticscourge":
-                    return CalamityWorld.downedAquaticScourgeAcidRain;
+                    return DownedBossSystem.downedAquaticScourgeAcidRain;
 
                 case "aquaticscourge":
                 case "aquatic scourge":
-                    return CalamityWorld.downedAquaticScourge;
+                    return DownedBossSystem.downedAquaticScourge;
 
                 case "brimstoneelemental":
                 case "brimstone elemental":
-                    return CalamityWorld.downedBrimstoneElemental;
+                    return DownedBossSystem.downedBrimstoneElemental;
 
                 case "calamitas":
                 case "clone":
@@ -121,12 +122,12 @@ namespace CalamityMod
                 case "clonelamitas":
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger":
-                    return CalamityWorld.downedCalamitas;
+                    return DownedBossSystem.downedCalamitas;
 
                 case "gss":
                 case "greatsandshark":
                 case "great sand shark":
-                    return CalamityWorld.downedGSS;
+                    return DownedBossSystem.downedGSS;
 
                 // Don't remove the old references to "Siren" here to avoid breaking other mods
                 case "sirenleviathan":
@@ -146,12 +147,12 @@ namespace CalamityMod
                 case "anahitaandleviathan":
                 case "anahita and leviathan":
                 case "anahita and the leviathan":
-                    return CalamityWorld.downedLeviathan;
+                    return DownedBossSystem.downedLeviathan;
 
                 case "aureus":
                 case "astrumaureus":
                 case "astrum aureus":
-                    return CalamityWorld.downedAstrageldon;
+                    return DownedBossSystem.downedAstrageldon;
 
                 case "pbg":
                 case "plaguebringer":
@@ -159,17 +160,17 @@ namespace CalamityMod
                 case "plaguebringer goliath":
                 case "theplaguebringergoliath":
                 case "the plaguebringer goliath":
-                    return CalamityWorld.downedPlaguebringer;
+                    return DownedBossSystem.downedPlaguebringer;
 
                 case "scavenger": // backwards compatibility
                 case "ravager":
-                    return CalamityWorld.downedScavenger;
+                    return DownedBossSystem.downedScavenger;
 
                 case "stargod": // backwards compatibility
                 case "star god": // backwards compatibility
                 case "astrumdeus":
                 case "astrum deus":
-                    return CalamityWorld.downedStarGod;
+                    return DownedBossSystem.downedStarGod;
 
                 case "guardians":
                 case "donuts":
@@ -177,24 +178,24 @@ namespace CalamityMod
                 case "profaned guardians":
                 case "theprofanedguardians":
                 case "the profaned guardians":
-                    return CalamityWorld.downedGuardians;
+                    return DownedBossSystem.downedGuardians;
 
                 case "dragonfolly":
                 case "the dragonfolly":
                 case "bumblebirb":
                 case "bumblefuck":
-                    return CalamityWorld.downedBumble;
+                    return DownedBossSystem.downedBumble;
 
                 case "providence":
                 case "providencetheprofanedgoddess":
                 case "providence the profaned goddess":
                 case "providence, the profaned goddess":
-                    return CalamityWorld.downedProvidence;
+                    return DownedBossSystem.downedProvidence;
 
                 case "polterghast":
                 case "necroghast":
                 case "necroplasm":
-                    return CalamityWorld.downedPolterghast;
+                    return DownedBossSystem.downedPolterghast;
 
                 // Old Duke is also Acid Rain tier 3, so he gets those names too
                 case "oldduke":
@@ -213,18 +214,18 @@ namespace CalamityMod
                 case "acid rain duke":
                 case "acidrain duke":
                 case "acidrainduke":
-                    return CalamityWorld.downedBoomerDuke;
+                    return DownedBossSystem.downedBoomerDuke;
 
                 case "sentinel1": // backwards compatibility
                 case "void":
                 case "ceaselessvoid":
                 case "ceaseless void":
-                    return CalamityWorld.downedSentinel1;
+                    return DownedBossSystem.downedSentinel1;
 
                 case "sentinel2": // backwards compatibility
                 case "stormweaver":
                 case "storm weaver":
-                    return CalamityWorld.downedSentinel2;
+                    return DownedBossSystem.downedSentinel2;
 
                 case "sentinel3": // backwards compatibility
                 case "cosmicwraith":
@@ -233,7 +234,7 @@ namespace CalamityMod
                 case "signusenvoyofthedevourer":
                 case "signus envoy of the devourer":
                 case "signus, envoy of the devourer":
-                    return CalamityWorld.downedSentinel3;
+                    return DownedBossSystem.downedSentinel3;
 
                 case "sentinelany": // backwards compatibility
                 case "anysentinel":
@@ -241,27 +242,27 @@ namespace CalamityMod
                 case "onesentinel":
                 case "one sentinel":
                 case "sentinel":
-                    return CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3;
+                    return DownedBossSystem.downedSentinel1 || DownedBossSystem.downedSentinel2 || DownedBossSystem.downedSentinel3;
 
                 case "sentinelall": // backwards compatibility
                 case "sentinels":
                 case "allsentinel":
                 case "allsentinels":
                 case "all sentinels":
-                    return CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+                    return DownedBossSystem.downedSentinel1 && DownedBossSystem.downedSentinel2 && DownedBossSystem.downedSentinel3;
 
                 case "dog":
                 case "devourerofgods":
                 case "devourer of gods":
                 case "thedevourerofgods":
                 case "the devourer of gods":
-                    return CalamityWorld.downedDoG;
+                    return DownedBossSystem.downedDoG;
 
                 case "yharon":
                 case "jungledragonyharon":
                 case "jungle dragon yharon":
                 case "jungle dragon, yharon":
-                    return CalamityWorld.downedYharon;
+                    return DownedBossSystem.downedYharon;
 
                 case "draedon":
                 case "exomechs":
@@ -271,12 +272,12 @@ namespace CalamityMod
                 case "artemis":
                 case "thanatos":
                 case "ares":
-                    return CalamityWorld.downedExoMechs;
+                    return DownedBossSystem.downedExoMechs;
 
                 case "scal":
                 case "supremecalamitas":
                 case "supreme calamitas":
-                    return CalamityWorld.downedSCal;
+                    return DownedBossSystem.downedSCal;
 
                 case "adulteidolonwyrm":
                 case "adult eidolon wyrm":
@@ -284,7 +285,7 @@ namespace CalamityMod
                 case "adult wyrm":
                 case "adulteidolon":
                 case "adult eidolon":
-                    return CalamityWorld.downedAdultEidolonWyrm;
+                    return DownedBossSystem.downedAdultEidolonWyrm;
             }
         }
         #endregion

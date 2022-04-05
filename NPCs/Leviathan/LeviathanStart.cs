@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (!Main.hardMode)
                 return SpawnCondition.OceanMonster.Chance * 0.025f;
 
-            if (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas)
+            if (!NPC.downedPlantBoss && !DownedBossSystem.downedCalamitas)
                 return SpawnCondition.OceanMonster.Chance * 0.1f;
 
             return SpawnCondition.OceanMonster.Chance * 0.4f;

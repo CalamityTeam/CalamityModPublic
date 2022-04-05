@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.downedSCal)
+            if (DownedBossSystem.downedSCal)
             {
                 // RIP LORDE
                 // DropHelper.DropItem(npc, ModContent.ItemType<NO>());

@@ -162,10 +162,10 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.invasionType == InvasionID.MartianMadness)
                 dialogue.Add("You should probably deal with those ayy lmaos before anything else, but whatever.");
 
-            if (CalamityWorld.downedCryogen)
+            if (DownedBossSystem.downedCryogen)
                 dialogue.Add("God I can't wait to smash some ice again! ...For drinks, of course.");
 
-            if (CalamityWorld.downedLeviathan)
+            if (DownedBossSystem.downedLeviathan)
                 dialogue.Add("How could you murder such a beautiful creature!? ...The blue sexy one, not the obese cucumber.");
 
             if (NPC.downedMoonlord)
@@ -174,10 +174,10 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.rainingAcid)
                 dialogue.Add("I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!");
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
                 dialogue.Add("I saw a ghost down by the old train tracks back at my homeland once, flailing wildly at the lily pads... frightening times those were.");
 
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
                 dialogue.Add("I hear it's amazing when the famous Devourer of Gods out in flap-jaw space, with the tuning fork, does a raw blink on Hara-kiri rock. I need scissors! 61!");
 
             int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);

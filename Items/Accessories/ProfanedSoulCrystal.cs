@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            bool scal = CalamityWorld.downedSCal;
-            bool draedon = CalamityWorld.downedExoMechs;
+            bool scal = DownedBossSystem.downedSCal;
+            bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
                 string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure

@@ -496,12 +496,12 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 30, 40);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StardustStaff>(), CalamityWorld.downedPolterghast, 10, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SoulEdge>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EidolicWail>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StardustStaff>(), DownedBossSystem.downedPolterghast, 10, 1, 1);
             int minLumenyl = Main.expertMode ? 8 : 6;
             int maxLumenyl = Main.expertMode ? 11 : 8;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
             DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 8, 12);
         }
 

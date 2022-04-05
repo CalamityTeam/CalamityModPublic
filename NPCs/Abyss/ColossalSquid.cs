@@ -554,8 +554,8 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItem(NPC, ItemID.BlackInk, 3, 5);
             int minCells = Main.expertMode ? 31 : 26;
             int maxCells = Main.expertMode ? 45 : 38;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<CalamarisLament>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<CalamarisLament>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<InkBomb>(), 10, 1, 1);
         }
 

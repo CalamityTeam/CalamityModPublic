@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
@@ -19,6 +19,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -427,13 +428,13 @@ namespace CalamityMod.NPCs
                     Vector2 drawPos = npc2.Center - Main.screenPosition;
 
                     // The height of a single frame of the npc
-                    float npcHeight = (float)(Main.npcTexture[npc2.type].Height / Main.npcFrameCount[npc2.type] / 2) * npc2.scale;
+                    float npcHeight = (float)(TextureAssets.Npc[npc2.type].Value.Height / Main.npcFrameCount[npc2.type] / 2) * npc2.scale;
 
                     // Offset the debuff display based on the npc's graphical offset, and 16 units, to create some space between the sprite and the display
                     float drawPosY = npcHeight + npc.gfxOffY + 36f;
 
                     // Texture animation variables
-                    Texture2D texture = GetTexture("CalamityMod/ExtraTextures/UI/NPCAlertDisplay");
+                    Texture2D texture = Request<Texture2D>("CalamityMod/ExtraTextures/UI/NPCAlertDisplay").Value;
                     shopAlertAnimTimer++;
                     if (shopAlertAnimTimer >= 6)
                     {
@@ -642,7 +643,7 @@ namespace CalamityMod.NPCs
                         chat = "The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.";
                     }
 
-                    if (CalamityWorld.downedProvidence)
+                    if (DownedBossSystem.downedProvidence)
                     {
                         if (Main.rand.NextBool(20))
                         {
@@ -757,7 +758,7 @@ namespace CalamityMod.NPCs
                     {
                         chat = "I hate sand. It's coarse, and rough and gets in my paint.";
                     }
-                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHoly)
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHallow)
                     {
                         chat = "Do you think unicorn blood could be used as a good pigment or resin? No I'm not going to find out myself.";
                     }
@@ -805,7 +806,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Dryad:
-                    if (Main.rand.NextBool(5) && CalamityWorld.downedDoG && Main.eclipse)
+                    if (Main.rand.NextBool(5) && DownedBossSystem.downedDoG && Main.eclipse)
                     {
                         chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful... hmm... what power was Yharon holding back?";
                     }
@@ -883,7 +884,7 @@ namespace CalamityMod.NPCs
                         chat = "That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.";
                     }
 
-                    if (Main.rand.NextBool(10) && CalamityWorld.downedDoG)
+                    if (Main.rand.NextBool(10) && DownedBossSystem.downedDoG)
                     {
                         chat = "Is it me or are your weapons getting bigger and bigger?";
                     }
@@ -950,12 +951,12 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Pirate:
-                    if (Main.rand.NextBool(5) && !CalamityWorld.downedLeviathan)
+                    if (Main.rand.NextBool(5) && !DownedBossSystem.downedLeviathan)
                     {
                         chat = "Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
                     }
 
-                    if (Main.rand.NextBool(5) && CalamityWorld.downedAquaticScourge)
+                    if (Main.rand.NextBool(5) && DownedBossSystem.downedAquaticScourge)
                     {
                         chat = "I have to thank ye again for takin' care of that sea serpent. Or was that another one...";
                     }
@@ -1005,7 +1006,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    if (Main.rand.NextBool(10) && !CalamityWorld.downedPlaguebringer && NPC.downedGolemBoss)
+                    if (Main.rand.NextBool(10) && !DownedBossSystem.downedPlaguebringer && NPC.downedGolemBoss)
                     {
                         chat = "Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!";
                     }
@@ -1031,7 +1032,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    if (Main.rand.NextBool(10) && CalamityWorld.downedPolterghast)
+                    if (Main.rand.NextBool(10) && DownedBossSystem.downedPolterghast)
                     {
                         chat = "Whatever that thing was, I'm glad it's gone now.";
                     }
@@ -1069,7 +1070,7 @@ namespace CalamityMod.NPCs
                         chat = "Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here";
                     }
 
-                    if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneHoly)
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneHallow)
                     {
                         chat = "I'm sorry I really don't have any Unicorn proof tech here, you're on your own.";
                     }
@@ -1116,12 +1117,12 @@ namespace CalamityMod.NPCs
                         chat = "Where and how are you getting all of this money?";
                     }
 
-                    if (Main.rand.NextBool(5) && !CalamityWorld.downedBrimstoneElemental)
+                    if (Main.rand.NextBool(5) && !DownedBossSystem.downedBrimstoneElemental)
                     {
                         chat = "Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!";
                     }
 
-                    if (Main.rand.NextBool(10) && CalamityWorld.downedDoG)
+                    if (Main.rand.NextBool(10) && DownedBossSystem.downedDoG)
                     {
                         chat = "Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!";
                     }
@@ -1134,7 +1135,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Demolitionist:
-                    if (Main.rand.NextBool(5) && CalamityWorld.downedDoG)
+                    if (Main.rand.NextBool(5) && DownedBossSystem.downedDoG)
                     {
                         chat = "God Slayer Dynamite? Boy do I like the sound of that!";
                     }
@@ -1170,27 +1171,27 @@ namespace CalamityMod.NPCs
                 damageMult += 0.6f;
                 defense += 20;
             }
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 damageMult += 0.2f;
                 defense += 12;
             }
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 damageMult += 0.2f;
                 defense += 12;
             }
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 damageMult += 0.2f;
                 defense += 12;
             }
-            if (CalamityWorld.downedYharon)
+            if (DownedBossSystem.downedYharon)
             {
                 damageMult += 0.2f;
                 defense += 12;
             }
-            if (CalamityWorld.downedSCal)
+            if (DownedBossSystem.downedSCal)
             {
                 damageMult += 0.6f;
                 defense += 20;
@@ -1269,7 +1270,7 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
+                SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), DownedBossSystem.downedPolterghast);
             }
 
             if (type == NPCID.Dryad)
@@ -1282,8 +1283,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind && Main.expertMode);
                 SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
             }
 
@@ -1316,11 +1317,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemType<CounterScarf>(), price: Item.buyPrice(gold: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerHornedHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerVisage>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHornedHelm>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaMask>(), CalamityWorld.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<GodSlayerVisage>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaHornedHelm>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<SilvaMask>(), DownedBossSystem.downedDoG, price: Item.buyPrice(gold: 8));
             }
 
             if (type == NPCID.Painter)
@@ -1340,7 +1341,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHoly, price: Item.buyPrice(20), true);
+                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(20), true);
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));

@@ -965,9 +965,9 @@ namespace CalamityMod.NPCs.Polterghast
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<PolterghastTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePolterghast>(), true, !DownedBossSystem.downedPolterghast);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, CalamityWorld.downedPolterghast);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, DownedBossSystem.downedPolterghast);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -996,7 +996,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
-            if (!CalamityWorld.downedPolterghast)
+            if (!DownedBossSystem.downedPolterghast)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperSearchRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
@@ -1016,7 +1016,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Mark Polterghast as dead
-            CalamityWorld.downedPolterghast = true;
+            DownedBossSystem.downedPolterghast = true;
             CalamityNetcode.SyncWorld();
         }
 

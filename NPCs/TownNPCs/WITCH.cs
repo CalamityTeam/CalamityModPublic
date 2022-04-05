@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Wizard;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
         public override string TownNPCName() => "Calamitas";
 

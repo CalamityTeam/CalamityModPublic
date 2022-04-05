@@ -564,7 +564,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             DropHelper.DropItem(NPC, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<DesertScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDesertScourge>(), true, !DownedBossSystem.downedDesertScourge);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -599,7 +599,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
-            if (!CalamityWorld.downedDesertScourge)
+            if (!DownedBossSystem.downedDesertScourge)
             {
                 string key = "Mods.CalamityMod.OpenSunkenSea";
                 Color messageColor = Color.Aquamarine;
@@ -614,7 +614,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 
             // Mark Desert Scourge as dead
-            CalamityWorld.downedDesertScourge = true;
+            DownedBossSystem.downedDesertScourge = true;
             CalamityNetcode.SyncWorld();
         }
         #endregion

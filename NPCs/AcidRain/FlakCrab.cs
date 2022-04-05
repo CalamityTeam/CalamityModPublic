@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             NPC.aiStyle = AIType = -1;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.lifeMax = 4125;
                 NPC.DR_NERD(0.2f);
@@ -147,10 +147,10 @@ namespace CalamityMod.NPCs.AcidRain
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return;
 
-            float speed = CalamityWorld.downedPolterghast ? 29f : 17f;
+            float speed = DownedBossSystem.downedPolterghast ? 29f : 17f;
             speed *= Main.rand.NextFloat(0.8f, 1.2f);
 
-            int damage = Main.expertMode ? CalamityWorld.downedPolterghast ? 32 : 18 : CalamityWorld.downedPolterghast ? 42 : 23;
+            int damage = Main.expertMode ? DownedBossSystem.downedPolterghast ? 32 : 18 : DownedBossSystem.downedPolterghast ? 42 : 23;
             Vector2 spawnPosition = NPC.Top + Vector2.UnitY * 6f;
             Vector2 shootVelocity = (closestTargetToTop.Center - spawnPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.25f) * speed;
             Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<FlakAcid>(), damage, 2f);
@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<FlakToxicannon>(), 0.05f);
         }
 

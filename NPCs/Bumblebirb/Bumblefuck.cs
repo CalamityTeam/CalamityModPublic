@@ -397,7 +397,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<BumblebirbTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBumblebirb>(), true, !DownedBossSystem.downedBumble);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -424,7 +424,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Swordsplosion>(), !Main.expertMode, 0.1f);
 
             // Mark The Dragonfolly as dead
-            CalamityWorld.downedBumble = true;
+            DownedBossSystem.downedBumble = true;
             CalamityNetcode.SyncWorld();
         }
 

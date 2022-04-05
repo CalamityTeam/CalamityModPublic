@@ -757,7 +757,7 @@ namespace CalamityMod.CalPlayer
 
                     if (Player.miscCounter % slimeRainRate == 0f)
                     {
-                        if (CalamityWorld.downedAquaticScourge && !CalamityWorld.downedPolterghast && Main.rand.NextBool(12))
+                        if (DownedBossSystem.downedAquaticScourge && !DownedBossSystem.downedPolterghast && Main.rand.NextBool(12))
                         {
                             NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
                         }
@@ -875,7 +875,7 @@ namespace CalamityMod.CalPlayer
                 AllCritBoost(critUp);
             }
 
-            bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && CalamityWorld.downedSCal && CalamityWorld.downedExoMechs);
+            bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs);
             bool attack = Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 
             // Guardian bonuses if not burnt out
@@ -2643,9 +2643,9 @@ namespace CalamityMod.CalPlayer
                     (NPC.downedFishron ? 0.01f : 0f) + // 0.15
                     (NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
-                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
-                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
+                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
+                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 int critBoost = integerTypeBoost / 2;
                 float damageBoost = floatTypeBoost * 0.5f;

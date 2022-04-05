@@ -317,9 +317,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<AstrageldonTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !DownedBossSystem.downedAstrageldon);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, DownedBossSystem.downedAstrageldon);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -358,7 +358,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
-            if (!CalamityWorld.downedAstrageldon)
+            if (!DownedBossSystem.downedAstrageldon)
             {
                 string key = "Mods.CalamityMod.AureusBossText";
                 string key2 = "Mods.CalamityMod.AureusBossText2";
@@ -369,7 +369,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             // Mark Astrum Aureus as dead
-            CalamityWorld.downedAstrageldon = true;
+            DownedBossSystem.downedAstrageldon = true;
             CalamityNetcode.SyncWorld();
         }
 

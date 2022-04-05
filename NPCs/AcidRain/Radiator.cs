@@ -27,13 +27,13 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 5;
             NPC.lifeMax = 50;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.damage = 60;
                 NPC.lifeMax = 3250;
                 NPC.defense = 20;
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 30;
                 NPC.lifeMax = 130;
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
                 player.AddBuff(BuffID.Poisoned, 2, false);
-                if (CalamityWorld.downedPolterghast)
+                if (DownedBossSystem.downedPolterghast)
                 {
                     player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
                     player.AddBuff(BuffID.Venom, 2, false);

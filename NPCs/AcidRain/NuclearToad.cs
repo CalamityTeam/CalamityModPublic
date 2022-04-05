@@ -35,13 +35,13 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lifeMax = 60;
             NPC.defense = 3;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.damage = 80;
                 NPC.lifeMax = 2750;
                 NPC.defense = 15;
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 35;
                 NPC.lifeMax = 200;
@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.AcidRain
             if (Main.rand.NextBool(480))
                 SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 13);
 
-            float explodeDistance = CalamityWorld.downedAquaticScourge ? 295f : 195f;
-            if (CalamityWorld.downedPolterghast)
+            float explodeDistance = DownedBossSystem.downedAquaticScourge ? 295f : 195f;
+            if (DownedBossSystem.downedPolterghast)
                 explodeDistance = 470f;
 
             // Explode if a player gets too close.
@@ -101,9 +101,9 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = Main.expertMode ? CalamityWorld.downedAquaticScourge ? 21 : 8 : CalamityWorld.downedAquaticScourge ? 27 : 10;
+                    int damage = Main.expertMode ? DownedBossSystem.downedAquaticScourge ? 21 : 8 : DownedBossSystem.downedAquaticScourge ? 27 : 10;
                     float speed = Main.rand.NextFloat(6f, 9f);
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                     {
                         speed *= 1.8f;
                         damage = Main.expertMode ? 36 : 45;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
+            float dropChance = DownedBossSystem.downedAquaticScourge ? 0.01f : 0.05f;
             DropHelper.DropItemChance(NPC, ModContent.ItemType<CausticCroakerStaff>(), dropChance);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }

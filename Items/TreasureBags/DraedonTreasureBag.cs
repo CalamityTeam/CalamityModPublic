@@ -47,21 +47,21 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             // Higher chance due to how the drops work
             float w = DropHelper.BagWeaponDropRateFloat * 2f;
-            if (CalamityWorld.downedAres)
+            if (DownedBossSystem.downedAres)
             {
                 DropHelper.DropEntireWeightedSet(player,
                     DropHelper.WeightStack<PhotonRipper>(w),
                     DropHelper.WeightStack<TheJailor>(w)
                 );
             }
-            if (CalamityWorld.downedThanatos)
+            if (DownedBossSystem.downedThanatos)
             {
                 DropHelper.DropEntireWeightedSet(player,
                     DropHelper.WeightStack<SpineOfThanatos>(w),
                     DropHelper.WeightStack<RefractionRotor>(w)
                 );
             }
-            if (CalamityWorld.downedArtemisAndApollo)
+            if (DownedBossSystem.downedArtemisAndApollo)
             {
                 DropHelper.DropEntireWeightedSet(player,
                     DropHelper.WeightStack<SurgeDriver>(w),
@@ -76,16 +76,16 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             // Higher chance due to how the drops work
             float maskDropRate = 1f / 3.5f;
-            if (CalamityWorld.downedThanatos)
+            if (DownedBossSystem.downedThanatos)
                 DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), maskDropRate);
 
-            if (CalamityWorld.downedArtemisAndApollo)
+            if (DownedBossSystem.downedArtemisAndApollo)
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), maskDropRate);
                 DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), maskDropRate);
             }
 
-            if (CalamityWorld.downedAres)
+            if (DownedBossSystem.downedAres)
                 DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), maskDropRate);
 
             DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), maskDropRate);

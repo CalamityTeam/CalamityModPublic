@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.height = 74;
 
             // 10% of HP is phase one
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
+            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel2;
             NPC.lifeMax = notDoGFight ? 825500 : 139750;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
 
@@ -747,7 +747,7 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void NPCLoot()
         {
             // Only drop items if fought at full strength
-            bool fullStrength = !CalamityWorld.downedSentinel2 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = !DownedBossSystem.downedSentinel2 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
@@ -755,7 +755,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 DropHelper.DropBags(NPC);
 
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<WeaverTrophy>(), 10);
-                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+                bool lastSentinelKilled = DownedBossSystem.downedSentinel1 && !DownedBossSystem.downedSentinel2 && DownedBossSystem.downedSentinel3;
                 DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
 
                 if (!Main.expertMode)
@@ -798,7 +798,7 @@ namespace CalamityMod.NPCs.StormWeaver
             // Mark Storm Weaver as dead
             if (fullStrength)
             {
-                CalamityWorld.downedSentinel2 = true;
+                DownedBossSystem.downedSentinel2 = true;
                 CalamityNetcode.SyncWorld();
             }
         }

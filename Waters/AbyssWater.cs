@@ -1,21 +1,13 @@
-using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
     public class AbyssWater : ModWaterStyle
     {
-        public override bool ChooseWaterStyle()
-        {
-            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            return modPlayer.ZoneAbyss;
-        }
-
         public override int ChooseWaterfallStyle()
         {
-            return Mod.GetWaterfallStyleSlot("AbyssWaterflow");
+            return ModContent.Find<AbyssWaterflow>("CalamityMod/Waters/AbyssWaterflow").Slot;
         }
 
         public override int GetSplashDust()

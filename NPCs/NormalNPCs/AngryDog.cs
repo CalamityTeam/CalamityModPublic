@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.height = 56;
             NPC.defense = 4;
             NPC.lifeMax = 50;
-            if (CalamityWorld.downedCryogen)
+            if (DownedBossSystem.downedCryogen)
             {
                 NPC.damage = 60;
                 NPC.defense = 10;
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(NPC, ItemID.Leather, 1, 1, 2);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofEleum>(), DownedBossSystem.downedCryogen, 3, 1, 1);
         }
     }
 }

@@ -2000,7 +2000,7 @@ namespace CalamityMod.NPCs
                 // Reduce prehardmode desert enemy stats pre-Desert Scourge
                 case NPCID.WalkingAntlion:
 
-                    if (!CalamityWorld.downedDesertScourge)
+                    if (!DownedBossSystem.downedDesertScourge)
                     {
                         npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
                         npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
@@ -2015,7 +2015,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Antlion:
                 case NPCID.FlyingAntlion:
-                    if (!CalamityWorld.downedDesertScourge)
+                    if (!DownedBossSystem.downedDesertScourge)
                     {
                         npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
                         npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
@@ -2034,8 +2034,8 @@ namespace CalamityMod.NPCs
                 // Reduce Tomb Crawler stats
                 case NPCID.TombCrawlerHead:
 
-                    npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
-                    if (!CalamityWorld.downedDesertScourge)
+                    npc.lifeMax = (int)(npc.lifeMax * (DownedBossSystem.downedDesertScourge ? 0.6 : 0.45));
+                    if (!DownedBossSystem.downedDesertScourge)
                     {
                         npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
                         npc.defDamage = npc.damage;
@@ -2049,8 +2049,8 @@ namespace CalamityMod.NPCs
                 case NPCID.TombCrawlerBody:
                 case NPCID.TombCrawlerTail:
 
-                    npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
-                    if (!CalamityWorld.downedDesertScourge)
+                    npc.lifeMax = (int)(npc.lifeMax * (DownedBossSystem.downedDesertScourge ? 0.6 : 0.45));
+                    if (!DownedBossSystem.downedDesertScourge)
                     {
                         npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
                         npc.defDamage = npc.damage;
@@ -2114,7 +2114,7 @@ namespace CalamityMod.NPCs
                 npc.defDamage = npc.damage;
             }
 
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
@@ -2721,7 +2721,7 @@ namespace CalamityMod.NPCs
                         return DukeFishronAI.BuffedDukeFishronAI(npc, Mod);
 
                     case NPCID.Pumpking:
-                        if (CalamityWorld.downedDoG)
+                        if (DownedBossSystem.downedDoG)
                         {
                             return CalamityGlobalAI.BuffedPumpkingAI(npc);
                         }
@@ -2729,7 +2729,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.PumpkingBlade:
-                        if (CalamityWorld.downedDoG)
+                        if (DownedBossSystem.downedDoG)
                         {
                             return CalamityGlobalAI.BuffedPumpkingBladeAI(npc);
                         }
@@ -2737,7 +2737,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.IceQueen:
-                        if (CalamityWorld.downedDoG)
+                        if (DownedBossSystem.downedDoG)
                         {
                             return CalamityGlobalAI.BuffedIceQueenAI(npc);
                         }
@@ -2745,7 +2745,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Mothron:
-                        if (CalamityWorld.downedDoG)
+                        if (DownedBossSystem.downedDoG)
                         {
                             return CalamityGlobalAI.BuffedMothronAI(npc);
                         }
@@ -4240,7 +4240,7 @@ namespace CalamityMod.NPCs
             }
 
             // Boosts
-            if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
+            if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
             {
                 spawnRate = (int)(spawnRate * 0.75);
                 maxSpawns = (int)(maxSpawns * 3f);
@@ -4426,11 +4426,11 @@ namespace CalamityMod.NPCs
             {
                 pool.Clear();
 
-                if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 1))
+                if (!(DownedBossSystem.downedPolterghast && CalamityWorld.acidRainPoints == 1))
                 {
                     Dictionary<int, AcidRainSpawnData> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
                     Dictionary<int, AcidRainSpawnData> PossibleMinibosses = new Dictionary<int, AcidRainSpawnData>();
-                    if (CalamityWorld.downedAquaticScourge)
+                    if (DownedBossSystem.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
@@ -4439,7 +4439,7 @@ namespace CalamityMod.NPCs
                             PossibleEnemies.Add(NPCType<IrradiatedSlime>(), new AcidRainSpawnData(1, 0f, AcidRainSpawnRequirement.Anywhere));
                         }
                     }
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesPolter;
@@ -5362,111 +5362,111 @@ namespace CalamityMod.NPCs
 
             if (type == NPCType<DesertScourgeHead>() || type == NPCType<DesertScourgeBody>() || type == NPCType<DesertScourgeTail>())
             {
-                return CalamityWorld.downedDesertScourge;
+                return DownedBossSystem.downedDesertScourge;
             }
             else if (type == NPCType<CrabulonIdle>())
             {
-                return CalamityWorld.downedCrabulon;
+                return DownedBossSystem.downedCrabulon;
             }
             else if (type == NPCType<HiveMind.HiveMind>())
             {
-                return CalamityWorld.downedHiveMind;
+                return DownedBossSystem.downedHiveMind;
             }
             else if (type == NPCType<PerforatorHive>())
             {
-                return CalamityWorld.downedPerforator;
+                return DownedBossSystem.downedPerforator;
             }
             else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.SlimeGod>() || type == NPCType<SlimeGodRun>() || type == NPCType<SlimeGodSplit>() || type == NPCType<SlimeGodRunSplit>())
             {
-                return CalamityWorld.downedSlimeGod;
+                return DownedBossSystem.downedSlimeGod;
             }
             else if (type == NPCType<Cryogen.Cryogen>())
             {
-                return CalamityWorld.downedCryogen;
+                return DownedBossSystem.downedCryogen;
             }
             else if (type == NPCType<AquaticScourgeHead>() || type == NPCType<AquaticScourgeBody>() || type == NPCType<AquaticScourgeBodyAlt>() || type == NPCType<AquaticScourgeTail>())
             {
-                return CalamityWorld.downedAquaticScourge;
+                return DownedBossSystem.downedAquaticScourge;
             }
             else if (type == NPCType<BrimstoneElemental.BrimstoneElemental>())
             {
-                return CalamityWorld.downedBrimstoneElemental;
+                return DownedBossSystem.downedBrimstoneElemental;
             }
             else if (type == NPCType<CalamitasRun3>())
             {
-                return CalamityWorld.downedCalamitas;
+                return DownedBossSystem.downedCalamitas;
             }
             else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Siren>())
             {
-                return CalamityWorld.downedLeviathan;
+                return DownedBossSystem.downedLeviathan;
             }
             else if (type == NPCType<AstrumAureus.AstrumAureus>())
             {
-                return CalamityWorld.downedAstrageldon;
+                return DownedBossSystem.downedAstrageldon;
             }
             else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
             {
-                return CalamityWorld.downedStarGod;
+                return DownedBossSystem.downedStarGod;
             }
             else if (type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>())
             {
-                return CalamityWorld.downedPlaguebringer;
+                return DownedBossSystem.downedPlaguebringer;
             }
             else if (type == NPCType<RavagerBody>())
             {
-                return CalamityWorld.downedScavenger;
+                return DownedBossSystem.downedScavenger;
             }
             else if (type == NPCType<ProfanedGuardianBoss>())
             {
-                return CalamityWorld.downedGuardians;
+                return DownedBossSystem.downedGuardians;
             }
             else if (type == NPCType<Bumblefuck>())
             {
-                return CalamityWorld.downedBumble;
+                return DownedBossSystem.downedBumble;
             }
             else if (type == NPCType<Providence.Providence>())
             {
-                return CalamityWorld.downedProvidence;
+                return DownedBossSystem.downedProvidence;
             }
             else if (type == NPCType<CeaselessVoid.CeaselessVoid>() || type == NPCType<DarkEnergy>())
             {
-                return CalamityWorld.downedSentinel1;
+                return DownedBossSystem.downedSentinel1;
             }
             else if (type == NPCType<StormWeaverHead>() || type == NPCType<StormWeaverBody>() || type == NPCType<StormWeaverTail>())
             {
-                return CalamityWorld.downedSentinel2;
+                return DownedBossSystem.downedSentinel2;
             }
             else if (type == NPCType<Signus.Signus>())
             {
-                return CalamityWorld.downedSentinel3;
+                return DownedBossSystem.downedSentinel3;
             }
             else if (type == NPCType<Polterghast.Polterghast>())
             {
-                return CalamityWorld.downedPolterghast;
+                return DownedBossSystem.downedPolterghast;
             }
             else if (type == NPCType<OldDuke.OldDuke>())
             {
-                return CalamityWorld.downedBoomerDuke;
+                return DownedBossSystem.downedBoomerDuke;
             }
             else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>())
             {
-                return CalamityWorld.downedDoG;
+                return DownedBossSystem.downedDoG;
             }
             else if (type == NPCType<Yharon.Yharon>())
             {
-                return CalamityWorld.downedYharon;
+                return DownedBossSystem.downedYharon;
             }
             else if (type == NPCType<Artemis>() || type == NPCType<Apollo>() || type == NPCType<AresBody>() || type == NPCType<AresGaussNuke>() || type == NPCType<AresLaserCannon>() || type == NPCType<AresPlasmaFlamethrower>() || type == NPCType<AresTeslaCannon>() || type == NPCType<ThanatosHead>() || type == NPCType<ThanatosBody1>() || type == NPCType<ThanatosBody2>() || type == NPCType<ThanatosTail>())
             {
-                return CalamityWorld.downedExoMechs;
+                return DownedBossSystem.downedExoMechs;
             }
             else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
-                return CalamityWorld.downedSCal;
+                return DownedBossSystem.downedSCal;
             }
             else if (type == NPCType<EidolonWyrmHeadHuge>())
             {
-                return CalamityWorld.downedAdultEidolonWyrm;
+                return DownedBossSystem.downedAdultEidolonWyrm;
             }
 
             return true;

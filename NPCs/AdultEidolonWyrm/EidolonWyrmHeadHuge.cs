@@ -1349,11 +1349,11 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             int minLumenyl = Main.expertMode ? 65 : 50;
             int maxLumenyl = Main.expertMode ? 135 : 108;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1f, minLumenyl, maxLumenyl);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
             DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
 
             // Mark Adult Eidolon Wyrm as defeated
-            CalamityWorld.downedAdultEidolonWyrm = true;
+            DownedBossSystem.downedAdultEidolonWyrm = true;
             CalamityNetcode.SyncWorld();
         }
 

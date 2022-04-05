@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
+            if (spawnInfo.playerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
                 spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;

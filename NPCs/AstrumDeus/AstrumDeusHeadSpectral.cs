@@ -251,8 +251,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             DropHelper.DropItem(NPC, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<AstrumDeusTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumDeus>(), !DownedBossSystem.downedStarGod);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstralInfection>(), !DownedBossSystem.downedStarGod);
 
             // Drop a large spray of all 4 lunar fragments
             int minFragments = Main.expertMode ? 20 : 16;
@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
 
             // Notify players that Astral Ore can be mined if Deus has never been killed yet
-            if (!CalamityWorld.downedStarGod)
+            if (!DownedBossSystem.downedStarGod)
             {
                 string key = "Mods.CalamityMod.AstralBossText";
                 Color messageColor = Color.Gold;
@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
 
             // Mark Astrum Deus as dead
-            CalamityWorld.downedStarGod = true;
+            DownedBossSystem.downedStarGod = true;
             CalamityNetcode.SyncWorld();
         }
 

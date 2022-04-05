@@ -136,7 +136,7 @@ namespace CalamityMod.Items.Placeables
                 resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : !twoMechsDowned ? ItemID.OrichalcumOre : ItemID.TitaniumOre) : ItemID.TitaniumOre;
                 resultStack = Main.rand.Next(1, 17);
             }
-            else if (CalamityWorld.downedStarGod)
+            else if (DownedBossSystem.downedStarGod)
             {
                 resultType = ModContent.ItemType<Ores.AstralOre>();
                 resultStack = Main.rand.Next(1, 2);

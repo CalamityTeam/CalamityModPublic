@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.5f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 NPC.damage = 80;
                 NPC.defense = 20;
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!CalamityWorld.downedBrimstoneElemental)
+            if (!DownedBossSystem.downedBrimstoneElemental)
             {
                 return 0f;
             }
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Crags
         public override void NPCLoot()
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<CharredOre>(), 10, 26);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
         }
     }

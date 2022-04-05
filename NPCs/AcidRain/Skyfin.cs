@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 6;
             NPC.knockBackResist = 1f;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.knockBackResist = 0.8f;
                 NPC.damage = 88;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.defense = 18;
                 NPC.DR_NERD(0.05f);
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 38;
                 NPC.lifeMax = 220;
@@ -99,9 +99,9 @@ namespace CalamityMod.NPCs.AcidRain
 
                     // Charge once sufficiently slowed down.
                     float chargeSpeed = 11.5f;
-                    if (CalamityWorld.downedAquaticScourge)
+                    if (DownedBossSystem.downedAquaticScourge)
                         chargeSpeed += 4f;
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                         chargeSpeed += 3.5f;
                     if (NPC.velocity.Length() < 1.25f)
                     {
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SkyfinBombers>(), CalamityWorld.downedAquaticScourge, 0.05f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SkyfinBombers>(), DownedBossSystem.downedAquaticScourge, 0.05f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

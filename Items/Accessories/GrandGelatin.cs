@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe()
                 .AddIngredient<ManaJelly>()
                 .AddIngredient<LifeJelly>()
-                .AddIngredient<VitalJelly>(
+                .AddIngredient<VitalJelly>()
                 .AddIngredient(ItemID.SoulofLight, 2)
                 .AddIngredient(ItemID.SoulofNight, 2)
                 .AddTile(TileID.Anvils)

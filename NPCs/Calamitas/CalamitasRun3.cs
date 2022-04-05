@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.value = Item.buyPrice(0, 50, 0, 0);
             NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
             NPC.LifeMaxNERB(37500, 45000, 520000);
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage *= 3;
                 NPC.defense *= 3;
@@ -169,9 +169,9 @@ namespace CalamityMod.NPCs.Calamitas
 
             DropHelper.DropItem(NPC, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<CalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCalamitasClone>(), !DownedBossSystem.downedCalamitas);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedCalamitas);
 
             if (!Main.expertMode)
             {
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.Calamitas
                 DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
                 DropHelper.DropItem(NPC, ModContent.ItemType<CalamityDust>(), 9, 14);
                 DropHelper.DropItem(NPC, ModContent.ItemType<BlightedLens>(), 1, 2);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 1f, 30, 40);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.Calamitas
             string key = "Mods.CalamityMod.PlantBossText";
             Color messageColor = Color.RoyalBlue;
 
-            if (!CalamityWorld.downedCalamitas)
+            if (!DownedBossSystem.downedCalamitas)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
 
             // Mark Calamitas as dead
-            CalamityWorld.downedCalamitas = true;
+            DownedBossSystem.downedCalamitas = true;
             CalamityNetcode.SyncWorld();
         }
 

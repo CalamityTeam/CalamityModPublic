@@ -433,7 +433,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
 
                     // Skip the sentinel phase entirely if DoG has already been killed
-                    CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
+                    CalamityWorld.DoGSecondStageCountdown = (DownedBossSystem.downedDoG || DownedBossSystem.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
                     if (Main.netMode == NetmodeID.Server)
                     {
                         var netMessage = Mod.GetPacket();
@@ -2247,9 +2247,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             DropHelper.DropItem(NPC, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !DownedBossSystem.downedDoG);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedDoG);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedDoG);
 
             // Mount
             CalamityPlayer mp = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)].Calamity();
@@ -2284,7 +2284,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<CosmicDischarge>(), !Main.expertMode, 0.1f);
 
             // If DoG has not been killed yet, notify players that the holiday moons are buffed
-            if (!CalamityWorld.downedDoG)
+            if (!DownedBossSystem.downedDoG)
             {
                 string key = "Mods.CalamityMod.DoGBossText";
                 Color messageColor = Color.Cyan;
@@ -2298,7 +2298,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // Mark DoG as dead
-            CalamityWorld.downedDoG = true;
+            DownedBossSystem.downedDoG = true;
             CalamityNetcode.SyncWorld();
         }
 

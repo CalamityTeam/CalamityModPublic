@@ -262,14 +262,14 @@ namespace CalamityMod.Items
                 case ItemID.HallowedFishingCrate:
                     BlockCrateDrops();
                     int potion = WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>();
-                    DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), CalamityWorld.downedProvidence, 0.15f, 5, 10);
-                    DropHelper.DropItemCondition(player, potion, CalamityWorld.downedProvidence, 0.1f, 1, 2);
+                    DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
+                    DropHelper.DropItemCondition(player, potion, DownedBossSystem.downedProvidence, 0.1f, 1, 2);
                     break;
 
                 case ItemID.DungeonFishingCrate:
                     BlockCrateDrops();
                     DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
-                    DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), CalamityWorld.downedPolterghast, 0.1f, 1, 5);
+                    DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), DownedBossSystem.downedPolterghast, 0.1f, 1, 5);
                     break;
 
                 case ItemID.JungleFishingCrate:
@@ -277,15 +277,15 @@ namespace CalamityMod.Items
                     DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, CalamityWorld.downedCalamitas || NPC.downedPlantBoss, 0.1f, 1, 3);
+                    DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, 0.1f, 1, 3);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.1f, 1, 3);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-                    DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.1f, 1, 3);
+                    DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), DownedBossSystem.downedProvidence, 0.1f, 1, 3);
                     break;
 
                 case ItemID.FloatingIslandFishingCrate:
                     BlockCrateDrops();
-                    DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator, 0.1f, 1, 3);
+                    DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.1f, 1, 3);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 2, 4);
                     DropHelper.DropItemCondition(player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
                     break;
