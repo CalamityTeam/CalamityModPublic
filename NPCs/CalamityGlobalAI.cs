@@ -2394,7 +2394,7 @@ namespace CalamityMod.NPCs
                                 if ((y < centerTileY - maxTurretDistanceY || y > centerTileY + maxTurretDistanceY || turretSpawnX < centerTileX - maxTurretDistanceY || turretSpawnX > centerTileX + maxTurretDistanceY) && (y < centerTileY2 || y > centerTileY2 || turretSpawnX < centerTileX2 || turretSpawnX > centerTileX2) && Main.tile[turretSpawnX, y].HasUnactuatedTile)
                                 {
                                     bool notLava = true;
-                                    if (Main.tile[turretSpawnX, y - 1].lava())
+                                    if (Main.tile[turretSpawnX, y - 1].LiquidType == LiquidID.Lava)
                                     {
                                         notLava = false;
                                     }
@@ -3461,7 +3461,7 @@ namespace CalamityMod.NPCs
                             {
                                 foundGoodTeleport = false;
                             }
-                            else if (Main.tile[randX, num181 - 1].lava())
+                            else if (Main.tile[randX, num181 - 1].LiquidType == LiquidID.Lava)
                             {
                                 foundGoodTeleport = false;
                             }
@@ -4933,7 +4933,7 @@ namespace CalamityMod.NPCs
                             {
                                 flag5 = false;
                             }
-                            else if (Main.tile[num92, num94 - 1].lava())
+                            else if (Main.tile[num92, num94 - 1].LiquidType == LiquidID.Lava)
                             {
                                 flag5 = false;
                             }
@@ -4986,7 +4986,7 @@ namespace CalamityMod.NPCs
                                 if ((num101 < point2.Y - num97 || num101 > point2.Y + num97 || num100 < point2.X - num97 || num100 > point2.X + num97) && (num101 < point.Y - num96 || num101 > point.Y + num96 || num100 < point.X - num96 || num100 > point.X + num96) && !Main.tile[num100, num101].HasUnactuatedTile)
                                 {
                                     bool flag7 = true;
-                                    if (flag7 && Main.tile[num100, num101].lava())
+                                    if (flag7 && Main.tile[num100, num101].LiquidType == LiquidID.Lava)
                                     {
                                         flag7 = false;
                                     }

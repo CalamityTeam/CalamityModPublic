@@ -1932,14 +1932,14 @@ namespace CalamityMod.CalPlayer
             // New textures
             if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
             {
-                Texture2D rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3");
-                Texture2D rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal");
-                Texture2D mana2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana2");
-                Texture2D mana3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana3");
-                Texture2D mana4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana4");
-                Texture2D manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ManaOriginal");
-                Texture2D carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
-                Texture2D carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet");
+                Texture2D rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3").Value;
+                Texture2D rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal").Value;
+                Texture2D mana2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana2").Value;
+                Texture2D mana3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana3").Value;
+                Texture2D mana4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana4").Value;
+                Texture2D manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ManaOriginal").Value;
+                Texture2D carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet").Value;
+                Texture2D carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet").Value;
 
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +

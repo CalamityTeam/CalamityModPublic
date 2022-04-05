@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].HasUnactuatedTile)
                     {
                         bool flag107 = true;
-                        if (flag107 && Main.tile[num1458, num1459].lava())
+                        if (flag107 && Main.tile[num1458, num1459].LiquidType == LiquidID.Lava)
                         {
                             flag107 = false;
                         }

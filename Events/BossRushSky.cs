@@ -87,7 +87,7 @@ namespace CalamityMod.Events
             // Make the entire background fade to white at the end of the event.
             if (BossRushEvent.EndTimer >= 100f)
             {
-                Texture2D whiteTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocLight");
+                Texture2D whiteTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocLight").Value;
                 Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 float fadeToWhite = Utils.GetLerpValue(110f, 140f, BossRushEvent.EndTimer, true);
                 fadeToWhite *= Utils.GetLerpValue(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
@@ -108,7 +108,7 @@ namespace CalamityMod.Events
                 Vector2 drawWorldPosition = new Vector2(Main.LocalPlayer.Center.X, 1120f);
                 Vector2 drawPosition = (drawWorldPosition - screenCenter) * 0.097f + screenCenter - Main.screenPosition - Vector2.UnitY * 100f;
 
-                Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocEye");
+                Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocEye").Value;
                 Color baseColorDraw = Color.Lerp(Color.White, Color.Red, IncrementalInterest);
 
                 spriteBatch.Draw(eyeTexture, drawPosition, null, baseColorDraw, 0f, eyeTexture.Size() * 0.5f, scale, SpriteEffects.None, 0f);

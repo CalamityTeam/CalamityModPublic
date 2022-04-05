@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.NPCs.Astral;
@@ -437,7 +437,7 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura");
+                    Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura").Value;
                     Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTimeWrappedHourly * 12.3f) % 6);
                     float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f);
 

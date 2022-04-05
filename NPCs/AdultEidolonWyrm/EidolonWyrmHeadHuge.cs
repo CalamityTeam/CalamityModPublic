@@ -1325,11 +1325,11 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 center = NPC.Center;
-            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
+            Vector2 vector11 = new Vector2(Main.textu[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Height) * 0.5f;
+            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Height) * 0.5f;
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge"), vector,
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value, vector,
                 new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/Affliction"));
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/Affliction").Value);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

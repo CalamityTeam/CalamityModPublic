@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
                     if (Main.tile[i, j + 1].LiquidAmount == 255 &&
-                        !Main.tile[i, j + 1].lava())
+                        Main.tile[i, j + 1].LiquidType != LiquidID.Lava)
                     {
                         bool flag13 = false;
                         for (int num52 = num8; num52 > num8 - 10; num52--)

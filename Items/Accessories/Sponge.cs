@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (Texture == "CalamityMod/Items/Accessories/Sponge")
             {
-                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield");
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield").Value;
                 spriteBatch.Draw(tex, Item.Center - Main.screenPosition + new Vector2(0f, 0f), Main.itemAnimations[Item.type].GetFrame(tex), Color.Cyan * 0.5f, 0f, new Vector2(tex.Width / 2f, (tex.Height / 30f ) * 0.8f), 1f, SpriteEffects.None, 0);
             }
         }
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (Texture == "CalamityMod/Items/Accessories/Sponge")
             {
-                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield");
+                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/SpongeShield").Value;
                 spriteBatch.Draw(tex, position, Main.itemAnimations[Item.type].GetFrame(tex), Color.Cyan * 0.4f, 0f, origin, scale, SpriteEffects.None, 0);
             }
         }
