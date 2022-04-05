@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Melee.Spears;
+﻿using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num82 = (float)Main.mouseX + Main.screenPosition.X - position.X;
             float num83 = (float)Main.mouseY + Main.screenPosition.Y - position.Y;
@@ -67,8 +68,8 @@ namespace CalamityMod.Items.Weapons.Melee
             num82 *= num84;
             num83 *= num84;
             float ai4 = Main.rand.NextFloat() * Item.shootSpeed * 0.75f * (float)player.direction;
-            Vector2 velocity = new Vector2(num82, num83);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai4, 0.0f);
+            velocity = new Vector2(num82, num83);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai4, 0.0f);
             return false;
         }
     }
