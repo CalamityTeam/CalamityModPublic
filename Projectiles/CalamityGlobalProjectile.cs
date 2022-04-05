@@ -1869,7 +1869,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
+            if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
                     projectile.damage = defDamage + 15;

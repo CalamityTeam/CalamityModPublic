@@ -79,38 +79,38 @@ namespace CalamityMod
 {
     internal class Downed
     {
-        public static readonly Func<bool> DownedDesertScourge = () => CalamityWorld.downedDesertScourge;
-        public static readonly Func<bool> DownedGiantClam = () => CalamityWorld.downedCLAM;
-        public static readonly Func<bool> DownedCrabulon = () => CalamityWorld.downedCrabulon;
-        public static readonly Func<bool> DownedHiveMind = () => CalamityWorld.downedHiveMind;
-        public static readonly Func<bool> DownedPerfs = () => CalamityWorld.downedPerforator;
-        public static readonly Func<bool> DownedSlimeGod = () => CalamityWorld.downedSlimeGod;
-        public static readonly Func<bool> DownedCryogen = () => CalamityWorld.downedCryogen;
-        public static readonly Func<bool> DownedBrimstoneElemental = () => CalamityWorld.downedBrimstoneElemental;
-        public static readonly Func<bool> DownedAquaticScourge = () => CalamityWorld.downedAquaticScourge;
-        public static readonly Func<bool> DownedCalamitas = () => CalamityWorld.downedCalamitas;
-        public static readonly Func<bool> DownedGSS = () => CalamityWorld.downedGSS;
-        public static readonly Func<bool> DownedLeviathan = () => CalamityWorld.downedLeviathan;
-        public static readonly Func<bool> DownedAureus = () => CalamityWorld.downedAstrageldon;
-        public static readonly Func<bool> DownedPBG = () => CalamityWorld.downedPlaguebringer;
-        public static readonly Func<bool> DownedRavager = () => CalamityWorld.downedScavenger;
-        public static readonly Func<bool> DownedDeus = () => CalamityWorld.downedStarGod;
-        public static readonly Func<bool> DownedGuardians = () => CalamityWorld.downedGuardians;
-        public static readonly Func<bool> DownedBirb = () => CalamityWorld.downedBumble;
-        public static readonly Func<bool> DownedProvidence = () => CalamityWorld.downedProvidence;
-        public static readonly Func<bool> DownedCeaselessVoid = () => CalamityWorld.downedSentinel1;
-        public static readonly Func<bool> DownedStormWeaver = () => CalamityWorld.downedSentinel2;
-        public static readonly Func<bool> DownedSignus = () => CalamityWorld.downedSentinel3;
-        public static readonly Func<bool> DownedPolterghast = () => CalamityWorld.downedPolterghast;
-        public static readonly Func<bool> DownedBoomerDuke = () => CalamityWorld.downedBoomerDuke;
-        public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
-        public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
-        public static readonly Func<bool> DownedExoMechs = () => CalamityWorld.downedExoMechs;
-        public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
-        public static readonly Func<bool> DownedAdultEidolonWyrm = () => CalamityWorld.downedAdultEidolonWyrm;
+        public static readonly Func<bool> DownedDesertScourge = () => DownedBossSystem.downedDesertScourge;
+        public static readonly Func<bool> DownedGiantClam = () => DownedBossSystem.downedCLAM;
+        public static readonly Func<bool> DownedCrabulon = () => DownedBossSystem.downedCrabulon;
+        public static readonly Func<bool> DownedHiveMind = () => DownedBossSystem.downedHiveMind;
+        public static readonly Func<bool> DownedPerfs = () => DownedBossSystem.downedPerforator;
+        public static readonly Func<bool> DownedSlimeGod = () => DownedBossSystem.downedSlimeGod;
+        public static readonly Func<bool> DownedCryogen = () => DownedBossSystem.downedCryogen;
+        public static readonly Func<bool> DownedBrimstoneElemental = () => DownedBossSystem.downedBrimstoneElemental;
+        public static readonly Func<bool> DownedAquaticScourge = () => DownedBossSystem.downedAquaticScourge;
+        public static readonly Func<bool> DownedCalamitas = () => DownedBossSystem.downedCalamitas;
+        public static readonly Func<bool> DownedGSS = () => DownedBossSystem.downedGSS;
+        public static readonly Func<bool> DownedLeviathan = () => DownedBossSystem.downedLeviathan;
+        public static readonly Func<bool> DownedAureus = () => DownedBossSystem.downedAstrageldon;
+        public static readonly Func<bool> DownedPBG = () => DownedBossSystem.downedPlaguebringer;
+        public static readonly Func<bool> DownedRavager = () => DownedBossSystem.downedScavenger;
+        public static readonly Func<bool> DownedDeus = () => DownedBossSystem.downedStarGod;
+        public static readonly Func<bool> DownedGuardians = () => DownedBossSystem.downedGuardians;
+        public static readonly Func<bool> DownedBirb = () => DownedBossSystem.downedBumble;
+        public static readonly Func<bool> DownedProvidence = () => DownedBossSystem.downedProvidence;
+        public static readonly Func<bool> DownedCeaselessVoid = () => DownedBossSystem.downedSentinel1;
+        public static readonly Func<bool> DownedStormWeaver = () => DownedBossSystem.downedSentinel2;
+        public static readonly Func<bool> DownedSignus = () => DownedBossSystem.downedSentinel3;
+        public static readonly Func<bool> DownedPolterghast = () => DownedBossSystem.downedPolterghast;
+        public static readonly Func<bool> DownedBoomerDuke = () => DownedBossSystem.downedBoomerDuke;
+        public static readonly Func<bool> DownedDoG = () => DownedBossSystem.downedDoG;
+        public static readonly Func<bool> DownedYharon = () => DownedBossSystem.downedYharon;
+        public static readonly Func<bool> DownedExoMechs = () => DownedBossSystem.downedExoMechs;
+        public static readonly Func<bool> DownedSCal = () => DownedBossSystem.downedSCal;
+        public static readonly Func<bool> DownedAdultEidolonWyrm = () => DownedBossSystem.downedAdultEidolonWyrm;
 
-        public static readonly Func<bool> DownedAcidRainInitial = () => CalamityWorld.downedEoCAcidRain;
-        public static readonly Func<bool> DownedAcidRainHardmode = () => CalamityWorld.downedAquaticScourgeAcidRain;
+        public static readonly Func<bool> DownedAcidRainInitial = () => DownedBossSystem.downedEoCAcidRain;
+        public static readonly Func<bool> DownedAcidRainHardmode = () => DownedBossSystem.downedAquaticScourgeAcidRain;
     }
 
     internal class WeakReferenceSupport

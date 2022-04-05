@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.BlueSlime;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AstralSlimeBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 65;
                 NPC.defense = 18;
@@ -84,8 +84,8 @@ namespace CalamityMod.NPCs.Astral
             DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, 0.05f, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedStarGod, oreMin, oreMax);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbandonedSlimeStaff>(), DownedBossSystem.downedAstrageldon, 0.05f, 1, 1);
         }
     }
 }

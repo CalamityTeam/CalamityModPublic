@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.defense *= 2;
                 NPC.lifeMax *= 4;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Ravager
 
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
 
             if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;

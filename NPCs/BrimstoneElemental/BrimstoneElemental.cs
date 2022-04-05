@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.value = Item.buyPrice(0, 40, 0, 0);
             NPC.LifeMaxNERB(41000, 49200, 780000);
             NPC.DR_NERD(0.15f);
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage *= 3;
                 NPC.defense *= 4;
@@ -156,16 +156,16 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !DownedBossSystem.downedBrimstoneElemental);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !DownedBossSystem.downedBrimstoneElemental);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, DownedBossSystem.downedBrimstoneElemental);
 
             if (!Main.expertMode)
             {
                 //Materials
                 DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                if (CalamityWorld.downedProvidence)
+                if (DownedBossSystem.downedProvidence)
                     DropHelper.DropItemSpray(NPC, ModContent.ItemType<Bloodstone>(), 20, 30, 2);
 
                 // Weapons
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 // Equipment
                 DropHelper.DropItem(NPC, ModContent.ItemType<Gehenna>(), true);
                 DropHelper.DropItem(NPC, ModContent.ItemType<Abaddon>(), true);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
 
                 // Vanity
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Hellborn>(), !Main.expertMode, 0.1f);
 
             // mark brimmy as dead
-            CalamityWorld.downedBrimstoneElemental = true;
+            DownedBossSystem.downedBrimstoneElemental = true;
             CalamityNetcode.SyncWorld();
         }
 

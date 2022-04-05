@@ -459,9 +459,9 @@ namespace CalamityMod.NPCs.Perforator
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<PerforatorTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePerforators>(), true, !DownedBossSystem.downedPerforator);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, DownedBossSystem.downedPerforator);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -497,7 +497,7 @@ namespace CalamityMod.NPCs.Perforator
             }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
-            if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
+            if (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator)
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
@@ -507,7 +507,7 @@ namespace CalamityMod.NPCs.Perforator
             }
 
             // Mark The Perforator Hive as dead
-            CalamityWorld.downedPerforator = true;
+            DownedBossSystem.downedPerforator = true;
             CalamityNetcode.SyncWorld();
         }
 

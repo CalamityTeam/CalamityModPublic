@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override bool IsAnglerQuestAvailable()
         {
-            return CalamityWorld.downedBrimstoneElemental;
+            return DownedBossSystem.downedBrimstoneElemental;
         }
 
         public override void AnglerQuestChat(ref string description, ref string catchLocation)

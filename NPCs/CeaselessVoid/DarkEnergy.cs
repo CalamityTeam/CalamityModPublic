@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.height = 80;
             NPC.defense = 50;
             NPC.lifeMax = 3000;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel1)
             {
                 NPC.lifeMax = 12000;
             }

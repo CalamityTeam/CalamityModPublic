@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            bool scal = CalamityWorld.downedSCal;
-            bool draedon = CalamityWorld.downedExoMechs;
+            bool scal = DownedBossSystem.downedSCal;
+            bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
                 string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure
@@ -249,7 +249,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>()).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 25).AddIngredient(ModContent.ItemType<DivineGeode>(), 50).AddIngredient(ModContent.ItemType<UnholyEssence>(), 100).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<ProfanedBasin>()).Register();
+            CreateRecipe()
+                .AddIngredient<ProfanedSoulArtifact>()
+                .AddIngredient(ItemID.ObsidianRose)
+                .AddIngredient<CoreofCinder>(5)
+                .AddIngredient<UeliaceBar>(25)
+                .AddIngredient<DivineGeode>(50)
+                .AddIngredient<UnholyEssence>(100)
+                .AddIngredient<ShadowspecBar>(5)
+                .AddTile<ProfanedBasin>()
+                .Register();
         }
     }
 

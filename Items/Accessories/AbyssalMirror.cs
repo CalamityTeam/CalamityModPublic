@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -40,7 +40,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MirageMirror>()).AddIngredient(ModContent.ItemType<InkBomb>()).AddIngredient(ItemID.SpectreBar, 8).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<DepthCells>(), 5).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<MirageMirror>()
+                .AddIngredient<InkBomb>()
+                .AddIngredient(ItemID.SpectreBar, 8)
+                .AddIngredient<SeaPrism>(10)
+                .AddIngredient<DepthCells>(5)
+                .AddIngredient<Lumenite>(5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

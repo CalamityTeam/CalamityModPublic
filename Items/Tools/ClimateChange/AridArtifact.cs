@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Systems;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm

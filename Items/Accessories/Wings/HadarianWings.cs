@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -91,7 +91,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddIngredient(ModContent.ItemType<HadarianMembrane>(), 8).AddIngredient(ItemID.SoulofFlight, 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<AstralBar>(8)
+                .AddIngredient<HadarianMembrane>(8)
+                .AddIngredient(ItemID.SoulofFlight, 20)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

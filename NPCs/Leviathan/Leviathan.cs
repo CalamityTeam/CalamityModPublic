@@ -715,8 +715,8 @@ namespace CalamityMod.NPCs.Leviathan
 
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !DownedBossSystem.downedLeviathan);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !DownedBossSystem.downedLeviathan);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -753,7 +753,7 @@ namespace CalamityMod.NPCs.Leviathan
             DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), !Main.expertMode, 0.1f);
 
             // Mark Siren & Levi as dead
-            CalamityWorld.downedLeviathan = true;
+            DownedBossSystem.downedLeviathan = true;
             CalamityNetcode.SyncWorld();
         }
 

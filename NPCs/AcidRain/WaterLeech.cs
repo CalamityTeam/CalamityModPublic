@@ -37,12 +37,12 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lifeMax = 30;
             NPC.damage = 0;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.lifeMax = 1235;
                 NPC.defense = 10;
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
                 NPC.lifeMax = 90;
 
             NPC.value = Item.buyPrice(0, 0, 2, 5);
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 float swimSpeed = Target.wet ? 23f : 17f;
                 float swimIntertia = 24f;
-                if (CalamityWorld.downedPolterghast)
+                if (DownedBossSystem.downedPolterghast)
                 {
                     swimSpeed *= 1.6f;
                     swimIntertia = 17f;
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
+            float dropChance = DownedBossSystem.downedAquaticScourge ? 0.01f : 0.05f;
             DropHelper.DropItemChance(NPC, ModContent.ItemType<ParasiticSceptor>(), dropChance);
         }
     }

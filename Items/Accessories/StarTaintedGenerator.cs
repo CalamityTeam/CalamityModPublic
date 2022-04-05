@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<JellyChargedBattery>()).AddIngredient(ModContent.ItemType<NuclearRod>()).AddIngredient(ModContent.ItemType<StarbusterCore>()).AddIngredient(ModContent.ItemType<BarofLife>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<JellyChargedBattery>()
+                .AddIngredient<NuclearRod>()
+                .AddIngredient<StarbusterCore>()
+                .AddIngredient<BarofLife>(3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -59,7 +59,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.AnkhShield).AddIngredient(ModContent.ItemType<OrnateShield>()).AddIngredient(ModContent.ItemType<ShieldoftheOcean>()).AddIngredient(ModContent.ItemType<Abaddon>()).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ItemID.LifeFruit, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.AnkhShield)
+                .AddIngredient<OrnateShield>()
+                .AddIngredient<ShieldoftheOcean>()
+                .AddIngredient<Abaddon>()
+                .AddIngredient<CoreofCalamity>()
+                .AddIngredient(ItemID.LifeFruit, 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage = (int)(NPC.damage * 1.5);
                 NPC.defense *= 2;

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
@@ -11,6 +11,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -45,12 +46,12 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             //Modded materials
             DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
             DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 5, 10);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), CalamityWorld.downedDesertScourge, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), CalamityWorld.downedCLAMHardMode, 0.12f, 2, 5);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<PrismShard>(), DownedBossSystem.downedDesertScourge, 5, 10);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), DownedBossSystem.downedDesertScourge, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), DownedBossSystem.downedCLAMHardMode, 0.12f, 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAMHardMode, 0.07f,
+            DropHelper.DropItemFromSetCondition(player, DownedBossSystem.downedCLAMHardMode, 0.07f,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
@@ -73,12 +74,12 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
             int healingPotID = ItemID.LesserHealingPotion;
             int manaPotID = ItemID.LesserManaPotion;
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 healingPotID = ModContent.ItemType<SupremeHealingPotion>();
                 manaPotID = ModContent.ItemType<SupremeManaPotion>();
             }
-            else if (CalamityWorld.downedProvidence)
+            else if (DownedBossSystem.downedProvidence)
             {
                 healingPotID = ItemID.SuperHealingPotion;
                 manaPotID = ItemID.SuperManaPotion;

@@ -379,9 +379,9 @@ namespace CalamityMod.NPCs.OldDuke
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<OldDukeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeOldDuke>(), true, !DownedBossSystem.downedBoomerDuke);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, DownedBossSystem.downedBoomerDuke);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.OldDuke
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<TheReaper>(), !Main.expertMode, 0.1f);
 
             // Mark Old Duke as dead
-            CalamityWorld.downedBoomerDuke = true;
+            DownedBossSystem.downedBoomerDuke = true;
 
             // Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
             CalamityWorld.encounteredOldDuke = true;

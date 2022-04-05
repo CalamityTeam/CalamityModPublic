@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -361,13 +362,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack").Value;
+            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (CurrentAttackState != AttackState.Hover)
-                CalamityMod.DrawTexture(spriteBatch, texture, 0, NPC, drawColor);
+                Main.EntitySpriteDraw(texture, screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
             else
-                CalamityMod.DrawTexture(spriteBatch, Main.npcTexture[NPC.type], 0, NPC, drawColor);
+            {
+                texture = ModContent.Request<Texture2D>(Texture).Value;
+                Main.EntitySpriteDraw(texture, screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
+            }
             return false;
         }
 
@@ -386,7 +391,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode || !Main.raining || NPC.AnyNPCs(ModContent.NPCType<ThiccWaifu>()))
+            if (spawnInfo.PlayerSafe || !Main.hardMode || !Main.raining || NPC.AnyNPCs(ModContent.NPCType<ThiccWaifu>()))
                 return 0f;
 
             return SpawnCondition.Sky.Chance * 0.1f;

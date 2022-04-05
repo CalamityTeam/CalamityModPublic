@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AncientFossil>()).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3).AddIngredient(ItemID.Bone, 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<AncientFossil>()
+                .AddIngredient<DemonicBoneAsh>()
+                .AddIngredient<AncientBoneDust>(3)
+                .AddIngredient(ItemID.Bone, 15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

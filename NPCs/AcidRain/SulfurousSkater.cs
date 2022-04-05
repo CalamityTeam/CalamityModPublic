@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lifeMax = 280;
             NPC.defense = 3;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.damage = 85;
                 NPC.lifeMax = 3850;
@@ -140,8 +140,8 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.knockBackResist = 0.5f;
             NPC.DR_NERD(0f);
 
-            float flySpeed = CalamityWorld.downedPolterghast ? 17f : 14f;
-            float flyInertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
+            float flySpeed = DownedBossSystem.downedPolterghast ? 17f : 14f;
+            float flyInertia = DownedBossSystem.downedPolterghast ? 20f : 24.5f;
 
             // Fly more sharply if close to the target.
             if (NPC.WithinRange(Target.Center, 200f))
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<SulphurousGrabber>(), 20);
         }
 

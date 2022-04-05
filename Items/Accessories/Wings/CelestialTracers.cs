@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -88,7 +88,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElysianTracers>()).AddIngredient(ModContent.ItemType<DrewsWings>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<ElysianTracers>()
+                .AddIngredient<DrewsWings>()
+                .AddIngredient<AuricBar>(5)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

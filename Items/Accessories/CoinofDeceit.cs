@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +31,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 4).AddRecipeGroup("AnyCopperBar", 8).AddIngredient(ModContent.ItemType<Acidwood>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnyGoldBar", 4)
+                .AddRecipeGroup("AnyCopperBar", 8)
+                .AddIngredient<Acidwood>(5)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -40,7 +40,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilencingSheath>()).AddIngredient(ModContent.ItemType<RuinMedallion>()).AddIngredient(ModContent.ItemType<MeldiateBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<SilencingSheath>()
+                .AddIngredient<RuinMedallion>()
+                .AddIngredient<MeldiateBar>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

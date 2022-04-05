@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,10 +18,10 @@ namespace CalamityMod.World.Planets
     {
         private ushort[] oreTypes = new ushort[]
         {
-            WorldGen.CopperTierOre == TileID.Copper ? TileID.Tin : TileID.Copper,
-            WorldGen.IronTierOre == TileID.Iron ? TileID.Lead : TileID.Iron,
-            WorldGen.SilverTierOre== TileID.Silver ? TileID.Tungsten : TileID.Silver,
-            WorldGen.GoldTierOre == TileID.Gold ? TileID.Platinum : TileID.Gold
+            WorldGen.copperBar == TileID.Copper ? TileID.Tin : TileID.Copper,
+            WorldGen.ironBar == TileID.Iron ? TileID.Lead : TileID.Iron,
+            WorldGen.silverBar == TileID.Silver ? TileID.Tungsten : TileID.Silver,
+            WorldGen.goldBar == TileID.Gold ? TileID.Platinum : TileID.Gold
         };
 
         public override bool Place(Point origin, StructureMap structures)
@@ -139,7 +139,7 @@ namespace CalamityMod.World.Planets
                 {
                     for (int x = origin.X - radius; x < origin.X + radius; x++)
                     {
-                        if (_tiles[x, topLayer].active() && Main.tileSolid[_tiles[x, topLayer].type])
+                        if (_tiles[x, topLayer].HasTile && Main.tileSolid[_tiles[x, topLayer].TileType])
                         {
                             //We've found the highest tile
                             goto TopLayerFound;
@@ -156,11 +156,11 @@ namespace CalamityMod.World.Planets
                 {
                     for (int x = startX; x <= endX; x++)
                     {
-                        _tiles[x, y].active(true);
-                        _tiles[x, y].type = brickType;
+                        _tiles[x, y].HasTile = true;
+                        _tiles[x, y].TileType = brickType;
                         if (y == topLayer)
                         {
-                            _tiles[x, y].wall = WallID.None;
+                            _tiles[x, y].WallType = WallID.None;
                         }
                     }
                     if ((y - topLayer + 1) % 2 == 0)
@@ -202,21 +202,21 @@ namespace CalamityMod.World.Planets
             {
                 int campX = origin.X;
                 int campY = origin.Y - radius - 3;
-                while (!Main.tile[campX, campY].active() || !Main.tileSolid[_tiles[campX, campY].type])
+                while (!Main.tile[campX, campY].HasTile || !Main.tileSolid[_tiles[campX, campY].TileType])
                 {
                     campY++;
                 }
                 campY--;
 
                 int startCampX = campX;
-                while ((!_tiles[startCampX, campY].active() || !Main.tileSolid[_tiles[startCampX, campY].type]) &&
-                    _tiles[startCampX, campY + 1].active())
+                while ((!_tiles[startCampX, campY].HasTile || !Main.tileSolid[_tiles[startCampX, campY].TileType]) &&
+                    _tiles[startCampX, campY + 1].HasTile)
                 {
                     startCampX--;
                 }
                 int endCampX = campX;
-                while ((!_tiles[endCampX, campY].active() || !Main.tileSolid[_tiles[endCampX, campY].type]) &&
-                    _tiles[endCampX, campY + 1].active())
+                while ((!_tiles[endCampX, campY].HasTile || !Main.tileSolid[_tiles[endCampX, campY].TileType]) &&
+                    _tiles[endCampX, campY + 1].HasTile)
                 {
                     endCampX++;
                 }

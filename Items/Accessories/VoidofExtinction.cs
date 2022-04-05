@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -37,7 +37,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<Gehenna>()).AddIngredient(ModContent.ItemType<CalamityRing>()).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddIngredient(ModContent.ItemType<CruptixBar>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ObsidianRose)
+                .AddIngredient<Gehenna>()
+                .AddIngredient<CalamityRing>()
+                .AddIngredient<CoreofChaos>()
+                .AddIngredient<CruptixBar>(3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

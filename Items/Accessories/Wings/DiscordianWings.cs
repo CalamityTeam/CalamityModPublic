@@ -1,4 +1,4 @@
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -78,7 +78,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>()).AddIngredient(ItemID.SoulofFlight, 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<CruptixBar>(5)
+                .AddIngredient<CoreofChaos>()
+                .AddIngredient(ItemID.SoulofFlight, 20)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

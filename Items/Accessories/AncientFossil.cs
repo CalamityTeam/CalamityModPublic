@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,7 +31,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("SiltGroup", 100).AddTile(TileID.Furnaces).Register();
+            CreateRecipe()
+                .AddRecipeGroup("SiltGroup", 100)
+                .AddTile(TileID.Furnaces)
+                .Register();
         }
     }
 }

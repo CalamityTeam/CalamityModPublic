@@ -1261,7 +1261,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public static void DropExoMechLoot(NPC npc, int mechType)
         {
             // Dropped before the downed variable is set to true
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !CalamityWorld.downedExoMechs);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !DownedBossSystem.downedExoMechs);
 
             switch (mechType)
             {
@@ -1269,8 +1269,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                     DropHelper.DropItem(npc, ModContent.ItemType<AresTrophy>());
 
-                    CalamityWorld.downedAres = true;
-                    CalamityWorld.downedExoMechs = true;
+                    DownedBossSystem.downedAres = true;
+                    DownedBossSystem.downedExoMechs = true;
                     CalamityNetcode.SyncWorld();
 
                     break;
@@ -1279,8 +1279,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                     DropHelper.DropItem(npc, ModContent.ItemType<ThanatosTrophy>());
 
-                    CalamityWorld.downedThanatos = true;
-                    CalamityWorld.downedExoMechs = true;
+                    DownedBossSystem.downedThanatos = true;
+                    DownedBossSystem.downedExoMechs = true;
                     CalamityNetcode.SyncWorld();
 
                     break;
@@ -1290,8 +1290,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     DropHelper.DropItem(npc, ModContent.ItemType<ArtemisTrophy>());
                     DropHelper.DropItem(npc, ModContent.ItemType<ApolloTrophy>());
 
-                    CalamityWorld.downedArtemisAndApollo = true;
-                    CalamityWorld.downedExoMechs = true;
+                    DownedBossSystem.downedArtemisAndApollo = true;
+                    DownedBossSystem.downedExoMechs = true;
                     CalamityNetcode.SyncWorld();
 
                     break;
@@ -1310,21 +1310,21 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Weapons
                 // Higher chance due to how the drops work
                 float w = DropHelper.NormalWeaponDropRateFloat * 2f;
-                if (CalamityWorld.downedAres)
+                if (DownedBossSystem.downedAres)
                 {
                     DropHelper.DropEntireWeightedSet(npc,
                         DropHelper.WeightStack<PhotonRipper>(w),
                         DropHelper.WeightStack<TheJailor>(w)
                     );
                 }
-                if (CalamityWorld.downedThanatos)
+                if (DownedBossSystem.downedThanatos)
                 {
                     DropHelper.DropEntireWeightedSet(npc,
                         DropHelper.WeightStack<SpineOfThanatos>(w),
                         DropHelper.WeightStack<RefractionRotor>(w)
                     );
                 }
-                if (CalamityWorld.downedArtemisAndApollo)
+                if (DownedBossSystem.downedArtemisAndApollo)
                 {
                     DropHelper.DropEntireWeightedSet(npc,
                         DropHelper.WeightStack<SurgeDriver>(w),
@@ -1339,16 +1339,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Vanity
                 // Higher chance due to how the drops work
                 float maskDropRate = 1f / 3.5f;
-                if (CalamityWorld.downedThanatos)
+                if (DownedBossSystem.downedThanatos)
                     DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), maskDropRate);
 
-                if (CalamityWorld.downedArtemisAndApollo)
+                if (DownedBossSystem.downedArtemisAndApollo)
                 {
                     DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), maskDropRate);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), maskDropRate);
                 }
 
-                if (CalamityWorld.downedAres)
+                if (DownedBossSystem.downedAres)
                     DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), maskDropRate);
 
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), maskDropRate);

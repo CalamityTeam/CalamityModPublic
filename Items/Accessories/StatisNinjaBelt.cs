@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +40,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MasterNinjaGear).AddIngredient(ItemID.FrogLeg).AddIngredient(ModContent.ItemType<PurifiedGel>(), 50).AddIngredient(ModContent.ItemType<Phantoplasm>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.MasterNinjaGear)
+                .AddIngredient(ItemID.FrogLeg)
+                .AddIngredient<PurifiedGel>(50)
+                .AddIngredient<Phantoplasm>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

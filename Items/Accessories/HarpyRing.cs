@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 2).AddIngredient(ItemID.Feather, 5).AddIngredient(ItemID.FallenStar).AddTile(TileID.SkyMill).Register();
+            CreateRecipe()
+                .AddIngredient<AerialiteBar>(2)
+                .AddIngredient(ItemID.Feather, 5)
+                .AddIngredient(ItemID.FallenStar)
+                .AddTile(TileID.SkyMill)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Tiles;
@@ -13,6 +13,7 @@ using System;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
@@ -21,7 +22,7 @@ namespace CalamityMod.World
     public class MiscWorldgenRoutines
     {
         #region Dungeon Biome Chests
-        public static void GenerateBiomeChests(GenerationProgress progress)
+        public static void GenerateBiomeChests(GenerationProgress progress, GameConfiguration config)
         {
             progress.Message = "Adding a new Biome Chest";
 

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -46,7 +46,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FrostsparkBoots).AddIngredient(ItemID.LavaWaders).AddIngredient(ModContent.ItemType<HarpyRing>()).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.FrostsparkBoots)
+                .AddIngredient(ItemID.LavaWaders)
+                .AddIngredient<HarpyRing>()
+                .AddIngredient<EssenceofCinder>(5)
+                .AddIngredient(ItemID.SoulofMight)
+                .AddIngredient(ItemID.SoulofSight)
+                .AddIngredient(ItemID.SoulofFright)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

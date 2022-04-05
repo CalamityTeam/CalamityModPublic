@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
             }
-            else if (npc.type == NPCID.DD2Betsy && !CalamityWorld.downedBetsy)
+            else if (npc.type == NPCID.DD2Betsy && !DownedBossSystem.downedBetsy)
             {
                 // Drop weapons Calamity style instead of mutually exclusive.
                 if (!Main.expertMode)
@@ -409,7 +409,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Mark Betsy as dead (Vanilla does not keep track of her)
-                CalamityWorld.downedBetsy = true;
+                DownedBossSystem.downedBetsy = true;
                 CalamityNetcode.SyncWorld();
             }
             else if (npc.type == NPCID.DukeFishron)
@@ -765,7 +765,7 @@ namespace CalamityMod.NPCs
         private void CheckBossSpawn(NPC npc)
         {
             if ((npc.type == ModContent.NPCType<PhantomSpirit>() || npc.type == ModContent.NPCType<PhantomSpiritS>() || npc.type == ModContent.NPCType<PhantomSpiritM>() ||
-                npc.type == ModContent.NPCType<PhantomSpiritL>()) && !NPC.AnyNPCs(ModContent.NPCType<Polterghast.Polterghast>()) && !CalamityWorld.downedPolterghast)
+                npc.type == ModContent.NPCType<PhantomSpiritL>()) && !NPC.AnyNPCs(ModContent.NPCType<Polterghast.Polterghast>()) && !DownedBossSystem.downedPolterghast)
             {
                 CalamityMod.ghostKillCount++;
                 if (CalamityMod.ghostKillCount == 10)
@@ -1045,7 +1045,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GiantCursedSkull:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Keelhaul>(), CalamityWorld.downedLeviathan, Main.expertMode ? 15 : 25, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Keelhaul>(), DownedBossSystem.downedLeviathan, Main.expertMode ? 15 : 25, 1, 1);
                     break;
 
                 case NPCID.Necromancer:
@@ -1172,7 +1172,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Reaper:
                 case NPCID.Psycho:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), CalamityWorld.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
                     break;
 
                 case NPCID.MartianOfficer:
@@ -1241,7 +1241,7 @@ namespace CalamityMod.NPCs
         private void EventLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
         {
             // Nightmare Fuel, Endothermic Energy and Darksun Fragments
-            if (!CalamityWorld.downedDoG)
+            if (!DownedBossSystem.downedDoG)
             {
                 return;
             }

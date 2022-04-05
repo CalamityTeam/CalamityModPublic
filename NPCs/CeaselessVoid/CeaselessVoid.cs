@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.5f;
 
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1;
+            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel1;
             NPC.LifeMaxNERB(notDoGFight ? 64400 : 16100, notDoGFight ? 77280 : 19320, 72000);
 
             // If fought alone, Ceaseless Void plays its own theme
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void NPCLoot()
         {
             // Only drop items if fought at full strength
-            bool fullStrength = !CalamityWorld.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = !DownedBossSystem.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
             if (fullStrength)
             {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 DropHelper.DropBags(NPC);
 
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-                bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+                bool lastSentinelKilled = !DownedBossSystem.downedSentinel1 && DownedBossSystem.downedSentinel2 && DownedBossSystem.downedSentinel3;
                 DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
 
                 if (!Main.expertMode)
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             // Mark Ceaseless Void as dead
             if (fullStrength)
             {
-                CalamityWorld.downedSentinel1 = true;
+                DownedBossSystem.downedSentinel1 = true;
                 CalamityNetcode.SyncWorld();
             }
         }

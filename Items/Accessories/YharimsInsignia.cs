@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +37,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.WarriorEmblem).AddIngredient(ModContent.ItemType<NecklaceofVexation>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.WarriorEmblem)
+                .AddIngredient<NecklaceofVexation>()
+                .AddIngredient<CoreofCinder>(5)
+                .AddIngredient<DivineGeode>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

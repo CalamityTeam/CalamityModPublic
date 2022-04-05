@@ -357,7 +357,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
+            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.water && DownedBossSystem.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.24f;
             }
@@ -384,24 +384,25 @@ namespace CalamityMod.NPCs.SunkenSea
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[NPC.type];
-            CalamityMod.DrawTexture(spriteBatch, texture, 0, NPC, drawColor, true);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(texture, screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(Color drawColor)
         {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Value;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
+            vector -= new Vector2((float)glowmask.Width, (float)(glowmask.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GiantClamGlow"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+            Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, vector11, 1f, spriteEffects, 0);
         }
 
         public override void NPCLoot()
@@ -431,12 +432,12 @@ namespace CalamityMod.NPCs.SunkenSea
             }
 
             // Equipment
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<GiantPearl>(), DownedBossSystem.downedDesertScourge, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AmidiasPendant>(), DownedBossSystem.downedDesertScourge, 3, 1, 1);
 
             // Mark Giant Clam as dead
-            CalamityWorld.downedCLAM = true;
-            CalamityWorld.downedCLAMHardMode = Main.hardMode || CalamityWorld.downedCLAMHardMode;
+            DownedBossSystem.downedCLAM = true;
+            DownedBossSystem.downedCLAMHardMode = Main.hardMode || DownedBossSystem.downedCLAMHardMode;
             CalamityNetcode.SyncWorld();
         }
     }

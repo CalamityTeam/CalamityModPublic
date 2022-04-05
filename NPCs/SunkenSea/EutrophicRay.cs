@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EutrophicShank>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EutrophicShank>(), DownedBossSystem.downedDesertScourge, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.DR_NERD(0.3f);
             NPC.chaseable = false;
             NPC.canGhostHeal = false;
-            NPC.lifeMax = CalamityWorld.downedProvidence ? 20000 : 5000;
+            NPC.lifeMax = DownedBossSystem.downedProvidence ? 20000 : 5000;
             NPC.alpha = 255;
             NPC.aiStyle = -1;
             AIType = -1;
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             else
             {
-                if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+                if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
                     NPC.damage = (int)(NPC.defDamage * 1.5);
                 else
                     NPC.damage = NPC.defDamage;

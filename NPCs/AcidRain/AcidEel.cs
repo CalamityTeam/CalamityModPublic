@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 4;
             NPC.knockBackResist = 0.9f;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.DR_NERD(0.05f);
                 NPC.damage = 100;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.defense = 20;
                 NPC.knockBackResist = 0.7f;
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 50;
                 NPC.lifeMax = 240;
@@ -91,9 +91,9 @@ namespace CalamityMod.NPCs.AcidRain
         public void SwimTowardsTarget()
         {
             float swimSpeed = 12f;
-            if (CalamityWorld.downedAquaticScourge)
+            if (DownedBossSystem.downedAquaticScourge)
                 swimSpeed += 3f;
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
                 swimSpeed += 4f;
 
             // Swim upwards if sufficiently under water.
@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SlitheringEels>(), DownedBossSystem.downedAquaticScourge, 0.05f);
         }
 
         public override void FindFrame(int frameHeight)

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumBattery>()).AddIngredient(ModContent.ItemType<VoltaicJelly>()).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<WulfrumBattery>()
+                .AddIngredient<VoltaicJelly>()
+                .AddIngredient<PurifiedGel>(10)
+                .AddIngredient<StormlionMandible>(2)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.value = Item.buyPrice(0, 75, 0, 0);
             NPC.DR_NERD(0.35f);
             NPC.LifeMaxNERB(44600, 53500, 460000);
-            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage = (int)(NPC.damage * 1.5);
                 NPC.defense *= 2;
@@ -772,14 +772,14 @@ namespace CalamityMod.NPCs.Ravager
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeRavager>(), true, !DownedBossSystem.downedScavenger);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT1>(), !DownedBossSystem.downedProvidence);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT2>(), DownedBossSystem.downedProvidence);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;
@@ -792,7 +792,7 @@ namespace CalamityMod.NPCs.Ravager
                 );
 
                 // Equipment
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<BloodflareCore>(), true, CalamityWorld.downedProvidence);
+                DropHelper.DropItemCondition(NPC, ModContent.ItemType<BloodflareCore>(), true, DownedBossSystem.downedProvidence);
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<BloodPact>(), 3);
                 DropHelper.DropItemChance(NPC, ModContent.ItemType<FleshTotem>(), 3);
 
@@ -803,7 +803,7 @@ namespace CalamityMod.NPCs.Ravager
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Vesuvius>(), !Main.expertMode, 0.1f);
 
             // Mark Ravager as dead
-            CalamityWorld.downedScavenger = true;
+            DownedBossSystem.downedScavenger = true;
             CalamityNetcode.SyncWorld();
         }
     }

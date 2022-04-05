@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -49,7 +49,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalDivingGear>()).AddIngredient(ModContent.ItemType<AnechoicPlating>()).AddIngredient(ModContent.ItemType<IronBoots>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 40).AddIngredient(ModContent.ItemType<DepthCells>(), 40).AddIngredient(ModContent.ItemType<Tenebris>(), 15).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<AbyssalDivingGear>()
+                .AddIngredient<AnechoicPlating>()
+                .AddIngredient<IronBoots>()
+                .AddIngredient<MolluskHusk>(15)
+                .AddIngredient<Lumenite>(40)
+                .AddIngredient<DepthCells>(40)
+                .AddIngredient<Tenebris>(15)
+                .AddIngredient(ItemID.LunarBar, 5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 

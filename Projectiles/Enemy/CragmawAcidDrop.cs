@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void AI()
         {
-            float homingSpeed = CalamityWorld.downedPolterghast ? 16.5f : 10f;
+            float homingSpeed = DownedBossSystem.downedPolterghast ? 16.5f : 10f;
             Player target = Main.player[Player.FindClosest(Projectile.Center, 1, 1)];
             if (Projectile.WithinRange(target.Center, 1200f) && Projectile.timeLeft < 210)
                 Projectile.velocity = (Projectile.velocity * 59f + Projectile.SafeDirectionTo(target.Center) * homingSpeed) / 60f;

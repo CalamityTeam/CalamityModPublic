@@ -1,4 +1,4 @@
-using CalamityMod.Balancing;
+﻿using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -57,6 +57,7 @@ using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,6 +65,7 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -84,11 +86,11 @@ namespace CalamityMod
         public static int sharkKillCount = 0;
 
         // Textures
-        public static Texture2D heartOriginal2;
-        public static Texture2D heartOriginal;
-        public static Texture2D rainOriginal;
-        public static Texture2D manaOriginal;
-        public static Texture2D carpetOriginal;
+        public static Asset<Texture2D> heartOriginal2;
+        public static Asset<Texture2D> heartOriginal;
+        public static Asset<Texture2D> rainOriginal;
+        public static Asset<Texture2D> manaOriginal;
+        public static Asset<Texture2D> carpetOriginal;
         public static Texture2D AstralCactusTexture;
         public static Texture2D AstralCactusGlowTexture;
         public static Texture2D AstralSky;
@@ -141,11 +143,11 @@ namespace CalamityMod
             Instance = this;
 
             // Save vanilla textures.
-            heartOriginal2 = Main.heartTexture;
-            heartOriginal = Main.heart2Texture;
-            rainOriginal = Main.rainTexture;
-            manaOriginal = Main.manaTexture;
-            carpetOriginal = Main.flyingCarpetTexture;
+            heartOriginal2 = TextureAssets.Heart;
+            heartOriginal = TextureAssets.Heart2;
+            rainOriginal = TextureAssets.Rain;
+            manaOriginal = TextureAssets.Mana;
+            carpetOriginal = TextureAssets.FlyingCarpet;
 
             // Apply IL edits instantly afterwards.
             ILChanges.Load();
@@ -173,12 +175,10 @@ namespace CalamityMod
             CalamityGlobalItem.LoadTweaks();
 
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
-            Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
-
-            
+            Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[MountID.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             if (!Main.dedServ)
             {
@@ -240,9 +240,9 @@ namespace CalamityMod
 
             AddEquipTexture(null, EquipType.Legs, "CirrusDress_Legs", "CalamityMod/Items/Armor/CirrusDress_Legs");
 
-            AstralCactusTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactus");
-            AstralCactusGlowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
-            AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky");
+            AstralCactusTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactus", AssetRequestMode.ImmediateLoad).Value;
+            AstralCactusGlowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow", AssetRequestMode.ImmediateLoad).Value;
+            AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -365,17 +365,17 @@ namespace CalamityMod
 
             if (!Main.dedServ)
             {
-                Main.heartTexture = heartOriginal2;
-                Main.heart2Texture = heartOriginal;
-                Main.rainTexture = rainOriginal;
-                Main.manaTexture = manaOriginal;
-                Main.flyingCarpetTexture = carpetOriginal;
+                TextureAssets.Heart = heartOriginal2;
+                TextureAssets.Heart2 = heartOriginal;
+                TextureAssets.Rain = rainOriginal;
+                TextureAssets.Mana = manaOriginal;
+                TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
             }
-            Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
-            Mount.mounts[Mount.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
-            Mount.mounts[Mount.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+            Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
             heartOriginal2 = null;
             heartOriginal = null;
@@ -415,19 +415,6 @@ namespace CalamityMod
                 saveMethodInfo.Invoke(null, new object[] { cfg });
             else
                 Instance.Logger.Warn("In-game SaveConfig failed, code update required");
-        }
-        #endregion
-
-        #region Fusable Particle Updating
-        public override void MidUpdateProjectileItem()
-        {
-            // Update all fusable particles.
-            // These are really only visual and as such don't really need any complex netcode.
-            foreach (BaseFusableParticleSet.FusableParticleRenderCollection particleSet in FusableParticleManager.ParticleSets)
-            {
-                foreach (BaseFusableParticleSet.FusableParticle particle in particleSet.ParticleSet.Particles)
-                    particleSet.ParticleSet.UpdateBehavior(particle);
-            }
         }
         #endregion
 
@@ -763,7 +750,7 @@ namespace CalamityMod
         #region Music
 
         // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
-        public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? (int?)musicMod.GetSoundSlot(SoundType.Music, "Sounds/Music/" + songFilename) : null;
+        public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? MusicLoader.GetMusicSlot(musicMod, "Sounds/Music/" + songFilename) : null;
 
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
@@ -772,80 +759,6 @@ namespace CalamityMod
                 if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
                 {
                     Player p = Main.LocalPlayer;
-                    if (p.InCalamity())
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
-                            priority = MusicPriority.Environment;
-                        }
-                    }
-                    if (p.InSunkenSea())
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
-                            priority = MusicPriority.Environment;
-                        }
-                    }
-                    if (p.InAstral(1))
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("Astral") ?? MusicID.Space;
-                            priority = MusicPriority.Environment;
-                        }
-                    }
-                    if (p.InAstral(2))
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("AstralUnderground") ?? MusicID.Space;
-                            priority = MusicPriority.Environment;
-                        }
-                    }
-                    if (p.InAbyss(1) || p.InAbyss(2))
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("Abyss1") ?? MusicID.Hell;
-                            priority = MusicPriority.BiomeHigh;
-                        }
-                    }
-                    if (p.InAbyss(3))
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("Abyss2") ?? MusicID.Hell;
-                            priority = MusicPriority.BiomeHigh;
-                        }
-                    }
-                    if (p.InAbyss(4))
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            music = GetMusicFromMusicMod("Abyss3") ?? MusicID.Hell;
-                            priority = MusicPriority.BiomeHigh;
-                        }
-                    }
-                    if (p.InSulphur())
-                    {
-                        if (!CalamityPlayer.areThereAnyDamnBosses)
-                        {
-                            bool acidRain = CalamityWorld.rainingAcid;
-                            priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
-
-                            // Acid Rain themes
-                            if (acidRain)
-                                music = CalamityWorld.downedPolterghast
-                                    ? GetMusicFromMusicMod("AcidRain2") ?? MusicID.Eclipse // Acid Rain Tier 3
-                                    : GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
-
-                            // Regular Sulphur Sea theme, when Acid Rain is not occurring
-                            else
-                                music = GetMusicFromMusicMod("SulphurousSea") ?? MusicID.Desert;
-                        }
-                    }
                     if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
                     {
                         music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
@@ -866,611 +779,10 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Lighting Effects
-        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
-        {
-            if (Main.gameMenu)
-                BossRushEvent.StartTimer = 0;
-
-            float bossRushWhiteFade = BossRushEvent.StartTimer / (float)BossRushEvent.StartEffectTotalTime;
-            if (BossRushSky.ShouldDrawRegularly)
-                bossRushWhiteFade = 1f;
-
-            if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0 || BossRushSky.ShouldDrawRegularly)
-            {
-                backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, bossRushWhiteFade);
-                tileColor = Color.Lerp(tileColor, Color.LightGray, bossRushWhiteFade);
-            }
-            else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
-            {
-                float intensity = SkyManager.Instance["CalamityMod:ExoMechs"].Opacity;
-                backgroundColor = Color.Lerp(backgroundColor, Color.DarkGray, intensity * 0.9f);
-                backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
-                tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
-                tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
-            }
-        }
-        #endregion
-
         #region Mod Support
         public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
-        #endregion
-
-        #region DrawingStuff
-        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-        {
-            int buffDisplayIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Resource Bars");
-            if (buffDisplayIndex != -1)
-            {
-                layers.Insert(buffDisplayIndex, new LegacyGameInterfaceLayer("Cooldown Rack UI", delegate ()
-                {
-                    CooldownRackUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.UI));
-            }
-
-            int mouseIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
-            if (mouseIndex != -1)
-            {
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
-                {
-                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
-                    {
-                        BossHealthBarManager.Update();
-                        BossHealthBarManager.Draw(Main.spriteBatch);
-                    }
-                    return true;
-                }, InterfaceScaleType.None));
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Hologram", () =>
-                {
-                    LabHologramProjectorUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // For these layers, InterfaceScaleType.Game tells the game that this UI should take zoom into account.
-                // These must be separate layers or they will malfunction when hovering one at non-100% zoom.
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charging Station UI", () =>
-                {
-                    ChargingStationUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.Game));
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Power Cell Factory UI", () =>
-                {
-                    PowerCellFactoryUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.Game));
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
-                {
-                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
-                    {
-                        BossHealthBarManager.Update();
-                        BossHealthBarManager.Draw(Main.spriteBatch);
-                    }
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Mode Indicator UI.
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()
-                {
-                    ModeIndicatorUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.UI));
-
-                // Astral Arcanum overlay (if open)
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
-                {
-                    AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Rage and Adrenaline bars
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Rage and Adrenaline UI", delegate ()
-                {
-                    RipperUI.Draw(Main.spriteBatch, Main.LocalPlayer);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Stealth bar
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
-                {
-                    StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Charge meter
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
-                {
-                    ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Enchantment meters
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Enchantment Meters", () =>
-                {
-                    EnchantmentMetersUI.Draw(Main.spriteBatch, Main.LocalPlayer);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Calamitas Enchantment UI
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Calamitas Enchantment", () =>
-                {
-                    CalamitasEnchantUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Codebreaker UI.
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Codebreaker Decryption GUI", () =>
-                {
-                    CodebreakerUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Popup GUIs.
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
-                {
-                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Exo Mech selection.
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Exo Mech Selection", () =>
-                {
-                    if (Main.LocalPlayer.Calamity().AbleToSelectExoMech)
-                        ExoMechSelectionUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-
-                // Defense damage indicator.
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Defense Damage Indicator", () =>
-                {
-                    if (Main.EquipPage != 1 && Main.EquipPage != 2)
-                        DefenseDamageDisplayUI.Draw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-            }
-
-            // Invasion UIs.
-            int invasionIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Diagnose Net");
-            if (invasionIndex != -1)
-            {
-                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Calamity Invasion UIs", () =>
-                {
-                    InvasionProgressUIManager.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
-            }
-        }
-
-        public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
-        {
-            return npc.GetAlpha(BuffEffects(
-                npc, GetLightColor(position != null ? (Vector2)position : npc.Center),
-                shadowOverride != 0f ? shadowOverride : 0f, effects, npc.poisoned, npc.onFire, npc.onFire2,
-                Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor,
-                npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky)
-            );
-        }
-
-        public static Color GetLightColor(Vector2 position) => Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
-
-        public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true,
-            bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false,
-            bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false,
-            bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false,
-            bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
-        {
-            float cr = 1f;
-            float cg = 1f;
-            float cb = 1f;
-            float ca = 1f;
-            if (effects && honey && Main.rand.NextBool(30))
-            {
-                int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
-                Main.dust[dustID].velocity.Y = 0.3f;
-                Main.dust[dustID].velocity.X *= 0.1f;
-                Main.dust[dustID].scale += Main.rand.Next(3, 4) * 0.1f;
-                Main.dust[dustID].alpha = 100;
-                Main.dust[dustID].noGravity = true;
-                Main.dust[dustID].velocity += codable.velocity * 0.1f;
-                if (codable is Player)
-                {
-                    Main.playerDrawDust.Add(dustID);
-                }
-            }
-            if (poisoned)
-            {
-                if (effects && Main.rand.NextBool(30))
-                {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default, 0.2f);
-                    Main.dust[dustID].noGravity = true;
-                    Main.dust[dustID].fadeIn = 1.9f;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                cr *= 0.65f;
-                cb *= 0.75f;
-            }
-            if (venom)
-            {
-                if (effects && Main.rand.NextBool(10))
-                {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[dustID].noGravity = true;
-                    Main.dust[dustID].fadeIn = 1.5f;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                cg *= 0.45f;
-                cr *= 0.75f;
-            }
-            if (midas)
-            {
-                cb *= 0.3f;
-                cr *= 0.85f;
-            }
-            if (ichor)
-            {
-                if (codable is NPC)
-                {
-                    lightColor = new Color(255, 255, 0, 255);
-                }
-                else
-                {
-                    cb = 0f;
-                }
-            }
-            if (burned)
-            {
-                if (effects)
-                {
-                    int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 2f);
-                    Main.dust[dustID].noGravity = true;
-                    Main.dust[dustID].velocity *= 1.8f;
-                    Main.dust[dustID].velocity.Y -= 0.75f;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                if (codable is Player)
-                {
-                    cr = 1f;
-                    cb *= 0.6f;
-                    cg *= 0.7f;
-                }
-            }
-            if (onFrostBurn)
-            {
-                if (effects)
-                {
-                    if (Main.rand.Next(4) < 3)
-                    {
-                        int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
-                        Main.dust[dustID].noGravity = true;
-                        Main.dust[dustID].velocity *= 1.8f;
-                        Main.dust[dustID].velocity.Y -= 0.5f;
-                        if (Main.rand.NextBool(4))
-                        {
-                            Main.dust[dustID].noGravity = false;
-                            Main.dust[dustID].scale *= 0.5f;
-                        }
-                        if (codable is Player)
-                        {
-                            Main.playerDrawDust.Add(dustID);
-                        }
-                    }
-                    Lighting.AddLight((int)(codable.position.X / 16f), (int)(codable.position.Y / 16f + 1f), 0.1f, 0.6f, 1f);
-                }
-                if (codable is Player)
-                {
-                    cr *= 0.5f;
-                    cg *= 0.7f;
-                }
-            }
-            if (onFire)
-            {
-                if (effects)
-                {
-                    if (Main.rand.Next(4) != 0)
-                    {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
-                        Main.dust[dustID].noGravity = true;
-                        Main.dust[dustID].velocity *= 1.8f;
-                        Main.dust[dustID].velocity.Y -= 0.5f;
-                        if (Main.rand.NextBool(4))
-                        {
-                            Main.dust[dustID].noGravity = false;
-                            Main.dust[dustID].scale *= 0.5f;
-                        }
-                        if (codable is Player)
-                        {
-                            Main.playerDrawDust.Add(dustID);
-                        }
-                    }
-                    Lighting.AddLight((int)(codable.position.X / 16f), (int)(codable.position.Y / 16f + 1f), 1f, 0.3f, 0.1f);
-                }
-                if (codable is Player)
-                {
-                    cb *= 0.6f;
-                    cg *= 0.7f;
-                }
-            }
-            if (dripping && shadow == 0f && Main.rand.Next(4) != 0)
-            {
-                Vector2 position = codable.position;
-                position.X -= 2f;
-                position.Y -= 2f;
-                if (Main.rand.NextBool(2))
-                {
-                    int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default, 0.8f);
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dustID].alpha += 25;
-                    }
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dustID].alpha += 25;
-                    }
-                    Main.dust[dustID].noLight = true;
-                    Main.dust[dustID].velocity *= 0.2f;
-                    Main.dust[dustID].velocity.Y += 0.2f;
-                    Main.dust[dustID].velocity += codable.velocity;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                else
-                {
-                    int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default, 1.1f);
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dustID].alpha += 25;
-                    }
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[dustID].alpha += 25;
-                    }
-                    Main.dust[dustID].noLight = true;
-                    Main.dust[dustID].noGravity = true;
-                    Main.dust[dustID].velocity *= 0.2f;
-                    Main.dust[dustID].velocity.Y += 1f;
-                    Main.dust[dustID].velocity += codable.velocity;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-            }
-            if (drippingSlime && shadow == 0f)
-            {
-                int alpha = 175;
-                Color newColor = new Color(0, 80, 255, 100);
-                if (Main.rand.Next(4) != 0)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 position2 = codable.position;
-                        position2.X -= 2f;
-                        position2.Y -= 2f;
-                        int dustID = Dust.NewDust(position2, codable.width + 4, codable.height + 2, 4, 0f, 0f, alpha, newColor, 1.4f);
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[dustID].alpha += 25;
-                        }
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[dustID].alpha += 25;
-                        }
-                        Main.dust[dustID].noLight = true;
-                        Main.dust[dustID].velocity *= 0.2f;
-                        Main.dust[dustID].velocity.Y += 0.2f;
-                        Main.dust[dustID].velocity += codable.velocity;
-                        if (codable is Player)
-                        {
-                            Main.playerDrawDust.Add(dustID);
-                        }
-                    }
-                }
-                cr *= 0.8f;
-                cg *= 0.8f;
-            }
-            if (onFire2)
-            {
-                if (effects)
-                {
-                    if (Main.rand.Next(4) != 0)
-                    {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
-                        Main.dust[dustID].noGravity = true;
-                        Main.dust[dustID].velocity *= 1.8f;
-                        Main.dust[dustID].velocity.Y -= 0.5f;
-                        if (Main.rand.NextBool(4))
-                        {
-                            Main.dust[dustID].noGravity = false;
-                            Main.dust[dustID].scale *= 0.5f;
-                        }
-                        if (codable is Player)
-                        {
-                            Main.playerDrawDust.Add(dustID);
-                        }
-                    }
-                    Lighting.AddLight((int)(codable.position.X / 16f), (int)(codable.position.Y / 16f + 1f), 1f, 0.3f, 0.1f);
-                }
-                if (codable is Player)
-                {
-                    cb *= 0.6f;
-                    cg *= 0.7f;
-                }
-            }
-            if (noItems)
-            {
-                cr *= 0.65f;
-                cg *= 0.8f;
-            }
-            if (blind)
-            {
-                cr *= 0.7f;
-                cg *= 0.65f;
-            }
-            if (bleed)
-            {
-                bool dead = codable is Player ? ((Player)codable).dead : codable is NPC ? ((NPC)codable).life <= 0 : false;
-                if (effects && !dead && Main.rand.NextBool(30))
-                {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);
-                    Main.dust[dustID].velocity.Y += 0.5f;
-                    Main.dust[dustID].velocity *= 0.25f;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                cg *= 0.9f;
-                cb *= 0.9f;
-            }
-            if (loveStruck && effects && shadow == 0f && Main.instance.IsActive && !Main.gamePaused && Main.rand.NextBool(5))
-            {
-                Vector2 value = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
-                value.Normalize();
-                value.X *= 0.66f;
-                int goreID = Gore.NewGore(codable.position + new Vector2(Main.rand.Next(codable.width + 1), Main.rand.Next(codable.height + 1)), value * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
-                Main.gore[goreID].sticky = false;
-                Main.gore[goreID].velocity *= 0.4f;
-                Main.gore[goreID].velocity.Y -= 0.6f;
-                if (codable is Player)
-                {
-                    Main.playerDrawGore.Add(goreID);
-                }
-            }
-            if (stinky && shadow == 0f)
-            {
-                cr *= 0.7f;
-                cb *= 0.55f;
-                if (effects && Main.rand.NextBool(5) && Main.instance.IsActive && !Main.gamePaused)
-                {
-                    Vector2 value2 = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
-                    value2.Normalize();
-                    value2.X *= 0.66f;
-                    value2.Y = Math.Abs(value2.Y);
-                    Vector2 vector = value2 * Main.rand.Next(3, 5) * 0.25f;
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
-                    Main.dust[dustID].velocity *= 0.1f;
-                    Main.dust[dustID].velocity.Y -= 0.5f;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-            }
-            lightColor.R = (byte)(lightColor.R * cr);
-            lightColor.G = (byte)(lightColor.G * cg);
-            lightColor.B = (byte)(lightColor.B * cb);
-            lightColor.A = (byte)(lightColor.A * ca);
-            if (codable is NPC)
-            {
-                NPCLoader.DrawEffects((NPC)codable, ref lightColor);
-            }
-            if (hunter && (codable is NPC ? ((NPC)codable).lifeMax > 1 : true))
-            {
-                if (effects && !Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(50))
-                {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default, 0.8f);
-                    Main.dust[dustID].velocity *= 0.1f;
-                    Main.dust[dustID].noLight = true;
-                    if (codable is Player)
-                    {
-                        Main.playerDrawDust.Add(dustID);
-                    }
-                }
-                byte colorR = 50, colorG = 255, colorB = 50;
-                if (codable is NPC && !(((NPC)codable).friendly || ((NPC)codable).catchItem > 0 || (((NPC)codable).damage == 0 && ((NPC)codable).lifeMax == 5)))
-                {
-                    colorR = 255;
-                    colorG = 50;
-                }
-                if (!(codable is NPC) && lightColor.R < 150)
-                {
-                    lightColor.A = Main.mouseTextColor;
-                }
-                if (lightColor.R < colorR)
-                {
-                    lightColor.R = colorR;
-                }
-                if (lightColor.G < colorG)
-                {
-                    lightColor.G = colorG;
-                }
-                if (lightColor.B < colorB)
-                {
-                    lightColor.B = colorB;
-                }
-            }
-            return lightColor;
-        }
-
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, Color? overrideColor = null, bool drawCentered = false)
-        {
-            Color lightColor = overrideColor != null ? (Color)overrideColor : codable is NPC ? GetNPCColor((NPC)codable, codable.Center, false) : codable is Projectile ? ((Projectile)codable).GetAlpha(GetLightColor(codable.Center)) : GetLightColor(codable.Center);
-            int frameCount = codable is NPC ? Main.npcFrameCount[((NPC)codable).type] : 1;
-            Rectangle frame = codable is NPC ? ((NPC)codable).frame : new Rectangle(0, 0, texture.Width, texture.Height);
-            float scale = codable is NPC ? ((NPC)codable).scale : ((Projectile)codable).scale;
-            float rotation = codable is NPC ? ((NPC)codable).rotation : ((Projectile)codable).rotation;
-            int spriteDirection = codable is NPC ? ((NPC)codable).spriteDirection : ((Projectile)codable).spriteDirection;
-            float offsetY = codable is NPC ? ((NPC)codable).gfxOffY : 0f;
-            DrawTexture(sb, texture, shader, codable.position + new Vector2(0f, offsetY), codable.width, codable.height, scale, rotation, spriteDirection, frameCount, frame, lightColor, drawCentered);
-        }
-
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, Rectangle frame, Color? overrideColor = null, bool drawCentered = false)
-        {
-            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / framecount / 2);
-            Color lightColor = overrideColor != null ? (Color)overrideColor : GetLightColor(position + new Vector2(width * 0.5f, height * 0.5f));
-            if (sb is List<DrawData>)
-            {
-                DrawData dd = new DrawData(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, framecount, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0)
-                {
-                    shader = shader
-                };
-                ((List<DrawData>)sb).Add(dd);
-            }
-            else if (sb is SpriteBatch)
-            {
-                bool applyDye = shader > 0;
-                if (applyDye)
-                {
-                    ((SpriteBatch)sb).End();
-                    ((SpriteBatch)sb).Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    GameShaders.Armor.ApplySecondary(shader, Main.player[Main.myPlayer], null);
-                }
-                ((SpriteBatch)sb).Draw(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, framecount, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-                if (applyDye)
-                {
-                    ((SpriteBatch)sb).End();
-                    ((SpriteBatch)sb).Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                }
-            }
-        }
-
-        public static Vector2 GetDrawPosition(Vector2 position, Vector2 origin, int width, int height, int texWidth, int texHeight, int framecount, float scale, bool drawCentered = false)
-        {
-            Vector2 screenPos = new Vector2((int)Main.screenPosition.X, (int)Main.screenPosition.Y);
-            if (drawCentered)
-            {
-                Vector2 texHalf = new Vector2(texWidth / 2, texHeight / framecount / 2);
-                return position + new Vector2(width * 0.5f, height * 0.5f) - (texHalf * scale) + (origin * scale) - screenPos;
-            }
-            return position - screenPos + new Vector2(width * 0.5f, height) - new Vector2(texWidth * scale / 2f, texHeight * scale / framecount) + (origin * scale) + new Vector2(0f, 5f);
-        }
         #endregion
 
         #region Recipes
@@ -1510,66 +822,6 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Lighting
-        const float MaxSignusDarkness = -0.4f;
-        const float MaxAbyssDarkness = -0.7f;
-        public override void ModifyLightingBrightness(ref float scale)
-        {
-            // Apply the calculated darkness value for the local player.
-            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
-
-            if (modPlayer.ZoneAbyss)
-                scale += MaxAbyssDarkness * darkRatio;
-
-            if (CalamityWorld.revenge)
-            {
-                if (CalamityGlobalNPC.signus != -1)
-                {
-                    if (Main.npc[CalamityGlobalNPC.signus].active)
-                    {
-                        if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
-                        {
-                            float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
-
-                            // Reduce the power of Signus darkness based on your light level.
-                            float multiplier = 1f;
-                            switch (modPlayer.GetTotalLightStrength())
-                            {
-                                case 0:
-                                    break;
-                                case 1:
-                                case 2:
-                                    multiplier = 0.75f;
-                                    break;
-                                case 3:
-                                case 4:
-                                    multiplier = 0.5f;
-                                    break;
-                                case 5:
-                                case 6:
-                                    multiplier = 0.25f;
-                                    break;
-                                default:
-                                    multiplier = 0f;
-                                    break;
-                            }
-
-                            // Increased darkness in Death Mode
-                            if (CalamityWorld.death)
-                                multiplier += (1f - multiplier) * 0.1f;
-
-                            // Total darkness
-                            float signusDarkness = signusLifeRatio * multiplier;
-                            darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-                            scale += MaxSignusDarkness * darkRatio;
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
-
         #region Stop Rain
         public static void StopRain()
         {
@@ -1582,33 +834,6 @@ namespace CalamityMod
 
         #region Netcode
         public override void HandlePacket(BinaryReader reader, int whoAmI) => CalamityNetcode.HandlePacket(this, reader, whoAmI);
-        #endregion
-
-        #region Tile Entity Time Handler
-        public override void MidUpdateTimeWorld() => TileEntityTimeHandler.Update();
-        #endregion
-
-        #region Ash Drawing
-        public override void MidUpdateItemDust() => DeathAshParticle.UpdateAll();
-        #endregion Ash Drawing
-
-        #region Post NPC Updating
-        // TODO - Apply caching to this process. For now most of the looping issues should be eradicated but it can be reduced further.
-        public override void MidUpdateNPCGore() => CalamityGlobalNPC.ResetTownNPCNameBools();
-        #endregion
-
-        #region Speedrun Timer Stopper
-        public override void PreSaveAndQuit() => SpeedrunTimer?.Stop();
-        #endregion
-
-        #region Particles updating
-        public override void PostUpdateEverything()
-        {
-            if (!Main.dedServ)
-            {
-                GeneralParticleHandler.Update();
-            }
-        }
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
@@ -16,15 +16,17 @@ using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static CalamityMod.World.CalamityWorld;
 
-namespace CalamityMod.World
+namespace CalamityMod.Systems
 {
-    public partial class CalamityWorld : ModWorld
+    public class WorldMiscUpdateSystem : ModSystem
     {
-        public override void PostUpdate()
+        public override void PostUpdateWorld()
         {
             // Reset this int because it causes bugs with other mods if you delete Dr. Draedon through abnormal means
             if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
@@ -92,7 +94,7 @@ namespace CalamityMod.World
             }
 
             // Disable sandstorms if the Desert Scourge is still alive and Hardmode hasn't begun.
-            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
+            if (!DownedBossSystem.downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
                 CalamityUtils.StopSandstorm();
 
             // Attempt to summon lab critters manually since they refuse to exist when using vanilla's spawn methods.
@@ -123,10 +125,16 @@ namespace CalamityMod.World
         {
             // Fire a giant laser into the sky.
             if (DraedonSummonCountdown == DraedonSummonCountdownMax - 45)
-                Projectile.NewProjectile(DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);
+            {
+                IEntitySource source = new EntitySource_WorldEvent();
+                Projectile.NewProjectile(source, DraedonSummonPosition + Vector2.UnitY * 80f, Vector2.Zero, ModContent.ProjectileType<DraedonSummonLaser>(), 0, 0f);
+            }
 
             if (DraedonSummonCountdown == 0)
-                NPC.NewNPC((int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
+            {
+                IEntitySource source = new EntitySource_WorldEvent();
+                NPC.NewNPC(source, (int)DraedonSummonPosition.X, (int)DraedonSummonPosition.Y, ModContent.NPCType<Draedon>());
+            }
         }
         #endregion Handle Draedon Summoning
 
@@ -135,7 +143,7 @@ namespace CalamityMod.World
         public static void HandleTileGrowth()
         {
             int l = 0;
-            float mult2 = 1.5E-05f * Main.worldRate;
+            float mult2 = (float)(1.5E-05f * WorldGen.GetWorldUpdateRate());
             while (l < Main.maxTilesX * Main.maxTilesY * mult2)
             {
                 int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
@@ -147,7 +155,7 @@ namespace CalamityMod.World
 
                 if (Main.tile[x, y] != null)
                 {
-                    if (Main.tile[x, y].nactive())
+                    if (Main.tile[x, y].HasUnactuatedTile)
                     {
                         if (Main.tile[x, y].LiquidAmount <= 32)
                         {
@@ -166,7 +174,7 @@ namespace CalamityMod.World
                                             {
                                                 for (int j = y - minDistanceFromOtherBulbs; j < y + minDistanceFromOtherBulbs; j += 2)
                                                 {
-                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].TileType == TileID.PlanteraBulb)
+                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].HasTile && Main.tile[i, j].TileType == TileID.PlanteraBulb)
                                                     {
                                                         placeBulb = false;
                                                         break;
@@ -200,7 +208,7 @@ namespace CalamityMod.World
                                             {
                                                 for (int j = y - minDistanceFromOtherFruit; j < y + minDistanceFromOtherFruit; j += 2)
                                                 {
-                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].TileType == TileID.LifeFruit)
+                                                    if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].HasTile && Main.tile[i, j].TileType == TileID.LifeFruit)
                                                     {
                                                         placeFruit = false;
                                                         break;
@@ -225,7 +233,7 @@ namespace CalamityMod.World
                         }
 
                         int tileType = Main.tile[x, y].TileType;
-                        bool tenebris = tileType == ModContent.TileType<Tenebris>() && downedCalamitas;
+                        bool tenebris = tileType == ModContent.TileType<Tenebris>() && DownedBossSystem.downedCalamitas;
 
                         if (CalamityGlobalTile.GrowthTiles.Contains(tileType) || tenebris)
                         {
@@ -256,9 +264,9 @@ namespace CalamityMod.World
                                 if (Main.tile[x, y] != null)
                                 {
                                     Tile tile = Main.tile[x, y];
-                                    bool growTile = tenebris ? (tile.active() && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
+                                    bool growTile = tenebris ? (tile.HasTile && tile.TileType == ModContent.TileType<PlantyMush>()) : (!tile.HasTile && tile.LiquidAmount >= 128);
                                     bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
-                                    bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.IsHalfBlock && !tile.lava();
+                                    bool meetsAdditionalGrowConditions = tile.Slope == 0 && !tile.IsHalfBlock && tile.LiquidType != LiquidID.Lava;
 
                                     if (growTile && meetsAdditionalGrowConditions)
                                     {
@@ -277,20 +285,20 @@ namespace CalamityMod.World
 
                                             if (!tenebris)
                                             {
-                                                tile.active(true);
-                                                if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].IsHalfBlock)
+                                                tile.HasTile = true;
+                                                if (Main.tile[x, y + 1].HasTile && Main.tileSolid[Main.tile[x, y + 1].TileType] && Main.tile[x, y + 1].Slope == 0 && !Main.tile[x, y + 1].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 0;
                                                 }
-                                                else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].IsHalfBlock)
+                                                else if (Main.tile[x, y - 1].HasTile && Main.tileSolid[Main.tile[x, y - 1].TileType] && Main.tile[x, y - 1].Slope == 0 && !Main.tile[x, y - 1].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 18;
                                                 }
-                                                else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].IsHalfBlock)
+                                                else if (Main.tile[x + 1, y].HasTile && Main.tileSolid[Main.tile[x + 1, y].TileType] && Main.tile[x + 1, y].Slope == 0 && !Main.tile[x + 1, y].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 36;
                                                 }
-                                                else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].IsHalfBlock)
+                                                else if (Main.tile[x - 1, y].HasTile && Main.tileSolid[Main.tile[x - 1, y].TileType] && Main.tile[x - 1, y].Slope == 0 && !Main.tile[x - 1, y].IsHalfBlock)
                                                 {
                                                     tile.TileFrameY = 54;
                                                 }
@@ -315,7 +323,7 @@ namespace CalamityMod.World
 
         public static bool CanPlaceBasedOnProximity(int x, int y, int tileType)
         {
-            if (tileType == ModContent.TileType<LumenylCrystals>() && !downedCalamitas)
+            if (tileType == ModContent.TileType<LumenylCrystals>() && !DownedBossSystem.downedCalamitas)
                 return false;
 
             int minDistanceFromOtherTiles = 6;
@@ -324,7 +332,7 @@ namespace CalamityMod.World
             {
                 for (int j = y - minDistanceFromOtherTiles; j < y + minDistanceFromOtherTiles; j++)
                 {
-                    if (Main.tile[i, j].active() && Main.tile[i, j].TileType == tileType)
+                    if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == tileType)
                     {
                         sameTilesNearby++;
                         if (sameTilesNearby > 1)
@@ -387,7 +395,7 @@ namespace CalamityMod.World
                         spawnRate *= 0.6D;
                     if (player.enemySpawns)
                         spawnRate *= 0.7D;
-                    if (Main.waterCandles > 0)
+                    if (Main.SceneMetrics.WaterCandleCount > 0)
                         spawnRate *= 0.8D;
 
                     if (modPlayer.bossZen || DoGSecondStageCountdown > 0)
@@ -398,7 +406,7 @@ namespace CalamityMod.World
                         spawnRate *= 1.67D;
                     if (player.calmed)
                         spawnRate *= 1.43D;
-                    if (Main.peaceCandles > 0)
+                    if (Main.SceneMetrics.PeaceCandleCount > 0)
                         spawnRate *= 1.25D;
                     if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
                         spawnRate *= 5D;

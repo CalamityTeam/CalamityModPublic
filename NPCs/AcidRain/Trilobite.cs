@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 15;
             NPC.DR_NERD(0.25f);
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.damage = 80;
                 NPC.lifeMax = 4125;
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (NPC.velocity.Length() < MinSpeedLungePrompt)
             {
                 NPC.TargetClosest();
-                float lungeSpeed = CalamityWorld.downedPolterghast ? 18.5f : 15f;
+                float lungeSpeed = DownedBossSystem.downedPolterghast ? 18.5f : 15f;
 
                 NPC.velocity = NPC.SafeDirectionTo(Target.Center, -Vector2.UnitY) * lungeSpeed;
                 NPC.velocity.X *= 1.6f;
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 float speedX = 18f;
                 float speedY = 9f;
-                if (CalamityWorld.downedPolterghast)
+                if (DownedBossSystem.downedPolterghast)
                 {
                     speedX = 22f;
                     speedY = 11f;
@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (SpikeShootCountdown <= 0f)
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath11, NPC.Center);
-                int projDamage = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 29 : 21;
+                int projDamage = DownedBossSystem.downedPolterghast ? 35 : DownedBossSystem.downedAquaticScourge ? 29 : 21;
                 if (Main.expertMode)
                     projDamage = (int)Math.Round(projDamage * 0.8);
 

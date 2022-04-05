@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 4).AddIngredient(ItemID.DemoniteBar, 4).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 5).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.RottenChunk, 4)
+                .AddIngredient(ItemID.DemoniteBar, 4)
+                .AddIngredient<TrueShadowScale>(5)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

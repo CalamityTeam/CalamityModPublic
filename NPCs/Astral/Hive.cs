@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<HiveBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 90;
                 NPC.defense = 25;
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HivePod>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HivePod>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
         }
     }
 }

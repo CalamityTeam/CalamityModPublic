@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void AI()
         {
-            float maxSpeed = CalamityWorld.downedPolterghast ? 19.5f : 11.5f;
+            float maxSpeed = DownedBossSystem.downedPolterghast ? 19.5f : 11.5f;
             if (Projectile.velocity.Length() < maxSpeed)
                 Projectile.velocity *= 1.024f;
 

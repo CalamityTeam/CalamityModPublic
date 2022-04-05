@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = SoundID.NPCDeath14;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AstralProbeBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 30;
                 NPC.defense = 20;
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Astral
                 if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
                     int num8 = Main.expertMode ? 14 : 18;
-                    if (CalamityWorld.downedAstrageldon)
+                    if (DownedBossSystem.downedAstrageldon)
                         num8 += 6;
 
                     int num9 = ProjectileID.PinkLaser;

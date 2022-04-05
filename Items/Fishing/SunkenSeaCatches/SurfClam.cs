@@ -1,6 +1,7 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Systems;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 
         public override bool IsAnglerQuestAvailable()
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         public override void AnglerQuestChat(ref string description, ref string catchLocation)

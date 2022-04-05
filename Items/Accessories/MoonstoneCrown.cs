@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -44,7 +44,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FeatherCrown>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<FeatherCrown>()
+                .AddIngredient(ItemID.LunarBar, 5)
+                .AddIngredient<GalacticaSingularity>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 

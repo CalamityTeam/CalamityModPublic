@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -58,7 +58,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemType<AmalgamatedBrain>()).AddIngredient(ItemType<UnholyCore>(), 5).AddIngredient(ItemType<MolluskHusk>(), 10).AddIngredient(ItemType<SulfuricScale>(), 15).AddIngredient(ItemType<PlagueCellCluster>(), 15).AddIngredient(ItemType<CosmiliteBar>(), 5).AddIngredient(ItemType<AscendantSpiritEssence>(), 4).AddTile(TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<AmalgamatedBrain>()
+                .AddIngredient<UnholyCore>(5)
+                .AddIngredient<MolluskHusk>(10)
+                .AddIngredient<SulfuricScale>(15)
+                .AddIngredient<PlagueCellCluster>(15)
+                .AddIngredient<CosmiliteBar>(5)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

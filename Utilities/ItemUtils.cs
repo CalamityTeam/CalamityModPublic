@@ -83,20 +83,20 @@ namespace CalamityMod
                     return 0;
 
                 case PrefixID.Hard:
-                    if (CalamityWorld.downedYharon)
+                    if (DownedBossSystem.downedYharon)
                         return 4;
-                    else if (CalamityWorld.downedPolterghast || CalamityWorld.downedDoG)
+                    else if (DownedBossSystem.downedPolterghast || DownedBossSystem.downedDoG)
                         return 3;
-                    else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || CalamityWorld.downedProvidence)
+                    else if (Main.hardMode || NPC.downedGolemBoss || NPC.downedMoonlord || DownedBossSystem.downedProvidence)
                         return 2;
                     return 1;
 
                 case PrefixID.Guarding:
-                    if (CalamityWorld.downedYharon)
+                    if (DownedBossSystem.downedYharon)
                         return 8;
-                    else if (CalamityWorld.downedDoG)
+                    else if (DownedBossSystem.downedDoG)
                         return 6;
-                    else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
+                    else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
                         return 5;
                     else if (NPC.downedGolemBoss || NPC.downedMoonlord)
                         return 4;
@@ -105,13 +105,13 @@ namespace CalamityMod
                     return 2;
 
                 case PrefixID.Armored:
-                    if (CalamityWorld.downedYharon)
+                    if (DownedBossSystem.downedYharon)
                         return 11;
-                    else if (CalamityWorld.downedDoG)
+                    else if (DownedBossSystem.downedDoG)
                         return 9;
-                    else if (CalamityWorld.downedPolterghast)
+                    else if (DownedBossSystem.downedPolterghast)
                         return 8;
-                    else if (CalamityWorld.downedProvidence)
+                    else if (DownedBossSystem.downedProvidence)
                         return 7;
                     else if (NPC.downedMoonlord)
                         return 6;
@@ -120,13 +120,13 @@ namespace CalamityMod
                     return 3;
 
                 case PrefixID.Warding:
-                    if (CalamityWorld.downedYharon)
+                    if (DownedBossSystem.downedYharon)
                         return 15;
-                    else if (CalamityWorld.downedDoG)
+                    else if (DownedBossSystem.downedDoG)
                         return 12;
-                    else if (CalamityWorld.downedPolterghast)
+                    else if (DownedBossSystem.downedPolterghast)
                         return 10;
-                    else if (CalamityWorld.downedProvidence)
+                    else if (DownedBossSystem.downedProvidence)
                         return 9;
                     else if (NPC.downedMoonlord)
                         return 8;

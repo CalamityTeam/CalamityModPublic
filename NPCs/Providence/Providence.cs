@@ -1474,18 +1474,18 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<ProvidenceTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProvidence>(), true, !DownedBossSystem.downedProvidence);
 
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<RuneofCos>(), true, !DownedBossSystem.downedProvidence);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedProvidence);
 
             // Accessories clientside only in Expert. Both drop if she is defeated at night.
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2 || !hasTakenDaytimeDamage);
 
             // Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-            bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
+            bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(DownedBossSystem.downedSCal ? 10 : 200))*/;
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
             // Special drop for defeating her at night
@@ -1523,7 +1523,7 @@ namespace CalamityMod.NPCs.Providence
                 SpawnLootBox();
 
             // If Providence has not been killed, notify players of Uelibloom Ore
-            if (!CalamityWorld.downedProvidence)
+            if (!DownedBossSystem.downedProvidence)
             {
                 string key2 = "Mods.CalamityMod.ProfanedBossText3";
                 Color messageColor2 = Color.Orange;
@@ -1545,7 +1545,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             // Mark Providence as dead
-            CalamityWorld.downedProvidence = true;
+            DownedBossSystem.downedProvidence = true;
             CalamityNetcode.SyncWorld();
         }
 

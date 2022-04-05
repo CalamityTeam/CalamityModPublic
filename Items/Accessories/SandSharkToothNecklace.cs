@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SharkToothNecklace).AddIngredient(ItemID.AvengerEmblem).AddIngredient(ModContent.ItemType<GrandScale>()).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SharkToothNecklace)
+                .AddIngredient(ItemID.AvengerEmblem)
+                .AddIngredient<GrandScale>()
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

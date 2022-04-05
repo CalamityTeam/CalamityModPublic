@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,8 +34,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MagicMirror).AddIngredient(ItemID.BlackLens).AddIngredient(ItemID.Bone, 50).AddTile(TileID.TinkerersWorkbench).Register();
-            CreateRecipe(1).AddIngredient(ItemID.IceMirror).AddIngredient(ItemID.BlackLens).AddIngredient(ItemID.Bone, 50).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.MagicMirror)
+                .AddIngredient(ItemID.BlackLens)
+                .AddIngredient(ItemID.Bone, 50)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient(ItemID.IceMirror)
+                .AddIngredient(ItemID.BlackLens)
+                .AddIngredient(ItemID.Bone, 50)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

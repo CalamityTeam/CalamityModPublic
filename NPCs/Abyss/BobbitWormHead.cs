@@ -241,8 +241,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             int minCells = Main.expertMode ? 7 : 5;
             int maxCells = Main.expertMode ? 10 : 7;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<BobbitHook>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<BobbitHook>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

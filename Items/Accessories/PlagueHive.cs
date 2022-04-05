@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +26,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AlchemicalFlask>()).AddIngredient(ItemID.HoneyComb).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<AlchemicalFlask>()
+                .AddIngredient(ItemID.HoneyComb)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

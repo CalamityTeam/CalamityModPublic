@@ -723,7 +723,7 @@ namespace CalamityMod.NPCs.Crabulon
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<CrabulonTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCrabulon>(), true, !DownedBossSystem.downedCrabulon);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -750,7 +750,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
 
             // Mark Crabulon as dead
-            CalamityWorld.downedCrabulon = true;
+            DownedBossSystem.downedCrabulon = true;
             CalamityNetcode.SyncWorld();
         }
 

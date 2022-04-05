@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -39,7 +39,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalAmulet>()).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<AbyssalAmulet>()
+                .AddIngredient<Lumenite>(15)
+                .AddIngredient<Tenebris>(5)
+                .AddIngredient<SeaPrism>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

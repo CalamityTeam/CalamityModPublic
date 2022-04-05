@@ -41,8 +41,8 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
 
             // Materials
-            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT1>(), !DownedBossSystem.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT2>(), DownedBossSystem.downedProvidence);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
             DropHelper.DropItemChance(player, ModContent.ItemType<FleshTotem>(), 0.5f);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), DownedBossSystem.downedProvidence);
             DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge && !player.Calamity().rageBoostTwo);
             DropHelper.DropItemChance(player, ModContent.ItemType<Vesuvius>(), 0.1f);
 

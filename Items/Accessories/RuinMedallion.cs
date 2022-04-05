@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CoinofDeceit>()).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<CoinofDeceit>()
+                .AddIngredient<UnholyCore>(4)
+                .AddIngredient<EssenceofChaos>(2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

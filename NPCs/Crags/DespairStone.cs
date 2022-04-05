@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.behindTiles = true;
             NPC.lavaImmune = true;
-            if (CalamityWorld.downedProvidence)
+            if (DownedBossSystem.downedProvidence)
             {
                 NPC.damage = 80;
                 NPC.defense = 50;
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -54,7 +54,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LivingDew>()).AddIngredient(ItemID.BottledHoney, 10).AddIngredient(ModContent.ItemType<TrapperBulb>(), 2).AddIngredient(ItemID.ButterflyDust).AddIngredient(ModContent.ItemType<BeetleJuice>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<LivingDew>()
+                .AddIngredient(ItemID.BottledHoney, 10)
+                .AddIngredient<TrapperBulb>(2)
+                .AddIngredient(ItemID.ButterflyDust)
+                .AddIngredient<BeetleJuice>(3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -50,7 +50,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RottenBrain>()).AddIngredient(ItemID.BrainOfConfusion).AddIngredient(ItemID.SoulofNight, 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<RottenBrain>()
+                .AddIngredient(ItemID.BrainOfConfusion)
+                .AddIngredient(ItemID.SoulofNight, 3)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

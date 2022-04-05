@@ -1,4 +1,4 @@
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -79,7 +79,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15).AddRecipeGroup("AnyGoldBar", 3).AddIngredient(ModContent.ItemType<Tenebris>(), 3).AddIngredient(ModContent.ItemType<DarksunFragment>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<EffulgentFeather>(15)
+                .AddRecipeGroup("AnyGoldBar", 3)
+                .AddIngredient<Tenebris>(3)
+                .AddIngredient<DarksunFragment>(5)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

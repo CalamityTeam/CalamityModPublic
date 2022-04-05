@@ -1050,7 +1050,7 @@ namespace CalamityMod.NPCs.Cryogen
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<CryogenTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCryogen>(), true, !DownedBossSystem.downedCryogen);
 
             if (!Main.expertMode)
             {
@@ -1089,7 +1089,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
 
             // If Cryogen has not been killed, notify players about Cryonic Ore
-            if (!CalamityWorld.downedCryogen)
+            if (!DownedBossSystem.downedCryogen)
             {
                 string key = "Mods.CalamityMod.IceOreText";
                 Color messageColor = Color.LightSkyBlue;
@@ -1099,7 +1099,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
 
             // Mark Cryogen as dead
-            CalamityWorld.downedCryogen = true;
+            DownedBossSystem.downedCryogen = true;
             CalamityNetcode.SyncWorld();
         }
 

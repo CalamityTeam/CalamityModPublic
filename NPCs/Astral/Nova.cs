@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.aiStyle = -1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<NovaBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 75;
                 NPC.defense = 25;
@@ -285,7 +285,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarCannon>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarCannon>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<GloriousEnd>(), 7, 1, 1);
         }
     }

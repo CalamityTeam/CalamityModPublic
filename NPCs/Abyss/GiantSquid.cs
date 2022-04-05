@@ -249,10 +249,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.5f);
             int minCells = Main.expertMode ? 3 : 2;
             int maxCells = Main.expertMode ? 6 : 4;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
             int inkBombDropRate = Main.expertMode ? 25 : 40;
             DropHelper.DropItemChance(NPC, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
         }

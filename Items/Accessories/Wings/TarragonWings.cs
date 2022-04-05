@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -81,7 +81,11 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ItemID.SoulofFlight, 30).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<UeliaceBar>(5)
+                .AddIngredient(ItemID.SoulofFlight, 30)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

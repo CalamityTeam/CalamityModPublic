@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AriesBanner>();
-            if (CalamityWorld.downedAstrageldon)
+            if (DownedBossSystem.downedAstrageldon)
             {
                 NPC.damage = 85;
                 NPC.defense = 24;
@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarKnife>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarKnife>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
         }
     }
 }

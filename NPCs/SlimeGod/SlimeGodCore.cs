@@ -596,15 +596,15 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !DownedBossSystem.downedSlimeGod);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedSlimeGod);
 
             // Purified Jam is once per player, but drops for all players.
             CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, !DownedBossSystem.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 
@@ -636,7 +636,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Mark the Slime God as dead
-            CalamityWorld.downedSlimeGod = true;
+            DownedBossSystem.downedSlimeGod = true;
             CalamityNetcode.SyncWorld();
         }
 

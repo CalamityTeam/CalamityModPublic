@@ -1194,7 +1194,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !DownedBossSystem.downedPlaguebringer);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -1231,7 +1231,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Malachite>(), !Main.expertMode, 0.1f);
 
             // Mark PBG as dead
-            CalamityWorld.downedPlaguebringer = true;
+            DownedBossSystem.downedPlaguebringer = true;
             CalamityNetcode.SyncWorld();
         }
 

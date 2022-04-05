@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -50,7 +50,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssalMirror>()).AddIngredient(ModContent.ItemType<DarkGodsSheath>()).AddIngredient(ModContent.ItemType<DarksunFragment>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<AbyssalMirror>()
+                .AddIngredient<DarkGodsSheath>()
+                .AddIngredient<DarksunFragment>(20)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

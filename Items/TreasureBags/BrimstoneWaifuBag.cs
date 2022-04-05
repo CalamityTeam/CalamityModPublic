@@ -43,7 +43,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 25, 35);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
             DropHelper.DropItemChance(player, ModContent.ItemType<Hellborn>(), 0.1f);
             DropHelper.DropItemChance(player, ModContent.ItemType<FabledTortoiseShell>(), 0.1f);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
 
             // Vanity
             DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);

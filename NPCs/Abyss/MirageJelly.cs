@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, 10, 1, 1);
             int minCells = Main.expertMode ? 10 : 5;
             int maxCells = Main.expertMode ? 14 : 7;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, minCells, maxCells);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);

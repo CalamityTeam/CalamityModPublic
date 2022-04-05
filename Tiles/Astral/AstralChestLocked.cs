@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
         {
-            if (!CalamityWorld.downedAstrageldon)
+            if (!DownedBossSystem.downedAstrageldon)
                 return false;
 
             DustType = this.dustType;

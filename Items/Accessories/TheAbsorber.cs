@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -45,8 +45,33 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandGelatin>()).AddIngredient(ModContent.ItemType<SeaShell>()).AddIngredient(ModContent.ItemType<CrawCarapace>()).AddIngredient(ModContent.ItemType<FungalCarapace>()).AddIngredient(ModContent.ItemType<GiantTortoiseShell>()).AddIngredient(ModContent.ItemType<RoverDrive>()).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandGelatin>()).AddIngredient(ModContent.ItemType<SeaShell>()).AddIngredient(ModContent.ItemType<FungalCarapace>()).AddIngredient(ModContent.ItemType<GiantShell>()).AddIngredient(ModContent.ItemType<GiantTortoiseShell>()).AddIngredient(ModContent.ItemType<RoverDrive>()).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<GrandGelatin>()
+                .AddIngredient<SeaShell>()
+                .AddIngredient<CrawCarapace>()
+                .AddIngredient<FungalCarapace>()
+                .AddIngredient<GiantTortoiseShell>()
+                .AddIngredient<RoverDrive>()
+                .AddIngredient<DepthCells>(15)
+                .AddIngredient<Lumenite>(15)
+                .AddIngredient<Tenebris>(5)
+                .AddIngredient<MolluskHusk>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient<GrandGelatin>()
+                .AddIngredient<SeaShell>()
+                .AddIngredient<FungalCarapace>()
+                .AddIngredient<GiantShell>()
+                .AddIngredient<GiantTortoiseShell>()
+                .AddIngredient<RoverDrive>()
+                .AddIngredient<DepthCells>(15)
+                .AddIngredient<Lumenite>(15)
+                .AddIngredient<Tenebris>(5)
+                .AddIngredient<MolluskHusk>(5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

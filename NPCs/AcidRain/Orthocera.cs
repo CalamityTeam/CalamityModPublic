@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 15;
             NPC.DR_NERD(0.075f);
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
                 NPC.damage = 120;
                 NPC.lifeMax = 3850;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             Time++;
             NPC.TargetClosest(false);
-            float maxSpeed = CalamityWorld.downedPolterghast ? 12.8f : 10.5f;
+            float maxSpeed = DownedBossSystem.downedPolterghast ? 12.8f : 10.5f;
             if (!Main.player.IndexInRange(NPC.target))
                 return;
 
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.AcidRain
             // And jump/shoot.
             else if (Time % 220f > 180f)
             {
-                float verticalAcceleration = CalamityWorld.downedPolterghast ? 0.07f : 0.05f;
+                float verticalAcceleration = DownedBossSystem.downedPolterghast ? 0.07f : 0.05f;
                 if (Time % 220f < 200f)
                     NPC.velocity.Y -= verticalAcceleration;
                 else
@@ -161,12 +161,12 @@ namespace CalamityMod.NPCs.AcidRain
                     if (NPC.spriteDirection == -1)
                         spitDirection += MathHelper.PiOver2;
 
-                    int damage = CalamityWorld.downedPolterghast ? 40 : CalamityWorld.downedAquaticScourge ? 26 : 18;
+                    int damage = DownedBossSystem.downedPolterghast ? 40 : DownedBossSystem.downedAquaticScourge ? 26 : 18;
                     if (Main.expertMode)
                         damage = (int)Math.Round(damage * 0.8);
 
                     // Spit two extra streams of acid at the target post-Polterghast.
-                    if (CalamityWorld.downedPolterghast)
+                    if (DownedBossSystem.downedPolterghast)
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
+            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(NPC, ModContent.ItemType<OrthoceraShell>(), 20);
         }
 
