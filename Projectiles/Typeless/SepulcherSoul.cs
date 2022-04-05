@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Typeless
             idealVelocity.Y = MathHelper.SmoothStep(-3f, -9f, (float)Math.Sin(Time / 23f + Projectile.identity * 1.1f) * 0.5f + 0.5f);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.075f);
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.Opacity = Utils.InverseLerp(0f, 15f, Time, true) * Utils.InverseLerp(0f, 25f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Time, true) * Utils.GetLerpValue(0f, 25f, Projectile.timeLeft, true);
             Time++;
         }
     }

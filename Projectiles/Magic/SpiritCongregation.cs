@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             set => Projectile.localAI[1] = value.ToInt();
         }
         public Player Owner => Main.player[Projectile.owner];
-        public float CurrentPower => (float)Math.Pow(Utils.InverseLerp(15f, 840f, Time, true), 4D);
+        public float CurrentPower => (float)Math.Pow(Utils.GetLerpValue(15f, 840f, Time, true), 4D);
         public float CongregationDiameter => MathHelper.SmoothStep(54f, 185f, CurrentPower);
         public float MovementSpeed
         {
@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Magic
                 float movementSpeed = 9f;
 
                 // Make speed gradually build up over time, with growths at certain points.
-                movementSpeed += MathHelper.SmoothStep(0f, 2.2f, Utils.InverseLerp(0.18f, 0.3f, CurrentPower, true));
-                movementSpeed += MathHelper.SmoothStep(0f, 4f, Utils.InverseLerp(0.4f, 0.52f, CurrentPower, true));
-                movementSpeed += MathHelper.SmoothStep(0f, 5f, Utils.InverseLerp(0.6f, 0.72f, CurrentPower, true));
-                movementSpeed += MathHelper.SmoothStep(0f, 6f, Utils.InverseLerp(0.8f, 0.92f, CurrentPower, true));
+                movementSpeed += MathHelper.SmoothStep(0f, 2.2f, Utils.GetLerpValue(0.18f, 0.3f, CurrentPower, true));
+                movementSpeed += MathHelper.SmoothStep(0f, 4f, Utils.GetLerpValue(0.4f, 0.52f, CurrentPower, true));
+                movementSpeed += MathHelper.SmoothStep(0f, 5f, Utils.GetLerpValue(0.6f, 0.72f, CurrentPower, true));
+                movementSpeed += MathHelper.SmoothStep(0f, 6f, Utils.GetLerpValue(0.8f, 0.92f, CurrentPower, true));
 
                 return movementSpeed;
             }
@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.Magic
                 particleSize = 500f;
 
             // Make particles shrink when dying.
-            particleSize *= MathHelper.Lerp(1f, 0.5f, Utils.InverseLerp(0f, 35f, DeathCounter, true));
+            particleSize *= MathHelper.Lerp(1f, 0.5f, Utils.GetLerpValue(0f, 35f, DeathCounter, true));
 
             int particleSpawnCount = Main.rand.NextBool(8) ? 3 : 1;
             for (int i = 0; i < particleSpawnCount; i++)
@@ -287,7 +287,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
 
             for (int i = 0; i < 3; i++)
-                Main.EntitySpriteDraw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+                Main.EntitySpriteDraw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
 
             Main.spriteBatch.ExitShaderRegion();
 
@@ -316,10 +316,10 @@ namespace CalamityMod.Projectiles.Magic
             shader.CurrentTechnique.Passes[0].Apply();
 
             // Draw the normal texture.
-            Main.EntitySpriteDraw(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
             Main.spriteBatch.ExitShaderRegion();
 
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;
         }
 

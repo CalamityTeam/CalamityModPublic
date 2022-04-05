@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Magic
                                  ModContent.Request<Texture2D>(Texture).Size() * 0.5f,
                                  drawScale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             return false;
         }

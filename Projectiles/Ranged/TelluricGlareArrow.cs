@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
             float minHeadWidth = 0.02f;
             float maxHeadWidth = width;
             if (completionRatio <= arrowheadCutoff)
-                width = MathHelper.Lerp(minHeadWidth, maxHeadWidth, Utils.InverseLerp(0f, arrowheadCutoff, completionRatio, true));
+                width = MathHelper.Lerp(minHeadWidth, maxHeadWidth, Utils.GetLerpValue(0f, arrowheadCutoff, completionRatio, true));
             return width;
         }
 
@@ -85,14 +85,14 @@ namespace CalamityMod.Projectiles.Ranged
             float completionRatioFactor = 2.7f;
             float globalTimeFactor = 5.3f;
             float endFadeFactor = 3.2f;
-            float endFadeTerm = Utils.InverseLerp(0f, endFadeRatio * 0.5f, completionRatio, true) * endFadeFactor;
+            float endFadeTerm = Utils.GetLerpValue(0f, endFadeRatio * 0.5f, completionRatio, true) * endFadeFactor;
             float cosArgument = completionRatio * completionRatioFactor - Main.GlobalTimeWrappedHourly * globalTimeFactor + endFadeTerm;
             float startingInterpolant = (float)Math.Cos(cosArgument) * 0.5f + 0.5f;
 
             float colorLerpFactor = 0.6f;
             Color startingColor = Color.Lerp(ShaderColorOne, ShaderColorTwo, startingInterpolant * colorLerpFactor);
 
-            return Color.Lerp(startingColor, ShaderEndColor, MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, endFadeRatio, completionRatio, true)));
+            return Color.Lerp(startingColor, ShaderEndColor, MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0f, endFadeRatio, completionRatio, true)));
         }
 
         public override bool PreDraw(ref Color lightColor)

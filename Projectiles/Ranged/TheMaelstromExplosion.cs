@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.125f);
-            Projectile.Opacity = Projectile.scale * Utils.InverseLerp(0f, 30f, Projectile.timeLeft, true);
+            Projectile.Opacity = Projectile.scale * Utils.GetLerpValue(0f, 30f, Projectile.timeLeft, true);
 
             // Emit sparks and dust.
             if (Main.netMode != NetmodeID.Server)

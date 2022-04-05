@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.Kill();
             Projectile.scale *= 1.0115f;
-            Projectile.Opacity = Utils.InverseLerp(5f, 36f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(5f, 36f, Projectile.timeLeft, true);
         }
 
         public override bool PreDraw(ref Color lightColor)

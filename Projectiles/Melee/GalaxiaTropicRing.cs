@@ -85,10 +85,10 @@ namespace CalamityMod.Projectiles.Melee
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.EntitySpriteDraw(bloomTexture, Projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0);
 
-            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, Projectile.scale + ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f * 2f, 0f, 0f);
-            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, ringColor * MathHelper.Lerp(0.7f, 0f, ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f), 0f, sigil.Size() / 2f, Projectile.scale + ((Main.GlobalTimeWrappedHourly * 5f) % 10) / 10f * 2f, 0f, 0);
+            Main.EntitySpriteDraw(sigil, Projectile.Center - Main.screenPosition, null, Color.White * Fade, 0f, sigil.Size() / 2f, Projectile.scale, 0f, 0);
 
             for (int i = 0; i < 5; i++)
             {

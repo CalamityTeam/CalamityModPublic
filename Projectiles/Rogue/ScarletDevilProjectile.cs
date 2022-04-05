@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -154,14 +154,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         internal float WidthFunction(float completionRatio)
         {
-            float widthRatio = Utils.InverseLerp(0f, 0.1f, completionRatio, true);
+            float widthRatio = Utils.GetLerpValue(0f, 0.1f, completionRatio, true);
             float baseWidth = MathHelper.Lerp(0f, 110f, widthRatio) * MathHelper.Clamp(1f - (float)Math.Pow(completionRatio, 0.4D), 0.37f, 1f);
             return baseWidth;
         }
 
         internal Color ColorFunction(float completionRatio)
         {
-            float colorFade = 1f - Utils.InverseLerp(0.6f, 0.98f, completionRatio, true);
+            float colorFade = 1f - Utils.GetLerpValue(0.6f, 0.98f, completionRatio, true);
             Color baseColor = CalamityUtils.MulticolorLerp((float)Math.Pow(completionRatio, 1D / 2D), Color.White, Color.DarkRed, Color.Wheat, Color.IndianRed) * MathHelper.Lerp(0f, 1.4f, colorFade);
             return Color.Lerp(baseColor, Color.DarkRed, (float)Math.Pow(completionRatio, 3D));
         }

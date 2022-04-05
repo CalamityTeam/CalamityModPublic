@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -55,13 +55,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeOpacity = Utils.InverseLerp(0.94f, 0.54f, completionRatio, true) * Projectile.Opacity;
+            float fadeOpacity = Utils.GetLerpValue(0.94f, 0.54f, completionRatio, true) * Projectile.Opacity;
             return Color.Lerp(Color.Cyan, Color.White, 0.4f) * fadeOpacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.InverseLerp(0f, 0.3f, completionRatio, true), 2D);
+            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
             return MathHelper.Lerp(0f, 12f * Projectile.Opacity, expansionCompletion);
         }
 
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
             LightningTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 60);
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;
         }
     }

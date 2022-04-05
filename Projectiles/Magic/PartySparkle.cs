@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
                              origin,
                              orthogonalsparkleScale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                              origin,
                              sparkleScale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
                              origin,
                              orthogonalsparkleScale * 0.6f,
                              SpriteEffects.None,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(sparkleTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              null,
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Magic
                              origin,
                              sparkleScale * 0.6f,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
     }

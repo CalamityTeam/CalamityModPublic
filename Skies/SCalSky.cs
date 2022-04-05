@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
@@ -59,7 +59,7 @@ namespace CalamityMod.Skies
                     if (lifeRatio <= 0.01f)
                         return 32;
 
-                    return (int)Math.Round(MathHelper.Lerp(2f, 11f, Utils.InverseLerp(0.03f, 0.1f, lifeRatio, true)));
+                    return (int)Math.Round(MathHelper.Lerp(2f, 11f, Utils.GetLerpValue(0.03f, 0.1f, lifeRatio, true)));
                 }
 
                 // Release a good amount of cinders while brothers or Sepulcher-1 are alive. Sepulcher-2 falls into an above case and does not execute this return.
@@ -86,7 +86,7 @@ namespace CalamityMod.Skies
                     if (lifeRatio <= 0.01f)
                         return 4.5f;
 
-                    return MathHelper.Lerp(10.75f, 6.7f, Utils.InverseLerp(0.03f, 0.1f, lifeRatio, true));
+                    return MathHelper.Lerp(10.75f, 6.7f, Utils.GetLerpValue(0.03f, 0.1f, lifeRatio, true));
                 }
 
                 // Move a little quickly while brothers or Sepulcher-1 are alive. Sepulcher-2 falls into an above case and does not execute this return.
@@ -140,11 +140,11 @@ namespace CalamityMod.Skies
             // Update all cinders.
             for (int i = 0; i < Cinders.Count; i++)
             {
-                Cinders[i].Scale = Utils.InverseLerp(Cinders[i].Lifetime, Cinders[i].Lifetime / 3, Cinders[i].Time, true);
+                Cinders[i].Scale = Utils.GetLerpValue(Cinders[i].Lifetime, Cinders[i].Lifetime / 3, Cinders[i].Time, true);
                 Cinders[i].Scale *= MathHelper.Lerp(0.6f, 0.9f, Cinders[i].IdentityIndex % 6f / 6f);
 
                 Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * CinderSpeed;
-                float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.InverseLerp(45f, 145f, Cinders[i].Time, true));
+                float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.GetLerpValue(45f, 145f, Cinders[i].Time, true));
                 Cinders[i].Velocity = Vector2.Lerp(Cinders[i].Velocity, idealVelocity, movementInterpolant);
                 Cinders[i].Velocity = Cinders[i].Velocity.SafeNormalize(-Vector2.UnitY) * CinderSpeed;
                 Cinders[i].Time++;

@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
@@ -60,7 +60,7 @@ namespace CalamityMod.World
             List<Point> cloudPositions = new List<Point>();
             for (int dx = -leftOffset; dx < rightOffset; dx += WorldGen.genRand.Next(21, 26))
             {
-                float completionRatio = Utils.InverseLerp(-leftOffset - 22f, rightOffset + 22f, dx, true);
+                float completionRatio = Utils.GetLerpValue(-leftOffset - 22f, rightOffset + 22f, dx, true);
                 float completionRatio010 = CalamityUtils.Convert01To010(completionRatio);
                 int verticalOffset = (int)(completionRatio010 * maxVerticalOffset);
                 Point cloudPosition = new Point(i + dx, j + verticalOffset);
@@ -99,7 +99,7 @@ namespace CalamityMod.World
             // Fill the not cloud area with evil sandstone.
             for (int dx = -leftOffset + 10; dx < rightOffset - 10; dx++)
             {
-                float completionRatio = Utils.InverseLerp(-leftOffset - 22f, rightOffset + 22f, dx, true);
+                float completionRatio = Utils.GetLerpValue(-leftOffset - 22f, rightOffset + 22f, dx, true);
                 float completionRatio010 = CalamityUtils.Convert01To010(completionRatio);
                 int verticalOffset = (int)((1f - completionRatio010) * maxVerticalOffset);
                 for (int dy = -5; dy < maxVerticalOffset + 13 - verticalOffset; dy++)

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -64,8 +64,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, Color.DarkSlateGray.ToVector3());
-            Projectile.alpha = (int)MathHelper.Lerp(255, 127, Utils.InverseLerp(0f, 25f, Time, true));
-            Projectile.scale = MathHelper.Lerp(0.001f, 1f, Utils.InverseLerp(0f, 25f, Time, true));
+            Projectile.alpha = (int)MathHelper.Lerp(255, 127, Utils.GetLerpValue(0f, 25f, Time, true));
+            Projectile.scale = MathHelper.Lerp(0.001f, 1f, Utils.GetLerpValue(0f, 25f, Time, true));
             if (Projectile.localAI[0] == 0f)
             {
                 InitialCenter = Projectile.Center;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
                 // fade-in and fade-out effect with relative ease. At 90, multiply by 0, and somewhere in-between until 115, where you multiply by 1.
                 // And then do the same for the fade-out effect of 180f-165. These inverse linear interpolations cannot overlap by definition because
                 // their ranges do not overlap. Overall a really cool trick.
-                float radius = MaxRadius * Utils.InverseLerp(90f, 115f, Time, true) * Utils.InverseLerp(180f, 165f, Time, true);
+                float radius = MaxRadius * Utils.GetLerpValue(90f, 115f, Time, true) * Utils.GetLerpValue(180f, 165f, Time, true);
                 radius *= 1f + (float)Math.Cos(Main.GlobalTime / 24f) * 0.25f;
                 if (radius < 5f)
                     radius = 5f;

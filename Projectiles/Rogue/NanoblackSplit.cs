@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 origin = new Vector2(fWidthOverTwo, fHeightOverTwo);
             Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NanoblackSplitGlow"),
                 Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation,
-                origin, Projectile.scale, eff, 0f);
+                origin, Projectile.scale, eff, 0);
         }
 
         // Spawns a tiny bit of dust when the energy blade vanishes.

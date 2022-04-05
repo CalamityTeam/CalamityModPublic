@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Ranged;
+﻿using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundEngine.PlaySound(player.ActiveItem().UseSound, Projectile.Center);
 
                 type = ModContent.ProjectileType<UltimaBolt>();
-                float shootLaserChance = Utils.InverseLerp(Ultima.FullChargeTime * 0.35f, Ultima.FullChargeTime, Time, true);
+                float shootLaserChance = Utils.GetLerpValue(Ultima.FullChargeTime * 0.35f, Ultima.FullChargeTime, Time, true);
                 Vector2 shotPosition = player.RotatedRelativePoint(player.MountedCenter, true);
                 shotPosition += Projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(40f)).RotatedBy(-0.25f * Projectile.spriteDirection) * 42f;
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.Opacity = Utils.InverseLerp(180f, 174f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(180f, 174f, Projectile.timeLeft, true);
 
             if (Projectile.localAI[0] == 0f)
             {

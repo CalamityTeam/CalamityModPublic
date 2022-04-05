@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
                                      new Vector2(texture.Width / 2f, frameHeight / 2f),
                                      Flames[i].Scale,
                                      Flames[i].Direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                                     0f);
+                                     0);
                 }
             }
             return false;

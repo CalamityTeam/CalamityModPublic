@@ -63,10 +63,10 @@ namespace CalamityMod.Projectiles.Boss
             {
                 Color afterimageColor = Projectile.GetAlpha(lightColor) * (1f - i / 3f) * 0.5f;
                 Vector2 afterimageOffset = Projectile.velocity * -i * 4f;
-                Main.EntitySpriteDraw(texture, drawPosition + afterimageOffset, frame, afterimageColor, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition + afterimageOffset, frame, afterimageColor, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
             }
 
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
             return false;
         }
 

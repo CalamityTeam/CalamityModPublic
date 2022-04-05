@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Ranged
                                  texture.Size() * 0.5f,
                                  Projectile.scale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             return false;
         }

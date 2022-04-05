@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Typeless
                                  Projectile.Size * 0.5f,
                                  Projectile.scale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             return false;
         }

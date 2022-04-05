@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
                              LaserBeginTexture.Size() / 2f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength + middleFrameArea.Height;
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Rogue
                                      LaserMiddleTexture.Size() * 0.5f,
                                      Projectile.scale,
                                      SpriteEffects.None,
-                                     0f);
+                                     0);
                 }
             }
 
@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Rogue
                              LaserEndTexture.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
     }

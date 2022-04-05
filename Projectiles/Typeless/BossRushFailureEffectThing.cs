@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            MoonlordDeathDrama.RequestLight(Utils.InverseLerp(0f, 8f, Time, true), Main.LocalPlayer.Center);
+            MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(0f, 8f, Time, true), Main.LocalPlayer.Center);
             if (Time >= 45f)
             {
                 SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, Main.LocalPlayer.Center);

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Events;
@@ -27,13 +27,13 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.Center = Owner.Center;
             if (Time >= 70f)
-                MoonlordDeathDrama.RequestLight(Utils.InverseLerp(70f, 85f, Time, true), Main.LocalPlayer.Center);
+                MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(70f, 85f, Time, true), Main.LocalPlayer.Center);
 
             if (Time % 10f == 9f)
                 BossRushEvent.SyncStartTimer((int)Time);
 
-            float currentShakePower = MathHelper.Lerp(8f, 12f, Utils.InverseLerp(BossRushEvent.StartEffectTotalTime * 0.6f, BossRushEvent.StartEffectTotalTime, Time, true));
-            currentShakePower *= 1f - Utils.InverseLerp(1500f, 3700f, Main.LocalPlayer.Distance(Projectile.Center), true);
+            float currentShakePower = MathHelper.Lerp(8f, 12f, Utils.GetLerpValue(BossRushEvent.StartEffectTotalTime * 0.6f, BossRushEvent.StartEffectTotalTime, Time, true));
+            currentShakePower *= 1f - Utils.GetLerpValue(1500f, 3700f, Main.LocalPlayer.Distance(Projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
 
             Time++;

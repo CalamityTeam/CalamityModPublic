@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 baseDrawPosition = Projectile.Center - Main.screenPosition;
 
-            float endFade = Utils.InverseLerp(0f, 12f, Projectile.timeLeft, true);
+            float endFade = Utils.GetLerpValue(0f, 12f, Projectile.timeLeft, true);
             Color mainColor = Color.White * Projectile.Opacity * endFade * 1.5f;
             mainColor.A = (byte)(255 - Projectile.alpha);
             Color afterimageLightColor = Color.White * endFade;

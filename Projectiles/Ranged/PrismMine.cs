@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
 
             float idealScale = MathHelper.Lerp(0.93f, 1.07f, (float)Math.Sin(MathHelper.TwoPi * Projectile.timeLeft / 14f) * 0.5f + 0.5f);
-            Projectile.scale = MathHelper.Lerp(0.15f, idealScale, Utils.InverseLerp(0f, 15f, Time, true) * Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true));
+            Projectile.scale = MathHelper.Lerp(0.15f, idealScale, Utils.GetLerpValue(0f, 15f, Time, true) * Utils.GetLerpValue(0f, 15f, Projectile.timeLeft, true));
             Time++;
         }
 
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             foreach (Projectile mine in LocateOtherMines())
             {
-                float fade = Utils.InverseLerp(8f, 24f, Projectile.timeLeft, true) * Utils.InverseLerp(8f, 24f, mine.timeLeft, true);
+                float fade = Utils.GetLerpValue(8f, 24f, Projectile.timeLeft, true) * Utils.GetLerpValue(8f, 24f, mine.timeLeft, true);
                 drawLineTo(mine.Center, Color.White * fade);
             }
 

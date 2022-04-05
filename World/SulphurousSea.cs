@@ -1,4 +1,4 @@
-using CalamityMod.Items;
+﻿using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Schematics;
@@ -820,7 +820,7 @@ namespace CalamityMod.World
 
             for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
             {
-                float xRatio = Utils.InverseLerp(BiomeWidth - 10, BiomeWidth + beachWidth, x, true);
+                float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, x, true);
                 int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
                 int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45 + 1);
                 for (int y = YStart - 40; y < YStart + depth; y++)

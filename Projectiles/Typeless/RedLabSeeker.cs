@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ai[1] = 0f;
 
             if (time < 45f)
-                projectile.velocity = Vector2.UnitY * Utils.InverseLerp(0f, 25f, time, true) * Utils.InverseLerp(30f, 25f, time, true) * -4.5f;
+                projectile.velocity = Vector2.UnitY * Utils.GetLerpValue(0f, 25f, time, true) * Utils.GetLerpValue(30f, 25f, time, true) * -4.5f;
             else if (time < 80f)
-                projectile.rotation = (projectile.AngleTo(destination) + MathHelper.PiOver2) * Utils.InverseLerp(45f, 70f, time, true);
+                projectile.rotation = (projectile.AngleTo(destination) + MathHelper.PiOver2) * Utils.GetLerpValue(45f, 70f, time, true);
             else
             {
                 if (projectile.WithinRange(destination, 420f))
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             if (time > 80f && time < 120f)
-                projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * Utils.InverseLerp(80f, 105f, time, true) * 25f;
+                projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * Utils.GetLerpValue(80f, 105f, time, true) * 25f;
 
             // Reset afterimages before the charge.
             if (time < 80f)
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 for (int i = 0; i < 24; i += 2)
                 {
-                    Vector2 drawPosition = Projectile.Center - Projectile.velocity.SafeNormalize(Vector2.Zero) * i * Utils.InverseLerp(80f, 125f, Time, true) * 25f - Main.screenPosition;
+                    Vector2 drawPosition = Projectile.Center - Projectile.velocity.SafeNormalize(Vector2.Zero) * i * Utils.GetLerpValue(80f, 125f, Time, true) * 25f - Main.screenPosition;
                     Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor) * (1f - i / 24f), Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
                 }
             }

@@ -294,7 +294,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:BasicTint"].UseColor(new Color(255, 129, 153));
             GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
-            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0f);
+            Main.EntitySpriteDraw(sword, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, 0f, 0);
             Main.spriteBatch.ExitShaderRegion();
 
             return false;

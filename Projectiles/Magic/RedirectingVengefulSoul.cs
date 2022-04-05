@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 drawPosition = Projectile.oldPos[j] + Projectile.Size * 0.5f + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 1.5f - Main.screenPosition;
                     float rotation = Projectile.oldRot[j];
 
-                    Main.EntitySpriteDraw(texture, drawPosition, frame, drawColor, rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(texture, drawPosition, frame, drawColor, rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
                 }
             }
 

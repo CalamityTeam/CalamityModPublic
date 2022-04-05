@@ -32,10 +32,10 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.Center = Owner.Center;
             BossRushEvent.SyncEndTimer((int)Time);
 
-            float currentShakePower = MathHelper.Lerp(1f, 20f, Utils.InverseLerp(140f, 180f, Time, true) * Utils.InverseLerp(10f, 40f, Projectile.timeLeft, true));
+            float currentShakePower = MathHelper.Lerp(1f, 20f, Utils.GetLerpValue(140f, 180f, Time, true) * Utils.GetLerpValue(10f, 40f, Projectile.timeLeft, true));
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
 
-            MoonlordDeathDrama.RequestLight(Utils.InverseLerp(220f, 265f, Time, true) * Utils.InverseLerp(10f, 30f, Projectile.timeLeft, true), Main.LocalPlayer.Center);
+            MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(220f, 265f, Time, true) * Utils.GetLerpValue(10f, 30f, Projectile.timeLeft, true), Main.LocalPlayer.Center);
 
             Time++;
         }

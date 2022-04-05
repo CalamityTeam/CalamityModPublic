@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                              new Vector2(symbol.Width / 2, symbol.Height / 2),
                              Projectile.scale,
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(ring,
                              Projectile.Center - Main.screenPosition,
                              null,
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                              new Vector2(ring.Width / 2, ring.Height / 2),
                              Projectile.ai[1],
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                             0f);
+                             0);
             return false;
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.OldDuke;
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Boss
                                  texture.Size() * 0.5f,
                                  scale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             return false;
         }

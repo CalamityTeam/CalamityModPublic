@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.Cryogen;
+﻿using CalamityMod.NPCs.Cryogen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -124,9 +124,9 @@ namespace CalamityMod.Skies
                     auroraColor *= MathHelper.Lerp(0.3f, 1f, auroraStrength);
 
                     if (FadeInCountdown > 0f)
-                        auroraColor *= Utils.InverseLerp(45f, 0f, FadeInCountdown);
+                        auroraColor *= Utils.GetLerpValue(45f, 0f, FadeInCountdown);
                     if (FadeoutTimer > 0f)
-                        auroraColor *= Utils.InverseLerp(0f, 45f, FadeoutTimer);
+                        auroraColor *= Utils.GetLerpValue(0f, 45f, FadeoutTimer);
                     if (Main.dayTime)
                         auroraColor *= 0.4f;
 

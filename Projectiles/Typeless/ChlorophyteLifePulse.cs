@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.VanillaProjectileOverrides;
+﻿using CalamityMod.Projectiles.VanillaProjectileOverrides;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 4f;
                 Vector2 drawPosition = Projectile.Center - Main.screenPosition + drawOffset;
-                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, 0f, texture.Size() * 0.5f, Projectile.scale, 0, 0f);
+                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, 0f, texture.Size() * 0.5f, Projectile.scale, 0, 0);
             }
             return false;
         }

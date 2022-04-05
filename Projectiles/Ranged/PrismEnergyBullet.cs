@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.timeLeft == 300)
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
-            CurrentLaserLength = (int)MathHelper.Lerp(1f, 70f, Utils.InverseLerp(0f, 15f, Time, true) * Utils.InverseLerp(0f, 15f, Projectile.timeLeft, true));
+            CurrentLaserLength = (int)MathHelper.Lerp(1f, 70f, Utils.GetLerpValue(0f, 15f, Time, true) * Utils.GetLerpValue(0f, 15f, Projectile.timeLeft, true));
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Time++;
         }

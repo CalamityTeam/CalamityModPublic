@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Ranged
                              beginFrame.Size() / 2f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength;
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Ranged
                                      middleFrame.Width * 0.5f * Vector2.UnitX,
                                      Projectile.scale,
                                      SpriteEffects.None,
-                                     0f);
+                                     0);
                     incrementalBodyLength += laserOffset;
                     centerOnLaser += Projectile.velocity * laserOffset;
                 }
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Ranged
                              endFrame.Size() * new Vector2(0.5f, 0f),
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
     }

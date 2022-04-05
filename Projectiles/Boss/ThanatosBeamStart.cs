@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Boss
                              LaserBeginTexture.Size() / 2f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
 
             // Prepare things for body drawing.
             float laserBodyLength = LaserLength + middleFrameArea.Height;
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Boss
                                      LaserMiddleTexture.Size() * 0.5f,
                                      Projectile.scale,
                                      SpriteEffects.None,
-                                     0f);
+                                     0);
                     incrementalBodyLength += laserOffset;
                     centerOnLaser += Projectile.velocity * laserOffset;
                     middleFrameArea.Y += LaserMiddleTexture.Height / Main.projFrames[Projectile.type];
@@ -231,7 +231,7 @@ namespace CalamityMod.Projectiles.Boss
                              LaserEndTexture.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
 

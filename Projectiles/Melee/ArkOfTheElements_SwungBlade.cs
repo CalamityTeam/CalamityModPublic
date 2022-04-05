@@ -379,13 +379,13 @@ namespace CalamityMod.Projectiles.Melee
                     float afterimageRotation = Projectile.oldRot[i] + angleShift + extraAngle;
                     float afterimageBackRotation = afterimageRotation + (backScissorRotation - drawRotation);
 
-                    Main.EntitySpriteDraw(backBladeGlow, backScissorDrawPosition, null, color * 0.15f, afterimageBackRotation, backScissorOrigin, Projectile.scale - 0.2f * ((i / (float)Projectile.oldRot.Length)), flip, 0f);
-                    Main.EntitySpriteDraw(frontBladeGlow, drawOffset, null, color * 0.15f, afterimageRotation, drawOrigin, Projectile.scale - 0.2f * ((i / (float)Projectile.oldRot.Length)), flip, 0f);
+                    Main.EntitySpriteDraw(backBladeGlow, backScissorDrawPosition, null, color * 0.15f, afterimageBackRotation, backScissorOrigin, Projectile.scale - 0.2f * ((i / (float)Projectile.oldRot.Length)), flip, 0);
+                    Main.EntitySpriteDraw(frontBladeGlow, drawOffset, null, color * 0.15f, afterimageRotation, drawOrigin, Projectile.scale - 0.2f * ((i / (float)Projectile.oldRot.Length)), flip, 0);
                 }
             }
 
             Main.EntitySpriteDraw(backBlade, backScissorDrawPosition, null, lightColor, backScissorRotation, backScissorOrigin, Projectile.scale, flip, 0);
-            Main.EntitySpriteDraw(backBladeGlow, backScissorDrawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), backScissorRotation, backScissorOrigin, Projectile.scale, flip, 0f);
+            Main.EntitySpriteDraw(backBladeGlow, backScissorDrawPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), backScissorRotation, backScissorOrigin, Projectile.scale, flip, 0);
 
             Main.EntitySpriteDraw(frontBlade, drawOffset, null, lightColor, drawRotation, drawOrigin, Projectile.scale, flip, 0);
             Main.EntitySpriteDraw(frontBladeGlow, drawOffset, null, Color.Lerp(lightColor, Color.White, 0.75f), drawRotation, drawOrigin, Projectile.scale, flip, 0);

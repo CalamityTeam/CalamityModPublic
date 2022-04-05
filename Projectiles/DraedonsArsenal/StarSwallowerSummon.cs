@@ -299,7 +299,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                             0f);
+                             0);
             return false;
         }
 

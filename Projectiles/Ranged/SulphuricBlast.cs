@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.frame = Projectile.frameCounter / 4 % Main.projFrames[Projectile.type];
 
             Projectile.StickyProjAI(8);
-            Projectile.Opacity = Utils.InverseLerp(CalamityUtils.SecondsToFrames(TotalSecondsToStick), CalamityUtils.SecondsToFrames(TotalSecondsToStick * 0.5f), Projectile.localAI[0], true);
+            Projectile.Opacity = Utils.GetLerpValue(CalamityUtils.SecondsToFrames(TotalSecondsToStick), CalamityUtils.SecondsToFrames(TotalSecondsToStick * 0.5f), Projectile.localAI[0], true);
 
             // Emit sulpuric gas.
             if (Main.netMode != NetmodeID.Server && Projectile.FinalExtraUpdate() && Projectile.velocity.Length() > 3f)

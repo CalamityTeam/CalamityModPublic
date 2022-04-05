@@ -301,7 +301,7 @@ namespace CalamityMod.Projectiles.Magic
                 jawPosition += Vector2.UnitX.RotatedBy(Projectile.rotation + JawRotation * i) * i * (jawBaseOffset + (float)Math.Sin(JawRotation) * 24f);
                 jawPosition -= Vector2.UnitY.RotatedBy(Projectile.rotation) * (38f + (float)Math.Sin(JawRotation) * 30f);
 
-                Main.EntitySpriteDraw(jawTexture, jawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation + JawRotation * i, jawOrigin, Projectile.scale, jawSpriteEffect, 0f);
+                Main.EntitySpriteDraw(jawTexture, jawPosition, null, baseColor * Projectile.Opacity, Projectile.rotation + JawRotation * i, jawOrigin, Projectile.scale, jawSpriteEffect, 0);
             }
 
             // Portal drawing at the start of the devourer's lifetime.

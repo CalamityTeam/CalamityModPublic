@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -44,11 +44,11 @@ namespace CalamityMod.Projectiles.Typeless
             UpdatePlayerFields();
             if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
             {
-                float lifetime = Utils.InverseLerp(0f, 30f, Time, true);
+                float lifetime = Utils.GetLerpValue(0f, 30f, Time, true);
                 if (Time % 5f == 4f)
                     BossRushEvent.SyncStartTimer((int)MathHelper.Lerp(0f, BossRushEvent.StartEffectTotalTime, 1f - lifetime));
 
-                MoonlordDeathDrama.RequestLight(Utils.InverseLerp(0f, 15f, Time, true), Main.LocalPlayer.Center);
+                MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(0f, 15f, Time, true), Main.LocalPlayer.Center);
                 if (Time >= 45f)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, Main.LocalPlayer.Center);
@@ -70,8 +70,8 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             CreateIdleMagicDust();
-            float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.InverseLerp(Lifetime * 0.725f, Lifetime, Time, true));
-            currentShakePower *= 1f - Utils.InverseLerp(1000f, 3100f, Main.LocalPlayer.Distance(Projectile.Center), true);
+            float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.GetLerpValue(Lifetime * 0.725f, Lifetime, Time, true));
+            currentShakePower *= 1f - Utils.GetLerpValue(1000f, 3100f, Main.LocalPlayer.Distance(Projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
         }
 
@@ -142,21 +142,21 @@ namespace CalamityMod.Projectiles.Typeless
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 baseDrawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
-            Color baseColor = Color.Lerp(Projectile.GetAlpha(lightColor), Color.White, Utils.InverseLerp(40f, 120f, Time, true));
+            Color baseColor = Color.Lerp(Projectile.GetAlpha(lightColor), Color.White, Utils.GetLerpValue(40f, 120f, Time, true));
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (Time >= 150f)
             {
-                float outwardness = MathHelper.SmoothStep(1f, 15f, Utils.InverseLerp(150f, Lifetime - 30f, Time, true));
-                Color afterimageColor = Color.Lerp(baseColor, Color.LightCoral, Utils.InverseLerp(150f, 195f, Time, true)) * 0.225f;
+                float outwardness = MathHelper.SmoothStep(1f, 15f, Utils.GetLerpValue(150f, Lifetime - 30f, Time, true));
+                Color afterimageColor = Color.Lerp(baseColor, Color.LightCoral, Utils.GetLerpValue(150f, 195f, Time, true)) * 0.225f;
                 afterimageColor.A = 0;
 
                 for (int i = 0; i < 10; i++)
                 {
                     Vector2 drawOffset = (MathHelper.TwoPi * i / 10f + Main.GlobalTimeWrappedHourly * 4.4f).ToRotationVector2() * outwardness;
-                    Main.EntitySpriteDraw(texture, baseDrawPosition + drawOffset, null, afterimageColor, 0f, origin, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(texture, baseDrawPosition + drawOffset, null, afterimageColor, 0f, origin, Projectile.scale, direction, 0);
                 }
             }
-            Main.EntitySpriteDraw(texture, baseDrawPosition, null, baseColor, 0f, origin, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, baseDrawPosition, null, baseColor, 0f, origin, Projectile.scale, direction, 0);
 
             return false;
         }

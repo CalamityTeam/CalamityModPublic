@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.scale = CalamityUtils.Convert01To010(Projectile.timeLeft / (float)Lifetime);
             Projectile.Opacity = (float)Math.Sqrt(Projectile.scale);
             Projectile.velocity *= 0.8f;
-            Projectile.frame = (int)(Utils.InverseLerp(Lifetime, 0f, Projectile.timeLeft, true) * Main.projFrames[Projectile.type]);
+            Projectile.frame = (int)(Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft, true) * Main.projFrames[Projectile.type]);
         }
 
         public override void Kill(int timeLeft)

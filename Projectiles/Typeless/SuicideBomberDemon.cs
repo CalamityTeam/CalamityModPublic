@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.velocity = Projectile.velocity.MoveTowards(Vector2.Zero, 0.4f) * 0.95f;
 
                 // Handle frames.
-                Projectile.frame = (int)Math.Round(MathHelper.Lerp(5f, 10f, Utils.InverseLerp(45f, 90f, Time, true)));
+                Projectile.frame = (int)Math.Round(MathHelper.Lerp(5f, 10f, Utils.GetLerpValue(45f, 90f, Time, true)));
 
                 // And look at the target.
                 float idealAngle = target is null ? 0f : Projectile.AngleTo(target.Center);
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public Color FlameTrailColorFunction(float completionRatio)
         {
-            float trailOpacity = Utils.InverseLerp(0.8f, 0.27f, completionRatio, true) * Utils.InverseLerp(0f, 0.067f, completionRatio, true);
+            float trailOpacity = Utils.GetLerpValue(0.8f, 0.27f, completionRatio, true) * Utils.GetLerpValue(0f, 0.067f, completionRatio, true);
             Color startingColor = Color.Lerp(Color.Cyan, Color.White, 0.4f);
             Color middleColor = Color.Lerp(Color.Orange, Color.Yellow, 0.3f);
             Color endColor = Color.Lerp(Color.Orange, Color.Red, 0.67f);
@@ -245,20 +245,20 @@ namespace CalamityMod.Projectiles.Typeless
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             // Draw the base sprite and glowmask.
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
-            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
+            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
 
             // Draw the flame trail and flame orb once ready.
             if (Time >= 90f)
             {
-                float flameOrbGlowIntensity = Utils.InverseLerp(90f, 98f, Time, true);
+                float flameOrbGlowIntensity = Utils.GetLerpValue(90f, 98f, Time, true);
                 for (int i = 0; i < 12; i++)
                 {
                     Color flameOrbColor = Color.LightCyan * flameOrbGlowIntensity * 0.125f;
                     flameOrbColor.A = 0;
                     Vector2 flameOrbDrawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 2f).ToRotationVector2();
                     flameOrbDrawOffset *= flameOrbGlowIntensity * 3f;
-                    Main.EntitySpriteDraw(orbTexture, drawPosition + flameOrbDrawOffset, frame, Projectile.GetAlpha(flameOrbColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0f);
+                    Main.EntitySpriteDraw(orbTexture, drawPosition + flameOrbDrawOffset, frame, Projectile.GetAlpha(flameOrbColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, direction, 0);
                 }
 
                 Vector2 trailOffset = Projectile.Size * 0.5f;

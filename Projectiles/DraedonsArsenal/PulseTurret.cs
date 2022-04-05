@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                             0f);
+                             0);
             Main.EntitySpriteDraw(standTexture,
                              Projectile.Center - Main.screenPosition,
                              null,
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              standTexture.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
 

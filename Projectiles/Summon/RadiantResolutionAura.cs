@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Summon
                 currentTexture.Size() / 2f,
                 1f,
                 SpriteEffects.None,
-                0f);
+                0);
         }
     }
 }

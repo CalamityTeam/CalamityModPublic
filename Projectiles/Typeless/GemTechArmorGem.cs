@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (potentialTarget != null && Projectile.penetrate >= Projectile.maxPenetrate)
             {
                 float distanceFromTarget = Projectile.Distance(potentialTarget.Center);
-                float moveInterpolant = Utils.InverseLerp(0f, 100f, distanceFromTarget, true) * Utils.InverseLerp(600f, 400f, distanceFromTarget, true);
+                float moveInterpolant = Utils.GetLerpValue(0f, 100f, distanceFromTarget, true) * Utils.GetLerpValue(600f, 400f, distanceFromTarget, true);
                 Vector2 targetCenterOffsetVec = potentialTarget.Center - Projectile.Center;
                 float movementSpeed = MathHelper.Min(37.5f, targetCenterOffsetVec.Length());
                 Vector2 idealVelocity = targetCenterOffsetVec.SafeNormalize(Vector2.Zero) * movementSpeed;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public Color TrailColor(float completionRatio)
         {
-            float trailOpacity = Utils.InverseLerp(0f, 0.067f, completionRatio, true) * Utils.InverseLerp(0.7f, 0.58f, completionRatio, true);
+            float trailOpacity = Utils.GetLerpValue(0f, 0.067f, completionRatio, true) * Utils.GetLerpValue(0.7f, 0.58f, completionRatio, true);
             Color startingColor = Color.Lerp(Color.White, GemColor, 0.47f);
             Color middleColor = GemColor;
             Color endColor = Color.Transparent;

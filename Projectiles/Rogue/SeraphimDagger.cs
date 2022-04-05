@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -41,12 +41,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Handle fade effects.
-            Projectile.Opacity = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(0f, 8f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 8f, Time, true) * Utils.GetLerpValue(0f, 8f, Projectile.timeLeft, true);
 
             // Very rapidly slow down and spin.
             if (Time <= SlowdownTime)
             {
-                float angularVelocityInterpolant = (float)Math.Pow(1f - Utils.InverseLerp(0f, SlowdownTime, Time, true), 2D);
+                float angularVelocityInterpolant = (float)Math.Pow(1f - Utils.GetLerpValue(0f, SlowdownTime, Time, true), 2D);
                 float angularVelocity = angularVelocityInterpolant * MathHelper.Pi / 6f;
                 Projectile.rotation += angularVelocity;
                 Projectile.velocity *= 0.95f;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 baseDrawPosition = Projectile.Center - Main.screenPosition;
 
-            float endFade = Utils.InverseLerp(0f, 12f, Projectile.timeLeft, true);
+            float endFade = Utils.GetLerpValue(0f, 12f, Projectile.timeLeft, true);
             Color mainColor = Color.Goldenrod * Projectile.Opacity * endFade * 1.5f;
             mainColor.A = 74;
             Color afterimageLightColor = Color.White * endFade;

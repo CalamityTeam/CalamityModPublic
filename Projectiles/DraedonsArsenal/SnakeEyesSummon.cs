@@ -267,7 +267,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              eyeTexture.Size() * 0.5f,
                              1f,
                              SpriteEffects.None,
-                             0f);
+                             0);
             return false;
         }
     }

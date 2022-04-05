@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
                 // At 5% out, a speed of 5 pixels/second is achieved. At 85%, a speed of 15 pixels/second is.
                 // Direction is determined based on the outward direction rotated by anywhere from -90 to 90 degrees.
                 Vector2 dustVelocity = dustSpawnOffset.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.PiOver2 * Main.rand.NextFloatDirection());
-                dustVelocity *= MathHelper.Lerp(5f, 15f, Utils.InverseLerp(0.05f, 0.85f, (dustSpawnOffset / Projectile.Size / 0.5f).Length()));
+                dustVelocity *= MathHelper.Lerp(5f, 15f, Utils.GetLerpValue(0.05f, 0.85f, (dustSpawnOffset / Projectile.Size / 0.5f).Length()));
 
                 // Fire variants.
                 int dustType = 6;
