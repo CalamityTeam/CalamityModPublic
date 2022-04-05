@@ -1,7 +1,8 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
@@ -52,7 +53,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7).AddIngredient(ModContent.ItemType<DubiousPlating>(), 5).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 5).
+                AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).
+                AddIngredient(ModContent.ItemType<SeaPrism>(), 7).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

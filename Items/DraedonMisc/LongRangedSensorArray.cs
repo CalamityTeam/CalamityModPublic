@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using CalamityMod.TileEntities;
 using CalamityMod.CustomRecipes;
 using System.Collections.Generic;
+using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.DraedonMisc
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placeTileCoords.X, placeTileCoords.Y);
             float checkDistance = ((Player.tileRangeX + Player.tileRangeY) / 2f + player.blockRange) * 16f;
 
-            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>())
+            if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsSensorArray)
@@ -55,7 +56,14 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddRecipeGroup("AnyMythrilBar", 10).AddIngredient(ItemID.Wire, 50).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddIngredient(ItemID.Wire, 50).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

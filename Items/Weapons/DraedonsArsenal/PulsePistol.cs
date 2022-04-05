@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -59,7 +60,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5).AddIngredient(ModContent.ItemType<DubiousPlating>(), 7).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 7).
+                AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).
+                AddIngredient(ModContent.ItemType<SeaPrism>(), 7).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

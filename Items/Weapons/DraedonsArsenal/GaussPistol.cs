@@ -1,7 +1,9 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GaussWeaponFire");
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -49,7 +51,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).AddRecipeGroup("AnyMythrilBar", 10).AddIngredient(ItemID.SoulofMight, 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddIngredient(ItemID.SoulofMight, 20).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

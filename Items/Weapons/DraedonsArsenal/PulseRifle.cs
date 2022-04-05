@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -72,7 +73,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).AddIngredient(ModContent.ItemType<DubiousPlating>(), 20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 20).
+                AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).
+                AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

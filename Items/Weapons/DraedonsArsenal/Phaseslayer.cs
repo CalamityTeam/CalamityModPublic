@@ -1,10 +1,12 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -63,10 +65,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && Item.Calamity().Charge > 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile blade = Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            Projectile blade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
             blade.rotation = blade.AngleTo(Main.MouseWorld);
+            blade.netUpdate = true;
             return false;
         }
 
@@ -74,7 +77,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 25).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 25).
+                AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).
+                AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

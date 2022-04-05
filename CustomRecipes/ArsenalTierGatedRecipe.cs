@@ -1,55 +1,28 @@
-﻿using CalamityMod.World;
-using Terraria.ModLoader;
+﻿using System;
+using Terraria;
+using Terraria.Localization;
 
 namespace CalamityMod.CustomRecipes
 {
-    public class ArsenalTierGatedRecipe : ModRecipe
+    public static class ArsenalTierGatedRecipe
     {
-        public int Tier;
-        public bool AllowedInOldWorlds;
-        public ArsenalTierGatedRecipe(Mod mod, int tier, bool allowedInOldWorlds = false) : base(mod)
+        public static NetworkText ConstructRecipeCondition(int tier, out Predicate<Recipe> condition)
         {
-            Tier = tier;
-            AllowedInOldWorlds = allowedInOldWorlds;
+            condition = r => HasTierBeenLearned(tier);
+            return NetworkText.FromKey($"Mods.Calamity.Tier{tier}ArsenalRecipeCondition");
         }
 
         public static bool HasTierBeenLearned(int tier)
         {
-            switch (tier)
+            return tier switch
             {
-                case 1:
-                    return RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes;
-                case 2:
-                    return RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes;
-                case 3:
-                    return RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes;
-                case 4:
-                    return RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes;
-                case 5:
-                    return RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes;
-            }
-            return false;
-        }
-
-        public override bool RecipeAvailable()
-        {
-            if (AllowedInOldWorlds && !CalamityWorld.IsWorldAfterDraedonUpdate)
-                return true;
-
-            switch (Tier)
-            {
-                case 1:
-                    return RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes;
-                case 2:
-                    return RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes;
-                case 3:
-                    return RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes;
-                case 4:
-                    return RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes;
-                case 5:
-                    return RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes;
-            }
-            return false;
+                1 => RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes,
+                2 => RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes,
+                3 => RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes,
+                4 => RecipeUnlockHandler.HasUnlockedT4ArsenalRecipes,
+                5 => RecipeUnlockHandler.HasUnlockedT5ArsenalRecipes,
+                _ => false,
+            };
         }
     }
 }

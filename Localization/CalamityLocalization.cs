@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace CalamityMod.Localization
 {
@@ -201,7 +201,13 @@ namespace CalamityMod.Localization
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
                 new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
 
-                new [] { "DefenseDamage", "Defense Damage" }
+                new [] { "DefenseDamage", "Defense Damage" },
+
+                new [] { "Tier1ArsenalRecipeCondition", "View an unencrypted schematic from the lab near the Sunken Sea" },
+                new [] { "Tier2ArsenalRecipeCondition", "Decrypt a schematic from the lab in the large planetoid in the sky" },
+                new [] { "Tier3ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the jungle" },
+                new [] { "Tier4ArsenalRecipeCondition", "Decrypt a schematic from the lab near the edges of the underworld" },
+                new [] { "Tier5ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the frozen caverns" },
             };
         }
 

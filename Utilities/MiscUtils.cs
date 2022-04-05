@@ -37,7 +37,7 @@ namespace CalamityMod
         /// <param name="path">The path to the sound file.</param>
         public static TerrariaAudio.CustomSoundStyle GetTrackableSound(string path)
         {
-            return new TerrariaAudio.CustomSoundStyle(ModContent.Request<SoundEffect>(path, AssetRequestMode.ImmediateLoad), TerrariaAudio.SoundType.Sound);
+            return new TerrariaAudio.CustomSoundStyle(ModContent.Request<SoundEffect>(path, AssetRequestMode.ImmediateLoad).Value, TerrariaAudio.SoundType.Sound);
         }
 
         public static void DisplayLocalizedText(string key, Color? textColor = null)
