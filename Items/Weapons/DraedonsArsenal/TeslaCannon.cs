@@ -1,10 +1,11 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 30;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire");
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
@@ -51,9 +52,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerUse = 0.9f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
             if (velocity.Length() > 5f)
             {
                 velocity.Normalize();
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             float SpeedX = velocity.X + (float)Main.rand.Next(-1, 2) * 0.02f;
             float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.02f;
 
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<TeslaCannonShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), ModContent.ProjectileType<TeslaCannonShot>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

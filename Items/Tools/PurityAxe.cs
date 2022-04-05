@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,10 +37,10 @@ namespace CalamityMod.Items.Tools
             Item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int powderDamage = (int)(0.85f * damage);
-            int idx = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, powderDamage, knockBack, player.whoAmI, 0f, 0f);
+            int idx = Projectile.NewProjectile(source, position, velocity, type, powderDamage, knockback, player.whoAmI, 0f, 0f);
             Main.projectile[idx].DamageType = DamageClass.Melee;
             return false;
         }
