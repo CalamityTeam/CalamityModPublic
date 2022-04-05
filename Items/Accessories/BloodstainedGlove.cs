@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodSample>(), 5).AddIngredient(ItemID.Vertebrae, 4).AddIngredient(ItemID.CrimtaneBar, 4).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe()
+                .AddIngredient<BloodSample>(5)
+                .AddIngredient(ItemID.Vertebrae, 4)
+                .AddIngredient(ItemID.CrimtaneBar, 4)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -70,7 +70,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TheAbsorber>()).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<TheAbsorber>()
+                .AddIngredient<MysteriousCircuitry>(10)
+                .AddIngredient<DubiousPlating>(20)
+                .AddIngredient<CosmiliteBar>(5)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

@@ -56,7 +56,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RogueEmblem>()).AddIngredient(ModContent.ItemType<RaidersTalisman>()).AddIngredient(ModContent.ItemType<MoonstoneCrown>()).AddIngredient(ModContent.ItemType<ElectriciansGlove>()).AddIngredient(ItemID.LunarBar, 8).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<RogueEmblem>()
+                .AddIngredient<RaidersTalisman>()
+                .AddIngredient<MoonstoneCrown>()
+                .AddIngredient<ElectriciansGlove>()
+                .AddIngredient(ItemID.LunarBar, 8)
+                .AddIngredient<GalacticaSingularity>(4)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

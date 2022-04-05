@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ViciousPowder, 15).AddIngredient(ItemID.Vertebrae, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ViciousPowder, 15)
+                .AddIngredient(ItemID.Vertebrae, 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
@@ -44,7 +44,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5).AddIngredient(ItemID.CrystalShard, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<VerstaltiteBar>(5)
+                .AddIngredient(ItemID.CrystalShard, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

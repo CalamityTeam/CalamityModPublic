@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -96,7 +96,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemType<WifeinaBottle>()).AddIngredient(ItemType<WifeinaBottlewithBoobs>()).AddIngredient(ItemType<LureofEnthrallment>()).AddIngredient(ItemType<EyeoftheStorm>()).AddIngredient(ItemType<RoseStone>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<WifeinaBottle>()
+                .AddIngredient<WifeinaBottlewithBoobs>()
+                .AddIngredient<LureofEnthrallment>()
+                .AddIngredient<EyeoftheStorm>()
+                .AddIngredient<RoseStone>()
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

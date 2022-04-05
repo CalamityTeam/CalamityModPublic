@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +31,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Diamond, 5).AddIngredient(ItemID.IronBar, 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Diamond, 5)
+                .AddIngredient(ItemID.IronBar, 15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

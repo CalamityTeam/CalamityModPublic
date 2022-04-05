@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PaladinsShield).AddIngredient(ItemID.FrozenTurtleShell).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<CoreofEleum>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.PaladinsShield)
+                .AddIngredient(ItemID.FrozenTurtleShell)
+                .AddIngredient<MolluskHusk>(5)
+                .AddIngredient<CoreofEleum>(5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

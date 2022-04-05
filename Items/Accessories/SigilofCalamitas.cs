@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -36,7 +36,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CelestialEmblem).AddRecipeGroup("AnyEvilWater", 10).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 5).AddIngredient(ModContent.ItemType<CruptixBar>(), 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.CelestialEmblem)
+                .AddRecipeGroup("AnyEvilWater", 10)
+                .AddIngredient<CalamityDust>(5)
+                .AddIngredient<CoreofChaos>(5)
+                .AddIngredient<CruptixBar>(2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

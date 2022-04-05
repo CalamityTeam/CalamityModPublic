@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
@@ -36,7 +36,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25).AddIngredient(ModContent.ItemType<Elumplate>(), 25).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe()
+                .AddIngredient<ExodiumClusterOre>(25)
+                .AddIngredient<Elumplate>(25)
+                .AddIngredient<CosmiliteBar>(5)
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

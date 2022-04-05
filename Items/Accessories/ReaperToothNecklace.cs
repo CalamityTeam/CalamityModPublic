@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SandSharkToothNecklace>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 6).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe()
+                .AddIngredient<SandSharkToothNecklace>()
+                .AddIngredient<ReaperTooth>(6)
+                .AddIngredient<Lumenite>(15)
+                .AddIngredient<DepthCells>(15)
+                .AddIngredient<Tenebris>(5)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

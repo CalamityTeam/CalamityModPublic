@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +33,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyEvilBar", 8).AddIngredient(ItemID.Silk, 10).AddRecipeGroup("Boss2Material", 3).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnyEvilBar", 8)
+                .AddIngredient(ItemID.Silk, 10)
+                .AddRecipeGroup("Boss2Material", 3)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
         }
     }
 }

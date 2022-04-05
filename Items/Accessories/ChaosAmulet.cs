@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +29,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GoldDust, 7).AddIngredient(ItemID.SpelunkerPotion, 7).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.GoldDust, 7)
+                .AddIngredient(ItemID.SpelunkerPotion, 7)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -43,7 +43,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrigidBulwark>()).AddIngredient(ModContent.ItemType<DeificAmulet>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<FrigidBulwark>()
+                .AddIngredient<DeificAmulet>()
+                .AddIngredient<GalacticaSingularity>(5)
+                .AddIngredient<DivineGeode>(10)
+                .AddIngredient<CosmiliteBar>(10)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RogueEmblem>()).AddIngredient(ModContent.ItemType<SolarVeil>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<RogueEmblem>()
+                .AddIngredient<SolarVeil>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

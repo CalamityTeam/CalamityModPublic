@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -36,8 +36,21 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CorruptFlask>()).AddIngredient(ModContent.ItemType<RadiantOoze>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrimsonFlask>()).AddIngredient(ModContent.ItemType<RadiantOoze>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<CorruptFlask>()
+                .AddIngredient<RadiantOoze>()
+                .AddIngredient<VerstaltiteBar>(5)
+                .AddIngredient<SeaPrism>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient<CrimsonFlask>()
+                .AddIngredient<RadiantOoze>()
+                .AddIngredient<VerstaltiteBar>(5)
+                .AddIngredient<SeaPrism>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

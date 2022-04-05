@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
@@ -32,7 +32,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FishingPotion).AddIngredient(ItemID.CratePotion, 8).AddRecipeGroup("Boss2Material", 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<VictideBar>(), 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.FishingPotion)
+                .AddIngredient(ItemID.CratePotion, 8)
+                .AddRecipeGroup("Boss2Material", 5)
+                .AddIngredient<SeaPrism>(10)
+                .AddIngredient<VictideBar>(3)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CharmofMyths).AddIngredient(ItemID.StarVeil).AddIngredient(ModContent.ItemType<AstralBar>(), 10).AddIngredient(ItemID.MeteoriteBar, 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.CharmofMyths)
+                .AddIngredient(ItemID.StarVeil)
+                .AddIngredient<AstralBar>(10)
+                .AddIngredient(ItemID.MeteoriteBar, 10)
+                .AddIngredient<SeaPrism>(15)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

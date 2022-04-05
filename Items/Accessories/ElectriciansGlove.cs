@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,8 +34,19 @@ Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal 
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FilthyGlove>()).AddIngredient(ItemID.Wire, 100).AddRecipeGroup("AnyMythrilBar", 5).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstainedGlove>()).AddIngredient(ItemID.Wire, 100).AddRecipeGroup("AnyMythrilBar", 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<FilthyGlove>()
+                .AddIngredient(ItemID.Wire, 100)
+                .AddRecipeGroup("AnyMythrilBar", 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient<BloodstainedGlove>()
+                .AddIngredient(ItemID.Wire, 100)
+                .AddRecipeGroup("AnyMythrilBar", 5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -49,7 +49,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CelestialJewel>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<CelestialJewel>()
+                .AddIngredient<DarkPlasma>(3)
+                .AddIngredient(ItemID.LunarBar, 5)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

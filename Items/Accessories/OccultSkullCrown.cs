@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -44,7 +44,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<HeartofDarkness>()).AddIngredient(ModContent.ItemType<Laudanum>()).AddIngredient(ModContent.ItemType<StressPills>()).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<HeartofDarkness>()
+                .AddIngredient<Laudanum>()
+                .AddIngredient<StressPills>()
+                .AddIngredient<NightmareFuel>(20)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

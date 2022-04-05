@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -44,7 +44,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SigilofCalamitas>()).AddIngredient(ItemID.ManaFlower).AddIngredient(ItemID.LunarBar, 8).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 4).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<SigilofCalamitas>()
+                .AddIngredient(ItemID.ManaFlower)
+                .AddIngredient(ItemID.LunarBar, 8)
+                .AddIngredient<GalacticaSingularity>(4)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

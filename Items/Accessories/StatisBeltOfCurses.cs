@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -44,7 +44,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StatisNinjaBelt>()).AddIngredient(ModContent.ItemType<TwistingNether>(), 10).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<StatisNinjaBelt>()
+                .AddIngredient<TwistingNether>(10)
+                .AddIngredient<NightmareFuel>(20)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

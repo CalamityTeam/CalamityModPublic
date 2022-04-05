@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -87,7 +87,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<InfinityBoots>()).AddIngredient(ModContent.ItemType<ElysianWings>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<InfinityBoots>()
+                .AddIngredient<ElysianWings>()
+                .AddIngredient<CosmiliteBar>(5)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

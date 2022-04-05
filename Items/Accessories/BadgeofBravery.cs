@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FeralClaws).AddIngredient(ModContent.ItemType<UeliaceBar>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.FeralClaws)
+                .AddIngredient<UeliaceBar>(2)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

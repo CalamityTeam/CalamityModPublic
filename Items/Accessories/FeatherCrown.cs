@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -40,8 +40,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GoldCrown).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Feather, 8).AddTile(TileID.SkyMill).Register();
-            CreateRecipe(1).AddIngredient(ItemID.PlatinumCrown).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Feather, 8).AddTile(TileID.SkyMill).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.GoldCrown)
+                .AddIngredient<AerialiteBar>(6)
+                .AddIngredient(ItemID.Feather, 8)
+                .AddTile(TileID.SkyMill)
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient(ItemID.PlatinumCrown)
+                .AddIngredient<AerialiteBar>(6)
+                .AddIngredient(ItemID.Feather, 8)
+                .AddTile(TileID.SkyMill)
+                .Register();
         }
     }
 

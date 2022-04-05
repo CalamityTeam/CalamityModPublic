@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ItemID.BeeWax, 5).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.BottledWater)
+                .AddIngredient(ItemID.BeeWax, 5)
+                .AddIngredient<PlagueCellCluster>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

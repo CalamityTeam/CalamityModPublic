@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CelestialStone).AddIngredient(ItemID.RangerEmblem).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.CelestialStone)
+                .AddIngredient(ItemID.RangerEmblem)
+                .AddIngredient<CoreofCalamity>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

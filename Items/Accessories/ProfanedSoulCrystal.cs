@@ -249,7 +249,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>()).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 25).AddIngredient(ModContent.ItemType<DivineGeode>(), 50).AddIngredient(ModContent.ItemType<UnholyEssence>(), 100).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<ProfanedBasin>()).Register();
+            CreateRecipe()
+                .AddIngredient<ProfanedSoulArtifact>()
+                .AddIngredient(ItemID.ObsidianRose)
+                .AddIngredient<CoreofCinder>(5)
+                .AddIngredient<UeliaceBar>(25)
+                .AddIngredient<DivineGeode>(50)
+                .AddIngredient<UnholyEssence>(100)
+                .AddIngredient<ShadowspecBar>(5)
+                .AddTile<ProfanedBasin>()
+                .Register();
         }
     }
 

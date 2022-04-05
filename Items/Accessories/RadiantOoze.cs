@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +29,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EbonianGel>(), 45).AddIngredient(ModContent.ItemType<PurifiedGel>(), 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<EbonianGel>(45)
+                .AddIngredient<PurifiedGel>(15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

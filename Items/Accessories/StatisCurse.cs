@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -39,7 +39,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StatisBlessing>()).AddIngredient(ModContent.ItemType<TheFirstShadowflame>()).AddIngredient(ItemID.FragmentStardust, 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<StatisBlessing>()
+                .AddIngredient<TheFirstShadowflame>()
+                .AddIngredient(ItemID.FragmentStardust, 10)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

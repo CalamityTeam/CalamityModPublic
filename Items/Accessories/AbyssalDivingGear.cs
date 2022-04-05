@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +53,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ArcticDivingGear).AddIngredient(ModContent.ItemType<DepthCharm>()).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ArcticDivingGear)
+                .AddIngredient<DepthCharm>()
+                .AddIngredient<DepthCells>(10)
+                .AddIngredient<Lumenite>(10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 

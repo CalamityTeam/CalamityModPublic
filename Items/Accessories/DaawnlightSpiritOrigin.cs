@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -85,7 +85,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DaedalusEmblem>()).AddIngredient(ModContent.ItemType<LeadCore>(), 3).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15).AddIngredient(ModContent.ItemType<DubiousPlating>(), 15).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<DaedalusEmblem>()
+                .AddIngredient<LeadCore>(3)
+                .AddIngredient<MysteriousCircuitry>(15)
+                .AddIngredient<DubiousPlating>(15)
+                .AddIngredient<AscendantSpiritEssence>(4)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

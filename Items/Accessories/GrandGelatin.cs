@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +39,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ManaJelly>()).AddIngredient(ModContent.ItemType<LifeJelly>()).AddIngredient(ModContent.ItemType<VitalJelly>()).AddIngredient(ItemID.SoulofLight, 2).AddIngredient(ItemID.SoulofNight, 2).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<ManaJelly>()
+                .AddIngredient<LifeJelly>()
+                .AddIngredient<VitalJelly>(
+                .AddIngredient(ItemID.SoulofLight, 2)
+                .AddIngredient(ItemID.SoulofNight, 2)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
