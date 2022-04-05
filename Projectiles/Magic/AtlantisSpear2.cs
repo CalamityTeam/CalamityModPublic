@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
-            aiType = ProjectileID.CrystalVileShardShaft;
+            AIType = ProjectileID.CrystalVileShardShaft;
         }
 
         public override void AI()

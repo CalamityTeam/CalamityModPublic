@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 1;
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 120;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            AIType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.scale = 0.8f;
             Projectile.extraUpdates = 3;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Stake;
+            AIType = ProjectileID.Stake;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 

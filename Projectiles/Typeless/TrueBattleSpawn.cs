@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.Calamitas;
+﻿using CalamityMod.NPCs.Calamitas;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = 1;
             Projectile.timeLeft = 20;
             Projectile.tileCollide = false;
-            aiType = ProjectileID.Bullet;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()

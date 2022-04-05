@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 300;
-            aiType = ProjectileID.Bananarang;
+            AIType = ProjectileID.Bananarang;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

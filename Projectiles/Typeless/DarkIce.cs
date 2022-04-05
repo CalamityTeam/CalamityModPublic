@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.width = 28;
             Projectile.height = 28;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+            AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;

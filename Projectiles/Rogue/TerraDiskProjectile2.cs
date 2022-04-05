@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 60;
-            aiType = ProjectileID.WoodenBoomerang;
+            AIType = ProjectileID.WoodenBoomerang;
             Projectile.Calamity().rogue = true;
         }
 

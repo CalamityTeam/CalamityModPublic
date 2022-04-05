@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
+            AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
         }

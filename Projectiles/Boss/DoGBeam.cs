@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 960;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void AI()

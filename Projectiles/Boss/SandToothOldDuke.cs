@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 450;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 

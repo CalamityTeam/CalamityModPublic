@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
-            aiType = ProjectileID.NettleBurstEnd;
+            AIType = ProjectileID.NettleBurstEnd;
         }
     }
 }

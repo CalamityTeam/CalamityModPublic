@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = 3;
             Projectile.alpha = 255;
             Projectile.aiStyle = 93;
-            aiType = ProjectileID.NailFriendly;
+            AIType = ProjectileID.NailFriendly;
         }
 
         public override void AI()

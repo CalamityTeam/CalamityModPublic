@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.Opacity = 0f;
             Projectile.timeLeft = 150;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void AI()

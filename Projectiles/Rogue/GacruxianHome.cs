@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 3;
             Projectile.timeLeft = 120;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.DeathSickle;
+            AIType = ProjectileID.DeathSickle;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
         }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = 2;
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 300;
-            aiType = ProjectileID.WoodenBoomerang;
+            AIType = ProjectileID.WoodenBoomerang;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

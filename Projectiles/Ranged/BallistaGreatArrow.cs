@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.arrow = true;
             Projectile.penetrate = 2;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            AIType = ProjectileID.WoodenArrowFriendly;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 

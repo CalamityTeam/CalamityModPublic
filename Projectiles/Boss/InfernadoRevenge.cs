@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 360000;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

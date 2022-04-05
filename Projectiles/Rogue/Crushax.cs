@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 14;
-            aiType = ProjectileID.ThrowingKnife;
+            AIType = ProjectileID.ThrowingKnife;
             Projectile.Calamity().rogue = true;
         }
 

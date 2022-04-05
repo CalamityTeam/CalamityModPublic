@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 1;
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 90;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            AIType = ProjectileID.WoodenArrowFriendly;
             Projectile.Calamity().rogue = true;
         }
 

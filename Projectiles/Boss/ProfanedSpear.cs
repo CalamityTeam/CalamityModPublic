@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 300;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 

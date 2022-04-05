@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.extraUpdates = 2;
             Projectile.aiStyle = 93;
-            aiType = ProjectileID.NailFriendly;
+            AIType = ProjectileID.NailFriendly;
         }
 
         public override void AI()

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 300;
-            aiType = ProjectileID.WoodenBoomerang;
+            AIType = ProjectileID.WoodenBoomerang;
             Projectile.Calamity().rogue = true;
         }
 

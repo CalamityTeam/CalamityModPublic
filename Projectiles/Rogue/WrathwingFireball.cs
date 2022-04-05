@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.DD2BetsyFireball;
+            AIType = ProjectileID.DD2BetsyFireball;
             Projectile.Calamity().rogue = true;
         }
 

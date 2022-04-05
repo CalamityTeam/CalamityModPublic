@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.height = 32;
             Projectile.friendly = true;
             Projectile.aiStyle = 26;
-            aiType = ProjectileID.Puppy;
+            AIType = ProjectileID.Puppy;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
         }

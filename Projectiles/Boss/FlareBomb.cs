@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.alpha = 50;
             Projectile.timeLeft = 180;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void AI()

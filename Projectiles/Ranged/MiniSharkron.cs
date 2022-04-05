@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.MiniSharkron;
+            AIType = ProjectileID.MiniSharkron;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;

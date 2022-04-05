@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.timeLeft = timeLeft;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }

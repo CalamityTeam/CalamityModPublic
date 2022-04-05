@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 113;
-            aiType = ProjectileID.BoneJavelin;
+            AIType = ProjectileID.BoneJavelin;
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 1200;

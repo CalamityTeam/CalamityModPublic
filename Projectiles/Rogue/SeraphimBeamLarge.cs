@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.Calamity().rogue = true;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

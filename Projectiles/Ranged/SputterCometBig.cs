@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()

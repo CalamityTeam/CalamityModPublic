@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.Calamity().rogue = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            aiType = ProjectileID.NettleBurstEnd;
+            AIType = ProjectileID.NettleBurstEnd;
         }
     }
 }

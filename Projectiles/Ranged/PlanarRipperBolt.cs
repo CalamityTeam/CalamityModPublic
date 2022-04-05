@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
+            AIType = ProjectileID.BulletHighVelocity;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 

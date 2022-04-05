@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 2;
             Projectile.alpha = 255;
             Projectile.timeLeft = 300;
-            aiType = ProjectileID.ThrowingKnife;
+            AIType = ProjectileID.ThrowingKnife;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Calamity().rogue = true;

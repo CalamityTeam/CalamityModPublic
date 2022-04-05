@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.scale = 1.1f;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.extraUpdates = 1;
-            aiType = ProjectileID.RainFriendly;
+            AIType = ProjectileID.RainFriendly;
         }
 
         public override void AI()

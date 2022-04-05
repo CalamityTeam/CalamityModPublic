@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 300;
-            aiType = ProjectileID.Bananarang;
+            AIType = ProjectileID.Bananarang;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

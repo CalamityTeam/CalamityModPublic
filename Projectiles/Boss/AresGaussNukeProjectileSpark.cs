@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.Opacity = 0f;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.penetrate = -1;
             Projectile.timeLeft = timeLeft;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.alpha = 255;
             Projectile.extraUpdates = 3;
             Projectile.aiStyle = 93;
-            aiType = ProjectileID.NailFriendly;
+            AIType = ProjectileID.NailFriendly;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 1;
             Projectile.Calamity().rogue = true;

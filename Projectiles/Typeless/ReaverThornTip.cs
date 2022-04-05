@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
-            aiType = ProjectileID.VilethornTip;
+            AIType = ProjectileID.VilethornTip;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }

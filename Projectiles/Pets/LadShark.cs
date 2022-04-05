@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
             Projectile.aiStyle = 26;
-            aiType = ProjectileID.BabySkeletronHead;
+            AIType = ProjectileID.BabySkeletronHead;
         }
 
         public override void AI()

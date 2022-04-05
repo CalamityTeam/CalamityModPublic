@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.timeLeft = 180;
             Projectile.light = 0.15f;
             Projectile.extraUpdates = 1;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            AIType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);

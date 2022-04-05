@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
             Projectile.Calamity().canBreakPlayerDefense = true;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

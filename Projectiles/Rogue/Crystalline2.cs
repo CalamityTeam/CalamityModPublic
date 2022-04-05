@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 1;
             //projectile.aiStyle = 113;
             Projectile.timeLeft = 30;
-            //aiType = ProjectileID.BoneJavelin;
+            //AIType = ProjectileID.BoneJavelin;
             Projectile.Calamity().rogue = true;
         }
 

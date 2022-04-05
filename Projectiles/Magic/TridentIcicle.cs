@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+            AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.coldDamage = true;
             Projectile.DamageType = DamageClass.Magic;

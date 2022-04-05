@@ -31,8 +31,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 120;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.DD2BetsyFireball;
-            cooldownSlot = 1;
+            AIType = ProjectileID.DD2BetsyFireball;
+            CooldownSlot = 1;
         }
 
         public override void AI()

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;
             Projectile.Calamity().canBreakPlayerDefense = true;

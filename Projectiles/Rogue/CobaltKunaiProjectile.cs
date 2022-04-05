@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 3;
             Projectile.aiStyle = 2;
             Projectile.timeLeft = 600;
-            aiType = ProjectileID.ThrowingKnife;
+            AIType = ProjectileID.ThrowingKnife;
             Projectile.Calamity().rogue = true;
         }
 

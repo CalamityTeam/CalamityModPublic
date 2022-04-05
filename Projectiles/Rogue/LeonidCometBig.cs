@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.Calamity().rogue = true;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
-            aiType = ProjectileID.Meteor1;
+            AIType = ProjectileID.Meteor1;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

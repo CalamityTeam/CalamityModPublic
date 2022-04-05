@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
-            aiType = ProjectileID.CrystalVileShardHead;
+            AIType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()

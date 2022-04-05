@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 26;
             Projectile.friendly = true;
             Projectile.aiStyle = 113;
-            aiType = ProjectileID.BoneJavelin;
+            AIType = ProjectileID.BoneJavelin;
             Projectile.penetrate = 3;
             Projectile.Calamity().rogue = true;
         }

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.Calamity().rogue = true;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
+            AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;

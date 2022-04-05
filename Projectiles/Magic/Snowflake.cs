@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Magic;
-            aiType = ProjectileID.FlyingKnife;
+            AIType = ProjectileID.FlyingKnife;
             Projectile.coldDamage = true;
         }
 

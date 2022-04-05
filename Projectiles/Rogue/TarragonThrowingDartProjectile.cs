@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 6;
             Projectile.aiStyle = 113;
             Projectile.timeLeft = 600;
-            aiType = ProjectileID.BoneJavelin;
+            AIType = ProjectileID.BoneJavelin;
             Projectile.Calamity().rogue = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 8;

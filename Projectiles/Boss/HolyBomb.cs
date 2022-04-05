@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 250;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 

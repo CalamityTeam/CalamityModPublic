@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
-            cooldownSlot = 1;
+            CooldownSlot = 1;
         }
 
         public override void AI()

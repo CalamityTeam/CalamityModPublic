@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.Calamity().rogue = true;
-            aiType = ProjectileID.CrystalVileShardShaft;
+            AIType = ProjectileID.CrystalVileShardShaft;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }

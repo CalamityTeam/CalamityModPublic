@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+            AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.coldDamage = true;
