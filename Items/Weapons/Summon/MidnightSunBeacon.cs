@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -38,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
         public override void AddRecipes()

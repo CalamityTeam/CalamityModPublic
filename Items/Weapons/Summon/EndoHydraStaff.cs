@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -55,12 +56,12 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile.NewProjectileDirect(player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    Projectile.NewProjectileDirect(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
                 }
                 else
                 {
-                    bodyIndex = Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-                    Projectile.NewProjectile(player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    bodyIndex = Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
                     for (int i = 0; i < 72; i++)
                     {
                         Dust dust = Dust.NewDustPerfect(Main.projectile[bodyIndex].Center, 113);

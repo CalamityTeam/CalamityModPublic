@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Summon;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 Vector2 spinningpoint = new Vector2(num78, num79);
                 spinningpoint = spinningpoint.RotatedBy(MathHelper.PiOver2, default);
-                Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 1f);
+                Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 1f);
             }
             return false;
         }

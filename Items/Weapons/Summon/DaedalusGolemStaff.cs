@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -34,11 +35,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
             if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).IsTileSolidGround())
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.UnitY * 4f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.UnitY * 4f, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

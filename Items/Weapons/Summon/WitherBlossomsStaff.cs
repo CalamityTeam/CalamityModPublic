@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -36,12 +37,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 4; //If you already have all 4, no need to resummon
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(false, type, player);
             for (int i = 0; i < 4; i++)
             {
-                Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile blossom = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
                 blossom.ai[0] = MathHelper.TwoPi * i / 4f;
                 blossom.rotation = blossom.ai[0];
             }

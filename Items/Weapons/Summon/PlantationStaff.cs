@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe(1).AddIngredient(ModContent.ItemType<FleshOfInfidelity>()).AddIngredient(ModContent.ItemType<DeepseaStaff>()).AddIngredient(ItemID.OpticStaff).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -76,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 playerPos.X = (float)Main.mouseX + Main.screenPosition.X;
                 playerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 spinningpoint = spinningpoint.RotatedBy(MathHelper.PiOver2, default);
-                Projectile.NewProjectile(playerPos + spinningpoint, spinningpoint, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, playerPos + spinningpoint, spinningpoint, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

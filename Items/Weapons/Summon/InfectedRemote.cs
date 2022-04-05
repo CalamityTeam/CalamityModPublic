@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Summon;
+using Terraria.DataStructures;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -60,14 +61,14 @@ namespace CalamityMod.Items.Weapons.Summon
             return viruliSlots >= 1 && player.ownedProjectileCounts[Item.shoot] <= 0;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
             float damageMult = ((float)Math.Log(viruliSlots, 10f)) + 1f;
             position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, viruliSlots, 1f);
+            velocity.X = 0;
+            velocity.Y = 0;
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * damageMult), knockback, player.whoAmI, viruliSlots, 1f);
             return false;
         }
     }

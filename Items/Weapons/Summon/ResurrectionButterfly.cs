@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
             float num72 = Item.shootSpeed;
@@ -71,9 +72,9 @@ namespace CalamityMod.Items.Weapons.Summon
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
             Vector2 spinningpoint = new Vector2(num78, num79);
             spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PinkButterfly>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PinkButterfly>(), damage, num74, i, 0f, 0f);
             spinningpoint = spinningpoint.RotatedBy(-3.1415927410125732, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PurpleButterfly>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PurpleButterfly>(), damage, num74, i, 0f, 0f);
             return false;
         }
 

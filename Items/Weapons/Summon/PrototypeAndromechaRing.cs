@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using Terraria.DataStructures;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // If the player has any robots, kill them all.
             if (player.ownedProjectileCounts[Item.shoot] > 0)
@@ -132,7 +133,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     {
                         damage = (int)(damage * player.MinionDamage());
                     }
-                    Projectile blade = Projectile.NewProjectileDirect(robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
+                    Projectile blade = Projectile.NewProjectileDirect(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
                                Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
 
                     if (blade.whoAmI.WithinBounds(Main.maxProjectiles))

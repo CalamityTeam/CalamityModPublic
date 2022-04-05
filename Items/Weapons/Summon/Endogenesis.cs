@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.maxMinions >= 10f;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     ModContent.ProjectileType<EndoBeam>()
                 });
 
-                SummonEndoCooper(AttackMode, Main.MouseWorld, damage, knockBack, player, out _, out _);
+                SummonEndoCooper(source, AttackMode, Main.MouseWorld, damage, knockback, player, out _, out _);
 
                 AttackMode++;
                 if (AttackMode > 3)
@@ -72,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public static void SummonEndoCooper(int attackMode, Vector2 spawnPosition, int damage, float knockBack, Player owner, out int bodyIndex, out int limbsIndex)
+        public static void SummonEndoCooper(IEntitySource source, int attackMode, Vector2 spawnPosition, int damage, float knockback, Player owner, out int bodyIndex, out int limbsIndex)
         {
             bodyIndex = limbsIndex = -1;
             if (Main.myPlayer != owner.whoAmI)
@@ -87,8 +88,8 @@ namespace CalamityMod.Items.Weapons.Summon
                 dmgMult = 0.95f;
             if (attackMode == 3) //flamethrower
                 dmgMult = 0.9f;
-            bodyIndex = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockBack, owner.whoAmI, attackMode, 0f);
-            limbsIndex = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, owner.whoAmI, attackMode, bodyIndex);
+            bodyIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, 0f);
+            limbsIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, bodyIndex);
             Main.projectile[bodyIndex].ai[1] = limbsIndex;
         }
 

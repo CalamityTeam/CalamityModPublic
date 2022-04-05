@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow"));
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -75,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 Vector2 spinningpoint = new Vector2(num78, num79);
                 spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-                Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, num74, i, 0f, 1f);
+                Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, num74, i, 0f, 1f);
             }
             return false;
         }

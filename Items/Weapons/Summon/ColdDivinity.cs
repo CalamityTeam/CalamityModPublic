@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.projectile.Length; i++)
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 player.AddBuff(ModContent.BuffType<ColdDivinityBuff>(), 120, true);
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 int pointyThingCount = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {

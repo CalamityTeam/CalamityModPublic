@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
@@ -41,12 +42,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 10;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
             CalamityPlayer modPlayer = player.Calamity();
             bool hasSummonerSet = modPlayer.WearingPostMLSummonerSet;
-            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

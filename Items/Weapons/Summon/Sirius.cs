@@ -1,3 +1,4 @@
+using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Placeables.Ores;
@@ -60,10 +61,10 @@ namespace CalamityMod.Items.Weapons.Summon
             return siriusSlots >= 1;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
-            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, siriusSlots, 30f);
+            Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, siriusSlots, 30f);
             return false;
         }
 
