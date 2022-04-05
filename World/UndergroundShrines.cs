@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -74,7 +74,7 @@ namespace CalamityMod.World
             {
                 int verticalOffset = 4;
                 int y = shrineLocationY + randomY + 2;
-                while (!Main.tile[x, y].active() && y < Main.maxTilesY && verticalOffset > 0)
+                while (!Main.tile[x, y].HasTile && y < Main.maxTilesY && verticalOffset > 0)
                 {
                     Main.tile[x, y].active(true);
                     Main.tile[x, y].TileType = tile2;

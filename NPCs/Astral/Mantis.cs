@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.Astral
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }

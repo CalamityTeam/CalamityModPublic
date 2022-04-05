@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
 using System;
@@ -139,7 +139,7 @@ namespace CalamityMod.World.Planets
         {
             //lazy quick fix
             List<ushort> walls = ignoreWalls.ToList();
-            while (!_tiles[x, startY].active() && !walls.Contains(_tiles[x, startY].wall))
+            while (!_tiles[x, startY].HasTile && !walls.Contains(_tiles[x, startY].wall))
             {
                 _tiles[x, startY].active(true);
                 _tiles[x, startY].type = beamType;

@@ -1,4 +1,4 @@
-
+﻿
 using Terraria;
 using Terraria.ID;
 using Terraria.WorldBuilding;
@@ -53,7 +53,7 @@ namespace CalamityMod.World
                             continue;
                         if (!WorldGen.InWorld(i, j))
                             continue;
-                        if (!_tiles[i, j].active())
+                        if (!_tiles[i, j].HasTile)
                         {
                             return false;
                         }

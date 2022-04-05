@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Magic;
@@ -42,7 +42,7 @@ namespace CalamityMod.World
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
                         Tile tile = Framing.GetTileSafely(abyssIndex, abyssIndex2);
-                        bool canConvert = tile.active() &&
+                        bool canConvert = tile.HasTile &&
                             tile.TileType < TileID.Count &&
                             tile.TileType != TileID.DyePlants &&
                             tile.TileType != TileID.Trees &&
@@ -64,7 +64,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
-                                    else if (!tile.active())
+                                    else if (!tile.HasTile)
                                     {
                                         tile.active(true);
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
@@ -81,7 +81,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
-                                    else if (!tile.active())
+                                    else if (!tile.HasTile)
                                     {
                                         tile.active(true);
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
@@ -109,7 +109,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                     }
                                 }
-                                else if (!tile.active())
+                                else if (!tile.HasTile)
                                 {
                                     tile.active(true);
                                     if (abyssIndex2 > (rockLayer + y * 0.262))
@@ -140,7 +140,7 @@ namespace CalamityMod.World
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
                         Tile tile = Framing.GetTileSafely(abyssIndex, abyssIndex2);
-                        bool canConvert = tile.active() &&
+                        bool canConvert = tile.HasTile &&
                             tile.TileType < TileID.Count &&
                             tile.TileType != TileID.DyePlants &&
                             tile.TileType != TileID.Trees &&
@@ -160,7 +160,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
-                                    else if (!tile.active())
+                                    else if (!tile.HasTile)
                                     {
                                         tile.active(true);
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
@@ -177,7 +177,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
-                                    else if (!tile.active())
+                                    else if (!tile.HasTile)
                                     {
                                         tile.active(true);
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
@@ -205,7 +205,7 @@ namespace CalamityMod.World
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                     }
                                 }
-                                else if (!tile.active())
+                                else if (!tile.HasTile)
                                 {
                                     tile.active(true);
                                     if (abyssIndex2 > (rockLayer + y * 0.262))
@@ -307,7 +307,7 @@ namespace CalamityMod.World
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
-                        if (!Main.tile[abyssIndex, abyssIndex2].active())
+                        if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
                                 abyssIndex2 > rockLayer)
@@ -337,7 +337,7 @@ namespace CalamityMod.World
                 {
                     for (int abyssIndex2 = 0; abyssIndex2 < abyssChasmY; abyssIndex2++)
                     {
-                        if (!Main.tile[abyssIndex, abyssIndex2].active())
+                        if (!Main.tile[abyssIndex, abyssIndex2].HasTile)
                         {
                             if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
                                 abyssIndex2 > rockLayer)
@@ -479,7 +479,7 @@ namespace CalamityMod.World
             for (m += WorldGen.genRand.Next(5); m < num4; m += WorldGen.genRand.Next(num15, (int)((double)num15 * 1.5)))
             {
                 int num14 = num6;
-                while (!Main.tile[m, num14].active())
+                while (!Main.tile[m, num14].HasTile)
                 {
                     num14--;
                 }
@@ -515,7 +515,7 @@ namespace CalamityMod.World
                 for (p += WorldGen.genRand.Next(5); p < num4; p += WorldGen.genRand.Next(num150, (int)((double)num150 * 1.5)))
                 {
                     int num14 = num6;
-                    while (!Main.tile[p, num14].active())
+                    while (!Main.tile[p, num14].HasTile)
                     {
                         num14--;
                     }
@@ -581,7 +581,7 @@ namespace CalamityMod.World
             while (num23 < num4)
             {
                 int num24 = num6;
-                while ((!Main.tile[num23, num24].active() || Main.tile[num23, num24].TileType != 0) && num23 < num4)
+                while ((!Main.tile[num23, num24].HasTile || Main.tile[num23, num24].TileType != 0) && num23 < num4)
                 {
                     num24--;
                     if (num24 < num5)
@@ -623,7 +623,7 @@ namespace CalamityMod.World
                     {
                         for (int num33 = num31 - 1; num33 <= num31 + 1; num33++)
                         {
-                            if (!Main.tile[num32, num33].active())
+                            if (!Main.tile[num32, num33].HasTile)
                             {
                                 flag = false;
                             }
@@ -639,7 +639,7 @@ namespace CalamityMod.World
             for (int num34 = num3; num34 <= num4; num34++)
             {
                 int num35 = num5 - 10;
-                while (!Main.tile[num34, num35 + 1].active())
+                while (!Main.tile[num34, num35 + 1].HasTile)
                 {
                     num35++;
                 }
@@ -698,7 +698,7 @@ namespace CalamityMod.World
             vector.X = (float)(i + (num2 + 2) * num);
             for (int k = j - 15; k < j + 30; k++)
             {
-                if (Main.tile[(int)vector.X, k].active())
+                if (Main.tile[(int)vector.X, k].HasTile)
                 {
                     vector.Y = (float)(k - 1);
                     break;

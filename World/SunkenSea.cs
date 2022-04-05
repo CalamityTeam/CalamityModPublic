@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.SunkenSea;
+﻿using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
@@ -256,7 +256,7 @@ namespace CalamityMod.World
                     {
                         tile.WallType = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.liquid = 192;
-                        if (!flag || tile.active())
+                        if (!flag || tile.HasTile)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<Navystone>());
                             tile.active(true);
@@ -267,7 +267,7 @@ namespace CalamityMod.World
                     else if (num10 > 0.7f || !flag)
                     {
                         tile.liquid = 192;
-                        if (!flag || tile.active())
+                        if (!flag || tile.HasTile)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                             tile.active(true);
@@ -281,7 +281,7 @@ namespace CalamityMod.World
                         float num11 = (num10 - 0.25f) / 0.45f;
                         if (WorldGen.genRand.NextFloat() < num11)
                         {
-                            if (tile.active())
+                            if (tile.HasTile)
                             {
                                 tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                                 tile.active(true);
@@ -453,12 +453,12 @@ namespace CalamityMod.World
                     Tile tile2 = Main.tile[num5, num6];
                     if (tile2 is null)
                         continue;
-                    if (tile2.active() && (tile2.TileType == ModContent.TileType<SeaPrism>() || tile2.TileType == ModContent.TileType<Navystone>()))
+                    if (tile2.HasTile && (tile2.TileType == ModContent.TileType<SeaPrism>() || tile2.TileType == ModContent.TileType<Navystone>()))
                     {
                         bool flag = true;
                         for (int m = -1; m >= -3; m--)
                         {
-                            if (Main.tile[num5, num6 + m].active())
+                            if (Main.tile[num5, num6 + m].HasTile)
                             {
                                 flag = false;
                                 break;
@@ -467,7 +467,7 @@ namespace CalamityMod.World
                         bool flag2 = true;
                         for (int n = 1; n <= 3; n++)
                         {
-                            if (Main.tile[num5, num6 + n].active())
+                            if (Main.tile[num5, num6 + n].HasTile)
                             {
                                 flag2 = false;
                                 break;
@@ -476,7 +476,7 @@ namespace CalamityMod.World
                         bool flag3 = true;
                         for (int o = -1; o >= -3; o--)
                         {
-                            if (Main.tile[num5 + o, num6].active())
+                            if (Main.tile[num5 + o, num6].HasTile)
                             {
                                 flag3 = false;
                                 break;
@@ -485,7 +485,7 @@ namespace CalamityMod.World
                         bool flag4 = true;
                         for (int p = 1; p <= 3; p++)
                         {
-                            if (Main.tile[num5 + p, num6].active())
+                            if (Main.tile[num5 + p, num6].HasTile)
                             {
                                 flag4 = false;
                                 break;
@@ -531,7 +531,7 @@ namespace CalamityMod.World
                             }
                         }
                     }
-                    if (!tile2.active())
+                    if (!tile2.HasTile)
                     {
                         if (tile2.WallType == ModContent.WallType<NavystoneWall>() || tile2.WallType == ModContent.WallType<EutrophicSandWall>())
                         {
@@ -617,11 +617,11 @@ namespace CalamityMod.World
             {
                 Main.tile[x, y + 1] = new Tile();
             }
-            if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].active() && !Main.tile[x, y + 1].active())
+            if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].HasTile && !Main.tile[x, y + 1].HasTile)
             {
                 if (Main.tile[x, y - 1].TileType == (ushort)ModContent.TileType<Navystone>())
                 {
-                    if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y + 2].active())
+                    if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y + 2].HasTile)
                     {
                         int num2 = WorldGen.genRand.Next(3) * 18;
                         Main.tile[x, y].TileType = type;
@@ -645,11 +645,11 @@ namespace CalamityMod.World
             }
             else
             {
-                if (WorldGen.SolidTile(x, y + 1) && !Main.tile[x, y].active() && !Main.tile[x, y - 1].active())
+                if (WorldGen.SolidTile(x, y + 1) && !Main.tile[x, y].HasTile && !Main.tile[x, y - 1].HasTile)
                 {
                     if (Main.tile[x, y + 1].TileType == (ushort)ModContent.TileType<Navystone>())
                     {
-                        if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y - 2].active())
+                        if (WorldGen.genRand.Next(2) == 0 || Main.tile[x, y - 2].HasTile)
                         {
                             int num13 = WorldGen.genRand.Next(3) * 18;
                             Main.tile[x, y].TileType = type;

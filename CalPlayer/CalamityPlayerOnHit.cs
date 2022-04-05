@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Cooldowns;
@@ -1025,7 +1025,7 @@ namespace CalamityMod.CalPlayer
                 for (int x = projTileX; x < projTileX + distance; x++)
                 {
                     Tile tile = Main.tile[projTileX, projTileY];
-                    if (tile.active() && (Main.tileSolid[tile.TileType] || tile.liquid != 0))
+                    if (tile.HasTile && (Main.tileSolid[tile.TileType] || tile.liquid != 0))
                     {
                         projTileX = x;
                         break;

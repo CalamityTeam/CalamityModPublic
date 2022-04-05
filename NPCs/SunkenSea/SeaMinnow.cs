@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using System;
 using Terraria;
@@ -144,11 +144,11 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
                 if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num258, num259 + 1].active())
+                    if (Main.tile[num258, num259 + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num258, num259 + 2].active())
+                    else if (Main.tile[num258, num259 + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }

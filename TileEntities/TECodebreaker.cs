@@ -118,7 +118,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
-            return tile.active() && tile.TileType == ModContent.TileType<CodebreakerTile>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
+            return tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         // This code is called as a hook when the player places the Codebreaker tile so that the tile entity may be placed.

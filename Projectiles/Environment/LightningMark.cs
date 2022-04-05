@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Environment
 
                     Vector2 fireFrom = new Vector2(Projectile.Center.X, Projectile.Center.Y - 900f);
                     int tries = 0;
-                    while (CalamityUtils.ParanoidTileRetrieval((int)(fireFrom.X / 16f), (int)(fireFrom.Y / 16f)).active())
+                    while (CalamityUtils.ParanoidTileRetrieval((int)(fireFrom.X / 16f), (int)(fireFrom.Y / 16f)).HasTile)
                     {
                         fireFrom.Y += 16f;
 

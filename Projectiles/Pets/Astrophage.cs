@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 for (int x = (int)xPosition; x < xPosition + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                         return false;
                 }
             }

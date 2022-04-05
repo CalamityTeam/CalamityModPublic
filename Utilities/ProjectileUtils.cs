@@ -383,7 +383,7 @@ namespace CalamityMod
                     if (distance < explosionRadius)
                     {
                         bool canKillTile = true;
-                        if (tile != null && tile.active())
+                        if (tile != null && tile.HasTile)
                         {
                             if (checkExplosions)
                             {
@@ -406,7 +406,7 @@ namespace CalamityMod
                             if (canKillTile)
                             {
                                 WorldGen.KillTile(i, j, false, false, false);
-                                if (!tile.active() && Main.netMode != NetmodeID.SinglePlayer)
+                                if (!tile.HasTile && Main.netMode != NetmodeID.SinglePlayer)
                                 {
                                     NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, i, j, 0f, 0, 0, 0);
                                 }

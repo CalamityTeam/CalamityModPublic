@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles.DraedonStructures;
@@ -51,7 +51,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.TileType == ModContent.TileType<ChargingStation>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
+            return tile.HasTile && tile.TileType == ModContent.TileType<ChargingStation>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         public override void Update()

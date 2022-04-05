@@ -1,4 +1,4 @@
-using CalamityMod.Schematics;
+﻿using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -29,7 +29,7 @@ namespace CalamityMod.World
                 int y = 5;
                 while (y < Main.worldSurface)
                 {
-                    if (Main.tile[x, y].active() && Main.tile[x, y].TileType == ModContent.TileType<AstralOre>())
+                    if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == ModContent.TileType<AstralOre>())
                     {
                         astralOreCount++;
                         if (astralOreCount > astralOreAllowed)
@@ -51,7 +51,7 @@ namespace CalamityMod.World
                 int y = 5;
                 while (y < Main.worldSurface)
                 {
-                    if (Main.tile[x, y].active() &&
+                    if (Main.tile[x, y].HasTile &&
                         (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
                         Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
                         Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
@@ -108,7 +108,7 @@ namespace CalamityMod.World
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
                 while (y < Main.maxTilesY)
                 {
-                    if (Main.tile[x, y].active() && Main.tileSolid[(int)Main.tile[x, y].TileType])
+                    if (Main.tile[x, y].HasTile && Main.tileSolid[(int)Main.tile[x, y].TileType])
                     {
                         int suitableTiles = 0;
                         int checkRadius = 15;
@@ -228,7 +228,7 @@ namespace CalamityMod.World
             {
                 for (int n = j - num; n < j + num; n++)
                 {
-                    if (Main.tile[m, n].active() && Main.tile[m, n].TileType == 21)
+                    if (Main.tile[m, n].HasTile && Main.tile[m, n].TileType == 21)
                     {
                         return false;
                     }
@@ -318,7 +318,7 @@ namespace CalamityMod.World
             {
                 for (int num18 = j - num; num18 < j + num; num18++)
                 {
-                    if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].active() && rand.NextBool(10))
+                    if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].HasTile && rand.NextBool(10))
                     {
                         float num19 = (float)Math.Abs(i - num17);
                         float num20 = (float)Math.Abs(j - num18);
@@ -343,7 +343,7 @@ namespace CalamityMod.World
             {
                 for (int num23 = j - num; num23 < j + num; num23++)
                 {
-                    if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].active() && rand.NextBool(20))
+                    if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].HasTile && rand.NextBool(20))
                     {
                         float num24 = (float)Math.Abs(i - num22);
                         float num25 = (float)Math.Abs(j - num23);
@@ -411,7 +411,7 @@ namespace CalamityMod.World
                         int y = j - 200;
                         Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
                         while (!Main.tileSolid[tileAtPosition.TileType] ||
-                            !tileAtPosition.active() ||
+                            !tileAtPosition.HasTile ||
                             TileID.Sets.Platforms[tileAtPosition.TileType])
                         {
                             y++;
@@ -1097,7 +1097,7 @@ namespace CalamityMod.World
         public static void RecursiveReplaceToAstral(ushort checkType, ushort replaceType, int x, int y, int replaceTextureWidth, int minFrameX = 0, int maxFrameX = int.MaxValue, int minFrameY = 0, int maxFrameY = int.MaxValue)
         {
             Tile tile = Main.tile[x, y];
-            if (tile == null || !tile.active() || tile.TileType != checkType || tile.TileFrameX < minFrameX || tile.TileFrameX > maxFrameX || tile.TileFrameY < minFrameY || tile.TileFrameY > maxFrameY)
+            if (tile == null || !tile.HasTile || tile.TileType != checkType || tile.TileFrameX < minFrameX || tile.TileFrameX > maxFrameX || tile.TileFrameY < minFrameY || tile.TileFrameY > maxFrameY)
                 return;
 
             Main.tile[x, y].TileType = replaceType;
@@ -1119,7 +1119,7 @@ namespace CalamityMod.World
         public static void RecursiveReplaceFromAstral(ushort checkType, ushort replaceType, int x, int y, int addFrameX, int addFrameY)
         {
             Tile tile = Main.tile[x, y];
-            if (tile == null || !tile.active() || tile.TileType != checkType)
+            if (tile == null || !tile.HasTile || tile.TileType != checkType)
                 return;
 
             Main.tile[x, y].TileType = replaceType;

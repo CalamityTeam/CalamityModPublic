@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -20,7 +20,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.TileType == ModContent.TileType<LabHologramProjector>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
+            return tile.HasTile && tile.TileType == ModContent.TileType<LabHologramProjector>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         // Check if the hologram should become visible.

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using Microsoft.Xna.Framework;
@@ -116,11 +116,11 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num268, num269 + 1].active())
+                    if (Main.tile[num268, num269 + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num268, num269 + 2].active())
+                    else if (Main.tile[num268, num269 + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
@@ -293,11 +293,11 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                     {
-                        if (Main.tile[num258, num259 + 1].active())
+                        if (Main.tile[num258, num259 + 1].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }
-                        else if (Main.tile[num258, num259 + 2].active())
+                        else if (Main.tile[num258, num259 + 2].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }

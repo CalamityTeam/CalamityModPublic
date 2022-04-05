@@ -1559,7 +1559,7 @@ namespace CalamityMod.NPCs.Providence
                 for (int y = tileCenterY - halfBox; y <= tileCenterY + halfBox; y++)
                 {
                     if ((x == tileCenterX - halfBox || x == tileCenterX + halfBox || y == tileCenterY - halfBox || y == tileCenterY + halfBox)
-                        && !Main.tile[x, y].active())
+                        && !Main.tile[x, y].HasTile)
                     {
                         Main.tile[x, y].TileType = (ushort)ModContent.TileType<ProfanedRock>();
                         Main.tile[x, y].active(true);

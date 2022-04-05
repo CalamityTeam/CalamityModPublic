@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Armor
                 {
                     for (int j = y - searchDist; j <= y + searchDist; ++j)
                     {
-                        if (Main.rand.NextBool(4) && (new Vector2((float)(x - i), (float)(y - j)).Length() < (float)searchDist && i > 0 && (i < Main.maxTilesX - 1 && j > 0) && (j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].active())))
+                        if (Main.rand.NextBool(4) && (new Vector2((float)(x - i), (float)(y - j)).Length() < (float)searchDist && i > 0 && (i < Main.maxTilesX - 1 && j > 0) && (j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].HasTile)))
                         {
                             bool shouldSparkle = false;
                             //Check for the money piles

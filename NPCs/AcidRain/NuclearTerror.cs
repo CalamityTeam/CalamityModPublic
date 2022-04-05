@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.AcidRain
                         Tile tileBelow = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
                         bool veryCloseToTarget = Math.Abs(y - playerPositionTileCoords.Y) < 12 || Math.Abs(x - playerPositionTileCoords.X) < 12;
                         bool veryCloseToSelf = Math.Abs(y - npcPositionTileCoords.Y) < 12 || Math.Abs(x - npcPositionTileCoords.X) < 12;
-                        bool solidGround = (Main.tileSolid[tileBelow.TileType] || Main.tileSolidTop[tileBelow.TileType]) && tileBelow.active();
+                        bool solidGround = (Main.tileSolid[tileBelow.TileType] || Main.tileSolidTop[tileBelow.TileType]) && tileBelow.HasTile;
                         if (!veryCloseToTarget && !veryCloseToSelf && solidGround)
                         {
                             // If the below tile has lava, skip it.

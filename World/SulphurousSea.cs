@@ -580,7 +580,7 @@ namespace CalamityMod.World
                         if (WorldGen.SolidTile(trueX, y - 1) && WorldGen.genRand.NextBool(10))
                         {
                             int dy = 1;
-                            while (!CalamityUtils.ParanoidTileRetrieval(trueX, y + dy).active())
+                            while (!CalamityUtils.ParanoidTileRetrieval(trueX, y + dy).HasTile)
                             {
                                 dy++;
                                 if (dy > StalactitePairMaxDistance)
@@ -614,7 +614,7 @@ namespace CalamityMod.World
                         {
                             Main.tile[i, j] = new Tile();
                         }
-                        if (Main.tile[i, j].active())
+                        if (Main.tile[i, j].HasTile)
                         {
                             canGenerate = false;
                         }
@@ -694,9 +694,9 @@ namespace CalamityMod.World
                     int y = WorldGen.genRand.Next(YStart + CheckCutoffDistance, YStart + BlockDepth - CheckCutoffDistance);
                     if (WorldGen.InWorld(x, y))
                     {
-                        if (!CalamityUtils.ParanoidTileRetrieval(x, y).active() &&
+                        if (!CalamityUtils.ParanoidTileRetrieval(x, y).HasTile &&
                             SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).TileType) &&
-                            CalamityUtils.ParanoidTileRetrieval(x, y + 1).active())
+                            CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
                         {
                             chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
                         }
@@ -826,7 +826,7 @@ namespace CalamityMod.World
                 for (int y = YStart - 40; y < YStart + depth; y++)
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(trueX, y);
-                    if (tileAtPosition.active() && ValidBeachDestroyTiles.Contains(tileAtPosition.TileType))
+                    if (tileAtPosition.HasTile && ValidBeachDestroyTiles.Contains(tileAtPosition.TileType))
                     {
                         // Kill trees manually so that no leftover tiles are present.
                         if (Main.tile[trueX, y].TileType == TileID.Trees)
@@ -835,7 +835,7 @@ namespace CalamityMod.World
                             Main.tile[trueX, y].active(false);
                     }
 
-                    else if (tileAtPosition.active() && ValidBeachCovertTiles.Contains(tileAtPosition.TileType))
+                    else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType))
                     {
                         Main.tile[trueX, y].TileType = (ushort)ModContent.TileType<SulphurousSand>();
                     }
@@ -1002,7 +1002,7 @@ namespace CalamityMod.World
             }
             Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
             Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-            if (!tileAtPosition.active() || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
+            if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
             {
                 return;
             }

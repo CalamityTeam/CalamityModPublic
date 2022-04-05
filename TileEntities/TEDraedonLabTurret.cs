@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Enemy;
+﻿using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -52,7 +52,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.TileType == TileType && tile.TileFrameX == 0 && tile.TileFrameY == 0;
+            return tile.HasTile && tile.TileType == TileType && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         protected override Vector2 ChooseTarget(Vector2 targetingCenter)

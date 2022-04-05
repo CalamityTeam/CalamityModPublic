@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -155,11 +155,11 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num268, num269 + 1].active())
+                    if (Main.tile[num268, num269 + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num268, num269 + 2].active())
+                    else if (Main.tile[num268, num269 + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }

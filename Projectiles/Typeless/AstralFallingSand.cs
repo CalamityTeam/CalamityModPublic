@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.AstralDesert;
+﻿using CalamityMod.Tiles.AstralDesert;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
                 t = Main.tile[p.X, --p.Y];
 
             // Under no circumstances can falling sand destroy minecart tracks.
-            if (!t.active() && t.TileType != TileID.MinecartTrack)
+            if (!t.HasTile && t.TileType != TileID.MinecartTrack)
             {
                 WorldGen.PlaceTile(p.X, p.Y, ModContent.TileType<AstralSand>(), false, true);
                 WorldGen.SquareTileFrame(p.X, p.Y);

@@ -1,4 +1,4 @@
-using CalamityMod.Items.DraedonMisc;
+﻿using CalamityMod.Items.DraedonMisc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             // Fall onto the ground if mid-air.
 
             Tile tileBelow = CalamityUtils.ParanoidTileRetrieval((int)(NPC.Bottom.X / 16f), (int)(NPC.Bottom.Y / 16f));
-            bool onSolidGround = WorldGen.SolidTile(tileBelow) || (tileBelow.active() && Main.tileSolidTop[tileBelow.TileType]);
+            bool onSolidGround = WorldGen.SolidTile(tileBelow) || (tileBelow.HasTile && Main.tileSolidTop[tileBelow.TileType]);
             float directionSign = Math.Sign(NPC.velocity.X);
             if (directionSign == 0f)
                 directionSign = NPC.spriteDirection;

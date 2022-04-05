@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -61,7 +61,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.TileType == TileType;
+            return tile.HasTile && tile.TileType == TileType;
         }
 
         #region Update and Turret Behavior

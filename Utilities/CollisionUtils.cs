@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 
 namespace CalamityMod
@@ -72,7 +72,7 @@ namespace CalamityMod
                 // Since Terraria's tile coordinate system is discrete and does not care for more advanced concepts,
                 // the amount of tiles searched such far is a sufficient answer.
                 Tile tile = ParanoidTileRetrieval(checkPosition.X, checkPosition.Y);
-                if (WorldGen.SolidTile(tile) || (checkDirection.Y >= 0f && tile.active() && Main.tileSolidTop[tile.TileType]))
+                if (WorldGen.SolidTile(tile) || (checkDirection.Y >= 0f && tile.HasTile && Main.tileSolidTop[tile.TileType]))
                     return i;
             }
             return null;

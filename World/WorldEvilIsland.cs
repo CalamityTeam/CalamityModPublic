@@ -35,12 +35,12 @@ namespace CalamityMod.World
             int tileXLookup = xIslandGen;
             if (WorldGen.crimson)
             {
-                while (Main.tile[tileXLookup, yIslandGen].active())
+                while (Main.tile[tileXLookup, yIslandGen].HasTile)
                     tileXLookup++;
             }
             else
             {
-                while (Main.tile[tileXLookup, yIslandGen].active())
+                while (Main.tile[tileXLookup, yIslandGen].HasTile)
                     tileXLookup--;
             }
 
@@ -80,7 +80,7 @@ namespace CalamityMod.World
             foreach (Point cloudPosition in cloudPositions)
             {
                 Vector2 offsetCloudPosition = cloudPosition.ToVector2();
-                while (!CalamityUtils.ParanoidTileRetrieval((int)offsetCloudPosition.X, (int)offsetCloudPosition.Y).active())
+                while (!CalamityUtils.ParanoidTileRetrieval((int)offsetCloudPosition.X, (int)offsetCloudPosition.Y).HasTile)
                     offsetCloudPosition.Y++;
 
                 for (int k = 0; k < 3; k++)
@@ -104,7 +104,7 @@ namespace CalamityMod.World
                 int verticalOffset = (int)((1f - completionRatio010) * maxVerticalOffset);
                 for (int dy = -5; dy < maxVerticalOffset + 13 - verticalOffset; dy++)
                 {
-                    if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).active())
+                    if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).HasTile)
                     {
                         Main.tile[i + dx, j + dy].TileType = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
                         Main.tile[i + dx, j + dy].active(true);
@@ -181,7 +181,7 @@ namespace CalamityMod.World
 
                 int surface = j - 15;
                 bool hitCloud = false;
-                while (!CalamityUtils.ParanoidTileRetrieval(i + dx, surface).active())
+                while (!CalamityUtils.ParanoidTileRetrieval(i + dx, surface).HasTile)
                 {
                     surface++;
                     if (CalamityUtils.ParanoidTileRetrieval(i + dx, surface).TileType == TileID.Cloud)
@@ -250,7 +250,7 @@ namespace CalamityMod.World
             vector.X = (float)(i + (num2 + 2) * num);
             for (int k = j - 15; k < j + 30; k++)
             {
-                if (Main.tile[(int)vector.X, k].active())
+                if (Main.tile[(int)vector.X, k].HasTile)
                 {
                     vector.Y = (float)(k - 1);
                     break;

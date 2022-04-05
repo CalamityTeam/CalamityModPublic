@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Abyss;
+﻿using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
@@ -31,7 +31,7 @@ namespace CalamityMod
 
         private static Similarity GetSimilarity(Tile check, int myType, int mergeType)
         {
-            if (check is null || !check.active())
+            if (check is null || !check.HasTile)
                 return Similarity.None;
 
             if (check.TileType == myType || Main.tileMerge[myType][check.TileType])
@@ -109,7 +109,7 @@ namespace CalamityMod
         {
             if (myTile is null || mergeTile is null)
                 return false;
-            return mergeTile.active() && (mergeTile.TileType == myTile.TileType || Main.tileMerge[myTile.TileType][mergeTile.TileType]);
+            return mergeTile.HasTile && (mergeTile.TileType == myTile.TileType || Main.tileMerge[myTile.TileType][mergeTile.TileType]);
         }
 
         private static void GetAdjacentTiles(int x, int y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight)
@@ -276,7 +276,7 @@ namespace CalamityMod
 
             // Get the type of the tile above this vine. If that tile doesn't exist, just assume it's another vine.
             Tile north = y <= 0 ? null : Main.tile[x, y - 1];
-            int northType = north is null ? myType : (!north.active() || north.bottomSlope()) ? -1 : north.TileType;
+            int northType = north is null ? myType : (!north.HasTile || north.bottomSlope()) ? -1 : north.TileType;
 
             // Make this vine match the tile above it if that's another vine or a grass tile.
             ushort[] vines = VineToGrass.Keys.ToArray();
@@ -1741,7 +1741,7 @@ namespace CalamityMod
             Tile west = Main.tile[x - 1, y];
             Tile east = Main.tile[x + 1, y];
 
-            if (north != null && north.active() && tileMergeTypes[myType][north.TileType])
+            if (north != null && north.HasTile && tileMergeTypes[myType][north.TileType])
             {
                 // Register this tile as not automatically merging with the tile above it.
                 CalamityUtils.SetMerge(myType, north.TileType, false);
@@ -1750,7 +1750,7 @@ namespace CalamityMod
                 // Properly frame the tile given this constraint.
                 CustomMergeFrameExplicit(x, y - 1, north.TileType, myType, out _, out _, out _, out forceSameUp, false, false, false, false, false);
             }
-            if (west != null && west.active() && tileMergeTypes[myType][west.TileType])
+            if (west != null && west.HasTile && tileMergeTypes[myType][west.TileType])
             {
                 // Register this tile as not automatically merging with the tile to the left of it.
                 CalamityUtils.SetMerge(myType, west.TileType, false);
@@ -1759,7 +1759,7 @@ namespace CalamityMod
                 // Properly frame the tile given this constraint.
                 CustomMergeFrameExplicit(x - 1, y, west.TileType, myType, out _, out _, out forceSameLeft, out _, false, false, false, false, false);
             }
-            if (east != null && east.active() && tileMergeTypes[myType][east.TileType])
+            if (east != null && east.HasTile && tileMergeTypes[myType][east.TileType])
             {
                 // Register this tile as not automatically merging with the tile to the right of it.
                 CalamityUtils.SetMerge(myType, east.TileType, false);
@@ -1768,7 +1768,7 @@ namespace CalamityMod
                 // Properly frame the tile given this constraint.
                 CustomMergeFrameExplicit(x + 1, y, east.TileType, myType, out _, out forceSameRight , out _, out _, false, false, false, false, false);
             }
-            if (south != null && south.active() && tileMergeTypes[myType][south.TileType])
+            if (south != null && south.HasTile && tileMergeTypes[myType][south.TileType])
             {
                 // Register this tile as not automatically merging with the tile below it.
                 CalamityUtils.SetMerge(myType, south.TileType, false);

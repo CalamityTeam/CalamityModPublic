@@ -1,4 +1,4 @@
-using CalamityMod.TileEntities;
+﻿using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System;
@@ -195,7 +195,7 @@ namespace CalamityMod.Schematics
         private static void TryToPlaceTileEntities(int x, int y, Tile t)
         {
             // A tile entity in an empty spot would make no sense.
-            if (!t.active())
+            if (!t.HasTile)
                 return;
             // Ignore tiles that aren't at the top left of the tile.
             // All of Calamity's worldgen-placed tile entities refuse to exist except at the top left corner of their host tile.

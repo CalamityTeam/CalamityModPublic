@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (!WorldGen.InWorld(num55, num56, 2))
                                 continue;
 
-                            if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
+                            if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].HasTile)
                             {
                                 Main.tile[num55, num56].TileType = (ushort)ModContent.TileType<Tiles.ArenaTile>();
                                 Main.tile[num55, num56].active(true);

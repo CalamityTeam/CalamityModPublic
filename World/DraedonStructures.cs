@@ -1,4 +1,4 @@
-using CalamityMod.Items.DraedonMisc;
+﻿using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Schematics;
@@ -134,7 +134,7 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
 
-                        if (tile.active())
+                        if (tile.HasTile)
                             activeTilesInArea++;
                     }
                 }
@@ -201,7 +201,7 @@ namespace CalamityMod.World
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
 
-                        if (tile.active())
+                        if (tile.HasTile)
                             activeTilesInArea++;
                     }
                 }
@@ -419,7 +419,7 @@ namespace CalamityMod.World
                     for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                        if (tile.active())
+                        if (tile.HasTile)
                         {
                             if (tile.TileType == TileID.SnowBlock || tile.TileType == TileID.IceBlock)
                                 iceTilesInArea++;
@@ -499,7 +499,7 @@ namespace CalamityMod.World
                         Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                         if (ShouldAvoidLocation(new Point(x, y)))
                             canGenerateInLocation = false;
-                        if (tile.active())
+                        if (tile.HasTile)
                         {
                             if (tile.TileType == TileID.Mud || tile.TileType == TileID.JungleGrass)
                                 jungleTilesInArea++;

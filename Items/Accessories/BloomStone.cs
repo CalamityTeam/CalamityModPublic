@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                if (!walkTile.active() && walkTile.liquid == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
+                if (!walkTile.HasTile && walkTile.liquid == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
                 {
                     walkTile.TileFrameY = 0;
                     walkTile.slope(0);

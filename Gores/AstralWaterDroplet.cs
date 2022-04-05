@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -52,7 +52,7 @@ namespace CalamityMod.Gores
             {
                 int num2 = (int)(gore.position.X / 16f);
                 int num3 = (int)(gore.position.Y / 16f) - 1;
-                if (WorldGen.InWorld(num2, num3, 0) && !Main.tile[num2, num3].active())
+                if (WorldGen.InWorld(num2, num3, 0) && !Main.tile[num2, num3].HasTile)
                 {
                     gore.active = false;
                 }

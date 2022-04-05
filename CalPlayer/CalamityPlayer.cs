@@ -3341,7 +3341,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else
                         {
-                            if (tile.active() && !tile.inActive() && Main.tileSolid[(int)tile.TileType])
+                            if (tile.HasTile && !tile.inActive() && Main.tileSolid[(int)tile.TileType])
                             {
                                 break;
                             }
@@ -3434,7 +3434,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else
                         {
-                            if (tile.active() && !tile.inActive() && Main.tileSolid[(int)tile.TileType])
+                            if (tile.HasTile && !tile.inActive() && Main.tileSolid[(int)tile.TileType])
                             {
                                 break;
                             }
@@ -5600,7 +5600,7 @@ namespace CalamityMod.CalPlayer
                         continue;
 
                     Tile tile = Main.tile[i, j];
-                    if (tile is null || !tile.active())
+                    if (tile is null || !tile.HasTile)
                         continue;
 
                     if (tile.TileType == TileID.Banners && (tile.TileFrameX >= 396 || tile.TileFrameY >= 54))

@@ -47,7 +47,7 @@ namespace CalamityMod.World
                     attempts++;
                     int x = WorldGen.genRand.Next(MinX, MaxX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
-                    if (Main.wallDungeon[Main.tile[x, y].WallType] && !Main.tile[x, y].active())
+                    if (Main.wallDungeon[Main.tile[x, y].WallType] && !Main.tile[x, y].HasTile)
                         chest = AddChestWithLoot(x, y, (ushort)ChestTypes[i], tileStyle: ChestStyles[i]);
                 }
 
@@ -326,7 +326,7 @@ namespace CalamityMod.World
             for (m += WorldGen.genRand.Next(5); m < num4; m += WorldGen.genRand.Next(num15, (int)((double)num15 * 1.5)))
             {
                 int num14 = num6;
-                while (!Main.tile[m, num14].active())
+                while (!Main.tile[m, num14].HasTile)
                 {
                     num14--;
                     if (num14 < Main.maxTilesX - WorldGen.genRand.Next(265, 275 + 1))
@@ -395,7 +395,7 @@ namespace CalamityMod.World
             while (num23 < num4)
             {
                 int num24 = num6;
-                while ((!Main.tile[num23, num24].active() || Main.tile[num23, num24].TileType != 0) && num23 < num4)
+                while ((!Main.tile[num23, num24].HasTile || Main.tile[num23, num24].TileType != 0) && num23 < num4)
                 {
                     num24--;
                     if (num24 < num5)
@@ -431,7 +431,7 @@ namespace CalamityMod.World
             for (int num34 = num3; num34 <= num4; num34++)
             {
                 int num35 = num5 - 10;
-                while (!Main.tile[num34, num35 + 1].active())
+                while (!Main.tile[num34, num35 + 1].HasTile)
                 {
                     num35++;
                 }
@@ -492,7 +492,7 @@ namespace CalamityMod.World
             vector.X = (float)(i + (num2 + 2) * num);
             for (int k = j - 15; k < j + 30; k++)
             {
-                if (Main.tile[(int)vector.X, k].active())
+                if (Main.tile[(int)vector.X, k].HasTile)
                 {
                     vector.Y = (float)(k - 1);
                     break;
@@ -605,14 +605,14 @@ namespace CalamityMod.World
                 int tileYLookup = j;
                 if (CalamityWorld.abyssSide)
                 {
-                    while (!Main.tile[i + 125, tileYLookup].active())
+                    while (!Main.tile[i + 125, tileYLookup].HasTile)
                     {
                         tileYLookup++;
                     }
                 }
                 else
                 {
-                    while (!Main.tile[i - 125, tileYLookup].active())
+                    while (!Main.tile[i - 125, tileYLookup].HasTile)
                     {
                         tileYLookup++;
                     }

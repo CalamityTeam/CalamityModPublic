@@ -661,7 +661,7 @@ namespace CalamityMod.NPCs
                             {
                                 Main.tile[tileAtCenterX, tileAtBottom] = new Tile();
                             }
-                            if (Main.tile[i, tileAtBottom].active() && Main.tileSolid[(int)Main.tile[i, tileAtBottom].TileType])
+                            if (Main.tile[i, tileAtBottom].HasTile && Main.tileSolid[(int)Main.tile[i, tileAtBottom].TileType])
                             {
                                 ableToRestart = true;
                             }
@@ -5204,7 +5204,7 @@ namespace CalamityMod.NPCs
                 Main.tile[(int)npc.ai[0], (int)npc.ai[1]] = new Tile();
             }
 
-            if (!Main.tile[(int)npc.ai[0], (int)npc.ai[1]].active())
+            if (!Main.tile[(int)npc.ai[0], (int)npc.ai[1]].HasTile)
             {
                 npc.life = -1;
                 npc.HitEffect(0, 10.0);
@@ -5872,11 +5872,11 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.tile[x, y - 1].LiquidAmount > 128)
                     {
-                        if (Main.tile[x, y + 1].active())
+                        if (Main.tile[x, y + 1].HasTile)
                         {
                             npc.ai[0] = -1f;
                         }
-                        else if (Main.tile[x, y + 2].active())
+                        else if (Main.tile[x, y + 2].HasTile)
                         {
                             npc.ai[0] = -1f;
                         }
@@ -6127,11 +6127,11 @@ namespace CalamityMod.NPCs
                 }
                 if (Main.tile[x, y - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[x, y + 1].active())
+                    if (Main.tile[x, y + 1].HasTile)
                     {
                         npc.ai[0] = -1f;
                     }
-                    else if (Main.tile[x, y + 2].active())
+                    else if (Main.tile[x, y + 2].HasTile)
                     {
                         npc.ai[0] = -1f;
                     }

@@ -1,4 +1,4 @@
-using CalamityMod.Waters;
+﻿using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
@@ -14,7 +14,7 @@ namespace CalamityMod.ILEditing
         {
             Tile t = Main.tile[i, j];
             int topY = j;
-            while (t != null && t.active() && t.TileType == rootTile.TileType)
+            while (t != null && t.HasTile && t.TileType == rootTile.TileType)
             {
                 // Immediately stop at the top of the world, if you got there somehow.
                 if (topY == 0)

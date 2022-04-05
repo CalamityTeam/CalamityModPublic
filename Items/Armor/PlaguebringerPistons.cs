@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
                 {
                     tile = new Tile();
                 }
-                if (!tile.active() && tile.liquid == 0 && Main.tile[x, y + 1] != null && WorldGen.SolidTile(x, y + 1))
+                if (!tile.HasTile && tile.liquid == 0 && Main.tile[x, y + 1] != null && WorldGen.SolidTile(x, y + 1))
                 {
                     tile.TileFrameY = 0;
                     tile.slope(0);

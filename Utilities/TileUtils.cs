@@ -1,4 +1,4 @@
-using CalamityMod.Tiles;
+﻿using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -95,7 +95,7 @@ namespace CalamityMod
                     {
                         Main.tile[l, m] = new Tile();
                     }
-                    if (Main.tile[l, m].active() && Main.tile[l, m].TileType == type)
+                    if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == type)
                     {
                         if (Main.tile[l, m].TileFrameX < (18 * tileX))
                         {
@@ -275,7 +275,7 @@ namespace CalamityMod
 
         public static bool TileActiveAndOfType(int x, int y, int type)
         {
-            return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).TileType == type;
+            return ParanoidTileRetrieval(x, y).HasTile && ParanoidTileRetrieval(x, y).TileType == type;
         }
 
         /// <summary>

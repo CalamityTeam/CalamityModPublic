@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 
 using Terraria;
@@ -23,7 +23,7 @@ namespace CalamityMod.World
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
                 Tile tile = GenBase._tiles[x, y];
-                if (tile.active() && Main.tileSolid[tile.TileType])
+                if (tile.HasTile && Main.tileSolid[tile.TileType])
                 {
                     _count++;
                 }
@@ -63,7 +63,7 @@ namespace CalamityMod.World
             }
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
-                if (GenBase._tiles[x, y].active() || GenBase._tiles[x, y - 1].active())
+                if (GenBase._tiles[x, y].HasTile || GenBase._tiles[x, y - 1].HasTile)
                 {
                     return false;
                 }

@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.AstralDesert;
+﻿using CalamityMod.Tiles.AstralDesert;
 using System;
 
 using Terraria;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 tileY--;
             }
-            if (!Main.tile[tileX, tileY].active())
+            if (!Main.tile[tileX, tileY].HasTile)
             {
                 if (Main.tile[tileX, tileY].TileType == TileID.MinecartTrack)
                     return;

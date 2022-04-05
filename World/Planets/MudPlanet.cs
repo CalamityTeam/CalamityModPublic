@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Items.Potions;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -138,7 +138,7 @@ namespace CalamityMod.World.Planets
                 }));
                 shape.Subtract(cavernData, origin, origin);
                 int chestY = origin.Y;
-                while (!_tiles[origin.X, chestY].active())
+                while (!_tiles[origin.X, chestY].HasTile)
                 {
                     chestY++;
                 }
