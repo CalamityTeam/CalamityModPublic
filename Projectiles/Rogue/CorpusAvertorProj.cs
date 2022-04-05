@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float mult = Projectile.ai[0] / 80f; // Ranges from 0.25 to 0.5 to 0.75
                     velocity *= mult;
 
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<CorpusAvertorClone>(),
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<CorpusAvertorClone>(),
                         (int)(Projectile.damage * mult), Projectile.knockBack * mult, Projectile.owner, Projectile.ai[0]);
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -77,13 +77,13 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int f = 0; f < fireAmt; f++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
                 }
                 for (int s = 0; s < 2; ++s)
                 {
                     float SpeedX = -Projectile.velocity.X * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
                     float SpeedY = -Projectile.velocity.Y * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
-                    Projectile.NewProjectile(Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<TheSyringeS1>(), (int)(Projectile.damage * 0.25), 0f, Main.myPlayer, Main.rand.Next(3), 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<TheSyringeS1>(), (int)(Projectile.damage * 0.25), 0f, Main.myPlayer, Main.rand.Next(3), 0f);
                 }
             }
             if (Projectile.owner == Main.myPlayer && Projectile.ai[1] == 1)
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float speedX = Main.rand.NextFloat(-0.7f, 0.7f);
                     float speedY = Main.rand.NextFloat(-0.7f, 0.7f);
-                    int bee = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
+                    int bee = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer);
                     Main.projectile[bee].penetrate = 1;
                 }
             }

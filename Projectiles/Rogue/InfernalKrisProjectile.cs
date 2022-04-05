@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -79,9 +79,9 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
@@ -102,9 +102,9 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }
@@ -193,9 +193,9 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(Projectile.damage * 0.4f), 0, Projectile.owner, 0, 0);
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             }
         }

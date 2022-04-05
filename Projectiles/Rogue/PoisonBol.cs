@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                         velocity *= 2f;
                     velocity += Projectile.velocity * 0.25f;
                     velocity *= 0.8f;
-                    int proj = Projectile.NewProjectile(Projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceRogue = true;

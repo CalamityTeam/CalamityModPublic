@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int index = 0; index < cloudAmt; index++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.Calamity().stealthStrike)
                         damageMult = 0.7f;
                     int soulDamage = (int)(Projectile.damage * damageMult);
-                    int soul = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, Projectile.knockBack, Projectile.owner);
+                    int soul = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, Projectile.knockBack, Projectile.owner);
                     if (soul.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[soul].Calamity().forceRogue = true;

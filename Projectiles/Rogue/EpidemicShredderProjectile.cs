@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.timeLeft % 5 == 0 && Projectile.Calamity().stealthStrike)
             {
-                int projIndex2 = Projectile.NewProjectile(Projectile.Center, (Projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                int projIndex2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, (Projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projIndex2.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projIndex2].Calamity().forceRogue = true;
             }
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (Projectile.ai[0] == 0f)
                 {
-                    int projIndex1 = Projectile.NewProjectile(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                    int projIndex1 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                     if (projIndex1.WithinBounds(Main.maxProjectiles))
                         Main.projectile[projIndex1].Calamity().forceRogue = true;
                     Projectile.ai[0] = 12f; //0.2th of a second cooldown
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.ai[0] == 0f)
             {
-                int projectileIndex = Projectile.NewProjectile(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                int projectileIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 Projectile.ai[0] = 12f; //0.2th of a second cooldown
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.ai[0] == 0f)
             {
-                int projectileIndex = Projectile.NewProjectile(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
+                int projectileIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 Projectile.ai[0] = 12f; //0.2th of a second cooldown

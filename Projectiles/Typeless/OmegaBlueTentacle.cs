@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Typeless
                     if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
                         Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
                     Main.player[projectile.owner].HealEffect(healAmount, false);*/
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Typeless
                     if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
                         Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
                     Main.player[projectile.owner].HealEffect(healAmount, false);*/
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SpiritHeal, 0, 0f, Projectile.owner, Projectile.owner, healAmount);
                 }
             }
         }

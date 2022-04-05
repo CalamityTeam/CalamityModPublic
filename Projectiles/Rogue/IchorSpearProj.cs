@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.owner == Main.myPlayer)
                     {
                         Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                        int ichor = Projectile.NewProjectile(Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                        int ichor = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                         if (ichor.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[ichor].Calamity().forceRogue = true;

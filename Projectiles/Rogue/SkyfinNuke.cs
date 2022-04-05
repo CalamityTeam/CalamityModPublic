@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -84,11 +84,11 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int c = 0; c < cloudAmt; c++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(50f, 10f, 50f, 0.01f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<SkyBomberGas>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SkyBomberGas>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner);
                 }
                 if (Projectile.Calamity().stealthStrike)
                 {
-                    int explode = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 1f);
+                    int explode = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 1f);
                     Main.projectile[explode].usesLocalNPCImmunity = true;
                     Main.projectile[explode].localNPCHitCooldown = 30;
                 }

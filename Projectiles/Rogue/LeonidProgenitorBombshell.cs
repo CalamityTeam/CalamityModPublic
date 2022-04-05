@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
             if (Main.myPlayer == Projectile.owner)
             {
-                int flash = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Flash>(), Projectile.damage, 0f, Projectile.owner, 0f, 1f);
+                int flash = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Flash>(), Projectile.damage, 0f, Projectile.owner, 0f, 1f);
                 if (flash.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[flash].Calamity().forceRogue = true;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 pos = new Vector2(Projectile.Center.X + Projectile.width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                 Vector2 velocity = (Projectile.Center - pos) / 40f;
                 int dmg = Projectile.damage / 2;
-                Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<LeonidCometBig>(), dmg, Projectile.knockBack, Projectile.owner, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, velocity, ModContent.ProjectileType<LeonidCometBig>(), dmg, Projectile.knockBack, Projectile.owner, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
             }
         }
 
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
             float num3 = -(num1 * 2f) / (cometAmt - 1f);
             for (int projIndex = 0; projIndex < cometAmt; ++projIndex)
             {
-                int index2 = Projectile.NewProjectile(Projectile.Center, spinningpoint.RotatedBy((double)num1 + (double)num3 * (double)projIndex, new Vector2()), ModContent.ProjectileType<LeonidCometSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, -1f);
+                int index2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, spinningpoint.RotatedBy((double)num1 + (double)num3 * (double)projIndex, new Vector2()), ModContent.ProjectileType<LeonidCometSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, -1f);
                 Projectile proj = Main.projectile[index2];
                 for (int index3 = 0; index3 < Projectile.localNPCImmunity.Length; ++index3)
                 {

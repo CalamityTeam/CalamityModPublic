@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float speedMult = 24f / pathToTravel.Length();
                 pathToTravel.X *= speedMult;
                 pathToTravel.Y *= speedMult;
-                int petal = Projectile.NewProjectile(startPos, pathToTravel, ProjectileID.FlowerPetal, Projectile.damage, 0f, Projectile.owner);
+                int petal = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, pathToTravel, ProjectileID.FlowerPetal, Projectile.damage, 0f, Projectile.owner);
                 if (petal.WithinBounds(Main.maxProjectiles))
                     Main.projectile[petal].Calamity().forceRogue = true;
             }

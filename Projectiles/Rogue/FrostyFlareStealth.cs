@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -51,12 +51,12 @@ namespace CalamityMod.Projectiles.Rogue
                     vel.X += Main.rand.Next(-50, 51);
                     vel.Normalize();
                     vel *= 30f;
-                    int flare = Projectile.NewProjectile(pos, vel + Projectile.velocity / 4f, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int flare = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + Projectile.velocity / 4f, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[flare].alpha = 150;
                 }
                 if (Projectile.timeLeft % 10 == 0)
                 {
-                    int snowflake = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, Main.rand.Next(3));
+                    int snowflake = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, Main.rand.Next(3));
                     if (snowflake.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[snowflake].Calamity().forceRogue = true;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
                         vel.X += Main.rand.Next(-50, 51);
                         vel.Normalize();
                         vel *= 30f;
-                        int flare = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int flare = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostyFlareProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         Main.projectile[flare].alpha = 150;
                     }
                 }

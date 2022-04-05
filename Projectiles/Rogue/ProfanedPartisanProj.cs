@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int projID = ModContent.ProjectileType<ProfanedPartisanSpear>();
                     int spearDamage = (int)(Projectile.damage * 0.4f);
                     float spearKB = 1f;
-                    Projectile.NewProjectile(spearPosition, spearSpeed, projID, spearDamage, spearKB, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spearPosition, spearSpeed, projID, spearDamage, spearKB, Projectile.owner);
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
             int projID = ModContent.ProjectileType<PartisanExplosion>();
             int explosionDamage = (int)(Projectile.damage * 0.8f);
             float explosionKB = 8f;
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, Projectile.owner);
         }
 
         public override bool PreDraw(ref Color lightColor)

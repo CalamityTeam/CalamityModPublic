@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int n = 0; n < needleAmt; n++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int shard = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * player.RogueDamage()), 0f, Projectile.owner, 0f, 0f);
+                    int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * player.RogueDamage()), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

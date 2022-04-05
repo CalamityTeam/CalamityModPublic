@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -255,7 +255,7 @@ namespace CalamityMod.Projectiles.Typeless
                         Vector2 velocity = vector46 - Projectile.Center;
                         velocity.Normalize();
                         velocity *= speed;
-                        int trident = Projectile.NewProjectile(Projectile.Center, velocity, projType, Projectile.damage, 0f, Main.myPlayer);
+                        int trident = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Main.myPlayer);
                         if (trident.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[trident].timeLeft = 300;

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float posX = Projectile.Center.X + (Projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
                 float posY = Projectile.Center.Y + (Projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
-                Projectile.NewProjectile(posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
             }
 
             CalamityUtils.ExplosionGores(Projectile.Center, (Projectile.Calamity().stealthStrike ? 6 : 3));

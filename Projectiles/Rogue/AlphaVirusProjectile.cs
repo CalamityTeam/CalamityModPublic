@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.NPCs.StormWeaver;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float kb = 1f;
                     float ai0 = 1f; // Stealth strike spawned seekers set ai[0] to 1, which makes them cling to the parent projectile.
                     Vector2 vel = Main.rand.NextVector2CircularEdge(5f, 5f);
-                    Projectile.NewProjectile(Projectile.Center, vel, projID, damage, kb, Projectile.owner, ai0, Projectile.identity);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vel, projID, damage, kb, Projectile.owner, ai0, Projectile.identity);
                 }
             }
             else
@@ -202,7 +202,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < numSeekers; i++)
             {
                 Vector2 velocity = (MathHelper.Pi * i / 3f).ToRotationVector2() * speed;
-                Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, kb, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, kb, Projectile.owner, 0f, 0f);
             }
 
             int numDust = 20;

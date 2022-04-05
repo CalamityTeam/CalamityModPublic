@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                             vector2_2 *= 2f;
                         Vector2 vector2_3 = velocity * 0.25f + vector2_2;
                         Vector2 vector2_5 = vector2_3 * 0.8f;
-                        Projectile.NewProjectile(Projectile.Center.X - vector2_5.X, Projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, ModContent.ProjectileType<ExplosiveSun>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0.0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X - vector2_5.X, Projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, ModContent.ProjectileType<ExplosiveSun>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0.0f);
                         Projectile.localAI[1] = 0.0f;
                     }
                 }
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
                             vector2_2 *= 2f;
                         Vector2 vector2_3 = velocity * 0.25f + vector2_2;
                         Vector2 vector2_5 = vector2_3 * 0.8f;
-                        Projectile.NewProjectile(Projectile.Center.X - vector2_5.X, Projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, ModContent.ProjectileType<ExplosiveSun>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0.0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X - vector2_5.X, Projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, ModContent.ProjectileType<ExplosiveSun>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0.0f);
                         Projectile.localAI[1] = 0.0f;
                     }
                 }

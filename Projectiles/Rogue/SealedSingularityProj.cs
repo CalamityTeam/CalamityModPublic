@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             //glass-pot break sound
             SoundEngine.PlaySound(SoundID.Shatter, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
 
-            int blackhole = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SealedSingularityBlackhole>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.Calamity().stealthStrike ? -180f : 0f, 0f);
+            int blackhole = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SealedSingularityBlackhole>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.Calamity().stealthStrike ? -180f : 0f, 0f);
             if (blackhole.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[blackhole].Center = Projectile.Center;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float SpeedX = -Projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                 float SpeedY = -Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                Projectile.NewProjectile(Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<SealedSingularityGore>(), (int)(Projectile.damage * 0.25), 0f, Projectile.owner, index, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<SealedSingularityGore>(), (int)(Projectile.damage * 0.25), 0f, Projectile.owner, index, 0f);
             }
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        int proj = Projectile.NewProjectile(Projectile.Center, perturbedspeed * 0.2f, projID, splitDamage, splitKB, Projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedspeed * 0.2f, projID, splitDamage, splitKB, Projectile.owner, 0f, 0f);
                         Main.projectile[proj].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                         spread -= Main.rand.Next(2, 6);
                     }
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Rogue
             int projID = ModContent.ProjectileType<ShatteredExplosion>();
             int explosionDamage = (int)(Projectile.damage * 0.45f);
             float explosionKB = 3f;
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, Projectile.owner, 0f, 0f);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
         }
 

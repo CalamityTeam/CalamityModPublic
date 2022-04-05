@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
                     int type = Projectile.type;
                     if (Projectile.ai[1] >= 6f)
                         type = ModContent.ProjectileType<ReaverThornTip>();
-                    int thorn = Projectile.NewProjectile(Projectile.Center + Projectile.velocity, Projectile.velocity, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int thorn = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[thorn].ai[1] = Projectile.ai[1] + 1f;
                 }
             }

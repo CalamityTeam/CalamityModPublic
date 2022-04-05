@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < numProj + 1; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, ModContent.ProjectileType<Brimblade2>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, ModContent.ProjectileType<Brimblade2>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                 }
             }
             for (int k = 0; k < 5; k++)
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < numProj + 1; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, ModContent.ProjectileType<Brimblade2>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, ModContent.ProjectileType<Brimblade2>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                 }
             }
             for (int k = 0; k < 5; k++)

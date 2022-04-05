@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.owner != Main.myPlayer)
                 return;
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<LeonidStar>(), Projectile.damage / 3, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<LeonidStar>(), Projectile.damage / 3, 0f, Projectile.owner);
             Projectile.ai[1] = -1f;
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 40;

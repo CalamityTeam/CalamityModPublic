@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 
                 //Spawn the projectile
-                Projectile.NewProjectile(Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
                 split += 1;
             }
             Projectile.penetrate--;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 
                 //Spawn the projectile
-                Projectile.NewProjectile(Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
                 split += 1;
             }
         }
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 
                 //Spawn the projectile
-                Projectile.NewProjectile(Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner, Main.rand.Next(3), 0f);
                 split += 1;
             }
         }

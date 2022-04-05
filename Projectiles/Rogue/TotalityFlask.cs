@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalityTar>(), (int)(Projectile.damage * 0.6), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalityTar>(), (int)(Projectile.damage * 0.6), Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             //glass-pot break sound
             SoundEngine.PlaySound(SoundID.Shatter, (int) Projectile.position.X, (int) Projectile.position.Y, 1, 1f, 0f);
 
-            int meltdown = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalMeltdown>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            int meltdown = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalMeltdown>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             Main.projectile[meltdown].Center = Projectile.Center; //makes it centered because it's not without this
 
             Vector2 vector2 = new Vector2(20f, 20f);
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int t = 0; t < tarAmt; t++)
             {
                 Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<TotalityTar>(), (int)(Projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TotalityTar>(), (int)(Projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
             }
         }
     }

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Rogue;
 using Terraria.ID;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     //Spawn the projectile
-                    Projectile.NewProjectile(Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(Projectile.damage * 0.3), Projectile.knockBack / 2f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(Projectile.damage * 0.3), Projectile.knockBack / 2f, Projectile.owner);
                     split += 1;
                 }
             }

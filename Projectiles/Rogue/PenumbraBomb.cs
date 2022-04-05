@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 360; i += ad)
             {
                 Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(i + randrot));
-                Projectile.NewProjectile(Projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), (int)(Projectile.damage * dmgMult), 3f, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), (int)(Projectile.damage * dmgMult), 3f, Projectile.owner, 0f, 0f);
             }
             //Dust
             int maxDust = Projectile.Calamity().stealthStrike ? 100 : 70;

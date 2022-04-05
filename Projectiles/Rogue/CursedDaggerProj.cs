@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.owner == Main.myPlayer)
                     {
                         Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                        int flame = Projectile.NewProjectile(Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                        int flame = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                         if (flame.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[flame].Calamity().forceRogue = true;

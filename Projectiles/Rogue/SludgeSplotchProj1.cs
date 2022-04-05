@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 7;
 
-                    Projectile.NewProjectile(Projectile.Center, sparkVelocity, ModContent.ProjectileType<SludgeSplotchProj2>(), 7, 0, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkVelocity, ModContent.ProjectileType<SludgeSplotchProj2>(), 7, 0, Projectile.owner, 0, 0);
                 }
             }
 

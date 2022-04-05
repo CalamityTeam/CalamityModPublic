@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         int dmg = Projectile.damage;
                         float kBack = Projectile.knockBack;
-                        int number = Projectile.NewProjectile(Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, projType, dmg, kBack, Projectile.owner, 0f, Projectile.ai[1] + 1f);
+                        int number = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, projType, dmg, kBack, Projectile.owner, 0f, Projectile.ai[1] + 1f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < numProj; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                int projectile2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrackishSpear2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int projectile2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrackishSpear2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 Main.projectile[projectile2].penetrate = 1;
             }
             for (int k = 0; k < 3; k++)

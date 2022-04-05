@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
                 SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
-                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
                 SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
-                int proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Rogue
             int proj;
             SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
             if(Projectile.Calamity().stealthStrike)
-                proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             else
-                proj = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             Main.projectile[proj].Center = Projectile.Center;
             Main.projectile[proj].Calamity().rogue = true;
         }

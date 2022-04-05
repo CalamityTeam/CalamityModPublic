@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int t = 0; t < 4; t++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(Projectile.damage * 0.2), 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(Projectile.damage * 0.2), 0f, Projectile.owner);
                 }
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
                 // Stealth strikes also cause any existing fireballs to home in on their targets
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Stealth strikes then summon five fireballs to circle the hit enemy, they will home in on their own after a second.
                 for (int t = 0; t < 5; t++)
                 {
-                    int i = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
+                    int i = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
                     Main.projectile[i].ModProjectile<NiceCock>().Timer = 61;
                 }
                 FireballPositions(targetIndex);
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Summon three fireballs to circle the hit enemy
                 for (int t = 0; t < 3; t++)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<NiceCock>(), (int)(Projectile.damage * 0.1), 0f, Projectile.owner, 0f, targetIndex);
                 }
                 FireballPositions(targetIndex);
             }

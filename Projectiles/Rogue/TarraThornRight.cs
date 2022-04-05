@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int type = Projectile.type;
                     if (Projectile.ai[1] >= 10f)
                         type = ModContent.ProjectileType<TarraThornTip>();
-                    int number = Projectile.NewProjectile(Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    int number = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     Main.projectile[number].ai[1] = Projectile.ai[1] + 1f;
                 }
             }

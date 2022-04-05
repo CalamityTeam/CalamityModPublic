@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 velocityOffset = Main.rand.NextFloat(-velocityMult, velocityMult) * Projectile.velocity;
             Vector2 pos = Projectile.Center + directOffset + velocityOffset;
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, Projectile.owner, 0f, spin);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, Projectile.owner, 0f, spin);
         }
 
         private void SpawnScytheAfterimage()
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Rogue
             float d = 16f;
             float velocityMult = 0.9f;
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.Center, Vector2.Zero, bladeID, bladeDamage, bladeKB, Projectile.owner, 0f, spin);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, bladeID, bladeDamage, bladeKB, Projectile.owner, 0f, spin);
         }
     }
 }

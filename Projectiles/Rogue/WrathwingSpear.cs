@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float angleDiff = Main.rand.NextFloat(-FireballAngleVariance, FireballAngleVariance);
                 Vector2 velocity = Projectile.velocity.RotatedBy(angleDiff) * 1.06f;
                 float kb = Projectile.knockBack * 0.6f;
-                Projectile.NewProjectile(Projectile.Center, velocity, fireballID, damage, kb, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, fireballID, damage, kb, Projectile.owner);
             }
 
             Projectile.ai[0] -= 1f;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float ySpeed = x % 2 == 0 ? -13f : -19f;
                     ySpeed *= Main.rand.NextFloat(0.85f, 1.05f);
                     Vector2 velocity = new Vector2(x, ySpeed);
-                    Projectile.NewProjectile(pos, velocity, eruptionID, damage, kb, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, velocity, eruptionID, damage, kb, Projectile.owner);
                 }
             }
 

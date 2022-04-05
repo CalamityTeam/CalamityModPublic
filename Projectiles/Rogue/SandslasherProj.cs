@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
             if(Projectile.Calamity().stealthStrike && Projectile.ai[1] >= 5f)
             {
                 Vector2 speed = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
-                Projectile.NewProjectile(Projectile.position, speed, ModContent.ProjectileType<DuststormCloud>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, speed, ModContent.ProjectileType<DuststormCloud>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner);
                 Projectile.ai[1] = 0;
             }
         }

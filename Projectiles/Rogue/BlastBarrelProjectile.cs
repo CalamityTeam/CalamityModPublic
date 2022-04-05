@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -75,12 +75,12 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Main.rand.NextBool(3))
                     {
                         Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
-                        Projectile.NewProjectile(Projectile.Center, Projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), Projectile.damage, 3f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), Projectile.damage, 3f, Projectile.owner);
                     }
                     else
                     {
                         Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
-                        Projectile fire = Projectile.NewProjectileDirect(Projectile.Center, Projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.75f), 1f, Projectile.owner);
+                        Projectile fire = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.75f), 1f, Projectile.owner);
                         fire.timeLeft = 300;
                         fire.penetrate = 3;
                     }

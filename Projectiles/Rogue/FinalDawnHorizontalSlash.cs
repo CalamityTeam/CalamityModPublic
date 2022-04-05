@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FinalDawnFlame>(), Projectile.damage / 2, 0f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FinalDawnFlame>(), Projectile.damage / 2, 0f, Projectile.owner);
                     }
                 }
             }

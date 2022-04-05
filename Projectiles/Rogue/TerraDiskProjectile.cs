@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.timeLeft % 8f == 0f && Main.myPlayer == Projectile.owner)
             {
-                int disk = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerraDiskProjectile2>(), Projectile.damage / 4, Projectile.knockBack / 4f, Projectile.owner, Projectile.identity, Main.rand.NextFloat(0.02f, 0.1f));
+                int disk = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerraDiskProjectile2>(), Projectile.damage / 4, Projectile.knockBack / 4f, Projectile.owner, Projectile.identity, Main.rand.NextFloat(0.02f, 0.1f));
                 Main.projectile[disk].timeLeft *= 2;
                 Main.projectile[disk].idStaticNPCHitCooldown = 8;
                 Main.projectile[disk].usesIDStaticNPCImmunity = true;
@@ -179,8 +179,8 @@ namespace CalamityMod.Projectiles.Rogue
                         for (int i = 0; i < 3; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage / 2, Projectile.knockBack / 2f, Projectile.owner);
                         }
                     }
                 }

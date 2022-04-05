@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 6; i++)
             {
                 int dustIndex = Dust.NewDust(Projectile.Center, 1, 1, 1, Projectile.velocity.X, Projectile.velocity.Y);
-                Projectile.NewProjectile(Projectile.Center, Main.dust[dustIndex].velocity, ModContent.ProjectileType<AshenStalactiteDebris>(), Projectile.damage / 2, 0, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Main.dust[dustIndex].velocity, ModContent.ProjectileType<AshenStalactiteDebris>(), Projectile.damage / 2, 0, Projectile.owner, 0, 0);
             }
         }
     }

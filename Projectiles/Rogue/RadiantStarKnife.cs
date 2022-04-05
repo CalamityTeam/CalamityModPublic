@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -87,12 +87,12 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        int stabber2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner,
+                        int stabber2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner,
                             Projectile.ai[0] == 1f ? 1f : 0f, 0f);
                         Main.projectile[stabber2].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                     }
                     SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-                    int boomer = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                    int boomer = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
                     if (Projectile.Calamity().stealthStrike && boomer.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[boomer].Calamity().stealthStrike = true;

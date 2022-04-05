@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(Projectile.damage * 0.25), 1f, Projectile.owner, 0f, Projectile.Calamity().stealthStrike ? 1f : 0f);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(Projectile.damage * 0.25), 1f, Projectile.owner, 0f, Projectile.Calamity().stealthStrike ? 1f : 0f);
                 }
             }
         }

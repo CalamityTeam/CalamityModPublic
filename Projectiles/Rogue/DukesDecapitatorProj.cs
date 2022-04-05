@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float velocityX = Main.rand.NextFloat(-0.8f, 0.8f);
                     float velocityY = Main.rand.NextFloat(-0.8f, -0.8f);
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<DukesDecapitatorBubble>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<DukesDecapitatorBubble>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
                 }
             }
             if (rotationAmount <= 0f)

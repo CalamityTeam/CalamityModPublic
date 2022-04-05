@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
                     Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
-                    Projectile.NewProjectile(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, bladeType, rocketDamage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, bladeType, rocketDamage, Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < EnergyShotCount; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / EnergyShotCount + baseDirectionRotation).ToRotationVector2() * 9f;
-                Projectile.NewProjectile(Projectile.Center + shootVelocity, shootVelocity, shootType, energyDamage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + shootVelocity, shootVelocity, shootType, energyDamage, Projectile.knockBack, Projectile.owner);
             }
         }
 

@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             int damage = Projectile.damage;
             Vector2 laserDirection = Projectile.SafeDirectionTo(potentialTarget.Center);
-            int laser = Projectile.NewProjectile(Projectile.Center, laserDirection, ModContent.ProjectileType<SeraphimBeamLarge>(), damage, 0f, Projectile.owner);
+            int laser = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserDirection, ModContent.ProjectileType<SeraphimBeamLarge>(), damage, 0f, Projectile.owner);
             if (Main.projectile.IndexInRange(laser))
                 Main.projectile[laser].scale = 0.5f;
         }
