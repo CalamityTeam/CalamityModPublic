@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Polterghast
                 {
                     if (Main.tile[x, y] != null)
                     {
-                        if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tileSolidTop[Main.tile[x, y].TileType] && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
+                        if (Main.tile[x, y].HasUnactuatedTile && Main.tileSolid[Main.tile[x, y].TileType] && !Main.tileSolidTop[Main.tile[x, y].TileType] && !TileID.Sets.Platforms[Main.tile[x, y].TileType])
                             nearbyActiveTiles++;
                     }
                 }

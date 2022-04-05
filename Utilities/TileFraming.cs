@@ -183,7 +183,7 @@ namespace CalamityMod
             else
             {
                 Tile below = Main.tile[x, y + 1];
-                if (below != null && below.nactive() && !below.IsHalfBlock && below.slope() == 0)
+                if (below != null && below.HasUnactuatedTile && !below.IsHalfBlock && below.slope() == 0)
                     checkType = below.TileType;
             }
 

@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int num234 = num231; num234 < num231 + num233; num234++)
                 {
                     Tile tile = Main.tile[num232, num234];
-                    if (tile.HasTile && (Main.tileSolid[(int)tile.TileType] || tile.liquid != 0))
+                    if (tile.HasTile && (Main.tileSolid[(int)tile.TileType] || tile.LiquidAmount != 0))
                     {
                         num231 = num234;
                         break;

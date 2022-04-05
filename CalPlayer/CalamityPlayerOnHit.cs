@@ -1025,7 +1025,7 @@ namespace CalamityMod.CalPlayer
                 for (int x = projTileX; x < projTileX + distance; x++)
                 {
                     Tile tile = Main.tile[projTileX, projTileY];
-                    if (tile.HasTile && (Main.tileSolid[tile.TileType] || tile.liquid != 0))
+                    if (tile.HasTile && (Main.tileSolid[tile.TileType] || tile.LiquidAmount != 0))
                     {
                         projTileX = x;
                         break;

@@ -27,7 +27,7 @@ namespace CalamityMod.World
             protected override bool CheckValidity(int x, int y)
             {
                 Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                return tile.liquid >= 200 && !tile.honey() && !tile.lava();
+                return tile.LiquidAmount >= 200 && !tile.honey() && !tile.lava();
             }
         }
 

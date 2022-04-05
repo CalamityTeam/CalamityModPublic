@@ -296,14 +296,14 @@ namespace CalamityMod.World
             {
                 if (dx == x)
                     continue;
-                if (CalamityUtils.ParanoidTileRetrieval(dx, y).liquid == 255)
+                if (CalamityUtils.ParanoidTileRetrieval(dx, y).LiquidAmount == 255)
                     edgeScore++;
             }
             for (int dy = y - WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy <= y + WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy++)
             {
                 if (dy == y)
                     continue;
-                if (CalamityUtils.ParanoidTileRetrieval(x, dy).liquid == 255)
+                if (CalamityUtils.ParanoidTileRetrieval(x, dy).LiquidAmount == 255)
                     edgeScore++;
             }
             return edgeScore;
@@ -344,7 +344,7 @@ namespace CalamityMod.World
                     trueX = Main.maxTilesX - x;
                 for (int y = YStart - 300; y <= YStart; y++)
                 {
-                    if (CalamityUtils.ParanoidTileRetrieval(trueX, y).liquid > 0)
+                    if (CalamityUtils.ParanoidTileRetrieval(trueX, y).LiquidAmount > 0)
                         Main.tile[trueX, y].LiquidAmount = 0;
                 }
             }
@@ -357,7 +357,7 @@ namespace CalamityMod.World
                 int x = WorldGen.genRand.Next(IslandMaxWidth + IslandXPadding, BiomeWidth - IslandMaxWidth - IslandXPadding);
                 if (!CalamityWorld.abyssSide)
                     x = Main.maxTilesX - x;
-                while (CalamityUtils.ParanoidTileRetrieval(x, y).liquid == 0)
+                while (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount == 0)
                 {
                     y++;
                     if (y > Main.rockLayer - 35)
@@ -623,7 +623,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[i, y + 1] = new Tile();
                     }
-                    if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
+                    if (!Main.tile[i, y + 1].HasUnactuatedTile || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
                     {
                         canGenerate = false;
                     }

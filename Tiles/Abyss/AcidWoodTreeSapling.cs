@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     return;
                 }
-                if (tileAbovePosition.WallType != 0 || tileAbovePosition.liquid != 0)
+                if (tileAbovePosition.WallType != 0 || tileAbovePosition.LiquidAmount != 0)
                 {
                     return;
                 }

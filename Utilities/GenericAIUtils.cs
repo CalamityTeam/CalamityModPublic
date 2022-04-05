@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -584,7 +584,7 @@ namespace CalamityMod
                         bool tableCheck = false;
                         if (stickToEverything)
                             tableCheck = Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0;
-                        if (tile != null && tile.nactive() && platformCheck && (Main.tileSolid[tile.TileType] || tableCheck))
+                        if (tile != null && tile.HasUnactuatedTile && platformCheck && (Main.tileSolid[tile.TileType] || tableCheck))
                         {
                             Vector2 tileSize;
                             tileSize.X = (float)(x * 16);

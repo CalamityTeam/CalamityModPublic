@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
@@ -300,7 +300,7 @@ namespace CalamityMod
                 {
                     checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
 
-                    ConditionMet = !(checkedTile != null && checkedTile.nactive() && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
+                    ConditionMet = !(checkedTile != null && checkedTile.HasUnactuatedTile && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
                     if (!ConditionMet)
                         return ConditionMet;
                 }

@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                 Point point15 = NPC.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
-                bool flag121 = tileSafely.nactive() || tileSafely.liquid > 0;
+                bool flag121 = tileSafely.HasUnactuatedTile || tileSafely.LiquidAmount > 0;
                 bool flag122 = false;
                 NPC.TargetClosest(false);
 
@@ -339,7 +339,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     bool flag123 = false;
                     point15 = (NPC.Center + new Vector2(0f, 24f)).ToTileCoordinates();
                     tileSafely = Framing.GetTileSafely(point15.X, point15.Y - 2);
-                    if (tileSafely.nactive())
+                    if (tileSafely.HasUnactuatedTile)
                         flag123 = true;
 
                     NPC.ai[1] = flag123.ToInt();
@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         Vector2 vec4 = NPC.Center + NPC.velocity.SafeNormalize(Vector2.Zero) * NPC.Size.Length() / 2f + NPC.velocity;
                         point15 = vec4.ToTileCoordinates();
                         tileSafely = Framing.GetTileSafely(point15);
-                        bool flag124 = tileSafely.nactive();
+                        bool flag124 = tileSafely.HasUnactuatedTile;
                         if (!flag124 && Math.Sign(NPC.velocity.X) == NPC.direction && (NPC.Distance(vector260) < 600f || youMustDie) && (NPC.ai[2] >= 30f || NPC.ai[2] < 0f))
                         {
                             if (NPC.localAI[0] == 0f)

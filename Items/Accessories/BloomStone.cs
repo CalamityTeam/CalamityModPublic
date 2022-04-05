@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             int x = (int)player.Center.X / 16;
             int y = (int)(player.Bottom.Y - 1f) / 16;
             Tile groundTile = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
-            bool groundTileIsSolid = groundTile.nactive() && (Main.tileSolid[groundTile.TileType] || Main.tileSolidTop[groundTile.TileType]);
+            bool groundTileIsSolid = groundTile.HasUnactuatedTile && (Main.tileSolid[groundTile.TileType] || Main.tileSolidTop[groundTile.TileType]);
             if (groundTileIsSolid && player.gravDir == 1f)
                 modPlayer.BloomStoneRegen = true;
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                if (!walkTile.HasTile && walkTile.liquid == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
+                if (!walkTile.HasTile && walkTile.LiquidAmount == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
                 {
                     walkTile.TileFrameY = 0;
                     walkTile.slope(0);

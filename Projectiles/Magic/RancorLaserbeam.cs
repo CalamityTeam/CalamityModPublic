@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Magic
             Point endOfLaserTileCoords = idealCenter.ToTileCoordinates();
             Tile endTile = CalamityUtils.ParanoidTileRetrieval(endOfLaserTileCoords.X, endOfLaserTileCoords.Y);
 
-            if (endTile.nactive() && (Main.tileSolid[endTile.TileType] || Main.tileSolidTop[endTile.TileType]) && !endTile.IsHalfBlock && endTile.slope() == 0)
+            if (endTile.HasUnactuatedTile && (Main.tileSolid[endTile.TileType] || Main.tileSolidTop[endTile.TileType]) && !endTile.IsHalfBlock && endTile.slope() == 0)
             {
                 Vector2 armSpawnPosition = endOfLaserTileCoords.ToWorldCoordinates();
                 Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), armSpawnPosition, Vector2.Zero, ModContent.ProjectileType<RancorArm>(), Projectile.damage * 2 / 3, 0f, Projectile.owner);

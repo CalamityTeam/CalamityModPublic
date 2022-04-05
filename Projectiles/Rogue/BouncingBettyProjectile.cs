@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Point tileCoords = Projectile.Bottom.ToTileCoordinates();
-            if (Main.tile[tileCoords.X, tileCoords.Y + 1].nactive() &&
+            if (Main.tile[tileCoords.X, tileCoords.Y + 1].HasUnactuatedTile &&
                 WorldGen.SolidTile(Main.tile[tileCoords.X, tileCoords.Y + 1]) &&
                 Projectile.timeLeft < 575)
             {

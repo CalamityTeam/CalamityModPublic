@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -36,7 +36,7 @@ namespace CalamityMod.Schematics
             wall = t.WallType; // This is changed later if it's modded
             originalType = type; // This is never changed
             originalWall = wall; // This is never changed
-            liquid = t.liquid;
+            liquid = t.LiquidAmount;
             frameX = t.TileFrameX;
             frameY = t.TileFrameY;
             keepTile = false;
@@ -189,7 +189,7 @@ namespace CalamityMod.Schematics
             // Lava and honey state are not checked separately because these are computed from binary headers.
             // lava() => (bTileHeader & 0x20) == 32;
             // honey() => (bTileHeader & 0x40) == 64;
-            return t.liquid == smt.liquid;
+            return t.LiquidAmount == smt.liquid;
         }
 
         private static int GetMetaTileIndex(IList<SchematicMetaTile> metaTiles, Tile toSearch)

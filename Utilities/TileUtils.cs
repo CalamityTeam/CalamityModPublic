@@ -512,13 +512,13 @@ namespace CalamityMod
         /// Determines if a tile is solid ground based on whether it's active and not actuated or if the tile is solid in any way, including just the top.
         /// </summary>
         /// <param name="tile">The tile to check.</param>
-        public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]);
+        public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.HasUnactuatedTile && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]);
 
 
     /// <summary>
     /// Determines if a tile is solid based on whether it's active and not actuated or if the tile is solid. This will not count platforms and other non-solid ground tiles
     /// </summary>
     /// <param name="tile">The tile to check.</param>
-    public static bool IsTileSolid(this Tile tile) => tile != null && tile.nactive() && Main.tileSolid[tile.TileType];
+    public static bool IsTileSolid(this Tile tile) => tile != null && tile.HasUnactuatedTile && Main.tileSolid[tile.TileType];
     }
 }

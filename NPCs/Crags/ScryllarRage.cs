@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Main.tile[num283, num308] = new Tile();
                 }
-                if ((Main.tile[num283, num308].nactive() && Main.tileSolid[(int)Main.tile[num283, num308].TileType]) || Main.tile[num283, num308].LiquidAmount > 0)
+                if ((Main.tile[num283, num308].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num308].TileType]) || Main.tile[num283, num308].LiquidAmount > 0)
                 {
                     flag23 = false;
                     break;
@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.Crags
                     {
                         Main.tile[num283, num309] = new Tile();
                     }
-                    if ((Main.tile[num283, num309].nactive() && Main.tileSolid[(int)Main.tile[num283, num309].TileType]) || Main.tile[num283, num309].LiquidAmount > 0)
+                    if ((Main.tile[num283, num309].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num309].TileType]) || Main.tile[num283, num309].LiquidAmount > 0)
                     {
                         flag25 = true;
                         break;

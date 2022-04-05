@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.AcidRain
                             // If there's any liquid near the tile, skip it.
                             for (int dy = y - 8; dy <= y + 8; dy++)
                             {
-                                if (CalamityUtils.ParanoidTileRetrieval(x, dy).liquid > 0)
+                                if (CalamityUtils.ParanoidTileRetrieval(x, dy).LiquidAmount > 0)
                                     goto Continue;
                             }
 

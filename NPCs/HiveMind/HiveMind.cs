@@ -549,7 +549,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (Main.tile[tilePosX, tilePosY] == null)
                             Main.tile[tilePosX, tilePosY] = new Tile();
 
-                        while (!(Main.tile[tilePosX, tilePosY].nactive() && Main.tileSolid[Main.tile[tilePosX, tilePosY].TileType]))
+                        while (!(Main.tile[tilePosX, tilePosY].HasUnactuatedTile && Main.tileSolid[Main.tile[tilePosX, tilePosY].TileType]))
                         {
                             tilePosY++;
                             NPC.position.Y += 16;

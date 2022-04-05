@@ -215,7 +215,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num1582 = (int)NPC.Center.X / 16;
                     int num1583 = (int)(NPC.position.Y + (float)NPC.height) / 16;
                     int num1584 = 0;
-                    bool flag149 = Main.tile[num1582, num1583].nactive() && Main.tileSolid[(int)Main.tile[num1582, num1583].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1583].TileType];
+                    bool flag149 = Main.tile[num1582, num1583].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1582, num1583].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1583].TileType];
                     if (flag149)
                     {
                         num1584 = 1;
@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         while (num1584 < 150 && num1583 + num1584 < Main.maxTilesY)
                         {
                             int num1585 = num1583 + num1584;
-                            bool flag150 = Main.tile[num1582, num1585].nactive() && Main.tileSolid[(int)Main.tile[num1582, num1585].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1585].TileType];
+                            bool flag150 = Main.tile[num1582, num1585].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1582, num1585].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1585].TileType];
                             if (flag150)
                             {
                                 num1584--;
@@ -261,7 +261,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num1589 = (int)NPC.Center.X / 16;
                     int num1590 = (int)(NPC.position.Y + (float)NPC.height) / 16;
                     int num1591 = 0;
-                    bool flag151 = Main.tile[num1589, num1590].nactive() && Main.tileSolid[(int)Main.tile[num1589, num1590].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1590].TileType];
+                    bool flag151 = Main.tile[num1589, num1590].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1589, num1590].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1590].TileType];
                     if (flag151)
                     {
                         num1591 = 1;
@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         while (num1591 < 150 && num1590 + num1591 < Main.maxTilesY)
                         {
                             int num1592 = num1590 + num1591;
-                            bool flag152 = Main.tile[num1589, num1592].nactive() && Main.tileSolid[(int)Main.tile[num1589, num1592].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1592].TileType];
+                            bool flag152 = Main.tile[num1589, num1592].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1589, num1592].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1592].TileType];
                             if (flag152)
                             {
                                 num1591--;
@@ -302,7 +302,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num1596 = (int)NPC.Center.X / 16;
                     int num1597 = (int)(NPC.position.Y + (float)NPC.height) / 16;
                     int num1598 = 0;
-                    bool flag153 = Main.tile[num1596, num1597].nactive() && Main.tileSolid[(int)Main.tile[num1596, num1597].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1597].TileType];
+                    bool flag153 = Main.tile[num1596, num1597].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1596, num1597].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1597].TileType];
                     if (flag153)
                     {
                         num1598 = 1;
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         while (num1598 < 150 && num1597 + num1598 < Main.maxTilesY)
                         {
                             int num1599 = num1597 + num1598;
-                            bool flag154 = Main.tile[num1596, num1599].nactive() && Main.tileSolid[(int)Main.tile[num1596, num1599].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1599].TileType];
+                            bool flag154 = Main.tile[num1596, num1599].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1596, num1599].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1599].TileType];
                             if (flag154)
                             {
                                 num1598--;

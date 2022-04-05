@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     for (int num34 = num31; num34 < num32; num34++)
                     {
-                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].nactive() && (Main.tileSolid[Main.tile[num33, num34].TileType] || (Main.tileSolidTop[Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].LiquidAmount > 64))
+                        if (Main.tile[num33, num34] != null && ((Main.tile[num33, num34].HasUnactuatedTile && (Main.tileSolid[Main.tile[num33, num34].TileType] || (Main.tileSolidTop[Main.tile[num33, num34].TileType] && Main.tile[num33, num34].TileFrameY == 0))) || Main.tile[num33, num34].LiquidAmount > 64))
                         {
                             Vector2 vector;
                             vector.X = num33 * 16;
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.Perforator
                             if (NPC.position.X + NPC.width > vector.X && NPC.position.X < vector.X + 16f && NPC.position.Y + NPC.height > vector.Y && NPC.position.Y < vector.Y + 16f)
                             {
                                 flag2 = true;
-                                if (Main.rand.NextBool(100) && Main.tile[num33, num34].nactive())
+                                if (Main.rand.NextBool(100) && Main.tile[num33, num34].HasUnactuatedTile)
                                 {
                                     WorldGen.KillTile(num33, num34, true, true, false);
                                 }
