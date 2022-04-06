@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -228,7 +229,7 @@ namespace CalamityMod.NPCs.Crags
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
             Color color36 = Color.White;
             float amount9 = 0.5f;

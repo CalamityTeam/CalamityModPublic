@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -2194,7 +2195,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             bool useOtherTextures = Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
-            Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS").Value : Main.npcTexture[NPC.type];
+            Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 
             Vector2 vector43 = NPC.Center - Main.screenPosition;

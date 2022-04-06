@@ -21,6 +21,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -987,7 +988,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (NPC.spriteDirection == 1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
-                Vector2 origin = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2);
+                Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
                 Vector2 drawPos = NPC.Center - Main.screenPosition;
                 drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                 drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);

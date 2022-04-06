@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -678,9 +679,9 @@ namespace CalamityMod.NPCs.Crabulon
             Texture2D textureAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttack").Value;
             Texture2D textureAttackGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
 
-            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2);
+            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Vector2 vector43 = NPC.Center - Main.screenPosition;
-            vector43 -= new Vector2(Main.npcTexture[NPC.type].Width, Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            vector43 -= new Vector2(TextureAssets.Npc[NPC.type].Value.Width, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
@@ -708,7 +709,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else
             {
-                spriteBatch.Draw(Main.npcTexture[NPC.type], vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
                 spriteBatch.Draw(glow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
             }

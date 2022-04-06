@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -164,7 +165,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / Main.npcFrameCount[NPC.type] / 2f);
             Color white = Color.White;
             float colorLerpAmt = 0.5f;
