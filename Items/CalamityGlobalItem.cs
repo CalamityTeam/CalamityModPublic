@@ -138,6 +138,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
                 item.rare = ItemRarityID.LightRed;
 
+            if (item.accessory)
+                item.canBePlacedInVanityRegardlessOfConditions = true;
+
             // Make most expert items no longer expert because they drop in all modes now.
             switch (item.type)
             {
