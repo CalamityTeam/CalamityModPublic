@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -2579,7 +2580,7 @@ namespace CalamityMod.NPCs.Yharon
             if (NPC.spriteDirection == 1)
                 spriteEffects = ai2 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture.Width / 2, texture.Height / Main.npcFrameCount[NPC.type] / 2);
             Color color = lightColor;
             Color invincibleColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -512,7 +513,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     spriteEffects |= SpriteEffects.FlipVertically;
                 }
-                Main.spriteBatch.Draw(Main.npcTexture[NPC.type],
+                Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value,
                     new Vector2((float)(player.direction * 4), player.gfxOffY) + ((player.gravDir == 1f) ? player.Top : player.Bottom) - Main.screenPosition,
                     new Microsoft.Xna.Framework.Rectangle?(NPC.frame), NPC.GetAlpha(color), NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects, 0f);
             }
