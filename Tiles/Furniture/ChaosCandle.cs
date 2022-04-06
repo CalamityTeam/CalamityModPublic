@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Placeables;
+﻿using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -57,7 +58,7 @@ namespace CalamityMod.Tiles.Furniture
             CalamityUtils.LightHitWire(Type, i, j, 1, 1);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 18)
                 CalamityUtils.DrawFlameSparks(235, 5, i, j);
@@ -65,7 +66,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/ChaosCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/ChaosCandleFlame").Value, i, j);
         }
 
         public override bool RightClick(int i, int j)

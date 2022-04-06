@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.DraedonStructures;
+﻿using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Wiring.Teleport += DisableTeleporters; // only applies in boss rush
             IL.Terraria.Main.DrawInterface_40_InteractItemIcon += MakeMouseHoverItemsSupportAnimations;
             On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
-            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
+            On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
             IL.Terraria.Player.QuickHeal += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
@@ -60,7 +60,7 @@ namespace CalamityMod.ILEditing
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
-            IL.Terraria.NPC.scaleStats += RemoveExpertHardmodeScaling;
+            IL.Terraria.NPC.ScaleStats += RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -91,7 +91,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += BloodMoonsRequire200MaxLife;
 
             // Fix vanilla bugs exposed by Calamity mechanics
-            On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+            // On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
@@ -116,7 +116,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Wiring.Teleport -= DisableTeleporters;
             IL.Terraria.Main.DrawInterface_40_InteractItemIcon -= MakeMouseHoverItemsSupportAnimations;
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
-            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
+            On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
             IL.Terraria.Player.QuickHeal -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
@@ -134,7 +134,7 @@ namespace CalamityMod.ILEditing
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
-            IL.Terraria.NPC.scaleStats -= RemoveExpertHardmodeScaling;
+            IL.Terraria.NPC.ScaleStats -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -165,7 +165,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= BloodMoonsRequire200MaxLife;
 
             // Fix vanilla bugs exposed by Calamity mechanics
-            On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
+            // On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
             // IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
         }
