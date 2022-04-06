@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.ClosedDoor };
             DustType = 8;
-            openDoorID = ModContent.TileType<LaboratoryDoorOpen>();
+            OpenDoorID = ModContent.TileType<LaboratoryDoorOpen>();
         }
 
         public override bool Slope(int i, int j) => false;

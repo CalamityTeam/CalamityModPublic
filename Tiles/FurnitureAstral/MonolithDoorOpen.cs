@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
-            closeDoorID = ModContent.TileType<MonolithDoorClosed>();
+            CloseDoorID = ModContent.TileType<MonolithDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithDoorOpenGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithDoorOpenGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;

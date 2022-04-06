@@ -16,7 +16,6 @@ namespace CalamityMod.Items
     public class CalamityGlobalItemLoot : GlobalItem
     {
         public override bool InstancePerEntity => false;
-        public override bool CloneNewInstances => false;
 
         // NOTE: this function applies to all right-click-to-open items, even modded ones (despite the name).
         // This means it applies to boss bags, crates, lockboxes, herb bags, goodie bags, and presents.

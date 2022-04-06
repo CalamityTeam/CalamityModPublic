@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Beds };
-            bed = true;
         }
 
         public override bool CanExplode(int i, int j) => false;

@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -35,13 +35,13 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithCandleGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithCandleGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y - 4) + zero;
             Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 20)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
 
-            Texture2D glowmaskBright = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithCandleFlame");
+            Texture2D glowmaskBright = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithCandleFlame").Value;
             Main.spriteBatch.Draw(glowmaskBright, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 20)), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
 

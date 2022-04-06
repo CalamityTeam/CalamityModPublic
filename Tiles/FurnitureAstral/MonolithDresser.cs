@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Monolith Dresser";
+            ContainerName.SetDefault("Monolith Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithDresser>();
         }
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithDresserGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAstral/MonolithDresserGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
@@ -62,12 +62,12 @@ namespace CalamityMod.Tiles.FurnitureAstral
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAstral.MonolithDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAstral.MonolithDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAstral.MonolithDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAstral.MonolithDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
