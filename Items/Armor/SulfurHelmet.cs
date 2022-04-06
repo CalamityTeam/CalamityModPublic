@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Rogue;
@@ -59,7 +59,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UrchinStinger>(), 15).AddIngredient(ModContent.ItemType<Acidwood>(), 10).AddIngredient(ModContent.ItemType<SulphurousSand>(), 10).AddIngredient(ModContent.ItemType<SulfuricScale>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<UrchinStinger>(15)
+                .AddIngredient<Acidwood>(10)
+                .AddIngredient<SulphurousSand>(10)
+                .AddIngredient<SulfuricScale>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

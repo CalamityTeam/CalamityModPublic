@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +33,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ObsidianRose).AddIngredient(ModContent.ItemType<CalamityDust>(), 8).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.ObsidianRose)
+                .AddIngredient<CalamityDust>(8)
+                .AddIngredient<UnholyCore>(4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

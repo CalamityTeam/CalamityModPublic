@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DesertFeather>(), 3).AddIngredient(ItemID.Silk, 10).AddTile(TileID.Loom).Register();
+            CreateRecipe()
+                .AddIngredient<DesertFeather>(3)
+                .AddIngredient(ItemID.Silk, 10)
+                .AddTile(TileID.Loom)
+                .Register();
         }
     }
 }

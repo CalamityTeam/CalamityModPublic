@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +31,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 4).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<VictideBar>(4)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -56,7 +56,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddIngredient(ItemID.MeteoriteBar, 6).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<AstralBar>(8)
+                .AddIngredient(ItemID.MeteoriteBar, 6)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

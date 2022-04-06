@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +31,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(150).AddIngredient(ItemID.MusketBall, 150).AddIngredient(ModContent.ItemType<VictoryShard>()).AddTile(TileID.Anvils).Register();
+            CreateRecipe(150)
+                .AddIngredient(ItemID.MusketBall, 150)
+                .AddIngredient<VictoryShard>()
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

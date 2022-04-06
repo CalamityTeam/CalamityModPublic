@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +39,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 16).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<BloodstoneCore>(16)
+                .AddIngredient<RuinousSoul>(4)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

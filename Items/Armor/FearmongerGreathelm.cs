@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -88,7 +88,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpookyHelmet).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ItemID.SoulofFright, 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SpookyHelmet)
+                .AddIngredient<CosmiliteBar>(8)
+                .AddIngredient(ItemID.SoulofFright, 8)
+                .AddIngredient<AscendantSpiritEssence>(2)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

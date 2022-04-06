@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SolarVeil>(), 14).AddIngredient(ItemID.HallowedBar, 11).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<SolarVeil>(14)
+                .AddIngredient(ItemID.HallowedBar, 11)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

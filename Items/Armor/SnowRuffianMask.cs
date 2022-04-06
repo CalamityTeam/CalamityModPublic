@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -67,7 +67,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnySnowBlock", 10).AddRecipeGroup("AnyIceBlock", 5).AddIngredient(ItemID.BorealWood, 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnySnowBlock", 10)
+                .AddRecipeGroup("AnyIceBlock", 5)
+                .AddIngredient(ItemID.BorealWood, 15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
     public class SnowRuffianWings : EquipTexture

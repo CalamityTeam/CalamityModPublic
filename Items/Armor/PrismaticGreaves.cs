@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
@@ -40,7 +40,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 5).AddIngredient(ModContent.ItemType<DivineGeode>(), 6).AddIngredient(ItemID.Nanites, 300).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<ArmoredShell>(3)
+                .AddIngredient<ExodiumClusterOre>(5)
+                .AddIngredient<DivineGeode>(6)
+                .AddIngredient(ItemID.Nanites, 300)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -36,7 +36,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 7).AddRecipeGroup("AnyGoldBar", 7).AddIngredient(ModContent.ItemType<Tenebris>(), 9).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<EffulgentFeather>(7)
+                .AddRecipeGroup("AnyGoldBar", 7)
+                .AddIngredient<Tenebris>(9)
+                .AddIngredient<AscendantSpiritEssence>(2)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

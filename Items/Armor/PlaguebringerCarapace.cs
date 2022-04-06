@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BeeBreastplate).AddIngredient(ModContent.ItemType<AlchemicalFlask>(), 2).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 7).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.BeeBreastplate)
+                .AddIngredient<AlchemicalFlask>(2)
+                .AddIngredient<PlagueCellCluster>(7)
+                .AddIngredient<InfectedArmorPlating>(7)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

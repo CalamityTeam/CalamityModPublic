@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -102,7 +102,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrism>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe()
+                .AddIngredient<ExoPrism>(10)
+                .AddIngredient<GalacticaSingularity>(3)
+                .AddIngredient<CoreofCalamity>(3)
+                .AddTile<DraedonsForge>()
+                .Register();
         }
     }
 }

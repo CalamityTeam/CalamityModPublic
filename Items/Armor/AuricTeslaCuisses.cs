@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -36,8 +36,23 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerLeggings>()).AddIngredient(ModContent.ItemType<BloodflareCuisses>()).AddIngredient(ModContent.ItemType<TarragonLeggings>()).AddIngredient(ItemID.FlyingCarpet).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaLeggings>()).AddIngredient(ModContent.ItemType<BloodflareCuisses>()).AddIngredient(ModContent.ItemType<TarragonLeggings>()).AddIngredient(ItemID.FlyingCarpet).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<GodSlayerLeggings>()
+                .AddIngredient<BloodflareCuisses>()
+                .AddIngredient<TarragonLeggings>()
+                .AddIngredient(ItemID.FlyingCarpet)
+                .AddIngredient<AuricBar>(15)
+                .AddTile<CosmicAnvil>()
+                .Register();
+
+            CreateRecipe()
+                .AddIngredient<SilvaLeggings>()
+                .AddIngredient<BloodflareCuisses>()
+                .AddIngredient<TarragonLeggings>()
+                .AddIngredient(ItemID.FlyingCarpet)
+                .AddIngredient<AuricBar>(15)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

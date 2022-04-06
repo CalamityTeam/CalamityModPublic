@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -41,7 +41,14 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpiderBreastplate).AddIngredient(ModContent.ItemType<VictideBar>(), 12).AddIngredient(ModContent.ItemType<PlantyMush>(), 10).AddIngredient(ModContent.ItemType<AbyssGravel>(), 18).AddIngredient(ModContent.ItemType<DepthCells>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SpiderBreastplate)
+                .AddIngredient<VictideBar>(12)
+                .AddIngredient<PlantyMush>(10)
+                .AddIngredient<AbyssGravel>(18)
+                .AddIngredient<DepthCells>(5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

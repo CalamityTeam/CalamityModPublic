@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.NecroGreaves).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 21).AddIngredient(ItemID.Nanites, 17).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.NecroGreaves)
+                .AddIngredient<PlagueCellCluster>(21)
+                .AddIngredient(ItemID.Nanites, 17)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

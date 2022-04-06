@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -53,7 +53,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 5).AddIngredient(ItemID.HellstoneBar, 9).AddTile(ModContent.TileType<StaticRefiner>()).Register();
+            CreateRecipe()
+                .AddIngredient<PurifiedGel>(5)
+                .AddIngredient(ItemID.HellstoneBar, 9)
+                .AddTile<StaticRefiner>()
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -70,7 +70,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddRecipeGroup("AnyGoldBar", 5).AddIngredient(ModContent.ItemType<Tenebris>(), 6).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<EffulgentFeather>(5)
+                .AddRecipeGroup("AnyGoldBar", 5)
+                .AddIngredient<Tenebris>(6)
+                .AddIngredient<AscendantSpiritEssence>(2)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

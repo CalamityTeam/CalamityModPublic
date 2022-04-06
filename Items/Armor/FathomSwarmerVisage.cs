@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -66,7 +66,14 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpiderMask).AddIngredient(ModContent.ItemType<VictideBar>(), 5).AddIngredient(ModContent.ItemType<PlantyMush>(), 6).AddIngredient(ModContent.ItemType<AbyssGravel>(), 11).AddIngredient(ModContent.ItemType<DepthCells>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SpiderMask)
+                .AddIngredient<VictideBar>(5)
+                .AddIngredient<PlantyMush>(6)
+                .AddIngredient<AbyssGravel>(11)
+                .AddIngredient<DepthCells>(3)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

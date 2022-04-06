@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -39,7 +39,13 @@ No positive life regen");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ReaperTooth>(), 12).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<Tenebris>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<ReaperTooth>(12)
+                .AddIngredient<Lumenite>(8)
+                .AddIngredient<Tenebris>(8)
+                .AddIngredient<RuinousSoul>(4)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 10).AddIngredient(ItemID.HellstoneBar, 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<CruptixBar>(10)
+                .AddIngredient(ItemID.HellstoneBar, 5)
+                .AddIngredient<CoreofChaos>(2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

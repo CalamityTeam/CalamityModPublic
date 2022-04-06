@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +31,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).AddIngredient(ItemID.RocketIV, 100).AddIngredient(ModContent.ItemType<UeliaceBar>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(100)
+                .AddIngredient(ItemID.RocketIV, 100)
+                .AddIngredient<UeliaceBar>()
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

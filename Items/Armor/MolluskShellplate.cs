@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MolluskHusk>(), 15).AddIngredient(ModContent.ItemType<SeaPrism>(), 25).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<MolluskHusk>(15)
+                .AddIngredient<SeaPrism>(25)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
