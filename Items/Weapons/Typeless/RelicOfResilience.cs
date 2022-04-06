@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Damageable;
+﻿using CalamityMod.Projectiles.Damageable;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,7 +42,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         }
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
         public override bool? UseItem(Player player) => true;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             player.AddCooldown(Cooldowns.RelicOfResilience.ID, CalamityUtils.SecondsToFrames(CooldownSeconds));
             int[] shardTypes = new int[]
@@ -65,9 +67,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 }
             }
             else if (shardTypes.All(proj => player.ownedProjectileCounts[proj] == 0))
-            {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

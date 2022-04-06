@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool AltFunctionUse(Player player) => true;
 
         // Right click doesn't use ammo because it's a detonation signal.
-        public override bool ConsumeAmmo(Player player) => player.altFunctionUse != 2;
+        public override bool CanConsumeAmmo(Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ChickenCannonHeld>()] <= 0 || player.altFunctionUse == 2;
 

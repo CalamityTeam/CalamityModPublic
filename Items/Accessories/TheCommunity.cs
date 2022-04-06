@@ -36,6 +36,6 @@ namespace CalamityMod.Items.Accessories
         }
 
         // Community and Shattered Community are mutually exclusive
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().shatteredCommunity;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().shatteredCommunity;
     }
 }

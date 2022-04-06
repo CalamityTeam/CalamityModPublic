@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.elementalHeart)
@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalHealer>(), (int)(45 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+                    var source = player.GetProjectileSource_Accessory(Item);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalHealer>(), (int)(45 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

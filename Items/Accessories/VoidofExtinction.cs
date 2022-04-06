@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().calamityRing;
 
         public override void AddRecipes()
         {

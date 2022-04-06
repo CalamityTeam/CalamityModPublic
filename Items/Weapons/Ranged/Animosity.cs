@@ -85,7 +85,7 @@ Right click to fire a burst of bullets");
             }
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             if (Main.rand.Next(0, 100) < 50)
                 return false;

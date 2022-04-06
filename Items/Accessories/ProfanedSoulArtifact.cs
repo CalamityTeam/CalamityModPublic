@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().donorItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             return !player.Calamity().pArtifact;
         }

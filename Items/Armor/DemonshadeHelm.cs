@@ -6,8 +6,8 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using static CalamityMod.CalPlayer.CalamityPlayer;
 using System.Linq;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Armor
 {
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Armor
         }
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/DemonshadeHelm_Extension";
-        public Vector2 ExtensionSpriteOffset(PlayerDrawInfo drawInfo) => new Vector2(-10f, -14f);
-        public bool PreDrawExtension(PlayerDrawInfo drawInfo) => true;
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(-10f, -14f);
+        public bool PreDrawExtension(PlayerDrawSet drawInfo) => true;
     }
 }

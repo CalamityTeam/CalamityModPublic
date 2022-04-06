@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -55,16 +55,9 @@ namespace CalamityMod.Items.Accessories
         }
 
         // Not overriding these Clones makes tooltips fail to function correctly due to HoverItem spaghetti.
-        public override ModItem Clone()
-        {
-            var clone = (ShatteredCommunity)base.Clone();
-            clone.level = level;
-            clone.totalRageDamage = totalRageDamage;
-            return clone;
-        }
         public override ModItem Clone(Item item)
         {
-            var clone = (ShatteredCommunity)base.Clone();
+            var clone = (ShatteredCommunity)base.Clone(Item);
             clone.level = level;
             clone.totalRageDamage = totalRageDamage;
             return clone;
@@ -79,7 +72,7 @@ namespace CalamityMod.Items.Accessories
 
             // Shattered Community gives (mostly) the same boosts as normal Community
             // It does not give melee speed or minion knockback, but always gives life regen (instead of only conditionally)
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             modPlayer.AllCritBoost(5);
             player.statDefense += 10;
             player.endurance += 0.05f;
@@ -91,7 +84,7 @@ namespace CalamityMod.Items.Accessories
         }
 
         // Community and Shattered Community are mutually exclusive
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().community;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().community;
         public override bool CanUseItem(Player player) => false;
 
         // Produces purple light while in the world.
@@ -115,7 +108,7 @@ namespace CalamityMod.Items.Accessories
             {
                 Item acc = player.armor[i];
                 if (acc.type == thisItemID)
-                    sc = acc.modItem as ShatteredCommunity;
+                    sc = acc.ModItem as ShatteredCommunity;
             }
 
             // Safety check in case for some reason the equipped Shattered Community isn't found.
@@ -136,9 +129,10 @@ namespace CalamityMod.Items.Accessories
         private void LevelUpEffects(Player player)
         {
             // Spawn the purple laser beam from failing the Dungeon Defenders event.
+            var source = player.GetProjectileSource_Accessory(Item);
             int projID = ProjectileID.DD2ElderWins;
             Vector2 offset = new Vector2(0f, 800f); // The effect is extremely tall, so start it very low down
-            Projectile fx = Projectile.NewProjectileDirect(player.Center + offset, Vector2.Zero, projID, 0, 0f, player.whoAmI);
+            Projectile fx = Projectile.NewProjectileDirect(source, player.Center + offset, Vector2.Zero, projID, 0, 0f, player.whoAmI);
             fx.friendly = false;
             fx.hostile = false;
             // On the 108th update, crystal debris is spawned, so we avoid that.
@@ -190,17 +184,13 @@ namespace CalamityMod.Items.Accessories
             tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            TagCompound tag = new TagCompound
-            {
-                { "level", level },
-                { "totalDamage", totalRageDamage }
-            };
-            return tag;
+            tag["level"] = level;
+            tag["totalDamage"] = totalRageDamage;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             level = tag.GetInt("level");
             // Shattered Community's level cap was reduced from 60 to 25, so cap out ones that were made higher previously.

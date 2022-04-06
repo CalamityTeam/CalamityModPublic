@@ -1,9 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,20 +40,20 @@ namespace CalamityMod.Items.Weapons.Typeless
         }
 
         // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            float formula = 5f * (player.allDamage - 1f);
+            float formula = 5f * (player.GetDamage(DamageClass.Generic) - 1f);
             formula += player.GetDamage(DamageClass.Melee) - 1f;
             formula += player.GetDamage(DamageClass.Ranged) - 1f;
             formula += player.GetDamage(DamageClass.Magic) - 1f;
             formula += player.GetDamage(DamageClass.Summon) - 1f;
             formula += player.Calamity().throwingDamage - 1f;
-            add += formula;
+            damage += formula;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 

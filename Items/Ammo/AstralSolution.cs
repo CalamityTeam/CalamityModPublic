@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Ammo
             return;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return !(player.itemAnimation < player.ActiveItem().useAnimation - 3);
         }

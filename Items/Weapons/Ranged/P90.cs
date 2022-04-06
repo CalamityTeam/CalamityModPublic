@@ -49,6 +49,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() < 0.5f;
+        public override bool CanConsumeAmmo(Player player) => Main.rand.NextFloat() < 0.5f;
     }
 }

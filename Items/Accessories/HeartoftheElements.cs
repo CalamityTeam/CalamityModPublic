@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.brimstoneWaifu || modPlayer.sandWaifu || modPlayer.sandBoobWaifu || modPlayer.cloudWaifu || modPlayer.sirenWaifu)

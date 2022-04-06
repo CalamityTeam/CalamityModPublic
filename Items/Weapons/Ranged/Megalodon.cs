@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             if (shotType == 2)
                 return false;

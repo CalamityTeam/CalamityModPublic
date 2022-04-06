@@ -1,10 +1,11 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -33,13 +34,13 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 10; ++index)
             {
-                float SpeedX = speedX + Main.rand.NextFloat(-3.75f, 3.75f);
-                float SpeedY = speedY + Main.rand.NextFloat(-3.75f, 3.75f);
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
+                float SpeedX = velocity.X + Main.rand.NextFloat(-3.75f, 3.75f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-3.75f, 3.75f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
             }
             return false;
         }

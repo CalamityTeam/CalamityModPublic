@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,12 +42,9 @@ Revenge is a dish best served flaming hot");
             return new Vector2(10, 10);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 rotated = new Vector2(speedX, speedY);
-            rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
-            speedX = rotated.X;
-            speedY = rotated.Y;
+            velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10f));
             int shotType = ModContent.ProjectileType<DrizzlefishFireball>();
             if (Main.rand.NextBool(2))
             {
@@ -56,7 +54,7 @@ Revenge is a dish best served flaming hot");
             {
                 shotType = ModContent.ProjectileType<DrizzlefishFireball>();
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, shotType, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(2));
+            Projectile.NewProjectile(source, position, velocity, shotType, damage, knockback, player.whoAmI, 0f, Main.rand.Next(2));
             return false;
         }
     }

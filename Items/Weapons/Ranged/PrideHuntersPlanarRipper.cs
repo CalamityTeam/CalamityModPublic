@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-12, -6);
 
-        public override bool ConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 33;
+        public override bool CanConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 33;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
