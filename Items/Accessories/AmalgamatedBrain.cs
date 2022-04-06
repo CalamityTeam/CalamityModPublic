@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

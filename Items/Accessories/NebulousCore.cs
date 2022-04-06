@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             int damage = (int)(250 * player.AverageDamage());
             float knockBack = 3f;
             if (Main.rand.NextBool(15))

@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
             AddMapEntry(new Color(79, 61, 97));
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.AstralDesert
             return false;
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameY <= 18 || tile.TileFrameY == 72)

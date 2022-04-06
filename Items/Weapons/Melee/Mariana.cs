@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), knockback, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {
@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {

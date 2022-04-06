@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.amalgam = true;
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
 
             if (player.immune)
             {

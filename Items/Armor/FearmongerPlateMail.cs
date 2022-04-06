@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 100;
             player.endurance += 0.08f;
-            player.allDamage += 0.05f;
+            player.GetDamage<GenericDamageClass>() += 0.05f;
             player.Calamity().AllCritBoost(5);
         }
 

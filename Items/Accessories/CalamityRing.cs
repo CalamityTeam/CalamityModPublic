@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
             player.endurance -= 0.1f;
             if (player.whoAmI == Main.myPlayer)
             {

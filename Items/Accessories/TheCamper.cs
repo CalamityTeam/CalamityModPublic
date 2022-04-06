@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.StandingStill())
                 {
-                    player.allDamage += 0.15f;
+                    player.GetDamage<GenericDamageClass>() += 0.15f;
                     auraCounter++;
                     float range = 200f;
                     if (auraCounter == 9)

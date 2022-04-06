@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
             if (player.lavaWet)
             {
-                player.allDamage += 0.25f;
+                player.GetDamage<GenericDamageClass>() += 0.25f;
             }
             if (player.immune)
             {

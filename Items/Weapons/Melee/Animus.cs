@@ -41,9 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            float damageMult = player.Calamity().animusBoost;
-            damageMult -= 1f;
-            damage *= damageMult;
+            damage *= player.Calamity().animusBoost;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

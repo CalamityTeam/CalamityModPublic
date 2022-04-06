@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.allDamage += 0.06f;
+            player.GetDamage<GenericDamageClass>() += 0.06f;
             player.armorPenetration += 10;
         }
 

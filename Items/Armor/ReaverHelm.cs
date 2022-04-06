@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage -= 0.3f;
+            player.GetDamage<GenericDamageClass>() -= 0.3f;
             player.endurance += 0.15f;
             player.Calamity().reaverRegen = true;
             player.statLifeMax2 += 50;

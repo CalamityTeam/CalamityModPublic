@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.armor[0].type == ModContent.ItemType<AtaxiaMask>()) &&
                 player.armor[1].type == ModContent.ItemType<AtaxiaArmor>() && player.armor[2].type == ModContent.ItemType<AtaxiaSubligar>())
             {
-                player.allDamage += 0.05f;
+                player.GetDamage<GenericDamageClass>() += 0.05f;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

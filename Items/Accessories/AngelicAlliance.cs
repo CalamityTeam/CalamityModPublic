@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.angelicAlliance = true;
-            player.allDamage += 0.08f;
+            player.GetDamage<GenericDamageClass>() += 0.08f;
             player.GetDamage(DamageClass.Summon) += 0.07f; //7% + 8% = 15%
             player.maxMinions += 2;
             if (player.controlJump)

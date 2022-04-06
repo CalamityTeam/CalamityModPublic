@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;
-            player.allDamage += 0.11f;
+            player.GetDamage<GenericDamageClass>() += 0.11f;
             modPlayer.AllCritBoost(6);
         }
 

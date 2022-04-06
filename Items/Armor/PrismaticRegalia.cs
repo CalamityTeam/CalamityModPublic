@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 40;
             player.GetDamage(DamageClass.Magic) += 0.12f;
             player.GetCritChance(DamageClass.Magic) += 15;
-            player.allDamage -= 0.2f;
+            player.GetDamage<GenericDamageClass>() -= 0.2f;
             player.GetDamage(DamageClass.Magic) += 0.2f;
         }
 

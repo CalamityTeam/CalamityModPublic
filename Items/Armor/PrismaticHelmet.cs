@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().prismaticHelmet = true;
-            player.allDamage -= 0.2f;
+            player.GetDamage<GenericDamageClass>() -= 0.2f;
             player.GetDamage(DamageClass.Magic) += 0.2f;
             player.GetDamage(DamageClass.Magic) += 0.18f;
             player.GetCritChance(DamageClass.Magic) += 12;

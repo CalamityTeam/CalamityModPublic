@@ -31,7 +31,7 @@ No positive life regen");
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             modPlayer.AllCritBoost(8);
             modPlayer.omegaBlueChestplate = true;
             modPlayer.noLifeRegen = true;

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 40;
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             player.Calamity().AllCritBoost(5);
         }
 
