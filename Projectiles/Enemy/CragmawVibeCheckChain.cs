@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -80,8 +80,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D endTexture = ModContent.Request<Texture2D>(Texture);
-            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Enemy/CragmawVibeCheckMid");
+            Texture2D endTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Enemy/CragmawVibeCheckMid").Value;
             Vector2 drawPosition = ReelingPlayer ? Main.player[(int)Projectile.ai[1]].Center : Projectile.Center;
             Vector2 distanceVectorToStart = Main.npc[(int)Projectile.ai[0]].Top + Vector2.UnitY * 30f - drawPosition;
             float distanceToStart = distanceVectorToStart.Length();

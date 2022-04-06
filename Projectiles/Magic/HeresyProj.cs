@@ -126,6 +126,6 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

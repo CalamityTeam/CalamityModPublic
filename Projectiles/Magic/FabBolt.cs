@@ -102,11 +102,11 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             if (FadingOut)
                 return false;
-            return base.CanDamage();
+            return null;
         }
     }
 }

@@ -93,6 +93,6 @@ namespace CalamityMod.Projectiles.Magic
                 circleSpell.localAI[1] = Projectile.whoAmI;
             }
         }
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -133,9 +133,9 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
-            return Projectile.alpha < 128;
+            return Projectile.alpha < 128 ? null : false;
         }
 
         public override void Kill(int timeLeft)

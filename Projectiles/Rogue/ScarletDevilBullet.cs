@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
@@ -67,11 +67,11 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(250, 250, 250);
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             if (Projectile.Calamity().stealthStrike && Projectile.ai[0] < 60f)
                 return false;
-            return base.CanDamage();
+            return null;
         }
     }
 }

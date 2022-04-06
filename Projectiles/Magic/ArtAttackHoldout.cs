@@ -78,6 +78,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.velocity = aimOffset;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

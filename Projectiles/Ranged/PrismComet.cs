@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
             prismEnergy.velocity -= Projectile.velocity * 0.3f;
         }
 
-        public override bool CanDamage() => Time >= 20f;
+        public override bool? CanDamage() => Time >= 20f ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {

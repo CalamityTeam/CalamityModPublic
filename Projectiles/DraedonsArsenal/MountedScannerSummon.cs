@@ -125,6 +125,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
             }
         }
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

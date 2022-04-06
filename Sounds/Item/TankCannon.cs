@@ -1,3 +1,6 @@
+using Terraria.Audio;
+using Terraria.Audio;
+using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
@@ -7,13 +10,13 @@ namespace CalamityMod.Sounds.Item
 {
     public class TankCannon : ModSound
     {
-        public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
+        public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan)
         {
-            soundInstance = sound.CreateInstance();
+            soundInstance = Sound.Value.CreateInstance();
             soundInstance.Volume = MathHelper.Clamp(volume * 1.1f, 0f, 1f);
             soundInstance.Pan = pan;
             soundInstance.Pitch = (float)Main.rand.Next(-25, 26) * 0.01f;
-            Main.PlaySoundInstance(soundInstance);
+            SoundInstanceGarbageCollector.Track(soundInstance);
             return soundInstance;
         }
     }

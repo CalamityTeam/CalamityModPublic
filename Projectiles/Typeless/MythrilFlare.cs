@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool CanDamage() => Time >= AttackDelay;
+        public override bool? CanDamage() => Time >= AttackDelay ? null : false;
 
         public Color TrailColor(float completionRatio)
         {
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Typeless
                 FlameTrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
 
             // Prepare the flame trail shader with its map texture.
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/EternityStreak"));
+            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/EternityStreak").Value);
             FlameTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 74);
             return false;
         }

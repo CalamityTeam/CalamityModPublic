@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
         }
 
-        public override bool CanDamage() => Projectile.timeLeft < Lifetime - 4;
+        public override bool? CanDamage() => Projectile.timeLeft < Lifetime - 4 ? null : false;
 
         public override void AI() => Lighting.AddLight(Projectile.Center, ShaderColorOne.ToVector3());
 

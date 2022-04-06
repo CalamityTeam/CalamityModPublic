@@ -17,9 +17,9 @@ namespace CalamityMod.TileEntities
         public Vector2 Center => Position.ToWorldCoordinates(LabHologramProjector.Width * 8f, LabHologramProjector.Height * 8f);
         public bool PoppingUp = false;
 
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Main.tile[x, y];
             return tile.HasTile && tile.TileType == ModContent.TileType<LabHologramProjector>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
@@ -52,13 +52,13 @@ namespace CalamityMod.TileEntities
         }
 
         // This code is called as a hook when the player places the Lab Hologram Projector tile so that the tile entity may be placed.
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             // If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
             // Also tell the server that you placed the 6x7 tiles that make up the Lab Hologram Projector.
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, LabHologramProjector.Width, LabHologramProjector.Height);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, LabHologramProjector.Width, LabHologramProjector.Height);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
                 return -1;
             }
@@ -93,8 +93,8 @@ namespace CalamityMod.TileEntities
             }
         }
 
-        public override void NetSend(BinaryWriter writer, bool lightSend) => writer.Write(PoppingUp);
-        public override void NetReceive(BinaryReader reader, bool lightReceive) => PoppingUp = reader.ReadBoolean();
+        public override void NetSend(BinaryWriter writer) => writer.Write(PoppingUp);
+        public override void NetReceive(BinaryReader reader) => PoppingUp = reader.ReadBoolean();
 
         private void SendSyncPacket()
         {

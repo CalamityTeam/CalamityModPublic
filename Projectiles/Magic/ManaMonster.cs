@@ -92,8 +92,7 @@ namespace CalamityMod.Projectiles.Magic
         // Ensure damage is not absolutely obscene when hitting players.
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = 102;
 
-        public override bool CanDamage() => Projectile.Opacity >= 1f;
-
+        public override bool? CanDamage() => Projectile.Opacity >= 1f ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
             return LaserLength;
         }
 
-        public override bool CanDamage() => Projectile.penetrate == 100;
+        public override bool? CanDamage() => Projectile.penetrate == 100 ? null : false;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

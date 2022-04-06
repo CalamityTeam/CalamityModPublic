@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using System;
@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Abyss
             base.SetDefaults();
         }
 
-        public override bool Dangersense(int i, int j, Player player) => true;
+        public override bool IsTileDangerous(int i, int j, Player player) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

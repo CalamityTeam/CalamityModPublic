@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation += 0.25f;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
-            return Projectile.ai[0] >= 90;
+            return Projectile.ai[0] >= 90 ? null : false;
         }
 
         public override void Kill(int timeLeft)

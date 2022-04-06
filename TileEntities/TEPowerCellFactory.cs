@@ -63,9 +63,9 @@ namespace CalamityMod.TileEntities
         }
 
         // This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Power Cell Factory tile.
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Main.tile[x, y];
             return tile.HasTile && tile.TileType == ModContent.TileType<PowerCellFactory>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.TileEntities
         }
 
         // This code is called as a hook when the player places the Power Cell Factory tile so that the tile entity may be placed.
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             // If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
             // Also tell the server that you placed the 4x4 tiles that make up the Power Cell Factory.
@@ -121,25 +121,25 @@ namespace CalamityMod.TileEntities
             }
         }
 
-        public override TagCompound Save() => new TagCompound
+        public override void SaveData(TagCompound tag)
         {
-            { "time", Time },
-            { "cells", _stack }
-        };
+            tag["time"] = Time;
+            tag["cells"] = _stack;
+        }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             Time = tag.GetLong("time");
             _stack = tag.GetShort("cells");
         }
 
-        public override void NetSend(BinaryWriter writer, bool lightSend)
+        public override void NetSend(BinaryWriter writer)
         {
             writer.Write(Time);
             writer.Write(_stack);
         }
 
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        public override void NetReceive(BinaryReader reader)
         {
             Time = reader.ReadInt64();
             _stack = reader.ReadInt16();

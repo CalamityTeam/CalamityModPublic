@@ -113,11 +113,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 Vector2 start = oldPositions[i] + Projectile.Size * 0.5f - Main.screenPosition;
                 Vector2 end = oldPositions[i + 1] + Projectile.Size * 0.5f - Main.screenPosition;
-                Utils.DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture), start, end, new Vector2(OuterLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>(Texture).Value, start, end, new Vector2(OuterLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
 
                 DelegateMethods.f_1 = InnerLightningOpacity;
                 DelegateMethods.c_1 = InnerLightningColor;
-                Utils.DrawLaser(spriteBatch, ModContent.Request<Texture2D>(Texture), start, end, new Vector2(InnerLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>(Texture).Value, start, end, new Vector2(InnerLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
             }
             return false;
         }

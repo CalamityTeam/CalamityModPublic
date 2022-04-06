@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -265,7 +265,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         //Does no contact damage
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool PreDraw(ref Color lightColor)
         {

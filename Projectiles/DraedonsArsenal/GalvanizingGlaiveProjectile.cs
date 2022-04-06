@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 drawPosition = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture = ModContent.Request<Texture2D>(Texture);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * 0.5f;
             Main.EntitySpriteDraw(texture, drawPosition, null, lightColor, Projectile.rotation, origin, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             return false;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Vector2 offset = Projectile.Size * 0.5f + Projectile.Size.RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver4) * 0.4f;
                 Vector2 start = oldPositions[i] + offset - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
                 Vector2 end = oldPositions[i + 2] + offset - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
-                Utils.DrawLaser(spriteBatch, ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj"), start, end, new Vector2(0.2f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(Main.spriteBatch, ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj"), start, end, new Vector2(0.2f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
             }
         }
 

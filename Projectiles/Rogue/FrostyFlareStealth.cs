@@ -136,6 +136,6 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
         }
 
-        public override bool CanDamage() => Projectile.ai[0] == 0f;
+        public override bool? CanDamage() => Projectile.ai[0] == 0f ? null : false;
     }
 }

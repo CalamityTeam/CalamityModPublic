@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool CanDamage() => Projectile.ai[0] >= 30f;
+        public override bool? CanDamage() => Projectile.ai[0] >= 30f ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {

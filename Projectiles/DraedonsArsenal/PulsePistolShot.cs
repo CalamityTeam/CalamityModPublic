@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
-        public override bool CanDamage() => Time > Projectile.MaxUpdates;
+        public override bool? CanDamage() => Time > Projectile.MaxUpdates;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!NPCsAlreadyHit.Contains(target))
@@ -121,8 +121,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                                                   Projectile.owner,
                                                                   toHit.whoAmI);
             splitShot.frameCounter = Projectile.frameCounter + 1;
-            ((PulsePistolShot)splitShot.modProjectile).NPCsAlreadyHit.AddRange(NPCsAlreadyHit);
-            ((PulsePistolShot)splitShot.modProjectile).NPCsAlreadyHit.Add(toHit);
+            ((PulsePistolShot)splitShot.ModProjectile).NPCsAlreadyHit.AddRange(NPCsAlreadyHit);
+            ((PulsePistolShot)splitShot.ModProjectile).NPCsAlreadyHit.Add(toHit);
             Projectile.Kill();
         }
     }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -142,6 +142,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool CanDamage() => Projectile.ai[0] != 1f;
+        public override bool? CanDamage() => Projectile.ai[0] != 1f ? null : false;
     }
 }

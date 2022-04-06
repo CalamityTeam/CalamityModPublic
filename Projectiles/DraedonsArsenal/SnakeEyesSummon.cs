@@ -252,12 +252,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, 0, Color.White, ProjectileID.Sets.TrailCacheLength[Projectile.type]);
-            Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SnakeEye");
+            Texture2D eyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SnakeEye").Value;
             Vector2 offsetVector = Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), Projectile.Size * 0.5f * EyeOutwardness);
             Main.EntitySpriteDraw(eyeTexture,
                              Projectile.Center + offsetVector - Main.screenPosition,

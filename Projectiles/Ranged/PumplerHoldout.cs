@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
 
         //netcode hell

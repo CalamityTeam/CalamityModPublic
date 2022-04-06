@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.ignoreWater = true;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool PreAI()
         {

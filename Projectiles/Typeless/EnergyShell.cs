@@ -1,4 +1,4 @@
-using CalamityMod.Cooldowns;
+﻿using CalamityMod.Cooldowns;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.ID;
@@ -66,6 +66,6 @@ namespace CalamityMod.Projectiles.Typeless
             player.AddCooldown(LionHeartShield.ID, CalamityUtils.SecondsToFrames(45));
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

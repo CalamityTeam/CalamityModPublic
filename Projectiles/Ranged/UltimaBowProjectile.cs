@@ -105,6 +105,6 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

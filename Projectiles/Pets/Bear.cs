@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.tileCollide = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             Player player = Main.player[Projectile.owner];
             Vector2 center2 = Projectile.Center;

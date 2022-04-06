@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = Lifetime;
         }
 
-        public override bool CanDamage() => Projectile.timeLeft < Lifetime - 30;
+        public override bool? CanDamage() => Projectile.timeLeft < Lifetime - 30;
 
         public override void AI()
         {
@@ -94,9 +94,9 @@ namespace CalamityMod.Projectiles.Boss
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center - Vector2.UnitY * LaserLength);
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
     }
 }

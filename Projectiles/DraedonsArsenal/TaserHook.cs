@@ -114,8 +114,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
-            Texture2D texture = ModContent.Request<Texture2D>(Texture);
-            Utils.DrawLine(spriteBatch, player.MountedCenter, Projectile.Center, Color.Cyan, Color.White, 4f);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Utils.DrawLine(Main.spriteBatch, player.MountedCenter, Projectile.Center, Color.Cyan, Color.White, 4f);
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }

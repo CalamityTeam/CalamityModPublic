@@ -252,6 +252,6 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

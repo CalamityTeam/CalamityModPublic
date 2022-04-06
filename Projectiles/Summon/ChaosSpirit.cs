@@ -197,6 +197,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

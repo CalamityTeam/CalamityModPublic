@@ -265,6 +265,6 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // The star itself does not do contact damage.
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

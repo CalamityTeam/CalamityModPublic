@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
-        public override void PostDraw(ref Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.timeLeft < 90)
             {

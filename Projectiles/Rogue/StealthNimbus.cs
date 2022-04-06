@@ -102,6 +102,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

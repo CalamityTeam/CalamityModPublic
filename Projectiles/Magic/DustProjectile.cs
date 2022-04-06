@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)Projectile.timeLeft / 30f);
         }
 
-        public override bool CanDamage() => Projectile.timeLeft > 30;
+        public override bool? CanDamage() => Projectile.timeLeft > 30;
 
         public override bool PreDraw(ref Color lightColor)
         {

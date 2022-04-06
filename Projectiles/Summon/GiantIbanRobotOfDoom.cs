@@ -11,11 +11,6 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AndromedaHead : EquipTexture
-    {
-        public override bool DrawHead() => false;
-    }
-
     public class GiantIbanRobotOfDoom : ModProjectile
     {
         public int FrameX = 0;

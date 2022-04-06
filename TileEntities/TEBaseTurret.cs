@@ -10,7 +10,7 @@ namespace CalamityMod.TileEntities
 {
     public abstract class TEBaseTurret : ModTileEntity
     {
-        internal static readonly Vector2 InvalidTarget = new Vector2(float.NaN, float.NaN);
+        internal static readonly Vector2 InvalidTarget = new(float.NaN, float.NaN);
 
         // Fields specific to this instance of the turret tile entity
         public int FiringTime = 0;
@@ -58,9 +58,9 @@ namespace CalamityMod.TileEntities
         protected float TargetAngle => TargetIsInvalid ? RestingAngle : (TargetPos - TurretPosition).ToRotation();
 
         // This guarantees that Turret tile entities will not persist if not placed directly on some part of their host tile.
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Main.tile[x, y];
             return tile.HasTile && tile.TileType == TileType;
         }
 
@@ -141,21 +141,22 @@ namespace CalamityMod.TileEntities
 
             SendSyncPacket();
 
+            var source = new EntitySource_TileEntity(this);
             Vector2 angleVec = Angle.ToRotationVector2();
             Vector2 pos = turretMuzzlePos + angleVec * ShootForwardsOffset;
             Vector2 velocity = angleVec * ShootSpeed;
-            return Projectile.NewProjectileDirect(pos, velocity, ProjectileType, ProjectileDamage, ProjectileKnockback, ai0: ai0, ai1: ai1);
+            return Projectile.NewProjectileDirect(source, pos, velocity, ProjectileType, ProjectileDamage, ProjectileKnockback, ai0: ai0, ai1: ai1);
         }
         #endregion
 
         // This code is called as a hook when the player places the host tile so that the turret tile entity may be placed.
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             // If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
             // Also tell the server that you placed tiles in whatever space the host tile occupies.
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, HostTileWidth, HostTileHeight);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, HostTileWidth, HostTileHeight);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
                 return -1;
             }
@@ -178,14 +179,14 @@ namespace CalamityMod.TileEntities
         //
         // Subclasses can override these TML hooks as they please. The base turret does not need to use them.
 
-        public override void NetSend(BinaryWriter writer, bool lightSend)
+        public override void NetSend(BinaryWriter writer)
         {
             writer.Write(FiringTime);
             writer.Write(Angle);
             writer.WriteVector2(TargetPos);
         }
 
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        public override void NetReceive(BinaryReader reader)
         {
             FiringTime = reader.ReadInt32();
             Angle = reader.ReadSingle();

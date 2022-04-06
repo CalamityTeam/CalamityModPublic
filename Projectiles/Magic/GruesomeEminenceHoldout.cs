@@ -84,6 +84,6 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // This is just a casting item. It should not do contact damage.
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

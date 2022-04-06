@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -78,9 +78,9 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.rotation += 0.25f;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
-            return Projectile.ai[0] >= 90f;
+            return Projectile.ai[0] >= 90f ? null : false;
         }
 
         public override bool PreDraw(ref Color lightColor)

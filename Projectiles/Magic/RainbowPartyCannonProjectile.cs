@@ -104,6 +104,6 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.rotation += MathHelper.Pi;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

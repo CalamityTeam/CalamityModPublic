@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -243,9 +243,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
-            return recharging <= 0 && (circlingPlayer || (circling && (Projectile.timeLeft >= 120 || Projectile.timeLeft <= 45)) || !circling) && !Projectile.hide;
+            return recharging <= 0 && (circlingPlayer || (circling && (Projectile.timeLeft >= 120 || Projectile.timeLeft <= 45)) || !circling) && !Projectile.hide ? null : false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

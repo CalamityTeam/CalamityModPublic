@@ -80,6 +80,6 @@ namespace CalamityMod.Projectiles.Ranged
             return CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.Size.Length() * Projectile.scale / 1.414f, targetHitbox);
         }
 
-        public override bool CanDamage() => Projectile.Opacity > 0.4f;
+        public override bool? CanDamage() => Projectile.Opacity > 0.4f ? null : false;
     }
 }

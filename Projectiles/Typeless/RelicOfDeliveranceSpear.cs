@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
 
-        public override bool CanDamage() => Projectile.velocity != Vector2.Zero;
+        public override bool? CanDamage() => Projectile.velocity != Vector2.Zero ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -233,9 +233,10 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
         // Force the spear to have "priority" when drawing so that it draws over the player.
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles,
-                                                   List<int> drawCacheProjsBehindNPCs,
-                                                   List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsOverWiresUI.Add(index);
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overWiresUI.Add(index);
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

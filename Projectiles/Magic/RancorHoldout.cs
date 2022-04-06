@@ -72,6 +72,6 @@ namespace CalamityMod.Projectiles.Magic
             Owner.itemRotation = 0f;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

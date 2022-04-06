@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
     {
         public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/SystemBane";
 
-        public SoundEffectInstance ShittyMicrowaveMemeSound = null;
         public float Time
         {
             get => Projectile.ai[0];
@@ -81,27 +80,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, potentialTarget.DirectionFrom(spawnPosition) * 14f, ModContent.ProjectileType<SystemBaneLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
-
-            PlayMicrowaveSounds();
-        }
-
-        public void PlayMicrowaveSounds()
-        {
-            if (ShittyMicrowaveMemeSound is null && Projectile.Calamity().stealthStrike)
-            {
-                ShittyMicrowaveMemeSound = ModContent.GetSound("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").CreateInstance();
-                ShittyMicrowaveMemeSound.IsLooped = true;
-                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, Projectile.Center);
-                Main.PlaySoundInstance(ShittyMicrowaveMemeSound);
-            }
-            else if (ShittyMicrowaveMemeSound != null && !ShittyMicrowaveMemeSound.IsDisposed)
-                CalamityUtils.ApplySoundStats(ref ShittyMicrowaveMemeSound, Projectile.Center);
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            ShittyMicrowaveMemeSound?.Stop();
-            ShittyMicrowaveMemeSound?.Dispose();
         }
 
         public override void PostDraw(Color lightColor)
@@ -110,7 +88,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             int totalCirclePoints = 55;
             float generalOpacity = Utils.GetLerpValue(0f, 30f, Projectile.timeLeft, true) * Utils.GetLerpValue(480f, 450f, Projectile.timeLeft, true);
-            Texture2D lightningTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj");
+            Texture2D lightningTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/LightningProj").Value;
             for (int i = 0; i < totalCirclePoints; i++)
             {
                 float angle = MathHelper.TwoPi * i / totalCirclePoints;
@@ -121,11 +99,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 DelegateMethods.f_1 = SystemBaneLightning.InnerLightningOpacity * generalOpacity;
                 DelegateMethods.c_1 = SystemBaneLightning.InnerLightningColor;
-                Utils.DrawLaser(spriteBatch, lightningTexture, start, end, new Vector2(SystemBaneLightning.InnerLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(Main.spriteBatch, lightningTexture, start, end, new Vector2(SystemBaneLightning.InnerLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
 
                 DelegateMethods.f_1 = SystemBaneLightning.OuterLightningOpacity * generalOpacity;
                 DelegateMethods.c_1 = SystemBaneLightning.OuterLightningColor;
-                Utils.DrawLaser(spriteBatch, lightningTexture, start, end, new Vector2(SystemBaneLightning.OuterLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(Main.spriteBatch, lightningTexture, start, end, new Vector2(SystemBaneLightning.OuterLightningScale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
             }
         }
 

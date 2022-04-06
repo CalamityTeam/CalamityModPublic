@@ -1,3 +1,6 @@
+using Terraria.Audio;
+using Terraria.Audio;
+using Terraria.Audio;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
@@ -6,12 +9,12 @@ namespace CalamityMod.Sounds.NPCHit
 {
     public class OtherworldlyHit : ModSound
     {
-        public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
+        public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan)
         {
-            soundInstance = sound.CreateInstance();
+            soundInstance = Sound.Value.CreateInstance();
             soundInstance.Pan = pan;
             soundInstance.Volume = volume * 1f;
-            Main.PlaySoundInstance(soundInstance);
+            SoundInstanceGarbageCollector.Track(soundInstance);
             return soundInstance;
         }
     }

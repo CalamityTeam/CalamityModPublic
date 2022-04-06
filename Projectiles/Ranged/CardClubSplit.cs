@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
-            return Projectile.alpha < 128;
+            return Projectile.alpha < 128 ? null : false;
         }
     }
 }

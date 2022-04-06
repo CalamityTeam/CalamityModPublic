@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Main.projectile[i].active &&
                     Projectile.owner == Projectile.owner)
                 {
-                    PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].modProjectile;
+                    PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].ModProjectile;
                     if (otherPole.Time != Time && otherPole.Time != Time + 1)
                     {
                         otherPole.Time = Time;
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Main.projectile[i].active &&
                     Projectile.Distance(Main.projectile[i].Center) < 40f)
                 {
-                    PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].modProjectile;
+                    PoleWarperSummon otherPole = (PoleWarperSummon)Main.projectile[i].ModProjectile;
                     if (otherPole.North != North)
                     {
                         float distanceFromOtherPole = Projectile.Distance(Main.projectile[i].Center) + 1f;

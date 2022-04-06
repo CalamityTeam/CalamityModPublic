@@ -48,9 +48,9 @@ namespace CalamityMod.TileEntities
         public Color LightColor => CanDoWork ? Color.MediumSpringGreen : Color.Red;
 
         // This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Charging Station tile.
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Main.tile[x, y];
             return tile.HasTile && tile.TileType == ModContent.TileType<ChargingStation>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
@@ -116,13 +116,13 @@ namespace CalamityMod.TileEntities
         }
 
         // This code is called as a hook when the player places the Charging Station tile so that the tile entity may be placed.
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             // If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
             // Also tell the server that you placed the 3x2 tiles that make up the Charging Station.
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, ChargingStation.Width, ChargingStation.Height);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, ChargingStation.Width, ChargingStation.Height);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
                 return -1;
             }
@@ -158,13 +158,10 @@ namespace CalamityMod.TileEntities
             }
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            TagCompound ret = new TagCompound
-            {
-                { "time", ChargingTimer },
-                { "cells", _stack }
-            };
+            tag.Add("time", ChargingTimer);
+            tag.Add("cells", _stack);
             Item forSaving;
             if (PluggedItem is null)
             {
@@ -173,29 +170,28 @@ namespace CalamityMod.TileEntities
             }
             else
                 forSaving = PluggedItem;
-            ret.Add("item", forSaving);
-            return ret;
+            tag.Add("item", forSaving);
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             ChargingTimer = tag.GetShort("time");
             _stack = tag.GetShort("cells");
             PluggedItem = ItemIO.Load(tag.GetCompound("item"));
         }
 
-        public override void NetSend(BinaryWriter writer, bool lightSend)
+        public override void NetSend(BinaryWriter writer)
         {
             writer.Write(ChargingTimer);
             writer.Write(_stack);
-            writer.WriteItem(PluggedItem, true);
+            ItemIO.Send(PluggedItem, writer, true);
         }
 
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        public override void NetReceive(BinaryReader reader)
         {
             ChargingTimer = reader.ReadInt16();
             _stack = reader.ReadInt16();
-            PluggedItem = reader.ReadItem(true);
+            PluggedItem = ItemIO.Receive(reader, true);
         }
 
         // This packet may or may not contain the plugged item's charge value. If it doesn't, it contains a dummy value (NaN) instead.
@@ -272,7 +268,7 @@ namespace CalamityMod.TileEntities
             ModPacket packet = Mod.GetPacket(1024);
             packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
             packet.Write(ID);
-            packet.WriteItem(PluggedItem, true);
+            ItemIO.Send(PluggedItem, packet, true);
             packet.Send(-1, -1);
         }
 
@@ -282,7 +278,7 @@ namespace CalamityMod.TileEntities
             bool exists = ByID.TryGetValue(teID, out TileEntity te);
 
             // The rest of the packet must be read even if it turns out the charging station doesn't exist for whatever reason.
-            Item thePlug = reader.ReadItem(true);
+            Item thePlug = ItemIO.Receive(reader, true);
 
             // When a server gets this packet, it immediately sends an equivalent packet to all clients.
             if (Main.netMode == NetmodeID.Server)
@@ -290,7 +286,7 @@ namespace CalamityMod.TileEntities
                 ModPacket packet = mod.GetPacket();
                 packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
                 packet.Write(teID);
-                packet.WriteItem(thePlug, true);
+                ItemIO.Send(thePlug, packet, true);
                 packet.Send(-1, -1);
             }
 

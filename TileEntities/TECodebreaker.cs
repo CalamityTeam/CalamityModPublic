@@ -115,14 +115,14 @@ namespace CalamityMod.TileEntities
         public const int MaxCellCapacity = 9999;
 
         // This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Codebreaker tile.
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
             return tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>() && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 
         // This code is called as a hook when the player places the Codebreaker tile so that the tile entity may be placed.
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             // If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
             // Also tell the server that you placed the 5x8 tiles that make up the Codebreaker.
@@ -146,19 +146,20 @@ namespace CalamityMod.TileEntities
 
         public void DropConstituents(int x, int y)
         {
+            var source = new EntitySource_TileEntity(this);
             if (ContainsDecryptionComputer)
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<DecryptionComputer>());
+                Item.NewItem(source, x * 16, y * 16, 32, 32, ModContent.ItemType<DecryptionComputer>());
             if (ContainsSensorArray)
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<LongRangedSensorArray>());
+                Item.NewItem(source, x * 16, y * 16, 32, 32, ModContent.ItemType<LongRangedSensorArray>());
             if (ContainsAdvancedDisplay)
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<AdvancedDisplay>());
+                Item.NewItem(source, x * 16, y * 16, 32, 32, ModContent.ItemType<AdvancedDisplay>());
             if (ContainsVoltageRegulationSystem)
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<VoltageRegulationSystem>());
+                Item.NewItem(source, x * 16, y * 16, 32, 32, ModContent.ItemType<VoltageRegulationSystem>());
             if (ContainsCoolingCell)
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<AuricQuantumCoolingCell>());
+                Item.NewItem(source, x * 16, y * 16, 32, 32, ModContent.ItemType<AuricQuantumCoolingCell>());
 
             if (CalamityLists.EncryptedSchematicIDRelationship.ContainsKey(HeldSchematicID))
-                Item.NewItem(x * 16, y * 16, 32, 32, CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID]);
+                Item.NewItem(source, x * 16, y * 16, 32, 32, CalamityLists.EncryptedSchematicIDRelationship[HeldSchematicID]);
 
             while (InputtedCellCount > 0)
             {
@@ -368,23 +369,20 @@ namespace CalamityMod.TileEntities
                 CalamityNetcode.SyncWorld();
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            return new TagCompound
-            {
-                ["ContainsDecryptionComputer"] = ContainsDecryptionComputer,
-                ["ContainsSensorArray"] = ContainsSensorArray,
-                ["ContainsAdvancedDisplay"] = ContainsAdvancedDisplay,
-                ["ContainsVoltageRegulationSystem"] = ContainsVoltageRegulationSystem,
-                ["ContainsCoolingCell"] = ContainsCoolingCell,
-                ["InputtedCellCount"] = InputtedCellCount,
-                ["HeldSchematicID"] = HeldSchematicID,
-                ["DecryptionCountdown"] = DecryptionCountdown,
-                ["InitialCellCountBeforeDecrypting"] = InitialCellCountBeforeDecrypting
-            };
+            tag["ContainsDecryptionComputer"] = ContainsDecryptionComputer;
+            tag["ContainsSensorArray"] = ContainsSensorArray;
+            tag["ContainsAdvancedDisplay"] = ContainsAdvancedDisplay;
+            tag["ContainsVoltageRegulationSystem"] = ContainsVoltageRegulationSystem;
+            tag["ContainsCoolingCell"] = ContainsCoolingCell;
+            tag["InputtedCellCount"] = InputtedCellCount;
+            tag["HeldSchematicID"] = HeldSchematicID;
+            tag["DecryptionCountdown"] = DecryptionCountdown;
+            tag["InitialCellCountBeforeDecrypting"] = InitialCellCountBeforeDecrypting;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             ContainsDecryptionComputer = tag.GetBool("ContainsDecryptionComputer");
             ContainsSensorArray = tag.GetBool("ContainsSensorArray");
@@ -397,7 +395,7 @@ namespace CalamityMod.TileEntities
             InitialCellCountBeforeDecrypting = tag.GetInt("InitialCellCountBeforeDecrypting");
         }
 
-        public override void NetSend(BinaryWriter writer, bool lightSend)
+        public override void NetSend(BinaryWriter writer)
         {
             writer.Write(ContainsDecryptionComputer);
             writer.Write(ContainsSensorArray);
@@ -410,7 +408,7 @@ namespace CalamityMod.TileEntities
             writer.Write(InitialCellCountBeforeDecrypting);
         }
 
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        public override void NetReceive(BinaryReader reader)
         {
             ContainsDecryptionComputer = reader.ReadBoolean();
             ContainsSensorArray = reader.ReadBoolean();

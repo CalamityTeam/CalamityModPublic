@@ -167,10 +167,10 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             if (Projectile.ai[0] == 140f)
-                return true;
+                return null;
             return false;
         }
 

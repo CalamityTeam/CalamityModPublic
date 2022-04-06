@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        public override bool CanDamage() => Time > UpwardFlyTime + RedirectTime;
+        public override bool? CanDamage() => Time > UpwardFlyTime + RedirectTime ? null : false;
 
         public Color TrailColor(float completionRatio)
         {

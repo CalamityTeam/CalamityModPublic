@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool CanDamage() => Projectile.alpha < 80;
+        public override bool? CanDamage() => Projectile.alpha < 80 ? null : false;
 
         public override bool? CanHitNPC(NPC target)
         {

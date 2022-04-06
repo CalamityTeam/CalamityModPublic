@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -245,12 +245,12 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override bool CanDamage()
+        public override bool? CanDamage()
         {
             // Do not do damage if a tile is hit OR if projectile has 'split' and hasn't been live for more than 5 frames
             if ((((int)(Projectile.ai[0] - 1f) / penetrationAmt == 0 && penetrationAmt < 3) || Projectile.ai[1] < 5f) && Projectile.ai[0] != 0f)
                 return false;
-            return true;
+            return null;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

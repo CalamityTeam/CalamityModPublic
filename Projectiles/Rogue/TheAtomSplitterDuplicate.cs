@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             Time++;
         }
 
-        public override bool CanDamage() => Projectile.alpha < 180;
+        public override bool? CanDamage() => Projectile.alpha < 180 ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 if (Projectile.ai[0] % 40f == 39f && Main.myPlayer == Projectile.owner)
                 {
-                    Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand");
+                    Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand").Value;
                     Vector2 shootPosition = Projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY);
                     shootPosition += (Projectile.Size * 0.5f).RotatedBy(Projectile.rotation - MathHelper.ToRadians(18f) - (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi);
 
@@ -123,8 +123,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand");
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture),
+            Texture2D standTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurretStand").Value;
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value,
                              Projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY) - Main.screenPosition,
                              null,
                              lightColor,
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

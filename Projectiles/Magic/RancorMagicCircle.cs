@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public ref float PulseLoopSoundSlot => ref Projectile.localAI[0];
-        public ActiveSound PulseLoopSound => Main.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot));
+        public ActiveSound PulseLoopSound => SoundEngine.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot));
         public float ChargeupCompletion => MathHelper.Clamp(Time / ChargeupTime, 0f, 1f);
         public const int ChargeupTime = 240;
 
@@ -71,8 +71,8 @@ namespace CalamityMod.Projectiles.Magic
                 HandleChargeEffects();
 
             // Create an idle ominous sound once the laser has appeared.
-            else if (Main.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot)) is null)
-                PulseLoopSoundSlot = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
+            else if (SoundEngine.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot)) is null)
+                PulseLoopSoundSlot = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
 
             // Make a cast sound effect soon after the circle appears.
             if (Time == 15f)
@@ -164,10 +164,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D outerCircleTexture = ModContent.Request<Texture2D>(Texture);
-            Texture2D outerCircleGlowmask = ModContent.Request<Texture2D>(Texture + "Glowmask");
-            Texture2D innerCircleTexture = ModContent.Request<Texture2D>(Texture + "Inner");
-            Texture2D innerCircleGlowmask = ModContent.Request<Texture2D>(Texture + "InnerGlowmask");
+            Texture2D outerCircleTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D outerCircleGlowmask = ModContent.Request<Texture2D>(Texture + "Glowmask").Value;
+            Texture2D innerCircleTexture = ModContent.Request<Texture2D>(Texture + "Inner").Value;
+            Texture2D innerCircleGlowmask = ModContent.Request<Texture2D>(Texture + "InnerGlowmask").Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
 
             float directionRotation = Projectile.velocity.ToRotation();
@@ -213,6 +213,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool ShouldUpdatePosition() => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

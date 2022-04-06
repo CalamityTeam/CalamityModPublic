@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation += Projectile.velocity.Length() * Math.Sign(Projectile.velocity.X) * 0.036f;
         }
 
-        public override bool CanDamage() => Projectile.alpha <= 128;
+        public override bool? CanDamage() => Projectile.alpha <= 128 ? null : false;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

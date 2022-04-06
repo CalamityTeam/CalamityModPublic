@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
             hasHit = true;
         }
 
-        public override bool CanDamage() => !hasHit;
+        public override bool? CanDamage() => !hasHit ? null : false;
 
         public override Color? GetAlpha(Color lightColor) => CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 2.5f);
 
