@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.Leviathan
 {
     public class LeviathanStart : ModNPC
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = null;
             NPC.rarity = 2;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("AnahitaPreboss") ?? -1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("AnahitaPreboss") ?? -1;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -1,8 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class EbonianBlightSlime : ModNPC
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 8;
             NPC.lifeMax = 130;
             NPC.knockBackResist = 0.3f;
-            animationType = NPCID.RainbowSlime;
+            AnimationType = NPCID.RainbowSlime;
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.alpha = 105;
             NPC.lavaImmune = false;

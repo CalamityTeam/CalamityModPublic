@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
@@ -27,7 +28,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.defense = 32;
             NPC.lifeMax = 800;
             NPC.knockBackResist = 0.2f;
-            animationType = NPCID.GiantTortoise;
+            AnimationType = NPCID.GiantTortoise;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.HitSound = SoundID.NPCHit24;
             NPC.noGravity = false;

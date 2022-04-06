@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class StormlionCharger : ModNPC
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 8;
             NPC.lifeMax = 80;
             NPC.knockBackResist = 0.2f;
-            animationType = NPCID.WalkingAntlion;
+            AnimationType = NPCID.WalkingAntlion;
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit31;
             NPC.DeathSound = SoundID.NPCDeath34;

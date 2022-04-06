@@ -5,6 +5,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class BloomSlime : ModNPC
@@ -25,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 25;
             NPC.lifeMax = 1000;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             NPC.value = Item.buyPrice(0, 0, 25, 0);
             NPC.alpha = 50;
             NPC.lavaImmune = false;

@@ -1,10 +1,11 @@
-using CalamityMod.Items.SummonItems;
+﻿using CalamityMod.Items.SummonItems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.AcidRain
 {
     public class BloodwormNormal : ModNPC

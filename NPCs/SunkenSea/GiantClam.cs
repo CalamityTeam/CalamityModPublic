@@ -17,6 +17,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 namespace CalamityMod.NPCs.SunkenSea
 {

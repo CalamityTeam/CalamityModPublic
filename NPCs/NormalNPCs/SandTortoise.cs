@@ -1,7 +1,8 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SandTortoise : ModNPC
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.scale = 1.5f;
             NPC.lifeMax = 580;
             NPC.knockBackResist = 0.2f;
-            animationType = NPCID.GiantTortoise;
+            AnimationType = NPCID.GiantTortoise;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             NPC.HitSound = SoundID.NPCHit24;
             NPC.DeathSound = SoundID.NPCDeath27;

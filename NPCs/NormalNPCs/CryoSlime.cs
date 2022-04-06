@@ -1,9 +1,10 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class CryoSlime : ModNPC
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 8;
             NPC.lifeMax = 120;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.alpha = 50;
             NPC.lavaImmune = false;

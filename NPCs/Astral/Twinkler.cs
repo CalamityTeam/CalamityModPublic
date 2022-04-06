@@ -1,8 +1,9 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.width = 7;
             NPC.height = 5;
             AIType = NPCID.LightningBug;
-            animationType = NPCID.LightningBug;
+            AnimationType = NPCID.LightningBug;
             NPC.catchItem = (short)ModContent.ItemType<TwinklerItem>();
             NPC.friendly = true; // prevents critter from getting slagged
             //Banner = npc.type;

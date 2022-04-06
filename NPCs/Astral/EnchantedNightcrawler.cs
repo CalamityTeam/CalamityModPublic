@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.NPCs.Astral
         {
             NPC.CloneDefaults(NPCID.EnchantedNightcrawler); //ID is 484
             AIType = NPCID.EnchantedNightcrawler;
-            animationType = NPCID.EnchantedNightcrawler;
+            AnimationType = NPCID.EnchantedNightcrawler;
         }
 
         public override bool PreAI()

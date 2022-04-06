@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.defense = 12;
             NPC.lifeMax = 350;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.alpha = 60;
             NPC.lavaImmune = false;

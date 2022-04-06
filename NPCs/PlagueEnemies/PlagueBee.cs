@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.aiStyle = 5;
             AIType = NPCID.Bee;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.Bee;
+            AnimationType = NPCID.Bee;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.noGravity = true;

@@ -4,6 +4,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AeroSlime : ModNPC
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 6;
             NPC.lifeMax = 50;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.Slimer;
+            AnimationType = NPCID.Slimer;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.alpha = 50;
             NPC.lavaImmune = false;

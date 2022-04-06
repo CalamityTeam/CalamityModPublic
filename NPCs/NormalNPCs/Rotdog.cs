@@ -1,8 +1,9 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Rotdog : ModNPC
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 4;
             NPC.lifeMax = 60;
             NPC.knockBackResist = 0.3f;
-            animationType = NPCID.Hellhound;
+            AnimationType = NPCID.Hellhound;
             AIType = NPCID.Wolf;
             NPC.value = Item.buyPrice(0, 0, 2, 0);
             NPC.HitSound = SoundID.NPCHit1;

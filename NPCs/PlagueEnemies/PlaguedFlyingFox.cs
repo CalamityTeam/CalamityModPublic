@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.npcSlots = 0.5f;
             NPC.aiStyle = 14;
             AIType = NPCID.GiantFlyingFox;
-            animationType = NPCID.GiantFlyingFox;
+            AnimationType = NPCID.GiantFlyingFox;
             NPC.damage = 55;
             NPC.width = 38;
             NPC.height = 34;
