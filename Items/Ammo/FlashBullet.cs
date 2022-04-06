@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(10)
-                .AddIngredient(ItemID.Grenade)
-                .AddIngredient(ItemID.Glass, 3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe(10).
+                AddIngredient(ItemID.Grenade).
+                AddIngredient(ItemID.Glass, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

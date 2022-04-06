@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(100)
-                .AddIngredient(ItemID.ExplodingBullet, 100)
-                .AddIngredient<UnholyEssence>()
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.ExplodingBullet, 100).
+                AddIngredient<UnholyEssence>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

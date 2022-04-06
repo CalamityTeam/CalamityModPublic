@@ -47,12 +47,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<PurityAxe>()
-                .AddIngredient(ItemID.SoulofFright, 8)
-                .AddIngredient<EssenceofChaos>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<PurityAxe>().
+                AddIngredient(ItemID.SoulofFright, 8).
+                AddIngredient<EssenceofChaos>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

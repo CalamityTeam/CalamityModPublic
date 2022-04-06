@@ -26,11 +26,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AlchemicalFlask>()
-                .AddIngredient(ItemID.HoneyComb)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AlchemicalFlask>().
+                AddIngredient(ItemID.HoneyComb).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

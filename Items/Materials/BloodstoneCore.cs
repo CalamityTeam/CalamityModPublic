@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,7 +23,12 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<Bloodstone>(), 5).AddIngredient(ModContent.ItemType<BloodOrb>()).AddIngredient(ModContent.ItemType<Phantoplasm>()).AddTile(TileID.AdamantiteForge).Register();
+            CreateRecipe(2).
+                AddIngredient<Bloodstone>(5).
+                AddIngredient<BloodOrb>().
+                AddIngredient<Phantoplasm>().
+                AddTile(TileID.AdamantiteForge).
+                Register();
         }
     }
 }

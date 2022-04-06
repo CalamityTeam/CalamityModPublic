@@ -85,14 +85,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AngelTreads>()
-                .AddRecipeGroup("WingsGroup")
-                .AddIngredient<CoreofCalamity>(3)
-                .AddIngredient<BarofLife>(5)
-                .AddIngredient(ItemID.LunarBar, 5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AngelTreads>().
+                AddRecipeGroup("WingsGroup").
+                AddIngredient<CoreofCalamity>(3).
+                AddIngredient<BarofLife>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

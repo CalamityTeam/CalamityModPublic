@@ -72,14 +72,14 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<GodSlayerHelmet>()
-                .AddIngredient<BloodflareHornedHelm>()
-                .AddIngredient<TarragonVisage>()
-                .AddIngredient<PsychoticAmulet>()
-                .AddIngredient<AuricBar>(12)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<GodSlayerHelmet>().
+                AddIngredient<BloodflareHornedHelm>().
+                AddIngredient<TarragonVisage>().
+                AddIngredient<PsychoticAmulet>().
+                AddIngredient<AuricBar>(12).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

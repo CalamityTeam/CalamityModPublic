@@ -28,64 +28,64 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.Vertebrae, 2)
-                .AddTile(TileID.WorkBenches)
-                .ReplaceResult(ItemID.Leather);
+            CreateRecipe().
+                AddIngredient(ItemID.Vertebrae, 2).
+                AddTile(TileID.WorkBenches).
+                ReplaceResult(ItemID.Leather);
+
+            CreateRecipe().
+                AddIngredient(ItemID.Lens).
+                AddIngredient(ItemID.BlackDye).
+                AddTile(TileID.DyeVat).
+                ReplaceResult(ItemID.BlackLens);
+
+            CreateRecipe().
+                AddIngredient<Stardust>(5).
+                AddTile(TileID.Anvils).
+                ReplaceResult(ItemID.FallenStar);
+
+            CreateRecipe().
+                AddIngredient<HallowedOre>(4).
+                AddTile(TileID.AdamantiteForge).
+                ReplaceResult(ItemID.HallowedBar);
+
+            CreateRecipe(20).
+                AddIngredient(ItemID.EmptyBullet, 20).
+                AddIngredient(ItemID.ExplosivePowder, 1).
+                AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI);
+
+            CreateRecipe().
+                AddIngredient(ItemID.StoneBlock, 5).
+                AddIngredient(ItemID.Ruby, 2).
+                AddIngredient(ItemID.HealingPotion).
+                AddTile(TileID.Anvils).
+                ReplaceResult(ItemID.LifeCrystal);
+
+            CreateRecipe().
+                AddIngredient<PlantyMush>(10).
+                AddIngredient<LivingShard>().
+                AddTile(TileID.MythrilAnvil).
+                ReplaceResult(ItemID.LifeFruit);
+
+            CreateRecipe(33).
+                AddIngredient(ItemID.Torch, 33).
+                AddIngredient<SeaPrism>().
+                AddTile(TileID.Anvils).
+                ReplaceResult(ItemID.UltrabrightTorch);
 
             CreateRecipe()
-                .AddIngredient(ItemID.Lens)
-                .AddIngredient(ItemID.BlackDye)
-                .AddTile(TileID.DyeVat)
-                .ReplaceResult(ItemID.BlackLens);
+                AddIngredient(ItemID.PiggyBank).
+                AddIngredient(ItemID.Feather, 2).
+                AddIngredient<BloodOrb>().
+                AddIngredient(ItemID.GoldCoin, 15).
+                AddRecipeGroup("AnyGoldBar", 8).
+                AddTile(TileID.Anvils).
+                ReplaceResult(ItemID.MoneyTrough);
 
-            CreateRecipe()
-                .AddIngredient<Stardust>(5)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.FallenStar);
-
-            CreateRecipe()
-                .AddIngredient<HallowedOre>(4)
-                .AddTile(TileID.AdamantiteForge)
-                .ReplaceResult(ItemID.HallowedBar);
-
-            CreateRecipe(20)
-                .AddIngredient(ItemID.EmptyBullet, 20)
-                .AddIngredient(ItemID.ExplosivePowder, 1)
-                .AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI);
-
-            CreateRecipe()
-                .AddIngredient(ItemID.StoneBlock, 5)
-                .AddIngredient(ItemID.Ruby, 2)
-                .AddIngredient(ItemID.HealingPotion)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.LifeCrystal);
-
-            CreateRecipe()
-                .AddIngredient<PlantyMush>(10)
-                .AddIngredient<LivingShard>()
-                .AddTile(TileID.MythrilAnvil)
-                .ReplaceResult(ItemID.LifeFruit);
-
-            CreateRecipe(33)
-                .AddIngredient(ItemID.Torch, 33)
-                .AddIngredient<SeaPrism>()
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.UltrabrightTorch);
-
-            CreateRecipe()
-                .AddIngredient(ItemID.PiggyBank)
-                .AddIngredient(ItemID.Feather, 2)
-                .AddIngredient<BloodOrb>()
-                .AddIngredient(ItemID.GoldCoin, 15)
-                .AddRecipeGroup("AnyGoldBar", 8)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.MoneyTrough);
-
-            CreateRecipe()
-                .AddIngredient<SuperDummy>()
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.TargetDummy);
+            CreateRecipe().
+                AddIngredient<SuperDummy>().
+                AddTile(TileID.Anvils).
+                ReplaceResult(ItemID.TargetDummy);
         }
 
         // Change Leather's recipe to require 2 Rotten Chunks/Vertebrae

@@ -37,22 +37,22 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<GodSlayerLeggings>()
-                .AddIngredient<BloodflareCuisses>()
-                .AddIngredient<TarragonLeggings>()
-                .AddIngredient(ItemID.FlyingCarpet)
-                .AddIngredient<AuricBar>(15)
-                .AddTile<CosmicAnvil>()
-                .Register();
+                AddIngredient<GodSlayerLeggings>().
+                AddIngredient<BloodflareCuisses>().
+                AddIngredient<TarragonLeggings>().
+                AddIngredient(ItemID.FlyingCarpet).
+                AddIngredient<AuricBar>(15).
+                AddTile<CosmicAnvil>().
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<SilvaLeggings>()
-                .AddIngredient<BloodflareCuisses>()
-                .AddIngredient<TarragonLeggings>()
-                .AddIngredient(ItemID.FlyingCarpet)
-                .AddIngredient<AuricBar>(15)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<SilvaLeggings>().
+                AddIngredient<BloodflareCuisses>().
+                AddIngredient<TarragonLeggings>().
+                AddIngredient(ItemID.FlyingCarpet).
+                AddIngredient<AuricBar>(15).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

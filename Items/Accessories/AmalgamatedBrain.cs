@@ -50,12 +50,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<RottenBrain>()
-                .AddIngredient(ItemID.BrainOfConfusion)
-                .AddIngredient(ItemID.SoulofNight, 3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<RottenBrain>().
+                AddIngredient(ItemID.BrainOfConfusion).
+                AddIngredient(ItemID.SoulofNight, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

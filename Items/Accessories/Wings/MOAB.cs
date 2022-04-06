@@ -113,16 +113,16 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FrogLeg)
-                .AddIngredient(ItemID.BundleofBalloons)
-                .AddIngredient(ItemID.LuckyHorseshoe)
-                .AddIngredient(ItemID.Jetpack)
-                .AddIngredient(ItemID.SoulofMight)
-                .AddIngredient(ItemID.SoulofSight)
-                .AddIngredient(ItemID.SoulofFright)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FrogLeg).
+                AddIngredient(ItemID.BundleofBalloons).
+                AddIngredient(ItemID.LuckyHorseshoe).
+                AddIngredient(ItemID.Jetpack).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

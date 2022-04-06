@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ArmoredShell>(3)
-                .AddIngredient<ExodiumClusterOre>(5)
-                .AddIngredient<DivineGeode>(8)
-                .AddIngredient(ItemID.Nanites, 300)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ArmoredShell>(3).
+                AddIngredient<ExodiumClusterOre>(5).
+                AddIngredient<DivineGeode>(8).
+                AddIngredient(ItemID.Nanites, 300).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

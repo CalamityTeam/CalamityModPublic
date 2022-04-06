@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("EvilPowder", 20)
-                .AddIngredient(ItemID.SoulofNight, 20)
-                .AddIngredient<UnholyCore>(10)
-                .AddIngredient<BloodOrb>(5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("EvilPowder", 20).
+                AddIngredient(ItemID.SoulofNight, 20).
+                AddIngredient<UnholyCore>(10).
+                AddIngredient<BloodOrb>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

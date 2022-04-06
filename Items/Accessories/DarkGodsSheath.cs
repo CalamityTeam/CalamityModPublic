@@ -40,12 +40,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<SilencingSheath>()
-                .AddIngredient<RuinMedallion>()
-                .AddIngredient<MeldiateBar>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<SilencingSheath>().
+                AddIngredient<RuinMedallion>().
+                AddIngredient<MeldiateBar>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

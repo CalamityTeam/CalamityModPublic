@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AbyssalAmulet>()
-                .AddIngredient<Lumenite>(15)
-                .AddIngredient<Tenebris>(5)
-                .AddIngredient<SeaPrism>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AbyssalAmulet>().
+                AddIngredient<Lumenite>(15).
+                AddIngredient<Tenebris>(5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

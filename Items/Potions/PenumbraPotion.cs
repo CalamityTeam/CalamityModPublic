@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -35,8 +35,19 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<SolarVeil>(), 3).AddIngredient(ItemID.LunarTabletFragment).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 30).AddIngredient(ModContent.ItemType<SolarVeil>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<SolarVeil>(3).
+                AddIngredient(ItemID.LunarTabletFragment).
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(30).
+                AddIngredient<SolarVeil>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

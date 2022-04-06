@@ -40,23 +40,23 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<GodSlayerChestplate>()
-                .AddIngredient<BloodflareBodyArmor>()
-                .AddIngredient<TarragonBreastplate>()
-                .AddIngredient<FrostBarrier>()
-                .AddIngredient<AuricBar>(18)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<GodSlayerChestplate>().
+                AddIngredient<BloodflareBodyArmor>().
+                AddIngredient<TarragonBreastplate>().
+                AddIngredient<FrostBarrier>().
+                AddIngredient<AuricBar>(18).
+                AddTile<CosmicAnvil>().
+                Register();
             
-            CreateRecipe()
-                .AddIngredient<SilvaArmor>()
-                .AddIngredient<BloodflareBodyArmor>()
-                .AddIngredient<TarragonBreastplate>()
-                .AddIngredient<FrostBarrier>()
-                .AddIngredient<AuricBar>(18)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<SilvaArmor>().
+                AddIngredient<BloodflareBodyArmor>().
+                AddIngredient<TarragonBreastplate>().
+                AddIngredient<FrostBarrier>().
+                AddIngredient<AuricBar>(18).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

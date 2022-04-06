@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<StarTaintedGenerator>()
-                .AddIngredient<StatisCurse>()
-                .AddIngredient(ItemID.LunarBar, 8)
-                .AddIngredient<GalacticaSingularity>(4)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile(ModContent.TileType<CosmicAnvil>())
-                .Register();
+            CreateRecipe().
+                AddIngredient<StarTaintedGenerator>().
+                AddIngredient<StatisCurse>().
+                AddIngredient(ItemID.LunarBar, 8).
+                AddIngredient<GalacticaSingularity>(4).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

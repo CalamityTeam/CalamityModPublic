@@ -58,16 +58,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AmalgamatedBrain>()
-                .AddIngredient<UnholyCore>(5)
-                .AddIngredient<MolluskHusk>(10)
-                .AddIngredient<SulfuricScale>(15)
-                .AddIngredient<PlagueCellCluster>(15)
-                .AddIngredient<CosmiliteBar>(5)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<AmalgamatedBrain>().
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<MolluskHusk>(10).
+                AddIngredient<SulfuricScale>(15).
+                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

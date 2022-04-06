@@ -53,12 +53,12 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.FallenStar, 10)
-                .AddIngredient(ItemID.SoulofLight, 7)
-                .AddIngredient(ItemID.SoulofNight, 7)
-                .AddIngredient<EssenceofCinder>(5)
-                .AddTile(TileID.Anvils)
-                .Register();
+                AddIngredient(ItemID.FallenStar, 10).
+                AddIngredient(ItemID.SoulofLight, 7).
+                AddIngredient(ItemID.SoulofNight, 7).
+                AddIngredient<EssenceofCinder>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

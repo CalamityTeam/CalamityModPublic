@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<MolluskHusk>(10)
-                .AddIngredient<SeaPrism>(20)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<MolluskHusk>(10).
+                AddIngredient<SeaPrism>(20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

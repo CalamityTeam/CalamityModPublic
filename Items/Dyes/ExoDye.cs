@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -28,7 +28,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ItemID.BottledWater, 3).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(TileID.DyeVat).Register();
+            CreateRecipe(3).
+                AddIngredient(ItemID.BottledWater, 3).
+                AddIngredient<MiracleMatter>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

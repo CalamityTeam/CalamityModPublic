@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<WulfrumShard>(12)
-                .AddIngredient<EnergyCore>()
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(12).
+                AddIngredient<EnergyCore>().
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

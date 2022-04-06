@@ -102,12 +102,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ExoPrism>(10)
-                .AddIngredient<GalacticaSingularity>(3)
-                .AddIngredient<CoreofCalamity>(3)
-                .AddTile<DraedonsForge>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<ExoPrism>(10).
+                AddIngredient<GalacticaSingularity>(3).
+                AddIngredient<CoreofCalamity>(3).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

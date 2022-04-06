@@ -34,19 +34,19 @@ Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal 
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<FilthyGlove>()
-                .AddIngredient(ItemID.Wire, 100)
-                .AddRecipeGroup("AnyMythrilBar", 5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<FilthyGlove>().
+                AddIngredient(ItemID.Wire, 100).
+                AddRecipeGroup("AnyMythrilBar", 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<BloodstainedGlove>()
-                .AddIngredient(ItemID.Wire, 100)
-                .AddRecipeGroup("AnyMythrilBar", 5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<BloodstainedGlove>().
+                AddIngredient(ItemID.Wire, 100).
+                AddRecipeGroup("AnyMythrilBar", 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

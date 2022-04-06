@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -37,8 +37,17 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ItemID.InvisibilityPotion).AddIngredient(ModContent.ItemType<Shadowfish>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 20).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(2).
+                AddIngredient(ItemID.InvisibilityPotion).
+                AddIngredient<Shadowfish>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(20).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

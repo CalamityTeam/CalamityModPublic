@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +31,10 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteOre>(), 4).AddTile(TileID.Furnaces).Register();
+            CreateRecipe().
+                AddIngredient<AerialiteOre>(4).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

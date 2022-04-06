@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AstralMonolith>(20)
-                .AddIngredient<TitanHeart>()
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AstralMonolith>(20).
+                AddIngredient<TitanHeart>().
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

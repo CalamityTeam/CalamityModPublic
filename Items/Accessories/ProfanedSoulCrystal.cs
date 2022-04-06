@@ -263,17 +263,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ProfanedSoulArtifact>()
-                .AddIngredient(ItemID.ObsidianRose)
-                .AddIngredient<CoreofCinder>(5)
-                .AddIngredient<UeliaceBar>(25)
-                .AddIngredient<DivineGeode>(50)
-                .AddIngredient<UnholyEssence>(100)
-                .AddIngredient<ShadowspecBar>(5)
-                .AddTile<ProfanedBasin>()
-                .AddConsumeItemCallback(MakeRecipesCheaper)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ProfanedSoulArtifact>().
+                AddIngredient(ItemID.ObsidianRose).
+                AddIngredient<CoreofCinder>(5).
+                AddIngredient<UeliaceBar>(25).
+                AddIngredient<DivineGeode>(50).
+                AddIngredient<UnholyEssence>(100).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<ProfanedBasin>().
+                AddConsumeItemCallback(MakeRecipesCheaper).
+                Register();
         }
     }
 

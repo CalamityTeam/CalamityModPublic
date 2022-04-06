@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
@@ -48,8 +48,19 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ItemID.BottledWater, 4).AddIngredient(ModContent.ItemType<Stardust>(), 4).AddIngredient(ModContent.ItemType<AstralJelly>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(8).AddIngredient(ItemID.BottledWater, 4).AddIngredient(ModContent.ItemType<BloodOrb>(), 5).AddIngredient(ModContent.ItemType<AstralJelly>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(4).
+                AddIngredient(ItemID.BottledWater, 4).
+                AddIngredient<Stardust>(4).
+                AddIngredient<AstralJelly>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe(8).
+                AddIngredient(ItemID.BottledWater, 4).
+                AddIngredient<BloodOrb>(5).
+                AddIngredient<AstralJelly>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

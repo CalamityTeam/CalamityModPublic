@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 8).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<Navystone>(8).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

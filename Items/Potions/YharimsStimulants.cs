@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +33,20 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyFood").AddIngredient(ItemID.EndurancePotion).AddIngredient(ItemID.IronskinPotion).AddIngredient(ItemID.SwiftnessPotion).AddIngredient(ItemID.TitanPotion).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 50).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyFood").
+                AddIngredient(ItemID.EndurancePotion).
+                AddIngredient(ItemID.IronskinPotion).
+                AddIngredient(ItemID.SwiftnessPotion).
+                AddIngredient(ItemID.TitanPotion).
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(50).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

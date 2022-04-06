@@ -34,13 +34,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AncientFossil>()
-                .AddIngredient<DemonicBoneAsh>()
-                .AddIngredient<AncientBoneDust>(3)
-                .AddIngredient(ItemID.Bone, 15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AncientFossil>().
+                AddIngredient<DemonicBoneAsh>().
+                AddIngredient<AncientBoneDust>(3).
+                AddIngredient(ItemID.Bone, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

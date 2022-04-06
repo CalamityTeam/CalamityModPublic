@@ -46,7 +46,11 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HotlineFishingHook).AddIngredient(ModContent.ItemType<CruptixBar>(), 8).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HotlineFishingHook).
+                AddIngredient<CruptixBar>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

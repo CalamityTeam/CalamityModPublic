@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<BloodyWormTooth>()
-                .AddIngredient(ItemID.WormScarf)
-                .AddIngredient(ItemID.SoulofNight, 3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<BloodyWormTooth>().
+                AddIngredient(ItemID.WormScarf).
+                AddIngredient(ItemID.SoulofNight, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

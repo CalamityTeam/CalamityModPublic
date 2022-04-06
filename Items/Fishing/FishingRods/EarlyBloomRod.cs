@@ -46,7 +46,11 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.WoodFishingPole).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.WoodFishingPole).
+                AddIngredient<UeliaceBar>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -23,7 +23,14 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient(ItemID.SolarDye).AddIngredient(ItemID.VortexDye).AddIngredient(ItemID.StardustDye).AddIngredient(ItemID.NebulaDye).AddIngredient(ModContent.ItemType<GalacticaSingularity>()).AddTile(TileID.DyeVat).Register();
+            CreateRecipe(5).
+                AddIngredient(ItemID.SolarDye).
+                AddIngredient(ItemID.VortexDye).
+                AddIngredient(ItemID.StardustDye).
+                AddIngredient(ItemID.NebulaDye).
+                AddIngredient<GalacticaSingularity>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

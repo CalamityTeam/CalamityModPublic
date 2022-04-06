@@ -45,7 +45,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<DraedonBar>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -39,14 +39,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<BloodyWormScarf>()
-                .AddIngredient<BloodPact>()
-                .AddIngredient<FleshTotem>()
-                .AddIngredient<CosmiliteBar>(5)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<BloodyWormScarf>().
+                AddIngredient<BloodPact>().
+                AddIngredient<FleshTotem>().
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

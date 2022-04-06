@@ -46,16 +46,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FrostsparkBoots)
-                .AddIngredient(ItemID.LavaWaders)
-                .AddIngredient<HarpyRing>()
-                .AddIngredient<EssenceofCinder>(5)
-                .AddIngredient(ItemID.SoulofMight)
-                .AddIngredient(ItemID.SoulofSight)
-                .AddIngredient(ItemID.SoulofFright)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FrostsparkBoots).
+                AddIngredient(ItemID.LavaWaders).
+                AddIngredient<HarpyRing>().
+                AddIngredient<EssenceofCinder>(5).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

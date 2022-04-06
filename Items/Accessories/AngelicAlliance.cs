@@ -60,16 +60,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("AnyHallowedHelmet")
-                .AddIngredient(ItemID.HallowedPlateMail)
-                .AddIngredient(ItemID.HallowedGreaves)
-                .AddIngredient(ItemID.PaladinsShield)
-                .AddIngredient(ItemID.TrueExcalibur)
-                .AddIngredient(ItemID.CrossNecklace)
-                .AddIngredient<ShadowspecBar>(5)
-                .AddTile<DraedonsForge>()
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyHallowedHelmet").
+                AddIngredient(ItemID.HallowedPlateMail).
+                AddIngredient(ItemID.HallowedGreaves).
+                AddIngredient(ItemID.PaladinsShield).
+                AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient(ItemID.CrossNecklace).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

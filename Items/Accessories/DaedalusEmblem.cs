@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.CelestialStone)
-                .AddIngredient(ItemID.RangerEmblem)
-                .AddIngredient<CoreofCalamity>()
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CelestialStone).
+                AddIngredient(ItemID.RangerEmblem).
+                AddIngredient<CoreofCalamity>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

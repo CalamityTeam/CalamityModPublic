@@ -53,13 +53,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ArcticDivingGear)
-                .AddIngredient<DepthCharm>()
-                .AddIngredient<DepthCells>(10)
-                .AddIngredient<Lumenite>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ArcticDivingGear).
+                AddIngredient<DepthCharm>().
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 

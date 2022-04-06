@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,7 +22,11 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ModContent.ItemType<MeldBlob>(), 6).AddIngredient(ModContent.ItemType<Stardust>(), 3).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(3).
+                AddIngredient<MeldBlob>(6).
+                AddIngredient<Stardust>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

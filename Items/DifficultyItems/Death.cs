@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -95,7 +95,9 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe()
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

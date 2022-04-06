@@ -55,14 +55,14 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.LifeFruit, 5)
-                .AddIngredient(ItemID.TealMushroom)
-                .AddIngredient<TrapperBulb>(5)
-                .AddIngredient<BarofLife>(5)
-                .AddIngredient<LivingShard>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LifeFruit, 5).
+                AddIngredient(ItemID.TealMushroom).
+                AddIngredient<TrapperBulb>(5).
+                AddIngredient<BarofLife>(5).
+                AddIngredient<LivingShard>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

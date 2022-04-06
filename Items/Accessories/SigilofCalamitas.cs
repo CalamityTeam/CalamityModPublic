@@ -36,14 +36,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.CelestialEmblem)
-                .AddRecipeGroup("AnyEvilWater", 10)
-                .AddIngredient<CalamityDust>(5)
-                .AddIngredient<CoreofChaos>(5)
-                .AddIngredient<CruptixBar>(2)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CelestialEmblem).
+                AddRecipeGroup("AnyEvilWater", 10).
+                AddIngredient<CalamityDust>(5).
+                AddIngredient<CoreofChaos>(5).
+                AddIngredient<CruptixBar>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

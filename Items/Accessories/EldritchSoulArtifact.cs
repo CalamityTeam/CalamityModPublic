@@ -34,12 +34,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ExodiumClusterOre>(25)
-                .AddIngredient<Navyplate>(25)
-                .AddIngredient<Phantoplasm>(5)
-                .AddTile(TileID.DemonAltar)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ExodiumClusterOre>(25).
+                AddIngredient<Navyplate>(25).
+                AddIngredient<Phantoplasm>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

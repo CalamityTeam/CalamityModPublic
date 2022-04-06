@@ -57,11 +57,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<SolarVeil>(12)
-                .AddIngredient(ItemID.HallowedBar, 8)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<SolarVeil>(12).
+                AddIngredient(ItemID.HallowedBar, 8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

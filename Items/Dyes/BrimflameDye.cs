@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +25,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 3).AddTile(TileID.DyeVat).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BrimstoneSlag>(3).
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

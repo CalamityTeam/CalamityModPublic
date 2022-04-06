@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,10 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UelibloomOre>(), 5).AddTile(TileID.AdamantiteForge).Register();
+            CreateRecipe().
+                AddIngredient<UelibloomOre>(5).
+                AddTile(TileID.AdamantiteForge).
+                Register();
         }
     }
 }

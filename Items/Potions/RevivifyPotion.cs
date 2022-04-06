@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria;
@@ -34,8 +34,20 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient(ItemID.HolyWater, 5).AddIngredient(ModContent.ItemType<Stardust>(), 20).AddIngredient(ItemID.CrystalShard, 5).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3).AddIngredient(ModContent.ItemType<ScarredAngelfish>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(5).AddIngredient(ItemID.HolyWater, 5).AddIngredient(ModContent.ItemType<BloodOrb>(), 100).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(5).
+                AddIngredient(ItemID.HolyWater, 5).
+                AddIngredient<Stardust>(20).
+                AddIngredient(ItemID.CrystalShard, 5).
+                AddIngredient<EssenceofCinder>(3).
+                AddIngredient<ScarredAngelfish>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe(5).
+                AddIngredient(ItemID.HolyWater, 5).
+                AddIngredient<BloodOrb>(100).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

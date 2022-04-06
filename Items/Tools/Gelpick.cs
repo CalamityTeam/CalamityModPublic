@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<PurifiedGel>(15)
-                .AddIngredient(ItemID.Gel, 30)
-                .AddIngredient(ItemID.HellstoneBar, 5)
-                .AddTile<StaticRefiner>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(15).
+                AddIngredient(ItemID.Gel, 30).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddTile<StaticRefiner>().
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.MasterNinjaGear)
-                .AddIngredient(ItemID.FrogLeg)
-                .AddIngredient<PurifiedGel>(50)
-                .AddIngredient<Phantoplasm>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MasterNinjaGear).
+                AddIngredient(ItemID.FrogLeg).
+                AddIngredient<PurifiedGel>(50).
+                AddIngredient<Phantoplasm>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

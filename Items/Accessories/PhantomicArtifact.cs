@@ -37,13 +37,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<HallowedRune>()
-                .AddIngredient<RuinousSoul>(5)
-                .AddIngredient<BloodOrb>(10)
-                .AddIngredient<ExodiumClusterOre>(20)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<HallowedRune>().
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<BloodOrb>(10).
+                AddIngredient<ExodiumClusterOre>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

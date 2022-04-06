@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -36,8 +36,19 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ItemID.SoulofFlight).AddIngredient(ModContent.ItemType<SunkenSailfish>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 30).AddIngredient(ItemID.SoulofFlight).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient(ItemID.SoulofFlight).
+                AddIngredient<SunkenSailfish>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(30).
+                AddIngredient(ItemID.SoulofFlight).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

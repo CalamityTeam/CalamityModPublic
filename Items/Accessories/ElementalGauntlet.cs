@@ -37,14 +37,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FireGauntlet)
-                .AddIngredient<YharimsInsignia>()
-                .AddIngredient(ItemID.LunarBar, 8)
-                .AddIngredient<GalacticaSingularity>(4)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FireGauntlet).
+                AddIngredient<YharimsInsignia>().
+                AddIngredient(ItemID.LunarBar, 8).
+                AddIngredient<GalacticaSingularity>(4).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

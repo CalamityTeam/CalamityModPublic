@@ -37,20 +37,20 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.AnglerHat)
-                .AddIngredient(ItemID.AnglerVest)
-                .AddIngredient(ItemID.AnglerPants)
-                .AddIngredient(ItemID.AnglerTackleBag)
-                .AddIngredient(ItemID.FishingPotion, 5)
-                .AddIngredient(ItemID.CratePotion, 5)
-                .AddIngredient(ItemID.SonarPotion, 5)
-                .AddIngredient(ItemID.MasterBait, 5)
-                .AddIngredient(ItemID.SoulofLight, 5)
-                .AddIngredient(ItemID.SoulofNight, 5)
-                .AddIngredient<SeaPrism>(10)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AnglerHat).
+                AddIngredient(ItemID.AnglerVest).
+                AddIngredient(ItemID.AnglerPants).
+                AddIngredient(ItemID.AnglerTackleBag).
+                AddIngredient(ItemID.FishingPotion, 5).
+                AddIngredient(ItemID.CratePotion, 5).
+                AddIngredient(ItemID.SonarPotion, 5).
+                AddIngredient(ItemID.MasterBait, 5).
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

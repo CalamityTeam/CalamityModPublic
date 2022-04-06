@@ -69,13 +69,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AerialiteBar>(5)
-                .AddIngredient(ItemID.Cloud, 3)
-                .AddIngredient(ItemID.RainCloud)
-                .AddIngredient(ItemID.Feather)
-                .AddTile(TileID.SkyMill)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(5).
+                AddIngredient(ItemID.Cloud, 3).
+                AddIngredient(ItemID.RainCloud).
+                AddIngredient(ItemID.Feather).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

@@ -45,33 +45,33 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<GrandGelatin>()
-                .AddIngredient<SeaShell>()
-                .AddIngredient<CrawCarapace>()
-                .AddIngredient<FungalCarapace>()
-                .AddIngredient<GiantTortoiseShell>()
-                .AddIngredient<RoverDrive>()
-                .AddIngredient<DepthCells>(15)
-                .AddIngredient<Lumenite>(15)
-                .AddIngredient<Tenebris>(5)
-                .AddIngredient<MolluskHusk>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<GrandGelatin>().
+                AddIngredient<SeaShell>().
+                AddIngredient<CrawCarapace>().
+                AddIngredient<FungalCarapace>().
+                AddIngredient<GiantTortoiseShell>().
+                AddIngredient<RoverDrive>().
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenite>(15).
+                AddIngredient<Tenebris>(5).
+                AddIngredient<MolluskHusk>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<GrandGelatin>()
-                .AddIngredient<SeaShell>()
-                .AddIngredient<FungalCarapace>()
-                .AddIngredient<GiantShell>()
-                .AddIngredient<GiantTortoiseShell>()
-                .AddIngredient<RoverDrive>()
-                .AddIngredient<DepthCells>(15)
-                .AddIngredient<Lumenite>(15)
-                .AddIngredient<Tenebris>(5)
-                .AddIngredient<MolluskHusk>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<GrandGelatin>().
+                AddIngredient<SeaShell>().
+                AddIngredient<FungalCarapace>().
+                AddIngredient<GiantShell>().
+                AddIngredient<GiantTortoiseShell>().
+                AddIngredient<RoverDrive>().
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenite>(15).
+                AddIngredient<Tenebris>(5).
+                AddIngredient<MolluskHusk>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VictideBar>(4)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VictideBar>(4).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

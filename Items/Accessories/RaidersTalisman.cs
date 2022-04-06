@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.Leather, 5)
-                .AddIngredient(ItemID.Obsidian, 20)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Leather, 5).
+                AddIngredient(ItemID.Obsidian, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }
