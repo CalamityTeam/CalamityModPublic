@@ -1,4 +1,4 @@
-
+﻿
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,11 +62,11 @@ namespace CalamityMod.Projectiles.Rogue
             switch (Projectile.localAI[1])
             {
 
-                case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard2");
+                case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard2").Value;
                          break;
-                case 3f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard3");
+                case 3f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard3").Value;
                          break;
-                default: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard");
+                default: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard").Value;
                          break;
             }
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0);

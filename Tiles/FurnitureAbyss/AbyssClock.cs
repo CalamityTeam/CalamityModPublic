@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

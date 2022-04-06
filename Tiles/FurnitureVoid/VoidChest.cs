@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Void Chest";
+            ContainerName.SetDefault("Void Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidChest>();
         }
 

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sparkleTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D sparkleTexture = ModContent.Request<Texture2D>(Texture).Value;
 
             Color sparkleColor = CalamityUtils.MulticolorLerp(ColorSpectrumHue, RainbowPartyCannon.ColorSet) * Projectile.Opacity * 0.5f;
             sparkleColor.A = 0;

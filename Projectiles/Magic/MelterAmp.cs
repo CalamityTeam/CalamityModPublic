@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.active = false;
                     return;
                 }
-                if (!player.ActiveItem().magic || player.ActiveItem().shoot != ModContent.ProjectileType<MelterNote1>())
+                if (!player.ActiveItem().CountsAsClass<MagicDamageClass>() || player.ActiveItem().shoot != ModContent.ProjectileType<MelterNote1>())
                 {
                     Projectile.active = false;
                     return;

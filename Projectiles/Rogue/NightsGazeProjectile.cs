@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow").Value;
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
         }

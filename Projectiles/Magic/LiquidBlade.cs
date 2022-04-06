@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             DelegateMethods.v3_1 = new Vector3(0.6f, 1f, 1f) * 0.2f;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * 10f, 8f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * 10f, 8f, DelegateMethods.CastLightOpen);
             if (Projectile.alpha > 0)
             {
                 SoundEngine.PlaySound(SoundID.Item9, Projectile.position);

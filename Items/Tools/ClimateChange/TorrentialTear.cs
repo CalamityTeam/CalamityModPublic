@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -51,10 +51,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
             if (maxSeverity)
             {
                 Main.cloudBGActive = 1f;
-                Main.numCloudsTemp = Main.cloudLimit;
+                Main.numCloudsTemp = Main.maxClouds;
                 Main.numClouds = Main.numCloudsTemp;
-                Main.windSpeedTemp = (float)Main.rand.Next(50, 75) * 0.01f;
-                Main.windSpeedSet = Main.windSpeedTemp;
+                Main.windSpeedCurrent = Main.rand.Next(50, 75) * 0.01f;
+                Main.windSpeedTarget = Main.windSpeedCurrent;
                 Main.weatherCounter = Main.rand.Next(3600, 18000);
                 Main.maxRaining = 0.89f;
             }

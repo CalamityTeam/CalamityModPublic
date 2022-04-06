@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
                         xOffset = Projectile.velocity.X * 0.5f;
                         yOffset = Projectile.velocity.Y * 0.5f;
                     }
-                    int fire = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, DustID.Fire, 0f, 0f, 100, default, 1f);
+                    int fire = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
                     Main.dust[fire].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                     Main.dust[fire].velocity *= 0.2f;
                     Main.dust[fire].noGravity = true;
@@ -140,10 +140,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int d = 0; d < 70; d++)
             {
-                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
         }

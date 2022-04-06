@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             frameXOffset = i % 2 * animationFrameWidth;
-            frameYOffset = j % 2 * animationFrameHeight;
+            frameYOffset = j % 2 * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             int xOffset = i % 2;
             int yOffset = j % 2;
             xOffset *= animationFrameWidth;
-            yOffset *= animationFrameHeight;
+            yOffset *= AnimationFrameHeight;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/RunicProfanedBrickGlow");

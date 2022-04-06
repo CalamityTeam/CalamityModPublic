@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Ranged
             bool canShoot = true;
             int damage = 0;
             float kb = 0f;
-            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, out _, true);
 
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 16);
 

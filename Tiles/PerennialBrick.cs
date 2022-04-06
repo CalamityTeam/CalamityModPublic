@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles
             int xPos = i % 4;
             int yPos = j % 4;
             frameXOffset = xPos * 234;
-            frameYOffset = yPos * animationFrameHeight;
+            frameYOffset = yPos * AnimationFrameHeight;
         }
     }
 }

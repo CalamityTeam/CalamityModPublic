@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texLight = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D texDark = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NychthemeronOrb2");
+            Texture2D texDark = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NychthemeronOrb2").Value;
             if (Projectile.ai[0] == 0f)
             {
                 Main.EntitySpriteDraw(texLight, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texLight.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);

@@ -1,7 +1,7 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
-using static CalamityMod.CalPlayer.CalamityPlayer;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor.Vanity
         public override bool DrawHead() => false;
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/Vanity/ArtemisMask_Extra";
-        public Vector2 ExtensionSpriteOffset(PlayerDrawInfo drawInfo) => new Vector2( drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
-        public bool PreDrawExtension(PlayerDrawInfo drawInfo) => true;
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2( drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
+        public bool PreDrawExtension(PlayerDrawSet drawInfo) => true;
     }
 }

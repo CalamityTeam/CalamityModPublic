@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Plagued Chest";
+            ContainerName.SetDefault("Plagued Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>();
         }
 

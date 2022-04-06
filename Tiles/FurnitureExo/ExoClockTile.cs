@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

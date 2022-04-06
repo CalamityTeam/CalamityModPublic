@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Column");
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

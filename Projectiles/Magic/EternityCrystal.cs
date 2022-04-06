@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D myTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D myTexture = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = myTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
             Color trasparentCrystalColor = Projectile.GetAlpha(lightColor) * 0.6f;
             Vector2 origin = frame.Size() / 2f;

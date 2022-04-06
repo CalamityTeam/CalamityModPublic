@@ -15,6 +15,7 @@ using MonoMod.Cil;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Liquid;
 using Terraria.GameInput;
 using Terraria.Graphics;
@@ -74,10 +75,10 @@ namespace CalamityMod.ILEditing
 
         private static void AlterTownNPCSpawnRate(On.Terraria.Main.orig_UpdateTime_SpawnTownNPCs orig)
         {
-            int oldWorldRate = Main.worldRate;
-            Main.worldRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
+            double oldWorldRate = Main.desiredWorldTilesUpdateRate;
+            Main.desiredWorldTilesUpdateRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
             orig();
-            Main.worldRate = oldWorldRate;
+            Main.desiredWorldTilesUpdateRate = oldWorldRate;
         }
         #endregion Town NPC Spawning Improvements
 
@@ -226,12 +227,9 @@ namespace CalamityMod.ILEditing
         private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
         {
             Tile tile = Main.tile[i, j];
-            // If the tile is somehow null, that's vanilla's problem, we're outta here
-            if (tile is null)
-                return orig(i, j, direction);
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.TileType == labDoorClosed)
+            if (tile.TileType == labDoorClosed)
                 return OpenLabDoor(tile, i, j, labDoorOpen);
             else if (tile.TileType == aLabDoorClosed)
                 return OpenLabDoor(tile, i, j, aLabDoorOpen);
@@ -245,12 +243,9 @@ namespace CalamityMod.ILEditing
         private static bool CloseDoor_LabDoorOverride(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
         {
             Tile tile = Main.tile[i, j];
-            // If the tile is somehow null, that's vanilla's problem, we're outta here
-            if (tile is null)
-                return orig(i, j, forced);
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
-            else if (tile.TileType == labDoorOpen)
+            if (tile.TileType == labDoorOpen)
                 return CloseLabDoor(tile, i, j, labDoorClosed);
             else if (tile.TileType == aLabDoorOpen)
                 return CloseLabDoor(tile, i, j, aLabDoorClosed);
@@ -299,7 +294,7 @@ namespace CalamityMod.ILEditing
         {
             // This is unfortunately not something that can be done via SetDefaults since owner is set
             // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.
-            int proj = orig(x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
+            int proj = orig(spawnSource, x, y, xSpeed, ySpeed, type, damage, knockback, owner, ai0, ai1);
             Projectile projectile = Main.projectile[proj];
             if (projectile.minion)
             {
@@ -408,12 +403,7 @@ namespace CalamityMod.ILEditing
 
             if (Main.LocalPlayer.dead)
             {
-                Main.SmartInteractShowingGenuine = false;
-                Main.SmartInteractShowingFake = false;
-                Main.SmartInteractNPC = -1;
-                Main.SmartInteractNPCsNearby.Clear();
-                Main.SmartInteractTileCoords.Clear();
-                Main.SmartInteractTileCoordsSelected.Clear();
+                Main.ClearSmartInteract();
                 Main.TileInteractionLX = (Main.TileInteractionHX = (Main.TileInteractionLY = (Main.TileInteractionHY = -1)));
             }
 
@@ -453,17 +443,17 @@ namespace CalamityMod.ILEditing
                     }
                 }
 
-                Main.spriteBatch.Draw(Main.cursorTextures[cursorIndex], drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.UIScaleMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
                 GameShaders.Misc["CalamityMod:FireMouse"].UseColor(Color.Red);
                 GameShaders.Misc["CalamityMod:FireMouse"].UseSecondaryColor(Color.Lerp(Color.Red, Color.Orange, 0.75f));
                 GameShaders.Misc["CalamityMod:FireMouse"].Apply();
 
-                Main.spriteBatch.Draw(Main.cursorTextures[cursorIndex], desaturatedDrawPosition, null, cursorColor, 0f, Vector2.Zero, Main.cursorScale * 1.075f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, desaturatedDrawPosition, null, cursorColor, 0f, Vector2.Zero, Main.cursorScale * 1.075f, SpriteEffects.None, 0f);
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
                 return;
             }
 
@@ -479,7 +469,7 @@ namespace CalamityMod.ILEditing
             {
                 cursorColor = Color.White * Main.GamepadCursorAlpha;
                 int frameX = 0;
-                Texture2D smartCursorTexture = Main.cursorTextures[13];
+                Texture2D smartCursorTexture = TextureAssets.Cursors[13].Value;
                 Rectangle frame = smartCursorTexture.Frame(2, 1, frameX, 0);
                 Main.spriteBatch.Draw(smartCursorTexture, baseDrawPosition, frame, cursorColor, 0f, frame.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
                 return;
@@ -487,7 +477,7 @@ namespace CalamityMod.ILEditing
 
             // Otherwise draw an ordinary crosshair at the mouse position.
             cursorColor = Color.White;
-            Texture2D crosshairTexture = Main.cursorTextures[15];
+            Texture2D crosshairTexture = TextureAssets.Cursors[15].Value;
             Main.spriteBatch.Draw(crosshairTexture, baseDrawPosition, null, cursorColor, 0f, crosshairTexture.Size() * 0.5f, Main.cursorScale, SpriteEffects.None, 0f);
         }
         #endregion Fire Cursor Effect for the Calamity Accessory

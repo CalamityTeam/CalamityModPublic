@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Statigel Chest";
+            ContainerName.SetDefault("Statigel Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelChest>();
         }
 

@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 velocity = Projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
                         velocity.Normalize();
                         velocity *= 20f;
-                        Projectile.NewProjectile(Projectile.position, velocity, Projectile.type, (int)(Projectile.damage * 1.05f), Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, velocity, Projectile.type, (int)(Projectile.damage * 1.05f), Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
 
                     }
                     Projectile.netUpdate = Projectile.owner == Main.myPlayer;
@@ -256,9 +256,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type)
                 {
-                    ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].modProjectile;
+                    ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].ModProjectile;
                     if (Main.projectile[i].ai[1] > 2f)
-                        circlers = circlers + Main.rand.Next(1, 4);
+                        circlers += Main.rand.Next(1, 4);
                 }
             }
             circlers = (int)MathHelper.Min(Main.rand.Next(15, 21), circlers);

@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameYOffset = this.GetAnimationOffset(i, j, 4, 18, 18, 3, 2, animationFrameHeight);
+            frameYOffset = this.GetAnimationOffset(i, j, 4, 18, 18, 3, 2, AnimationFrameHeight);
         }
 
         public override bool CanExplode(int i, int j) => false;

@@ -259,22 +259,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == 1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
             Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 headTextureOrigin = ModContent.Request<Texture2D>(Texture).Value.Size() * 0.5f;
             drawPosition -= headTexture.Size() * Projectile.scale * 0.5f;
             drawPosition += headTextureOrigin * Projectile.scale + new Vector2(0f, 4f + Projectile.gfxOffY);
 
-            Texture2D jawTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/ApotheosisJaw");
+            Texture2D jawTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/ApotheosisJaw").Valie;
             Vector2 jawOrigin = jawTexture.Size() * 0.5f;
 
             // Segment drawing.
-            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS");
-            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailS");
+            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS").Valie;
+            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailS").Value;
 
             // Not white to differentiate itself slightly from regular DoG when fighting Boss Rush.
             Color baseColor = Color.Lerp(Color.White, Color.Fuchsia, 0.15f);
@@ -311,7 +307,7 @@ namespace CalamityMod.Projectiles.Magic
                 float currentFade = Utils.GetLerpValue(0f, 8f, Time, true) * Utils.GetLerpValue(60f, 52f, Time, true);
                 currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;
                 Vector2 drawPos = PortalPosition - Main.screenPosition;
                 baseColor = new Color(150, 100, 255, 255) * Projectile.Opacity;
                 baseColor *= 0.5f;

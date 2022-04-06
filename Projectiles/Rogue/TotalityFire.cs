@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
             //dust
             if (Main.rand.NextBool(4))
             {
-                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[fire];
                 dust.position.X -= 2f;
                 dust.position.Y += 2f;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Main.rand.NextBool(10))
             {
-                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[fire];
                 dust.position.X -= 2f;
                 dust.position.Y += 2f;

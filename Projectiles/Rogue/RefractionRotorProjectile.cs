@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(Color lightColor)
         {
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask").Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             Vector2 origin = glowmask.Size() * 0.5f;
             Main.EntitySpriteDraw(glowmask, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);

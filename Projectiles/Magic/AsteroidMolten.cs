@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -127,19 +127,19 @@ namespace CalamityMod.Projectiles.Magic
                 case 0:
                     break;
                 case 1:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten2");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten2").Value;
                     break;
                 case 2:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten3");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten3").Value;
                     break;
                 case 3:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten4");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten4").Value;
                     break;
                 case 4:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten5");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten5").Value;
                     break;
                 case 5:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten6");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMolten6").Value;
                     break;
                 default:
                     break;
@@ -150,24 +150,24 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow").Value;
             switch ((int)Projectile.ai[0])
             {
                 case 0:
                     break;
                 case 1:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow2");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow2").Value;
                     break;
                 case 2:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow3");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow3").Value;
                     break;
                 case 3:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow4");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow4").Value;
                     break;
                 case 4:
                     return;
                 case 5:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow6");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow6").Value;
                     break;
                 default:
                     break;

@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Exo Chest";
+            ContainerName.SetDefault("Exo Chest");
             ChestDrop = ModContent.ItemType<ExoChest>();
         }
 

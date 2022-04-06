@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.Astral
 
             AddMapEntry(new Color(127, 111, 144));
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.AcidRain;
+﻿using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -163,10 +164,10 @@ namespace CalamityMod.Events
                 {
                     Main.raining = true;
                     Main.cloudBGActive = 1f;
-                    Main.numCloudsTemp = Main.cloudLimit;
+                    Main.numCloudsTemp = Main.maxClouds;
                     Main.numClouds = Main.numCloudsTemp;
-                    Main.windSpeedTemp = 0.72f;
-                    Main.windSpeedSet = Main.windSpeedTemp;
+                    Main.windSpeedCurrent = 0.72f;
+                    Main.windSpeedTarget = Main.windSpeedTarget;
                     Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
                     Main.rainTime = Main.weatherCounter;
                     Main.maxRaining = 0.89f;
@@ -242,10 +243,10 @@ namespace CalamityMod.Events
             {
                 Main.raining = true;
                 Main.cloudBGActive = 1f;
-                Main.numCloudsTemp = Main.cloudLimit;
+                Main.numCloudsTemp = Main.maxClouds;
                 Main.numClouds = Main.numCloudsTemp;
-                Main.windSpeedTemp = 0.72f;
-                Main.windSpeedSet = Main.windSpeedTemp;
+                Main.windSpeedTarget = 0.72f;
+                Main.windSpeedCurrent = Main.windSpeedCurrent;
                 Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
                 Main.rainTime = Main.weatherCounter;
                 Main.maxRaining = 0.89f;
@@ -265,10 +266,11 @@ namespace CalamityMod.Events
                     }
                     else
                     {
+                        var source = new EntitySource_WorldEvent();
                         int playerClosestToAbyss = Player.FindClosest(new Vector2(CalamityWorld.abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
                         Player closestToAbyss = Main.player[playerClosestToAbyss];
                         if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (CalamityWorld.abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
-                            Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero, ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                            Projectile.NewProjectile(source, closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero, ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
                     }
                 }
             }
@@ -291,8 +293,8 @@ namespace CalamityMod.Events
                     // Turn off the rain from the event
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);
                     Main.numClouds = Main.numCloudsTemp;
-                    Main.windSpeedTemp = Main.rand.NextFloat(0.04f, 0.25f);
-                    Main.windSpeedSet = Main.windSpeedTemp;
+                    Main.windSpeedCurrent = Main.rand.NextFloat(0.04f, 0.25f);
+                    Main.windSpeedTarget = Main.windSpeedTarget;
                     Main.maxRaining = 0f;
                     if (win)
                     {

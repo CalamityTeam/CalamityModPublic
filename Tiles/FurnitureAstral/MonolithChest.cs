@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Monolith Chest";
+            ContainerName.SetDefault("Monolith Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithChest>();
         }
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Damageable
                     if (Main.projectile[i].Colliding(Main.projectile[i].Hitbox, Projectile.Hitbox))
                     {
                         int damage = Main.DamageVar(Main.projectile[i].damage) * 2;
-                        damage = Main.expertMode ? (int)(damage * Main.expertDamage) : damage;
+                        damage = Main.expertMode ? (int)(damage * Main.RegisteredGameModes[GameModeID.Expert].EnemyDamageMultiplier) : damage;
                         CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), CombatText.DamagedFriendly, damage);
                         Life -= damage;
                         HitEffectProjectile(damage, Main.projectile[i]);

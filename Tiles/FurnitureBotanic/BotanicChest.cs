@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Botanic Chest";
+            ContainerName.SetDefault("Botanic Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicChest>();
         }
 

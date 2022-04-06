@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -228,48 +228,10 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Rectangle myRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
-            if (Projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((Projectile.friendly && (!Main.npc[i].friendly || Projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && Projectile.owner < 255 && Main.player[Projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && Projectile.owner < 255 && Main.player[Projectile.owner].killClothier))) ||
-                        (Projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (Projectile.owner < 0 || Main.npc[i].immune[Projectile.owner] == 0 || Projectile.maxPenetrate == 1))
-                    {
-                        if (Main.npc[i].noTileCollide || !Projectile.ownerHitCheck || Projectile.CanHit(Main.npc[i]))
-                        {
-                            bool flag3;
-                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
-                            {
-                                Rectangle rect = Main.npc[i].getRect();
-                                int num5 = 8;
-                                rect.X -= num5;
-                                rect.Y -= num5;
-                                rect.Width += num5 * 2;
-                                rect.Height += num5 * 2;
-                                flag3 = Projectile.Colliding(myRect, rect);
-                            }
-                            else
-                            {
-                                flag3 = Projectile.Colliding(myRect, Main.npc[i].getRect());
-                            }
-                            if (flag3)
-                            {
-                                if (Main.npc[i].reflectingProjectiles && Projectile.CanReflect())
-                                {
-                                    Main.npc[i].ReflectProjectile(Projectile.whoAmI);
-                                    return;
-                                }
-                                Projectile.ai[1] = -1f;
-                                Projectile.netUpdate = true;
-                            }
-                        }
-                    }
-                }
-            }
+            Projectile.ai[1] = -1f;
+            Projectile.netUpdate = true;
         }
     }
 }

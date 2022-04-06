@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.Next(4) == 0)
             {
-                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<InfernalKris>());
+                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<InfernalKris>());
             }
 
             if (Projectile.Calamity().stealthStrike)

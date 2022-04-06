@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

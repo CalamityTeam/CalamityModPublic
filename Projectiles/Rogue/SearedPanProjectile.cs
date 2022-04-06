@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner)
                         continue;
-                    if (Main.projectile[i].modProjectile is NiceCock)
+                    if (Main.projectile[i].ModProjectile is NiceCock)
                     {
                         if (!activate)
                             Main.projectile[i].Kill();
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Keep the loop as short as possible
                 if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
-                if (Main.projectile[i].modProjectile is NiceCock)
+                if (Main.projectile[i].ModProjectile is NiceCock)
                 {
                     if (Main.projectile[i].ModProjectile<NiceCock>().homing)
                         continue;
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
-                if (Main.projectile[i].modProjectile is NiceCock)
+                if (Main.projectile[i].ModProjectile is NiceCock)
                 {
                     if (Main.projectile[i].ModProjectile<NiceCock>().homing)
                         continue;

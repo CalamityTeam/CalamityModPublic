@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.Abyss
             int xPos = i % 6;
             int yPos = j % 3;
             frameXOffset = xPos * 288;
-            frameYOffset = yPos * animationFrameHeight;
+            frameYOffset = yPos * AnimationFrameHeight;
         }
     }
 }

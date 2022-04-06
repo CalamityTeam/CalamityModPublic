@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Ashen Chest";
+            ContainerName.SetDefault("Ashen Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChest>();
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
         {
-            DustType = this.dustType;
+            dustType = DustType;
             return true;
         }
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -87,7 +87,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                     break;
             }
 
-            frameYOffset = uniqueAnimationFrame * animationFrameHeight;
+            frameYOffset = uniqueAnimationFrame * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

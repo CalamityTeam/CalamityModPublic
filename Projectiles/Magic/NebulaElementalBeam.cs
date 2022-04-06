@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Magic
         public override float MaxLaserLength => 1000f;
         public override float Lifetime => 30f;
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart").Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid").Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd").Value;
 
         public const float UniversalAngularSpeed = MathHelper.Pi / 400f;
 
@@ -56,9 +56,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawBeamWithColor(spriteBatch, new Color(190, 29, 209), Projectile.scale);
-            DrawBeamWithColor(spriteBatch, Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
-            DrawBeamWithColor(spriteBatch, Color.Lerp(new Color(254, 190, 243), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
+            DrawBeamWithColor(Main.spriteBatch, new Color(190, 29, 209), Projectile.scale);
+            DrawBeamWithColor(Main.spriteBatch, Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
+            DrawBeamWithColor(Main.spriteBatch, Color.Lerp(new Color(254, 190, 243), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
             return false;
         }
     }

@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.oldPos[0] = Projectile.position + Projectile.velocity.SafeNormalize(Vector2.Zero) * 50f;
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + Projectile.velocity, 80);
 
-            Texture2D rocketTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D rocketTexture = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(rocketTexture,
                              Projectile.Center - Main.screenPosition,
                              rocketTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),

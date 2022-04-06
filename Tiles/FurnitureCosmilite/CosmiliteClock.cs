@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

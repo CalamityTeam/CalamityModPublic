@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(new Color(130, 119, 115), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Security Chest";
+            ContainerName.SetDefault("Security Chest");
             ChestDrop = ModContent.ItemType<SecurityChest>();
         }
 

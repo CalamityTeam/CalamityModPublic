@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
                         dust28.velocity = vector140.RotatedBy(MathHelper.PiOver2) * 6f;
                         dust28.scale = 0.5f + Main.rand.NextFloat();
                         dust28.fadeIn = 0.5f;
-                        dust28.customData = projectile;
+                        dust28.customData = Projectile;
                     }
                     else
                     {
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                         dust29.velocity = vector141.RotatedBy(-MathHelper.PiOver2) * 3f;
                         dust29.scale = 0.5f + Main.rand.NextFloat();
                         dust29.fadeIn = 0.5f;
-                        dust29.customData = projectile;
+                        dust29.customData = Projectile;
                     }
                 }
 
@@ -121,14 +121,14 @@ namespace CalamityMod.Projectiles.Magic
                         dust30.velocity = vector142.RotatedBy(MathHelper.PiOver2) * 6f;
                         dust30.scale = 0.9f + Main.rand.NextFloat();
                         dust30.fadeIn = 0.5f;
-                        dust30.customData = projectile;
+                        dust30.customData = Projectile;
                         vector142 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
                         dust30.noGravity = true;
                         dust30.position = Projectile.Center - vector142 * Main.rand.Next(10, 21);
                         dust30.velocity = vector142.RotatedBy(MathHelper.PiOver2) * 6f;
                         dust30.scale = 0.9f + Main.rand.NextFloat();
                         dust30.fadeIn = 0.5f;
-                        dust30.customData = projectile;
+                        dust30.customData = Projectile;
                         dust30.color = Color.Crimson;
                     }
                     else
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Magic
                         dust31.velocity = vector143.RotatedBy(-MathHelper.PiOver2) * 5f;
                         dust31.scale = 0.9f + Main.rand.NextFloat();
                         dust31.fadeIn = 0.5f;
-                        dust31.customData = projectile;
+                        dust31.customData = Projectile;
                     }
                     num3 = num1014;
                 }

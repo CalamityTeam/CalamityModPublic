@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(150, 100, 50), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override bool IsTileDangerous(int i, int j, Player player) => true;

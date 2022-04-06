@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
-            aiType = ProjectileID.BabySlime;
+            AIType = ProjectileID.BabySlime;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 23;

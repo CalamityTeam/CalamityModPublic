@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -220,7 +220,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 {
                     if (j % 3 < 2)
                     {
-                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].TileFrameNumber;
                     }
                     if (uniqueAnimationFrameX != 0)
                     {
@@ -265,7 +265,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                     break;
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
-            frameYOffset = uniqueAnimationFrameY * animationFrameHeight;
+            frameYOffset = uniqueAnimationFrameY * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -459,7 +459,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 {
                     if (j % 3 < 2)
                     {
-                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].TileFrameNumber;
                     }
                     if (uniqueAnimationFrameX != 0)
                     {
@@ -506,14 +506,14 @@ namespace CalamityMod.Tiles.FurnitureAshen
             int AnimationFrameHeight = 90;
             int animationFrameWidth = 234;
             int xDrawPos = Main.tile[i, j].TileFrameX + (uniqueAnimationFrameX * animationFrameWidth);
-            int yDrawPos = Main.tile[i, j].TileFrameY + (uniqueAnimationFrameY * animationFrameHeight);
+            int yDrawPos = Main.tile[i, j].TileFrameY + (uniqueAnimationFrameY * AnimationFrameHeight);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NanoblackStealthSplit : ModProjectile
     {
-
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaperRogue";
 
         private static int Lifetime = 300;

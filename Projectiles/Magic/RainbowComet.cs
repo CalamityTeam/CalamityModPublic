@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D cometTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D cometTexture = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(cometTexture,
                              Projectile.Center + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition,
                              cometTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),

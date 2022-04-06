@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int plague = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 3f);
                     Main.dust[plague].noGravity = true;
                     Main.dust[plague].velocity *= 5f;
-                    int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                    int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 2f;
                 }
                 CalamityUtils.ExplosionGores(Projectile.Center, 3);

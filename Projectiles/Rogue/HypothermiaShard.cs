@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -90,15 +90,15 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[0] == 1f)
             {
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard2");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard2").Value;
             }
             if (Projectile.ai[0] == 2f)
             {
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard3");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard3").Value;
             }
             if (Projectile.ai[0] == 3f)
             {
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard4");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard4").Value;
             }
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;

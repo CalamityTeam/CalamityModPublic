@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             frameXOffset = i % 4 * animationFrameWidth;
-            frameYOffset = j % 4 * animationFrameHeight;
+            frameYOffset = j % 4 * AnimationFrameHeight;
         }
     }
 }

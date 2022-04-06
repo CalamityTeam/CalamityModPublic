@@ -31,11 +31,7 @@ namespace CalamityMod
             if (!WorldGen.InWorld(x, y, 2))
                 return baseName;
 
-            // Tile null check.
             Tile tile = Main.tile[x, y];
-            if (tile is null)
-                return baseName;
-
             int left = x;
             int top = y;
             if (tile.TileFrameX % 36 != 0)
@@ -60,9 +56,6 @@ namespace CalamityMod
 
         public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
         {
-            if (Main.tile[x, y] is null)
-                return;
-
             for (int xIter = x - 1; xIter <= x + 1; ++xIter)
             {
                 if (xIter < 0 || xIter >= Main.maxTilesX)
@@ -91,10 +84,6 @@ namespace CalamityMod
             {
                 for (int m = y; m < y + tileY; m++)
                 {
-                    if (Main.tile[l, m] == null)
-                    {
-                        Main.tile[l, m] = new Tile();
-                    }
                     if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == type)
                     {
                         if (Main.tile[l, m].TileFrameX < (18 * tileX))
@@ -234,13 +223,8 @@ namespace CalamityMod
         {
             if (!WorldGen.InWorld(x, y))
                 return new Tile();
-            Tile tile = Main.tile[x, y];
-            if (tile is null)
-            {
-                tile = new Tile();
-                Main.tile[x, y] = tile;
-            }
-            return tile;
+
+            return Main.tile[x, y];
         }
 
         public static bool TileSelectionSolid(int x, int y, int width, int height)
