@@ -208,6 +208,12 @@ namespace CalamityMod.Localization
                 new [] { "Tier3ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the jungle" },
                 new [] { "Tier4ArsenalRecipeCondition", "Decrypt a schematic from the lab near the edges of the underworld" },
                 new [] { "Tier5ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the frozen caverns" },
+
+                new [] { "SunkenSeaSchematicRecipeCondition", "Place a schematic from the lab near the Sunken Sea in your inventory at least once" },
+                new [] { "PlanetoidSchematicRecipeCondition", "Place a schematic from the lab in the large planetoid in your inventory at least once" },
+                new [] { "JungleSchematicRecipeCondition", "Place a schematic from the lab deep within the jungle in your inventory at least once" },
+                new [] { "UnderworldSchematicRecipeCondition", "Place a schematic from the lab near the edges of the underworld in your inventory at least once" },
+                new [] { "IceSchematicRecipeCondition", "Place a schematic from the lab within the frozen caverns in your inventory at least once" },
             };
         }
 

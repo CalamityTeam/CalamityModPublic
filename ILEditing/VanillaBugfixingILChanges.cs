@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -81,6 +81,7 @@ namespace CalamityMod.ILEditing
 
         public static List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
 
+        /*
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
         // CONTEXT FOR FIX: When NPCs sync they have a pre-determined amount of bytes that are used to store HP/Max NPC information in packets for efficiency.
         // However, this may not always coincide with the true HP of the NPC when it's created if it has more HP than the allocated bytes can sufficiently store, which can
@@ -88,6 +89,7 @@ namespace CalamityMod.ILEditing
         // To give an example, the Ancient Visions in the culst fight have a few thousand HP to work with, placing it in the 2-life-bytes category, and thusly allowing HP values
         // of up to 2^15 - 1 (32767). However, in Boss Rush, as of writing this, it has 50000 HP. In order to mitigate this, it must be placed in the 4-byte category, which allows
         // values up to the integer limit.
+        // NOTE -- This mechanic appears to have been removed in 1.4.
         private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
@@ -95,6 +97,7 @@ namespace CalamityMod.ILEditing
                 Main.npcLifeBytes[npcType] = 4;
         }
         #endregion Fixing NPC HP Sync Byte Counts in Boss Rush
+        */
 
         #region Fixing Splitting Worm Banner Spam in Deathmode
         // CONTEXT FOR FIX: In Death Mode, normal worms are capable of splitting similarly to the Eater of Worlds. This, as expected, comes with problems with loot dropping, as you can kill multiple

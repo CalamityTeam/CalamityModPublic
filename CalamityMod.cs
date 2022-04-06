@@ -752,31 +752,6 @@ namespace CalamityMod
         // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
         public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? MusicLoader.GetMusicSlot(musicMod, "Sounds/Music/" + songFilename) : null;
 
-        public override void UpdateMusic(ref int music, ref MusicPriority priority)
-        {
-            if (Main.musicVolume != 0)
-            {
-                if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
-                {
-                    Player p = Main.LocalPlayer;
-                    if (CalamityWorld.DoGSecondStageCountdown <= 530 && CalamityWorld.DoGSecondStageCountdown > 50) // 8 seconds before DoG returns
-                    {
-                        music = GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
-                        priority = MusicPriority.BossMedium;
-                    }
-
-                    // This section handles boss rush music. However, at the time of PR-ing the boss rush visuals branch not all
-                    // of the boss rush themes have been completed. As such, the custom music is intentionally omitted for the time being.
-                    /*
-                    if (BossRushEvent.BossRushActive && BossRushEvent.StartTimer >= BossRushEvent.StartEffectTotalTime)
-                    {
-                        music = BossRushEvent.MusicToPlay;
-                        priority = MusicPriority.BossHigh;
-                    }
-                    */
-                }
-            }
-        }
         #endregion
 
         #region Mod Support

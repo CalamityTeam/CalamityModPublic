@@ -64,10 +64,10 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/CraftingStations/AshenAltarFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/CraftingStations/AshenAltarFlame").Value, i, j, offsetY: animationFrame * animationFrameHeight);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameX == 18 && tile.TileFrameY == 18)

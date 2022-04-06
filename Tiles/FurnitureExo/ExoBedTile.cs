@@ -48,8 +48,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<ExoBed>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<ExoBed>();
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

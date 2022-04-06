@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Furniture.Fountains;
+﻿using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
@@ -73,8 +73,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<AbyssFountainItem>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<AbyssFountainItem>();
         }
     }
 }

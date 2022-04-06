@@ -1,33 +1,33 @@
-﻿using CalamityMod.World;
-using Terraria.ModLoader;
+﻿using System;
+using Terraria;
+using Terraria.Localization;
 
 namespace CalamityMod.CustomRecipes
 {
-    public class SchematicRecipe : ModRecipe
+    public static class SchematicRecipe
     {
-        public string SchematicName;
-        public SchematicRecipe(Mod mod, string schematicName) : base(mod) => SchematicName = schematicName;
-
-        public override bool RecipeAvailable()
+        // TODO -- Use an enumeration instead of strings in the switch cases.
+        public static NetworkText ConstructRecipeCondition(string schematicName, out Predicate<Recipe> condition)
         {
-            // Allow old worlds to craft the new schematics; They don't exist in old worlds
-            if (!CalamityWorld.IsWorldAfterDraedonUpdate)
-                return true;
-
-            switch (SchematicName)
+            switch (schematicName)
             {
                 case "Sunken Sea":
-                    return RecipeUnlockHandler.HasFoundSunkenSeaSchematic;
+                default:
+                    condition = r => RecipeUnlockHandler.HasFoundSunkenSeaSchematic;
+                    return NetworkText.FromKey($"Mods.Calamity.SunkenSeaSchematicRecipeCondition");
                 case "Planetoid":
-                    return RecipeUnlockHandler.HasFoundPlanetoidSchematic;
+                    condition = r => RecipeUnlockHandler.HasFoundPlanetoidSchematic;
+                    return NetworkText.FromKey($"Mods.Calamity.PlanetoidSchematicRecipeCondition");
                 case "Jungle":
-                    return RecipeUnlockHandler.HasFoundJungleSchematic;
+                    condition = r => RecipeUnlockHandler.HasFoundJungleSchematic;
+                    return NetworkText.FromKey($"Mods.Calamity.JungleSchematicRecipeCondition");
                 case "Hell":
-                    return RecipeUnlockHandler.HasFoundHellSchematic;
+                    condition = r => RecipeUnlockHandler.HasFoundHellSchematic;
+                    return NetworkText.FromKey($"Mods.Calamity.UnderworldSchematicRecipeCondition");
                 case "Ice":
-                    return RecipeUnlockHandler.HasFoundIceSchematic;
+                    condition = r => RecipeUnlockHandler.HasFoundIceSchematic;
+                    return NetworkText.FromKey($"Mods.Calamity.IceSchematicRecipeCondition");
             }
-            return false;
         }
     }
 }

@@ -73,8 +73,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<SunkenSeaFountain>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<SunkenSeaFountain>();
         }
     }
 }

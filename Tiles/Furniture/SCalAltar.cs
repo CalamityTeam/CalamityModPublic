@@ -90,23 +90,23 @@ namespace CalamityMod.Tiles.Furniture
         public override void MouseOver(int i, int j)
         {
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<EyeofExtinction>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
             else
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<CalamityDust>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CalamityDust>();
 
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
 
         public override void MouseOverFar(int i, int j)
         {
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<EyeofExtinction>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
             else
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<CalamityDust>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CalamityDust>();
 
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
     }
 }

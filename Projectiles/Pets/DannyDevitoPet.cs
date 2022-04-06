@@ -262,8 +262,8 @@ namespace CalamityMod.Projectiles.Pets
                     if (num345 >= num347 - lastTileRangeX && num345 <= num347 + lastTileRangeX + 1 && num346 >= num348 - lastTileRangeY && num346 <= num348 + lastTileRangeY + 1)
                     {
                         Main.player[projectile.owner].noThrow = 2;
-                        Main.player[projectile.owner].showItemIcon = true;
-                        Main.player[projectile.owner].showItemIcon2 = 3213;
+                        Main.player[projectile.owner].cursorItemIconEnabled = true;
+                        Main.player[projectile.owner].cursorItemIconID = 3213;
                         if (PlayerInput.UsingGamepad)
                         {
                             Main.player[projectile.owner].GamepadEnableGrappleCooldown();

@@ -65,8 +65,8 @@ namespace CalamityMod.Tiles.DraedonStructures
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<LaboratoryDoorItem>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<LaboratoryDoorItem>();
         }
     }
 }

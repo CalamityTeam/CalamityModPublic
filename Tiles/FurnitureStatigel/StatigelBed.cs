@@ -47,8 +47,8 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBed>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBed>();
         }
     }
 }

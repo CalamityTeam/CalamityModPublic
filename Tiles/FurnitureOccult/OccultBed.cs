@@ -49,8 +49,8 @@ namespace CalamityMod.Tiles.FurnitureOccult
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultBed>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultBed>();
         }
     }
 }

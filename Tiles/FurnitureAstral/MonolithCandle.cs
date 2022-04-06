@@ -83,8 +83,8 @@ namespace CalamityMod.Tiles.FurnitureAstral
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithCandle>();
         }
 
         public override bool RightClick(int i, int j)

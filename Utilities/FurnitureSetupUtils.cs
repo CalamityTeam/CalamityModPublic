@@ -140,32 +140,32 @@ namespace CalamityMod
                 top--;
             }
             int chest = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
+            player.cursorItemIconID = -1;
             if (chest < 0)
             {
-                player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+                player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
             }
             else
             {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
-                if (player.showItemIconText == chestName)
+                player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
+                if (player.cursorItemIconText == chestName)
                 {
-                    player.showItemIcon2 = ItemType<T>();
-                    player.showItemIconText = "";
+                    player.cursorItemIconID = ItemType<T>();
+                    player.cursorItemIconText = "";
                 }
             }
             player.noThrow = 2;
-            player.showItemIcon = true;
+            player.cursorItemIconEnabled = true;
         }
 
         public static void ChestMouseFar<T>(string name, int i, int j) where T : ModItem
         {
             ChestMouseOver<T>(name, i, j);
             Player player = Main.LocalPlayer;
-            if (player.showItemIconText == "")
+            if (player.cursorItemIconText == "")
             {
-                player.showItemIcon = false;
-                player.showItemIcon2 = 0;
+                player.cursorItemIconEnabled = false;
+                player.cursorItemIconID = 0;
             }
         }
 
@@ -324,33 +324,33 @@ namespace CalamityMod
                 top--;
             }
             int chestIndex = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
+            player.cursorItemIconID = -1;
             if (chestIndex < 0)
             {
-                player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+                player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
             }
             else
             {
                 if (Main.chest[chestIndex].name != "")
                 {
-                    player.showItemIconText = Main.chest[chestIndex].name;
+                    player.cursorItemIconText = Main.chest[chestIndex].name;
                 }
                 else
                 {
-                    player.showItemIconText = chestName;
+                    player.cursorItemIconText = chestName;
                 }
-                if (player.showItemIconText == chestName)
+                if (player.cursorItemIconText == chestName)
                 {
-                    player.showItemIcon2 = ItemType<T>();
-                    player.showItemIconText = "";
+                    player.cursorItemIconID = ItemType<T>();
+                    player.cursorItemIconText = "";
                 }
             }
             player.noThrow = 2;
-            player.showItemIcon = true;
-            if (player.showItemIconText == "")
+            player.cursorItemIconEnabled = true;
+            if (player.cursorItemIconText == "")
             {
-                player.showItemIcon = false;
-                player.showItemIcon2 = 0;
+                player.cursorItemIconEnabled = false;
+                player.cursorItemIconID = 0;
             }
         }
 
@@ -366,32 +366,32 @@ namespace CalamityMod
                 top--;
             }
             int chestIndex = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
+            player.cursorItemIconID = -1;
             if (chestIndex < 0)
             {
-                player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+                player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
             }
             else
             {
                 if (Main.chest[chestIndex].name != "")
                 {
-                    player.showItemIconText = Main.chest[chestIndex].name;
+                    player.cursorItemIconText = Main.chest[chestIndex].name;
                 }
                 else
                 {
-                    player.showItemIconText = chestName;
+                    player.cursorItemIconText = chestName;
                 }
-                if (player.showItemIconText == chestName)
+                if (player.cursorItemIconText == chestName)
                 {
-                    player.showItemIcon2 = ItemType<T>();
-                    player.showItemIconText = "";
+                    player.cursorItemIconID = ItemType<T>();
+                    player.cursorItemIconText = "";
                 }
             }
             player.noThrow = 2;
-            player.showItemIcon = true;
+            player.cursorItemIconEnabled = true;
             if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY > 0)
             {
-                player.showItemIcon2 = ItemID.FamiliarShirt;
+                player.cursorItemIconID = ItemID.FamiliarShirt;
             }
         }
 
@@ -506,24 +506,24 @@ namespace CalamityMod
                 top--;
             }
             int chest = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
+            player.cursorItemIconID = -1;
             if (chest < 0)
             {
-                player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+                player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
             }
             else
             {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
-                if (player.showItemIconText == chestName)
+                player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
+                if (player.cursorItemIconText == chestName)
                 {
-                    player.showItemIcon2 = ItemType<C>();
+                    player.cursorItemIconID = ItemType<C>();
                     if (Main.tile[left, top].TileFrameX / 36 == 1)
-                        player.showItemIcon2 = ItemType<K>();
-                    player.showItemIconText = "";
+                        player.cursorItemIconID = ItemType<K>();
+                    player.cursorItemIconText = "";
                 }
             }
             player.noThrow = 2;
-            player.showItemIcon = true;
+            player.cursorItemIconEnabled = true;
         }
 
         public static void LockedChestMouseOverFar<K, C>(string chestName, int i, int j)
@@ -531,10 +531,10 @@ namespace CalamityMod
         {
             LockedChestMouseOver<K, C>(chestName, i, j);
             Player player = Main.LocalPlayer;
-            if (player.showItemIconText == "")
+            if (player.cursorItemIconText == "")
             {
-                player.showItemIcon = false;
-                player.showItemIcon2 = 0;
+                player.cursorItemIconEnabled = false;
+                player.cursorItemIconID = 0;
             }
         }
 

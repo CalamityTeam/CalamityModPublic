@@ -2690,6 +2690,7 @@ namespace CalamityMod.CalPlayer
             if (Main.snowTiles > 300)
                 Player.ZoneSnow = true;
         }
+
         public override Texture2D GetMapBackgroundImage()
         {
             if (ZoneSulphur)

@@ -14,6 +14,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.Liquid;
 using Terraria.GameInput;
 using Terraria.Graphics;
@@ -294,7 +295,7 @@ namespace CalamityMod.ILEditing
         #endregion Incorporate Enchantments in Item Names
 
         #region Hellbound Enchantment Projectile Creation Effects
-        private static int IncorporateMinionExplodingCountdown(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
+        private static int IncorporateMinionExplodingCountdown(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float x, float y, float xSpeed, float ySpeed, int type, int damage, float knockback, int owner, float ai0, float ai1)
         {
             // This is unfortunately not something that can be done via SetDefaults since owner is set
             // after that method is called. Doing it directly when the projectile is spawned appears to be the only reasonable way.

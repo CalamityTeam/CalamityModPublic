@@ -1,10 +1,11 @@
-
+﻿
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Tiles
 {
@@ -35,6 +36,9 @@ namespace CalamityMod.Tiles
             return false;
         }
 
+        // TODO -- Fix the drapes from these. This uses specialized drawing hooks which appear to currently be private in 1.4.
+        // This may require either gross reflection or contacting TML developers to make the necessary information for this public again.
+        /*
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if ((Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
@@ -47,21 +51,22 @@ namespace CalamityMod.Tiles
             }
         }
 
-        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
-        {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
-        }
-
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j);
-            Texture2D leaves = ModContent.Request<Texture2D>("CalamityMod/Tiles/UelibloomBrick_Leaves");
+            Texture2D leaves = ModContent.Request<Texture2D>("CalamityMod/Tiles/UelibloomBrick_Leaves").Value;
 
             DrawExtraTop(i, j, leaves, drawOffset, drawColour);
             DrawExtraWallEnds(i, j, leaves, drawOffset, drawColour);
             DrawExtraDrapes(i, j, leaves, drawOffset, drawColour);
+        }
+        */
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         #region 'Extra Drapes' Drawing
@@ -234,7 +239,7 @@ namespace CalamityMod.Tiles
 
         private int GetExtraVariant(int i, int j)
         {
-            return Main.tile[i, j].frameNumber() * extraFrameWidth;
+            return Main.tile[i, j].TileFrameNumber * extraFrameWidth;
         }
 
         /*

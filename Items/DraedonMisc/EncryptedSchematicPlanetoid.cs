@@ -1,3 +1,4 @@
+﻿using System;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -34,7 +35,13 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).AddIngredient(ItemID.Glass, 50).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
+                AddIngredient(ItemID.Glass, 50).
+                AddCondition(SchematicRecipe.ConstructRecipeCondition("Planetoid", out Predicate<Recipe> condition), condition).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }
