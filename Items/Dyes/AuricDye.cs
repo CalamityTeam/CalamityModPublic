@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,7 +26,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<AuricOre>(), 5).AddTile(TileID.DyeVat).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<AuricOre>(5).
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

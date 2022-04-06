@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.GoldDust, 7)
-                .AddIngredient(ItemID.SpelunkerPotion, 7)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GoldDust, 7).
+                AddIngredient(ItemID.SpelunkerPotion, 7).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

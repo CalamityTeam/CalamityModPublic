@@ -60,7 +60,7 @@ namespace CalamityMod.Tiles.Abyss
                 }
                 Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
                 Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-                if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
+                if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.Slope != 0)
                 {
                     return;
                 }
@@ -81,14 +81,14 @@ namespace CalamityMod.Tiles.Abyss
                     tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
                     if (k == 0)
                     {
-                        tileAtPosition.active(true);
+                        tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                         tileAtPosition.TileType = TileID.PalmTree;
                         tileAtPosition.TileFrameX = 66;
                         tileAtPosition.TileFrameY = 0;
                     }
                     else if (k == treeHeight - 1)
                     {
-                        tileAtPosition.active(true);
+                        tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                         tileAtPosition.TileType = TileID.PalmTree;
                         tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(4, 7));
                         tileAtPosition.TileFrameY = frameY;
@@ -104,7 +104,7 @@ namespace CalamityMod.Tiles.Abyss
                                 frameY += (short)(Math.Sign(frameYIdeal) * 2);
                             }
                         }
-                        tileAtPosition.active(true);
+                        tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                         tileAtPosition.TileType = TileID.PalmTree;
                         tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(0, 3));
                         tileAtPosition.TileFrameY = frameY;

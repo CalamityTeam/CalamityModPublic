@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AerialiteBar>(2)
-                .AddIngredient(ItemID.Feather, 5)
-                .AddIngredient(ItemID.FallenStar)
-                .AddTile(TileID.SkyMill)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(2).
+                AddIngredient(ItemID.Feather, 5).
+                AddIngredient(ItemID.FallenStar).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

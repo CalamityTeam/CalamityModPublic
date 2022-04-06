@@ -169,7 +169,7 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Color drawColor = Lighting.GetColor(i, j);
             Rectangle frame = new Rectangle(frameXPos, frameYPos, 16, 16);
 
-            if ((!t.IsHalfBlock && t.slope() == 0) || t.IsHalfBlock)
+            if ((!t.IsHalfBlock && t.Slope == 0) || t.IsHalfBlock)
             {
                 spriteBatch.Draw(TileTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 

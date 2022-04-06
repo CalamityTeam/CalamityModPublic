@@ -43,15 +43,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<FrigidBulwark>()
-                .AddIngredient<DeificAmulet>()
-                .AddIngredient<GalacticaSingularity>(5)
-                .AddIngredient<DivineGeode>(10)
-                .AddIngredient<CosmiliteBar>(10)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<FrigidBulwark>().
+                AddIngredient<DeificAmulet>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<DivineGeode>(10).
+                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

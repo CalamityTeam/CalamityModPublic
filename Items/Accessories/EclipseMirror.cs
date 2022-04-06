@@ -50,12 +50,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AbyssalMirror>()
-                .AddIngredient<DarkGodsSheath>()
-                .AddIngredient<DarksunFragment>(20)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<AbyssalMirror>().
+                AddIngredient<DarkGodsSheath>().
+                AddIngredient<DarksunFragment>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

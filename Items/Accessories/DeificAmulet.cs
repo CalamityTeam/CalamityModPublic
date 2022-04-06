@@ -34,14 +34,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.CharmofMyths)
-                .AddIngredient(ItemID.StarVeil)
-                .AddIngredient<AstralBar>(10)
-                .AddIngredient(ItemID.MeteoriteBar, 10)
-                .AddIngredient<SeaPrism>(15)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CharmofMyths).
+                AddIngredient(ItemID.StarVeil).
+                AddIngredient<AstralBar>(10).
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddIngredient<SeaPrism>(15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

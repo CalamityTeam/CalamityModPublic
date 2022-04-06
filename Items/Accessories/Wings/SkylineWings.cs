@@ -57,13 +57,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AerialiteBar>(5)
-                .AddIngredient(ItemID.Feather, 5)
-                .AddIngredient(ItemID.FallenStar, 5)
-                .AddIngredient(ItemID.Bone, 15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(5).
+                AddIngredient(ItemID.Feather, 5).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient(ItemID.Bone, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

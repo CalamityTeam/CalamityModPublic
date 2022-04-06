@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<StatisNinjaBelt>()
-                .AddIngredient<TwistingNether>(10)
-                .AddIngredient<NightmareFuel>(20)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<StatisNinjaBelt>().
+                AddIngredient<TwistingNether>(10).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

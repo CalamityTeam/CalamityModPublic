@@ -33,12 +33,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CruptixBar>(15)
-                .AddIngredient(ItemID.HellstoneBar, 8)
-                .AddIngredient<CoreofChaos>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CruptixBar>(15).
+                AddIngredient(ItemID.HellstoneBar, 8).
+                AddIngredient<CoreofChaos>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

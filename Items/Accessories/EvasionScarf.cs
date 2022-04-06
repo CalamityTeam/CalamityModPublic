@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CounterScarf>()
-                .AddIngredient(ItemID.SoulofNight, 5)
-                .AddIngredient(ItemID.SoulofLight, 5)
-                .AddIngredient(ItemID.Silk, 15)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CounterScarf>().
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.Silk, 15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

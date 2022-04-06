@@ -91,12 +91,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AstralBar>(8)
-                .AddIngredient<HadarianMembrane>(8)
-                .AddIngredient(ItemID.SoulofFlight, 20)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AstralBar>(8).
+                AddIngredient<HadarianMembrane>(8).
+                AddIngredient(ItemID.SoulofFlight, 20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

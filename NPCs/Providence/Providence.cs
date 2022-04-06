@@ -1563,9 +1563,9 @@ namespace CalamityMod.NPCs.Providence
                         && !Main.tile[x, y].HasTile)
                     {
                         Main.tile[x, y].TileType = (ushort)ModContent.TileType<ProfanedRock>();
-                        Main.tile[x, y].active(true);
+                        Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                     }
-                    Main.tile[x, y].LiquidType = LiquidID.Water;
+                    Main.tile[x, y].Get<LiquidData>().LiquidType = LiquidID.Water;
                     Main.tile[x, y].LiquidAmount = 0;
 
                     if (Main.netMode == NetmodeID.Server)

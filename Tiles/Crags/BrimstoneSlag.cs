@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Crags
             {
                 zero = Vector2.Zero;
             }
-            if (tile.slope() == (byte)0 && !tile.IsHalfBlock)
+            if (tile.Slope == (byte)0 && !tile.IsHalfBlock)
                 Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 16), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (tile.IsHalfBlock)
             {
@@ -70,7 +70,7 @@ namespace CalamityMod.Tiles.Crags
             }
             else
             {
-                byte num9 = tile.slope();
+                byte num9 = tile.Slope;
                 for (int index4 = 0; index4 < 8; ++index4)
                 {
                     int width2 = index4 << 1;

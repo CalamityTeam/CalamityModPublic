@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.RottenChunk, 4)
-                .AddIngredient(ItemID.DemoniteBar, 4)
-                .AddIngredient<TrueShadowScale>(5)
-                .AddTile(TileID.DemonAltar)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 4).
+                AddIngredient(ItemID.DemoniteBar, 4).
+                AddIngredient<TrueShadowScale>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

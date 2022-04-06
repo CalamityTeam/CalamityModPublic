@@ -52,11 +52,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<PlaguedFuelPack>()
-                .AddIngredient<EffulgentFeather>(8)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<PlaguedFuelPack>().
+                AddIngredient<EffulgentFeather>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

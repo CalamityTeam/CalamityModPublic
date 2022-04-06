@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -25,7 +25,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<AstralStone>(), 15).AddTile(TileID.DyeVat).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<AstralStone>(15).
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

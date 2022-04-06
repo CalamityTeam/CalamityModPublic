@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AstralBar>(10)
-                .AddIngredient(ItemID.MeteoriteBar, 8)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AstralBar>(10).
+                AddIngredient(ItemID.MeteoriteBar, 8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

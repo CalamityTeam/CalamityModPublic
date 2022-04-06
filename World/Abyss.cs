@@ -66,7 +66,7 @@ namespace CalamityMod.World
                                     }
                                     else if (!tile.HasTile)
                                     {
-                                        tile.active(true);
+                                        tile.Get<TileWallWireStateData>().HasTile = true;
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
@@ -83,7 +83,7 @@ namespace CalamityMod.World
                                     }
                                     else if (!tile.HasTile)
                                     {
-                                        tile.active(true);
+                                        tile.Get<TileWallWireStateData>().HasTile = true;
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
@@ -111,7 +111,7 @@ namespace CalamityMod.World
                                 }
                                 else if (!tile.HasTile)
                                 {
-                                    tile.active(true);
+                                    tile.Get<TileWallWireStateData>().HasTile = true;
                                     if (abyssIndex2 > (rockLayer + y * 0.262))
                                     {
                                         tile.TileType = (ushort)ModContent.TileType<Voidstone>();
@@ -162,7 +162,7 @@ namespace CalamityMod.World
                                     }
                                     else if (!tile.HasTile)
                                     {
-                                        tile.active(true);
+                                        tile.Get<TileWallWireStateData>().HasTile = true;
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
@@ -179,7 +179,7 @@ namespace CalamityMod.World
                                     }
                                     else if (!tile.HasTile)
                                     {
-                                        tile.active(true);
+                                        tile.Get<TileWallWireStateData>().HasTile = true;
                                         tile.WallType = (ushort)ModContent.WallType<AbyssGravelWall>();
                                         tile.TileType = (ushort)ModContent.TileType<AbyssGravel>();
                                     }
@@ -207,7 +207,7 @@ namespace CalamityMod.World
                                 }
                                 else if (!tile.HasTile)
                                 {
-                                    tile.active(true);
+                                    tile.Get<TileWallWireStateData>().HasTile = true;
                                     if (abyssIndex2 > (rockLayer + y * 0.262))
                                     {
                                         tile.TileType = (ushort)ModContent.TileType<Voidstone>();
@@ -448,7 +448,7 @@ namespace CalamityMod.World
                                 {
                                     num6 = l;
                                 }
-                                Main.tile[k, l].active(true);
+                                Main.tile[k, l].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[k, l].TileType = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>());
                                 CalamityUtils.SafeSquareTileFrame(k, l, true);
                             }
@@ -500,7 +500,7 @@ namespace CalamityMod.World
                             float num18 = (float)(Math.Abs(num17 - num14) * 2);
                             if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num15 + WorldGen.genRand.Next(2)))
                             {
-                                Main.tile[n, num17].active(true);
+                                Main.tile[n, num17].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[n, num17].TileType = (ushort)num16;
                                 CalamityUtils.SafeSquareTileFrame(n, num17, true);
                             }
@@ -532,7 +532,7 @@ namespace CalamityMod.World
                                 float num18 = (float)(Math.Abs(num17 - num14) * 2);
                                 if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num150 + WorldGen.genRand.Next(2)))
                                 {
-                                    Main.tile[n, num17].active(true);
+                                    Main.tile[n, num17].Get<TileWallWireStateData>().HasTile = true;
                                     Main.tile[n, num17].TileType = (ushort)num16;
                                     CalamityUtils.SafeSquareTileFrame(n, num17, true);
                                 }
@@ -652,23 +652,23 @@ namespace CalamityMod.World
                         {
                             if (Main.tile[num37, num35].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
-                                Main.tile[num37, num35].active(false);
+                                Main.tile[num37, num35].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35].LiquidAmount = 255;
-                                Main.tile[num37, num35].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                             }
                             if (Main.tile[num37, num35 + 1].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
-                                Main.tile[num37, num35 + 1].active(false);
+                                Main.tile[num37, num35 + 1].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35 + 1].LiquidAmount = 255;
-                                Main.tile[num37, num35 + 1].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35 + 1].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35 + 1, true);
                             }
                             if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
-                                Main.tile[num37, num35 + 2].active(false);
+                                Main.tile[num37, num35 + 2].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35 + 2].LiquidAmount = 255;
-                                Main.tile[num37, num35 + 2].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35 + 2].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 CalamityUtils.SafeSquareTileFrame(num34, num35 + 2, true);
                             }
                         }
@@ -677,7 +677,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[num34, num35].LiquidAmount = 255;
                     }
-                    Main.tile[num34, num35].LiquidType = LiquidID.Water;
+                    Main.tile[num34, num35].Get<LiquidData>().LiquidType = LiquidID.Water;
                     CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                 }
             }
@@ -731,11 +731,11 @@ namespace CalamityMod.World
                 {
                     if (m != num6 - 1 || (l != num4 && l != num5))
                     {
-                        Main.tile[l, m].active(true);
+                        Main.tile[l, m].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = wall;
-                        Main.tile[l, m].halfBrick(false);
-                        Main.tile[l, m].slope(0);
+                        Main.tile[l, m].Get<TileWallWireStateData>().IsHalfBlock = false;
+                        Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     }
                 }
             }
@@ -765,7 +765,7 @@ namespace CalamityMod.World
                 {
                     if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == wall)
                     {
-                        Main.tile[n, num8].active(false);
+                        Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
                     }
                 }
             }
@@ -773,9 +773,9 @@ namespace CalamityMod.World
             int num10 = (int)vector.Y;
             for (int num11 = num9 - 2; num11 <= num9 + 2; num11++)
             {
-                Main.tile[num11, num10].active(false);
-                Main.tile[num11, num10 - 1].active(false);
-                Main.tile[num11, num10 - 2].active(false);
+                Main.tile[num11, num10].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 1].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 2].Get<TileWallWireStateData>().HasTile = false;
             }
             switch (itemChoice)
             {

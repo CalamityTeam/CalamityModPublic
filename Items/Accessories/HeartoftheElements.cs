@@ -96,14 +96,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<WifeinaBottle>()
-                .AddIngredient<WifeinaBottlewithBoobs>()
-                .AddIngredient<LureofEnthrallment>()
-                .AddIngredient<EyeoftheStorm>()
-                .AddIngredient<RoseStone>()
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<WifeinaBottle>().
+                AddIngredient<WifeinaBottlewithBoobs>().
+                AddIngredient<LureofEnthrallment>().
+                AddIngredient<EyeoftheStorm>().
+                AddIngredient<RoseStone>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +31,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

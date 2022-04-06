@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Rogue;
@@ -35,8 +35,18 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<SulphurousSand>(), 15).AddIngredient(ModContent.ItemType<UrchinStinger>(), 15).AddTile(TileID.Bottles).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<SulphurousSand>(15).
+                AddIngredient<UrchinStinger>(15).
+                AddTile(TileID.Bottles).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(10).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

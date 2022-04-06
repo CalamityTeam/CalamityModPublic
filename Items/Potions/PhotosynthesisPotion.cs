@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +33,20 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BeetleJuice>()).AddIngredient(ModContent.ItemType<TrapperBulb>()).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BeetleJuice>().
+                AddIngredient<TrapperBulb>().
+                AddIngredient<EssenceofCinder>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(40).
+                AddIngredient<EssenceofCinder>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

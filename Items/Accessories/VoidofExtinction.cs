@@ -37,14 +37,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ObsidianRose)
-                .AddIngredient<Gehenna>()
-                .AddIngredient<CalamityRing>()
-                .AddIngredient<CoreofChaos>()
-                .AddIngredient<CruptixBar>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ObsidianRose).
+                AddIngredient<Gehenna>().
+                AddIngredient<CalamityRing>().
+                AddIngredient<CoreofChaos>().
+                AddIngredient<CruptixBar>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

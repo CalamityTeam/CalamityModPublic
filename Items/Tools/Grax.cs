@@ -60,14 +60,14 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<InfernaCutter>()
-                .AddRecipeGroup("LunarHamaxe")
-                .AddIngredient<MolluskHusk>(10)
-                .AddIngredient<DraedonBar>(5)
-                .AddIngredient<UeliaceBar>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<InfernaCutter>().
+                AddRecipeGroup("LunarHamaxe").
+                AddIngredient<MolluskHusk>(10).
+                AddIngredient<DraedonBar>(5).
+                AddIngredient<UeliaceBar>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

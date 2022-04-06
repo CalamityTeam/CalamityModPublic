@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,7 +22,12 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>()).AddIngredient(ModContent.ItemType<DraedonBar>()).AddIngredient(ModContent.ItemType<CruptixBar>()).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>().
+                AddIngredient<DraedonBar>().
+                AddIngredient<CruptixBar>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

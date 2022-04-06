@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffest;
             Color drawColour = Color.White;
             Tile trackTile = Main.tile[i, j];
-            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
                 spriteBatch.Draw(glowmask, drawPosition, new Rectangle(xFrameOffset, yFrameOffset, 18, 18), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (trackTile.IsHalfBlock)
                 spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);

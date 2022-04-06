@@ -34,13 +34,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<JellyChargedBattery>()
-                .AddIngredient<NuclearRod>()
-                .AddIngredient<StarbusterCore>()
-                .AddIngredient<BarofLife>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<JellyChargedBattery>().
+                AddIngredient<NuclearRod>().
+                AddIngredient<StarbusterCore>().
+                AddIngredient<BarofLife>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

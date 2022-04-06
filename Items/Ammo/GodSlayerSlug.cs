@@ -36,11 +36,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(999)
-                .AddIngredient(ItemID.EmptyBullet, 999)
-                .AddIngredient<CosmiliteBar>()
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe(999).
+                AddIngredient(ItemID.EmptyBullet, 999).
+                AddIngredient<CosmiliteBar>().
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

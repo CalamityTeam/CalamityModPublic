@@ -41,14 +41,14 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.SpiderBreastplate)
-                .AddIngredient<VictideBar>(12)
-                .AddIngredient<PlantyMush>(10)
-                .AddIngredient<AbyssGravel>(18)
-                .AddIngredient<DepthCells>(5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpiderBreastplate).
+                AddIngredient<VictideBar>(12).
+                AddIngredient<PlantyMush>(10).
+                AddIngredient<AbyssGravel>(18).
+                AddIngredient<DepthCells>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

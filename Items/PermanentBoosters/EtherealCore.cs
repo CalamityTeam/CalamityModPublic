@@ -53,13 +53,13 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.MeteoriteBar, 25)
-                .AddIngredient<AstralBar>(25)
-                .AddIngredient(ItemID.FragmentNebula, 20)
-                .AddIngredient(ItemID.FallenStar, 50)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MeteoriteBar, 25).
+                AddIngredient<AstralBar>(25).
+                AddIngredient(ItemID.FragmentNebula, 20).
+                AddIngredient(ItemID.FallenStar, 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

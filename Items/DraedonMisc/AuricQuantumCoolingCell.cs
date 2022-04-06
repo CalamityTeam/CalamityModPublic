@@ -71,14 +71,14 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<AuricBar>(), 2).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).
-                AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).
-                AddIngredient(ModContent.ItemType<CoreofEleum>(), 6).
+            CreateRecipe().
+                AddIngredient<AuricBar>(2).
+                AddIngredient<MysteriousCircuitry>(8).
+                AddIngredient<DubiousPlating>(8).
+                AddIngredient<EndothermicEnergy>(40).
+                AddIngredient<CoreofEleum>(6).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile<CosmicAnvil>().
                 Register();
         }
     }

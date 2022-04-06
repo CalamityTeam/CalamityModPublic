@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ShadowspecBar>(18)
-                .AddTile<DraedonsForge>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<ShadowspecBar>(18).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

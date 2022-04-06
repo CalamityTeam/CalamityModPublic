@@ -32,10 +32,10 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(250)
-                .AddIngredient<VerstaltiteBar>()
-                .AddTile(TileID.IceMachine)
-                .Register();
+            CreateRecipe(250).
+                AddIngredient<VerstaltiteBar>().
+                AddTile(TileID.IceMachine).
+                Register();
         }
     }
 }

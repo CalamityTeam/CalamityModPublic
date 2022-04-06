@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
@@ -44,7 +44,10 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Hay, 10).AddTile(TileID.Furnaces).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Hay, 10).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

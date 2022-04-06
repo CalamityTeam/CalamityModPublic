@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(250)
-                .AddIngredient(ItemID.NanoBullet, 250)
-                .AddIngredient<EssenceofEleum>()
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe(250).
+                AddIngredient(ItemID.NanoBullet, 250).
+                AddIngredient<EssenceofEleum>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

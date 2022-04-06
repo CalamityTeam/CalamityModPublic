@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Fishing.AstralCatches;
 using Terraria;
@@ -34,8 +34,19 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GravitationPotion).AddIngredient(ModContent.ItemType<AstralJelly>()).AddIngredient(ModContent.ItemType<AldebaranAlewife>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddIngredient(ModContent.ItemType<AstralJelly>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GravitationPotion).
+                AddIngredient<AstralJelly>().
+                AddIngredient<AldebaranAlewife>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(10).
+                AddIngredient<AstralJelly>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

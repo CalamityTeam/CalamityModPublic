@@ -30,12 +30,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.SharkToothNecklace)
-                .AddIngredient(ItemID.AvengerEmblem)
-                .AddIngredient<GrandScale>()
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SharkToothNecklace).
+                AddIngredient(ItemID.AvengerEmblem).
+                AddIngredient<GrandScale>().
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

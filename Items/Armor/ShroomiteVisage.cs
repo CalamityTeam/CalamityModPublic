@@ -43,10 +43,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ShroomiteBar, 12)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ShroomiteBar, 12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

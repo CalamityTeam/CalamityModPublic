@@ -39,11 +39,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CosmiliteBar>(23)
-                .AddIngredient<AscendantSpiritEssence>(3)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(23).
+                AddIngredient<AscendantSpiritEssence>(3).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

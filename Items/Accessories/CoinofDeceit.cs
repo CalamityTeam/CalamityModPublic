@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("AnyGoldBar", 4)
-                .AddRecipeGroup("AnyCopperBar", 8)
-                .AddIngredient<Acidwood>(5)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyGoldBar", 4).
+                AddRecipeGroup("AnyCopperBar", 8).
+                AddIngredient<Acidwood>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

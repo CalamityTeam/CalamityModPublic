@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ExodiumClusterOre>(25)
-                .AddIngredient<Elumplate>(25)
-                .AddIngredient<CosmiliteBar>(5)
-                .AddTile(TileID.DemonAltar)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ExodiumClusterOre>(25).
+                AddIngredient<Elumplate>(25).
+                AddIngredient<CosmiliteBar>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

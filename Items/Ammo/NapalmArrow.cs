@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(250)
-                .AddIngredient(ItemID.WoodenArrow, 250)
-                .AddIngredient<EssenceofChaos>()
-                .AddIngredient(ItemID.Torch)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe(250).
+                AddIngredient(ItemID.WoodenArrow, 250).
+                AddIngredient<EssenceofChaos>().
+                AddIngredient(ItemID.Torch).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

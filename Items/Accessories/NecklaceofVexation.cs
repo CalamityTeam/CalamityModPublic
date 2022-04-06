@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.AvengerEmblem)
-                .AddIngredient<DraedonBar>(2)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AvengerEmblem).
+                AddIngredient<DraedonBar>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

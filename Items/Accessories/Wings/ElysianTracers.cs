@@ -87,13 +87,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<InfinityBoots>()
-                .AddIngredient<ElysianWings>()
-                .AddIngredient<CosmiliteBar>(5)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<InfinityBoots>().
+                AddIngredient<ElysianWings>().
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

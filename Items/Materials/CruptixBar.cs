@@ -50,7 +50,10 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ChaoticOre>(), 5).AddTile(TileID.AdamantiteForge).Register();
+            CreateRecipe().
+                AddIngredient<ChaoticOre>(5).
+                AddTile(TileID.AdamantiteForge).
+                Register();
         }
     }
 }

@@ -80,7 +80,15 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPrism>(), 5).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 1).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 1).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<ExoPrism>(5).
+                AddIngredient<AuricBar>(5).
+                AddIngredient<BarofLife>().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<AscendantSpiritEssence>().
+                AddIngredient<GalacticaSingularity>(3).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

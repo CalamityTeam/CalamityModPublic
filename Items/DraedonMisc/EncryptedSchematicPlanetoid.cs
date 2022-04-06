@@ -35,7 +35,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
+            CreateRecipe().
                 AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
                 AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
                 AddIngredient(ItemID.Glass, 50).

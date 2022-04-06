@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<DraedonBar>(10)
-                .AddIngredient(ItemID.JungleSpores, 8)
-                .AddIngredient<EssenceofCinder>(2)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<DraedonBar>(10).
+                AddIngredient(ItemID.JungleSpores, 8).
+                AddIngredient<EssenceofCinder>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

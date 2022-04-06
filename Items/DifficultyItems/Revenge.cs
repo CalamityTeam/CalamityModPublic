@@ -119,7 +119,9 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe()
+                .AddTile(TileID.DemonAltar)
+                .Register();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (t.LiquidAmount <= 0)
                 {
                     t.LiquidAmount = 255;
-                    t.LiquidType = LiquidID.Water;
+                    t.Get<LiquidData>().LiquidType = LiquidID.Water;
                 }
             }
         }

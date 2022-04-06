@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -35,8 +35,20 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Ale).AddIngredient(ItemID.PixieDust, 10).AddIngredient(ItemID.CrystalShard, 5).AddIngredient(ItemID.UnicornHorn).AddTile(TileID.Kegs).Register();
-            CreateRecipe(1).AddIngredient(ItemID.Ale).AddIngredient(ModContent.ItemType<BloodOrb>(), 40).AddIngredient(ItemID.CrystalShard).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Ale).
+                AddIngredient(ItemID.PixieDust, 10).
+                AddIngredient(ItemID.CrystalShard, 5).
+                AddIngredient(ItemID.UnicornHorn).
+                AddTile(TileID.Kegs).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.Ale).
+                AddIngredient<BloodOrb>(40).
+                AddIngredient(ItemID.CrystalShard).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

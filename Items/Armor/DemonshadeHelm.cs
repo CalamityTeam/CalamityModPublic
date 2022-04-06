@@ -79,10 +79,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ShadowspecBar>(12)
-                .AddTile<DraedonsForge>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<ShadowspecBar>(12).
+                AddTile<DraedonsForge>().
+                Register();
         }
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/DemonshadeHelm_Extension";

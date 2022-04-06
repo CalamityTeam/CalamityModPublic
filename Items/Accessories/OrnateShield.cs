@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VerstaltiteBar>(5)
-                .AddIngredient(ItemID.CrystalShard, 10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

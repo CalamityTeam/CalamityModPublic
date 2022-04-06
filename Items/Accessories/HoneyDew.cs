@@ -54,14 +54,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<LivingDew>()
-                .AddIngredient(ItemID.BottledHoney, 10)
-                .AddIngredient<TrapperBulb>(2)
-                .AddIngredient(ItemID.ButterflyDust)
-                .AddIngredient<BeetleJuice>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<LivingDew>().
+                AddIngredient(ItemID.BottledHoney, 10).
+                AddIngredient<TrapperBulb>(2).
+                AddIngredient(ItemID.ButterflyDust).
+                AddIngredient<BeetleJuice>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

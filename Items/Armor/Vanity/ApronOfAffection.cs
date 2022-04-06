@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Armor.Vanity
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.Robe)
-                .AddIngredient(ItemID.LovePotion, 10)
-                .AddIngredient(ItemID.LifeCrystal)
-                .AddTile(TileID.Loom)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Robe).
+                AddIngredient(ItemID.LovePotion, 10).
+                AddIngredient(ItemID.LifeCrystal).
+                AddTile(TileID.Loom).
+                Register();
         }
     }
 }

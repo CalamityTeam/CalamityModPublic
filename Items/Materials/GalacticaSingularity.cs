@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +25,13 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FragmentSolar).AddIngredient(ItemID.FragmentVortex).AddIngredient(ItemID.FragmentStardust).AddIngredient(ItemID.FragmentNebula).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FragmentSolar).
+                AddIngredient(ItemID.FragmentVortex).
+                AddIngredient(ItemID.FragmentStardust).
+                AddIngredient(ItemID.FragmentNebula).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

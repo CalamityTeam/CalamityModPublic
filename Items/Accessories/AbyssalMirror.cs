@@ -40,15 +40,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<MirageMirror>()
-                .AddIngredient<InkBomb>()
-                .AddIngredient(ItemID.SpectreBar, 8)
-                .AddIngredient<SeaPrism>(10)
-                .AddIngredient<DepthCells>(5)
-                .AddIngredient<Lumenite>(5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<MirageMirror>().
+                AddIngredient<InkBomb>().
+                AddIngredient(ItemID.SpectreBar, 8).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<DepthCells>(5).
+                AddIngredient<Lumenite>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.LabFinders
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousMechanism>()).AddIngredient(ItemID.Cloud, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<MysteriousMechanism>().
+                AddIngredient(ItemID.Cloud, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

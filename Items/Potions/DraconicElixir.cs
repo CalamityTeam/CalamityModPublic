@@ -56,8 +56,21 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<HellcasterFragment>()).AddIngredient(ItemID.Daybloom).AddIngredient(ItemID.Moonglow).AddIngredient(ItemID.Fireblossom).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 50).AddIngredient(ModContent.ItemType<HellcasterFragment>()).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<HellcasterFragment>().
+                AddIngredient(ItemID.Daybloom).
+                AddIngredient(ItemID.Moonglow).
+                AddIngredient(ItemID.Fireblossom).
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(50).
+                AddIngredient<HellcasterFragment>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

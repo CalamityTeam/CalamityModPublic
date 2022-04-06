@@ -79,13 +79,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<EffulgentFeather>(15)
-                .AddRecipeGroup("AnyGoldBar", 3)
-                .AddIngredient<Tenebris>(3)
-                .AddIngredient<DarksunFragment>(5)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<EffulgentFeather>(15).
+                AddRecipeGroup("AnyGoldBar", 3).
+                AddIngredient<Tenebris>(3).
+                AddIngredient<DarksunFragment>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

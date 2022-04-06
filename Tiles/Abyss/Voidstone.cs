@@ -233,7 +233,7 @@ namespace CalamityMod.Tiles.Abyss
             Color drawColour = GetDrawColour(i, j, new Color(25, 25, 25, 25));
             Tile trackTile = Main.tile[i, j];
 
-            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {
                 Main.spriteBatch.Draw(GlowTexture, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }

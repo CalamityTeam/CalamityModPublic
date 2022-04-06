@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
@@ -37,8 +37,19 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<AerialiteOre>(), 2).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<StormlionMandible>()).AddTile(TileID.Bottles).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe(5).
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<AerialiteOre>(2).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<StormlionMandible>().
+                AddTile(TileID.Bottles).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(10).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

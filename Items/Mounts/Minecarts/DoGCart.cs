@@ -30,7 +30,12 @@ namespace CalamityMod.Items.Mounts.Minecarts
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>()).AddIngredient(ItemID.Wire, 60).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<AscendantSpiritEssence>().
+                AddIngredient(ItemID.Wire, 60).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

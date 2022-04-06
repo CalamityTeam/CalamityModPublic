@@ -127,7 +127,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Color drawColor = charger?.LightColor ?? Color.Red;
 
-            if (!t.IsHalfBlock && t.slope() == 0)
+            if (!t.IsHalfBlock && t.Slope == 0)
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xFrame, yFrame, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (t.IsHalfBlock)
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xFrame, yFrame, 18, 8)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);

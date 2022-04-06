@@ -38,7 +38,18 @@ namespace CalamityMod.Items.Pets
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GoldButterfly).AddIngredient(ItemID.MonarchButterfly).AddIngredient(ItemID.PurpleEmperorButterfly).AddIngredient(ItemID.RedAdmiralButterfly).AddIngredient(ItemID.UlyssesButterfly).AddIngredient(ItemID.SulphurButterfly).AddIngredient(ItemID.TreeNymphButterfly).AddIngredient(ItemID.ZebraSwallowtailButterfly).AddIngredient(ItemID.JuliaButterfly).AddTile(TileID.CrystalBall).Register();
+            CreateRecipe(). //Oh my god this recipe is terrible no wonder no one knows this item exists
+                AddIngredient(ItemID.GoldButterfly).
+                AddIngredient(ItemID.MonarchButterfly).
+                AddIngredient(ItemID.PurpleEmperorButterfly).
+                AddIngredient(ItemID.RedAdmiralButterfly).
+                AddIngredient(ItemID.UlyssesButterfly).
+                AddIngredient(ItemID.SulphurButterfly).
+                AddIngredient(ItemID.TreeNymphButterfly).
+                AddIngredient(ItemID.ZebraSwallowtailButterfly).
+                AddIngredient(ItemID.JuliaButterfly).
+                AddTile(TileID.CrystalBall).
+                Register();
         }
     }
 }

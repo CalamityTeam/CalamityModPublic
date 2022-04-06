@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SupremeHealingPotion>()).AddIngredient(ModContent.ItemType<BloodOrb>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<SupremeHealingPotion>().
+                AddIngredient<BloodOrb>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FeralClaws)
-                .AddIngredient<UeliaceBar>(2)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FeralClaws).
+                AddIngredient<UeliaceBar>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

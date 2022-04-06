@@ -53,7 +53,12 @@ namespace CalamityMod.Items.Pets
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddRecipeGroup("AnyGoldBar", 8).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<PrismShard>(5).
+                AddRecipeGroup("AnyGoldBar", 8).
+                AddIngredient<DemonicBoneAsh>().
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

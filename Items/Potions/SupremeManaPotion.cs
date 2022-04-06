@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,11 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SuperManaPotion).AddIngredient(ModContent.ItemType<Phantoplasm>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SuperManaPotion).
+                AddIngredient<Phantoplasm>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
