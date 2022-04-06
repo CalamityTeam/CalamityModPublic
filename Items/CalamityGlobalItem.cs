@@ -138,6 +138,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
                 item.rare = ItemRarityID.LightRed;
 
+            //Let every accessory be equipped in vanity slots
             if (item.accessory)
                 item.canBePlacedInVanityRegardlessOfConditions = true;
 
