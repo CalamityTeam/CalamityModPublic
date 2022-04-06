@@ -63,6 +63,8 @@ using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
 using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
 using CalamityMod.Balancing;
+using Terraria.GameContent;
+using CalamityMod.Systems;
 
 namespace CalamityMod.NPCs
 {
@@ -380,7 +382,7 @@ namespace CalamityMod.NPCs
         #region Life Regen
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
-            if (npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && CalamityWorld.sulphurTiles > 30 &&
+            if (npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && BiomeTileCounterSystem.SulphurTiles > 30 &&
                 !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[BuffType<CrushDepth>()])
             {
                 if (npc.wet)
@@ -462,15 +464,15 @@ namespace CalamityMod.NPCs
                 Item heldItem = Main.player[owner].ActiveItem();
                 int totalDamage = (int)(150 * Main.player[owner].GetDamage(DamageClass.Summon));
                 bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
-                bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.magic);
+                bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>());
 
                 double summonNerfMult = reducedNerf ? 0.75 : 0.5;
                 if (!Main.player[owner].Calamity().profanedCrystalBuffs)
                 {
                     if (heldItem.type > ItemID.None)
                     {
-                        if (!heldItem.summon &&
-                            (heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
+                        if (!heldItem.CountsAsClass<SummonDamageClass>() &&
+                            (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || heldItem.Calamity().rogue) &&
                             heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 &&
                             !heldItem.accessory && heldItem.ammo == AmmoID.None)
                         {
@@ -2203,7 +2205,7 @@ namespace CalamityMod.NPCs
         public static void DrawGlowmask(NPC npc, SpriteBatch spriteBatch, Texture2D texture = null, bool invertedDirection = false, Vector2 offset = default)
         {
             if (texture is null)
-                texture = Main.npcTexture[npc.type];
+                texture = TextureAssets.Npc[npc.type].Value;
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
                 effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -2244,7 +2246,7 @@ namespace CalamityMod.NPCs
             endingColor.A = 0;
 
             Color drawColor = npc.GetAlpha(startingColor);
-            Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
+            Texture2D npcTexture = texture ?? TextureAssets.Npc[npc.type].Value;
             Vector2 origin = npc.Size * 0.5f;
             int afterimageCounter = 1;
             while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
@@ -2272,9 +2274,9 @@ namespace CalamityMod.NPCs
             if (Main.netMode == NetmodeID.SinglePlayer || numPlayers <= 1)
                 return;
 
-            bool countsAsBoss = npc.boss || NPCID.Sets.TechnicallyABoss[npc.type];
+            bool countsAsBoss = npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type];
             bool scalesLikeBoss = countsAsBoss || CalamityLists.bossHPScaleList.Contains(npc.type);
-            bool isCalamityNPC = npc.modNPC != null && npc.modNPC.Mod == CalamityMod.Instance;
+            bool isCalamityNPC = npc.ModNPC != null && npc.ModNPC.Mod == CalamityMod.Instance;
 
             // All bosses, NPCs that are supposed to scale like bosses, and Calamity NPCs follow these rules.
             if (scalesLikeBoss || isCalamityNPC)
@@ -2374,7 +2376,7 @@ namespace CalamityMod.NPCs
                 effectiveDefense = 0;
 
             // Apply vanilla-style defense before DR, using Calamity's reduced defense.
-            damage = Main.CalculateDamage((int)damage, effectiveDefense);
+            damage = Main.CalculateDamageNPCsTake((int)damage, effectiveDefense);
 
             // DR applies after vanilla defense.
             damage = ApplyDR(npc, damage, yellowCandleDamage);
@@ -2403,7 +2405,7 @@ namespace CalamityMod.NPCs
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
             // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
             // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
-            damage = Main.CalculateDamage((int)damage, -defense);
+            damage = Main.CalculateDamageNPCsTake((int)damage, -defense);
             return true;
         }
 
@@ -3900,7 +3902,7 @@ namespace CalamityMod.NPCs
                 npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>())
             {
                 double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
-                if (item.melee && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
+                if (item.CountsAsClass<MeleeDamageClass>() && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
                     damage = (int)(damage * damageMult);
             }
         }
@@ -4866,7 +4868,7 @@ namespace CalamityMod.NPCs
             return null;
         }
 
-        public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f) && npc.active)
             {
@@ -4876,123 +4878,123 @@ namespace CalamityMod.NPCs
 
                     // Damage over time debuffs
                     if (aFlames > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/AbyssalFlames"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AbyssalFlames").Value);
                     if (astralInfection > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value);
                     if (bFlames > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value);
                     if (bBlood > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/BurningBlood"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BurningBlood").Value);
                     if (cDepth > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/CrushDepth"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (dFlames > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/DemonFlames"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/DemonFlames").Value);
                     if (gsInferno > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (hFlames > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/HolyFlames"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value);
                     if (nightwither > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Nightwither"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Nightwither").Value);
                     if (pFlames > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Plague"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Plague").Value);
                     if (shellfishVore > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/ShellfishEating"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishEating").Value);
                     if (somaShredStacks > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Shred"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Shred").Value);
                     if (clamDebuff > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff").Value);
                     if (sulphurPoison > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning").Value);
                     if (sagePoisonTime > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SagePoison"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value);
                     if (vaporfied > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Vaporfied"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Vaporfied").Value);
 
                     // Stat debuffs
                     if (aCrunch > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/ArmorCrunch"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ArmorCrunch").Value);
                     if (enraged > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/Enraged"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Enraged").Value);
                     if (eutrophication > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/Eutrophication"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Eutrophication").Value);
                     if (eFreeze > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/ExoFreeze"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ExoFreeze").Value);
                     if (gState > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/GlacialState"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/GlacialState").Value);
                     if (irradiated > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/Irradiated"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Irradiated").Value);
                     if (kamiFlu > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/KamiDebuff"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiDebuff").Value);
                     if (marked > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/MarkedforDeath"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/MarkedforDeath").Value);
                     if (pearlAura > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/PearlAura"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/PearlAura").Value);
                     if (relicOfResilienceWeakness > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness").Value);
                     if (tSad > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/TemporalSadness"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TemporalSadness").Value);
                     if (tesla > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/TeslaFreeze"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
                     if (timeSlow > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/TimeSlow"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeSlow").Value);
                     if (wCleave > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WarCleave"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WarCleave").Value);
                     if (wDeath > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WhisperingDeath"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value);
                     if (wither > 0)
-                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/StatDebuffs/WitherDebuff"));
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WitherDebuff").Value);
 
                     // Vanilla damage over time debuffs
                     if (electrified > 0)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Electrified]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Electrified].Value);
                     if (npc.onFire)
-                        buffTextureList.Add(Main.buffTexture[BuffID.OnFire]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.OnFire].Value);
                     if (npc.poisoned)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Poisoned]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Poisoned].Value);
                     if (npc.onFire2)
-                        buffTextureList.Add(Main.buffTexture[BuffID.CursedInferno]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.CursedInferno].Value);
                     if (npc.onFrostBurn)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Frostburn]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Frostburn].Value);
                     if (npc.venom)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Venom]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Venom].Value);
                     if (npc.shadowFlame)
-                        buffTextureList.Add(Main.buffTexture[BuffID.ShadowFlame]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.ShadowFlame].Value);
                     if (npc.oiled)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Oiled]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Oiled].Value);
                     if (npc.javelined)
-                        buffTextureList.Add(Main.buffTexture[BuffID.BoneJavelin]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.BoneJavelin].Value);
                     if (npc.daybreak)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Daybreak]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Daybreak].Value);
                     if (npc.celled)
-                        buffTextureList.Add(Main.buffTexture[BuffID.StardustMinionBleed]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.StardustMinionBleed].Value);
                     if (npc.dryadBane)
-                        buffTextureList.Add(Main.buffTexture[BuffID.DryadsWardDebuff]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.DryadsWardDebuff].Value);
                     if (npc.dryadWard)
-                        buffTextureList.Add(Main.buffTexture[BuffID.DryadsWard]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.DryadsWard].Value);
                     if (npc.soulDrain && npc.realLife == -1)
-                        buffTextureList.Add(Main.buffTexture[BuffID.SoulDrain]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.SoulDrain].Value);
 
                     // Vanilla stat debuffs
                     if (npc.confused)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Confused]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Confused].Value);
                     if (npc.ichor)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Ichor]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Ichor].Value);
                     if (slowed > 0)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Slow]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Slow].Value);
                     if (webbed > 0)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Webbed]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Webbed].Value);
                     if (npc.midas)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Midas]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Midas].Value);
                     if (npc.loveStruck)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Lovestruck]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Lovestruck].Value);
                     if (npc.stinky)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Stinky]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Stinky].Value);
                     if (npc.betsysCurse)
-                        buffTextureList.Add(Main.buffTexture[BuffID.BetsysCurse]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.BetsysCurse].Value);
                     if (npc.dripping)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Wet]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Wet].Value);
                     if (npc.drippingSlime)
-                        buffTextureList.Add(Main.buffTexture[BuffID.Slimed]);
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Slimed].Value);
 
                     // Total amount of elements in the buff list
                     int buffTextureListLength = buffTextureList.Count;
@@ -5008,13 +5010,10 @@ namespace CalamityMod.NPCs
                     float drawPosX = totalLength >= 80f ? 40f : (float)(totalLength / 2);
 
                     // The height of a single frame of the npc
-                    float npcHeight = (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2) * npc.scale;
+                    float npcHeight = (float)(TextureAssets.Npc[npc.type].Value.Height / Main.npcFrameCount[npc.type] / 2) * npc.scale;
 
                     // Offset the debuff display based on the npc's graphical offset, and 16 units, to create some space between the sprite and the display
                     float drawPosY = npcHeight + npc.gfxOffY + 16f;
-
-                    // The position where the display is drawn
-                    Vector2 drawPos = npc.Center - Main.screenPosition;
 
                     // Iterate through the buff texture list
                     for (int i = 0; i < buffTextureList.Count; i++)
@@ -5033,7 +5032,7 @@ namespace CalamityMod.NPCs
 
                         // Draw the display
                         var tex = buffTextureList.ElementAt(i);
-                        spriteBatch.Draw(tex, drawPos - new Vector2(drawPosX, drawPosY + additionalYOffset), null, Color.White, 0f, default, 0.5f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(tex, npc.Center - screenPos - new Vector2(drawPosX, drawPosY + additionalYOffset), null, Color.White, 0f, default, 0.5f, SpriteEffects.None, 0f);
 
                         // TODO -- Show number of Shred stacks (how?)
                     }
@@ -5051,19 +5050,19 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.GolemHeadFree)
             {
                 // Draw the head as usual.
-                Texture2D golemHeadTexture = Main.npcTexture[npc.type];
-                Vector2 headDrawPosition = npc.Center + Vector2.UnitY * npc.gfxOffY - Main.screenPosition;
+                Texture2D golemHeadTexture = TextureAssets.Npc[npc.type].Value;
+                Vector2 headDrawPosition = npc.Center - screenPos;
                 spriteBatch.Draw(golemHeadTexture, headDrawPosition, npc.frame, npc.GetAlpha(drawColor), 0f, npc.frame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
 
                 // Draw the eyes. The way vanilla handles this is hardcoded bullshit that cannot handle different hitboxes and thus requires rewriting.
                 Color eyeColor = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, 0);
                 Vector2 eyesDrawPosition = headDrawPosition - npc.scale * new Vector2(1f, 12f);
-                Rectangle eyesFrame = new Rectangle(0, 0, Main.golemTexture[1].Width, Main.golemTexture[1].Height / 2);
-                spriteBatch.Draw(Main.golemTexture[1], eyesDrawPosition, eyesFrame, eyeColor, 0f, eyesFrame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
+                Rectangle eyesFrame = new Rectangle(0, 0, TextureAssets.Golem[1].Value.Width, TextureAssets.Golem[1].Value.Height / 2);
+                spriteBatch.Draw(TextureAssets.Golem[1].Value, eyesDrawPosition, eyesFrame, eyeColor, 0f, eyesFrame.Size() * 0.5f, npc.scale, SpriteEffects.None, 0f);
                 return false;
             }
 
-            if (Main.LocalPlayer.Calamity().trippy)
+            if (Main.LocalPlayer.Calamity().trippy && !npc.IsABestiaryIconDummy)
             {
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (npc.spriteDirection == 1)
@@ -5072,7 +5071,7 @@ namespace CalamityMod.NPCs
                 }
 
                 float num66 = 0f;
-                Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+                Vector2 vector11 = new Vector2(TextureAssets.Npc[npc.type].Value.Width / 2, TextureAssets.Npc[npc.type].Value.Height / Main.npcFrameCount[npc.type] / 2);
                 Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
                 Color alpha15 = npc.GetAlpha(color9);
                 float num212 = 0.99f;
@@ -5108,7 +5107,7 @@ namespace CalamityMod.NPCs
 
                     position9.Y -= npc.height / 2;
 
-                    Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(position9.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, new Vector2(position9.X - screenPos.X + npc.width / 2 - TextureAssets.Npc[npc.type].Value.Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - screenPos.Y + npc.height - TextureAssets.Npc[npc.type].Value.Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
                 }
             }
             else
@@ -5144,27 +5143,27 @@ namespace CalamityMod.NPCs
                     Filters.Scene["CrystalDestructionColor"].GetShader().UseIntensity((float)Math.Sin(animationTime * MathHelper.Pi) * 0.4f);
                 }
 
-                Vector2 drawPosition = npc.Center - Main.screenPosition + Vector2.UnitY * 60f;
+                Vector2 drawPosition = npc.Center - screenPos + Vector2.UnitY * 60f;
                 for (int i = 0; i < 4; i++)
                 {
                     float intensity = MathHelper.Clamp(animationTime * 2f - i / 3f, 0f, 1f);
-                    Vector2 origin = new Vector2(Main.magicPixel.Width / 2f, Main.magicPixel.Height);
+                    Vector2 origin = new Vector2(TextureAssets.MagicPixel.Value.Width / 2f, TextureAssets.MagicPixel.Value.Height);
                     Vector2 scale = new Vector2((float)Math.Sqrt(intensity) * 50f, intensity * 4f);
                     Color beamColor = new Color(0.4f, 0.17f, 0.4f, 0f) * (intensity * (1f - MathHelper.Clamp((animationTime - 0.8f) / 0.2f, 0f, 1f))) * 0.5f;
-                    spriteBatch.Draw(Main.magicPixel, drawPosition, null, beamColor, 0f, origin, scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, drawPosition, null, beamColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 }
             }
             return true;
         }
 
-        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 // His afterimages I can't get to work, so fuck it
                 if (npc.type == NPCID.SkeletronPrime)
                 {
-                    Texture2D npcTexture = Main.npcTexture[npc.type];
+                    Texture2D npcTexture = TextureAssets.Npc[npc.type].Value;
                     int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
 
                     npc.frame.Y = (int)newAI[3];
@@ -5203,16 +5202,16 @@ namespace CalamityMod.NPCs
                     if (npc.spriteDirection == 1)
                         spriteEffects = SpriteEffects.FlipHorizontally;
 
-                    spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
 
-                    spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+                    spriteBatch.Draw(TextureAssets.BoneEyes.Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY),
                         npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
                 }
                 else if (CalamityLists.DestroyerIDs.Contains(npc.type))
                 {
                     if (drawColor != Color.Black)
                     {
-                        Texture2D npcTexture = Main.npcTexture[npc.type];
+                        Texture2D npcTexture = TextureAssets.Npc[npc.type].Value;
                         int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
 
                         Vector2 halfSize = npc.frame.Size() / 2;
@@ -5229,7 +5228,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Draw segments
-                        spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+                        spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY),
                             npc.frame, npc.GetAlpha(drawColor), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
 
                         // Draw lights
@@ -5237,12 +5236,12 @@ namespace CalamityMod.NPCs
                         {
                             if ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
                             {
-                                spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                                spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
                                     new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
                             else
                             {
-                                spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                                spriteBatch.Draw(TextureAssets.Dest[npc.type - NPCID.TheDestroyer].Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame,
                                     new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                             }
                         }
@@ -5561,7 +5560,7 @@ namespace CalamityMod.NPCs
                 {
                     if (plr == Main.myPlayer && projectile.ai[0] == 0f)
                     {
-                        for (int item = 0; item < Main.maxInventory; item++)
+                        for (int item = 0; item < Main.InventorySlotsTotal; item++)
                         {
                             if (player.inventory[item].type == baitType)
                             {
@@ -5603,7 +5602,7 @@ namespace CalamityMod.NPCs
                                 if (proj is null)
                                     return;
 
-                                int oldDuke = NPC.NewNPC((int)proj.Center.X, (int)proj.Center.Y + 100, NPCType<OldDuke.OldDuke>());
+                                int oldDuke = NPC.NewNPC(NPC.GetBossSpawnSource(player.whoAmI), (int)proj.Center.X, (int)proj.Center.Y + 100, NPCType<OldDuke.OldDuke>());
                                 CalamityUtils.BossAwakenMessage(oldDuke);
                             }
                             else
@@ -5995,11 +5994,6 @@ namespace CalamityMod.NPCs
                 {
                     for (int j = y - 1; j <= y + 1; j++)
                     {
-                        if (Main.tile[i, j] is null)
-                        {
-                            return;
-                        }
-
                         if (Main.tile[i, j].WallType > 0)
                         {
                             flag = true;
