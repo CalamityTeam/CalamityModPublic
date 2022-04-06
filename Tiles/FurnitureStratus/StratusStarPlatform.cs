@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusStarPlatformGlow");
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange));
             Tile trackTile = Main.tile[i, j];
-            if (!(trackTile.IsHalfBlock && trackTile.slope() == 0))
+            if (!(trackTile.IsHalfBlock && trackTile.Slope == 0))
                 spriteBatch.Draw(glowmask, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             else if (trackTile.IsHalfBlock)

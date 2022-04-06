@@ -250,7 +250,7 @@ namespace CalamityMod.World
                             {
                                 if (!Main.tileSolid[(int)Main.tile[num2, num3].TileType])
                                 {
-                                    Main.tile[num2, num3].active(false);
+                                    Main.tile[num2, num3].Get<TileWallWireStateData>().HasTile = false;
                                 }
                                 Main.tile[num2, num3].TileType = (ushort)ModContent.TileType<AstralOre>();
                             }
@@ -271,7 +271,7 @@ namespace CalamityMod.World
                         if ((double)num11 < (double)num * 0.8 + (double)rand.Next(-3, 4))
                         {
                             if (Main.tile[num7, num8] != null)
-                                Main.tile[num7, num8].active(false);
+                                Main.tile[num7, num8].Get<TileWallWireStateData>().HasTile = false;
                         }
                     }
                 }
@@ -301,11 +301,11 @@ namespace CalamityMod.World
                         {
                             if (!WorldGen.SolidTile(num12 - 1, num13) && !WorldGen.SolidTile(num12 + 1, num13) && !WorldGen.SolidTile(num12, num13 - 1) && !WorldGen.SolidTile(num12, num13 + 1))
                             {
-                                Main.tile[num12, num13].active(false);
+                                Main.tile[num12, num13].Get<TileWallWireStateData>().HasTile = false;
                             }
                             else if ((Main.tile[num12, num13].IsHalfBlock || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
                             {
-                                Main.tile[num12, num13].active(false);
+                                Main.tile[num12, num13].Get<TileWallWireStateData>().HasTile = false;
                             }
                         }
                         WorldGen.SquareTileFrame(num12, num13, true);

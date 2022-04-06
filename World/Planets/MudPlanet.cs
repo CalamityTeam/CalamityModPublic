@@ -113,7 +113,7 @@ namespace CalamityMod.World.Planets
                     {
                         for (int floorX = testX - 1; floorX <= testX + 1; floorX++)
                         {
-                            _tiles[floorX, testY + 2].active(true);
+                            _tiles[floorX, testY + 2].Get<TileWallWireStateData>().HasTile = true;
                             _tiles[floorX, testY + 2].type = TileID.Hive;
                             WorldGen.SquareTileFrame(floorX, testY + 2);
                         }
@@ -150,9 +150,9 @@ namespace CalamityMod.World.Planets
                     }
                 }
                 //PLACE TILES BENEATH CHEST, IN CASE
-                _tiles[origin.X, chestY].active(true);
+                _tiles[origin.X, chestY].Get<TileWallWireStateData>().HasTile = true;
                 _tiles[origin.X, chestY].type = TileID.Mud;
-                _tiles[origin.X + 1, chestY].active(true);
+                _tiles[origin.X + 1, chestY].Get<TileWallWireStateData>().HasTile = true;
                 _tiles[origin.X + 1, chestY].type = TileID.Mud;
                 //Place chest
                 int chestID = WorldGen.PlaceChest(origin.X, chestY - 1, 21, false, 17);

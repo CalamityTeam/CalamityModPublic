@@ -141,12 +141,12 @@ namespace CalamityMod.World.Planets
             List<ushort> walls = ignoreWalls.ToList();
             while (!_tiles[x, startY].HasTile && !walls.Contains(_tiles[x, startY].wall))
             {
-                _tiles[x, startY].active(true);
+                _tiles[x, startY].Get<TileWallWireStateData>().HasTile = true;
                 _tiles[x, startY].type = beamType;
                 startY++;
                 if (Vector2.Distance(planetCenter, new Vector2(x * 16 + 8, startY * 16 + 8)) > radius * 16f - 64)
                 {
-                    _tiles[x, startY].active(true);
+                    _tiles[x, startY].Get<TileWallWireStateData>().HasTile = true;
                     _tiles[x, startY].type = TileID.Stone;
                 }
             }

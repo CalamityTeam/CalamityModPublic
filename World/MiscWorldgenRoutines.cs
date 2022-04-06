@@ -194,7 +194,7 @@ namespace CalamityMod.World
                                     for (int dx = -1; dx < 2; dx++)
                                     {
                                         for (int dy = -1; dy < 2; dy++)
-                                            Main.tile[x + dx, y + dy].active(false);
+                                            Main.tile[x + dx, y + dy].Get<TileWallWireStateData>().HasTile = false;
                                     }
 
                                     WorldGen.PlaceTile(x, y + 1, ModContent.TileType<RoxTile>());
@@ -295,7 +295,7 @@ namespace CalamityMod.World
                                 {
                                     num6 = l;
                                 }
-                                Main.tile[k, l].active(true);
+                                Main.tile[k, l].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[k, l].TileType = (ushort)ModContent.TileType<BrimstoneSlag>();
                                 WorldGen.SquareTileFrame(k, l, true);
                             }
@@ -349,7 +349,7 @@ namespace CalamityMod.World
                             float num18 = (float)(Math.Abs(num17 - num14) * 2);
                             if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num15 + WorldGen.genRand.Next(2)))
                             {
-                                Main.tile[n, num17].active(true);
+                                Main.tile[n, num17].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[n, num17].TileType = (ushort)num16;
                                 WorldGen.SquareTileFrame(n, num17, true);
                             }
@@ -444,23 +444,23 @@ namespace CalamityMod.World
                         {
                             if (Main.tile[num37, num35].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
-                                Main.tile[num37, num35].active(false);
+                                Main.tile[num37, num35].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35].LiquidAmount = 255;
-                                Main.tile[num37, num35].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35, true);
                             }
                             if (Main.tile[num37, num35 + 1].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
-                                Main.tile[num37, num35 + 1].active(false);
+                                Main.tile[num37, num35 + 1].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35 + 1].LiquidAmount = 255;
-                                Main.tile[num37, num35 + 1].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35 + 1].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35 + 1, true);
                             }
                             if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].TileType == (ushort)ModContent.TileType<BrimstoneSlag>())
                             {
-                                Main.tile[num37, num35 + 2].active(false);
+                                Main.tile[num37, num35 + 2].Get<TileWallWireStateData>().HasTile = false;
                                 Main.tile[num37, num35 + 2].LiquidAmount = 255;
-                                Main.tile[num37, num35 + 2].LiquidType = LiquidID.Water;
+                                Main.tile[num37, num35 + 2].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 WorldGen.SquareTileFrame(num34, num35 + 2, true);
                             }
                         }
@@ -469,7 +469,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[num34, num35].LiquidAmount = 255;
                     }
-                    Main.tile[num34, num35].LiquidType = LiquidID.Water;
+                    Main.tile[num34, num35].Get<LiquidData>().LiquidType = LiquidID.Water;
                     WorldGen.SquareTileFrame(num34, num35, true);
                 }
             }
@@ -525,12 +525,12 @@ namespace CalamityMod.World
                 {
                     if (m != num6 - 1 || (l != num4 && l != num5))
                     {
-                        Main.tile[l, m].active(true);
+                        Main.tile[l, m].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[l, m].LiquidAmount = 0;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
-                        Main.tile[l, m].slope(0);
+                        Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     }
                 }
             }
@@ -560,7 +560,7 @@ namespace CalamityMod.World
                 {
                     if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
-                        Main.tile[n, num8].active(false);
+                        Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[n, num8].WallType = wall;
                     }
                 }
@@ -569,20 +569,20 @@ namespace CalamityMod.World
             int num10 = (int)vector.Y;
             for (int num11 = num9 - 2; num11 <= num9 + 2; num11++)
             {
-                Main.tile[num11, num10].active(false);
-                Main.tile[num11, num10 - 1].active(false);
-                Main.tile[num11, num10 - 2].active(false);
+                Main.tile[num11, num10].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 1].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 2].Get<TileWallWireStateData>().HasTile = false;
             }
             WorldGen.PlaceTile(num9, num10, ModContent.TileType<AncientDoorClosed>(), true, false, -1); //door
             num9 = i + (num2 + 1) * -num - num;
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
-                Main.tile[num9, num12].active(true);
+                Main.tile[num9, num12].Get<TileWallWireStateData>().HasTile = true;
                 Main.tile[num9, num12].LiquidAmount = 0;
                 Main.tile[num9, num12].TileType = type;
                 Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);
-                Main.tile[num9, num12].slope(0);
+                Main.tile[num9, num12].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
             }
             WorldGen.AddBuriedChest(i, num10 - 3, item, false, 4); //chest
             int num22 = i + (num2 / 2 + 1) * -num;
@@ -729,13 +729,13 @@ namespace CalamityMod.World
                             {
                                 if (ocean)
                                 {
-                                    Main.tile[k, l].active(false);
+                                    Main.tile[k, l].Get<TileWallWireStateData>().HasTile = false;
                                     Main.tile[k, l].LiquidAmount = 255;
-                                    Main.tile[k, l].LiquidType = LiquidID.Water;
+                                    Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Water;
                                 }
                                 else
                                 {
-                                    Main.tile[k, l].active(false);
+                                    Main.tile[k, l].Get<TileWallWireStateData>().HasTile = false;
                                     Main.tile[k, l].LiquidAmount = 255;
                                     Main.tile[k, l].lava(true);
                                 }
@@ -785,16 +785,16 @@ namespace CalamityMod.World
                         {
                             if (n > j + WorldGen.genRand.Next(7, 16))
                             {
-                                Main.tile[m, n].active(false);
+                                Main.tile[m, n].Get<TileWallWireStateData>().HasTile = false;
                             }
                             if (steps <= num2)
                             {
-                                Main.tile[m, n].active(false);
+                                Main.tile[m, n].Get<TileWallWireStateData>().HasTile = false;
                             }
                             if (ocean)
                             {
                                 Main.tile[m, n].LiquidAmount = 255;
-                                Main.tile[m, n].LiquidType = LiquidID.Water;
+                                Main.tile[m, n].Get<LiquidData>().LiquidType = LiquidID.Water;
                             }
                             else
                             {
@@ -813,7 +813,7 @@ namespace CalamityMod.World
                             if (ocean)
                             {
                                 Main.tile[num11, num12].LiquidAmount = 255;
-                                Main.tile[num11, num12].LiquidType = LiquidID.Water;
+                                Main.tile[num11, num12].Get<LiquidData>().LiquidType = LiquidID.Water;
                             }
                             else
                             {
@@ -822,7 +822,7 @@ namespace CalamityMod.World
                             }
                             if (steps <= num2)
                             {
-                                Main.tile[num11, num12].active(false);
+                                Main.tile[num11, num12].Get<TileWallWireStateData>().HasTile = false;
                             }
                         }
                     }

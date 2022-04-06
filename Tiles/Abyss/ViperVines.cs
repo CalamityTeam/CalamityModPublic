@@ -59,12 +59,12 @@ namespace CalamityMod.Tiles.Abyss
                         bool flag13 = false;
                         for (int num52 = j; num52 > j - 10; j--)
                         {
-                            if (Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].BottomSlope)
                             {
                                 flag13 = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].BottomSlope)
                             {
                                 flag13 = true;
                                 break;
@@ -79,7 +79,7 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].TileFrameY = (short)(4 * 18);
                             Main.tile[num53, num54 - 1].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
                             Main.tile[num53, num54 - 1].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
-                            Main.tile[num53, num54].active(true);
+                            Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
                             WorldGen.SquareTileFrame(num53, num54, true);
                             WorldGen.SquareTileFrame(num53, num54 - 1, true);
                             if (Main.netMode == NetmodeID.Server)

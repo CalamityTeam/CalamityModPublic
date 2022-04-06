@@ -107,7 +107,7 @@ namespace CalamityMod.World
                     if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).HasTile)
                     {
                         Main.tile[i + dx, j + dy].TileType = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
-                        Main.tile[i + dx, j + dy].active(true);
+                        Main.tile[i + dx, j + dy].Get<TileWallWireStateData>().HasTile = true;
                     }
                 }
             }
@@ -283,12 +283,12 @@ namespace CalamityMod.World
                 {
                     if (m != num6 - 1 || (l != num4 && l != num5))
                     {
-                        Main.tile[l, m].active(true);
+                        Main.tile[l, m].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[l, m].LiquidAmount = 0;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = 0;
                         Main.tile[l, m].halfBrick(false);
-                        Main.tile[l, m].slope(0);
+                        Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     }
                 }
             }
@@ -318,7 +318,7 @@ namespace CalamityMod.World
                 {
                     if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
-                        Main.tile[n, num8].active(false);
+                        Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[n, num8].WallType = wall;
                     }
                 }
@@ -327,20 +327,20 @@ namespace CalamityMod.World
             int num10 = (int)vector.Y;
             for (int num11 = num9 - 2; num11 <= num9 + 2; num11++)
             {
-                Main.tile[num11, num10].active(false);
-                Main.tile[num11, num10 - 1].active(false);
-                Main.tile[num11, num10 - 2].active(false);
+                Main.tile[num11, num10].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 1].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[num11, num10 - 2].Get<TileWallWireStateData>().HasTile = false;
             }
             WorldGen.PlaceTile(num9, num10, 10, true, false, -1, WorldGen.crimson ? 1 : 10); //door
             num9 = i + (num2 + 1) * -num - num;
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
-                Main.tile[num9, num12].active(true);
+                Main.tile[num9, num12].Get<TileWallWireStateData>().HasTile = true;
                 Main.tile[num9, num12].LiquidAmount = 0;
                 Main.tile[num9, num12].TileType = type;
                 Main.tile[num9, num12].WallType = 0;
                 Main.tile[num9, num12].halfBrick(false);
-                Main.tile[num9, num12].slope(0);
+                Main.tile[num9, num12].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
             }
             int contain;
             if (WorldGen.crimson)

@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            CreateRecipe()
+            CreateRecipe().
                 AddIngredient(ItemID.FallenStar, 10).
                 AddIngredient(ItemID.SoulofLight, 7).
                 AddIngredient(ItemID.SoulofNight, 7).

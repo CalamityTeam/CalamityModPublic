@@ -46,14 +46,14 @@ namespace CalamityMod.Items.Armor
                 if (!tile.HasTile && tile.LiquidAmount == 0 && Main.tile[x, y + 1] != null && WorldGen.SolidTile(x, y + 1))
                 {
                     tile.TileFrameY = 0;
-                    tile.slope(0);
+                    tile.Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     tile.halfBrick(false);
                     //On dirt blocks, there's a small chance to grow a dye plant
                     if (Main.tile[x, y + 1].TileType == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
                         {
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.DyePlants;
                             tile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
                             while (tile.TileFrameX == 144)
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Armor
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.Plants;
                             tile.TileFrameX = (short)(18 * Main.rand.Next(6, 11));
                             while (tile.TileFrameX == 144)
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Armor
                         }
                         else
                         {
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.Plants2;
                             tile.TileFrameX = (short)(18 * Main.rand.Next(6, 21));
                             while (tile.TileFrameX == 144)
@@ -99,7 +99,7 @@ namespace CalamityMod.Items.Armor
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.HallowedPlants;
                             tile.TileFrameX = (short)(18 * Main.rand.Next(4, 7));
                             while (tile.TileFrameX == 90)
@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Armor
                         }
                         else
                         {
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.HallowedPlants2;
                             tile.TileFrameX = (short)(18 * Main.rand.Next(2, 8));
                             while (tile.TileFrameX == 90)
@@ -125,7 +125,7 @@ namespace CalamityMod.Items.Armor
                     //On jungle grass, grow jungle flowers
                     else if (Main.tile[x, y + 1].TileType == TileID.JungleGrass)
                     {
-                        tile.active(true);
+                        tile.Get<TileWallWireStateData>().HasTile = true;
                         tile.TileType = TileID.JunglePlants2;
                         tile.TileFrameX = (short)(18 * Main.rand.Next(9, 17));
                         if (Main.netMode == NetmodeID.MultiplayerClient)

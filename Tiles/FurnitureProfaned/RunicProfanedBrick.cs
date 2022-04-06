@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Color drawColour = GetDrawColour(i, j, new Color(128, 128, 128, 128));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }

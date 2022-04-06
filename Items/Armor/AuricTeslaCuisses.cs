@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
+            CreateRecipe().
                 AddIngredient<GodSlayerLeggings>().
                 AddIngredient<BloodflareCuisses>().
                 AddIngredient<TarragonLeggings>().
