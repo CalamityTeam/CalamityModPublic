@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -59,7 +59,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 6).AddIngredient(ItemID.JungleSpores, 4).AddIngredient(ModContent.ItemType<EssenceofCinder>()).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<DraedonBar>(6)
+                .AddIngredient(ItemID.JungleSpores, 4)
+                .AddIngredient<EssenceofCinder>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

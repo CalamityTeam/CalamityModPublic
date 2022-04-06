@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
@@ -40,8 +40,23 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerChestplate>()).AddIngredient(ModContent.ItemType<BloodflareBodyArmor>()).AddIngredient(ModContent.ItemType<TarragonBreastplate>()).AddIngredient(ModContent.ItemType<FrostBarrier>()).AddIngredient(ModContent.ItemType<AuricBar>(), 18).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaArmor>()).AddIngredient(ModContent.ItemType<BloodflareBodyArmor>()).AddIngredient(ModContent.ItemType<TarragonBreastplate>()).AddIngredient(ModContent.ItemType<FrostBarrier>()).AddIngredient(ModContent.ItemType<AuricBar>(), 18).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<GodSlayerChestplate>()
+                .AddIngredient<BloodflareBodyArmor>()
+                .AddIngredient<TarragonBreastplate>()
+                .AddIngredient<FrostBarrier>()
+                .AddIngredient<AuricBar>(18)
+                .AddTile<CosmicAnvil>()
+                .Register();
+            
+            CreateRecipe()
+                .AddIngredient<SilvaArmor>()
+                .AddIngredient<BloodflareBodyArmor>()
+                .AddIngredient<TarragonBreastplate>()
+                .AddIngredient<FrostBarrier>()
+                .AddIngredient<AuricBar>(18)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

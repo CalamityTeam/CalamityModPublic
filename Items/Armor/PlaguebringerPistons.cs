@@ -139,7 +139,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BeeGreaves).AddIngredient(ItemID.FlowerBoots).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.BeeGreaves)
+                .AddIngredient(ItemID.FlowerBoots)
+                .AddIngredient<PlagueCellCluster>(5)
+                .AddIngredient<InfectedArmorPlating>(5)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

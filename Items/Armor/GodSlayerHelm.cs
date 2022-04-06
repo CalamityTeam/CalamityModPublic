@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -67,7 +67,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<CosmiliteBar>(14)
+                .AddIngredient<AscendantSpiritEssence>(2)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

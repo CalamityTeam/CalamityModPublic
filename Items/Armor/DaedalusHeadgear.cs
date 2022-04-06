@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
@@ -65,7 +65,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.CrystalShard, 3).AddIngredient(ModContent.ItemType<EssenceofEleum>()).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<VerstaltiteBar>(8)
+                .AddIngredient(ItemID.CrystalShard, 3)
+                .AddIngredient<EssenceofEleum>()
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

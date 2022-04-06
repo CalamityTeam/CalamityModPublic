@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -65,7 +65,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MolluskHusk>(), 6).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<MolluskHusk>(6)
+                .AddIngredient<SeaPrism>(15)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

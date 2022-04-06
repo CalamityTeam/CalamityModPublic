@@ -68,7 +68,11 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             //Same recipe as Forbidden Mask
-            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 10).AddIngredient(ItemID.AncientBattleArmorMaterial).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnyAdamantiteBar", 10)
+                .AddIngredient(ItemID.AncientBattleArmorMaterial)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +33,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 11).AddIngredient(ItemID.Cloud, 10).AddIngredient(ItemID.RainCloud, 5).AddIngredient(ItemID.Feather, 2).AddTile(TileID.SkyMill).Register();
+            CreateRecipe()
+                .AddIngredient<AerialiteBar>(11)
+                .AddIngredient(ItemID.Cloud, 10)
+                .AddIngredient(ItemID.RainCloud, 5)
+                .AddIngredient(ItemID.Feather, 2)
+                .AddTile(TileID.SkyMill)
+                .Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +29,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnySnowBlock", 30).AddRecipeGroup("AnyIceBlock", 15).AddIngredient(ItemID.BorealWood, 45).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddRecipeGroup("AnySnowBlock", 30)
+                .AddRecipeGroup("AnyIceBlock", 15)
+                .AddIngredient(ItemID.BorealWood, 45)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

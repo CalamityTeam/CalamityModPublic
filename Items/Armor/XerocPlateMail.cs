@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MeldiateBar>(), 22).AddIngredient(ItemID.LunarBar, 16).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<MeldiateBar>(22)
+                .AddIngredient(ItemID.LunarBar, 16)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

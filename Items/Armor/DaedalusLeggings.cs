@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 10).AddIngredient(ItemID.CrystalShard, 4).AddIngredient(ModContent.ItemType<EssenceofEleum>(), 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient<VerstaltiteBar>(10)
+                .AddIngredient(ItemID.CrystalShard, 4)
+                .AddIngredient<EssenceofEleum>(2)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

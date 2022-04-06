@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -73,7 +73,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BeeHeadgear).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 4).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 4).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.BeeHeadgear)
+                .AddIngredient<PlagueCellCluster>(4)
+                .AddIngredient<InfectedArmorPlating>(4)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
         }
     }
 }

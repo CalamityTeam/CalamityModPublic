@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 14).AddIngredient(ModContent.ItemType<TitanHeart>()).AddTile(TileID.Anvils).Register();
+            CreateRecipe()
+                .AddIngredient<AstralMonolith>(14)
+                .AddIngredient<TitanHeart>()
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

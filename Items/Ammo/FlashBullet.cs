@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ItemID.Grenade).AddIngredient(ItemID.Glass, 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe(10)
+                .AddIngredient(ItemID.Grenade)
+                .AddIngredient(ItemID.Glass, 3)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

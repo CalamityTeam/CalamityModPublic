@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ReaperTooth>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<Tenebris>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe()
+                .AddIngredient<ReaperTooth>(10)
+                .AddIngredient<Lumenite>(6)
+                .AddIngredient<Tenebris>(6)
+                .AddIngredient<RuinousSoul>(3)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
     }
 }

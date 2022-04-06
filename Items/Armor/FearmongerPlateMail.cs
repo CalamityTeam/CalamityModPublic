@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpookyBreastplate).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddIngredient(ItemID.SoulofFright, 12).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.SpookyBreastplate)
+                .AddIngredient<CosmiliteBar>(12)
+                .AddIngredient(ItemID.SoulofFright, 12)
+                .AddIngredient<AscendantSpiritEssence>(3)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }

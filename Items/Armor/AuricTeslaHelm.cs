@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -74,7 +74,14 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GodSlayerHelm>()).AddIngredient(ModContent.ItemType<BloodflareMask>()).AddIngredient(ModContent.ItemType<TarragonHelm>()).AddIngredient(ModContent.ItemType<PsychoticAmulet>()).AddIngredient(ModContent.ItemType<AuricBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe()
+                .AddIngredient<GodSlayerHelm>()
+                .AddIngredient<BloodflareMask>()
+                .AddIngredient<TarragonHelm>()
+                .AddIngredient<PsychoticAmulet>()
+                .AddIngredient<AuricBar>(12)
+                .AddTile<CosmicAnvil>()
+                .Register();
         }
     }
 }
