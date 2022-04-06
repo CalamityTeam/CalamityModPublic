@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,7 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
-        public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStyleLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+        public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStylesLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 
         public static ushort[] PlantTypes = new ushort[]
         {
@@ -36,22 +37,22 @@ namespace CalamityMod.Tiles
             TileID.JunglePlants2,
             TileID.HallowedPlants,
             TileID.HallowedPlants2,
-            TileID.FleshWeeds,
+            TileID.CrimsonPlants,
             (ushort)ModContent.TileType<AstralShortPlants>(),
             (ushort)ModContent.TileType<AstralTallPlants>()
         };
 
-        public static List<int> GrowthTiles = new List<int>
+        public static List<int> GrowthTiles = new List<int>()
         {
-            (ushort)ModContent.TileType<SeaPrism>(),
-            (ushort)ModContent.TileType<Navystone>(),
-            (ushort)ModContent.TileType<Voidstone>()
+            ModContent.TileType<SeaPrism>(),
+            ModContent.TileType<Navystone>(),
+            ModContent.TileType<Voidstone>()
         };
 
         public override void SetStaticDefaults()
         {
             Main.tileSpelunker[TileID.LunarOre] = true;
-            Main.tileValue[TileID.LunarOre] = 900;
+            Main.tileOreFinderPriority[TileID.LunarOre] = 900;
         }
 
         public override bool PreHitWire(int i, int j, int type)
@@ -94,32 +95,28 @@ namespace CalamityMod.Tiles
             int frameY = tile.TileFrameY;
 
             // Search down the cactus to find out whether the block it is planted in is Astral Sand.
-            bool astralCactus = false;
-            if (!Main.canDrawColorTile(i, j))
-            {
-                int xTile = i;
-                if (frameX == 36) // Cactus segment which splits left
-                    xTile--;
-                if (frameX == 54) // Cactus segment which splits right
-                    xTile++;
-                if (frameX == 108) // Cactus segment which splits both directions
-                    xTile += (frameY == 18) ? -1 : 1;
+            int xTile = i;
+            if (frameX == 36) // Cactus segment which splits left
+                xTile--;
+            if (frameX == 54) // Cactus segment which splits right
+                xTile++;
+            if (frameX == 108) // Cactus segment which splits both directions
+                xTile += (frameY == 18) ? -1 : 1;
 
-                int yTile = j;
-                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile;
-                while (!Main.tile[xTile, yTile].HasTile || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
+            int yTile = j;
+            bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile;
+            while (!Main.tile[xTile, yTile].HasTile || !Main.tileSolid[Main.tile[xTile, yTile].TileType] || !slidingDownCactus)
+            {
+                if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile)
                 {
-                    if (Main.tile[xTile, yTile].TileType == TileID.Cactus && Main.tile[xTile, yTile].HasTile)
-                    {
-                        slidingDownCactus = true;
-                    }
-                    yTile++;
-                    // Cacti are assumed to be no more than 20 blocks tall.
-                    if (yTile > i + 20)
-                        break;
+                    slidingDownCactus = true;
                 }
-                astralCactus = Main.tile[xTile, yTile].TileType == (ushort)ModContent.TileType<AstralSand>();
+                yTile++;
+                // Cacti are assumed to be no more than 20 blocks tall.
+                if (yTile > i + 20)
+                    break;
             }
+            bool astralCactus = Main.tile[xTile, yTile].TileType == (ushort)ModContent.TileType<AstralSand>();
 
             // If it is actually astral cactus, then draw its glowmask.
             if (astralCactus)
@@ -134,20 +131,18 @@ namespace CalamityMod.Tiles
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Main.tile[i, j];
-            if (tile is null)
-                return;
 
             // Helper function to shatter crystals attached to neighboring solid tiles.
-            void CheckShatterCrystal(int xPos, int yPos)
+            static void CheckShatterCrystal(int xPos, int yPos)
             {
                 if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
                     return;
                 Tile t = Main.tile[xPos, yPos];
-                if (t != null && t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && DownedBossSystem.downedDesertScourge)))
+                if (t.HasTile && (t.TileType == ModContent.TileType<LumenylCrystals>() || (t.TileType == ModContent.TileType<SeaPrismCrystals>() && DownedBossSystem.downedDesertScourge)))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].HasTile && Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
                 }
             }
 
@@ -180,22 +175,22 @@ namespace CalamityMod.Tiles
             {
                 if (type == ModContent.TileType<AbyssalPots>())
                 {
-                    Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
+                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
 
                     for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
                     {
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore1"));
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore2"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("Gores/SulphSeaGen/AbyssPotGore1").Type);
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("Gores/SulphSeaGen/AbyssPotGore2").Type);
                     }
                 }
                 else if (type == ModContent.TileType<SulphurousPots>())
                 {
-                    Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
+                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
 
                     for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
                     {
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore1"));
-                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("Gores/SulphSeaGen/SulphPotGore1").Type);
+                        Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("Gores/SulphSeaGen/SulphPotGore2").Type);
                     }
                 }
                 else if (type == TileID.DemonAltar && Main.hardMode)
@@ -209,11 +204,11 @@ namespace CalamityMod.Tiles
                         {
                             pos.X += Main.rand.NextFloat(-32f, 32f);
                             pos.Y += Main.rand.NextFloat(-32f, 32f);
-                            Item.NewItem(pos, ItemID.SoulofNight);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), pos, ItemID.SoulofNight);
                         }
                     }
                     if (WorldGen.altarCount % 3 == 0 && WorldGen.altarCount > 1)
-                        Item.NewItem(pos, ModContent.ItemType<EvilSmasher>());
+                        Item.NewItem(new EntitySource_TileBreak(i, j), pos, ModContent.ItemType<EvilSmasher>());
                 }
             }
 
@@ -283,7 +278,7 @@ namespace CalamityMod.Tiles
                             ItemID.LifeforcePotion,
                             ItemID.InfernoPotion
                         });
-                        Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+                        Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
                     {
@@ -295,20 +290,20 @@ namespace CalamityMod.Tiles
                             {
                                 sglowstickAmt += Main.rand.Next(1, 7);
                             }
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
                         }
                         else if (lootType == 1) //hellfire arrows
                         {
                             int arrowAmt = Main.rand.Next(10, 21);
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
                         }
                         else if (lootType == 2) //stew
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
                         }
                         else if (lootType == 3) //sticky dynamite
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
                         }
                         else //money
                         {
@@ -327,7 +322,7 @@ namespace CalamityMod.Tiles
                                         ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(1000000 * ptCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 10000f)
                                 {
@@ -341,7 +336,7 @@ namespace CalamityMod.Tiles
                                         auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(10000 * auCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 100f)
                                 {
@@ -355,7 +350,7 @@ namespace CalamityMod.Tiles
                                         agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(100 * agCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
                                 }
                                 else
                                 {
@@ -373,7 +368,7 @@ namespace CalamityMod.Tiles
                                         cuCoinAmt = 1;
                                     }
                                     num13 -= (float)cuCoinAmt;
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
                                 }
                             }
                         }
@@ -402,7 +397,7 @@ namespace CalamityMod.Tiles
                             ItemID.LifeforcePotion,
                             ItemID.InfernoPotion
                         });
-                        Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+                        Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
                     {
@@ -414,21 +409,21 @@ namespace CalamityMod.Tiles
                             {
                                 glowstickAmt += Main.rand.Next(1, 7);
                             }
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Glowstick, glowstickAmt, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.Glowstick, glowstickAmt, false, 0, false, false);
                         }
                         else if (lootType == 1) //jesters arrows
                         {
                             int jArrowAmt = Main.rand.Next(10, 21);
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.JestersArrow, jArrowAmt, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.JestersArrow, jArrowAmt, false, 0, false, false);
                         }
                         else if (lootType == 2) //potion
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HealingPotion, 1, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.HealingPotion, 1, false, 0, false, false);
                         }
                         else if (lootType == 3) //bomb
                         {
                             int bombAmt = Main.rand.Next(5, 9);
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Bomb, bombAmt, false, 0, false, false);
+                            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.Bomb, bombAmt, false, 0, false, false);
                         }
                         else //money
                         {
@@ -447,7 +442,7 @@ namespace CalamityMod.Tiles
                                         ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(1000000 * ptCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 10000f)
                                 {
@@ -461,7 +456,7 @@ namespace CalamityMod.Tiles
                                         auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(10000 * auCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 100f)
                                 {
@@ -475,7 +470,7 @@ namespace CalamityMod.Tiles
                                         agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     num13 -= (float)(100 * agCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
                                 }
                                 else
                                 {
@@ -493,7 +488,7 @@ namespace CalamityMod.Tiles
                                         cuCoinAmt = 1;
                                     }
                                     num13 -= (float)cuCoinAmt;
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+                                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
                                 }
                             }
                         }
