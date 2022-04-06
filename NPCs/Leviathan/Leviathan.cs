@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -772,7 +773,7 @@ namespace CalamityMod.NPCs.Leviathan
             Texture2D texture = AttackTexture;
             if (NPC.ai[0] == 1f || NPC.Calamity().newAI[3] < 180f)
             {
-                texture = Main.npcTexture[NPC.type];
+                texture = TextureAssets.Npc[NPC.type].Value;
             }
             SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
             float xOffset = -50f;

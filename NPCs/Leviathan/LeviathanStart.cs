@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Leviathan
@@ -91,7 +92,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D drawTex = Main.npcTexture[NPC.type];
+            Texture2D drawTex = TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
 
             Vector2 drawPos = NPC.Center - Main.screenPosition;

@@ -4,6 +4,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -48,9 +49,9 @@ namespace CalamityMod.NPCs.SlimeGod
             int frameY = 1;
             if (!Main.dedServ)
             {
-                if (!Main.NPCLoaded[NPC.type] || Main.npcTexture[NPC.type] is null)
+                if (!Main.NPCLoaded[NPC.type] || TextureAssets.Npc[NPC.type].Value is null)
                     return;
-                frameY = Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type];
+                frameY = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
             int aiState = 0;
             if (NPC.aiAction == 0)

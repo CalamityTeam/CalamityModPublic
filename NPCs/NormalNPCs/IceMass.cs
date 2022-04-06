@@ -1,6 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,9 +38,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             int num1 = 1;
             if (!Main.dedServ)
             {
-                if (!Main.NPCLoaded[NPC.type] || Main.npcTexture[NPC.type] == null)
+                if (!Main.NPCLoaded[NPC.type] || TextureAssets.Npc[NPC.type].Value == null)
                     return;
-                num1 = Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type];
+                num1 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
             if (NPC.velocity.X < 0f)
                 NPC.direction = -1;

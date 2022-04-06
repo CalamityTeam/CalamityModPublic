@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -770,11 +771,11 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             switch (frameUsed)
             {
                 case 0:
-                    texture = Main.npcTexture[NPC.type];
+                    texture = TextureAssets.Npc[NPC.type].Value;
                     break;
                 case 1:
                     texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/SirenStabbing").Value;

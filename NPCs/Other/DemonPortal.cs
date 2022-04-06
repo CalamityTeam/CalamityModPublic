@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -120,7 +121,7 @@ namespace CalamityMod.NPCs.Other
         {
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
 
-            Texture2D portalTexture = Main.npcTexture[NPC.type];
+            Texture2D portalTexture = TextureAssets.Npc[NPC.type].Value;
             Vector2 drawPosition = NPC.Center - Main.screenPosition;
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;

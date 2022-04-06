@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -537,8 +538,8 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             Color color24 = NPC.GetAlpha(drawColor);
             Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.npcTexture[NPC.type];
-            int num156 = Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type];
+            Texture2D texture2D3 = TextureAssets.Npc[NPC.type].Value;
+            int num156 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             int y3 = num156 * (int)NPC.frameCounter;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;

@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -661,7 +662,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D NPCTexture = Main.npcTexture[NPC.type];
+            Texture2D NPCTexture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow").Value;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -690,7 +691,7 @@ namespace CalamityMod.NPCs.Signus
             }
             else
             {
-                NPCTexture = Main.npcTexture[NPC.type];
+                NPCTexture = TextureAssets.Npc[NPC.type].Value;
                 glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow").Value;
             }
 
