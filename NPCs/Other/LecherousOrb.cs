@@ -154,10 +154,10 @@ namespace CalamityMod.NPCs.Other
             NPC.frame.Height = 90;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
-            Vector2 drawPosition = NPC.Center - Main.screenPosition;
+            Vector2 drawPosition = NPC.Center - screenPos;
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             // Draw a faded version of the heart behind the main one that pulses.

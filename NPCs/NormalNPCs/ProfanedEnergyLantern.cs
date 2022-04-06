@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (CalamityGlobalNPC.energyFlame != -1)
             {
@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         drawPositionY -= 10f;
                         Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                         Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Value;
-                        Main.spriteBatch.Draw(chain, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        Main.spriteBatch.Draw(chain, new Vector2(center.X - screenPos.X, center.Y - screenPos.Y),
                             new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, chain.Width, chain.Height)), color, rotation,
                             new Vector2((float)chain.Width * 0.5f, (float)chain.Height * 0.5f), 1f, SpriteEffects.None, 0f);
                     }

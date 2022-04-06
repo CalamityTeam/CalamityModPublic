@@ -117,12 +117,12 @@ namespace CalamityMod.NPCs.Other
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             spriteBatch.SetBlendState(BlendState.AlphaBlend);
 
             Texture2D portalTexture = TextureAssets.Npc[NPC.type].Value;
-            Vector2 drawPosition = NPC.Center - Main.screenPosition;
+            Vector2 drawPosition = NPC.Center - screenPos;
             Vector2 origin = portalTexture.Size() * 0.5f;
             Color baseColor = Color.White;
 
