@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -132,7 +133,7 @@ namespace CalamityMod.NPCs.Astral
                 Vector2 position = NPC.Bottom - new Vector2(19f, 42f);
                 //20 34 38 42
                 Rectangle src = new Rectangle(20, 34, 38, 42);
-                spriteBatch.Draw(Main.npcTexture[NPC.type], position - Main.screenPosition, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - Main.screenPosition, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 //draw glowmask
                 spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 return false;

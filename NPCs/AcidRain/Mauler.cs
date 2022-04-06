@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -395,7 +396,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/MaulerGlowmask").Value;
             Vector2 drawPosition = NPC.Center - Main.screenPosition + Vector2.UnitY * NPC.gfxOffY;
             Vector2 origin = NPC.frame.Size() * 0.5f;

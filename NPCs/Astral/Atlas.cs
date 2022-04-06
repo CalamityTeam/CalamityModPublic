@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -560,7 +561,7 @@ namespace CalamityMod.NPCs.Astral
             SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             //draw actual sprite
-            spriteBatch.Draw(Main.npcTexture[NPC.type], position, NPC.frame,
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position, NPC.frame,
                 drawColor, 0f, default, 1f, //color, rotation, origin, scale
                 effect, 0f); //effect, drawlayer
 

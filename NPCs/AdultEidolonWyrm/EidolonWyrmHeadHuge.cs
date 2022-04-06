@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -1325,7 +1326,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         {
             SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 center = NPC.Center;
-            Vector2 vector11 = new Vector2(Main.textu[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / 2);
+            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Height) * 0.5f;
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);

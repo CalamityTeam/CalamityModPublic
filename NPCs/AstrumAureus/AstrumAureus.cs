@@ -20,6 +20,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Threading;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -195,15 +196,15 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D NPCTexture = Main.npcTexture[NPC.type];
-            Texture2D GlowMaskTexture = Main.npcTexture[NPC.type];
+            Texture2D NPCTexture = TextureAssets.Npc[NPC.type].Value;
+            Texture2D GlowMaskTexture = TextureAssets.Npc[NPC.type].Value;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             if (NPC.ai[0] == 0f)
             {
-                NPCTexture = Main.npcTexture[NPC.type];
+                NPCTexture = TextureAssets.Npc[NPC.type].Value;
                 GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
             }
             else if (NPC.ai[0] == 1f) //nothing special done here
@@ -219,7 +220,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 if (NPC.velocity.Y == 0f && NPC.ai[1] >= 0f && NPC.ai[0] == 3f) //idle before jump
                 {
-                    NPCTexture = Main.npcTexture[NPC.type]; //idle frames
+                    NPCTexture = TextureAssets.Npc[NPC.type].Value; //idle frames
                     GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
                 }
                 else if (NPC.velocity.Y <= 0f || NPC.ai[1] < 0f) //jump frames if flying upward or if about to jump
@@ -237,7 +238,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 if (NPC.velocity.Y == 0f) //idle before teleport
                 {
-                    NPCTexture = Main.npcTexture[NPC.type]; //idle frames
+                    NPCTexture = TextureAssets.Npc[NPC.type].Value; //idle frames
                     GlowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow").Value;
                 }
                 else //in-air frames
@@ -248,7 +249,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             int frameCount = Main.npcFrameCount[NPC.type];
-            Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / frameCount / 2);
+            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / frameCount / 2);
             Rectangle frame = NPC.frame;
             float scale = NPC.scale;
             float rotation = NPC.rotation;
