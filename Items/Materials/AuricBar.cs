@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Materials
             Item.consumable = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             player.itemLocation += new Vector2(-10f * player.direction, 10f * player.gravDir).RotatedBy(player.itemRotation);
         }

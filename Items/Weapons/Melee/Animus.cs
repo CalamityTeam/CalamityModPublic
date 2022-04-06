@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -39,11 +39,11 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe(1).AddIngredient(ModContent.ItemType<BladeofEnmity>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             float damageMult = player.Calamity().animusBoost;
             damageMult -= 1f;
-            mult += damageMult;
+            damage *= damageMult;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

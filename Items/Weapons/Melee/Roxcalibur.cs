@@ -1,6 +1,5 @@
 ﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;

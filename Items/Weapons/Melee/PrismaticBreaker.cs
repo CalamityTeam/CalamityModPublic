@@ -77,10 +77,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
         //all damage boosts should still apply
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            float damageMult = (player.GetDamage(DamageClass.Melee) + player.GetDamage(DamageClass.Ranged) - 2f) / 2f;
-            add += damageMult - player.GetDamage(DamageClass.Melee) + 1f;
+            float damageMult = (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive - 2f) / 2f;
+            damage += damageMult - player.GetDamage(DamageClass.Melee) + 1f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

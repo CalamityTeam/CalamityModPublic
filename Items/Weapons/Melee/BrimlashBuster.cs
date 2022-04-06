@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -49,12 +49,12 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             float damageMult = 0f;
             if (player.Calamity().brimlashBusterBoost)
                 damageMult = 2f;
-            mult += damageMult;
+            damage *= damageMult;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
