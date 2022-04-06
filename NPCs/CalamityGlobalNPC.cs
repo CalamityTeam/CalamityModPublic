@@ -65,6 +65,7 @@ using CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies;
 using CalamityMod.Balancing;
 using Terraria.GameContent;
 using CalamityMod.Systems;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -4273,7 +4274,7 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.revenge)
                 spawnRate = (int)(spawnRate * 0.85);
 
-            if (Main.waterCandles > 0)
+            if (Main.SceneMetrics.WaterCandleCount > 0)
             {
                 spawnRate = (int)(spawnRate * 0.9);
                 maxSpawns = (int)(maxSpawns * 1.1f);
@@ -4304,7 +4305,7 @@ namespace CalamityMod.NPCs
             }
 
             // Reductions
-            if (Main.peaceCandles > 0)
+            if (Main.SceneMetrics.PeaceCandleCount > 0)
             {
                 spawnRate = (int)(spawnRate * 1.1);
                 maxSpawns = (int)(maxSpawns * 0.9f);
@@ -4356,7 +4357,7 @@ namespace CalamityMod.NPCs
             NPCLoader.EditSpawnRate(player, ref spawnRate, ref maxSpawnCount);
 
             // Enforce a limit on the amount of enemies that can appear.
-            if (player.activeNPCs >= maxSpawnCount)
+            if (player.nearbyActiveNPCs >= maxSpawnCount)
                 return;
 
             for (int i = 0; i < 8; i++)
@@ -4374,7 +4375,7 @@ namespace CalamityMod.NPCs
 
                 bool isLabWall = aboveSpawnTile.WallType == WallType<HazardChevronWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPanelWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPlateBeam>();
                 isLabWall |= aboveSpawnTile.WallType == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.WallType == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.WallType == WallType<RustedPlateBeam>();
-                if (!isLabWall || !nearLab || Collision.SolidCollision((checkPosition - new Vector2(2f, 2f)).ToWorldCoordinates(), 4, 4) || player.activeNPCs >= maxSpawnCount || !Main.rand.NextBool(spawnRate))
+                if (!isLabWall || !nearLab || Collision.SolidCollision((checkPosition - new Vector2(2f, 2f)).ToWorldCoordinates(), 4, 4) || player.nearbyActiveNPCs >= maxSpawnCount || !Main.rand.NextBool(spawnRate))
                     continue;
 
                 WeightedRandom<int> pool = new WeightedRandom<int>();
@@ -4404,7 +4405,7 @@ namespace CalamityMod.NPCs
                 (spawnInfo.Player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp);
 
             // Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
-            if (spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.water && !calamityBiomeZone)
+            if (spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water && !calamityBiomeZone)
             {
                 if (!Main.hardMode)
                     pool[NPCID.GreenJellyfish] = SpawnCondition.CaveJellyfish.Chance * 0.5f;
@@ -4454,10 +4455,10 @@ namespace CalamityMod.NPCs
                             case AcidRainSpawnRequirement.Anywhere:
                                 break;
                             case AcidRainSpawnRequirement.Land:
-                                canSpawn = !spawnInfo.water;
+                                canSpawn = !spawnInfo.Water;
                                 break;
                             case AcidRainSpawnRequirement.Water:
-                                canSpawn = spawnInfo.water;
+                                canSpawn = spawnInfo.Water;
                                 break;
                         }
                         if (canSpawn)
@@ -4478,10 +4479,10 @@ namespace CalamityMod.NPCs
                                 case AcidRainSpawnRequirement.Anywhere:
                                     break;
                                 case AcidRainSpawnRequirement.Land:
-                                    canSpawn = !spawnInfo.water;
+                                    canSpawn = !spawnInfo.Water;
                                     break;
                                 case AcidRainSpawnRequirement.Water:
-                                    canSpawn = spawnInfo.water;
+                                    canSpawn = spawnInfo.Water;
                                     break;
                             }
                             if (canSpawn)
@@ -4497,7 +4498,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
                 return;
 
             if (!Main.hardMode && spawnInfo.Player.ZoneUnderworldHeight && !calamityBiomeZone)

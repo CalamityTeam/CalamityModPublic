@@ -223,10 +223,10 @@ namespace CalamityMod.NPCs
         public static bool BuffedFighterAI(NPC npc, Mod mod)
         {
             int npcType = npc.type;
-            if (npc.modNPC != null)
+            if (npc.ModNPC != null)
             {
-                if (npc.modNPC.aiType != 0)
-                    npcType = npc.modNPC.aiType;
+                if (npc.ModNPC.AIType != 0)
+                    npcType = npc.ModNPC.AIType;
             }
             if (npcType == NPCID.Psycho)
             {
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
+                    npc.knockBackResist = 0.2f;
                     npc.noGravity = false;
                     npc.width = 18;
                     npc.height = 40;
@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     npc.localAI[3] = 0f;
-                    npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
+                    npc.knockBackResist = 0.2f;
                     npc.rotation *= 0.9f;
                     npc.defense = npc.defDefense;
                     npc.noGravity = false;
@@ -657,10 +657,6 @@ namespace CalamityMod.NPCs
                         bool ableToRestart = false;
                         for (int i = tileAtCenterX - 1; i <= tileAtCenterX + 1; i++)
                         {
-                            if (Main.tile[i, tileAtBottom] is null)
-                            {
-                                Main.tile[tileAtCenterX, tileAtBottom] = new Tile();
-                            }
                             if (Main.tile[i, tileAtBottom].HasTile && Main.tileSolid[(int)Main.tile[i, tileAtBottom].TileType])
                             {
                                 ableToRestart = true;
@@ -757,7 +753,7 @@ namespace CalamityMod.NPCs
             }
             if (npcType == NPCID.SolarSolenian)
             {
-                npc.reflectingProjectiles = false;
+                npc.reflectsProjectiles = false;
                 npc.takenDamageMultiplier = 1f;
                 int chargeTime = 6;
                 int yFlyTime = 10;
@@ -808,7 +804,7 @@ namespace CalamityMod.NPCs
                                 npc.velocity.Y = 24f;
                             }
                         }
-                        npc.reflectingProjectiles = true;
+                        npc.reflectsProjectiles = true;
                         npc.takenDamageMultiplier = 3f;
                         if (npc.justHit)
                         {
@@ -1198,12 +1194,12 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    npc.knockBackResist = 0.1f * Main.knockBackMultiplier;
+                    npc.knockBackResist = 0.1f;
                 }
             }
             if (npcType == NPCID.ThePossessed)
             {
-                npc.knockBackResist = 0.25f * Main.knockBackMultiplier;
+                npc.knockBackResist = 0.25f;
                 if (npc.ai[2] == 1f)
                 {
                     npc.knockBackResist = 0f;
@@ -3114,10 +3110,6 @@ namespace CalamityMod.NPCs
                 int npcRight = (int)(npc.position.X + (float)npc.width) / 16;
                 for (int i = npcLeft; i <= npcRight; i++)
                 {
-                    if (Main.tile[i, j] is null)
-                    {
-                        return false;
-                    }
                     if (Main.tile[i, j].HasUnactuatedTile && Main.tileSolid[Main.tile[i, j].TileType])
                     {
                         canOpenDoors = true;
@@ -3144,33 +3136,9 @@ namespace CalamityMod.NPCs
                 positionDelta.X += npc.velocity.X;
                 int x = (int)((positionDelta.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * velocitySign)) / 16f);
                 int y = (int)((positionDelta.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[x, y] is null)
-                {
-                    Main.tile[x, y] = new Tile();
-                }
-                if (Main.tile[x, y - 1] is null)
-                {
-                    Main.tile[x, y - 1] = new Tile();
-                }
-                if (Main.tile[x, y - 2] is null)
-                {
-                    Main.tile[x, y - 2] = new Tile();
-                }
-                if (Main.tile[x, y - 3] is null)
-                {
-                    Main.tile[x, y - 3] = new Tile();
-                }
-                if (Main.tile[x, y + 1] is null)
-                {
-                    Main.tile[x, y + 1] = new Tile();
-                }
-                if (Main.tile[x - velocitySign, y - 3] is null)
-                {
-                    Main.tile[x - velocitySign, y - 3] = new Tile();
-                }
                 if (x * 16 < positionDelta.X + (float)npc.width &&
                     (x + 1) * 16 > positionDelta.X && ((Main.tile[x, y].HasUnactuatedTile &&
-                    !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() &&
+                    !Main.tile[x, y].TopSlope && !Main.tile[x, y - 1].TopSlope &&
                     Main.tileSolid[(int)Main.tile[x, y].TileType] &&
                     !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) ||
                     (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].HasUnactuatedTile)) &&
@@ -3231,39 +3199,6 @@ namespace CalamityMod.NPCs
                 {
                     x = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 16) * npc.direction)) / 16f);
                 }
-                if (Main.tile[x, y] is null)
-                {
-                    Main.tile[x, y] = new Tile();
-                }
-                if (Main.tile[x, y - 1] is null)
-                {
-                    Main.tile[x, y - 1] = new Tile();
-                }
-                if (Main.tile[x, y - 2] is null)
-                {
-                    Main.tile[x, y - 2] = new Tile();
-                }
-                if (Main.tile[x, y - 3] is null)
-                {
-                    Main.tile[x, y - 3] = new Tile();
-                }
-                if (Main.tile[x, y + 1] is null)
-                {
-                    Main.tile[x, y + 1] = new Tile();
-                }
-                if (Main.tile[x + npc.direction, y - 1] is null)
-                {
-                    Main.tile[x + npc.direction, y - 1] = new Tile();
-                }
-                if (Main.tile[x + npc.direction, y + 1] is null)
-                {
-                    Main.tile[x + npc.direction, y + 1] = new Tile();
-                }
-                if (Main.tile[x - npc.direction, y + 1] is null)
-                {
-                    Main.tile[x - npc.direction, y + 1] = new Tile();
-                }
-                Main.tile[x, y + 1].IsHalfBlock;
                 if ((Main.tile[x, y - 1].HasUnactuatedTile &&
                     (Main.tile[x, y - 1].TileType == TileID.ClosedDoor ||
                     Main.tile[x, y - 1].TileType == TileID.TallGateClosed)) & reset)
@@ -3307,7 +3242,7 @@ namespace CalamityMod.NPCs
                                 WorldGen.KillTile(x, y - 1, false, false, false);
                                 if (Main.netMode == NetmodeID.Server)
                                 {
-                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)(y - 1), 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)x, (float)(y - 1), 0f, 0, 0, 0);
                                 }
                             }
                             else
@@ -3322,7 +3257,7 @@ namespace CalamityMod.NPCs
                                     }
                                     if (Main.netMode == NetmodeID.Server & flag24)
                                     {
-                                        NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.ToggleDoorState, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
                                     }
                                 }
                                 if (Main.tile[x, y - 1].TileType == TileID.TallGateClosed)
@@ -3335,7 +3270,7 @@ namespace CalamityMod.NPCs
                                     }
                                     if (Main.netMode == NetmodeID.Server & flag25)
                                     {
-                                        NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 4, (float)x, (float)(y - 1), 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.ToggleDoorState, -1, -1, null, 4, (float)x, (float)(y - 1), 0f, 0, 0, 0);
                                     }
                                 }
                             }
@@ -3369,7 +3304,7 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y = -7f;
                             npc.netUpdate = true;
                         }
-                        else if (npc.position.Y + (float)npc.height - (float)(y * 16) > 20f && Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType])
+                        else if (npc.position.Y + (float)npc.height - (float)(y * 16) > 20f && Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].TopSlope && Main.tileSolid[(int)Main.tile[x, y].TileType])
                         {
                             npc.velocity.Y = -6f;
                             npc.netUpdate = true;
@@ -4278,9 +4213,9 @@ namespace CalamityMod.NPCs
                 num37 = 9f;
                 num38 = 0.25f;
             }
-            if (npc.type == NPCID.LeechHead && Main.wof >= 0)
+            if (npc.type == NPCID.LeechHead && Main.wofNPCIndex >= 0)
             {
-                float lifeRatio = (float)Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
+                float lifeRatio = (float)Main.npc[Main.wofNPCIndex].life / (float)Main.npc[Main.wofNPCIndex].lifeMax;
                 if (lifeRatio < 0.75f)
                 {
                     num37 += 1f;
@@ -5199,11 +5134,6 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            if (Main.tile[(int)npc.ai[0], (int)npc.ai[1]] is null)
-            {
-                Main.tile[(int)npc.ai[0], (int)npc.ai[1]] = new Tile();
-            }
-
             if (!Main.tile[(int)npc.ai[0], (int)npc.ai[1]].HasTile)
             {
                 npc.life = -1;
@@ -5858,18 +5788,6 @@ namespace CalamityMod.NPCs
                     }
                     int x = (int)npc.Center.X / 16;
                     int y = (int)npc.Center.Y / 16;
-                    if (Main.tile[x, y - 1] is null)
-                    {
-                        Main.tile[x, y - 1] = new Tile();
-                    }
-                    if (Main.tile[x, y + 1] is null)
-                    {
-                        Main.tile[x, y + 1] = new Tile();
-                    }
-                    if (Main.tile[x, y + 2] is null)
-                    {
-                        Main.tile[x, y + 2] = new Tile();
-                    }
                     if (Main.tile[x, y - 1].LiquidAmount > 128)
                     {
                         if (Main.tile[x, y + 1].HasTile)
@@ -6113,18 +6031,6 @@ namespace CalamityMod.NPCs
                 }
                 int x = (int)npc.Center.X / 16;
                 int y = (int)npc.Center.Y / 16;
-                if (Main.tile[x, y - 1] is null)
-                {
-                    Main.tile[x, y - 1] = new Tile();
-                }
-                if (Main.tile[x, y + 1] is null)
-                {
-                    Main.tile[x, y + 1] = new Tile();
-                }
-                if (Main.tile[x, y + 2] is null)
-                {
-                    Main.tile[x, y + 2] = new Tile();
-                }
                 if (Main.tile[x, y - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[x, y + 1].HasTile)
@@ -6244,18 +6150,6 @@ namespace CalamityMod.NPCs
                 int xRight = (int)(npc.position.X + (float)npc.width) / 16;
                 int y = (int)(npc.position.Y + (float)npc.height) / 16;
                 bool tileClimbing = false;
-                if (Main.tile[xLeft, y] is null)
-                {
-                    Main.tile[xLeft, y] = new Tile();
-                }
-                if (Main.tile[xCenter, y] is null)
-                {
-                    Main.tile[xLeft, y] = new Tile();
-                }
-                if (Main.tile[xRight, y] is null)
-                {
-                    Main.tile[xLeft, y] = new Tile();
-                }
                 if ((Main.tile[xLeft, y].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[xLeft, y].TileType]) || (Main.tile[xCenter, y].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[xCenter, y].TileType]) || (Main.tile[xRight, y].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[xRight, y].TileType]))
                 {
                     tileClimbing = true;
@@ -6719,10 +6613,6 @@ namespace CalamityMod.NPCs
 
             for (int num316 = num289; num316 < num289 + num290; num316++)
             {
-                if (Main.tile[num288, num316] is null)
-                {
-                    Main.tile[num288, num316] = new Tile();
-                }
                 if ((Main.tile[num288, num316].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num288, num316].TileType]) || Main.tile[num288, num316].LiquidAmount > 0)
                 {
                     if (num316 <= num289 + 1)
@@ -6739,10 +6629,6 @@ namespace CalamityMod.NPCs
                 bool flag25 = false;
                 for (int num317 = num289; num317 < num289 + num290 - 2; num317++)
                 {
-                    if (Main.tile[num288, num317] is null)
-                    {
-                        Main.tile[num288, num317] = new Tile();
-                    }
                     if ((Main.tile[num288, num317].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num288, num317].TileType]) || Main.tile[num288, num317].LiquidAmount > 0)
                     {
                         flag25 = true;
@@ -6756,10 +6642,6 @@ namespace CalamityMod.NPCs
             {
                 for (int num318 = num289 - 3; num318 < num289; num318++)
                 {
-                    if (Main.tile[num288, num318] is null)
-                    {
-                        Main.tile[num288, num318] = new Tile();
-                    }
                     if ((Main.tile[num288, num318].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num288, num318].TileType]) || Main.tile[num288, num318].LiquidAmount > 0)
                     {
                         flag24 = false;
@@ -7505,7 +7387,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.velocity.X *= 0.9f;
                     }
-                    float num8 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
+                    float num8 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedCurrent)) * (float)Math.Sign(Main.windSpeedCurrent);
                     if (!Main.player[npc.target].ZoneSandstorm)
                     {
                         num8 = 0f;
@@ -7555,28 +7437,7 @@ namespace CalamityMod.NPCs
                 int num10 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
                 int num11 = (int)((position.Y + (float)npc.height - 1f) / 16f);
 
-                if (Main.tile[num10, num11] is null)
-                {
-                    Main.tile[num10, num11] = new Tile();
-                }
-                if (Main.tile[num10, num11 - 1] is null)
-                {
-                    Main.tile[num10, num11 - 1] = new Tile();
-                }
-                if (Main.tile[num10, num11 - 2] is null)
-                {
-                    Main.tile[num10, num11 - 2] = new Tile();
-                }
-                if (Main.tile[num10, num11 - 3] is null)
-                {
-                    Main.tile[num10, num11 - 3] = new Tile();
-                }
-                if (Main.tile[num10, num11 + 1] is null)
-                {
-                    Main.tile[num10, num11 + 1] = new Tile();
-                }
-
-                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].HasUnactuatedTile && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].TileType] && !Main.tileSolidTop[(int)Main.tile[num10, num11].TileType]) || (Main.tile[num10, num11 - 1].IsHalfBlock && Main.tile[num10, num11 - 1].HasUnactuatedTile)) && (!Main.tile[num10, num11 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].TileType] || (Main.tile[num10, num11 - 1].IsHalfBlock && (!Main.tile[num10, num11 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].TileType]))) && (!Main.tile[num10, num11 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].TileType]) && (!Main.tile[num10, num11 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].TileType]) && (!Main.tile[num10 - num9, num11 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].TileType]))
+                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].HasUnactuatedTile && !Main.tile[num10, num11].TopSlope && !Main.tile[num10, num11 - 1].TopSlope && Main.tileSolid[(int)Main.tile[num10, num11].TileType] && !Main.tileSolidTop[(int)Main.tile[num10, num11].TileType]) || (Main.tile[num10, num11 - 1].IsHalfBlock && Main.tile[num10, num11 - 1].HasUnactuatedTile)) && (!Main.tile[num10, num11 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].TileType] || (Main.tile[num10, num11 - 1].IsHalfBlock && (!Main.tile[num10, num11 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].TileType]))) && (!Main.tile[num10, num11 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].TileType]) && (!Main.tile[num10, num11 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].TileType]) && (!Main.tile[num10 - num9, num11 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].TileType]))
                 {
                     float num12 = (float)(num11 * 16);
                     if (Main.tile[num10, num11].IsHalfBlock)
@@ -7612,40 +7473,6 @@ namespace CalamityMod.NPCs
                 int num14 = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 2) * npc.direction) + npc.velocity.X * 5f) / 16f);
                 int num15 = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
 
-                if (Main.tile[num14, num15] is null)
-                {
-                    Main.tile[num14, num15] = new Tile();
-                }
-                if (Main.tile[num14, num15 - 1] is null)
-                {
-                    Main.tile[num14, num15 - 1] = new Tile();
-                }
-                if (Main.tile[num14, num15 - 2] is null)
-                {
-                    Main.tile[num14, num15 - 2] = new Tile();
-                }
-                if (Main.tile[num14, num15 - 3] is null)
-                {
-                    Main.tile[num14, num15 - 3] = new Tile();
-                }
-                if (Main.tile[num14, num15 + 1] is null)
-                {
-                    Main.tile[num14, num15 + 1] = new Tile();
-                }
-
-                if (Main.tile[num14 + npc.direction, num15 - 1] is null)
-                {
-                    Main.tile[num14 + npc.direction, num15 - 1] = new Tile();
-                }
-                if (Main.tile[num14 + npc.direction, num15 + 1] is null)
-                {
-                    Main.tile[num14 + npc.direction, num15 + 1] = new Tile();
-                }
-                if (Main.tile[num14 - npc.direction, num15 + 1] is null)
-                {
-                    Main.tile[num14 - npc.direction, num15 + 1] = new Tile();
-                }
-
                 int num16 = npc.spriteDirection;
                 if (npc.type == NPCID.NebulaBeast || npc.type == NPCID.StardustSpiderSmall || npc.type == NPCID.Tumbleweed)
                 {
@@ -7670,12 +7497,12 @@ namespace CalamityMod.NPCs
                             npc.netUpdate = true;
                         }
                     }
-                    else if (Main.tile[num14, num15 - 1].HasUnactuatedTile && !Main.tile[num14, num15 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15 - 1].TileType])
+                    else if (Main.tile[num14, num15 - 1].HasUnactuatedTile && !Main.tile[num14, num15 - 1].TopSlope && Main.tileSolid[(int)Main.tile[num14, num15 - 1].TileType])
                     {
                         npc.velocity.Y = -9f;
                         npc.netUpdate = true;
                     }
-                    else if (npc.position.Y + (float)npc.height - (float)(num15 * 16) > 20f && Main.tile[num14, num15].HasUnactuatedTile && !Main.tile[num14, num15].topSlope() && Main.tileSolid[(int)Main.tile[num14, num15].TileType])
+                    else if (npc.position.Y + (float)npc.height - (float)(num15 * 16) > 20f && Main.tile[num14, num15].HasUnactuatedTile && !Main.tile[num14, num15].TopSlope && Main.tileSolid[(int)Main.tile[num14, num15].TileType])
                     {
                         npc.velocity.Y = -7f;
                         npc.netUpdate = true;
@@ -7739,7 +7566,7 @@ namespace CalamityMod.NPCs
             int num533 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num532)) / 16f);
             int num534 = (int)((position.Y + (float)npc.height - 1f) / 16f);
 
-            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].HasUnactuatedTile && !Main.tile[num533, num534].topSlope() && !Main.tile[num533, num534 - 1].topSlope() && ((Main.tileSolid[(int)Main.tile[num533, num534].TileType] && !Main.tileSolidTop[(int)Main.tile[num533, num534].TileType]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].TileType] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || !Main.tile[num533, num534 - 1].HasUnactuatedTile) && Main.tile[num533, num534].TileType != 16 && Main.tile[num533, num534].TileType != 18 && Main.tile[num533, num534].TileType != 134))) || (Main.tile[num533, num534 - 1].IsHalfBlock && Main.tile[num533, num534 - 1].HasUnactuatedTile)) && (!Main.tile[num533, num534 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].TileType] || (Main.tile[num533, num534 - 1].IsHalfBlock && (!Main.tile[num533, num534 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].TileType]))) && (!Main.tile[num533, num534 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].TileType]) && (!Main.tile[num533, num534 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].TileType]) && (!Main.tile[num533 - num532, num534 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].TileType]))
+            if ((float)(num533 * 16) < position.X + (float)npc.width && (float)(num533 * 16 + 16) > position.X && ((Main.tile[num533, num534].HasUnactuatedTile && !Main.tile[num533, num534].TopSlope && !Main.tile[num533, num534 - 1].TopSlope && ((Main.tileSolid[(int)Main.tile[num533, num534].TileType] && !Main.tileSolidTop[(int)Main.tile[num533, num534].TileType]) || (flag31 && Main.tileSolidTop[(int)Main.tile[num533, num534].TileType] && (!Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || !Main.tile[num533, num534 - 1].HasUnactuatedTile) && Main.tile[num533, num534].TileType != 16 && Main.tile[num533, num534].TileType != 18 && Main.tile[num533, num534].TileType != 134))) || (Main.tile[num533, num534 - 1].IsHalfBlock && Main.tile[num533, num534 - 1].HasUnactuatedTile)) && (!Main.tile[num533, num534 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 1].TileType] || (Main.tile[num533, num534 - 1].IsHalfBlock && (!Main.tile[num533, num534 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 4].TileType]))) && (!Main.tile[num533, num534 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 2].TileType]) && (!Main.tile[num533, num534 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533, num534 - 3].TileType]) && (!Main.tile[num533 - num532, num534 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num533 - num532, num534 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num533 - num532, num534 - 3].TileType]))
             {
                 float num535 = (float)(num534 * 16);
                 if (Main.tile[num533, num534].IsHalfBlock)
@@ -7830,11 +7657,11 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCID.GiantShelly || npc.type == NPCID.GiantShelly2)
                 {
-                    npc.knockBackResist = 0.5f * Main.knockBackMultiplier;
+                    npc.knockBackResist = 0.5f;
                 }
                 else
                 {
-                    npc.knockBackResist = 0.15f * Main.knockBackMultiplier;
+                    npc.knockBackResist = 0.15f;
                 }
 
                 npc.ai[1] += 1f;
@@ -8479,10 +8306,6 @@ namespace CalamityMod.NPCs
                 {
                     for (int j = npcY - 1; j <= npcY + 1; j++)
                     {
-                        if (Main.tile[i, j] is null)
-                        {
-                            return false;
-                        }
                         if (Main.tile[i, j].WallType > 0)
                         {
                             climbingWall = true;
@@ -9208,11 +9031,6 @@ namespace CalamityMod.NPCs
 
             chargeAcceleration *= chargeIntertia;
 
-            if (Main.expertMode)
-            {
-                npcKBResist *= Main.expertKnockBack;
-            }
-
             // Drone dust
             if (npc.type == NPCID.MartianDrone && npc.ai[0] != 3f)
             {
@@ -9843,12 +9661,12 @@ namespace CalamityMod.NPCs
                 // Play the portal opening sound at the moment of the portal's creation.
                 if (fadeInTimer == 0f)
                 {
-                    Main.PlayTrackedSound(SoundID.DD2_EtherianPortalOpen, npc.Center);
+                    SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalOpen, npc.Center);
                     idlePlaySoundId = SlotId.Invalid.ToFloat();
                 }
 
-                if (fadeInTimer > 150f && Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                if (fadeInTimer > 150f && SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
                 if (!DD2Event.EnemySpawningIsOnHold)
                     enemySpawnTimer++;
@@ -9889,10 +9707,10 @@ namespace CalamityMod.NPCs
                 npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.GetLerpValue(500f, 600f, fadeOutTimer, true));
 
                 // Reset the idle play sound if it didn't get activated before for some reason.
-                if (Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                if (SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
-                ActiveSound activeSound = Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
+                ActiveSound activeSound = SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
                 if (activeSound != null)
                     activeSound.Volume = npc.scale;
 
