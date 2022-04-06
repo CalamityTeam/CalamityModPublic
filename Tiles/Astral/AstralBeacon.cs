@@ -85,20 +85,20 @@ namespace CalamityMod.Tiles.Astral
 
         public override void MouseOver(int i, int j)
         {
-            Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<TitanHeart>();
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<Starcore>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<TitanHeart>();
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<Starcore>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
     }
 }

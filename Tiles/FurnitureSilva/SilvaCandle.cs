@@ -56,8 +56,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCandle>();
         }
 
         public override bool RightClick(int i, int j)

@@ -54,8 +54,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
         }
 
         public override bool RightClick(int i, int j)

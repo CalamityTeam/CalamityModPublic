@@ -49,8 +49,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaBed>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaBed>();
         }
     }
 }

@@ -43,8 +43,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<AshenDoor>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<AshenDoor>();
         }
     }
 }

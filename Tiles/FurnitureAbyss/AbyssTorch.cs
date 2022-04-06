@@ -36,8 +36,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

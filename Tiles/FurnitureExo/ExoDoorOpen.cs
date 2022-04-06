@@ -65,8 +65,8 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<ExoDoor>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<ExoDoor>();
         }
     }
 }

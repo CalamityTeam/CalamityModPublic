@@ -72,8 +72,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBed>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBed>();
         }
     }
 }

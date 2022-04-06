@@ -54,8 +54,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
         }
 
         public override bool RightClick(int i, int j)

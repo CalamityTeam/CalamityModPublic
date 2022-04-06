@@ -24,8 +24,8 @@ namespace CalamityMod.Tiles.Furniture
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>();
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

@@ -42,8 +42,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<AcidwoodDoor>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<AcidwoodDoor>();
         }
     }
 }
