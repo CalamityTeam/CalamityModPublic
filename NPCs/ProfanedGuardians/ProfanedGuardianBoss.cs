@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.noTileCollide = true;
             AIType = -1;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);
             NPC.HitSound = SoundID.NPCHit52;
             NPC.DeathSound = SoundID.NPCDeath55;
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.timeLeft = 1800;
 
             // Become immune over time if target isn't in hell or hallow
-            bool isHoly = player.ZoneHoly;
+            bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
@@ -508,10 +508,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA4").Type, 1f);
+                }
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);

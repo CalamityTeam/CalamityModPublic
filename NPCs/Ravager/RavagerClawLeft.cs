@@ -304,9 +304,12 @@ namespace CalamityMod.NPCs.Ravager
             }
             else
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerClawLeft").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerClawLeft2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerClawLeft3").Type, 1f);
+                }
             }
         }
     }

@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -1057,8 +1057,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (NPC.life <= 0)
             {
-                for (int i = 1; i < 7; i++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("PlaguebringerGoliathGore" + i), 2f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    for (int i = 1; i < 7; i++)
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("PlaguebringerGoliathGore" + i).Type, 2f);
+                }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.width = 200;

@@ -88,10 +88,13 @@ namespace CalamityMod.NPCs.Astral
             //if dead do gores
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 6; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    float rand = Main.rand.NextFloat(-0.18f, 0.18f);
-                    Gore.NewGore(NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.GetGoreSlot("Gores/FusionFeeder/FusionFeederGore" + i));
+                    for (int i = 0; i < 6; i++)
+                    {
+                        float rand = Main.rand.NextFloat(-0.18f, 0.18f);
+                        Gore.NewGore(NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("Gores/FusionFeeder/FusionFeederGore" + i).Type);
+                    }
                 }
             }
         }

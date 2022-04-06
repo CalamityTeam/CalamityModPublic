@@ -1,7 +1,8 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -42,11 +43,14 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(new Vector2(i, j) * 16f,
-                    Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f),
-                    Mod.GetGoreSlot($"Gores/SulphSeaGen/SulphurousRockGore{WorldGen.genRand.Next(3) + 1}"));
+                for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
+                {
+                    Gore.NewGore(new Vector2(i, j) * 16f,
+                        Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f),
+                        Mod.Find<ModGore>($"Gores/SulphSeaGen/SulphurousRockGore{WorldGen.genRand.Next(3) + 1}").Type);
+                }
             }
         }
         public override void NumDust(int i, int j, bool fail, ref int num)

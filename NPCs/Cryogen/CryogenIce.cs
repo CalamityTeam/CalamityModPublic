@@ -147,12 +147,15 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-                float randomSpread;
-                for (int spike = 0; spike < 4; spike++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    randomSpread = Main.rand.Next(-200, 200) / 100;
-                    for (int x = 0; x < 4; x++)
-                        Gore.NewGore(NPC.Center, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CryoShieldGore" + x), 1f);
+                    float randomSpread;
+                    for (int spike = 0; spike < 4; spike++)
+                    {
+                        randomSpread = Main.rand.Next(-200, 200) / 100;
+                        for (int x = 0; x < 4; x++)
+                            Gore.NewGore(NPC.Center, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CryoShieldGore" + x).Type, 1f);
+                    }
                 }
             }
         }

@@ -583,15 +583,18 @@ namespace CalamityMod.NPCs.ExoMechs
             if (NPC.life > 0)
                 return;
 
-            for (int i = 1; i <= 4; i++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Vector2 goreSpawnOffset = Main.rand.NextVector2Circular(12f, 12f);
-                Vector2 draedonPieceVelocity = Main.rand.NextVector2CircularEdge(7f, 7f) - Vector2.UnitY * 8f;
-                Vector2 chairPieceVelocity = Vector2.UnitY.RotatedByRandom(0.13f) * Main.rand.NextFloat(4.45f, 5.4f);
-                Gore.NewGoreDirect(NPC.Center + goreSpawnOffset, draedonPieceVelocity, Mod.GetGoreSlot($"Gores/Draedon/Draedon{i}"));
+                for (int i = 1; i <= 4; i++)
+                {
+                    Vector2 goreSpawnOffset = Main.rand.NextVector2Circular(12f, 12f);
+                    Vector2 draedonPieceVelocity = Main.rand.NextVector2CircularEdge(7f, 7f) - Vector2.UnitY * 8f;
+                    Vector2 chairPieceVelocity = Vector2.UnitY.RotatedByRandom(0.13f) * Main.rand.NextFloat(4.45f, 5.4f);
+                    Gore.NewGoreDirect(NPC.Center + goreSpawnOffset, draedonPieceVelocity, Mod.Find<ModGore>($"Gores/Draedon/Draedon{i}").Type);
 
-                goreSpawnOffset = Main.rand.NextVector2Circular(18f, 18f);
-                Gore.NewGoreDirect(NPC.Center + goreSpawnOffset, chairPieceVelocity, Mod.GetGoreSlot($"Gores/Draedon/Chair{i}"));
+                    goreSpawnOffset = Main.rand.NextVector2Circular(18f, 18f);
+                    Gore.NewGoreDirect(NPC.Center + goreSpawnOffset, chairPieceVelocity, Mod.Find<ModGore>($"Gores/Draedon/Chair{i}").Type);
+                }
             }
         }
 

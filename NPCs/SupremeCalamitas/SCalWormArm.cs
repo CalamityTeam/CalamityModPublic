@@ -195,15 +195,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (NPC.life <= 0)
             {
-                Vector2 forearmGoreSpawnPosition = Limbs[0].Center + Main.rand.NextVector2Circular(6f, 6f);
-                Vector2 armGoreSpawnPosition = Limbs[1].Center + Main.rand.NextVector2Circular(6f, 6f);
-                Vector2 handGoreSpawnPosition = armGoreSpawnPosition + Main.rand.NextVector2Circular(6f, 6f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 forearmGoreSpawnPosition = Limbs[0].Center + Main.rand.NextVector2Circular(6f, 6f);
+                    Vector2 armGoreSpawnPosition = Limbs[1].Center + Main.rand.NextVector2Circular(6f, 6f);
+                    Vector2 handGoreSpawnPosition = armGoreSpawnPosition + Main.rand.NextVector2Circular(6f, 6f);
 
-                Gore.NewGorePerfect(armGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherArm_Gore"), NPC.scale);
-                for (int i = 1; i <= 2; i++)
-                    Gore.NewGorePerfect(forearmGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherForearm_Gore{i}"), NPC.scale);
-                for (int i = 1; i <= 2; i++)
-                    Gore.NewGorePerfect(handGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherHand_Gore{i}"), NPC.scale);
+                    Gore.NewGorePerfect(armGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherArm_Gore").Type, NPC.scale);
+                    for (int i = 1; i <= 2; i++)
+                        Gore.NewGorePerfect(forearmGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherForearm_Gore{i}").Type, NPC.scale);
+                    for (int i = 1; i <= 2; i++)
+                        Gore.NewGorePerfect(handGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherHand_Gore{i}").Type, NPC.scale);
+                }
             }
         }
 

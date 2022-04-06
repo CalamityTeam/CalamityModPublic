@@ -139,10 +139,13 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore1"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore3"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/NuclearToadGore4"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/NuclearToadGore1").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/NuclearToadGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/NuclearToadGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/NuclearToadGore4").Type, NPC.scale);
+                }
                 for (int i = 0; i < 25; i++)
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextFloat(-2f, 2f), -1f, 0, default, 1f);
             }

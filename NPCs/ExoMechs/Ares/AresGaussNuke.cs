@@ -642,12 +642,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     Main.dust[num195].noGravity = true;
                 }
 
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresHandBase1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresHandBase2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Ares/AresHandBase3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresHandBase1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresHandBase2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Ares/AresHandBase3").Type, 1f);
+                }
             }
         }
 

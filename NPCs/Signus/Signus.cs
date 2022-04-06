@@ -53,11 +53,11 @@ namespace CalamityMod.NPCs.Signus
             if (notDoGFight)
             {
                 NPC.value = Item.buyPrice(2, 0, 0, 0);
-                music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             }
             // If fought as a DoG interlude, keep the DoG music playing
             else
-                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
 
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -849,12 +849,15 @@ namespace CalamityMod.NPCs.Signus
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = Main.rand.Next(-200, 200) / 100;
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Signus"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Signus2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Signus3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Signus4"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Signus5"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Signus").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Signus2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Signus3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Signus4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Signus5").Type, 1f);
+                }
             }
         }
 

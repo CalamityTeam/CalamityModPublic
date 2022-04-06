@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.boss = true;
             NPC.netAlways = true;
             NPC.timeLeft = NPC.activeTime * 30;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -445,10 +445,13 @@ namespace CalamityMod.NPCs.OldDuke
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hitDirection, -2f, 0, default, 1f);
                 }
 
-                Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.GetGoreSlot("Gores/OldDuke/OldDukeGore"), NPC.scale);
-                Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.GetGoreSlot("Gores/OldDuke/OldDukeGore2"), NPC.scale);
-                Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.GetGoreSlot("Gores/OldDuke/OldDukeGore3"), NPC.scale);
-                Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.GetGoreSlot("Gores/OldDuke/OldDukeGore4"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore4").Type, NPC.scale);
+                }
             }
         }
     }

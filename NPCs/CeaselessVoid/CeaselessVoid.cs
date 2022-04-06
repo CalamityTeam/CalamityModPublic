@@ -48,11 +48,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (notDoGFight)
             {
                 NPC.value = Item.buyPrice(2, 0, 0, 0);
-                music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             }
             // If fought as a DoG interlude, keep the DoG music playing
             else
-                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
 
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -290,12 +290,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     Main.dust[num624].velocity *= 2f;
                 }
 
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CeaselessVoid3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CeaselessVoid").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CeaselessVoid2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CeaselessVoid2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CeaselessVoid3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CeaselessVoid3").Type, 1f);
+                }
             }
         }
     }

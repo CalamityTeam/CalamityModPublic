@@ -103,9 +103,12 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 13, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HiveMindGores/DankCreeperGore").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HiveMindGores/DankCreeperGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HiveMindGores/DankCreeperGore3").Type, 1f);
+                }
             }
         }
 

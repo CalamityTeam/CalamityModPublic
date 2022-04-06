@@ -330,16 +330,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (NPC.life <= 0)
             {
-                for (int i = 1; i <= 3; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Vector2 goreSpawnPosition = NPC.Center;
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        Vector2 goreSpawnPosition = NPC.Center;
 
-                    // Spawn at a slight offset when spawning mandibles.
-                    if (i == 2)
-                        goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver4) * 16f;
-                    if (i == 3)
-                        goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(-MathHelper.PiOver4) * 16f;
-                    Gore.NewGorePerfect(goreSpawnPosition, NPC.velocity, Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherHead_Gore{i}"), NPC.scale);
+                        // Spawn at a slight offset when spawning mandibles.
+                        if (i == 2)
+                            goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver4) * 16f;
+                        if (i == 3)
+                            goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(-MathHelper.PiOver4) * 16f;
+                        Gore.NewGorePerfect(goreSpawnPosition, NPC.velocity, Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherHead_Gore{i}").Type, NPC.scale);
+                    }
                 }
             }
         }

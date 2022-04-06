@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -127,7 +127,10 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScourgeTail"), 0.65f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScourgeTail").Type, 0.65f);
+                }
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);

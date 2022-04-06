@@ -209,9 +209,12 @@ namespace CalamityMod.NPCs.SulphurousSea
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/AnthozoanCrabGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/AnthozoanCrabGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AcidRain/AnthozoanCrabGore3").Type, NPC.scale);
+                }
             }
         }
     }

@@ -2371,9 +2371,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DoGS"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DoGS2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DoGS5"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DoGS").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DoGS2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DoGS5").Type, 1f);
+                }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.width = 50;

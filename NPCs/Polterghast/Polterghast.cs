@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath39;
             bossBag = ModContent.ItemType<PolterghastBag>();
@@ -709,11 +709,14 @@ namespace CalamityMod.NPCs.Polterghast
 
                     SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
 
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt2"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt3"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt4"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt5"), 1f);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt2").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt3").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt4").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt5").Type, 1f);
+                    }
 
                     for (int num621 = 0; num621 < 10; num621++)
                     {
@@ -857,11 +860,14 @@ namespace CalamityMod.NPCs.Polterghast
 
                     SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
 
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt2"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt3"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt4"), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Polt5"), 1f);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt2").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt3").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt4").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Polt5").Type, 1f);
+                    }
 
                     for (int num621 = 0; num621 < 10; num621++)
                     {

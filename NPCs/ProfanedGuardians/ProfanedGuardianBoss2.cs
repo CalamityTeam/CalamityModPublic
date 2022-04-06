@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool isHoly = player.ZoneHoly;
+            bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
             // Become immune over time if target isn't in hell or hallow
@@ -380,9 +380,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT3").Type, 1f);
+                }
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);

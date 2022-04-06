@@ -1368,7 +1368,10 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 for (int k = 0; k < 15; k++)
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
 
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WyrmAdult").Type, 1f);
+                }
             }
         }
 

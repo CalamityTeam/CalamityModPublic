@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
             NPC.Calamity().VulnerableToHeat = false;
@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.Providence
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
 
             // Target's current biome
-            bool isHoly = player.ZoneHoly;
+            bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
             // Fire projectiles at normal rate or not
@@ -1931,11 +1931,14 @@ namespace CalamityMod.NPCs.Providence
 
             if (NPC.life <= 0)
             {
-                float randomSpread = Main.rand.Next(-50, 50) / 100;
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/Providence"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/Providence2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/Providence3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/Providence4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = Main.rand.Next(-50, 50) / 100;
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Providence").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Providence2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Providence3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Providence4").Type, 1f);
+                }
                 NPC.position = NPC.Center;
                 NPC.width = 400;
                 NPC.height = 350;

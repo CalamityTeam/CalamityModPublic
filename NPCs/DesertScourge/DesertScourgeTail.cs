@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -146,7 +146,10 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScourgeTail"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScourgeTail").Type, NPC.scale);
+                }
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);

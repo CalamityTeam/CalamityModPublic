@@ -146,10 +146,13 @@ namespace CalamityMod.NPCs.AquaticScourge
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody3"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody4"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/ASBody").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/ASBody2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/ASBody3").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/ASBody4").Type, NPC.scale);
+                }
             }
         }
 

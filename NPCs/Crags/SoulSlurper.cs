@@ -297,9 +297,12 @@ namespace CalamityMod.NPCs.Crags
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SoulSlurperGores/SoulSlurper").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SoulSlurperGores/SoulSlurper2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SoulSlurperGores/SoulSlurper3").Type, NPC.scale);
+                }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
                 NPC.width = 50;

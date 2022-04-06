@@ -70,11 +70,11 @@ namespace CalamityMod.NPCs.StormWeaver
             if (notDoGFight)
             {
                 NPC.value = Item.buyPrice(2, 0, 0, 0);
-                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
             }
             // If fought as a DoG interlude, keep the DoG music playing
             else
-                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -175,7 +175,10 @@ namespace CalamityMod.NPCs.StormWeaver
                     NPC.Calamity().VulnerableToCold = true;
                     NPC.Calamity().VulnerableToSickness = true;
 
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWArmorHead1"), NPC.scale);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWArmorHead1").Type, NPC.scale);
+                    }
                     SoundEngine.PlaySound(SoundID.NPCDeath14, (int)NPC.Center.X, (int)NPC.Center.Y);
 
                     CalamityGlobalNPC global = NPC.Calamity();
@@ -687,8 +690,11 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWNudeHead1"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWNudeHead2"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWNudeHead1").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWNudeHead2").Type, NPC.scale);
+                }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);

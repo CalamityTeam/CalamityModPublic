@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+ï»¿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.65f;
-            animationType = NPCID.Guide;
+            AnimationType = NPCID.Guide;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.homeless)
             {
                 if (Main.rand.NextBool(2))
-                    return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
+                    return "How much more has the world fallen to ruin? Even the Tyrantâ€™s empire...";
                 else
                     return "Thank you for your service, my child, but I am afraid I am without a home now.";
             }
@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (DownedBossSystem.downedDoG)
             {
-                dialogue.Add("To see that Tyrant’s serpent free of its shackles. It gave me chills.");
+                dialogue.Add("To see that Tyrantâ€™s serpent free of its shackles. It gave me chills.");
             }
 
             return dialogue[Main.rand.Next(dialogue.Count)];
@@ -393,10 +393,13 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Amidias/Amidias4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amidias/Amidias").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amidias/Amidias2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amidias/Amidias3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amidias/Amidias4").Type, 1f);
+                }
             }
         }
 

@@ -649,10 +649,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     Main.dust[num195].noGravity = true;
                 }
 
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Thanatos/ThanatosTail"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Thanatos/ThanatosTail2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Thanatos/ThanatosTail3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Thanatos/ThanatosTail4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Thanatos/ThanatosTail").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Thanatos/ThanatosTail2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Thanatos/ThanatosTail3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Thanatos/ThanatosTail4").Type, 1f);
+                }
             }
         }
 

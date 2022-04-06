@@ -98,9 +98,12 @@ namespace CalamityMod.NPCs.AcidRain
             if (InPhase2 && !HasMadeShellBreakGore)
             {
                 SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore"), NPC.scale);
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore2"), NPC.scale);
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP1Gore").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP1Gore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP1Gore3").Type, NPC.scale);
+                }
                 HasMadeShellBreakGore = true;
             }
 
@@ -469,9 +472,12 @@ namespace CalamityMod.NPCs.AcidRain
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore"), NPC.scale);
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore2"), NPC.scale);
-                Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP2Gore").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP2Gore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("Gores/AcidRain/CragmawMireP2Gore3").Type, NPC.scale);
+                }
             }
         }
 

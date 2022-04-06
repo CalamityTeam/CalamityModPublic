@@ -161,7 +161,10 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.Center, NPC.velocity, Mod.GetGoreSlot("Gores/GulperEel4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/GulperEel4").Type, 1f);
+                }
             }
         }
 

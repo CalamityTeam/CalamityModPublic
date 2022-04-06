@@ -437,9 +437,12 @@ namespace CalamityMod.NPCs.AcidRain
                 for (int k = 0; k < 30; k++)
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
 
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Mauler"), NPC.scale);
-                for (int i = 2; i <= 5; i++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot($"Gores/Mauler{i}"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mauler").Type, NPC.scale);
+                    for (int i = 2; i <= 5; i++)
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/Mauler{i}").Type, NPC.scale);
+                }
             }
         }
     }

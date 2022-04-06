@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -137,10 +137,13 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (NPC.life <= 0)
             {
-                float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/ScourgeBody"), 0.65f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/ScourgeBody2"), 0.65f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/ScourgeBody3"), 0.65f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody").Type, 0.65f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody2").Type, 0.65f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody3").Type, 0.65f);
+                }
                 for (int k = 0; k < 10; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);

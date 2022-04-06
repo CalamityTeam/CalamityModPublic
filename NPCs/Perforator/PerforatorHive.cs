@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit13;
             NPC.DeathSound = SoundID.NPCDeath19;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<PerforatorBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
@@ -525,10 +525,13 @@ namespace CalamityMod.NPCs.Perforator
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Hive"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Hive2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Hive3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Hive4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hive").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hive2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hive3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hive4").Type, 1f);
+                }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
                 NPC.width = 100;

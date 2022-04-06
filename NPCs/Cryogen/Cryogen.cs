@@ -950,9 +950,12 @@ namespace CalamityMod.NPCs.Cryogen
         private void HandlePhaseTransition(int newPhase)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath15, NPC.Center);
-            int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
-            for (int i = 1; i < chipGoreAmount; i++)
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
+                for (int i = 1; i < chipGoreAmount; i++)
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CryoChipGore" + i).Type, 1f);
+            }
 
             currentPhase = newPhase;
 
@@ -1030,11 +1033,14 @@ namespace CalamityMod.NPCs.Cryogen
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 67, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = Main.rand.Next(-200, 200) / 100;
-                for (int i = 1; i < 4; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CryoDeathGore" + i), 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
+                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    for (int i = 1; i < 4; i++)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CryoDeathGore" + i).Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/CryoChipGore" + i).Type, 1f);
+                    }
                 }
             }
         }

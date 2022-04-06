@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.defense = 16;
             NPC.lifeMax = 80;
             NPC.knockBackResist = 0.5f;
-            animationType = NPCID.ZombieXmas;
+            AnimationType = NPCID.ZombieXmas;
             AIType = NPCID.ChaosElemental;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
             NPC.HitSound = SoundID.NPCHit1;
@@ -66,9 +66,12 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/CultistAssassinGores/CultistAssassin3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CultistAssassinGores/CultistAssassin").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CultistAssassinGores/CultistAssassin2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CultistAssassinGores/CultistAssassin3").Type, NPC.scale);
+                }
             }
         }
 

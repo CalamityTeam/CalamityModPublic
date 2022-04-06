@@ -183,9 +183,12 @@ namespace CalamityMod.Projectiles.Boss
             // Nuke explosion sound
             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
 
-            // Nuke gores
-            Gore.NewGore(Projectile.position, Projectile.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke1"), 1f);
-            Gore.NewGore(Projectile.position, Projectile.velocity, Mod.GetGoreSlot("Gores/Ares/AresGaussNuke3"), 1f);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Nuke gores
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke1").Type, 1f);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke3").Type, 1f);
+            }
 
             // Create a bunch of lightning bolts in the sky
             ExoMechsSky.CreateLightningBolt(12);

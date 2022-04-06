@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -184,12 +185,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (NPC.life <= 0)
             {
-                for (int i = 1; i <= 2; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Vector2 goreSpawnPosition = NPC.Center;
-                    if (i == 2)
-                        goreSpawnPosition -= (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * 20f;
-                    Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherTail_Gore{i}"), NPC.scale);
+                    for (int i = 1; i <= 2; i++)
+                    {
+                        Vector2 goreSpawnPosition = NPC.Center;
+                        if (i == 2)
+                            goreSpawnPosition -= (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * 20f;
+                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherTail_Gore{i}").Type, NPC.scale);
+                    }
                 }
             }
         }

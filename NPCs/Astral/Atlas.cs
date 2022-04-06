@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.GameContent;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -444,16 +445,19 @@ namespace CalamityMod.NPCs.Astral
             //if dead do gores
             if (NPC.life <= 0)
             {
-                //head
-                Gore.NewGore(NPC.Top, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore4"));
-                //hand
-                Gore.NewGore(NPC.direction == 1 ? NPC.Right : NPC.Left, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore2"));
-                //rest
-                Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore0"));
-                Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore1"));
-                Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore3"));
-                Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore5"));
-                Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.GetGoreSlot("Gores/Atlas/AtlasGore6"));
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    //head
+                    Gore.NewGore(NPC.Top, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore4").Type);
+                    //hand
+                    Gore.NewGore(NPC.direction == 1 ? NPC.Right : NPC.Left, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore2").Type);
+                    //rest
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore0").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore1").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore3").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore5").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore6").Type);
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
+                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.01f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -115,7 +115,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 67, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/Cryocore"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Cryocore").Type, 1f);
+                }
             }
         }
 

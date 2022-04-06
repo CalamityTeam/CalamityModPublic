@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            bool isHoly = player.ZoneHoly;
+            bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
             // Become immune over time if target isn't in hell or hallow
@@ -228,11 +228,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH4"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH5"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH5").Type, 1f);
+                }
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);

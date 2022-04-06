@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -165,17 +165,20 @@ namespace CalamityMod.NPCs.Ravager
                     Main.dust[num624].velocity *= 2f;
                 }
 
-                float y = NPC.height / 6f;
-                float randomVelocityScale = 0.25f;
-                for (int i = 0; i < 2; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Vector2 randomVelocity = NPC.velocity * Main.rand.NextFloat() * randomVelocityScale;
-                    Gore.NewGore(NPC.position, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar"), 1f);
-                    Gore.NewGore(NPC.position + Vector2.UnitY * y, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar2"), 1f);
-                    Gore.NewGore(NPC.position + Vector2.UnitY * y * 2f, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar3"), 1f);
-                    Gore.NewGore(NPC.position + Vector2.UnitY * y * 3f, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar4"), 1f);
-                    Gore.NewGore(NPC.position + Vector2.UnitY * y * 4f, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar5"), 1f);
-                    Gore.NewGore(NPC.position + Vector2.UnitY * y * 5f, NPC.velocity + randomVelocity, Mod.GetGoreSlot("Gores/ScavengerGores/RockPillar6"), 1f);
+                    float y = NPC.height / 6f;
+                    float randomVelocityScale = 0.25f;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector2 randomVelocity = NPC.velocity * Main.rand.NextFloat() * randomVelocityScale;
+                        Gore.NewGore(NPC.position, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar2").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 2f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar3").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 3f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar4").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 4f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar5").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 5f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar6").Type, 1f);
+                    }
                 }
             }
             else

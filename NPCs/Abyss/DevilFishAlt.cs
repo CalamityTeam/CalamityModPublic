@@ -81,9 +81,12 @@ namespace CalamityMod.NPCs.Abyss
                 brokenMask = true;
                 NPC.HitSound = SoundID.NPCHit1;
                 NPC.defense = 15;
-                for (int i = 1; i < 4; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/DevilFishMask" + i + (i == 3 ? "Alt" : "")), 1f);
+                    for (int i = 1; i < 4; i++)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DevilFishMask" + i + (i == 3 ? "Alt" : "")).Type, 1f);
+                    }
                 }
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/DevilMaskBreak"), (int)NPC.position.X, (int)NPC.position.Y);
             }

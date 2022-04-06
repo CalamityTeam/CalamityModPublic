@@ -65,13 +65,16 @@ namespace CalamityMod.Projectiles.Rogue
 
                 if (!Projectile.Calamity().stealthStrike)
                 {
-                    int goreType = Mod.GetGoreSlot("Gores/PrismShurikenBlade");
-                    for (int i = 0; i < 6; i++)
+                    if (Main.netMode != NetmodeID.Server)
                     {
-                        Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
-                        Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
-                        if (!WorldGen.SolidTile((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16))
-                            Gore.NewGorePerfect(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, goreType, Projectile.scale);
+                        int goreType = Mod.Find<ModGore>("Gores/PrismShurikenBlade").Type;
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
+                            Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
+                            if (!WorldGen.SolidTile((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16))
+                                Gore.NewGorePerfect(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, goreType, Projectile.scale);
+                        }
                     }
                 }
             }

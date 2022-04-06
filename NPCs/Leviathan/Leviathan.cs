@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.boss = true;
             NPC.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             bossBag = ModContent.ItemType<LeviathanBag>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
@@ -686,11 +686,14 @@ namespace CalamityMod.NPCs.Leviathan
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = Main.rand.Next(-200, 200) / 100;
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/LeviathanGores/LeviGore"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/LeviathanGores/LeviGore2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/LeviathanGores/LeviGore3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/LeviathanGores/LeviGore4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore4").Type, 1f);
+                }
             }
         }
 

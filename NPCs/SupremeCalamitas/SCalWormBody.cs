@@ -161,27 +161,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (NPC.life <= 0)
             {
-                int variant = (int)(NPC.localAI[3] / 2f % 2f);
-                if (variant == 0)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    for (int i = 1; i <= 9; i++)
+                    int variant = (int)(NPC.localAI[3] / 2f % 2f);
+                    if (variant == 0)
                     {
-                        if (!Main.rand.NextBool(3))
-                            continue;
+                        for (int i = 1; i <= 9; i++)
+                        {
+                            if (!Main.rand.NextBool(3))
+                                continue;
 
-                        Vector2 goreSpawnPosition = NPC.Center;
-                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody1_Gore{i}"), NPC.scale);
+                            Vector2 goreSpawnPosition = NPC.Center;
+                            Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherBody1_Gore{i}").Type, NPC.scale);
+                        }
                     }
-                }
-                else
-                {
-                    for (int i = 1; i <= 7; i++)
+                    else
                     {
-                        if (!Main.rand.NextBool(3))
-                            continue;
+                        for (int i = 1; i <= 7; i++)
+                        {
+                            if (!Main.rand.NextBool(3))
+                                continue;
 
-                        Vector2 goreSpawnPosition = NPC.Center;
-                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.GetGoreSlot($"Gores/SupremeCalamitas/SepulcherBody2_Gore{i}"), NPC.scale);
+                            Vector2 goreSpawnPosition = NPC.Center;
+                            Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherBody2_Gore{i}").Type, NPC.scale);
+                        }
                     }
                 }
             }

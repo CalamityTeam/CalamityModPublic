@@ -119,9 +119,12 @@ namespace CalamityMod.NPCs.Astral
             //if dead do gores
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 6; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.3f, Mod.GetGoreSlot("Gores/Astralachnea/AstralachneaGore" + i));
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Gore.NewGore(NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("Gores/Astralachnea/AstralachneaGore" + i).Type);
+                    }
                 }
             }
         }

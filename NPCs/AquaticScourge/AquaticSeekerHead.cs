@@ -274,7 +274,10 @@ namespace CalamityMod.NPCs.AquaticScourge
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticSeekerHead"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticSeekerHead").Type, 1f);
+                }
             }
         }
 

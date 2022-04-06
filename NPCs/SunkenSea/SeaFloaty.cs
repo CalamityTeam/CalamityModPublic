@@ -144,9 +144,12 @@ namespace CalamityMod.NPCs.SunkenSea
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SeaFloaty/SeaFloatyGore1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SeaFloaty/SeaFloatyGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SeaFloaty/SeaFloatyGore3").Type, 1f);
+                }
             }
         }
     }

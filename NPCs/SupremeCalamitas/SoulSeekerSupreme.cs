@@ -169,8 +169,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Main.dust[num624].velocity *= 2f;
                 }
 
-                for (int i = 1; i <= 5; i++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot($"Gores/SoulSeekerSupremeGores/SupremeSoulSeeker_Gore{i}"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    for (int i = 1; i <= 5; i++)
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/SoulSeekerSupremeGores/SupremeSoulSeeker_Gore{i}").Type, NPC.scale);
+                }
             }
         }
 

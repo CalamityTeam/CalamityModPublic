@@ -793,14 +793,17 @@ namespace CalamityMod.NPCs.Crabulon
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = Main.rand.Next(-200, 200) / 100;
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon4"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon5"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon6"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/Crabulon7"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon5").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon6").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/Crabulon7").Type, 1f);
+                }
             }
         }
     }

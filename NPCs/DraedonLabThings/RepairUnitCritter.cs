@@ -297,8 +297,11 @@ namespace CalamityMod.NPCs.DraedonLabThings
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);
             if (NPC.life <= 0)
             {
-                for (int i = 1; i <= 3; i++)
-                    Gore.NewGorePerfect(NPC.Center, NPC.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), Mod.GetGoreSlot($"Gores/DraedonLabCritters/RepairUnit{i}"));
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    for (int i = 1; i <= 3; i++)
+                        Gore.NewGorePerfect(NPC.Center, NPC.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), Mod.Find<ModGore>($"Gores/DraedonLabCritters/RepairUnit{i}").Type);
+                }
             }
         }
 

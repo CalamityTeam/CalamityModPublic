@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.boss = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
             bossBag = ModContent.ItemType<HiveMindBag>();
 
             if (Main.expertMode)
@@ -393,9 +393,12 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     NPC.localAI[1] = 1f;
 
-                    int goreAmount = 7;
-                    for (int i = 1; i <= goreAmount; i++)
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore" + i), 1f);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        int goreAmount = 7;
+                        for (int i = 1; i <= goreAmount; i++)
+                            Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HiveMindGores/HiveMindGore" + i).Type, 1f);
+                    }
 
                     SoundEngine.PlaySound(SoundID.NPCDeath1, (int)NPC.Center.X, (int)NPC.Center.Y);
 
@@ -1030,9 +1033,12 @@ namespace CalamityMod.NPCs.HiveMind
 
             if (NPC.life <= 0)
             {
-                int goreAmount = 10;
-                for (int i = 1; i <= goreAmount; i++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore" + i), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    int goreAmount = 10;
+                    for (int i = 1; i <= goreAmount; i++)
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HiveMindGores/HiveMindP2Gore" + i).Type, 1f);
+                }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);

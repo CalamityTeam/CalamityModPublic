@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
             bossBag = ModContent.ItemType<RavagerBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
@@ -671,19 +671,22 @@ namespace CalamityMod.NPCs.Ravager
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 2f);
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, hitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody4"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody5"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerBody").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerBody2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerBody3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerBody4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScavengerGores/ScavengerBody5").Type, 1f);
+                }
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 5, hitDirection, -1f, 0, default, 2f);
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -50,12 +50,15 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 126, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-            int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f,  Mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusHead"));
-            Main.gore[head].timeLeft /= 10;
-            int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusBody"));
-            Main.gore[body].timeLeft /= 10;
-            int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f,  Mod.GetGoreSlot("Gores/WyvernWeapons/ClamorNoctusTail"));
-            Main.gore[tail].timeLeft /= 10;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/ClamorNoctusHead").Type);
+                Main.gore[head].timeLeft /= 10;
+                int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/ClamorNoctusBody").Type);
+                Main.gore[body].timeLeft /= 10;
+                int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/ClamorNoctusTail").Type);
+                Main.gore[tail].timeLeft /= 10;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

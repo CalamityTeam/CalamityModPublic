@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
         }
 
@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 // Play music after the transiton BS
                 if (CalamityWorld.DoGSecondStageCountdown == 530)
-                    music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size
                 if (CalamityWorld.DoGSecondStageCountdown == 60)
@@ -389,8 +389,11 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.life <= 0)
             {
-                float randomSpread = Main.rand.Next(-100, 100) / 100;
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.GetGoreSlot("Gores/DoGS6"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = Main.rand.Next(-100, 100) / 100;
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/DoGS6").Type, 1f);
+                }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
                 NPC.width = 50;

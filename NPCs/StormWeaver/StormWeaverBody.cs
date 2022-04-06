@@ -33,10 +33,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
             // If fought alone, Storm Weaver plays its own theme
             if (notDoGFight)
-                music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
             // If fought as a DoG interlude, keep the DoG music playing
             else
-                music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -109,9 +109,12 @@ namespace CalamityMod.NPCs.StormWeaver
                     NPC.Calamity().VulnerableToCold = true;
                     NPC.Calamity().VulnerableToSickness = true;
 
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWArmorBody1"), NPC.scale);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWArmorBody2"), NPC.scale);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWArmorBody3"), NPC.scale);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWArmorBody1").Type, NPC.scale);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWArmorBody2").Type, NPC.scale);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWArmorBody3").Type, NPC.scale);
+                    }
 
                     CalamityGlobalNPC global = NPC.Calamity();
                     NPC.defense = 30;
@@ -302,9 +305,12 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWNudeBody1"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWNudeBody2"), NPC.scale);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.GetGoreSlot("Gores/SWNudeBody3"), NPC.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWNudeBody1").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWNudeBody2").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SWNudeBody3").Type, NPC.scale);
+                }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);

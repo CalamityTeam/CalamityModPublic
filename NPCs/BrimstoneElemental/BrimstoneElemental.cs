@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -232,11 +232,14 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/BrimstoneGore1"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/BrimstoneGore2"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/BrimstoneGore3"), 1f);
-                Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.GetGoreSlot("Gores/BrimstoneGore4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/BrimstoneGore1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/BrimstoneGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/BrimstoneGore3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/BrimstoneGore4").Type, 1f);
+                }
             }
         }
     }
