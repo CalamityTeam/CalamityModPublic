@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (phase2)
             {
                 SpriteEffects spriteEffects = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2").Value;
                 Rectangle frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
                 Vector2 vector = new Vector2(NPC.width / 2, NPC.height / 2);
                 Color afterimageBaseColor = Color.White;

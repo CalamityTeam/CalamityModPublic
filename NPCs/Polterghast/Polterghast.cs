@@ -1027,7 +1027,7 @@ namespace CalamityMod.NPCs.Polterghast
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = Main.npcTexture[NPC.type];
-            Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastGlow2");
+            Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastGlow2").Value;
             Vector2 vector11 = new Vector2(Main.npcTexture[NPC.type].Width / 2, Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -1053,7 +1053,7 @@ namespace CalamityMod.NPCs.Polterghast
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastGlow");
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastGlow").Value;
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);

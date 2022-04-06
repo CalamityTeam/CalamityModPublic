@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Perforator
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = NPC.localAI[3] == 1f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAlt") : Main.npcTexture[NPC.type];
+            Texture2D texture2D15 = NPC.localAI[3] == 1f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAlt").Value : Main.npcTexture[NPC.type];
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / 2));
 
             Vector2 vector43 = NPC.Center - Main.screenPosition;
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.Perforator
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = NPC.localAI[3] == 1f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAltGlow") : ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeGlow");
+            texture2D15 = NPC.localAI[3] == 1f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAltGlow").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorBodyLargeGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

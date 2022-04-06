@@ -777,7 +777,7 @@ namespace CalamityMod.NPCs.Leviathan
                     texture = Main.npcTexture[NPC.type];
                     break;
                 case 1:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/SirenStabbing");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/SirenStabbing").Value;
                     break;
             }
 

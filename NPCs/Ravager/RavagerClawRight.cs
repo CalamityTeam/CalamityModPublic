@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -271,9 +271,9 @@ namespace CalamityMod.NPCs.Ravager
                     drawPositionY += 12f;
                     drawPositionX += 28f;
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Height)), color, rotation,
-                        new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Width * 0.5f, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Value, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Value.Height)), color, rotation,
+                        new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Value.Width * 0.5f, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerChain").Value.Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;

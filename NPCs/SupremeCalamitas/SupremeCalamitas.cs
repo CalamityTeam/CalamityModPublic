@@ -2850,7 +2850,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive ? Main.npcTexture[NPC.type] : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
+            Texture2D texture2D15 = DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive ? Main.npcTexture[NPC.type] : ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded").Value;
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
             Color color36 = Color.White;
@@ -2936,7 +2936,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             intensity *= 0.75f;
             opacity *= 0.75f;
 
-            Texture2D forcefieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasShield");
+            Texture2D forcefieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasShield").Value;
             GameShaders.Misc["CalamityMod:SupremeShield"].UseImage("Images/Misc/Perlin");
 
             Color forcefieldColor = Color.DarkViolet;
@@ -2976,8 +2976,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 jawRotationOffset += MathHelper.Lerp(0.04f, -0.82f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 17.2f) * 0.5f + 0.5f);
 
             Color shieldColor = Color.White * shieldOpacity;
-            Texture2D shieldSkullTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldTop");
-            Texture2D shieldJawTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldBottom");
+            Texture2D shieldSkullTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldTop").Value;
+            Texture2D shieldJawTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldBottom").Value;
             Vector2 drawPosition = NPC.Center + shieldRotation.ToRotationVector2() * 24f - Main.screenPosition;
             Vector2 jawDrawPosition = drawPosition;
             SpriteEffects direction = Math.Cos(shieldRotation) > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;

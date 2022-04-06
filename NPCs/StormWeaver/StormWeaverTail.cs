@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             bool shedArmor = NPC.life / (float)NPC.lifeMax < 0.9f;
-            Texture2D texture2D15 = shedArmor ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailNaked") : Main.npcTexture[NPC.type];
+            Texture2D texture2D15 = shedArmor ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailNaked").Value : Main.npcTexture[NPC.type];
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -270,7 +270,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (!shedArmor)
             {
-                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailGlow");
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailGlow").Value;
                 Color rainbowBecauseWhyTheFuckNot = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
                 Color color37 = Color.Lerp(Color.White, rainbowBecauseWhyTheFuckNot, 0.5f);
                 spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

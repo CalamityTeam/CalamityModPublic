@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Leviathan
             DisplayName.SetDefault("The Leviathan");
             Main.npcFrameCount[NPC.type] = 3;
             if (!Main.dedServ)
-                AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+                AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack").Value;
         }
 
         public override void SetDefaults()

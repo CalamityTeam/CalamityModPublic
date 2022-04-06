@@ -2696,15 +2696,15 @@ namespace CalamityMod.NPCs.Yharon
 
             if (flag8 || NPC.ai[0] == 4f || startSecondAI)
             {
-                texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowOrange");
+                texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowOrange").Value;
                 Color color40 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Orange, 0.5f);
                 color36 = invincible ? invincibleColor : Color.Orange;
 
-                Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowGreen");
+                Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowGreen").Value;
                 Color color43 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Chartreuse, 0.5f);
                 Color color44 = invincible ? invincibleColor : Color.Chartreuse;
 
-                Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowPurple");
+                Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowPurple").Value;
                 Color color45 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.BlueViolet, 0.5f);
                 Color color46 = invincible ? invincibleColor : Color.BlueViolet;
 

@@ -1643,9 +1643,9 @@ namespace CalamityMod.NPCs.Providence
                     getTextureGlow2String += "Night";
                 }
 
-                Texture2D texture = ModContent.Request<Texture2D>(getTextureString);
-                Texture2D textureGlow = ModContent.Request<Texture2D>(getTextureGlowString);
-                Texture2D textureGlow2 = ModContent.Request<Texture2D>(getTextureGlow2String);
+                Texture2D texture = ModContent.Request<Texture2D>(getTextureString).Value;
+                Texture2D textureGlow = ModContent.Request<Texture2D>(getTextureGlowString).Value;
+                Texture2D textureGlow2 = ModContent.Request<Texture2D>(getTextureGlow2String).Value;
 
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (NPC.spriteDirection == 1)

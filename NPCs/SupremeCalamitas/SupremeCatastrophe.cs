@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Vector2 mainDrawPosition = NPC.Center - Main.screenPosition;
             spriteBatch.Draw(texture, mainDrawPosition, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCatastropheGlow");
+            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCatastropheGlow").Value;
             Color baseGlowmaskColor = Color.Lerp(Color.White, Color.Cyan, 0.35f);
 
             if (CalamityConfig.Instance.Afterimages)

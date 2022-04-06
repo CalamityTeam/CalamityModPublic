@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.Leviathan
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(drawTex, drawPos, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
-            drawTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
+            drawTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanStartGlow").Value;
 
             spriteBatch.Draw(drawTex, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
