@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float pylonMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 1.3f : 1f;
 
-            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
 
             // Spawn less frequently in the inner third of the world.

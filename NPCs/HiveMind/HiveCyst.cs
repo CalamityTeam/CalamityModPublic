@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
             bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
-            if (anyBossElements || spawnInfo.playerSafe || !corrupt)
+            if (anyBossElements || spawnInfo.PlayerSafe || !corrupt)
                 return 0f;
 
             if (NPC.downedBoss2 && !DownedBossSystem.downedHiveMind)

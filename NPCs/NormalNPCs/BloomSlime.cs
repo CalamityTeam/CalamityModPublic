@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.World;
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !DownedBossSystem.downedProvidence || spawnInfo.Player.Calamity().ZoneAbyss ||
+            if (spawnInfo.PlayerSafe || !DownedBossSystem.downedProvidence || spawnInfo.Player.Calamity().ZoneAbyss ||
                 spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;

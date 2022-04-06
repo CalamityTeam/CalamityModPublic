@@ -325,11 +325,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }

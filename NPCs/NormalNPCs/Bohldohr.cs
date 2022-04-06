@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }

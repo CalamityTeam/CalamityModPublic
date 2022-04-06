@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -250,11 +250,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
-            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerHead>()))
                     return 0.01f;

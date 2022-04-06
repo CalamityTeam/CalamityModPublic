@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
@@ -48,11 +48,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
-            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 2)
+            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 2)
             {
                 return 0.2f;
             }

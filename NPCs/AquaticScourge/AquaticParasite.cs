@@ -185,11 +185,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
-            if (spawnInfo.Player.InSulphur() && spawnInfo.water)
+            if (spawnInfo.Player.InSulphur() && spawnInfo.Water)
             {
                 return 0.2f;
             }

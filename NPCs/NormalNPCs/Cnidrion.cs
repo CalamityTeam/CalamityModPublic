@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 spawnInfo.Player.ZoneCrimson ||
                 spawnInfo.Player.ZoneOldOneArmy ||
                 spawnInfo.Player.ZoneSkyHeight ||
-                spawnInfo.playerSafe ||
+                spawnInfo.PlayerSafe ||
                 !spawnInfo.Player.ZoneDesert ||
                 !spawnInfo.Player.ZoneOverworldHeight ||
                 Main.eclipse ||

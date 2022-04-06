@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -262,8 +262,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (Main.hardMode && spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.water &&
-                !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent1>()) && !spawnInfo.Player.Calamity().clamity && !spawnInfo.playerSafe)
+            if (Main.hardMode && spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.Water &&
+                !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent1>()) && !spawnInfo.Player.Calamity().clamity && !spawnInfo.PlayerSafe)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }

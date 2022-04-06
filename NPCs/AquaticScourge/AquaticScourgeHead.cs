@@ -160,10 +160,10 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (spawnInfo.Player.Calamity().disableNaturalScourgeSpawns)
                 return 0f;
 
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
                 return 0f;
 
-            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
                     return 0.01f;

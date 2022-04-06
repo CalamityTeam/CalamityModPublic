@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using Terraria;
@@ -103,11 +103,11 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
-            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 return 0.2f;
             }

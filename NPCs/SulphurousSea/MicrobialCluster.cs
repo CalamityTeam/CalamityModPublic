@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.InSulphur() && spawnInfo.water ? 0.4f : 0f;
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.InSulphur() && spawnInfo.Water ? 0.4f : 0f;
 
         public override void NPCLoot()
         {

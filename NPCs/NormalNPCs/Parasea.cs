@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !DownedBossSystem.downedCalamitas))
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !DownedBossSystem.downedCalamitas))
             {
                 return 0f;
             }

@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Perforator
 
             bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>());
             bool crimson = TileID.Sets.Crimson[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Crimtane && spawnInfo.Player.ZoneCrimson;
-            if (spawnInfo.playerSafe || anyBossElements || !crimson)
+            if (spawnInfo.PlayerSafe || anyBossElements || !crimson)
                 return 0f;
 
             if (NPC.downedBoss2 && !DownedBossSystem.downedPerforator)

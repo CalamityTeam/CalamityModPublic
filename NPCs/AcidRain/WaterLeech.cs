@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !spawnInfo.Player.Calamity().ZoneSulphur || !Main.raining)
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.Calamity().ZoneSulphur || !Main.raining)
                 return 0f;
 
             return 0.115f;

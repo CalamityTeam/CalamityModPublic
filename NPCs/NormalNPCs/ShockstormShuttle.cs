@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode)
+            if (spawnInfo.PlayerSafe || !Main.hardMode)
             {
                 return 0f;
             }

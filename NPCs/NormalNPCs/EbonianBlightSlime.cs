@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneAbyss)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneAbyss)
             {
                 return 0f;
             }

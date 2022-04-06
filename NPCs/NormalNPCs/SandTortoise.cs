@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.Player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || !Main.hardMode || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }

@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
-            if (spawnInfo.playerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.020f : 0.115f) * pylonMult;
         }

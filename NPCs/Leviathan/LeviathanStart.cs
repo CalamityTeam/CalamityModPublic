@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (spawnInfo.Player.Calamity().disableAnahitaSpawns)
                 return 0f;
 
-            if (spawnInfo.playerSafe ||
+            if (spawnInfo.PlayerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
                 NPC.AnyNPCs(NPC.type) ||
                 NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||

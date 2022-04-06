@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.Water)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }

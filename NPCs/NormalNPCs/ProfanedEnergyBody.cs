@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(NPC.type))
+            if (spawnInfo.PlayerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(NPC.type))
             {
                 return 0f;
             }

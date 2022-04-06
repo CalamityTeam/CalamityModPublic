@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.World;
 using Terraria;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
+            if (spawnInfo.PlayerSafe || (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator) || spawnInfo.Player.Calamity().ZoneAbyss ||
                 spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
