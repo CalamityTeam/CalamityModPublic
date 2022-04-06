@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Supercharged)
             {
-                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/WulfrumRoverShield");
+                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/WulfrumRoverShield").Value;
                 Rectangle frame = shieldTexture.Frame(1, 11, 0, (int)(Main.GlobalTimeWrappedHourly * 8) % 11);
                 spriteBatch.Draw(shieldTexture,
                                  NPC.Center - Main.screenPosition + Vector2.UnitY * (NPC.gfxOffY + 6f),

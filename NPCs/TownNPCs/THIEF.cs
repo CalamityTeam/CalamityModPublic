@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.TownNPCs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var something = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")).Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
             return false;
         }
 

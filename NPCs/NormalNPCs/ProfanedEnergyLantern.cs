@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         drawPositionY = Main.npc[CalamityGlobalNPC.energyFlame].Center.Y - center.Y;
                         drawPositionY -= 10f;
                         Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                        Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment");
+                        Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Value;
                         Main.spriteBatch.Draw(chain, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                             new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, chain.Width, chain.Height)), color, rotation,
                             new Vector2((float)chain.Width * 0.5f, (float)chain.Height * 0.5f), 1f, SpriteEffects.None, 0f);

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.OldDuke
 
             if (NPC.ai[0] >= 4f && NPC.Calamity().newAI[1] != 1f)
             {
-                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/OldDuke/OldDukeGlow");
+                texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/OldDuke/OldDukeGlow").Value;
                 Color color40 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
                 color36 = Color.Yellow;
 

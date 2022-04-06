@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = NPC.localAI[3] / 2f % 2f == 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[NPC.type];
+            Texture2D texture2D15 = NPC.localAI[3] / 2f % 2f == 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt").Value : Main.npcTexture[NPC.type];
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[NPC.type].Width / 2), (float)(Main.npcTexture[NPC.type].Height / 2));
 
             Vector2 vector43 = NPC.Center - Main.screenPosition;

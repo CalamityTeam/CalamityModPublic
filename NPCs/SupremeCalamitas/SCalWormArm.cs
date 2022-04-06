@@ -172,8 +172,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D armTexture = Main.npcTexture[NPC.type];
-            Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormForeArm");
-            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormHand");
+            Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormForeArm").Value;
+            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormHand").Value;
 
             Vector2 forearmDrawPosition = Limbs[0].Center - Main.screenPosition;
             Color drawColor = Lighting.GetColor((int)(Limbs[0].Center.X / 16), (int)(Limbs[0].Center.Y / 16));

@@ -662,7 +662,7 @@ namespace CalamityMod.NPCs.Signus
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D NPCTexture = Main.npcTexture[NPC.type];
-            Texture2D glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow");
+            Texture2D glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow").Value;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -674,8 +674,8 @@ namespace CalamityMod.NPCs.Signus
 
             if (NPC.ai[0] == 4f)
             {
-                NPCTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt2");
-                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt2Glow");
+                NPCTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt2").Value;
+                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt2Glow").Value;
                 num153 = 10;
                 int frameY = 94 * (int)(NPC.frameCounter / 12.0);
                 if (frameY >= 94 * 6)
@@ -684,14 +684,14 @@ namespace CalamityMod.NPCs.Signus
             }
             else if (NPC.ai[0] == 3f)
             {
-                NPCTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt");
-                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAltGlow");
+                NPCTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAlt").Value;
+                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusAltGlow").Value;
                 num153 = 7;
             }
             else
             {
                 NPCTexture = Main.npcTexture[NPC.type];
-                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow");
+                glowMaskTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Signus/SignusGlow").Value;
             }
 
             Vector2 vector11 = new Vector2(NPCTexture.Width / 2, NPCTexture.Height / frameCount / 2);
