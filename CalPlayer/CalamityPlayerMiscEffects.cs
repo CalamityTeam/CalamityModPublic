@@ -52,6 +52,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using CalamityMod.EntitySources;
+using ReLogic.Content;
+using Terraria.GameContent;
 
 namespace CalamityMod.CalPlayer
 {
@@ -72,7 +76,11 @@ namespace CalamityMod.CalPlayer
 
             // Reduce the expert debuff time multiplier to the normal mode multiplier
             if (CalamityConfig.Instance.NerfExpertDebuffs)
-                Main.expertDebuffTime = 1f;
+            {
+                var copy = Main.RegisteredGameModes[GameModeID.Expert];
+                copy.DebuffTimeMultiplier = 1f;
+                Main.RegisteredGameModes[GameModeID.Expert] = copy;
+            }
 
             // Bool for any existing bosses, true if any boss NPC is active
             areThereAnyDamnBosses = CalamityUtils.AnyBossNPCS();
@@ -461,7 +469,8 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Create a direct strike to hit this specific NPC.
-                Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, Player.whoAmI, i);
+                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Calamity>()));
+                Projectile.NewProjectileDirect(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, Player.whoAmI, i);
 
                 // Incinerate the target with Vulnerability Hex.
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), VulnerabilityHex.CalamityDuration);
@@ -602,8 +611,9 @@ namespace CalamityMod.CalPlayer
                     if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
                         continue;
 
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
                     if (Main.myPlayer == Player.whoAmI && Main.npc[i].WithinRange(Player.Center, 2000f))
-                        Projectile.NewProjectile(Main.npc[i].Center, Vector2.Zero, bullseyeType, 0, 0f, Player.whoAmI, i);
+                        Projectile.NewProjectile(source, Main.npc[i].Center, Vector2.Zero, bullseyeType, 0, 0f, Player.whoAmI, i);
                     if (spiritOriginBullseyeShootCountdown <= 0)
                         spiritOriginBullseyeShootCountdown = 45;
                 }
@@ -668,8 +678,9 @@ namespace CalamityMod.CalPlayer
 
             // Update the Providence Burn effect drawer if applicable.
             float providenceBurnIntensity = 0f;
-            if (Main.npc.IndexInRange(CalamityGlobalNPC.holyBoss) && Main.npc[CalamityGlobalNPC.holyBoss].active)
-                providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].modNPC as ProvidenceBoss).CalculateBurnIntensity();
+            int provID = ModContent.NPCType<ProvidenceBoss>();
+            if (Main.npc.IndexInRange(CalamityGlobalNPC.holyBoss) && Main.npc[CalamityGlobalNPC.holyBoss].active && Main.npc[CalamityGlobalNPC.holyBoss].type == provID)
+                providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as ProvidenceBoss).CalculateBurnIntensity();
             ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
 
             // If the burn intensity is great enough, cause the player to ignite into flames.
@@ -756,10 +767,10 @@ namespace CalamityMod.CalPlayer
                     Vector2 spawnPoint = new Vector2(Player.Center.X + Main.rand.Next(-1000, 1001), Player.Center.Y - Main.rand.Next(700, 801));
 
                     if (Player.miscCounter % slimeRainRate == 0f)
-                    {
+                    {                        
                         if (DownedBossSystem.downedAquaticScourge && !DownedBossSystem.downedPolterghast && Main.rand.NextBool(12))
                         {
-                            NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
+                            NPC.NewNPC(new EntitySource_SpawnNPC(), (int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
                         }
                     }
                 }
@@ -772,7 +783,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Math.Abs(Player.velocity.X) > 0.1f || Math.Abs(Player.velocity.Y) > 0.1f)
                     {
-                        Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, Player.whoAmI);
+                        Projectile.NewProjectile(new ProjectileSource_HydrothermalSmoke(Player), Player.Center, Vector2.Zero, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, Player.whoAmI);
                     }
                 }
                 // Trying to find a workaround because apparently putting the bool in ResetEffects prevents it from working
@@ -858,8 +869,9 @@ namespace CalamityMod.CalPlayer
                         if (!tentaclesPresent[i])
                         {
                             int damage = (int)(390 * Player.AverageDamage());
+                            var source = new ProjectileSource_OmegaBlueTentacles(Player);
                             Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
-                            Projectile.NewProjectile(Player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
+                            Projectile.NewProjectile(source, Player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
                         }
                     }
                 }
@@ -871,7 +883,7 @@ namespace CalamityMod.CalPlayer
                     damageUp *= 2f;
                     critUp *= 2;
                 }
-                Player.allDamage += damageUp;
+                Player.GetDamage<GenericDamageClass>() += damageUp;
                 AllCritBoost(critUp);
             }
 
@@ -1294,10 +1306,10 @@ namespace CalamityMod.CalPlayer
             }
 
             if (kamiBoost)
-                Player.allDamage += 0.15f;
+                Player.GetDamage<GenericDamageClass>() += 0.15f;
 
             if (avertorBonus)
-                Player.allDamage += 0.1f;
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
 
             if (roverDriveTimer < 616)
             {
@@ -1335,7 +1347,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.endurance += 0.07f;
                 Player.statDefense += 13;
-                Player.allDamage += 0.1f;
+                Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
             // Ambrosial Ampoule bonus and other light-granting bonuses
@@ -1481,7 +1493,7 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < Main.maxItems; j++)
                 {
                     Item item = Main.item[j];
-                    if (item.active && item.noGrabDelay == 0 && item.owner == Player.whoAmI)
+                    if (item.active && item.noGrabDelay == 0 && item.playerIndexTheItemIsReservedFor == Player.whoAmI)
                     {
                         item.beingGrabbed = true;
                         if (Player.Center.X > item.Center.X)
@@ -1543,12 +1555,13 @@ namespace CalamityMod.CalPlayer
                 if (blunderBooster)
                 {
                     int lightningCount = Main.rand.Next(2, 7);
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     for (int i = 0; i < lightningCount; i++)
                     {
                         Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         lightningVel.Normalize();
                         lightningVel *= Main.rand.NextFloat(1f, 2f);
-                        int projectile = Projectile.NewProjectile(Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * Player.RogueDamage()), 0, Player.whoAmI, Main.rand.Next(2), 0f);
+                        int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * Player.RogueDamage()), 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
@@ -1565,12 +1578,13 @@ namespace CalamityMod.CalPlayer
                 else if (plaguedFuelPack)
                 {
                     int numClouds = Main.rand.Next(2, 10);
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<PlaguedFuelPack>()));
                     for (int i = 0; i < numClouds; i++)
                     {
                         Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         cloudVelocity.Normalize();
                         cloudVelocity *= Main.rand.NextFloat(0f, 1f);
-                        int projectile = Projectile.NewProjectile(Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * Player.RogueDamage()), 0, Player.whoAmI, 0, 0);
+                        int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * Player.RogueDamage()), 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
@@ -1589,6 +1603,7 @@ namespace CalamityMod.CalPlayer
             // Gravistar Sabaton effects
             if (gSabaton && Player.whoAmI == Main.myPlayer)
             {
+                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
                 if (gSabatonCooldown <= 0 && !Player.mount.Active)
                 {
                     if (Player.controlDown && Player.releaseDown && Player.position.Y != Player.oldPosition.Y)
@@ -1596,7 +1611,7 @@ namespace CalamityMod.CalPlayer
                         gSabatonFall = 300;
                         gSabatonCooldown = 480; //8 second cooldown
                         Player.gravity *= 2f;
-                        Projectile.NewProjectile(Player.Center.X, Player.Center.Y + (Player.height / 5f), Player.velocity.X, Player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, Player.whoAmI);
+                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y + (Player.height / 5f), Player.velocity.X, Player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, Player.whoAmI);
                     }
                 }
                 if (gSabatonCooldown == 1) //dust when ready to use again
@@ -1932,14 +1947,14 @@ namespace CalamityMod.CalPlayer
             // New textures
             if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
             {
-                Texture2D rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3").Value;
-                Texture2D rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal").Value;
-                Texture2D mana2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana2").Value;
-                Texture2D mana3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana3").Value;
-                Texture2D mana4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana4").Value;
-                Texture2D manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ManaOriginal").Value;
-                Texture2D carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet").Value;
-                Texture2D carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet").Value;
+                Asset<Texture2D> rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3");
+                Asset<Texture2D> rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal");
+                Asset<Texture2D> mana2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana2");
+                Asset<Texture2D> mana3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana3");
+                Asset<Texture2D> mana4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana4");
+                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ManaOriginal");
+                Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
+                Asset<Texture2D> carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet");
 
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +
@@ -1948,30 +1963,30 @@ namespace CalamityMod.CalPlayer
                 switch (totalManaBoost)
                 {
                     default:
-                        Main.manaTexture = manaOriginal;
+                        TextureAssets.Mana = manaOriginal;
                         break;
                     case 3:
-                        Main.manaTexture = mana4;
+                        TextureAssets.Mana = mana4;
                         break;
                     case 2:
-                        Main.manaTexture = mana3;
+                        TextureAssets.Mana = mana3;
                         break;
                     case 1:
-                        Main.manaTexture = mana2;
+                        TextureAssets.Mana = mana2;
                         break;
                 }
 
                 if (Main.bloodMoon)
-                    Main.rainTexture = rainOriginal;
+                    TextureAssets.Rain = rainOriginal;
                 else if (Main.raining && ZoneSulphur)
-                    Main.rainTexture = rain3;
+                    TextureAssets.Rain = rain3;
                 else
-                    Main.rainTexture = rainOriginal;
+                    TextureAssets.Rain = rainOriginal;
 
                 if (auricSet)
-                    Main.flyingCarpetTexture = carpetAuric;
+                    TextureAssets.FlyingCarpet = carpetAuric;
                 else
-                    Main.flyingCarpetTexture = carpetOriginal;
+                    TextureAssets.FlyingCarpet = carpetOriginal;
             }
         }
         #endregion
@@ -1987,7 +2002,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (trinketOfChiBuff)
                 {
-                    Player.allDamage += 0.5f;
+                    Player.GetDamage<GenericDamageClass>() += 0.5f;
                     if (Player.itemAnimation > 0)
                         chiBuffTimer = 0;
                 }
@@ -2067,7 +2082,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 float damageBoost = (1f - modStealth) * 0.2f;
-                Player.allDamage += damageBoost;
+                Player.GetDamage<GenericDamageClass>() += damageBoost;
 
                 int critBoost = (int)((1f - modStealth) * 10f);
                 AllCritBoost(critBoost);
@@ -2122,11 +2137,11 @@ namespace CalamityMod.CalPlayer
                 bool usingScope = false;
                 if (!Main.gameMenu && Main.netMode != NetmodeID.Server)
                 {
-                    if (Player.noThrow <= 0 && !Player.lastMouseInterface || (Main.zoomX != 0f || Main.zoomY != 0f))
+                    if (Player.noThrow <= 0 && !Player.lastMouseInterface || !(Main.CurrentPan == Vector2.Zero))
                     {
                         if (PlayerInput.UsingGamepad)
                         {
-                            if (PlayerInput.GamepadThumbstickRight.Length() != 0f || !Main.SmartCursorEnabled)
+                            if (PlayerInput.GamepadThumbstickRight.Length() != 0f || !Main.SmartCursorIsUsed)
                             {
                                 usingScope = true;
                             }
@@ -2214,7 +2229,7 @@ namespace CalamityMod.CalPlayer
                         NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
                     float damageBoost = (5f - shieldInvinc) * 0.03f;
-                    Player.allDamage += damageBoost;
+                    Player.GetDamage<GenericDamageClass>() += damageBoost;
 
                     int critBoost = (int)((5f - shieldInvinc) * 2f);
                     AllCritBoost(critBoost);
@@ -2339,7 +2354,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.FindBuffIndex(BuffID.Wrath) > -1)
                     Player.ClearBuff(BuffID.Wrath);
-                Player.allDamage += 0.12f;
+                Player.GetDamage<GenericDamageClass>() += 0.12f;
             }
 
             if (profanedRage)
@@ -2359,13 +2374,13 @@ namespace CalamityMod.CalPlayer
             {
                 Player.statDefense -= 10;
                 Player.moveSpeed -= 0.1f;
-                Player.allDamage += 0.05f;
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
                 Player.minionKB += 0.5f;
             }
 
             if (rRage)
             {
-                Player.allDamage += 0.3f;
+                Player.GetDamage<GenericDamageClass>() += 0.3f;
                 Player.statDefense += 5;
             }
 
@@ -2393,7 +2408,7 @@ namespace CalamityMod.CalPlayer
                 Player.endurance += 0.06f;
                 Player.statDefense += 8;
                 Player.pickSpeed -= 0.05f;
-                Player.allDamage += 0.06f;
+                Player.GetDamage<GenericDamageClass>() += 0.06f;
                 AllCritBoost(2);
                 Player.minionKB += 1f;
                 Player.moveSpeed += 0.06f;
@@ -2416,7 +2431,7 @@ namespace CalamityMod.CalPlayer
             if (darkSunRing)
             {
                 Player.maxMinions += 2;
-                Player.allDamage += 0.12f;
+                Player.GetDamage<GenericDamageClass>() += 0.12f;
                 Player.minionKB += 1.2f;
                 Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
@@ -2434,7 +2449,7 @@ namespace CalamityMod.CalPlayer
 
             if (bloodPactBoost)
             {
-                Player.allDamage += 0.05f;
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
                 Player.statDefense += 20;
                 Player.endurance += 0.1f;
                 Player.longInvince = true;
@@ -2445,11 +2460,11 @@ namespace CalamityMod.CalPlayer
                 Player.moveSpeed -= 0.2f;
 
             if (fabsolVodka)
-                Player.allDamage += 0.08f;
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
 
             if (vodka)
             {
-                Player.allDamage += 0.06f;
+                Player.GetDamage<GenericDamageClass>() += 0.06f;
                 AllCritBoost(2);
             }
 
@@ -2467,18 +2482,18 @@ namespace CalamityMod.CalPlayer
 
             if (whiskey)
             {
-                Player.allDamage += 0.04f;
+                Player.GetDamage<GenericDamageClass>() += 0.04f;
                 AllCritBoost(2);
             }
 
             if (everclear)
-                Player.allDamage += 0.25f;
+                Player.GetDamage<GenericDamageClass>() += 0.25f;
 
             if (bloodyMary)
             {
                 if (Main.bloodMoon)
                 {
-                    Player.allDamage += 0.15f;
+                    Player.GetDamage<GenericDamageClass>() += 0.15f;
                     AllCritBoost(7);
                     Player.moveSpeed += 0.1f;
                 }
@@ -2489,7 +2504,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.dayTime)
                 {
                     Player.statDefense += 5;
-                    Player.allDamage += 0.03f;
+                    Player.GetDamage<GenericDamageClass>() += 0.03f;
                     AllCritBoost(2);
                     Player.endurance += 0.03f;
                 }
@@ -2500,7 +2515,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.dayTime)
                 {
                     Player.statDefense += 10;
-                    Player.allDamage += 0.07f;
+                    Player.GetDamage<GenericDamageClass>() += 0.07f;
                     AllCritBoost(3);
                     Player.endurance += 0.07f;
                 }
@@ -2523,7 +2538,7 @@ namespace CalamityMod.CalPlayer
 
             if (moscowMule)
             {
-                Player.allDamage += 0.09f;
+                Player.GetDamage<GenericDamageClass>() += 0.09f;
                 AllCritBoost(3);
             }
 
@@ -2651,7 +2666,7 @@ namespace CalamityMod.CalPlayer
                 float damageBoost = floatTypeBoost * 0.5f;
                 Player.endurance += floatTypeBoost * 0.25f;
                 Player.statDefense += integerTypeBoost;
-                Player.allDamage += damageBoost;
+                Player.GetDamage<GenericDamageClass>() += damageBoost;
                 AllCritBoost(critBoost);
                 Player.minionKB += floatTypeBoost;
                 Player.moveSpeed += floatTypeBoost * 0.5f;
@@ -2759,7 +2774,7 @@ namespace CalamityMod.CalPlayer
 
             if (wDeath)
             {
-                Player.allDamage -= 0.2f;
+                Player.GetDamage<GenericDamageClass>() -= 0.2f;
                 Player.moveSpeed -= 0.1f;
             }
 
@@ -2774,14 +2789,14 @@ namespace CalamityMod.CalPlayer
 
             if (astralInfection)
             {
-                Player.allDamage -= 0.1f;
+                Player.GetDamage<GenericDamageClass>() -= 0.1f;
                 Player.moveSpeed -= 0.15f;
             }
 
             if (pFlames)
             {
                 Player.blind = !reducedPlagueDmg;
-                Player.allDamage -= 0.1f;
+                Player.GetDamage<GenericDamageClass>() -= 0.1f;
                 Player.moveSpeed -= 0.15f;
             }
 
@@ -2851,7 +2866,7 @@ namespace CalamityMod.CalPlayer
 
             if (crimEffigy)
             {
-                Player.allDamage += 0.15f;
+                Player.GetDamage<GenericDamageClass>() += 0.15f;
                 Player.statDefense += 10;
             }
 
@@ -2873,7 +2888,7 @@ namespace CalamityMod.CalPlayer
             if (rBrain)
             {
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.75))
-                    Player.allDamage += 0.1f;
+                    Player.GetDamage<GenericDamageClass>() += 0.1f;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.moveSpeed -= 0.05f;
             }
@@ -2927,7 +2942,7 @@ namespace CalamityMod.CalPlayer
                 Player.buffImmune[BuffID.Frozen] = true;
 
                 if (Player.statLife > (int)(Player.statLifeMax2 * 0.75))
-                    Player.allDamage += 0.1f;
+                    Player.GetDamage<GenericDamageClass>() += 0.1f;
                 if (Player.statLife < (int)(Player.statLifeMax2 * 0.25))
                     Player.statDefense += 20;
             }
@@ -2935,7 +2950,7 @@ namespace CalamityMod.CalPlayer
             if (vexation)
             {
                 if (Player.statLife < (int)(Player.statLifeMax2 * 0.5))
-                    Player.allDamage += 0.2f;
+                    Player.GetDamage<GenericDamageClass>() += 0.2f;
             }
 
             if (ataxiaBlaze)
@@ -2968,10 +2983,11 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer && bloodflareSummonTimer <= 0)
                 {
                     bloodflareSummonTimer = 900;
+                    var source = new ProjectileSource_BloodflareSummonSet(Player);
                     for (int I = 0; I < 3; I++)
                     {
                         float ai1 = I * 120;
-                        int projectile = Projectile.NewProjectile(Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
+                        int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
                             ModContent.ProjectileType<GhostlyMine>(), (int)(3750 * Player.MinionDamage()), 1f, Player.whoAmI, ai1, 0f);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
@@ -2984,12 +3000,12 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage(DamageClass.Melee) += 0.1f;
                 Player.lavaMax += 240;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
-                    Player.allDamage += 0.1f;
+                    Player.GetDamage<GenericDamageClass>() += 0.1f;
             }
 
             if (deepDiver && Player.IsUnderwater())
             {
-                Player.allDamage += 0.15f;
+                Player.GetDamage<GenericDamageClass>() += 0.15f;
                 Player.statDefense += 15;
                 Player.moveSpeed += 0.15f;
             }
@@ -3009,7 +3025,7 @@ namespace CalamityMod.CalPlayer
             if (coreOfTheBloodGod)
             {
                 Player.endurance += 0.08f;
-                Player.allDamage += 0.08f;
+                Player.GetDamage<GenericDamageClass>() += 0.08f;
             }
 
             if (godSlayerThrowing)
@@ -3036,6 +3052,7 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 120;
                     int damage = (int)(BaseDamage * Player.MinionDamage());
+                    var source = new ProjectileSource_TarragonSummonAura(Player);
                     float range = 300f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3045,7 +3062,7 @@ namespace CalamityMod.CalPlayer
                             continue;
 
                         if (Vector2.Distance(Player.Center, npc.Center) <= range)
-                            Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
+                            Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
                     }
                 }
             }
@@ -3063,6 +3080,7 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 10;
                     int damage = (int)(BaseDamage * Player.AverageDamage());
+                    var source = Player.GetProjectileSource_Item(Player.ActiveItem());
                     float range = 200f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3072,13 +3090,13 @@ namespace CalamityMod.CalPlayer
                             continue;
 
                         if (Vector2.Distance(Player.Center, npc.Center) <= range)
-                            Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
+                            Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
 
                         // Occasionally spawn cute sparks so it looks like an electrical aura
                         if (Main.rand.NextBool(10))
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                            int spark = Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, Player.whoAmI);
+                            int spark = Projectile.NewProjectile(source, npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, Player.whoAmI);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[spark].Calamity().forceTypeless = true;
@@ -3104,6 +3122,7 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 50;
                     int damage = (int)(BaseDamage * Player.AverageDamage());
+                    var source = new ProjectileSource_InfernoPotionBoost(Player);
                     float range = 300f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3116,7 +3135,7 @@ namespace CalamityMod.CalPlayer
                         {
                             npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
                             if (brimLoreInfernoTimer == 0)
-                                Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
+                                Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Player.whoAmI, i);
                         }
                     }
                 }
@@ -3145,31 +3164,31 @@ namespace CalamityMod.CalPlayer
                 Player.buffImmune[BuffID.Venom] = true;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.75))
                 {
-                    Player.allDamage += 0.06f;
+                    Player.GetDamage<GenericDamageClass>() += 0.06f;
                     AllCritBoost(3);
                 }
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                 {
-                    Player.allDamage += 0.06f;
+                    Player.GetDamage<GenericDamageClass>() += 0.06f;
                     AllCritBoost(3);
                 }
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.25))
                 {
-                    Player.allDamage += 0.06f;
+                    Player.GetDamage<GenericDamageClass>() += 0.06f;
                     AllCritBoost(3);
                 }
                 if (Player.lifeRegen < 0)
                 {
-                    Player.allDamage += 0.1f;
+                    Player.GetDamage<GenericDamageClass>() += 0.1f;
                     AllCritBoost(5);
                 }
             }
 
             if (dArtifact)
-                Player.allDamage += 0.25f;
+                Player.GetDamage<GenericDamageClass>() += 0.25f;
 
             if (trippy)
-                Player.allDamage += 0.5f;
+                Player.GetDamage<GenericDamageClass>() += 0.5f;
 
             if (eArtifact)
             {
@@ -3185,6 +3204,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
                     if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !profanedCrystalBuffs)
                         Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
@@ -3193,14 +3213,14 @@ namespace CalamityMod.CalPlayer
                     int guardianAmt = 1;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
-                        Projectile.NewProjectile(Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
                     if (crystal || minionSlotStat >= 10)
                     {
                         gDefense = true;
 
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
-                            Projectile.NewProjectile(Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
                     }
 
                     if (crystal || summonSet)
@@ -3208,7 +3228,7 @@ namespace CalamityMod.CalPlayer
                         gOffense = true;
 
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
-                            Projectile.NewProjectile(Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -3276,9 +3296,10 @@ namespace CalamityMod.CalPlayer
                         if (Player.strongBees && Main.rand.NextBool(3))
                             ++beeCount;
                         int damage = (int)(30 * Player.MinionDamage());
+                        var source = new ProjectileSource_PlaguebringerSetBoost(Player);
                         for (int index = 0; index < beeCount; ++index)
                         {
-                            int bee = Projectile.NewProjectile(Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlagueBeeSmall>() : Player.beeType()), damage, Player.beeKB(0f), Player.whoAmI, 0f, 0f);
+                            int bee = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlagueBeeSmall>() : Player.beeType()), damage, Player.beeKB(0f), Player.whoAmI, 0f, 0f);
                             Main.projectile[bee].usesLocalNPCImmunity = true;
                             Main.projectile[bee].localNPCHitCooldown = 10;
                             Main.projectile[bee].penetrate = 2;
@@ -3327,8 +3348,9 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
-                        Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * Player.RogueDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * Player.RogueDamage()), 0f, Player.whoAmI, 0f, 0f);
                 }
             }
             else if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] != 0)
@@ -3359,9 +3381,11 @@ namespace CalamityMod.CalPlayer
                             Player.buffTime[l]--;
                         }
                     }
+
                     //Summon the aura
+                    var source = new ProjectileSource_TeslaPotion(Player);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-                        Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), (int)(10 * Player.AverageDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), (int)(10 * Player.AverageDamage()), 0f, Player.whoAmI, 0f, 0f);
                 }
             }
             else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
@@ -3382,8 +3406,9 @@ namespace CalamityMod.CalPlayer
 
             if (CryoStone)
             {
+                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
-                    Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(Player.AverageDamage() * 70), 0f, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(Player.AverageDamage() * 70), 0f, Player.whoAmI);
             }
             else if (Player.whoAmI == Main.myPlayer)
             {
@@ -3420,6 +3445,7 @@ namespace CalamityMod.CalPlayer
                     travelDist = shootSpeed / travelDist;
                 }
 
+                var source = new ProjectileSource_PrismaticArmorLasers(Player);
                 int laserAmt = Main.rand.Next(2);
                 for (int index = 0; index < laserAmt; index++)
                 {
@@ -3442,7 +3468,7 @@ namespace CalamityMod.CalPlayer
                     velocity.Y *= travelDist;
                     velocity.X += Main.rand.Next(-50, 51) * 0.02f;
                     velocity.Y += Main.rand.Next(-50, 51) * 0.02f;
-                    int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, Player.whoAmI, 0f, 0f);
+                    int laser = Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, Player.whoAmI, 0f, 0f);
                     Main.projectile[laser].localNPCHitCooldown = 5;
                     if (laser.WithinBounds(Main.maxProjectiles))
                         Main.projectile[laser].Calamity().forceTypeless = true;
@@ -3508,7 +3534,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.statLife >= Player.statLifeMax2)
                 {
                     float beeBoost = Player.endurance / 2f;
-                    Player.allDamage += beeBoost;
+                    Player.GetDamage<GenericDamageClass>() += beeBoost;
                 }
             }
 
@@ -3614,7 +3640,7 @@ namespace CalamityMod.CalPlayer
                             case BuffID.Obstructed:
                                 Player.headcovered = false;
                                 Player.statDefense += 50;
-                                Player.allDamage += 0.5f;
+                                Player.GetDamage<GenericDamageClass>() += 0.5f;
                                 AllCritBoost(25);
                                 break;
                             case BuffID.Ichor:
@@ -3640,19 +3666,19 @@ namespace CalamityMod.CalPlayer
                             case BuffID.Confused:
                                 Player.confused = false;
                                 Player.statDefense += 30;
-                                Player.allDamage += 0.25f;
+                                Player.GetDamage<GenericDamageClass>() += 0.25f;
                                 AllCritBoost(10);
                                 break;
                             case BuffID.Blackout:
                                 Player.blackout = false;
                                 Player.statDefense += 30;
-                                Player.allDamage += 0.25f;
+                                Player.GetDamage<GenericDamageClass>() += 0.25f;
                                 AllCritBoost(10);
                                 break;
                             case BuffID.Darkness:
                                 Player.blind = false;
                                 Player.statDefense += 15;
-                                Player.allDamage += 0.1f;
+                                Player.GetDamage<GenericDamageClass>() += 0.1f;
                                 AllCritBoost(5);
                                 break;
                         }
@@ -3884,7 +3910,7 @@ namespace CalamityMod.CalPlayer
                 float minionDmg = Player.GetDamage(DamageClass.Summon);
                 if (minionDmg < rogueDmg)
                 {
-                    Player.GetDamage(DamageClass.Summon) = rogueDmg;
+                    Player.GetDamage(DamageClass.Summon) += rogueDmg - Player.GetDamage(DamageClass.Summon);
                 }
                 if (rogueDmg < minionDmg)
                 {
@@ -3922,7 +3948,7 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         private void UpdateStatMeter()
         {
-            float allDamageStat = Player.allDamage - 1f;
+            float allDamageStat = Player.GetDamage<GenericDamageClass>() - 1f;
             damageStats[0] = (int)((Player.GetDamage(DamageClass.Melee) + allDamageStat - 1f) * 100f);
             damageStats[1] = (int)((Player.GetDamage(DamageClass.Ranged) + allDamageStat - 1f) * 100f);
             damageStats[2] = (int)((Player.GetDamage(DamageClass.Magic) + allDamageStat - 1f) * 100f);
@@ -4068,7 +4094,7 @@ namespace CalamityMod.CalPlayer
 
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
-                for (int i = 0; i < Main.maxInventory; ++i)
+                for (int i = 0; i < Main.InventorySlotsTotal; ++i)
                 {
                     Item item = Player.inventory[i];
 
