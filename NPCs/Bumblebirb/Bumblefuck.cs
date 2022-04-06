@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Color color = lightColor;
+            Color color = drawColor;
             Color color36 = Color.White;
 
             float amount9 = 0f;
@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
             else
             {
-                color = lightColor;
+                color = drawColor;
             }
 
             if (CalamityConfig.Instance.Afterimages)
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
                     vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -306,24 +306,24 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 for (int num160 = 0; num160 < num156; num160++)
                 {
-                    Color color39 = lightColor;
+                    Color color39 = drawColor;
                     color39 = Color.Lerp(color39, color36, amount9);
                     color39 = NPC.GetAlpha(color39);
                     color39 *= 1f - num157;
-                    Vector2 vector42 = NPC.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                    Vector2 vector42 = NPC.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
                     vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
                     vector42 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Color color2 = lightColor;
+            Color color2 = drawColor;
             color2 = Color.Lerp(color2, color36, amount9);
             color2 = NPC.GetAlpha(color2);
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : NPC.GetAlpha(lightColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, (phase3 && calamityGlobalNPC.newAI[3] == 1f ? color2 : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             if (phase2)
             {
@@ -351,7 +351,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         Color color41 = color40;
                         color41 = Color.Lerp(color41, color36, amount9);
                         color41 *= (float)(num153 - num163) / 15f;
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - Main.screenPosition;
+                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
                         vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
                         vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -363,7 +363,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         color42 = Color.Lerp(color42, color36, amount9);
                         color42 = NPC.GetAlpha(color42);
                         color42 *= 1f - num157;
-                        Vector2 vector45 = NPC.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                        Vector2 vector45 = NPC.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
                         vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
                         vector45 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

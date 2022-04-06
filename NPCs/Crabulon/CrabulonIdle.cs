@@ -667,7 +667,7 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -680,7 +680,7 @@ namespace CalamityMod.NPCs.Crabulon
             Texture2D textureAttackGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
 
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(TextureAssets.Npc[NPC.type].Value.Width, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
@@ -688,7 +688,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (NPC.ai[0] > 2f)
             {
                 vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
-                vector43 = NPC.Center - Main.screenPosition;
+                vector43 = NPC.Center - screenPos;
                 vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                 vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
@@ -699,7 +699,7 @@ namespace CalamityMod.NPCs.Crabulon
             else if (NPC.ai[0] == 2f)
             {
                 vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
-                vector43 = NPC.Center - Main.screenPosition;
+                vector43 = NPC.Center - screenPos;
                 vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                 vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 

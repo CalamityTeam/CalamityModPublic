@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override bool CheckActive() => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -175,21 +175,21 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 for (int a = 1; a < afterImageAmt; a += 2)
                 {
-                    Color afterImageColor = lightColor;
+                    Color afterImageColor = drawColor;
                     afterImageColor = Color.Lerp(afterImageColor, white, colorLerpAmt);
                     afterImageColor = NPC.GetAlpha(afterImageColor);
                     afterImageColor *= (afterImageAmt - a) / 15f;
-                    Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     afterimagePos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, afterimagePos, NPC.frame, afterImageColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 drawPos = NPC.Center - Main.screenPosition;
+            Vector2 drawPos = NPC.Center - screenPos;
             drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/SoulSeekerGlow").Value;
             Color glow = Color.Lerp(Color.White, Color.Red, colorLerpAmt);
@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.Calamitas
                     Color glowColor = glow;
                     glowColor = Color.Lerp(glowColor, white, colorLerpAmt);
                     glowColor *= (afterImageAmt - a) / 15f;
-                    Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 afterimagePos = NPC.oldPos[a] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     afterimagePos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, afterimagePos, NPC.frame, glowColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);

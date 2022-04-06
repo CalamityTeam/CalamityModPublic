@@ -241,7 +241,7 @@ namespace CalamityMod.NPCs.Astral
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             return false;
         }

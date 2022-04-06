@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D NPCTexture = TextureAssets.Npc[NPC.type].Value;
             Texture2D GlowMaskTexture = TextureAssets.Npc[NPC.type].Value;
@@ -268,14 +268,14 @@ namespace CalamityMod.NPCs.AstrumAureus
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
                     vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
                     spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
             vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
             spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                         color41 = Color.Lerp(color41, color36, amount9);
                         color41 = NPC.GetAlpha(color41);
                         color41 *= (num153 - num163) / 15f;
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                         vector44 -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
                         vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
                         spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);

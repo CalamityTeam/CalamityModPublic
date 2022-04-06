@@ -126,29 +126,29 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] == 0f)
             {
                 Vector2 position = NPC.Bottom - new Vector2(19f, 42f);
                 //20 34 38 42
                 Rectangle src = new Rectangle(20, 34, 38, 42);
-                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - Main.screenPosition, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - screenPos, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 //draw glowmask
-                spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, position - screenPos, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 return false;
             }
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] != 0f)
             {
                 Vector2 origin = new Vector2(41f, 39f);
 
                 //draw glowmask
-                spriteBatch.Draw(glowmask, NPC.Center - Main.screenPosition - new Vector2(0f, 12f), NPC.frame, Color.White * 0.6f, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, NPC.Center - screenPos - new Vector2(0f, 12f), NPC.frame, Color.White * 0.6f, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             }
         }
 

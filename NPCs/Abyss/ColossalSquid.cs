@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] == 5f)
             {
@@ -495,7 +495,7 @@ namespace CalamityMod.NPCs.Abyss
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] == 5f)
             {
@@ -514,7 +514,7 @@ namespace CalamityMod.NPCs.Abyss
                     spriteEffects |= SpriteEffects.FlipVertically;
                 }
                 Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value,
-                    new Vector2((float)(player.direction * 4), player.gfxOffY) + ((player.gravDir == 1f) ? player.Top : player.Bottom) - Main.screenPosition,
+                    new Vector2((float)(player.direction * 4), player.gfxOffY) + ((player.gravDir == 1f) ? player.Top : player.Bottom) - screenPos,
                     new Microsoft.Xna.Framework.Rectangle?(NPC.frame), NPC.GetAlpha(color), NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects, 0f);
             }
         }

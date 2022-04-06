@@ -555,9 +555,9 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Vector2 position = NPC.position - new Vector2(30, 48) - Main.screenPosition;
+            Vector2 position = NPC.position - new Vector2(30, 48) - screenPos;
             SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             //draw actual sprite

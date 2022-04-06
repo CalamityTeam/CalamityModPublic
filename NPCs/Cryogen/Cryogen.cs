@@ -977,7 +977,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //for alt textures
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (currentPhase > 1)
             {
@@ -989,7 +989,7 @@ namespace CalamityMod.NPCs.Cryogen
                     spriteEffects = SpriteEffects.FlipHorizontally;
 
                 Vector2 origin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-                Vector2 drawPos = NPC.Center - Main.screenPosition;
+                Vector2 drawPos = NPC.Center - screenPos;
                 drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                 drawPos += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                 spriteBatch.Draw(texture, drawPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);

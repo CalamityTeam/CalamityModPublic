@@ -460,7 +460,7 @@ namespace CalamityMod.NPCs.AcidRain
             else if (NPC.frame.Y >= (Walking ? 8 : 4) * frameHeight)
                 NPC.frame.Y = Walking ? 4 * frameHeight : 0;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.velocity.Length() > 0f)
             {
