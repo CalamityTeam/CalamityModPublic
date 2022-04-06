@@ -557,7 +557,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             // Draw the enrage smoke behind Ares
             SmokeDrawer.DrawSet(NPC.Center);
@@ -580,14 +580,14 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
                     afterimageColor = NPC.GetAlpha(afterimageColor);
                     afterimageColor *= (numAfterimages - i) / 15f;
-                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
                     afterimageCenter += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, afterimageCenter, NPC.frame, afterimageColor, NPC.oldRot[i], vector, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 center = NPC.Center - Main.screenPosition;
+            Vector2 center = NPC.Center - screenPos;
 
             //Draw an outline to the arm when it charges up
             if ((NPC.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
@@ -620,7 +620,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
                     afterimageColor = NPC.GetAlpha(afterimageColor);
                     afterimageColor *= (numAfterimages - i) / 15f;
-                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     afterimageCenter -= new Vector2(glowTexture.Width, glowTexture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
                     afterimageCenter += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(glowTexture, afterimageCenter, NPC.frame, afterimageColor, NPC.oldRot[i], vector, NPC.scale, spriteEffects, 0f);
@@ -641,7 +641,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 //Also draw a telegraph line aha
                 Texture2D lineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
                 Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, NPC.Calamity().newAI[2] / deathrayTelegraphDuration);
-                spriteBatch.Draw(lineTex, CoreSpritePosition - NPC.rotation.ToRotationVector2() * NPC.spriteDirection * 104 - Main.screenPosition, null, outlineColor, NPC.rotation - MathHelper.PiOver2 * NPC.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * NPC.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
+                spriteBatch.Draw(lineTex, CoreSpritePosition - NPC.rotation.ToRotationVector2() * NPC.spriteDirection * 104 - screenPos, null, outlineColor, NPC.rotation - MathHelper.PiOver2 * NPC.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * NPC.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
 
                 float pulseRatio = (NPC.Calamity().newAI[2] % (deathrayTelegraphDuration / 5f)) / (deathrayTelegraphDuration / 5f);
                 float pulseSize = MathHelper.Lerp(0.1f, 0.6f, (float)Math.Floor(NPC.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) / 4f);

@@ -2558,7 +2558,7 @@ namespace CalamityMod.NPCs.Yharon
         #endregion
 
         #region Drawing
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             bool idlePhases = (!startSecondAI && (NPC.ai[0] == 0f || NPC.ai[0] == 6f || NPC.ai[0] == 13f)) || (startSecondAI && (NPC.ai[0] == 5f || NPC.ai[0] < 2f));
 
@@ -2582,7 +2582,7 @@ namespace CalamityMod.NPCs.Yharon
 
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture.Width / 2, texture.Height / Main.npcFrameCount[NPC.type] / 2);
-            Color color = lightColor;
+            Color color = drawColor;
             Color invincibleColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
             Color color36 = Color.White;
 
@@ -2622,7 +2622,7 @@ namespace CalamityMod.NPCs.Yharon
                 amount9 = 0.5f;
             }
             else
-                color = lightColor;
+                color = drawColor;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -2632,7 +2632,7 @@ namespace CalamityMod.NPCs.Yharon
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -2679,21 +2679,21 @@ namespace CalamityMod.NPCs.Yharon
             {
                 for (int num160 = 0; num160 < num156; num160++)
                 {
-                    Color color39 = lightColor;
+                    Color color39 = drawColor;
                     color39 = Color.Lerp(color39, color36, amount9);
                     color39 = NPC.GetAlpha(color39);
                     color39 *= 1f - num157;
-                    Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                    Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
                     vector42 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     vector42 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, vector43, NPC.frame, invincible ? invincibleColor : NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, vector43, NPC.frame, invincible ? invincibleColor : NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             if (flag8 || NPC.ai[0] == 4f || startSecondAI)
             {
@@ -2759,7 +2759,7 @@ namespace CalamityMod.NPCs.Yharon
                         Color color41 = color40;
                         color41 = Color.Lerp(color41, color36, amount9);
                         color41 *= (num153 - num163) / 15f;
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                         vector44 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                         vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         spriteBatch.Draw(texture, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -2787,7 +2787,7 @@ namespace CalamityMod.NPCs.Yharon
                         color42 = Color.Lerp(color42, color36, amount9);
                         color42 = NPC.GetAlpha(color42);
                         color42 *= 1f - num157;
-                        Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+                        Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
                         vector45 -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                         vector45 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         spriteBatch.Draw(texture, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

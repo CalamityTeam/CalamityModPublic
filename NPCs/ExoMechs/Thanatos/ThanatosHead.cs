@@ -1019,7 +1019,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -1028,7 +1028,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
 
-            Vector2 center = NPC.Center - Main.screenPosition;
+            Vector2 center = NPC.Center - screenPos;
             center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
@@ -1097,7 +1097,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 Color reticleFlashBaseColor = Color.Lerp(reticleBaseColor, new Color(255, 255, 255, 0), reticleFadeToWhite) * reticleOpacity;
                 Vector2 origin = leftReticleTexture.Size() * 0.5f;
 
-                Vector2 playerDrawPosition = target.Center - Main.screenPosition;
+                Vector2 playerDrawPosition = target.Center - screenPos;
                 spriteBatch.Draw(leftReticleTexture, playerDrawPosition - Vector2.UnitX * reticleOffsetDistance, null, reticleBaseColor, 0f, origin, 1f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(rightReticleTexture, playerDrawPosition + Vector2.UnitX * reticleOffsetDistance, null, reticleBaseColor, 0f, origin, 1f, SpriteEffects.None, 0f);
 

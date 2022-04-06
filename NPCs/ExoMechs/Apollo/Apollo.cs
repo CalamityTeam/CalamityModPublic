@@ -1434,7 +1434,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             return Color.Lerp(startingColor, endColor, (float)Math.Pow(completionRatio, 1.5D)) * NPC.Opacity;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             // Declare the trail drawers if they have yet to be defined.
             if (ChargeFlameTrail is null)
@@ -1453,7 +1453,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Rectangle frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
             Vector2 origin = NPC.Size * 0.5f;
-            Vector2 center = NPC.Center - Main.screenPosition;
+            Vector2 center = NPC.Center - screenPos;
             Color afterimageBaseColor = Color.White;
 
             // Draws a single instance of a regular, non-glowmask based Artemis.
@@ -1468,7 +1468,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
                         afterimageColor = NPC.GetAlpha(afterimageColor);
                         afterimageColor *= (numAfterimages - i) / 15f;
-                        Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                        Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                         afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
                         afterimageCenter += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                         afterimageCenter += drawOffset;
@@ -1505,7 +1505,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
                     currentSegmentRotation += segmentRotationOffset;
                 }
-                RibbonTrail.Draw(ribbonDrawPositions, -Main.screenPosition, 66);
+                RibbonTrail.Draw(ribbonDrawPositions, -screenPos, 66);
             }
 
             int instanceCount = (int)MathHelper.Lerp(1f, 15f, ChargeComboFlash);
@@ -1535,7 +1535,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     afterimageColor = Color.Lerp(afterimageColor, afterimageBaseColor, 0.5f);
                     afterimageColor = NPC.GetAlpha(afterimageColor);
                     afterimageColor *= (numAfterimages - i) / 15f;
-                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 afterimageCenter = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     afterimageCenter -= new Vector2(texture.Width, texture.Height) / new Vector2(maxFramesX, maxFramesY) * NPC.scale / 2f;
                     afterimageCenter += origin * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture, afterimageCenter, NPC.frame, afterimageColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
@@ -1568,11 +1568,11 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 8f;
-                            ChargeFlameTrailBig.Draw(drawPositions, drawOffset - Main.screenPosition, 70);
+                            ChargeFlameTrailBig.Draw(drawPositions, drawOffset - screenPos, 70);
                         }
                     }
                     else
-                        ChargeFlameTrail.Draw(drawPositions, -Main.screenPosition, 70);
+                        ChargeFlameTrail.Draw(drawPositions, -screenPos, 70);
                 }
             }
 

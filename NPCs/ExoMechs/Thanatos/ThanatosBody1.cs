@@ -590,7 +590,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -599,7 +599,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
 
-            Vector2 center = NPC.Center - Main.screenPosition;
+            Vector2 center = NPC.Center - screenPos;
             center -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             center += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture, center, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
