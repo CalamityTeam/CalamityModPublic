@@ -6542,7 +6542,7 @@ namespace CalamityMod.CalPlayer
             if (Player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
                 Player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
             {
-                Player.head = Mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+                Player.head = Mod.GetEquipSlot("PrototypeAndromechaRing", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
             }
             else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
             {
@@ -6576,8 +6576,8 @@ namespace CalamityMod.CalPlayer
             {
                 Player.legs = Mod.GetEquipSlot("Popo", EquipType.Legs);
                 Player.body = Mod.GetEquipSlot("Popo", EquipType.Body);
-                //PopoNoseless won't work.
-                Player.head = snowmanNoseless ? Mod.GetEquipSlot("PopoNoseless", EquipType.Head) : Mod.GetEquipSlot("Popo", EquipType.Head); 
+                Player.head = Mod.GetEquipSlot("Popo", EquipType.Head);
+                //Player.head = snowmanNoseless ? Mod.GetEquipSlot("PopoNoseless", EquipType.Head) : Mod.GetEquipSlot("Popo", EquipType.Head); 
                 Player.face = -1;
             }
             else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
@@ -6596,15 +6596,15 @@ namespace CalamityMod.CalPlayer
             }
             else if (meldTransformationPower || meldTransformationForce)
             {
-                Player.legs = Mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
+                //Player.legs = Mod.GetEquipSlot("MeldTransformation", EquipType.Legs);
+                //Player.body = Mod.GetEquipSlot("MeldTransformation", EquipType.Body);
+                //Player.head = Mod.GetEquipSlot("MeldTransformation", EquipType.Head);
             }
             else if (omegaBlueTransformationPower || omegaBlueTransformationForce)
             {
-                bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
-                if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
-                    Player.head = Mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
+                //bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
+                //if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
+                    //Player.head = Mod.GetEquipSlot("OmegaBlueTransformation", EquipType.Head);
             }
             else
             {
@@ -6615,7 +6615,7 @@ namespace CalamityMod.CalPlayer
             }
             if (snowRuffianSet)
             {
-                Player.wings = Mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
+                Player.wings = Mod.GetEquipSlot("SnowRuffianMask", EquipType.Wings);
                 bool falling = Player.gravDir == -1 ? Player.velocity.Y < 0.05f : Player.velocity.Y > 0.05f;
                 if (Player.controlJump && falling)
                 {
@@ -6630,17 +6630,17 @@ namespace CalamityMod.CalPlayer
             }
             if (abyssDivingGear && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("AbyssDivingGearHead", EquipType.Head);
+                Player.head = Mod.GetEquipSlot("AbyssalDivingGear", EquipType.Head);
                 Player.face = -1;
             }
             if (featherCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("FeatherCrownHead", EquipType.Head);
+                Player.head = Mod.GetEquipSlot("FeatherCrown", EquipType.Head);
                 Player.face = -1;
             }
             if (moonCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("MoonstoneCrownHead", EquipType.Head);
+                Player.head = Mod.GetEquipSlot("MoonstoneCrown", EquipType.Head);
                 Player.face = -1;
             }
         }
@@ -10028,7 +10028,7 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdate() //needs to be here else it doesn't work properly, otherwise i'd have stuck it with the wing anim stuffs
         {
-            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == Mod.GetEquipSlot("ProviLegs", EquipType.Legs))
+            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs))
             {
                 bool usingCarpet = Player.carpetTime > 0 && Player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;

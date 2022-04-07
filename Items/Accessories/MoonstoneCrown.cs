@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.moonCrownDraw = true; //this bool is just used for drawing
         }
 
-        public override void UpdateVisibleVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             player.Calamity().moonCrownDraw = true; //this bool is just used for drawing
         }

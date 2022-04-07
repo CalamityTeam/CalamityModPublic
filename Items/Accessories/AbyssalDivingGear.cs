@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
-        public override void UpdateVisibleVanity(Player player, EquipType type)
+        public override void UpdateVanity(Player player)
         {
             player.Calamity().abyssDivingGear = true; //this bool is just used for drawing
         }

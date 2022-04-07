@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
@@ -319,7 +319,7 @@ namespace CalamityMod
                 "Aleksh",
                 "Just a random guy",
                 "Dee",
-                "�thereal",
+                "Æthereal",
                 "Broken Faucet",
                 "Sarcosuchus",
                 "Marissa443",
@@ -2673,10 +2673,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                CalamityMod.Instance.GetEquipSlot("ProviLegs", EquipType.Legs),
-                CalamityMod.Instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
-                CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
-                CalamityMod.Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+                CalamityMod.Instance.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs),
+                CalamityMod.Instance.GetEquipSlot("SirensHeart", EquipType.Legs),
+                //CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs), whate even was SirenLeg vs SirenLegAlt?
+                CalamityMod.Instance.GetEquipSlot("Popo", EquipType.Legs)
             };
 
             // Duke Fishron and Old Duke phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.

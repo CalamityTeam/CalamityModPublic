@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                //What does this one do even?
-                //Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/ExtraTextures/AndromedaWithout_Head");
+                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/ExtraTextures/AndromedaWithout_Head");
             }
         }
 
@@ -38,6 +37,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
                 "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
             CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
+
+            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()
