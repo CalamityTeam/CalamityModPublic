@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -365,9 +366,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int inkBombDropRate = Main.expertMode ? 50 : 100;
             npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2);
-            npcLoot.Add(ModContent.ItemType<InkBomb>(), inkBombDropRate);
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<InkBomb>(), 100, 50));
         }
 
         public override void HitEffect(int hitDirection, double damage)

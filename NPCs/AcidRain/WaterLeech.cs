@@ -206,10 +206,10 @@ namespace CalamityMod.NPCs.AcidRain
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            float dropChance = DownedBossSystem.downedAquaticScourge ? 0.01f : 0.05f;
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ParasiticSceptor>(), dropChance);
+            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 20, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 100, 1, 3);
         }
     }
 }

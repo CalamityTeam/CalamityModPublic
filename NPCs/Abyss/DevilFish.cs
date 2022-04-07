@@ -296,10 +296,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public static void ChooseDevilfishLoot(NPCLoot npcLoot)
         {
-            int minCells = Main.expertMode ? 2 : 1;
-            int maxCells = Main.expertMode ? 3 : 2;
             npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 1, 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 3);
             npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 3, 9);
         }
 

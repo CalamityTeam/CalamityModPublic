@@ -486,13 +486,12 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minLumenyl = Main.expertMode ? 8 : 6;
-            int maxLumenyl = Main.expertMode ? 11 : 8;
             npcLoot.AddIf(EidolonWyrmHeadHuge.CanMinionsDropThings, ModContent.ItemType<Voidstone>(), 30, 40);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Voidstone>(), 3);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<EidolicWail>(), 3);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<StardustStaff>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Lumenite>(), 1, minLumenyl, maxLumenyl);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings() && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 6, 8);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings() && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 11);
             npcLoot.AddIf(() => NPC.downedPlantBoss && EidolonWyrmHeadHuge.CanMinionsDropThings(), ItemID.Ectoplasm, 1, 8, 12);
         }
 

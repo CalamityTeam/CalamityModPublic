@@ -180,10 +180,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minCells = Main.expertMode ? 7 : 5;
-            int maxCells = Main.expertMode ? 10 : 7;
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 10, 20);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 5, 7);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 7, 10);
         }
 
         public override void HitEffect(int hitDirection, double damage)

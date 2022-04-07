@@ -91,8 +91,8 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     int projectileType = ModContent.ProjectileType<ToxicMinnowCloud>();
                     offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
-                    int boom1 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-                    int boom2 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             NPC.netUpdate = true;
@@ -151,11 +151,10 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minCells = Main.expertMode ? 4 : 2;
-            int maxCells = Main.expertMode ? 6 : 3;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 4, 6);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
@@ -108,9 +108,9 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.Add(ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
     }
 }

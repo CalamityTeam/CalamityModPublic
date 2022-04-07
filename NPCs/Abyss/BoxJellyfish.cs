@@ -204,9 +204,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int abyssShockerChance = Main.expertMode ? 40 : 50;
             npcLoot.Add(ItemID.JellyfishNecklace, 100);
-            npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<AbyssShocker>(), abyssShockerChance);
+            npcLoot.AddIf(() => NPC.downedBoss3 && !Main.expertMode, ModContent.ItemType<AbyssShocker>(), 50);
+            npcLoot.AddIf(() => NPC.downedBoss3 && Main.expertMode, ModContent.ItemType<AbyssShocker>(), 40);
         }
     }
 }

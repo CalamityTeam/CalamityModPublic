@@ -417,14 +417,10 @@ namespace CalamityMod.NPCs.AcidRain
             player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulphuricAcidCannon>(), 3);
-
-            // Drop shark fins. They are specially colored to match the color of maulers.
-            int item = Item.NewItem(NPC.Center, NPC.Size, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
-            Main.item[item].color = new Color(151, 115, 57, 255);
-            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+            npcLoot.Add(ItemID.SharkFin, 2, 4);
+            npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

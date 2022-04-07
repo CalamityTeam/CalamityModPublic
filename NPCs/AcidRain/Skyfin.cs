@@ -159,10 +159,10 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SkyfinBombers>(), DownedBossSystem.downedAquaticScourge, 0.05f);
+            npcLoot.Add(ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<SkyfinBombers>(), 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)

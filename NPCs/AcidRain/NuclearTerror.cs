@@ -442,7 +442,7 @@ namespace CalamityMod.NPCs.AcidRain
                         {
                             int type = Main.rand.NextBool(4) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<NuclearBulletLarge>();
                             float angle = MathHelper.TwoPi / 16f * i;
-                            Projectile.NewProjectile(NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 11f), type, 48, 3f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(4f, 11f), type, 48, 3f);
                         }
                     }
                     for (int i = 0; i < 60; i++)
@@ -495,10 +495,10 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<GammaHeart>(), 3);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PhosphorescentGauntlet>(), 3);
+            npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
+            npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
         }
     }
 }

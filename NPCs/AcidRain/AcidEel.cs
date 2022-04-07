@@ -3,7 +3,6 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -133,10 +132,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.velocity.X = (NPC.velocity.X * 24f + NPC.direction * swimSpeed) / 25f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SlitheringEels>(), DownedBossSystem.downedAquaticScourge, 0.05f);
+            npcLoot.Add(ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<SlitheringEels>(), 20);
         }
 
         public override void FindFrame(int frameHeight)

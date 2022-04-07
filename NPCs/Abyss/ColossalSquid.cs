@@ -541,11 +541,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minCells = Main.expertMode ? 31 : 26;
-            int maxCells = Main.expertMode ? 45 : 38;
             npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
             npcLoot.Add(ModContent.ItemType<InkBomb>(), 10);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 26, 38);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 31, 45);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CalamarisLament>(), 3, 1, 1);
         }
 

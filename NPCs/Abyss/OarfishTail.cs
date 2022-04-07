@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -120,11 +120,6 @@ namespace CalamityMod.NPCs.Abyss
         }
 
         public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool PreNPCLoot()
         {
             return false;
         }

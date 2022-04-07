@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.defense = 5;
 
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             AIType = NPCID.ToxicSludge;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.alpha = 50;
@@ -111,10 +111,7 @@ namespace CalamityMod.NPCs.AcidRain
             CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value);
         }
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<LeadCore>(), 30);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<LeadCore>(), 30);
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

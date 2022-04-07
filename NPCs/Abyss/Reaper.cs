@@ -266,18 +266,6 @@ namespace CalamityMod.NPCs.Abyss
                         }
                         int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                         int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                        if (Main.tile[num258, num259 - 1] == null)
-                        {
-                            Main.tile[num258, num259 - 1] = new Tile();
-                        }
-                        if (Main.tile[num258, num259 + 1] == null)
-                        {
-                            Main.tile[num258, num259 + 1] = new Tile();
-                        }
-                        if (Main.tile[num258, num259 + 2] == null)
-                        {
-                            Main.tile[num258, num259 + 2] = new Tile();
-                        }
                         if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                         {
                             if (Main.tile[num258, num259 + 1].HasTile)
@@ -648,19 +636,15 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 40, 50);
-            DropHelper.DropItem(NPC, ModContent.ItemType<AnechoicCoating>(), 2, 3);
-            int minCells = Main.expertMode ? 14 : 10;
-            int maxCells = Main.expertMode ? 22 : 17;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ReaperTooth>(), DownedBossSystem.downedPolterghast, 1f, 3, 4);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DeepSeaDumbbell>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
-            if (DownedBossSystem.downedPolterghast)
-            {
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<Valediction>(), 3);
-            }
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 40, 50);
+            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 1, 2, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<ReaperTooth>(), 1, 3, 4);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<DeepSeaDumbbell>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Valediction>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 10, 17);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 14, 22);
         }
 
         public override void HitEffect(int hitDirection, double damage)

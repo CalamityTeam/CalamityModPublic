@@ -182,10 +182,11 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.velocity = Vector2.Clamp(NPC.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<OrthoceraShell>(), 20);
+            npcLoot.Add(ModContent.ItemType<OrthoceraShell>(), 20);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 3, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 15, 1, 3);
         }
 
         public override void FindFrame(int frameHeight)

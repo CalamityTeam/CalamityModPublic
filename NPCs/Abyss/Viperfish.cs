@@ -116,12 +116,11 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.25f);
-            int minCells = Main.expertMode ? 2 : 1;
-            int maxCells = Main.expertMode ? 3 : 2;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 4);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 1, 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

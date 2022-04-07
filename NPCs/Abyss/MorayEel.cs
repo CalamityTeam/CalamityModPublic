@@ -2,6 +2,7 @@
 using CalamityMod.Items.Weapons.Melee;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -89,10 +90,10 @@ namespace CalamityMod.NPCs.Abyss
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
-            DropHelper.DropItemChance(NPC, ItemID.Flipper, 20);
+            npcLoot.Add(ItemID.Flipper, 20);
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DepthBlade>(), 15, 10));
         }
 
         public override void HitEffect(int hitDirection, double damage)

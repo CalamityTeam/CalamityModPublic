@@ -132,9 +132,10 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.velocity.Y += 0.3f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 3 * (DownedBossSystem.downedPolterghast ? 5 : 1), 1, 3);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 3, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CorrodedFossil>(), 15, 1, 3);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -154,7 +155,7 @@ namespace CalamityMod.NPCs.AcidRain
                     projDamage = (int)Math.Round(projDamage * 0.8);
 
                 Vector2 spikeVelocity = -NPC.velocity.RotatedByRandom(0.18f);
-                Projectile.NewProjectile(NPC.Center + Main.rand.NextVector2Unit() * NPC.Size * 0.7f, spikeVelocity, ModContent.ProjectileType<TrilobiteSpike>(), projDamage, 3f);
+                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + Main.rand.NextVector2Unit() * NPC.Size * 0.7f, spikeVelocity, ModContent.ProjectileType<TrilobiteSpike>(), projDamage, 3f);
                 SpikeShootCountdown = Main.rand.Next(50, 65);
                 NPC.netUpdate = true;
             }

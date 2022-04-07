@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.AcidRain
                     }
 
                     for (int i = 0; i < 7; i++)
-                        Projectile.NewProjectile(NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
                 }
                 SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, NPC.Center);
                 NPC.life = 0;
@@ -151,11 +151,11 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            float dropChance = DownedBossSystem.downedAquaticScourge ? 0.01f : 0.05f;
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CausticCroakerStaff>(), dropChance);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.Add(ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 20, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 100, 1, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);

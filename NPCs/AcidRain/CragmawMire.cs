@@ -483,10 +483,12 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<NuclearRod>(), DownedBossSystem.downedPolterghast ? 0.1f : 1f);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SpentFuelContainer>(), DownedBossSystem.downedPolterghast ? 0.1f : 1f);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<NuclearRod>(), 10);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<SpentFuelContainer>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<NuclearRod>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<SpentFuelContainer>());
         }
     }
 }

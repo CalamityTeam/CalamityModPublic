@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -203,16 +204,14 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, 10, 1, 1);
-            int minCells = Main.expertMode ? 10 : 5;
-            int maxCells = Main.expertMode ? 14 : 7;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemChance(NPC, ItemID.JellyfishNecklace, 0.01f);
+            npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<AbyssShocker>(), 10);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 5, 7);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 10, 14);
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<LifeJelly>(), 7, 5));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ManaJelly>(), 7, 5));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<VitalJelly>(), 7, 5));
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
