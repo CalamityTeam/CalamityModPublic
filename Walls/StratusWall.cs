@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.StratusWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.StratusWall>();
             AddMapEntry(new Color(45, 44, 55));
         }
 

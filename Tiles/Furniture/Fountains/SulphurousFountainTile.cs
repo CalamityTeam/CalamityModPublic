@@ -23,9 +23,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             if (Main.tile[i, j].TileFrameX < 36)
             {
                 if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "SulphuricWater"))
-                {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type;
-                }
+                    CalamityGlobalTile.SetActiveFountainColor(CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Slot);
             }
         }
 

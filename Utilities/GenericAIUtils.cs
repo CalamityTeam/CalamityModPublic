@@ -475,7 +475,7 @@ namespace CalamityMod
                         ((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) ||
                         (projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles)) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
-                        if (npc.noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(npc))
+                        if (npc.noTileCollide || !projectile.ownerHitCheck)
                         {
                             bool stickingToNPC;
                             //Solar Crawltipede tail has special collision
@@ -496,9 +496,9 @@ namespace CalamityMod
                             if (stickingToNPC)
                             {
                                 //reflect projectile if the npc can reflect it (like Selenians)
-                                if (npc.reflectingProjectiles && projectile.CanReflect())
+                                if (npc.reflectsProjectiles && projectile.CanBeReflected())
                                 {
-                                    npc.ReflectProjectile(projectile.whoAmI);
+                                    npc.ReflectProjectile(projectile);
                                     return;
                                 }
 

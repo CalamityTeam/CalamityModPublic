@@ -24,9 +24,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             if (Main.tile[i, j].TileFrameX < 36)
             {
                 if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AstralWater"))
-                {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type;
-                }
+                    CalamityGlobalTile.SetActiveFountainColor(CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Slot);
             }
         }
 

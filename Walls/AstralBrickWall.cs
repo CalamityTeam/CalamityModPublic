@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralBrickWall>();
             AddMapEntry(new Color(74, 74, 97));
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Ores;
+﻿using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -20,6 +20,7 @@ namespace CalamityMod.World.Planets
             // As a result, a new one is generated as necessary.
             if (WorldGen.structures is null)
                 WorldGen.structures = new StructureMap();
+            var config = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int totalPlanetoidsToGenerate = Main.maxTilesX / 4200 + 1;
             for (int i = 0; i < totalPlanetoidsToGenerate; i++)
@@ -29,12 +30,12 @@ namespace CalamityMod.World.Planets
                     Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 700, Main.maxTilesX / 2 + 700), WorldGen.genRand.Next(85, 110));
                     if (WorldGen.genRand.NextBool(2))
                     {
-                        if (Biomes<LuminitePlanet>.Place(planetoidOrigin, WorldGen.structures))
+                        if (config.CreateBiome<LuminitePlanet>().Place(planetoidOrigin, WorldGen.structures))
                             break;
                     }
                     else
                     {
-                        if (Biomes<LuminitePlanet2>.Place(planetoidOrigin, WorldGen.structures))
+                        if (config.CreateBiome<LuminitePlanet2>().Place(planetoidOrigin, WorldGen.structures))
                             break;
                     }
                 }
@@ -88,7 +89,7 @@ namespace CalamityMod.World.Planets
 
             // And sync the entire thing.
             if (Main.netMode == NetmodeID.Server)
-                NetMessage.SendTileRange(-1, origin.X - radius - 16, origin.Y - radius - 16, radius * 2 + 16, radius * 2 + 16);
+                NetMessage.SendTileSquare(-1, origin.X - radius - 16, origin.Y - radius - 16, radius * 2 + 16, radius * 2 + 16);
         }
     }
 }

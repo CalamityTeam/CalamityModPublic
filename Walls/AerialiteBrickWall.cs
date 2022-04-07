@@ -9,7 +9,7 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AerialiteBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AerialiteBrickWall>();
             AddMapEntry(new Color(51, 45, 97));
         }
 

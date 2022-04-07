@@ -1,6 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             TileID.Sets.DisableSmartCursor[Type] = true;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
             AdjTiles = new int[] { TileID.Torches };
-            torch = true;
+            TileID.Sets.Torch[Type] = true;
             TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             }
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             offsetY = 0;
             if (WorldGen.SolidTile(i, j - 1))
@@ -66,9 +67,10 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAbyss/AbyssTorchFlame"), i, j, 2);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAbyss/AbyssTorchFlame").Value, i, j, 2);
         }
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 66)
                 CalamityUtils.DrawFlameSparks(187, 5, i, j);

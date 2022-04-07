@@ -230,7 +230,7 @@ namespace CalamityMod.World
                 for (int dy = -8; dy < 55; dy++)
                 {
                     if (CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).TileType == TileID.Cloud)
-                        WorldGen.paintTile(i + dx, j + dy, WorldGen.crimson ? PaintID.Purple : PaintID.Red);
+                        WorldGen.paintTile(i + dx, j + dy, WorldGen.crimson ? PaintID.PurplePaint : PaintID.RedPaint);
                 }
             }
         }

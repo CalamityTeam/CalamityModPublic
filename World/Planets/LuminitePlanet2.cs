@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Ores;
+﻿using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -95,7 +95,7 @@ namespace CalamityMod.World.Planets
 
             // And sync the entire thing.
             if (Main.netMode == NetmodeID.Server)
-                NetMessage.SendTileRange(-1, origin.X - radius - 36, origin.Y - radius - 36, radius * 2 + 36, radius * 2 + 36);
+                NetMessage.SendTileSquare(-1, origin.X - radius - 36, origin.Y - radius - 36, radius * 2 + 36, radius * 2 + 36);
         }
     }
 }

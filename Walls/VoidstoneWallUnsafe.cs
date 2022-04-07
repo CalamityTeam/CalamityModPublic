@@ -9,7 +9,7 @@ namespace CalamityMod.Walls
     {
         public override void SetStaticDefaults()
         {
-            dustType = 187;
+            DustType = 187;
             AddMapEntry(new Color(0, 0, 0));
         }
 

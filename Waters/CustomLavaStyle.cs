@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,8 +18,8 @@ namespace CalamityMod.Waters
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            LavaTexture = ModContent.Request<Texture2D>(LavaTexturePath);
-            BlockTexture = ModContent.Request<Texture2D>(BlockTexturePath);
+            LavaTexture = ModContent.Request<Texture2D>(LavaTexturePath, AssetRequestMode.ImmediateLoad).Value;
+            BlockTexture = ModContent.Request<Texture2D>(BlockTexturePath, AssetRequestMode.ImmediateLoad).Value;
         }
 
         internal void Unload()

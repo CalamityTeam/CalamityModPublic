@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.WorldBuilding;
@@ -70,7 +70,7 @@ namespace CalamityMod.World.Planets
             Point roomTopLeft = new Point(origin.X - width / 2, origin.Y - height / 2);
             bool gold = _random.NextBool();
             ushort tile = gold ? TileID.GoldBrick : TileID.PlatinumBrick;
-            byte wall = gold ? WallID.GoldBrick : WallID.PlatinumBrick;
+            ushort wall = gold ? WallID.GoldBrick : WallID.PlatinumBrick;
             WorldUtils.Gen(roomTopLeft, new Shapes.Rectangle(width, height), Actions.Chain(new GenAction[]
             {
                 new Actions.ClearTile(true),

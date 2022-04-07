@@ -451,8 +451,6 @@ namespace CalamityMod.World
                     int num5 = k + start.X;
                     int num6 = l + start.Y;
                     Tile tile2 = Main.tile[num5, num6];
-                    if (tile2 is null)
-                        continue;
                     if (tile2.HasTile && (tile2.TileType == ModContent.TileType<SeaPrism>() || tile2.TileType == ModContent.TileType<Navystone>()))
                     {
                         bool flag = true;
@@ -605,18 +603,6 @@ namespace CalamityMod.World
 
         public static void PlaceTit(int x, int y, ushort type = 165)
         {
-            if (Main.tile[x, y - 1] == null)
-            {
-                Main.tile[x, y - 1] = new Tile();
-            }
-            if (Main.tile[x, y] == null)
-            {
-                Main.tile[x, y] = new Tile();
-            }
-            if (Main.tile[x, y + 1] == null)
-            {
-                Main.tile[x, y + 1] = new Tile();
-            }
             if (WorldGen.SolidTile(x, y - 1) && !Main.tile[x, y].HasTile && !Main.tile[x, y + 1].HasTile)
             {
                 if (Main.tile[x, y - 1].TileType == (ushort)ModContent.TileType<Navystone>())

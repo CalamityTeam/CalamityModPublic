@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.OccultStoneWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.OccultStoneWall>();
             AddMapEntry(new Color(23, 23, 26));
         }
 

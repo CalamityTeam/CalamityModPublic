@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +15,7 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Sandstone.
-            dustType = DustID.Shadowflame;
+            DustType = DustID.Shadowflame;
 
             WallID.Sets.Conversion.Sandstone[Type] = true;
 

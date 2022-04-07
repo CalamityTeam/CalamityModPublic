@@ -261,8 +261,8 @@ namespace CalamityMod.NPCs.AcidRain
                         bool solidGround = (Main.tileSolid[tileBelow.TileType] || Main.tileSolidTop[tileBelow.TileType]) && tileBelow.HasTile;
                         if (!veryCloseToTarget && !veryCloseToSelf && solidGround)
                         {
-                            // If the below tile has lava, skip it.
-                            if (CalamityUtils.ParanoidTileRetrieval(x, y - 1).lava())
+                            // If the below tile has lava or honey, skip it.
+                            if (CalamityUtils.ParanoidTileRetrieval(x, y - 1).LiquidType != LiquidID.Water)
                                 continue;
 
                             // If there's any tiles in the way, skip it.
@@ -375,14 +375,14 @@ namespace CalamityMod.NPCs.AcidRain
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float angle = (wrappedAttackTime - (AttackCycleTime - SpecialAttackTime + 20f)) % 12f / 12f * MathHelper.ToRadians(15f) - MathHelper.ToRadians(7.5f);
-                            int bullet = Projectile.NewProjectile(mouthPosition, directionToShootPosition.RotatedBy(angle) * 14f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4f);
+                            int bullet = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, directionToShootPosition.RotatedBy(angle) * 14f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4f);
                             Main.projectile[bullet].localAI[0] = angle;
                         }
                         NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();
                         SoundEngine.PlaySound(SoundID.NPCDeath13, mouthPosition);
                     }
                     if (wrappedAttackTime >= (AttackCycleTime - SpecialAttackTime + 35f) && AttackTime % 10f == 9f)
-                        Projectile.NewProjectile(mouthPosition, directionToTarget * 12f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 3f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, directionToTarget * 12f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 3f);
                     break;
                 case SpecialAttackState.ConeStreamOfBullets:
                     if (wrappedAttackTime >= AttackCycleTime - SpecialAttackTime + 35f && AttackTime % 4f == 3f)
@@ -390,8 +390,8 @@ namespace CalamityMod.NPCs.AcidRain
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float angle = MathHelper.Lerp(MathHelper.ToRadians(35f), MathHelper.ToRadians(5f), (wrappedAttackTime - (AttackCycleTime - SpecialAttackTime + 35f)) / (SpecialAttackTime + 35f));
-                            Projectile.NewProjectile(mouthPosition, directionToTarget.RotatedBy(angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
-                            Projectile.NewProjectile(mouthPosition, directionToTarget.RotatedBy(-angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, directionToTarget.RotatedBy(angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, directionToTarget.RotatedBy(-angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
                         }
                         NPC.spriteDirection = (Target.Center.X - NPC.Center.X < 0).ToDirectionInt();
                     }
@@ -404,7 +404,7 @@ namespace CalamityMod.NPCs.AcidRain
                             for (int i = 0; i < 3; i++)
                             {
                                 float angle = MathHelper.Lerp(-0.5f, 0.5f, i / 3f);
-                                Projectile.NewProjectile(mouthPosition, directionToShootPosition.RotatedBy(angle) * 13f, ModContent.ProjectileType<NuclearBulletMedium>(), 48, 4f);
+                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, directionToShootPosition.RotatedBy(angle) * 13f, ModContent.ProjectileType<NuclearBulletMedium>(), 48, 4f);
                             }
                         }
                         NPC.spriteDirection = (ShootPosition.X - NPC.Center.X < 0).ToDirectionInt();

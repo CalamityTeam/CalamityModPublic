@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -14,7 +14,7 @@ namespace CalamityMod.Waters
 
         public override bool ChooseLavaStyle() => Main.LocalPlayer.Calamity().ZoneCalamity;
 
-        public override int ChooseWaterfallStyle() => CalamityMod.Instance.GetWaterfallStyleSlot("CragsLavaflow");
+        public override int ChooseWaterfallStyle() => ModContent.Find<CragsLavaflow>("CalamityMod/Waters/CragsLavaflow").Slot;
 
         public override int GetSplashDust() => 0;
 

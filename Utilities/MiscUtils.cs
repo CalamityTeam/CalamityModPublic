@@ -21,6 +21,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -50,7 +51,7 @@ namespace CalamityMod
             if (Main.netMode == NetmodeID.SinglePlayer)
                 Main.NewText(Language.GetTextValue(key), textColor.Value);
             else if (Main.netMode == NetmodeID.Server)
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
+                ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
         }
 
         // Yes, this method has a use that Utils.Swap does not; You cannot use refs on array indices.

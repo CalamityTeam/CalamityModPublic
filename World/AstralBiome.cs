@@ -303,7 +303,7 @@ namespace CalamityMod.World
                             {
                                 Main.tile[num12, num13].Get<TileWallWireStateData>().HasTile = false;
                             }
-                            else if ((Main.tile[num12, num13].IsHalfBlock || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
+                            else if ((Main.tile[num12, num13].IsHalfBlock || Main.tile[num12 - 1, num13].TopSlope) && !WorldGen.SolidTile(num12, num13 + 1))
                             {
                                 Main.tile[num12, num13].Get<TileWallWireStateData>().HasTile = false;
                             }
@@ -926,7 +926,7 @@ namespace CalamityMod.World
                     }
                     else if (type == ModContent.TileType<AstralGrass>())
                     {
-                        SetTileFromConvert(x, y, convert, TileID.CorruptGrass, TileID.FleshGrass, TileID.HallowedGrass, TileID.Grass);
+                        SetTileFromConvert(x, y, convert, TileID.CorruptGrass, TileID.CrimsonGrass, TileID.HallowedGrass, TileID.Grass);
                     }
                     else if (type == ModContent.TileType<AstralStone>())
                     {

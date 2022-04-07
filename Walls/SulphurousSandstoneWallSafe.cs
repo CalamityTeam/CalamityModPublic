@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,8 +9,8 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = 32;
-            drop = ModContent.ItemType<Items.Placeables.Walls.SulphurousSandstoneWall>();
+            DustType = 32;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.SulphurousSandstoneWall>();
             AddMapEntry(new Color(57, 45, 38));
         }
 

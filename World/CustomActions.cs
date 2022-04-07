@@ -63,15 +63,15 @@ namespace CalamityMod.World
             }
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
-                if (GenBase._tiles[x, y].HasTile || GenBase._tiles[x, y - 1].HasTile)
+                if (_tiles[x, y].HasTile || _tiles[x, y - 1].HasTile)
                 {
                     return false;
                 }
-                if (_tiles[x, y + 1].type == TileID.JungleGrass)
+                if (_tiles[x, y + 1].TileType == TileID.JungleGrass)
                 {
                     WorldGen.PlaceTile(x, y, _random.Next(new ushort[] { TileID.JunglePlants, TileID.JunglePlants2 }), true, false, -1, 0);
                 }
-                else if (_tryMushrooms && _tiles[x, y + 1].type == TileID.MushroomGrass)
+                else if (_tryMushrooms && _tiles[x, y + 1].TileType == TileID.MushroomGrass)
                 {
                     WorldGen.PlaceTile(x, y, TileID.MushroomPlants);
                 }
