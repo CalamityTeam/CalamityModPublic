@@ -139,11 +139,6 @@ namespace CalamityMod.NPCs.Abyss
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.life <= 0)

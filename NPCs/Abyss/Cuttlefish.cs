@@ -104,18 +104,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 int num268 = (int)(NPC.position.X + (NPC.width / 2)) / 16;
                 int num269 = (int)(NPC.position.Y + (NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1] == null)
-                {
-                    Main.tile[num268, num269 - 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 1] == null)
-                {
-                    Main.tile[num268, num269 + 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 2] == null)
-                {
-                    Main.tile[num268, num269 + 2] = new Tile();
-                }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num268, num269 + 1].HasTile)
@@ -281,18 +269,6 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                     int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                    if (Main.tile[num258, num259 - 1] == null)
-                    {
-                        Main.tile[num258, num259 - 1] = new Tile();
-                    }
-                    if (Main.tile[num258, num259 + 1] == null)
-                    {
-                        Main.tile[num258, num259 + 1] = new Tile();
-                    }
-                    if (Main.tile[num258, num259 + 2] == null)
-                    {
-                        Main.tile[num258, num259 + 2] = new Tile();
-                    }
                     if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                     {
                         if (Main.tile[num258, num259 + 1].HasTile)
@@ -387,11 +363,11 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AnechoicCoating>(), 2);
             int inkBombDropRate = Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
+            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), inkBombDropRate);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1294,6 +1294,17 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             }
         }
 
+        public static bool CanMinionsDropThings()
+        {
+            bool adultWyrmAlive = false;
+            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
+                    adultWyrmAlive = true;
+            }
+            return !adultWyrmAlive;
+        }
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
@@ -1339,23 +1350,24 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 80, 100);
-            DropHelper.DropItem(NPC, ModContent.ItemType<EidolicWail>());
-            DropHelper.DropItem(NPC, ModContent.ItemType<SoulEdge>());
-            DropHelper.DropItem(NPC, ModContent.ItemType<HalibutCannon>());
-
             int minLumenyl = Main.expertMode ? 65 : 50;
             int maxLumenyl = Main.expertMode ? 135 : 108;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
-            DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 21, 32);
+            npcLoot.Add(ModContent.ItemType<EidolicWail>());
+            npcLoot.Add(ModContent.ItemType<SoulEdge>());
+            npcLoot.Add(ModContent.ItemType<HalibutCannon>());
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 1, minLumenyl, maxLumenyl);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ItemID.Ectoplasm, 1, 21, 32);
+        }
 
+        public override void OnKill()
+        {
             // Mark Adult Eidolon Wyrm as defeated
             DownedBossSystem.downedAdultEidolonWyrm = true;
             CalamityNetcode.SyncWorld();
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
         }
 
         public override void HitEffect(int hitDirection, double damage)

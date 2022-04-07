@@ -162,18 +162,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 int num268 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num269 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1] == null)
-                {
-                    Main.tile[num268, num269 - 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 1] == null)
-                {
-                    Main.tile[num268, num269 + 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 2] == null)
-                {
-                    Main.tile[num268, num269 + 2] = new Tile();
-                }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num268, num269 + 1].HasTile)
@@ -249,14 +237,14 @@ namespace CalamityMod.NPCs.Abyss
             player.AddBuff(BuffID.Darkness, 180, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.5f);
             int minCells = Main.expertMode ? 3 : 2;
             int maxCells = Main.expertMode ? 6 : 4;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
             int inkBombDropRate = Main.expertMode ? 25 : 40;
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), inkBombDropRate);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)

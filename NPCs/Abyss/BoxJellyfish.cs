@@ -139,18 +139,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 int num268 = (int)(NPC.position.X + (NPC.width / 2)) / 16;
                 int num269 = (int)(NPC.position.Y + (NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1] == null)
-                {
-                    Main.tile[num268, num269 - 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 1] == null)
-                {
-                    Main.tile[num268, num269 + 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 2] == null)
-                {
-                    Main.tile[num268, num269 + 2] = new Tile();
-                }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num268, num269 + 1].HasTile)
@@ -214,11 +202,11 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             int abyssShockerChance = Main.expertMode ? 40 : 50;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
-            DropHelper.DropItemChance(NPC, ItemID.JellyfishNecklace, 0.01f);
+            npcLoot.Add(ItemID.JellyfishNecklace, 100);
+            npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<AbyssShocker>(), abyssShockerChance);
         }
     }
 }

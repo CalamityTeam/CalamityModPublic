@@ -15,6 +15,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -483,28 +484,16 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override bool PreNPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
-            return !adultWyrmAlive;
-        }
-
-        public override void NPCLoot()
-        {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 30, 40);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SoulEdge>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EidolicWail>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StardustStaff>(), DownedBossSystem.downedPolterghast, 10, 1, 1);
             int minLumenyl = Main.expertMode ? 8 : 6;
             int maxLumenyl = Main.expertMode ? 11 : 8;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
-            DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 8, 12);
+            npcLoot.AddIf(EidolonWyrmHeadHuge.CanMinionsDropThings, ModContent.ItemType<Voidstone>(), 30, 40);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Voidstone>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<EidolicWail>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<StardustStaff>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Lumenite>(), 1, minLumenyl, maxLumenyl);
+            npcLoot.AddIf(() => NPC.downedPlantBoss && EidolonWyrmHeadHuge.CanMinionsDropThings(), ItemID.Ectoplasm, 1, 8, 12);
         }
 
         public override void HitEffect(int hitDirection, double damage)

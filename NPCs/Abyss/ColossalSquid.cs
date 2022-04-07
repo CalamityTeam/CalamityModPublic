@@ -447,18 +447,6 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     int num268 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                     int num269 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                    if (Main.tile[num268, num269 - 1] == null)
-                    {
-                        Main.tile[num268, num269 - 1] = new Tile();
-                    }
-                    if (Main.tile[num268, num269 + 1] == null)
-                    {
-                        Main.tile[num268, num269 + 1] = new Tile();
-                    }
-                    if (Main.tile[num268, num269 + 2] == null)
-                    {
-                        Main.tile[num268, num269 + 2] = new Tile();
-                    }
                     if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                     {
                         if (Main.tile[num268, num269 + 1].HasTile)
@@ -551,14 +539,14 @@ namespace CalamityMod.NPCs.Abyss
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ItemID.BlackInk, 3, 5);
             int minCells = Main.expertMode ? 31 : 26;
             int maxCells = Main.expertMode ? 45 : 38;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<CalamarisLament>(), DownedBossSystem.downedPolterghast, 3, 1, 1);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<InkBomb>(), 10, 1, 1);
+            npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), 10);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
+            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CalamarisLament>(), 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

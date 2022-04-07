@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                 // And then do the same for the fade-out effect of 180f-165. These inverse linear interpolations cannot overlap by definition because
                 // their ranges do not overlap. Overall a really cool trick.
                 float radius = MaxRadius * Utils.GetLerpValue(90f, 115f, Time, true) * Utils.GetLerpValue(180f, 165f, Time, true);
-                radius *= 1f + (float)Math.Cos(Main.GlobalTime / 24f) * 0.25f;
+                radius *= 1f + (float)Math.Cos(Main.GlobalTimeWrappedHourly / 24f) * 0.25f;
                 if (radius < 5f)
                     radius = 5f;
                 Projectile.Center = Destination + ((Time - 90) / 90f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/PhotovisceratorLight");
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTime / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
+                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTimeWrappedHourly / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
                 Color color = CalamityUtils.MulticolorLerp(MathHelper.Clamp(colorInterpolation, 0f, 0.99f), new Color[]
                 {
                     Color.PaleGreen,
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
                 Color outerColor = color;
                 Color innerColor = color * 0.5f;
-                float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTime % 60f * MathHelper.TwoPi);
+                float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
 
                 // Become smaller the futher along the old positions we are.
                 intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);

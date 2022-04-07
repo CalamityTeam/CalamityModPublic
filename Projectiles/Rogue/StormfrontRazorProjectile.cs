@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.frame = 0;
             }
-            drawOriginOffsetX = 50;
-            drawOriginOffsetY = 20;
+            DrawOriginOffsetX = 50;
+            DrawOriginOffsetY = 20;
             Projectile.ai[0]++;
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);

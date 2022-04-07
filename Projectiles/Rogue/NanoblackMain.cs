@@ -174,8 +174,6 @@ namespace CalamityMod.Projectiles.Rogue
             int bladeDamage = Projectile.damage / 2;
             float bladeKB = 4f;
             float spin = Projectile.direction <= 0 ? -1f : 1f;
-            float d = 16f;
-            float velocityMult = 0.9f;
             if (Projectile.owner == Main.myPlayer)
                 Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, bladeID, bladeDamage, bladeKB, Projectile.owner, 0f, spin);
         }

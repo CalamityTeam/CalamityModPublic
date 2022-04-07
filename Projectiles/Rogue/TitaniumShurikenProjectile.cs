@@ -38,9 +38,9 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike)
             {
-                drawOffsetX = -11;
-                drawOriginOffsetY = -10;
-                drawOriginOffsetX = 0;
+                DrawOffsetX = -11;
+                DrawOriginOffsetY = -10;
+                DrawOriginOffsetX = 0;
 
                 // ai[0] stores whether the knife is returning. If 0, it isn't. If 1, it is.
                 if (Projectile.ai[0] == 0f)
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                         if (Projectile.Hitbox.Intersects(owner.Hitbox))
                         {
                             Projectile.Kill(); //boomerangs return to you so you get a refund
-                            Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
+                            Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
                         }
                 }
 
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2) && !Projectile.Calamity().stealthStrike)
             {
-                Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
+                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
             }
         }
 

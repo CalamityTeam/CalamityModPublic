@@ -201,7 +201,7 @@ namespace CalamityMod
             CustomLavaManagement.Load();
             Attunement.Load();
             BalancingChangesManager.Load();
-            BaseIdleHoldoutProjectile.Load();
+            BaseIdleHoldoutProjectile.LoadAll();
         }
 
         private void LoadClient()

@@ -98,18 +98,6 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
                 if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num258, num259 + 1].HasTile)
@@ -190,12 +178,12 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Voidstone>(), 10, 20);
             int minCells = Main.expertMode ? 7 : 5;
             int maxCells = Main.expertMode ? 10 : 7;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.5f, minCells, maxCells);
+            npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 10, 20);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.netMode != NetmodeID.Server)
             {
                 WaterShaderData wsd = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();
-                // A universal time-based sinusoid which updates extremely rapidly. GlobalTime is 0 to 3600, measured in seconds.
+                // A universal time-based sinusoid which updates extremely rapidly. GlobalTimeWrappedHourly is 0 to 3600, measured in seconds.
                 float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 20f);
                 Vector2 ripplePos = Projectile.position + new Vector2(beamDims.X * 0.5f, 0f).RotatedBy(Projectile.rotation);
                 // WaveData is encoded as a Color. Not sure why, considering Vector3 exists.
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Magic
             // Make the beam cast light along its length.
             // v3_1 is an unnamed decompiled variable which is the color of the light cast by DelegateMethods.CastLight
             DelegateMethods.v3_1 = beamColor.ToVector3() * power * MaxBeamBrightness;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + beamVector * Projectile.ai[0], beamDims.Y, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + beamVector * Projectile.ai[0], beamDims.Y, DelegateMethods.CastLight);
         }
 
         // Determines whether the specified target hitbox is intersecting with the beam.
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             // tilecut_0 is an unnamed decompiled variable which tells CutTiles how the tiles are being cut (in this case, via a projectile).
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PerLinePoint cut = new Utils.PerLinePoint(DelegateMethods.CutTiles);
+            Utils.TileActionAttempt cut = DelegateMethods.CutTiles;
             Vector2 beamStartPos = Projectile.Center;
             Vector2 beamEndPos = beamStartPos + beamVector * Projectile.ai[0];
             Utils.PlotTileLine(beamStartPos, beamEndPos, Projectile.width * Projectile.scale, cut);

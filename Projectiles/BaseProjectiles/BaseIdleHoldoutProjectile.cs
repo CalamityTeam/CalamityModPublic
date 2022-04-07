@@ -15,9 +15,9 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         // The projectile type cannot be directly discerned at load time (Using Activator.CreateInstance will create an associated projectile with an ID of 0) and as
         // such this property exists as a direct means of retrieving it. Not ideal, but it works.
         public abstract int IntendedProjectileType { get; }
-        public static Dictionary<int, int> ItemProjectileRelationship = new Dictionary<int, int>();
+        public static Dictionary<int, int> ItemProjectileRelationship = new();
 
-        public static void Load()
+        public static void LoadAll()
         {
             ItemProjectileRelationship = new Dictionary<int, int>();
 
@@ -58,22 +58,9 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
                 if (Main.myPlayer == player.whoAmI && !bladeIsPresent)
                 {
-                    int damage = heldItem.damage;
-
-                    // TODO - This can probably be simplified a good bit in 1.4.
-                    if (heldItem.melee)
-                        damage = (int)(damage * player.MeleeDamage());
-                    if (heldItem.ranged)
-                        damage = (int)(damage * player.RangedDamage());
-                    if (heldItem.magic)
-                        damage = (int)(damage * player.MagicDamage());
-                    if (heldItem.summon)
-                        damage = (int)(damage * player.MinionDamage());
-                    if (heldItem.Calamity().rogue)
-                        damage = (int)(damage * player.RogueDamage());
-
+                    int damage = (int)(heldItem.damage * player.GetDamage(heldItem.DamageType));
                     float kb = player.GetWeaponKnockback(heldItem, heldItem.knockBack);
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
+                    Projectile.NewProjectile(player.GetProjectileSource_Item(heldItem), player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
                 }
             }
         }

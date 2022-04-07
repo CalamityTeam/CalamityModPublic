@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -42,13 +42,13 @@ namespace CalamityMod.Projectiles.Rogue
             //Changes the texture of the projectile
             if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/TheSyringeS2");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/TheSyringeS2").Value;
                 Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 6)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
             if (Projectile.ai[0] == 2f)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/TheSyringeS3");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/TheSyringeS3").Value;
                 Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 6)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
