@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.GiantFlyingFox;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<StellarCulexBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 90;
                 NPC.defense = 28;
@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StarbusterCore>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StarbusterCore>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
         }
     }
 }

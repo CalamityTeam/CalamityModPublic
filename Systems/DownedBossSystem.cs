@@ -10,6 +10,7 @@ namespace CalamityMod
 {
     public class DownedBossSystem : ModSystem
     {
+        // Bosses
         private static bool _downedDesertScourge = false;
         private static bool _downedCrabulon = false;
         private static bool _downedHiveMind = false;
@@ -20,37 +21,41 @@ namespace CalamityMod
         private static bool _downedBrimstoneElemental = false;
         private static bool _downedCalamitas = false;
         private static bool _downedLeviathan = false;
-        private static bool _downedAstrageldon = false;
-        private static bool _downedStarGod = false;
+        private static bool _downedAstrumAureus = false;
         private static bool _downedPlaguebringer = false;
-        private static bool _downedScavenger = false;
-        private static bool _downedBoomerDuke = false;
+        private static bool _downedRavager = false;
+        private static bool _downedAstrumDeus = false;
         private static bool _downedGuardians = false;
+        private static bool _downedDragonfolly = false;
         private static bool _downedProvidence = false;
-        private static bool _downedSentinel1 = false; // Ceaseless Void
-        private static bool _downedSentinel2 = false; // Storm Weaver
-        private static bool _downedSentinel3 = false; // Signus, Envoy of the Devourer
+        private static bool _downedCeaselessVoid = false;
+        private static bool _downedStormWeaver = false;
+        private static bool _downedSignus = false;
         private static bool _downedSecondSentinels = false;
         private static bool _downedPolterghast = false;
+        private static bool _downedBoomerDuke = false;
         private static bool _downedDoG = false;
-        private static bool _downedBumble = false;
         private static bool _downedYharon = false;
+        private static bool _downedAres = false; // only used for loot drops
+        private static bool _downedThanatos = false; // only used for loot drops
+        private static bool _downedArtemisAndApollo = false; // only used for loot drops
         private static bool _downedExoMechs = false;
         private static bool _downedSCal = false;
         private static bool _downedAdultEidolonWyrm = false;
+
+        // Minibosses
         private static bool _downedGSS = false;
         private static bool _downedCLAM = false;
         private static bool _downedCLAMHardMode = false;
-        private static bool _downedBetsy = false; // Betsy
 
-        // These are purely used for loot drops, nothing else
-        private static bool _downedAres = false;
-        private static bool _downedThanatos = false;
-        private static bool _downedArtemisAndApollo = false;
-
+        // Events
         private static bool _downedEoCAcidRain = false;
         private static bool _downedAquaticScourgeAcidRain = false;
 
+        // Betsy, because vanilla doesn't track her
+        private static bool _downedBetsy = false;
+
+        #region Wrapper Properties for Lantern Nights
         public static bool downedDesertScourge
         {
             get => _downedDesertScourge;
@@ -161,26 +166,15 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedLeviathan, -1);
             }
         }
-        public static bool downedAstrageldon
+        public static bool downedAstrumAureus
         {
-            get => _downedAstrageldon;
+            get => _downedAstrumAureus;
             set
             {
                 if (!value)
-                    _downedAstrageldon = false;
+                    _downedAstrumAureus = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedAstrageldon, -1);
-            }
-        }
-        public static bool downedStarGod
-        {
-            get => _downedStarGod;
-            set
-            {
-                if (!value)
-                    _downedStarGod = false;
-                else
-                    NPC.SetEventFlagCleared(ref _downedStarGod, -1);
+                    NPC.SetEventFlagCleared(ref _downedAstrumAureus, -1);
             }
         }
         public static bool downedPlaguebringer
@@ -194,26 +188,26 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedPlaguebringer, -1);
             }
         }
-        public static bool downedScavenger
+        public static bool downedRavager
         {
-            get => _downedScavenger;
+            get => _downedRavager;
             set
             {
                 if (!value)
-                    _downedScavenger = false;
+                    _downedRavager = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedScavenger, -1);
+                    NPC.SetEventFlagCleared(ref _downedRavager, -1);
             }
         }
-        public static bool downedBoomerDuke
+        public static bool downedAstrumDeus
         {
-            get => _downedBoomerDuke;
+            get => _downedAstrumDeus;
             set
             {
                 if (!value)
-                    _downedBoomerDuke = false;
+                    _downedAstrumDeus = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedBoomerDuke, -1);
+                    NPC.SetEventFlagCleared(ref _downedAstrumDeus, -1);
             }
         }
         public static bool downedGuardians
@@ -227,6 +221,17 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedGuardians, -1);
             }
         }
+        public static bool downedDragonfolly
+        {
+            get => _downedDragonfolly;
+            set
+            {
+                if (!value)
+                    _downedDragonfolly = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedDragonfolly, -1);
+            }
+        }
         public static bool downedProvidence
         {
             get => _downedProvidence;
@@ -238,46 +243,38 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedProvidence, -1);
             }
         }
-        // Ceaseless Void
-        public static bool downedSentinel1
+        public static bool downedCeaselessVoid
         {
-            get => _downedSentinel1;
+            get => _downedCeaselessVoid;
             set
             {
                 if (!value)
-                    _downedSentinel1 = false;
+                    _downedCeaselessVoid = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedSentinel1, -1);
+                    NPC.SetEventFlagCleared(ref _downedCeaselessVoid, -1);
             }
         }
-        // Storm Weaver
-        public static bool downedSentinel2
+        public static bool downedStormWeaver
         {
-            get => _downedSentinel2;
+            get => _downedStormWeaver;
             set
             {
                 if (!value)
-                    _downedSentinel2 = false;
+                    _downedStormWeaver = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedSentinel2, -1);
+                    NPC.SetEventFlagCleared(ref _downedStormWeaver, -1);
             }
         }
-        // Signus, Envoy of the Devourer
-        public static bool downedSentinel3
+        public static bool downedSignus
         {
-            get => _downedSentinel3;
+            get => _downedSignus;
             set
             {
                 if (!value)
-                    _downedSentinel3 = false;
+                    _downedSignus = false;
                 else
-                    NPC.SetEventFlagCleared(ref _downedSentinel3, -1);
+                    NPC.SetEventFlagCleared(ref _downedSignus, -1);
             }
-        }
-        public static bool downedSecondSentinels
-        {
-            get => _downedSecondSentinels;
-            set => _downedSecondSentinels = value;
         }
         public static bool downedPolterghast
         {
@@ -290,6 +287,17 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedPolterghast, -1);
             }
         }
+        public static bool downedBoomerDuke
+        {
+            get => _downedBoomerDuke;
+            set
+            {
+                if (!value)
+                    _downedBoomerDuke = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedBoomerDuke, -1);
+            }
+        }
         public static bool downedDoG
         {
             get => _downedDoG;
@@ -299,17 +307,6 @@ namespace CalamityMod
                     _downedDoG = false;
                 else
                     NPC.SetEventFlagCleared(ref _downedDoG, -1);
-            }
-        }
-        public static bool downedBumble
-        {
-            get => _downedBumble;
-            set
-            {
-                if (!value)
-                    _downedBumble = false;
-                else
-                    NPC.SetEventFlagCleared(ref _downedBumble, -1);
             }
         }
         public static bool downedYharon
@@ -400,8 +397,15 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedBetsy, -1);
             }
         }
+        #endregion
 
         // These are purely used for loot drops, nothing else
+        public static bool downedSecondSentinels
+        {
+            get => _downedSecondSentinels;
+            set => _downedSecondSentinels = value;
+        }
+
         public static bool downedAres
         {
             get => _downedAres;
@@ -444,42 +448,46 @@ namespace CalamityMod
         internal static void ResetAllFlags()
         {
             downedDesertScourge = false;
-            downedAquaticScourge = false;
+            downedCrabulon = false;
             downedHiveMind = false;
             downedPerforator = false;
             downedSlimeGod = false;
             downedCryogen = false;
+            downedAquaticScourge = false;
             downedBrimstoneElemental = false;
             downedCalamitas = false;
             downedLeviathan = false;
-            downedDoG = false;
+            downedAstrumAureus = false;
             downedPlaguebringer = false;
-            downedScavenger = false;
+            downedRavager = false;
+            downedAstrumDeus = false;
             downedGuardians = false;
+            downedDragonfolly = false;
             downedProvidence = false;
-            downedSentinel1 = false;
-            downedSentinel2 = false;
-            downedSentinel3 = false;
+            downedCeaselessVoid = false;
+            downedStormWeaver = false;
+            downedSignus = false;
+            downedPolterghast = false;
+            downedBoomerDuke = false;
+            downedDoG = false;
             downedYharon = false;
-            downedExoMechs = false;
             downedAres = false;
             downedThanatos = false;
             downedArtemisAndApollo = false;
+            downedExoMechs = false;
             downedSCal = false;
             downedAdultEidolonWyrm = false;
+
+            downedSecondSentinels = false;
+
             downedCLAM = false;
             downedCLAMHardMode = false;
-            downedBumble = false;
-            downedCrabulon = false;
-            downedBetsy = false;
-            downedStarGod = false;
-            downedAstrageldon = false;
-            downedPolterghast = false;
             downedGSS = false;
-            downedBoomerDuke = false;
-            downedSecondSentinels = false;
+
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
+
+            downedBetsy = false;
         }
 
         public override void OnWorldLoad() => ResetAllFlags();
@@ -516,11 +524,11 @@ namespace CalamityMod
                 downed.Add("guardians");
             if (downedProvidence)
                 downed.Add("providence");
-            if (downedSentinel1)
+            if (downedCeaselessVoid)
                 downed.Add("ceaselessVoid");
-            if (downedSentinel2)
+            if (downedStormWeaver)
                 downed.Add("stormWeaver");
-            if (downedSentinel3)
+            if (downedSignus)
                 downed.Add("signus");
             if (downedSecondSentinels)
                 downed.Add("secondSentinels");
@@ -538,17 +546,17 @@ namespace CalamityMod
                 downed.Add("supremeCalamitas");
             if (downedAdultEidolonWyrm)
                 downed.Add("adultEidolonWyrm");
-            if (downedBumble)
+            if (downedDragonfolly)
                 downed.Add("bumblebirb");
             if (downedCrabulon)
                 downed.Add("crabulon");
             if (downedBetsy)
                 downed.Add("betsy");
-            if (downedScavenger)
+            if (downedRavager)
                 downed.Add("scavenger");
-            if (downedStarGod)
+            if (downedAstrumDeus)
                 downed.Add("starGod");
-            if (downedAstrageldon)
+            if (downedAstrumAureus)
                 downed.Add("astrageldon");
             if (downedPolterghast)
                 downed.Add("polterghast");
@@ -584,9 +592,9 @@ namespace CalamityMod
             downedPlaguebringer = downed.Contains("plaguebringerGoliath");
             downedGuardians = downed.Contains("guardians");
             downedProvidence = downed.Contains("providence");
-            downedSentinel1 = downed.Contains("ceaselessVoid");
-            downedSentinel2 = downed.Contains("stormWeaver");
-            downedSentinel3 = downed.Contains("signus");
+            downedCeaselessVoid = downed.Contains("ceaselessVoid");
+            downedStormWeaver = downed.Contains("stormWeaver");
+            downedSignus = downed.Contains("signus");
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
             downedExoMechs = downed.Contains("exoMechs");
@@ -595,12 +603,12 @@ namespace CalamityMod
             downedArtemisAndApollo = downed.Contains("artemisAndApollo");
             downedSCal = downed.Contains("supremeCalamitas");
             downedAdultEidolonWyrm = downed.Contains("adultEidolonWyrm");
-            downedBumble = downed.Contains("bumblebirb");
+            downedDragonfolly = downed.Contains("bumblebirb");
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
-            downedScavenger = downed.Contains("scavenger");
-            downedStarGod = downed.Contains("starGod");
-            downedAstrageldon = downed.Contains("astrageldon");
+            downedRavager = downed.Contains("scavenger");
+            downedAstrumDeus = downed.Contains("starGod");
+            downedAstrumAureus = downed.Contains("astrageldon");
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
             downedBoomerDuke = downed.Contains("oldDuke");

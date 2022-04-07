@@ -152,7 +152,7 @@ namespace CalamityMod
                 case "aureus":
                 case "astrumaureus":
                 case "astrum aureus":
-                    return DownedBossSystem.downedAstrageldon;
+                    return DownedBossSystem.downedAstrumAureus;
 
                 case "pbg":
                 case "plaguebringer":
@@ -164,13 +164,13 @@ namespace CalamityMod
 
                 case "scavenger": // backwards compatibility
                 case "ravager":
-                    return DownedBossSystem.downedScavenger;
+                    return DownedBossSystem.downedRavager;
 
                 case "stargod": // backwards compatibility
                 case "star god": // backwards compatibility
                 case "astrumdeus":
                 case "astrum deus":
-                    return DownedBossSystem.downedStarGod;
+                    return DownedBossSystem.downedAstrumDeus;
 
                 case "guardians":
                 case "donuts":
@@ -184,7 +184,7 @@ namespace CalamityMod
                 case "the dragonfolly":
                 case "bumblebirb":
                 case "bumblefuck":
-                    return DownedBossSystem.downedBumble;
+                    return DownedBossSystem.downedDragonfolly;
 
                 case "providence":
                 case "providencetheprofanedgoddess":
@@ -220,12 +220,12 @@ namespace CalamityMod
                 case "void":
                 case "ceaselessvoid":
                 case "ceaseless void":
-                    return DownedBossSystem.downedSentinel1;
+                    return DownedBossSystem.downedCeaselessVoid;
 
                 case "sentinel2": // backwards compatibility
                 case "stormweaver":
                 case "storm weaver":
-                    return DownedBossSystem.downedSentinel2;
+                    return DownedBossSystem.downedStormWeaver;
 
                 case "sentinel3": // backwards compatibility
                 case "cosmicwraith":
@@ -234,7 +234,7 @@ namespace CalamityMod
                 case "signusenvoyofthedevourer":
                 case "signus envoy of the devourer":
                 case "signus, envoy of the devourer":
-                    return DownedBossSystem.downedSentinel3;
+                    return DownedBossSystem.downedSignus;
 
                 case "sentinelany": // backwards compatibility
                 case "anysentinel":
@@ -242,14 +242,14 @@ namespace CalamityMod
                 case "onesentinel":
                 case "one sentinel":
                 case "sentinel":
-                    return DownedBossSystem.downedSentinel1 || DownedBossSystem.downedSentinel2 || DownedBossSystem.downedSentinel3;
+                    return DownedBossSystem.downedCeaselessVoid || DownedBossSystem.downedStormWeaver || DownedBossSystem.downedSignus;
 
                 case "sentinelall": // backwards compatibility
                 case "sentinels":
                 case "allsentinel":
                 case "allsentinels":
                 case "all sentinels":
-                    return DownedBossSystem.downedSentinel1 && DownedBossSystem.downedSentinel2 && DownedBossSystem.downedSentinel3;
+                    return DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
 
                 case "dog":
                 case "devourerofgods":

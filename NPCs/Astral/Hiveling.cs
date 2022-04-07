@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 50;
                 NPC.defense = 8;

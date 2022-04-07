@@ -37,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-            bool sentinelsNotDefeated = !DownedBossSystem.downedSentinel1 || !DownedBossSystem.downedSentinel2 || !DownedBossSystem.downedSentinel3;
+            bool sentinelsNotDefeated = !DownedBossSystem.downedCeaselessVoid || !DownedBossSystem.downedStormWeaver || !DownedBossSystem.downedSignus;
 
             if (line != null)
                 line.Text = sentinelsNotDefeated ? "WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!" : "";

@@ -776,7 +776,7 @@ namespace CalamityMod.NPCs.Ravager
             DropHelper.DropBags(NPC);
 
             DropHelper.DropItemChance(NPC, ModContent.ItemType<RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeRavager>(), true, !DownedBossSystem.downedScavenger);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeRavager>(), true, !DownedBossSystem.downedRavager);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -807,7 +807,7 @@ namespace CalamityMod.NPCs.Ravager
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Vesuvius>(), !Main.expertMode, 0.1f);
 
             // Mark Ravager as dead
-            DownedBossSystem.downedScavenger = true;
+            DownedBossSystem.downedRavager = true;
             CalamityNetcode.SyncWorld();
         }
     }

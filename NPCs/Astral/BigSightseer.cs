@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.aiStyle = -1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<BigSightseerBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 85;
                 NPC.defense = 30;
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.noTileCollide = true;
             NPC.alpha = 80;
             NPC.aiStyle = -1;
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 75;
             }

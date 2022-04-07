@@ -28,18 +28,18 @@ namespace CalamityMod.Systems
             flags2[1] = downedPlaguebringer;
             flags2[2] = downedGuardians;
             flags2[3] = downedProvidence;
-            flags2[4] = downedSentinel1;
-            flags2[5] = downedSentinel2;
-            flags2[6] = downedSentinel3;
+            flags2[4] = downedCeaselessVoid;
+            flags2[5] = downedStormWeaver;
+            flags2[6] = downedSignus;
             flags2[7] = downedYharon;
 
             // Don't write meaningful values for the now-unused vanilla boss booleans
             BitsByte flags3 = new BitsByte();
             flags3[0] = downedSCal;
-            flags3[1] = downedBumble;
+            flags3[1] = downedDragonfolly;
             flags3[2] = downedCrabulon;
             flags3[3] = downedBetsy;
-            flags3[4] = downedScavenger;
+            flags3[4] = downedRavager;
             flags3[5] = false;
             flags3[6] = false;
             flags3[7] = false;
@@ -55,7 +55,7 @@ namespace CalamityMod.Systems
             flags4[7] = revenge;
 
             BitsByte flags5 = new BitsByte();
-            flags5[0] = downedStarGod;
+            flags5[0] = downedAstrumDeus;
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
             flags5[3] = startAcidicDownpour;
@@ -67,7 +67,7 @@ namespace CalamityMod.Systems
             BitsByte flags6 = new BitsByte();
             flags6[0] = abyssSide;
             flags6[1] = downedAquaticScourge;
-            flags6[2] = downedAstrageldon;
+            flags6[2] = downedAstrumAureus;
             flags6[3] = false;
             flags6[4] = armageddon;
             flags6[5] = false;
@@ -171,18 +171,18 @@ namespace CalamityMod.Systems
             downedPlaguebringer = flags2[1];
             downedGuardians = flags2[2];
             downedProvidence = flags2[3];
-            downedSentinel1 = flags2[4];
-            downedSentinel2 = flags2[5];
-            downedSentinel3 = flags2[6];
+            downedCeaselessVoid = flags2[4];
+            downedStormWeaver = flags2[5];
+            downedSignus = flags2[6];
             downedYharon = flags2[7];
 
             // Explicitly discard the now-unused vanilla boss booleans
             BitsByte flags3 = reader.ReadByte();
             downedSCal = flags3[0];
-            downedBumble = flags3[1];
+            downedDragonfolly = flags3[1];
             downedCrabulon = flags3[2];
             downedBetsy = flags3[3];
-            downedScavenger = flags3[4];
+            downedRavager = flags3[4];
             _ = flags3[5];
             _ = flags3[6];
             _ = flags3[7];
@@ -198,7 +198,7 @@ namespace CalamityMod.Systems
             revenge = flags4[7];
 
             BitsByte flags5 = reader.ReadByte();
-            downedStarGod = flags5[0];
+            downedAstrumDeus = flags5[0];
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
             startAcidicDownpour = flags5[3];
@@ -210,7 +210,7 @@ namespace CalamityMod.Systems
             BitsByte flags6 = reader.ReadByte();
             abyssSide = flags6[0];
             downedAquaticScourge = flags6[1];
-            downedAstrageldon = flags6[2];
+            downedAstrumAureus = flags6[2];
             _ = flags6[3];
             armageddon = flags6[4];
             _ = flags6[5];

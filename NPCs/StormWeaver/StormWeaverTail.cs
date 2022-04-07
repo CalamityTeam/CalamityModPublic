@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.height = 80;
 
             // 10% of HP is phase one
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSentinel2;
+            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedStormWeaver;
             NPC.lifeMax = notDoGFight ? 825500 : 139750;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
 

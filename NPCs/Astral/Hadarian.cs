@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<HadarianBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 80;
                 NPC.defense = 18;
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HadarianMembrane>(), DownedBossSystem.downedAstrageldon, 2, 2, 3);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HadarianMembrane>(), DownedBossSystem.downedAstrumAureus, 2, 2, 3);
         }
     }
 }

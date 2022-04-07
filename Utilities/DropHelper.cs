@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -139,13 +140,38 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Drop Rule and Condition Helpers
+        #region Lambda Drop Rule Condition
+
+        // This class serves as a vanilla drop rule condition that is based on an arbitrary bool.
+        // Create these using the function DropHelper.If as needed.
+        internal class LambdaDropRuleCondition : IItemDropRuleCondition
+        {
+            private readonly Func<bool> conditionLambda;
+            private readonly bool visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition(Func<bool> lambda, bool ui = true, string desc = "")
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda();
+            public bool CanShowItemDropInUI() => visibleInUI;
+            public string GetConditionDescription() => description;
+        }
+
+        public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition(lambda);
+        #endregion
+
+        #region Leading Condition Rule Extensions
         /// <summary>
         /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
         /// </summary>
         /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
         /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
-        /// <param name="hideLootReport">UNKNOWN. PLEASE EDIT THIS DOCUMENTATION WHEN THIS PARAMETER IS UNDERSTOOD.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
         /// <returns>The LeadingConditionRule (first parameter).</returns>
         public static IItemDropRule Add(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
         {
@@ -160,7 +186,7 @@ namespace CalamityMod
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
-        /// <param name="hideLootReport">UNKNOWN. PLEASE EDIT THIS DOCUMENTATION WHEN THIS PARAMETER IS UNDERSTOOD.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
         /// <returns></returns>
         public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
@@ -168,7 +194,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region NPCLoot Extension Helpers
+        #region NPCLoot Extensions
         /// <summary>
         /// Shorthand to add a simple drop to an NPC.
         /// </summary>
@@ -181,6 +207,21 @@ namespace CalamityMod
         public static IItemDropRule Add(this NPCLoot npcLoot, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
         {
             return npcLoot.Add(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to an NPC.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this NPCLoot npcLoot, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
         }
 
         /// <summary>
@@ -213,7 +254,7 @@ namespace CalamityMod
         /// <summary>
         /// Shorthand for shorthand: Registers a Normal Mode only LeadingConditionRule for an NPC and returns it to you.
         /// </summary>
-        /// <param name="npcLoot">The NPC's NPCLOot object.</param>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
         /// <returns>A Normal Mode only LeadingConditionRule.</returns>
         public static LeadingConditionRule DefineNormalOnlyDropSet(this NPCLoot npcLoot) => npcLoot.DefineConditionalDropSet(new Conditions.NotExpert());
         #endregion

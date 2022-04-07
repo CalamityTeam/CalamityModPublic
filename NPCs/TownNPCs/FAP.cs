@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);

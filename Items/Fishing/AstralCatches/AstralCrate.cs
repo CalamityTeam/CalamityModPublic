@@ -50,13 +50,13 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DropHelper.DropItem(player, ItemID.FallenStar, 5, 10);
             DropHelper.DropItemChance(player, ItemID.Meteorite, 0.2f, 10, 20);
             DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralJelly>(), DownedBossSystem.downedAstrageldon, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedStarGod, 0.2f, 10, 20);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBar>(), DownedBossSystem.downedStarGod, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<MeldBlob>(), DownedBossSystem.downedStarGod, 0.25f, 5, 10);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralJelly>(), DownedBossSystem.downedAstrumAureus, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedAstrumDeus, 0.2f, 10, 20);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBar>(), DownedBossSystem.downedAstrumDeus, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<MeldBlob>(), DownedBossSystem.downedAstrumDeus, 0.25f, 5, 10);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, DownedBossSystem.downedAstrageldon, 0.1f,
+            DropHelper.DropItemFromSetCondition(player, DownedBossSystem.downedAstrumAureus, 0.1f,
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),
@@ -83,8 +83,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralInjection>(), DownedBossSystem.downedAstrageldon, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<GravityNormalizerPotion>(), DownedBossSystem.downedAstrageldon, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralInjection>(), DownedBossSystem.downedAstrumAureus, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<GravityNormalizerPotion>(), DownedBossSystem.downedAstrumAureus, 0.1f, 1, 3);
             int healingPotID = ItemID.HealingPotion;
             int manaPotID = ItemID.ManaPotion;
             if (DownedBossSystem.downedDoG)

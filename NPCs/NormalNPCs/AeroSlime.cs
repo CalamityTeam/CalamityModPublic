@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AeroSlime : ModNPC
@@ -63,9 +64,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<AerialiteOre>(), 10, 26);
+            npcLoot.Add(ModContent.ItemType<AerialiteOre>(), 1, 10, 26);
         }
     }
 }

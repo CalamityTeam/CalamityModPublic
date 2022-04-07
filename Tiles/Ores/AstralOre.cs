@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
-            return DownedBossSystem.downedStarGod;
+            return DownedBossSystem.downedAstrumDeus;
         }
 
         public override bool CanExplode(int i, int j)

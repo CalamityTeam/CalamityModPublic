@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MantisBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 85;
                 NPC.defense = 16;
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Astral
                     SoundEngine.PlaySound(SoundID.Item71, NPC.position);
                     Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
-                    int damage = DownedBossSystem.downedAstrageldon ? 55 : 45;
+                    int damage = DownedBossSystem.downedAstrumAureus ? 55 : 45;
                     Projectile.NewProjectile(NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
                 }
             }
@@ -240,7 +240,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralScythe>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralScythe>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
         }
     }
 }

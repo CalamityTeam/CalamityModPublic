@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.BlackRecluseWall;
             Banner = ModContent.NPCType<AstralachneaGround>();
             BannerItem = ModContent.ItemType<AstralachneaBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 90;
                 NPC.defense = 30;
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralachneaStaff>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralachneaStaff>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
         }
     }
 }

@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
-            if (DownedBossSystem.downedAstrageldon)
+            if (DownedBossSystem.downedAstrumAureus)
             {
                 NPC.damage = 100;
                 NPC.defense = 50;
@@ -622,7 +622,7 @@ namespace CalamityMod.NPCs.Astral
             {
                 return 0f;
             }
-            else if (spawnInfo.Player.InAstral(1) && NPC.downedAncientCultist && !DownedBossSystem.downedStarGod)
+            else if (spawnInfo.Player.InAstral(1) && NPC.downedAncientCultist && !DownedBossSystem.downedAstrumDeus)
             {
                 return 0.27f;
             }
@@ -644,7 +644,7 @@ namespace CalamityMod.NPCs.Astral
             int maxStardust = Main.expertMode ? 9 : 8;
             DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
 
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<TitanArm>(), DownedBossSystem.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItemCondition(NPC, ModContent.ItemType<TitanArm>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
             DropHelper.DropItem(NPC, ModContent.ItemType<TitanHeart>());
         }
     }

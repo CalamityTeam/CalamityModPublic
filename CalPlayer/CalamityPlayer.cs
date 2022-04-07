@@ -8736,7 +8736,7 @@ namespace CalamityMod.CalPlayer
                     price += Item.buyPrice(0, 3, 20, 0);
                 else if (NPC.downedMoonlord)
                     price += Item.buyPrice(0, 2, 0, 0);
-                else if (NPC.downedFishron || DownedBossSystem.downedPlaguebringer || DownedBossSystem.downedScavenger)
+                else if (NPC.downedFishron || DownedBossSystem.downedPlaguebringer || DownedBossSystem.downedRavager)
                     price += Item.buyPrice(0, 1, 20, 0);
                 else if (NPC.downedGolemBoss)
                     price += Item.buyPrice(0, 0, 90, 0);

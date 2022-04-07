@@ -5402,11 +5402,11 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<AstrumAureus.AstrumAureus>())
             {
-                return DownedBossSystem.downedAstrageldon;
+                return DownedBossSystem.downedAstrumAureus;
             }
             else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
             {
-                return DownedBossSystem.downedStarGod;
+                return DownedBossSystem.downedAstrumDeus;
             }
             else if (type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>())
             {
@@ -5414,7 +5414,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<RavagerBody>())
             {
-                return DownedBossSystem.downedScavenger;
+                return DownedBossSystem.downedRavager;
             }
             else if (type == NPCType<ProfanedGuardianBoss>())
             {
@@ -5422,7 +5422,7 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<Bumblefuck>())
             {
-                return DownedBossSystem.downedBumble;
+                return DownedBossSystem.downedDragonfolly;
             }
             else if (type == NPCType<Providence.Providence>())
             {
@@ -5430,15 +5430,15 @@ namespace CalamityMod.NPCs
             }
             else if (type == NPCType<CeaselessVoid.CeaselessVoid>() || type == NPCType<DarkEnergy>())
             {
-                return DownedBossSystem.downedSentinel1;
+                return DownedBossSystem.downedCeaselessVoid;
             }
             else if (type == NPCType<StormWeaverHead>() || type == NPCType<StormWeaverBody>() || type == NPCType<StormWeaverTail>())
             {
-                return DownedBossSystem.downedSentinel2;
+                return DownedBossSystem.downedStormWeaver;
             }
             else if (type == NPCType<Signus.Signus>())
             {
-                return DownedBossSystem.downedSentinel3;
+                return DownedBossSystem.downedSignus;
             }
             else if (type == NPCType<Polterghast.Polterghast>())
             {

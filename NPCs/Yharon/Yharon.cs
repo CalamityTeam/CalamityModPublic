@@ -2870,14 +2870,7 @@ namespace CalamityMod.NPCs.Yharon
             npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
             // Lore
-            npcLoot.Add(ItemDropRule.ByCondition(new FirstYharonKillCondition(), ModContent.ItemType<KnowledgeYharon>()));
-        }
-
-        private class FirstYharonKillCondition : IItemDropRuleCondition
-        {
-            public bool CanDrop(DropAttemptInfo info) => !DownedBossSystem.downedYharon;
-            public bool CanShowItemDropInUI() => true;
-            public string GetConditionDescription() => "On first kill";
+            npcLoot.AddIf(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
         }
 
         public override void BossLoot(ref string name, ref int potionType)

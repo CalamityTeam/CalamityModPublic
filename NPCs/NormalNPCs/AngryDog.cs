@@ -146,10 +146,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ItemID.Leather, 1, 1, 2);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofEleum>(), DownedBossSystem.downedCryogen, 3, 1, 1);
+            npcLoot.Add(ItemID.Leather, 1, 1, 2); // 100% chance of 1-2 leather
+            npcLoot.AddIf(() => DownedBossSystem.downedCryogen, ModContent.ItemType<EssenceofEleum>(), 3);
         }
     }
 }
