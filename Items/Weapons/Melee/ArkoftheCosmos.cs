@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public float Combo = 0f;
         public float Charge = 0f;
-        public override bool CloneNewInstances => true;
 
         public static float NeedleDamageMultiplier = 0.7f; //Damage on the non-homing needle projectile
         public static float MaxThrowReach = 650;
@@ -189,15 +188,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as ArkoftheCosmos).Charge = (item.modItem as ArkoftheCosmos).Charge;
-
-            return clone;
-        }
-        public override ModItem Clone()
-        {
-            var clone = base.Clone();
-
-            (clone as ArkoftheCosmos).Charge = Charge;
+            (clone as ArkoftheCosmos).Charge = (item.ModItem as ArkoftheCosmos).Charge;
 
             return clone;
         }

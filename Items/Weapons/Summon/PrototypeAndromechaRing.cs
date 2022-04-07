@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
@@ -15,6 +15,15 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class PrototypeAndromechaRing : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                //What does this one do even?
+                //Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/ExtraTextures/AndromedaWithout_Head");
+            }
+        }
+
         public const int CrippleTime = 360; // 6 seconds
         public override void SetStaticDefaults()
         {

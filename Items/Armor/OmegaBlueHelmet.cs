@@ -13,11 +13,22 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                //Mod.AddEquipTexture(new OmegaBlueTransformationHead(), "OmegaBlueTransformationHead", EquipType.Head, "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");
+
+            //int equipSlotHead = Mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
+            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()
@@ -87,14 +98,6 @@ namespace CalamityMod.Items.Armor
                 .AddIngredient<RuinousSoul>(2)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
-        }
-    }
-
-    public class OmegaBlueTransformationHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
         }
     }
 }

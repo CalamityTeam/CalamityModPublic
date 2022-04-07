@@ -34,6 +34,11 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/ProfanedSoulTransHead");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/ProfanedSoulTransBody");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Wings, "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
         }
 
         public override void SetDefaults()
@@ -46,7 +51,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().devItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             return !player.Calamity().pArtifact;
         }
@@ -274,33 +279,5 @@ namespace CalamityMod.Items.Accessories
             bool biomePower = Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight;
             return biomePower && (type == (shadowSpec | geode | essence)) ? numRequired / 2 : numRequired; //cuts the above mats consumed by half if in the biomes instead of arbitrary biome locking
         }
-    }
-
-    public class ProfanedCrystalHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class ProfanedCrystalBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class ProfanedCrystalLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
-        }
-    }
-
-    public class ProfanedCrystalWings : EquipTexture
-    {
     }
 }

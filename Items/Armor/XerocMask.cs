@@ -9,12 +9,32 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class XerocMask : ModItem
     {
+
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                //Mod.AddEquipTexture("MeldTransformation", EquipType.Head, "CalamityMod/Items/Armor/MeldTransformation_Head");
+                //Mod.AddEquipTexture(MeldTransformation, EquipType.Body, "CalamityMod/Items/Armor/MeldTransformation_Body");
+                //Mod.AddEquipTexture(MeldTransformation, EquipType.Legs, "CalamityMod/Items/Armor/MeldTransformation_Legs");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("Wrath of the cosmos\n" +
                 "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
                 "Temporary immunity to lava");
+
+            //int equipSlotHead = Mod.GetEquipSlot("MeldTransformation", EquipType.Head);
+            //int equipSlotBody = Mod.GetEquipSlot("MeldTransformation", EquipType.Body);
+            //int equipSlotLegs = Mod.GetEquipSlot("MeldTransformation", EquipType.Legs);
+
+            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            //ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            //ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            //ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()
@@ -76,30 +96,6 @@ namespace CalamityMod.Items.Armor
                 .AddIngredient(ItemID.LunarBar, 8)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
-        }
-    }
-
-    public class MeldTransformationHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class MeldTransformationBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class MeldTransformationLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
         }
     }
 }

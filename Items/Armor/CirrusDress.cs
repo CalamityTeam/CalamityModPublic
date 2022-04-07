@@ -1,4 +1,5 @@
-using Terraria;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -12,12 +13,23 @@ namespace CalamityMod.Items.Armor
          * 3 - Open her shop to find the dress
          */
 
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(this, EquipType.Legs,  "CalamityMod/Items/Armor/CirrusDress_Legs");
+            }
+        }
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cirrus' Dress");
             Tooltip.SetDefault("Here, this should help you drink as much alcohol as you want!\n" +
                 "5% increased magic damage and critical strike chance\n" +
                 "You feel thick...");
+
+            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Body);
+            ArmorIDs.Body.Sets.HidesHands[equipSlot] = true;
         }
 
         public override void SetDefaults()
@@ -40,13 +52,7 @@ namespace CalamityMod.Items.Armor
         public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
         {
             robes = true;
-            // The equipSlot is added in CalamityMod.cs --> Load hook
-            equipSlot = Mod.GetEquipSlot("CirrusDress_Legs", EquipType.Legs);
-        }
-
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawHands = true;
+            equipSlot = Mod.GetEquipSlot(Name, EquipType.Legs);
         }
     }
 }

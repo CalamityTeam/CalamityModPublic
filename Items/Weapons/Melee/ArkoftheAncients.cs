@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float chargeDamageMultiplier = 1.75f; //Extra damage from charge
         public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
 
-        public override bool CloneNewInstances => true;
 
         const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
                 "You can also parry projectiles and temporarily make them deal 100 less damage\n" +
@@ -111,19 +110,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as ArkoftheAncients).Charge = (item.modItem as ArkoftheAncients).Charge;
+            (clone as ArkoftheAncients).Charge = (item.ModItem as ArkoftheAncients).Charge;
 
             return clone;
         }
-        public override ModItem Clone()
-        {
-            var clone = base.Clone();
-
-            (clone as ArkoftheAncients).Charge = Charge;
-
-            return clone;
-        }
-
 
         public override void NetSend(BinaryWriter writer)
         {

@@ -35,7 +35,6 @@ namespace CalamityMod.Items
     public partial class CalamityGlobalItem : GlobalItem
     {
         public override bool InstancePerEntity => true;
-        public override bool CloneNewInstances => true;
 
         public bool rogue = false;
         public float StealthGenBonus;
@@ -459,23 +458,20 @@ namespace CalamityMod.Items
             return rogue || canFirePointBlankShots || trueMelee || timesUsed != 0 || customRarity != 0 || Charge != 0 || reforgeTier != 0 || AppliedEnchantment.HasValue || DischargeEnchantExhaustion != 0;
         }
 
-        public override TagCompound Save(Item item)
+        public override void SaveData(Item item, TagCompound tag)
         {
-            return new TagCompound
-            {
-                ["rogue"] = rogue,
-                ["timesUsed"] = timesUsed,
-                ["rarity"] = (int)customRarity,
-                ["charge"] = Charge,
-                ["reforgeTier"] = reforgeTier,
-                ["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0,
-                ["DischargeEnchantExhaustion"] = DischargeEnchantExhaustion,
-                ["canFirePointBlankShots"] = canFirePointBlankShots,
-                ["trueMelee"] = trueMelee
-            };
+            tag.Add("rogue" = rogue);
+            tag.Add("timesUsed" = timesUsed);
+            tag.Add("rarity") = (int)customRarity;
+            tag.Add("charge") = Charge;
+            tag.Add("reforgeTier") = reforgeTier;
+            tag.Add("enchantmentID") = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0;
+            tag.Add("DischargeEnchantExhaustion") = DischargeEnchantExhaustion;
+            tag.Add("canFirePointBlankShots") = canFirePointBlankShots;
+            tag.Add("trueMelee") = trueMelee;
         }
 
-        public override void Load(Item item, TagCompound tag)
+        public override void LoadData(Item item, TagCompound tag)
         {
             rogue = tag.GetBool("rogue");
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
@@ -497,27 +493,6 @@ namespace CalamityMod.Items
                 AppliedEnchantment = savedEnchantment.Value;
                 bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
                 item.Calamity().AppliedEnchantment.Value.CreationEffect?.Invoke(item);
-            }
-        }
-
-        public override void LoadLegacy(Item item, BinaryReader reader)
-        {
-            int loadVersion = reader.ReadInt32();
-            customRarity = (CalamityRarity)reader.ReadInt32();
-            timesUsed = reader.ReadInt32();
-            Charge = reader.ReadSingle();
-            reforgeTier = reader.ReadInt32();
-
-            if (loadVersion == 0)
-            {
-                BitsByte flags = reader.ReadByte();
-                rogue = flags[0];
-                canFirePointBlankShots = flags[1];
-                trueMelee = flags[2];
-            }
-            else
-            {
-                ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
             }
         }
 

@@ -14,5 +14,5 @@ public interface IExtendedHat
     /// <summary>
     ///Return true to make the extension get drawn automatically from the texture and offsets provided. Return false if you want to draw it yourself
     /// </summary>
-    bool PreDrawExtension(PlayerDrawSet drawInfo);
+    bool PreDrawExtension(PlayerDrawSet drawInfo) => true;
 }

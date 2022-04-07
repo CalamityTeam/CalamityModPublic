@@ -10,6 +10,14 @@ namespace CalamityMod.Items.Armor
     {
         private bool shouldBoost = false;
 
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(new SnowRuffianWings(), this, EquipType.Wings, "CalamityMod/Items/Armor/SnowRuffianWings");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snow Ruffian Mask");

@@ -173,41 +173,28 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         #region Saving and syncing attunements
-        public override bool CloneNewInstances => true;
 
         public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<TrueBiomeBlade>())
-                item.modItem.HoldItem(Main.player[Main.myPlayer]);
-            (clone as TrueBiomeBlade).mainAttunement = (item.modItem as TrueBiomeBlade).mainAttunement;
-            (clone as TrueBiomeBlade).secondaryAttunement = (item.modItem as TrueBiomeBlade).secondaryAttunement;
+                item.ModItem.HoldItem(Main.player[Main.myPlayer]);
+            (clone as TrueBiomeBlade).mainAttunement = (item.ModItem as TrueBiomeBlade).mainAttunement;
+            (clone as TrueBiomeBlade).secondaryAttunement = (item.ModItem as TrueBiomeBlade).secondaryAttunement;
 
             return clone;
         }
 
-        public override ModItem Clone() //ditto
-        {
-            var clone = base.Clone();
-            (clone as TrueBiomeBlade).mainAttunement = mainAttunement;
-            (clone as TrueBiomeBlade).secondaryAttunement = secondaryAttunement;
-
-            return clone;
-        }
-
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
             int attunement1 = mainAttunement == null ? -1 : (int)mainAttunement.id;
             int attunement2 = secondaryAttunement == null ? -1 : (int)secondaryAttunement.id;
-            TagCompound tag = new TagCompound
-            {
-                { "mainAttunement", attunement1 },
-                { "secondaryAttunement", attunement2 }
-            };
-            return tag;
+
+            tag.Add("mainAttunement", attunement1);
+            tag.Add("secondaryAttunement", attunement2);
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             int attunement1 = tag.GetInt("mainAttunement");
             int attunement2 = tag.GetInt("secondaryAttunement");

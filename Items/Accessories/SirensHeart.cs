@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -7,6 +7,18 @@ namespace CalamityMod.Items.Accessories
 {
     public class SirensHeart : ModItem
     {
+        public override void Load()
+        {
+            // All code below runs only if we're not loading on a server
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Add equip textures
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/SirenTrans_Head");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/SirenTrans_Body");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/SirenTrans_Legs");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Heart");
@@ -18,6 +30,14 @@ namespace CalamityMod.Items.Accessories
                 "After 30 seconds the ice shield will regenerate\n" +
                 "Wow, you can swim now!\n" +
                 "Most of these effects are only active after Skeletron has been defeated");
+
+            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+            int equipSlotBody = Mod.GetEquipSlot(Name, EquipType.Body);
+            int equipSlotLegs = Mod.GetEquipSlot(Name, EquipType.Legs);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()
@@ -35,30 +55,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.sirenBoobs = true;
             if (hideVisual)
                 modPlayer.sirenBoobsHide = true;
-        }
-    }
-
-    public class SirenHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class SirenBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class SirenLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
         }
     }
 }

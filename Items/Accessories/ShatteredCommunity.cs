@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -190,17 +190,14 @@ namespace CalamityMod.Items.Accessories
             tooltips.Add(new TooltipLine(Mod, "Tooltip8", sb.ToString()));
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            TagCompound tag = new TagCompound
-            {
-                { "level", level },
-                { "totalDamage", totalRageDamage }
-            };
+            tag.Add("level", level);
+            tag.Add("totalDamage", totalRageDamage);
             return tag;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             level = tag.GetInt("level");
             // Shattered Community's level cap was reduced from 60 to 25, so cap out ones that were made higher previously.

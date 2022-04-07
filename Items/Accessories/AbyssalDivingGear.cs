@@ -9,6 +9,14 @@ namespace CalamityMod.Items.Accessories
     //[AutoloadEquip(EquipType.Face)]
     public class AbyssalDivingGear : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/Items/Accessories/AbyssalDivingGear_Face");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Diving Gear");
@@ -18,6 +26,10 @@ namespace CalamityMod.Items.Accessories
                 "Provides light underwater and extra mobility on ice\n" +
                 "Provides a moderate amount of light in the abyss\n" +
                 "Greatly reduces breath loss in the abyss");
+
+            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
         }
 
         public override void SetDefaults()
@@ -46,7 +58,7 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVisibleVanity(Player player, EquipType type)
         {
             player.Calamity().abyssDivingGear = true; //this bool is just used for drawing
         }
@@ -60,15 +72,6 @@ namespace CalamityMod.Items.Accessories
                 .AddIngredient<Lumenite>(10)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
-        }
-    }
-
-    public class AbyssDivingGearHair : EquipTexture
-    {
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = false;
-            drawAltHair = false;
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +7,17 @@ namespace CalamityMod.Items.Accessories.Vanity
 {
     public class Popo : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/Vanity/Popo_Head");
+                //Mod.AddEquipTexture(new EquipTexture(), "PopoNoseless", EquipType.Head, "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/Vanity/Popo_Body");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/Vanity/Popo_Legs");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magic Scarf and Hat");
@@ -32,38 +43,6 @@ namespace CalamityMod.Items.Accessories.Vanity
             {
                 modPlayer.snowmanHide = true;
             }
-        }
-    }
-
-    public class PopoHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class PopoNoselessHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class PopoBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class PopoLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
         }
     }
 }

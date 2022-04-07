@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public float Combo = 0f;
         public float Charge = 0f;
-        public override bool CloneNewInstances => true;
 
         public const float ComboLenght = 4f; //How many regular swings before the long throw happens
         public static float snapDamageMultiplier = 1.2f; //Extra damage from making the scissors snap
@@ -186,19 +185,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as ArkoftheElements).Charge = (item.modItem as ArkoftheElements).Charge;
+            (clone as ArkoftheElements).Charge = (item.ModItem as ArkoftheElements).Charge;
 
             return clone;
         }
-        public override ModItem Clone()
-        {
-            var clone = base.Clone();
-
-            (clone as ArkoftheElements).Charge = Charge;
-
-            return clone;
-        }
-
         public override void NetSend(BinaryWriter writer)
         {
             writer.Write(Charge);

@@ -8,11 +8,24 @@ namespace CalamityMod.Items.Accessories
 {
     public class FeatherCrown : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/Items/Accessories/FeatherCrown_Face");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather Crown");
             Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes cause feathers to fall from the sky on enemy hits");
+
+
+            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
         }
 
         public override void SetDefaults()
@@ -33,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.featherCrownDraw = true; //this bool is just used for drawing
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVisibleVanity(Player player, EquipType type)
         {
             player.Calamity().featherCrownDraw = true; //this bool is just used for drawing
         }
@@ -53,15 +66,6 @@ namespace CalamityMod.Items.Accessories
                 .AddIngredient(ItemID.Feather, 8)
                 .AddTile(TileID.SkyMill)
                 .Register();
-        }
-    }
-
-    public class FeatherCrownHair : EquipTexture
-    {
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = false;
-            drawAltHair = false;
         }
     }
 }

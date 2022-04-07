@@ -1,7 +1,8 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
 using static CalamityMod.CalPlayer.CalamityPlayer;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -11,6 +12,8 @@ namespace CalamityMod.Items.Armor.Vanity
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Apollo Mask");
+            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()
@@ -21,10 +24,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.vanity = true;
         }
 
-        public override bool DrawHead() => false;
-
         public string ExtensionTexture => "CalamityMod/Items/Armor/Vanity/ApolloMask_Extra";
-        public Vector2 ExtensionSpriteOffset(PlayerDrawInfo drawInfo) => new Vector2(drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
-        public bool PreDrawExtension(PlayerDrawInfo drawInfo) => true;
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
     }
 }

@@ -6546,10 +6546,10 @@ namespace CalamityMod.CalPlayer
             }
             else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
             {
-                Player.legs = Mod.GetEquipSlot("ProviLegs", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("ProviBody", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("ProviHead", EquipType.Head);
-                Player.wings = Mod.GetEquipSlot("ProviWings", EquipType.Wings);
+                Player.legs = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs);
+                Player.body = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Body);
+                Player.head = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Head);
+                Player.wings = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Wings);
                 Player.face = -1;
 
                 bool enrage = !profanedCrystalForce && profanedCrystalBuffs && Player.statLife <= (int)(Player.statLifeMax2 * 0.5);
@@ -6574,23 +6574,24 @@ namespace CalamityMod.CalPlayer
             }
             else if ((snowmanPower || snowmanForce) && !snowmanHide)
             {
-                Player.legs = Mod.GetEquipSlot("PopoLeg", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("PopoBody", EquipType.Body);
-                Player.head = snowmanNoseless ? Mod.GetEquipSlot("PopoNoselessHead", EquipType.Head) : Mod.GetEquipSlot("PopoHead", EquipType.Head);
+                Player.legs = Mod.GetEquipSlot("Popo", EquipType.Legs);
+                Player.body = Mod.GetEquipSlot("Popo", EquipType.Body);
+                //PopoNoseless won't work.
+                Player.head = snowmanNoseless ? Mod.GetEquipSlot("PopoNoseless", EquipType.Head) : Mod.GetEquipSlot("Popo", EquipType.Head); 
                 Player.face = -1;
             }
             else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
             {
-                Player.legs = Mod.GetEquipSlot("AbyssalDivingSuitLeg", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("AbyssalDivingSuitBody", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("AbyssalDivingSuitHead", EquipType.Head);
+                Player.legs = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Legs);
+                Player.body = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Body);
+                Player.head = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Head);
                 Player.face = -1;
             }
             else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
             {
-                Player.legs = Mod.GetEquipSlot("SirenLeg", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("SirenBody", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("SirenHead", EquipType.Head);
+                Player.legs = Mod.GetEquipSlot("SirensHeart", EquipType.Legs);
+                Player.body = Mod.GetEquipSlot("SirensHeart", EquipType.Body);
+                Player.head = Mod.GetEquipSlot("SirensHeart", EquipType.Head);
                 Player.face = -1;
             }
             else if (meldTransformationPower || meldTransformationForce)

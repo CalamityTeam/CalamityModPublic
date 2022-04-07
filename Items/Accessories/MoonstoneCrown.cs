@@ -11,12 +11,24 @@ namespace CalamityMod.Items.Accessories
         // Base damage of lunar flares on stealth strikes. Increased by rogue damage stats, but not stealth damage.
         internal const int BaseDamage = 85;
 
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/Items/Accessories/MoonstoneCrown_Face");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moonstone Crown");
             Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes summon lunar flares on enemy hits\n" +
                 "Rogue projectiles very occasionally summon moon sigils behind them");
+
+            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
         }
 
         public override void SetDefaults()
@@ -37,7 +49,7 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.moonCrownDraw = true; //this bool is just used for drawing
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void UpdateVisibleVanity(Player player, EquipType type)
         {
             player.Calamity().moonCrownDraw = true; //this bool is just used for drawing
         }
@@ -50,15 +62,6 @@ namespace CalamityMod.Items.Accessories
                 .AddIngredient<GalacticaSingularity>(5)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
-        }
-    }
-
-    public class MoonstoneCrownHair : EquipTexture
-    {
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = false;
-            drawAltHair = false;
         }
     }
 }

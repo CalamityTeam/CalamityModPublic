@@ -9,6 +9,18 @@ namespace CalamityMod.Items.Accessories
 {
     public class AbyssalDivingSuit : ModItem
     {
+        public override void Load()
+        {
+            // All code below runs only if we're not loading on a server
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Add equip textures
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, $"{Texture}_{EquipType.Head}");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, $"{Texture}_{EquipType.Body}");
+                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, $"{Texture}_{EquipType.Legs}");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Diving Suit");
@@ -35,6 +47,14 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
+
+            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+            int equipSlotBody = Mod.GetEquipSlot(Name, EquipType.Body);
+            int equipSlotLegs = Mod.GetEquipSlot(Name, EquipType.Legs);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -60,30 +80,6 @@ namespace CalamityMod.Items.Accessories
                 .AddIngredient(ItemID.LunarBar, 5)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
-        }
-    }
-
-    public class AbyssalDivingSuitHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class AbyssalDivingSuitBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class AbyssalDivingSuitLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
         }
     }
 }
