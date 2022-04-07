@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.SunkenSea
             }
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
             Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Vector2 vector = center - Main.screenPosition;
+            Vector2 vector = center - screenPos;
             vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GhostBellSmallGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
