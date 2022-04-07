@@ -170,7 +170,7 @@ namespace CalamityMod.World
                             if (y - YStart - 6 < wallBoundAtPosition(xRatio * MathHelper.TwoPi * 4f))
                                 Main.tile[trueX, y].WallType = WallID.None;
 
-                            Main.tile[trueX, y].active(true);
+                            Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = true;
                         }
                     }
                 }
@@ -388,9 +388,9 @@ namespace CalamityMod.World
                                     for (int y2 = 0; y2 <= extraHeight; y2++)
                                     {
                                         Main.tile[x + dx, y + dy - y2].TileType = (ushort)ModContent.TileType<SulphurousSandNoWater>();
-                                        Main.tile[x + dx, y + dy - y2].slope(0);
+                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                                         Main.tile[x + dx, y + dy - y2].halfBrick(false);
-                                        Main.tile[x + dx, y + dy - y2].active(true);
+                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().HasTile = true;
                                     }
                                     if (dy == -2 && dx == treePosition)
                                     {
@@ -536,7 +536,7 @@ namespace CalamityMod.World
                                         liquid = 255,
                                         wall = oldWall
                                     };
-                                    Main.tile[trueX, y - dy].active(true);
+                                    Main.tile[trueX, y - dy].Get<TileWallWireStateData>().HasTile = true;
 
                                     if (Main.tile[trueX + 1, y - dy] is null)
                                         Main.tile[trueX + 1, y - dy] = new Tile();
@@ -550,7 +550,7 @@ namespace CalamityMod.World
                                         liquid = 255,
                                         wall = oldWall
                                     };
-                                    Main.tile[trueX + 1, y - dy].active(true);
+                                    Main.tile[trueX + 1, y - dy].Get<TileWallWireStateData>().HasTile = true;
                                 }
                                 previousX = trueX;
                             }
@@ -623,7 +623,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[i, y + 1] = new Tile();
                     }
-                    if (!Main.tile[i, y + 1].HasUnactuatedTile || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
+                    if (!Main.tile[i, y + 1].HasUnactuatedTile || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].Slope != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
                     {
                         canGenerate = false;
                     }
@@ -649,7 +649,7 @@ namespace CalamityMod.World
                     type = type,
                     frameY = (short)(dy * 18)
                 };
-                Main.tile[x, y + dy].active(true);
+                Main.tile[x, y + dy].Get<TileWallWireStateData>().HasTile = true;
             }
         }
         public static void PlaceStalacmite(int x, int y, int height, ushort type)
@@ -663,7 +663,7 @@ namespace CalamityMod.World
                     frameY = (short)(height * 18 - dy * 18),
                     wall = oldWall
                 };
-                Main.tile[x, y - dy].active(true);
+                Main.tile[x, y - dy].Get<TileWallWireStateData>().HasTile = true;
             }
         }
         #endregion
@@ -760,7 +760,7 @@ namespace CalamityMod.World
                     {
                         if (Main.tile[trueX, y] is null)
                             Main.tile[trueX, y] = new Tile();
-                        Main.tile[trueX, y].active(false);
+                        Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = false;
                     }
                     if (WallsForSulphSeaToDestroy.Contains(Main.tile[trueX, y].WallType))
                     {
@@ -832,7 +832,7 @@ namespace CalamityMod.World
                         if (Main.tile[trueX, y].TileType == TileID.Trees)
                             WorldGen.KillTile(trueX, y);
                         else
-                            Main.tile[trueX, y].active(false);
+                            Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = false;
                     }
 
                     else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType))
@@ -1002,7 +1002,7 @@ namespace CalamityMod.World
             }
             Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
             Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-            if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.slope() != 0)
+            if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.Slope != 0)
             {
                 return;
             }
@@ -1023,14 +1023,14 @@ namespace CalamityMod.World
                 tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
                 if (k == 0)
                 {
-                    tileAtPosition.active(true);
+                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                     tileAtPosition.TileType = TileID.PalmTree;
                     tileAtPosition.TileFrameX = 66;
                     tileAtPosition.TileFrameY = 0;
                 }
                 else if (k == treeHeight - 1)
                 {
-                    tileAtPosition.active(true);
+                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                     tileAtPosition.TileType = TileID.PalmTree;
                     tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(4, 7));
                     tileAtPosition.TileFrameY = frameY;
@@ -1046,7 +1046,7 @@ namespace CalamityMod.World
                             frameY += (short)(Math.Sign(frameYIdeal) * 2);
                         }
                     }
-                    tileAtPosition.active(true);
+                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
                     tileAtPosition.TileType = TileID.PalmTree;
                     tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(0, 3));
                     tileAtPosition.TileFrameY = frameY;

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +30,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 9).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(9).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

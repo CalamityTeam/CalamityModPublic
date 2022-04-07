@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs
 
                         attackTimer++;
                         if (attackTimer == eggLayTime)
-                            NPC.NewNPC((int)spotToLayEgg.X, (int)spotToLayEgg.Y + 20, 478, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)spotToLayEgg.X, (int)spotToLayEgg.Y + 20, 478, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         else if (attackTimer == eggLayTime + waitTime)
                         {
                             aiState = (int)MothronAIState.NewAISelection;
@@ -493,13 +493,13 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
                 npc.ai[0] = 1f;
 
-                int num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num861 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = -1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].target = npc.target;
                 Main.npc[num861].netUpdate = true;
 
-                num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num861 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = 1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].ai[3] = 150f;

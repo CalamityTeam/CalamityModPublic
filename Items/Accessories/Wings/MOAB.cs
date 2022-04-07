@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 for (int index = 0; index < dustAmt; index++)
                 {
-                    int type = DustID.Fire;
+                    int type = 6;
                     if (player.head == 41)
                     {
                         int arg_58FD_0 = player.body;
@@ -87,9 +87,9 @@ namespace CalamityMod.Items.Accessories.Wings
                     }
                 }
             }
-            player.doubleJumpCloud = true;
-            player.doubleJumpSandstorm = true;
-            player.doubleJumpBlizzard = true;
+            player.hasJumpOption_Cloud = true;
+            player.hasJumpOption_Sandstorm = true;
+            player.hasJumpOption_Blizzard = true;
             player.jumpBoost = true;
             player.autoJump = true;
             player.noFallDmg = true;
@@ -113,16 +113,16 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FrogLeg)
-                .AddIngredient(ItemID.BundleofBalloons)
-                .AddIngredient(ItemID.LuckyHorseshoe)
-                .AddIngredient(ItemID.Jetpack)
-                .AddIngredient(ItemID.SoulofMight)
-                .AddIngredient(ItemID.SoulofSight)
-                .AddIngredient(ItemID.SoulofFright)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FrogLeg).
+                AddIngredient(ItemID.BundleofBalloons).
+                AddIngredient(ItemID.LuckyHorseshoe).
+                AddIngredient(ItemID.Jetpack).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

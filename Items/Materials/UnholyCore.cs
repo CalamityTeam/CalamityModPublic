@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +23,11 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CharredOre>(), 4).AddIngredient(ItemID.Hellstone, 4).AddTile(TileID.Hellforge).Register();
+            CreateRecipe().
+                AddIngredient<CharredOre>(4).
+                AddIngredient(ItemID.Hellstone, 4).
+                AddTile(TileID.Hellforge).
+                Register();
         }
     }
 }

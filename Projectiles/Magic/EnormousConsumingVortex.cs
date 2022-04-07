@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Magic
                 Vector2 drawOffset = Vector2.UnitX.RotatedBy(rotation) * 30f * offsetFactor * drawScale;
                 Vector2 drawPosition = Projectile.Center + drawOffset - Main.screenPosition;
                 Color colorToDraw = Main.hslToRgb((i / (float)vortexesToDraw + Time / 40f) % 1f, 1f, 0.75f);
-                Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture),
+                Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value,
                                  drawPosition,
                                  null,
                                  colorToDraw * 0.7f,

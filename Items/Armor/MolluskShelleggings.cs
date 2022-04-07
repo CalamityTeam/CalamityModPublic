@@ -27,18 +27,18 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(4);
             player.moveSpeed -= 0.07f;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<MolluskHusk>(10)
-                .AddIngredient<SeaPrism>(20)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<MolluskHusk>(10).
+                AddIngredient<SeaPrism>(20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

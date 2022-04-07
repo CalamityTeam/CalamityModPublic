@@ -24,18 +24,18 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.allDamage += 0.06f;
+            player.GetDamage<GenericDamageClass>() += 0.06f;
             player.armorPenetration += 10;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.SharkToothNecklace)
-                .AddIngredient(ItemID.AvengerEmblem)
-                .AddIngredient<GrandScale>()
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SharkToothNecklace).
+                AddIngredient(ItemID.AvengerEmblem).
+                AddIngredient<GrandScale>().
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

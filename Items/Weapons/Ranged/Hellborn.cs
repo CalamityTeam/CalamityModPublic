@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat) => mult += player.Calamity().hellbornBoost * (1f / 600f);
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
 
-        public override void GetWeaponKnockback(Player player, ref float knockback) => knockback *= 1f + (player.Calamity().hellbornBoost * (1f / 600f));
+        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback, ref float flat) => knockback *= 1f + (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             player.Calamity().hellbornBoost = 600;
             damage *= 10;
-            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage(DamageClass.Generic) + player.GetDamage(DamageClass.Ranged) - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage(DamageClass.Generic).Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f)), 0f, 0, false);
             float num50 = 3.4f;
             float num51 = 1.6f;
             float num52 = 4f;

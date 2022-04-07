@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, animationFrameHeight);
+            frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, AnimationFrameHeight);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

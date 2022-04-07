@@ -45,17 +45,17 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<RottenBrain>()
-                .AddIngredient(ItemID.BrainOfConfusion)
-                .AddIngredient(ItemID.SoulofNight, 3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<RottenBrain>().
+                AddIngredient(ItemID.BrainOfConfusion).
+                AddIngredient(ItemID.SoulofNight, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

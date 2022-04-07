@@ -502,8 +502,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         int x = (int)(NPC.position.X + (float)Main.rand.Next(NPC.width - 32));
                         int y = (int)(NPC.position.Y + (float)Main.rand.Next(NPC.height - 32));
                         int num663 = ModContent.NPCType<SlimeSpawnCorrupt>();
-                        int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num664].SetDefaults(num663, -1f);
+                        int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
                         Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));

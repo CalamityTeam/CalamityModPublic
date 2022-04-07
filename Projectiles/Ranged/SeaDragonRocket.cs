@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                    int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
                     Main.dust[fire].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
                             num247 = Projectile.velocity.X * 0.5f;
                             num248 = Projectile.velocity.Y * 0.5f;
                         }
-                        int explosion = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, DustID.Fire, 0f, 0f, 100, default, 1f);
+                        int explosion = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
                         Main.dust[explosion].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                         Main.dust[explosion].velocity *= 0.2f;
                         Main.dust[explosion].noGravity = true;
@@ -101,10 +101,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int j = 0; j < 25; j++)
             {
-                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;
                 Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
             int projAmt = Main.rand.Next(2, 4);

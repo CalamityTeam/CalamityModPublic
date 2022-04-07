@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Astral
             DustType = ModContent.DustType<AstralBasic>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Astral Chest";
+            ContainerName.SetDefault("Astral Chest");
             ChestDrop = ModContent.ItemType<AstralChest>();
         }
 

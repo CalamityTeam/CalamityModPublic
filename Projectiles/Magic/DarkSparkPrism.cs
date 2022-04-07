@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Magic
             int num215 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y7 = num215 * Projectile.frame;
             Vector2 vector27 = (Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
-            if (Main.player[Projectile.owner].shroomiteStealth && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].ranged)
+            if (Main.player[Projectile.owner].shroomiteStealth && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].CountsAsClass<RangedDamageClass>())
             {
                 float num216 = Main.player[Projectile.owner].stealth;
                 if ((double)num216 < 0.03)
@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Magic
                 float arg_97B3_0 = (1f + num216 * 10f) / 11f;
                 color25 *= num216;
             }
-            if (Main.player[Projectile.owner].setVortex && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].ranged)
+            if (Main.player[Projectile.owner].setVortex && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].CountsAsClass<RangedDamageClass>())
             {
                 float num217 = Main.player[Projectile.owner].stealth;
                 if ((double)num217 < 0.03)
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Magic
                 float arg_9854_0 = (1f + num217 * 10f) / 11f;
                 color25 = color25.MultiplyRGBA(new Color(Vector4.Lerp(Vector4.One, new Vector4(0.16f, 0.12f, 0f, 0f), 1f - num217)));
             }
-            Main.spriteBatch.Draw(texture2D14, vector27, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25), Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D14, vector27, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25), Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, spriteEffects, 0);
             float scaleFactor2 = (float)Math.Cos((double)(6.28318548f * (Projectile.ai[0] / 120f))) * 2f + 2f;
             if (Projectile.ai[0] > 480f)
             {
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (float num218 = 0f; num218 < 4f; num218 += 1f)
             {
-                Main.spriteBatch.Draw(texture2D14, vector27 + Vector2.UnitY.RotatedBy((double)(num218 * 6.28318548f / 4f), default) * scaleFactor2, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25).MultiplyRGBA(new Color(255, 255, 255, 0)) * 0.03f, Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture2D14, vector27 + Vector2.UnitY.RotatedBy((double)(num218 * 6.28318548f / 4f), default) * scaleFactor2, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y7, texture2D14.Width, num215)), Projectile.GetAlpha(color25).MultiplyRGBA(new Color(255, 255, 255, 0)) * 0.03f, Projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), Projectile.scale, spriteEffects, 0);
             }
             return false;
         }

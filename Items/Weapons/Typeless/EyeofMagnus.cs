@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         // Eye of Magnus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            float formula = 5f * (player.allDamage - 1f);
+            float formula = 5f * (player.GetDamage<GenericDamageClass>() - 1f);
             formula += player.GetDamage(DamageClass.Melee) - 1f;
             formula += player.GetDamage(DamageClass.Ranged) - 1f;
             formula += player.GetDamage(DamageClass.Magic) - 1f;

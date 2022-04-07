@@ -29,19 +29,19 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 100;
             player.endurance += 0.08f;
-            player.allDamage += 0.05f;
+            player.GetDamage<GenericDamageClass>() += 0.05f;
             player.Calamity().AllCritBoost(5);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.SpookyBreastplate)
-                .AddIngredient<CosmiliteBar>(12)
-                .AddIngredient(ItemID.SoulofFright, 12)
-                .AddIngredient<AscendantSpiritEssence>(3)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpookyBreastplate).
+                AddIngredient<CosmiliteBar>(12).
+                AddIngredient(ItemID.SoulofFright, 12).
+                AddIngredient<AscendantSpiritEssence>(3).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

@@ -45,11 +45,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<DesertFeather>(2)
-                .AddIngredient(ItemID.Silk, 8)
-                .AddTile(TileID.Loom)
-                .Register();
+            CreateRecipe().
+                AddIngredient<DesertFeather>(2).
+                AddIngredient(ItemID.Silk, 8).
+                AddTile(TileID.Loom).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -42,13 +42,13 @@ namespace CalamityMod.Projectiles.Rogue
             //Changes the texture of the projectile
             if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ExplosiveSun2");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ExplosiveSun2").Value;
                 Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
             if (Projectile.ai[0] == 2f)
             {
-                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ExplosiveSun3");
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ExplosiveSun3").Value;
                 Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }

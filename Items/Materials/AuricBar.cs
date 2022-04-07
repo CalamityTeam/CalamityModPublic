@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Materials
             Item.consumable = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             player.itemLocation += new Vector2(-10f * player.direction, 10f * player.gravDir).RotatedBy(player.itemRotation);
         }
@@ -68,7 +68,11 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient(ModContent.ItemType<AuricOre>(), 60).AddIngredient(ModContent.ItemType<HellcasterFragment>()).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(5).
+                AddIngredient<AuricOre>(60).
+                AddIngredient<HellcasterFragment>().
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

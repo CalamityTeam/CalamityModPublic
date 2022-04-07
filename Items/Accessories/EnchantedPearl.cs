@@ -32,14 +32,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.FishingPotion)
-                .AddIngredient(ItemID.CratePotion, 8)
-                .AddRecipeGroup("Boss2Material", 5)
-                .AddIngredient<SeaPrism>(10)
-                .AddIngredient<VictideBar>(3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FishingPotion).
+                AddIngredient(ItemID.CratePotion, 8).
+                AddRecipeGroup("Boss2Material", 5).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<VictideBar>(3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

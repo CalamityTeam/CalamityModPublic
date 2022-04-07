@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.knockBack = 10f;
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/BazookaFull");
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<GrenadeRound>();
@@ -62,12 +63,12 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 Item.Calamity().timesUsed = 0;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 player.HeldItem.Calamity().timesUsed++;
-                for (int i = 0; i < Main.maxInventory; i++)
+                for (int i = 0; i < Main.InventorySlotsTotal; i++)
                 {
                     if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;

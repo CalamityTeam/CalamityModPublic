@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Armor
         {
             player.ignoreWater = true;
 
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(8);
         }
 
@@ -91,13 +91,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ReaperTooth>(8)
-                .AddIngredient<Lumenite>(5)
-                .AddIngredient<Tenebris>(5)
-                .AddIngredient<RuinousSoul>(2)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ReaperTooth>(8).
+                AddIngredient<Lumenite>(5).
+                AddIngredient<Tenebris>(5).
+                AddIngredient<RuinousSoul>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

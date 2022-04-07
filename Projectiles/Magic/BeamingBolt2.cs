@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[0] == 1f)
-                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/BeamingThorn");
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/BeamingThorn").Value;
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;

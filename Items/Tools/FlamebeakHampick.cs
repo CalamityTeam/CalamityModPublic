@@ -62,10 +62,10 @@ Right click to use as a hammer");
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CruptixBar>(7)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CruptixBar>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

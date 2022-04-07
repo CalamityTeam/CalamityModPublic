@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("AnyGoldBar", 3)
-                .AddIngredient(ItemID.Granite, 5)
-                .AddIngredient(ItemID.Marble, 5)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyGoldBar", 3).
+                AddIngredient(ItemID.Granite, 5).
+                AddIngredient(ItemID.Marble, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

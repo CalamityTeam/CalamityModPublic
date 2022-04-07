@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
+                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
                     if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.Leviathan
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = AttackTexture;
             if (NPC.ai[0] == 1f || NPC.Calamity().newAI[3] < 180f)
@@ -787,7 +787,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, texture.Width / 2, texture.Height / 3);
             Vector2 origin = rectangle.Size() / 2f;
-            spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
             return false;
         }
 

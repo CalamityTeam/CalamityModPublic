@@ -27,18 +27,18 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.allDamage += 0.08f;
+            player.GetDamage<GenericDamageClass>() += 0.08f;
             player.Calamity().AllCritBoost(4);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CruptixBar>(15)
-                .AddIngredient(ItemID.HellstoneBar, 8)
-                .AddIngredient<CoreofChaos>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CruptixBar>(15).
+                AddIngredient(ItemID.HellstoneBar, 8).
+                AddIngredient<CoreofChaos>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

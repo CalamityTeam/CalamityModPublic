@@ -37,13 +37,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.WarriorEmblem)
-                .AddIngredient<NecklaceofVexation>()
-                .AddIngredient<CoreofCinder>(5)
-                .AddIngredient<DivineGeode>(5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.WarriorEmblem).
+                AddIngredient<NecklaceofVexation>().
+                AddIngredient<CoreofCinder>(5).
+                AddIngredient<DivineGeode>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

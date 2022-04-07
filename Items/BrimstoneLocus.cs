@@ -25,10 +25,10 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CalamitousEssence>()
-                .AddIngredient<BloodstoneCore>(3)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CalamitousEssence>().
+                AddIngredient<BloodstoneCore>(3).
+                Register();
         }
     }
 }

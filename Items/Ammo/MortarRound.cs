@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(100)
-                .AddIngredient(ItemID.RocketIV, 100)
-                .AddIngredient<UeliaceBar>()
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.RocketIV, 100).
+                AddIngredient<UeliaceBar>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

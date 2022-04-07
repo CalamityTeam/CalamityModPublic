@@ -33,12 +33,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ObsidianRose)
-                .AddIngredient<CalamityDust>(8)
-                .AddIngredient<UnholyCore>(4)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ObsidianRose).
+                AddIngredient<CalamityDust>(8).
+                AddIngredient<UnholyCore>(4).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

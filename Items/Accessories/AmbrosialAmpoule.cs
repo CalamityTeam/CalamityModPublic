@@ -36,21 +36,21 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CorruptFlask>()
-                .AddIngredient<RadiantOoze>()
-                .AddIngredient<VerstaltiteBar>(5)
-                .AddIngredient<SeaPrism>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CorruptFlask>().
+                AddIngredient<RadiantOoze>().
+                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<CrimsonFlask>()
-                .AddIngredient<RadiantOoze>()
-                .AddIngredient<VerstaltiteBar>(5)
-                .AddIngredient<SeaPrism>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CrimsonFlask>().
+                AddIngredient<RadiantOoze>().
+                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

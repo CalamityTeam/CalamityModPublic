@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Polterghast
             return new Color(200, 150, 255) * NPC.Opacity;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 for (int num155 = 1; num155 < num153; num155 += 2)
                 {
-                    Color color38 = lightColor;
+                    Color color38 = drawColor;
 
                     if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
                         color38 = Color.Lerp(color38, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
@@ -433,19 +433,19 @@ namespace CalamityMod.NPCs.Polterghast
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Color color = NPC.GetAlpha(lightColor);
+            Color color = NPC.GetAlpha(drawColor);
 
             if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
                 color = Color.Lerp(color, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
@@ -457,7 +457,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 for (int num163 = 1; num163 < num153; num163++)
                 {
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
                     vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     Color color43 = color42;

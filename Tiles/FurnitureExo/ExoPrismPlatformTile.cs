@@ -1,6 +1,7 @@
-using CalamityMod.Items.Placeables.FurnitureExo;
+﻿using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             if (!Main.dedServ)
             {
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPrismPlatformTileGlow");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPrismPlatformTileGlow", AssetRequestMode.ImmediateLoad).Value;
             }
 
             this.SetUpPlatform(true);
@@ -47,7 +48,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int frameOffset = (i + j) % 6;
-            frameYOffset = frameOffset * animationFrameHeight;
+            frameYOffset = frameOffset * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -58,7 +59,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.TileFrameX;
-            int frameOffset = (i + j) % 6 * animationFrameHeight;
+            int frameOffset = (i + j) % 6 * AnimationFrameHeight;
             int yPos = tile.TileFrameY + frameOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;

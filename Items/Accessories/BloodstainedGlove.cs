@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<BloodSample>(5)
-                .AddIngredient(ItemID.Vertebrae, 4)
-                .AddIngredient(ItemID.CrimtaneBar, 4)
-                .AddTile(TileID.DemonAltar)
-                .Register();
+            CreateRecipe().
+                AddIngredient<BloodSample>(5).
+                AddIngredient(ItemID.Vertebrae, 4).
+                AddIngredient(ItemID.CrimtaneBar, 4).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

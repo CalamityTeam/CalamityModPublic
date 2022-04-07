@@ -53,19 +53,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.GoldCrown)
-                .AddIngredient<AerialiteBar>(6)
-                .AddIngredient(ItemID.Feather, 8)
-                .AddTile(TileID.SkyMill)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GoldCrown).
+                AddIngredient<AerialiteBar>(6).
+                AddIngredient(ItemID.Feather, 8).
+                AddTile(TileID.SkyMill).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.PlatinumCrown)
-                .AddIngredient<AerialiteBar>(6)
-                .AddIngredient(ItemID.Feather, 8)
-                .AddTile(TileID.SkyMill)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PlatinumCrown).
+                AddIngredient<AerialiteBar>(6).
+                AddIngredient(ItemID.Feather, 8).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

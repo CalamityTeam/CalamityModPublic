@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +25,11 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<BlueCosmicFlameDye>()).AddIngredient(ModContent.ItemType<PinkCosmicFlameDye>()).AddTile(TileID.DyeVat).Register();
+            CreateRecipe(2).
+                AddIngredient<BlueCosmicFlameDye>().
+                AddIngredient<PinkCosmicFlameDye>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

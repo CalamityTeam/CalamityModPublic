@@ -17,7 +17,7 @@ namespace CalamityMod.Walls
             if (Main.tile[i, j].LiquidAmount <= 0)
             {
                 Main.tile[i, j].LiquidAmount = 255;
-                Main.tile[i, j].LiquidType = LiquidID.Water;
+                Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
             }
         }
 

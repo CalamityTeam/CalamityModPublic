@@ -6,7 +6,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using static CalamityMod.CalPlayer.CalamityPlayer;
 using System.Linq;
 using Terraria.DataStructures;
 
@@ -74,16 +73,16 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.3f;
+            player.GetDamage<GenericDamageClass>() += 0.3f;
             player.Calamity().AllCritBoost(15);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ShadowspecBar>(12)
-                .AddTile<DraedonsForge>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<ShadowspecBar>(12).
+                AddTile<DraedonsForge>().
+                Register();
         }
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/DemonshadeHelm_Extension";

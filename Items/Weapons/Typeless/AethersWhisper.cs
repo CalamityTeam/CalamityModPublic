@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.height = 44;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
@@ -83,12 +84,12 @@ namespace CalamityMod.Items.Weapons.Typeless
                 mult *= 0f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // This is coded weirdly because it defaults to using magic boosts without this.
             int dmg = player.GetWeaponDamage(player.ActiveItem());
             float ai0 = player.altFunctionUse == 2 ? 1f : 0f;
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, dmg, knockBack, player.whoAmI, ai0, 0f);
+            Projectile.NewProjectile(source, position, velocity, type, dmg, knockback, player.whoAmI, ai0, 0f);
             return false;
         }
 

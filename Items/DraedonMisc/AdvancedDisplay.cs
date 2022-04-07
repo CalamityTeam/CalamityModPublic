@@ -56,10 +56,10 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
-                AddIngredient(ModContent.ItemType<BarofLife>(), 3).
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(10).
+                AddIngredient<DubiousPlating>(10).
+                AddIngredient<BarofLife>(3).
                 AddIngredient(ItemID.Glass, 20).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).

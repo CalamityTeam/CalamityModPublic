@@ -1,6 +1,5 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
-using static CalamityMod.CalPlayer.CalamityPlayer;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 

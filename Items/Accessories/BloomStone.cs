@@ -46,14 +46,14 @@ namespace CalamityMod.Items.Accessories
                 if (!walkTile.HasTile && walkTile.LiquidAmount == 0 && groundTile != null && WorldGen.SolidTile(groundTile))
                 {
                     walkTile.TileFrameY = 0;
-                    walkTile.slope(0);
+                    walkTile.Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     walkTile.halfBrick(false);
                     // On dirt blocks, there's a small chance to grow a dye plant.
                     if (groundTile.TileType == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
                         {
-                            walkTile.active(true);
+                            walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.DyePlants;
                             walkTile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
                             while (walkTile.TileFrameX == 144)
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Accessories
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            walkTile.active(true);
+                            walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.Plants;
                             walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 11));
 
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else
                         {
-                            walkTile.active(true);
+                            walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.Plants2;
                             walkTile.TileFrameX = (short)(18 * Main.rand.Next(6, 21));
 
@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Accessories
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            walkTile.active(true);
+                            walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.HallowedPlants;
                             walkTile.TileFrameX = (short)(18 * Main.rand.Next(4, 7));
                             while (walkTile.TileFrameX == 90)
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else
                         {
-                            walkTile.active(true);
+                            walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.HallowedPlants2;
                             walkTile.TileFrameX = (short)(18 * Main.rand.Next(2, 8));
                             while (walkTile.TileFrameX == 90)
@@ -117,7 +117,7 @@ namespace CalamityMod.Items.Accessories
                     // On jungle grass, grow jungle flowers.
                     else if (groundTile.TileType == TileID.JungleGrass)
                     {
-                        walkTile.active(true);
+                        walkTile.Get<TileWallWireStateData>().HasTile = true;
                         walkTile.TileType = TileID.JunglePlants2;
                         walkTile.TileFrameX = (short)(18 * Main.rand.Next(9, 17));
 

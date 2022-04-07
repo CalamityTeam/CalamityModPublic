@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.AstralDesert
@@ -7,12 +7,12 @@ namespace CalamityMod.Tiles.AstralDesert
     {
         public override Texture2D GetTexture()
         {
-            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree");
+            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree").Value;
         }
 
         public override Texture2D GetTopTextures()
         {
-            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree_Tops");
+            return ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralPalmTree_Tops").Value;
         }
 
         public override int DropWood()

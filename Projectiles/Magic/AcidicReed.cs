@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,14 +28,14 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.ai[0] == 1f)
             {
-                Terraria.Audio.LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
+                LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new LegacySoundStyle[]
                 {
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax1"),
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax2"),
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax3"),
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax4"),
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax5"),
-                    Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Saxophone/Sax6")
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax1"),
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax2"),
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax3"),
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax4"),
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax5"),
+                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax6")
                 });
                 SoundEngine.PlaySound(saxSound, Projectile.position);
                 Projectile.ai[0] = 0f;

@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         {
                             num4 = ModContent.NPCType<ArmoredDiggerTail>();
                         }
-                        int num5 = NPC.NewNPC((int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        int num5 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.position.X + (float)(NPC.width / 2)), (int)(NPC.position.Y + (float)NPC.height), num4, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num5].ai[3] = (float)NPC.whoAmI;
                         Main.npc[num5].realLife = NPC.whoAmI;
                         Main.npc[num5].ai[1] = (float)num2;
@@ -394,13 +394,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 6, hitDirection, -1f, 0, default, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 6, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

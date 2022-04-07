@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +24,12 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ItemID.VoidDye).AddIngredient(ItemID.ShadowDye).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.DyeVat).Register();
+            CreateRecipe(2).
+                AddIngredient(ItemID.VoidDye).
+                AddIngredient(ItemID.ShadowDye).
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

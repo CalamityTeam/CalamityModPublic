@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.OpenDoor };
-            closeDoorID = ModContent.TileType<PlaguedPlateDoorClosed>();
+            CloseDoorID = ModContent.TileType<PlaguedPlateDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

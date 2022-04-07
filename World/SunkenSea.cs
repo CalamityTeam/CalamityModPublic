@@ -247,7 +247,7 @@ namespace CalamityMod.World
                         if (num4 % 15 == 2)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<Navystone>());
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.LiquidAmount = 0;
                         }
                         Tile.SmoothSlope(num6, num7, true);
@@ -259,7 +259,7 @@ namespace CalamityMod.World
                         if (!flag || tile.HasTile)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<Navystone>());
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             Tile.SmoothSlope(num6, num7, true);
                             tile.LiquidAmount = 0;
                         }
@@ -270,7 +270,7 @@ namespace CalamityMod.World
                         if (!flag || tile.HasTile)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
-                            tile.active(true);
+                            tile.Get<TileWallWireStateData>().HasTile = true;
                             Tile.SmoothSlope(num6, num7, true);
                             tile.LiquidAmount = 0;
                         }
@@ -284,7 +284,7 @@ namespace CalamityMod.World
                             if (tile.HasTile)
                             {
                                 tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
-                                tile.active(true);
+                                tile.Get<TileWallWireStateData>().HasTile = true;
                                 Tile.SmoothSlope(num6, num7, true);
                                 tile.WallType = (ushort)ModContent.WallType<EutrophicSandWall>();
                                 tile.LiquidAmount = 0;
@@ -495,7 +495,7 @@ namespace CalamityMod.World
                         {
                             if (flag3 ^ flag4)
                             {
-                                if (tile2.slope() == 0 && !tile2.IsHalfBlock)
+                                if (tile2.Slope == 0 && !tile2.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5 + (flag3 ? -1 : 1), num6];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
@@ -508,12 +508,12 @@ namespace CalamityMod.World
                                         Main.tile[num5 + 1, num6].TileFrameY = (short)(3 * 18);
                                     }
                                     tile3.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
-                                    tile3.active(true);
+                                    tile3.Get<TileWallWireStateData>().HasTile = true;
                                 }
                             }
                             if (flag ^ flag2)
                             {
-                                if (tile2.slope() == 0 && !tile2.IsHalfBlock)
+                                if (tile2.Slope == 0 && !tile2.IsHalfBlock)
                                 {
                                     Tile tile3 = Main.tile[num5, num6 + (flag ? -1 : 1)];
                                     tile3.TileType = (ushort)ModContent.TileType<SeaPrismCrystals>();
@@ -526,7 +526,7 @@ namespace CalamityMod.World
                                         Main.tile[num5, num6 + 1].TileFrameY = (short)(1 * 18);
                                     }
                                     tile3.TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
-                                    tile3.active(true);
+                                    tile3.Get<TileWallWireStateData>().HasTile = true;
                                 }
                             }
                         }
@@ -625,7 +625,7 @@ namespace CalamityMod.World
                     {
                         int num2 = WorldGen.genRand.Next(3) * 18;
                         Main.tile[x, y].TileType = type;
-                        Main.tile[x, y].active(true);
+                        Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[x, y].TileFrameX = (short)num2;
                         Main.tile[x, y].TileFrameY = 72;
                     }
@@ -633,11 +633,11 @@ namespace CalamityMod.World
                     {
                         int num3 = WorldGen.genRand.Next(3) * 18;
                         Main.tile[x, y].TileType = type;
-                        Main.tile[x, y].active(true);
+                        Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[x, y].TileFrameX = (short)num3;
                         Main.tile[x, y].TileFrameY = 0;
                         Main.tile[x, y + 1].TileType = type;
-                        Main.tile[x, y + 1].active(true);
+                        Main.tile[x, y + 1].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[x, y + 1].TileFrameX = (short)num3;
                         Main.tile[x, y + 1].TileFrameY = 18;
                     }
@@ -653,7 +653,7 @@ namespace CalamityMod.World
                         {
                             int num13 = WorldGen.genRand.Next(3) * 18;
                             Main.tile[x, y].TileType = type;
-                            Main.tile[x, y].active(true);
+                            Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                             Main.tile[x, y].TileFrameX = (short)num13;
                             Main.tile[x, y].TileFrameY = 90;
                         }
@@ -661,11 +661,11 @@ namespace CalamityMod.World
                         {
                             int num14 = WorldGen.genRand.Next(3) * 18;
                             Main.tile[x, y - 1].TileType = type;
-                            Main.tile[x, y - 1].active(true);
+                            Main.tile[x, y - 1].Get<TileWallWireStateData>().HasTile = true;
                             Main.tile[x, y - 1].TileFrameX = (short)num14;
                             Main.tile[x, y - 1].TileFrameY = 36;
                             Main.tile[x, y].TileType = type;
-                            Main.tile[x, y].active(true);
+                            Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                             Main.tile[x, y].TileFrameX = (short)num14;
                             Main.tile[x, y].TileFrameY = 54;
                         }

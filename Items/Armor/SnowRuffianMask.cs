@@ -75,12 +75,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("AnySnowBlock", 10)
-                .AddRecipeGroup("AnyIceBlock", 5)
-                .AddIngredient(ItemID.BorealWood, 15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("AnySnowBlock", 10).
+                AddRecipeGroup("AnyIceBlock", 5).
+                AddIngredient(ItemID.BorealWood, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
     public class SnowRuffianWings : EquipTexture

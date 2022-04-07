@@ -28,11 +28,11 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<LivingShard>(2)
-                .AddIngredient(ItemID.Silk, 5)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<LivingShard>(2).
+                AddIngredient(ItemID.Silk, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

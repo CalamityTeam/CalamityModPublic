@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<DormantBrimseekerBab>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<DormantBrimseekerBab>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
     }
 }

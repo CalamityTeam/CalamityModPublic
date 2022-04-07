@@ -26,20 +26,20 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
             player.armorPenetration += 15;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<SandSharkToothNecklace>()
-                .AddIngredient<ReaperTooth>(6)
-                .AddIngredient<Lumenite>(15)
-                .AddIngredient<DepthCells>(15)
-                .AddIngredient<Tenebris>(5)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient<SandSharkToothNecklace>().
+                AddIngredient<ReaperTooth>(6).
+                AddIngredient<Lumenite>(15).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

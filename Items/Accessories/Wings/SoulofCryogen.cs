@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
-            player.allDamage += 0.07f;
+            player.GetDamage<GenericDamageClass>() += 0.07f;
             player.wingTimeMax = 120;
             player.noFallDmg = true;
             if (modPlayer.icicleCooldown <= 0)

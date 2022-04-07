@@ -86,7 +86,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             int drawDirection = te.Direction;
             Color drawColor = Lighting.GetColor(i, j);
 
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret").Value;
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             drawOffset.Y -= 2f;

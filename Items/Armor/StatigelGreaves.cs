@@ -26,17 +26,17 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.05f;
+            player.GetDamage<GenericDamageClass>() += 0.05f;
             player.moveSpeed += 0.05f;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<PurifiedGel>(6)
-                .AddIngredient(ItemID.HellstoneBar, 11)
-                .AddTile<StaticRefiner>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(6).
+                AddIngredient(ItemID.HellstoneBar, 11).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

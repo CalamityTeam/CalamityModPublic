@@ -138,7 +138,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                         string restOfTooltip = text.Substring(damageNumberSubstringIndex);
                         int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
 
-                        int damageWithoutStealth = (int)(Item.damage * (p.allDamage + p.GetDamage(DamageClass.Throwing) + mp.throwingDamage - 2f));
+                        int damageWithoutStealth = (int)(Item.damage * (p.GetDamage<GenericDamageClass>() + p.GetDamage(DamageClass.Throwing) + mp.throwingDamage - 2f));
                         text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
                     }
                 }

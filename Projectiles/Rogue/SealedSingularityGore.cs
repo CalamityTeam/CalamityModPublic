@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -50,9 +50,9 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D texture;
             switch (Projectile.ai[0])
             {
-                case 1f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SealedSingularityGore2");
+                case 1f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SealedSingularityGore2").Value;
                          break;
-                case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SealedSingularityGore3");
+                case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SealedSingularityGore3").Value;
                          break;
                 default: texture = ModContent.Request<Texture2D>(Texture).Value;
                          break;

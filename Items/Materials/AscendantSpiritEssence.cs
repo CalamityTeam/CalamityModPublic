@@ -49,7 +49,13 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Phantoplasm>(), 2).AddIngredient(ModContent.ItemType<NightmareFuel>(), 5).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5).AddIngredient(ModContent.ItemType<DarksunFragment>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Phantoplasm>(2).
+                AddIngredient<NightmareFuel>(5).
+                AddIngredient<EndothermicEnergy>(5).
+                AddIngredient<DarksunFragment>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

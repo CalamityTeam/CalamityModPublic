@@ -33,18 +33,18 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().calamityRing;
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ObsidianRose)
-                .AddIngredient<Gehenna>()
-                .AddIngredient<CalamityRing>()
-                .AddIngredient<CoreofChaos>()
-                .AddIngredient<CruptixBar>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ObsidianRose).
+                AddIngredient<Gehenna>().
+                AddIngredient<CalamityRing>().
+                AddIngredient<CoreofChaos>().
+                AddIngredient<CruptixBar>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
             if (player.lavaWet)
             {
-                player.allDamage += 0.25f;
+                player.GetDamage<GenericDamageClass>() += 0.25f;
             }
             if (player.immune)
             {

@@ -34,19 +34,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.MagicMirror)
-                .AddIngredient(ItemID.BlackLens)
-                .AddIngredient(ItemID.Bone, 50)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MagicMirror).
+                AddIngredient(ItemID.BlackLens).
+                AddIngredient(ItemID.Bone, 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.IceMirror)
-                .AddIngredient(ItemID.BlackLens)
-                .AddIngredient(ItemID.Bone, 50)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.IceMirror).
+                AddIngredient(ItemID.BlackLens).
+                AddIngredient(ItemID.Bone, 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Cosmilite Chest";
+            ContainerName.SetDefault("Cosmilite Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChest>();
         }
 

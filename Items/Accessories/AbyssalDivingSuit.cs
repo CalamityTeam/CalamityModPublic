@@ -69,17 +69,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AbyssalDivingGear>()
-                .AddIngredient<AnechoicPlating>()
-                .AddIngredient<IronBoots>()
-                .AddIngredient<MolluskHusk>(15)
-                .AddIngredient<Lumenite>(40)
-                .AddIngredient<DepthCells>(40)
-                .AddIngredient<Tenebris>(15)
-                .AddIngredient(ItemID.LunarBar, 5)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AbyssalDivingGear>().
+                AddIngredient<AnechoicPlating>().
+                AddIngredient<IronBoots>().
+                AddIngredient<MolluskHusk>(15).
+                AddIngredient<Lumenite>(40).
+                AddIngredient<DepthCells>(40).
+                AddIngredient<Tenebris>(15).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

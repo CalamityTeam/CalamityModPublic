@@ -82,13 +82,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AsgardsValor>()
-                .AddIngredient<ElysianAegis>()
-                .AddIngredient<CosmiliteBar>(10)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<AsgardsValor>().
+                AddIngredient<ElysianAegis>().
+                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

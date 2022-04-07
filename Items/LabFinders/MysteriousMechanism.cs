@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,7 +21,12 @@ namespace CalamityMod.Items.LabFinders
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4).AddIngredient(ModContent.ItemType<DubiousPlating>(), 4).AddIngredient(ItemID.IronBar, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(4).
+                AddIngredient<DubiousPlating>(4).
+                AddIngredient(ItemID.IronBar, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

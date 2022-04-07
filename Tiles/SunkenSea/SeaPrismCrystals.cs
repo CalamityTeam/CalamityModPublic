@@ -50,10 +50,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool CanPlace(int i, int j)
         {
-            if ((Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].IsHalfBlock && Main.tile[i, j + 1].HasTile) ||
-                (Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].IsHalfBlock && Main.tile[i, j - 1].HasTile) ||
-                (Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].IsHalfBlock && Main.tile[i + 1, j].HasTile) ||
-                (Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].IsHalfBlock && Main.tile[i - 1, j].HasTile))
+            if ((Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock && Main.tile[i, j + 1].HasTile) ||
+                (Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock && Main.tile[i, j - 1].HasTile) ||
+                (Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock && Main.tile[i + 1, j].HasTile) ||
+                (Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock && Main.tile[i - 1, j].HasTile))
                 return true;
 
             return false;
@@ -61,19 +61,19 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            if (Main.tile[i, j + 1].HasTile && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].IsHalfBlock)
+            if (Main.tile[i, j + 1].HasTile && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(0 * 18);
             }
-            else if (Main.tile[i, j - 1].HasTile && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].IsHalfBlock)
+            else if (Main.tile[i, j - 1].HasTile && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(1 * 18);
             }
-            else if (Main.tile[i + 1, j].HasTile && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].IsHalfBlock)
+            else if (Main.tile[i + 1, j].HasTile && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(2 * 18);
             }
-            else if (Main.tile[i - 1, j].HasTile && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].IsHalfBlock)
+            else if (Main.tile[i - 1, j].HasTile && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock)
             {
                 Main.tile[i, j].TileFrameY = (short)(3 * 18);
             }

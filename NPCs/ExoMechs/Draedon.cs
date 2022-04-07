@@ -623,7 +623,7 @@ namespace CalamityMod.NPCs.ExoMechs
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             spriteBatch.EnterShaderRegion();
 
@@ -631,7 +631,7 @@ namespace CalamityMod.NPCs.ExoMechs
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
             Rectangle frame = NPC.frame;
 
-            Vector2 drawPosition = NPC.Center - Main.screenPosition - Vector2.UnitY * 38f;
+            Vector2 drawPosition = NPC.Center - screenPos - Vector2.UnitY * 38f;
             Vector2 origin = frame.Size() * 0.5f;
             Color color = NPC.GetAlpha(drawColor);
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

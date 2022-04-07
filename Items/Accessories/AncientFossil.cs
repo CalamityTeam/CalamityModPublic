@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("SiltGroup", 100)
-                .AddTile(TileID.Furnaces)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("SiltGroup", 100).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

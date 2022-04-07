@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<StatisBlessing>()
-                .AddIngredient<TheFirstShadowflame>()
-                .AddIngredient(ItemID.FragmentStardust, 10)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<StatisBlessing>().
+                AddIngredient<TheFirstShadowflame>().
+                AddIngredient(ItemID.FragmentStardust, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

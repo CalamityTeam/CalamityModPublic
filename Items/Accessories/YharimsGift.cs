@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.15f;
-            player.allDamage += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
             if (!player.StandingStill())
             {
                 dragonTimer--;

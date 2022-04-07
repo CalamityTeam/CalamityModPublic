@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VerstaltiteBar>(8)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

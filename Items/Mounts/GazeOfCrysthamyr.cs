@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -33,7 +33,13 @@ namespace CalamityMod.Items.Mounts
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DD2PetDragon).AddIngredient(ItemID.SoulofNight, 100).AddIngredient(ModContent.ItemType<DarksunFragment>(), 10).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DD2PetDragon).
+                AddIngredient(ItemID.SoulofNight, 100).
+                AddIngredient<DarksunFragment>(10).
+                AddIngredient<ExodiumClusterOre>(25).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

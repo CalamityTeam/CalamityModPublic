@@ -34,12 +34,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CoinofDeceit>()
-                .AddIngredient<UnholyCore>(4)
-                .AddIngredient<EssenceofChaos>(2)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CoinofDeceit>().
+                AddIngredient<UnholyCore>(4).
+                AddIngredient<EssenceofChaos>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

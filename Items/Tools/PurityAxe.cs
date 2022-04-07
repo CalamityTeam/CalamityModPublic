@@ -74,13 +74,13 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<FellerofEvergreens>()
-                .AddIngredient(ItemID.PurificationPowder, 20)
-                .AddIngredient(ItemID.PixieDust, 20)
-                .AddIngredient(ItemID.CrystalShard, 10)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<FellerofEvergreens>().
+                AddIngredient(ItemID.PurificationPowder, 20).
+                AddIngredient(ItemID.PixieDust, 20).
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

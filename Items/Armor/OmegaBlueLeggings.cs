@@ -28,20 +28,20 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(12);
             player.moveSpeed += 0.12f;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ReaperTooth>(10)
-                .AddIngredient<Lumenite>(6)
-                .AddIngredient<Tenebris>(6)
-                .AddIngredient<RuinousSoul>(3)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ReaperTooth>(10).
+                AddIngredient<Lumenite>(6).
+                AddIngredient<Tenebris>(6).
+                AddIngredient<RuinousSoul>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

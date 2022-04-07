@@ -46,13 +46,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<CrownJewel>()
-                .AddIngredient(ItemID.TeleportationPotion, 3)
-                .AddIngredient<AstralJelly>(15)
-                .AddIngredient<SeaPrism>(15)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<CrownJewel>().
+                AddIngredient(ItemID.TeleportationPotion, 3).
+                AddIngredient<AstralJelly>(15).
+                AddIngredient<SeaPrism>(15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

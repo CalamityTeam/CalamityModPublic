@@ -89,48 +89,48 @@ namespace CalamityMod.Items
             // Apply standard post-ML rarities to the item's color first.
             Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
             if (!item.expert && standardRarityColor.HasValue)
-                nameLine.overrideColor = standardRarityColor.Value;
+                nameLine.OverrideColor = standardRarityColor.Value;
 
             #region Uniquely Colored Developer Items
             if (item.type == ModContent.ItemType<Fabstaff>())
-                nameLine.overrideColor = new Color(Main.DiscoR, 100, 255);
+                nameLine.OverrideColor = new Color(Main.DiscoR, 100, 255);
             if (item.type == ModContent.ItemType<BlushieStaff>())
-                nameLine.overrideColor = new Color(0, 0, 255);
+                nameLine.OverrideColor = new Color(0, 0, 255);
             if (item.type == ModContent.ItemType<Judgement>())
-                nameLine.overrideColor = Judgement.GetSyncedLightColor();
+                nameLine.OverrideColor = Judgement.GetSyncedLightColor();
             if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
-                nameLine.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+                nameLine.OverrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
             if (item.type == ModContent.ItemType<ShatteredCommunity>())
-                nameLine.overrideColor = ShatteredCommunity.GetRarityColor();
+                nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
             if (item.type == ModContent.ItemType<BensUmbrella>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
             if (item.type == ModContent.ItemType<Endogenesis>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
             if (item.type == ModContent.ItemType<DraconicDestruction>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
             if (item.type == ModContent.ItemType<ScarletDevil>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
             if (item.type == ModContent.ItemType<RedSun>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
             if (item.type == ModContent.ItemType<CrystylCrusher>())
-                nameLine.overrideColor = new Color(129, 29, 149);
+                nameLine.OverrideColor = new Color(129, 29, 149);
             if (item.type == ModContent.ItemType<SomaPrime>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 255, 255), new Color(0xD1, 0xCC, 0x6F), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 255, 255), new Color(0xD1, 0xCC, 0x6F), 4f);
             if (item.type == ModContent.ItemType<Svantechnical>())
-                nameLine.overrideColor = new Color(220, 20, 60);
+                nameLine.OverrideColor = new Color(220, 20, 60);
             if (item.type == ModContent.ItemType<Contagion>())
-                nameLine.overrideColor = new Color(207, 17, 117);
+                nameLine.OverrideColor = new Color(207, 17, 117);
             if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
-                nameLine.overrideColor = new Color(227, 226, 180);
+                nameLine.OverrideColor = new Color(227, 226, 180);
             if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
             if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
-                nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
+                nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
             if (item.type == ModContent.ItemType<AngelicAlliance>())
             {
-                nameLine.overrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
+                nameLine.OverrideColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly / 2f % 1f, new Color[]
                 {
                     new Color(255, 196, 55),
                     new Color(255, 231, 107),
@@ -158,22 +158,22 @@ namespace CalamityMod.Items
                     int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % colorSet.Count);
                     Color currentColor = colorSet[colorIndex];
                     Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
-                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                    nameLine.OverrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
             if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
             {
                 if (Main.GlobalTimeWrappedHourly % 1f < 0.6f)
                 {
-                    nameLine.overrideColor = new Color(89, 229, 255);
+                    nameLine.OverrideColor = new Color(89, 229, 255);
                 }
                 else if (Main.GlobalTimeWrappedHourly % 1f < 0.8f)
                 {
-                    nameLine.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTimeWrappedHourly % 1f - 0.6f) / 0.2f);
+                    nameLine.OverrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTimeWrappedHourly % 1f - 0.6f) / 0.2f);
                 }
                 else
                 {
-                    nameLine.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTimeWrappedHourly % 1f - 0.8f) / 0.2f);
+                    nameLine.OverrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTimeWrappedHourly % 1f - 0.8f) / 0.2f);
                 }
             }
             if (item.type == ModContent.ItemType<Earth>())
@@ -189,7 +189,7 @@ namespace CalamityMod.Items
                     int colorIndex = (int)(Main.GlobalTimeWrappedHourly / 2 % earthColors.Count);
                     Color currentColor = earthColors[colorIndex];
                     Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
-                    nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
+                    nameLine.OverrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
             #endregion
@@ -243,115 +243,115 @@ namespace CalamityMod.Items
 
             // Teleporters not working while a boss is alive.
             if (item.type == ItemID.Teleporter)
-                EditTooltipByName("Placeable", (line) => line.text += "\nCannot be used while a boss is alive");
+                EditTooltipByName("Placeable", (line) => line.Text += "\nCannot be used while a boss is alive");
 
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles)
-                EditTooltipByNum(0, (line) => line.text += "\nMax life increased by 45");
+                EditTooltipByNum(0, (line) => line.Text += "\nMax life increased by 45");
 
             // Mirrors and Recall Potions cannot be used while a boss is alive.
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
                 ApplyTooltipEdits(tooltips,
                     (i, l) => l.Mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
-                    (line) => line.text += "\nCannot be used while you have the Boss Effects buff");
+                    (line) => line.Text += "\nCannot be used while you have the Boss Effects buff");
 
             // Rod of Discord cannot be used multiple times to hurt yourself
             if (item.type == ItemID.RodofDiscord)
-                EditTooltipByNum(0, (line) => line.text += "\nTeleportation is disabled while Chaos State is active");
+                EditTooltipByNum(0, (line) => line.Text += "\nTeleportation is disabled while Chaos State is active");
 
             // Indicate that the Ankh Shield provides sandstorm wind push immunity
             if (item.type == ItemID.AnkhShield)
-                EditTooltipByNum(1, (line) => line.text += ", including Mighty Wind");
+                EditTooltipByNum(1, (line) => line.Text += ", including Mighty Wind");
 
             // Water removing items cannot be used in the Abyss
             string noAbyssLine = "\nCannot be used in the Abyss";
             if (item.type == ItemID.SuperAbsorbantSponge)
-                EditTooltipByNum(0, (line) => line.text += noAbyssLine);
+                EditTooltipByNum(0, (line) => line.Text += noAbyssLine);
             if (item.type == ItemID.EmptyBucket)
-                EditTooltipByName("Defense", (line) => line.text += noAbyssLine);
+                EditTooltipByName("Defense", (line) => line.Text += noAbyssLine);
 
             // If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
-                EditTooltipByNum(0, (line) => line.text += "\nDemon Altars no longer spawn ores when destroyed");
+                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars no longer spawn ores when destroyed");
 
             // Bottled Honey gives the Honey buff
             if (item.type == ItemID.BottledHoney)
-                EditTooltipByName("HealLife", (line) => line.text += "\nGrants the Honey buff for 2 minutes");
+                EditTooltipByName("HealLife", (line) => line.Text += "\nGrants the Honey buff for 2 minutes");
 
             // Warmth Potion provides debuff immunities
             if (item.type == ItemID.WarmthPotion)
             {
                 string immunityLine = "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
-                EditTooltipByNum(0, (line) => line.text += immunityLine);
+                EditTooltipByNum(0, (line) => line.Text += immunityLine);
             }
 
             // Nerfed Archery Potion tooltip
             if (item.type == ItemID.ArcheryPotion)
-                EditTooltipByNum(0, (line) => line.text = "20% increased arrow speed and 1.05x arrow damage");
+                EditTooltipByNum(0, (line) => line.Text = "20% increased arrow speed and 1.05x arrow damage");
 
             // Nerfed Swiftness Potion tooltip
             if (item.type == ItemID.SwiftnessPotion)
-                EditTooltipByNum(0, (line) => line.text = "15% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "15% increased movement speed");
 
             // Nerfed Endurance Potion tooltip
             if (item.type == ItemID.EndurancePotion)
-                EditTooltipByNum(0, (line) => line.text = "Reduces damage taken by 5%");
+                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
 
             // Hand Warmer has a side bonus with Eskimo armor
             if (item.type == ItemID.HandWarmer)
             {
                 string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
-                EditTooltipByNum(0, (line) => line.text += extraLine);
+                EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
             // Invisibility Potion provides various rogue boosts
             if (item.type == ItemID.InvisibilityPotion)
-                EditTooltipByNum(0, (line) => line.text += "\nBoosts various rogue stats depending on held weapon");
+                EditTooltipByNum(0, (line) => line.Text += "\nBoosts various rogue stats depending on held weapon");
 
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)
-                EditTooltipByName("NeedsBait", (line) => line.text += "\nIts fishing line will never break");
+                EditTooltipByName("NeedsBait", (line) => line.Text += "\nIts fishing line will never break");
 
             // Eternity Crystal notifies the player that they can accelerate the invasion
             if (item.type == ItemID.DD2ElderCrystal)
-                EditTooltipByNum(0, (line) => line.text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders");
+                EditTooltipByNum(0, (line) => line.Text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders");
 
             // Fix a vanilla mistake in Magic Quiver's tooltip
             // TODO -- in 1.4 this mistake is already corrected
             if (item.type == ItemID.MagicQuiver)
-                EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" damage", " arrow damage"));
 
             // Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
             if (item.type == ItemID.DD2BetsyBow)
-                EditTooltipByNum(0, (line) => line.text = "Shoots splitting arrows");
+                EditTooltipByNum(0, (line) => line.Text = "Shoots splitting arrows");
             #endregion
 
             // For boss summon item clarity
             #region Boss Summon Tooltip Edits
 
             if (item.type == ItemID.Abeemination)
-                EditTooltipByNum(0, (line) => line.text += " when used in the jungle");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the jungle");
 
             if (item.type == ItemID.BloodySpine)
-                EditTooltipByNum(0, (line) => line.text += " when used in the crimson");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the crimson");
 
             if (item.type == ItemID.ClothierVoodooDoll)
-                EditTooltipByNum(0, (line) => line.text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
 
             if (item.type == ItemID.GuideVoodooDoll)
-                EditTooltipByNum(0, (line) => line.text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
+                EditTooltipByNum(0, (line) => line.Text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
 
             if (item.type == ItemID.LihzahrdPowerCell)
-                EditTooltipByNum(0, (line) => line.text += " to summon the Golem");
+                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem");
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
-                EditTooltipByNum(0, (line) => line.text += " when used during nighttime");
+                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime");
 
             if (item.type == ItemID.TruffleWorm)
-                EditTooltipByName("Consumable", (line) => line.text += "\nSummons Duke Fishron if used as bait in the ocean");
+                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the ocean");
 
             if (item.type == ItemID.WormFood)
-                EditTooltipByNum(0, (line) => line.text += " when used in the corruption");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
             #endregion
 
             // Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
@@ -359,9 +359,9 @@ namespace CalamityMod.Items
             string beltDodgeLine = "Grants the ability to dodge attacks\n" +
                 $"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
             if (item.type == ItemID.BlackBelt)
-                EditTooltipByNum(0, (line) => line.text = beltDodgeLine);
+                EditTooltipByNum(0, (line) => line.Text = beltDodgeLine);
             if (item.type == ItemID.MasterNinjaGear)
-                EditTooltipByNum(1, (line) => line.text = beltDodgeLine);
+                EditTooltipByNum(1, (line) => line.Text = beltDodgeLine);
             #endregion
 
             // Early Hardmode ore melee weapons have new on-hit effects.
@@ -369,54 +369,54 @@ namespace CalamityMod.Items
 
             // Cobalt
             if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
-                EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy defense by 25% on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nDecreases enemy defense by 25% on hit");
 
             // Palladium
             if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
-                EditTooltipByName("Knockback", (line) => line.text += "\nIncreases life regen on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nIncreases life regen on hit");
 
             // Mythril
             if (item.type == ItemID.MythrilSword || item.type == ItemID.MythrilHalberd)
-                EditTooltipByName("Knockback", (line) => line.text += "\nDecreases enemy contact damage by 10% on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nDecreases enemy contact damage by 10% on hit");
 
             // Orichalcum
             if (item.type == ItemID.OrichalcumSword || item.type == ItemID.OrichalcumHalberd)
-                EditTooltipByName("Knockback", (line) => line.text += "\nIncreases how frequently the Orichalcum set bonus triggers on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nIncreases how frequently the Orichalcum set bonus triggers on hit");
 
             // Adamantite
             if (item.type == ItemID.AdamantiteSword || item.type == ItemID.AdamantiteGlaive)
-                EditTooltipByName("Knockback", (line) => line.text += "\nSlows enemies on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nSlows enemies on hit");
 
             // Titanium
             if (item.type == ItemID.TitaniumSword || item.type == ItemID.TitaniumTrident)
-                EditTooltipByName("Knockback", (line) => line.text += "\nDeals increased damage to enemies with high knockback resistance");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nDeals increased damage to enemies with high knockback resistance");
 
             // Hallowed (and True Excalibur)
             if (item.type == ItemID.Excalibur || item.type == ItemID.Gungnir || item.type == ItemID.TrueExcalibur)
-                EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Holy Flames\nDeals double damage to enemies above 75% life");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Holy Flames\nDeals double damage to enemies above 75% life");
             #endregion
 
             // Other melee weapon tooltips
             #region Other Melee Tooltips
 
             if (item.type == ItemID.CandyCaneSword || item.type == ItemID.FruitcakeChakram)
-                EditTooltipByName("Knockback", (line) => line.text += "\nHeals you on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nHeals you on hit");
 
             // Stylish Scissors, all Phaseblades, and all Phasesabers
             if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber))
-                EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 100% of enemy defense");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 100% of enemy defense");
 
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
-                EditTooltipByName("Knockback", (line) => line.text += "\nIgnores 50% of enemy defense");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 50% of enemy defense");
 
             if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge || item.type == ItemID.BallOHurt || item.type == ItemID.CorruptYoyo)
-                EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Shadowflame on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Shadowflame on hit");
 
             if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork || item.type == ItemID.TheMeatball || item.type == ItemID.CrimsonYoyo || item.type == ItemID.CrimsonRod)
-                EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nInflicts Burning Blood on hit");
 
             if (item.type == ItemID.DeathSickle)
-                EditTooltipByNum(0, (line) => line.text += "\nInflicts Whispering Death on hit");
+                EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
             #endregion
 
             // Light pets, accessories, and other items which boost the player's Abyss light stat
@@ -426,26 +426,26 @@ namespace CalamityMod.Items
             string abyssSmallLightLine = "\nProvides a small amount of light in the abyss";
 
             if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace || item.type == ItemID.MiningHelmet)
-                EditTooltipByNum(0, (line) => line.text += abyssSmallLightLine);
+                EditTooltipByNum(0, (line) => line.Text += abyssSmallLightLine);
             if (item.type == ItemID.JellyfishDivingGear)
-                EditTooltipByNum(1, (line) => line.text += abyssSmallLightLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine);
 
             // +2 to Abyss light level
             string abyssMediumLightLine = "\nProvides a moderate amount of light in the abyss";
 
             if (item.type == ItemID.ShinePotion)
-                EditTooltipByName("BuffTime", (line) => line.text += abyssMediumLightLine);
+                EditTooltipByName("BuffTime", (line) => line.Text += abyssMediumLightLine);
 
             if (item.type == ItemID.FairyBell || item.type == ItemID.DD2PetGhost)
-                EditTooltipByNum(0, (line) => line.text += abyssMediumLightLine);
+                EditTooltipByNum(0, (line) => line.Text += abyssMediumLightLine);
 
             // +3 to Abyss light level
             string abyssLargeLightLine = "\nProvides a large amount of light in the abyss";
 
             if (item.type == ItemID.WispinaBottle)
-                EditTooltipByNum(0, (line) => line.text += abyssLargeLightLine);
+                EditTooltipByNum(0, (line) => line.Text += abyssLargeLightLine);
             if (item.type == ItemID.SuspiciousLookingTentacle)
-                EditTooltipByNum(1, (line) => line.text += abyssLargeLightLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssLargeLightLine);
             #endregion
 
             // Accessories and other items which boost the player's ability to breathe in the Abyss
@@ -455,41 +455,41 @@ namespace CalamityMod.Items
             string abyssModerateBreathLine = "\nModerately reduces breath loss in the abyss";
 
             if (item.type == ItemID.DivingHelmet)
-                EditTooltipByNum(0, (line) => line.text += abyssModerateBreathLine);
+                EditTooltipByNum(0, (line) => line.Text += abyssModerateBreathLine);
             if (item.type == ItemID.ArcticDivingGear)
-                EditTooltipByNum(1, (line) => line.text += abyssSmallLightLine + abyssModerateBreathLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine + abyssModerateBreathLine);
 
             // Great breath boost
             string abyssGreatBreathLine = "\nGreatly reduces breath loss in the abyss";
 
             if (item.type == ItemID.GillsPotion)
-                EditTooltipByName("BuffTime", (line) => line.text += abyssGreatBreathLine);
+                EditTooltipByName("BuffTime", (line) => line.Text += abyssGreatBreathLine);
 
             if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
-                EditTooltipByNum(0, (line) => line.text += abyssGreatBreathLine);
+                EditTooltipByNum(0, (line) => line.Text += abyssGreatBreathLine);
             if (item.type == ItemID.CelestialShell)
-                EditTooltipByNum(1, (line) => line.text += abyssModerateBreathLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssModerateBreathLine);
             #endregion
 
             // Flasks apply to Rogue weapons
             #region Rogue Flask Tooltips
             if (item.type == ItemID.FlaskofCursedFlames)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks inflict enemies with cursed flames");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks inflict enemies with cursed flames");
             if (item.type == ItemID.FlaskofFire)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks set enemies on fire");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks set enemies on fire");
             if (item.type == ItemID.FlaskofGold)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks make enemies drop more gold");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks make enemies drop more gold");
             if (item.type == ItemID.FlaskofIchor)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks decrease enemy defense");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks decrease enemy defense");
             if (item.type == ItemID.FlaskofNanites)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks confuse enemies");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks confuse enemies");
             // party flask is unique because it affects ALL projectiles in Calamity, not just "also rogue ones"
             if (item.type == ItemID.FlaskofParty)
-                EditTooltipByNum(0, (line) => line.text = "All attacks cause confetti to appear");
+                EditTooltipByNum(0, (line) => line.Text = "All attacks cause confetti to appear");
             if (item.type == ItemID.FlaskofPoison)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks poison enemies");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks poison enemies");
             if (item.type == ItemID.FlaskofVenom)
-                EditTooltipByNum(0, (line) => line.text += "\nRogue attacks inflict Venom on enemies");
+                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks inflict Venom on enemies");
             #endregion
 
             // Rebalances to vanilla item stats
@@ -497,134 +497,134 @@ namespace CalamityMod.Items
 
             // Magic Power Potion nerf
             if (item.type == ItemID.MagicPowerPotion)
-                EditTooltipByNum(0, (line) => line.text = "10% increased magic damage");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased magic damage");
 
             // Magic and Wizard Hat nerfs
             // Magic Hat
             if (item.type == ItemID.MagicHat)
-                EditTooltipByNum(0, (line) => line.text = "5% increased magic damage and critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
             // Wizard Hat
             if (item.type == ItemID.WizardHat)
-                EditTooltipByNum(0, (line) => line.text = "5% increased magic damage");
+                EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage");
 
             // Edit individual tooltips for early hardmode armor sets.
             // Cobalt Hat.
             if (item.type == ItemID.CobaltHat)
-                EditTooltipByNum(0, (line) => line.text = $"Increases maximum mana by {CobaltArmorSetChange.MaxManaBoost + 40}");
+                EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {CobaltArmorSetChange.MaxManaBoost + 40}");
 
             // Palladium Breastplate.
             if (item.type == ItemID.PalladiumBreastplate)
-                EditTooltipByNum(0, (line) => line.text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
 
             // Palladium Leggings.
             if (item.type == ItemID.PalladiumLeggings)
-                EditTooltipByNum(0, (line) => line.text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
 
             // Mythril Hood.
             if (item.type == ItemID.MythrilHood)
-                EditTooltipByNum(0, (line) => line.text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
+                EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
 
             // Mythril Chainmail.
             if (item.type == ItemID.MythrilChainmail)
-                EditTooltipByNum(0, (line) => line.text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
+                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
 
             // Mythril Hood.
             if (item.type == ItemID.MythrilGreaves)
-                EditTooltipByNum(0, (line) => line.text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
             // Orichalcum Breastplate.
             if (item.type == ItemID.OrichalcumBreastplate)
-                EditTooltipByNum(0, (line) => line.text = $"{OrichalcumArmorSetChange.ChestplateCritChanceBoost + 6}% increased critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = $"{OrichalcumArmorSetChange.ChestplateCritChanceBoost + 6}% increased critical strike chance");
 
             // Adamantite Headgear.
             if (item.type == ItemID.AdamantiteHeadgear)
-                EditTooltipByNum(0, (line) => line.text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
+                EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
 
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
             if (item.type == ItemID.SquirePlating)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion and melee damage");
             if (item.type == ItemID.SquireGreaves)
-                EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance\n" +
+                EditTooltipByNum(0, (line) => line.Text = "5% increased minion damage and melee critical strike chance\n" +
                 "15% increased movement speed");
 
             // Monk armor
             if (item.type == ItemID.MonkBrows)
-                EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 1 and increases melee attack speed by 10%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 1 and increases melee attack speed by 10%");
             if (item.type == ItemID.MonkShirt)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion and melee damage");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion and melee damage");
             if (item.type == ItemID.MonkPants)
             {
-                EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and melee critical strike chance");
-                EditTooltipByNum(1, (line) => line.text = "20% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "5% increased minion damage and melee critical strike chance");
+                EditTooltipByNum(1, (line) => line.Text = "20% increased movement speed");
             }
 
             // Huntress armor
             if (item.type == ItemID.HuntressJerkin)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion and ranged damage\n" +
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion and ranged damage\n" +
                 "10% chance to not consume ammo");
 
             // Apprentice armor
             if (item.type == ItemID.ApprenticeTrousers)
-                EditTooltipByNum(0, (line) => line.text = "5% increased minion damage and magic critical strike chance\n" +
+                EditTooltipByNum(0, (line) => line.Text = "5% increased minion damage and magic critical strike chance\n" +
                 "20% increased movement speed");
 
             // Valhalla Knight armor
             if (item.type == ItemID.SquireAltShirt)
-                EditTooltipByNum(0, (line) => line.text = "30% increased minion damage and increased life regeneration");
+                EditTooltipByNum(0, (line) => line.Text = "30% increased minion damage and increased life regeneration");
             if (item.type == ItemID.SquireAltPants)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance\n" +
                 "20% increased movement speed");
 
             // Shinobi Infiltrator armor
             if (item.type == ItemID.MonkAltHead)
-                EditTooltipByNum(0, (line) => line.text = "Increases your max number of sentries by 2\n" +
+                EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 2\n" +
                 "10% increased melee and minion damage");
             if (item.type == ItemID.MonkAltShirt)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee speed\n" +
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed\n" +
                 "5% increased melee critical strike chance");
             if (item.type == ItemID.MonkAltPants)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and melee critical strike chance\n" +
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance\n" +
                 "30% increased movement speed");
 
             // Red Riding armor
             if (item.type == ItemID.HuntressAltShirt)
-                EditTooltipByNum(0, (line) => line.text = "15% increased minion and ranged damage and 20% chance to not consume ammo");
+                EditTooltipByNum(0, (line) => line.Text = "15% increased minion and ranged damage and 20% chance to not consume ammo");
 
             // Dark Artist armor
             if (item.type == ItemID.ApprenticeAltPants)
-                EditTooltipByNum(0, (line) => line.text = "10% increased minion damage and magic critical strike chance\n" +
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
                 "20% increased movement speed");
 
             // Worm Scarf only gives 10% DR instead of 17%
             if (item.type == ItemID.WormScarf)
-                EditTooltipByNum(0, (line) => line.text = line.text.Replace("17%", "10%"));
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("17%", "10%"));
 
             if (item.type == ItemID.TitanGlove)
-                EditTooltipByNum(0, (line) => line.text += "\n10% increased true melee damage");
+                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
             if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove)
-                EditTooltipByNum(1, (line) => line.text += "\n10% increased true melee damage");
+                EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
             if (item.type == ItemID.FireGauntlet)
             {
                 string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.text = line.text.Replace("10%", "14%") + extraLine);
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("10%", "14%") + extraLine);
             }
 
             // On Fire! debuff immunities
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield)
-                EditTooltipByNum(0, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
-                EditTooltipByNum(1, (line) => line.text = line.text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
             // Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
             if (item.type == ItemID.SpectreHood)
-                EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("40%", "20%"));
 
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-                EditTooltipByNum(0, (line) => line.text += "\nYoyos will do 33% less damage");
+                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
             #endregion
 
             // Non-consumable boss summon items
@@ -635,48 +635,48 @@ namespace CalamityMod.Items
                 item.type == ItemID.NaughtyPresent ||item.type == ItemID.PumpkinMoonMedallion || item.type == ItemID.SolarTablet ||item.type == ItemID.SolarTablet ||
                 item.type == ItemID.CelestialSigil)
 
-                EditTooltipByNum(0, (line) => line.text += "\nNot consumable");
+                EditTooltipByNum(0, (line) => line.Text += "\nNot consumable");
             #endregion
 
             // Add mentions of what Calamity ores vanilla pickaxes can mine
             #region Pickaxe New Ore Tooltips
             if (item.type == ItemID.Picksaw)
-                EditTooltipByNum(0, (line) => line.text += "\nCan mine Scoria Ore located in the Abyss");
+                EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
             if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
-                EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore");
+                EditTooltipByName("Material", (line) => line.Text += "\nCan mine Uelibloom Ore");
             #endregion
 
             // Rebalances and information about vanilla set bonuses
             #region Vanilla Set Bonus Tooltips
 
-            EditTooltipByName("SetBonus", (line) => VanillaArmorChangeManager.ApplySetBonusTooltipChanges(item, ref line.text));
+            EditTooltipByName("SetBonus", (line) => VanillaArmorChangeManager.ApplySetBonusTooltipChanges(item, ref line.Text));
 
             // Gladiator
             if (item.type == ItemID.GladiatorHelmet)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{GladiatorArmorSetChange.HelmetRogueDamageBoostPercent}% increased rogue damage");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.HelmetRogueDamageBoostPercent}% increased rogue damage");
             if (item.type == ItemID.GladiatorBreastplate)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{GladiatorArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
             if (item.type == ItemID.GladiatorLeggings)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{GladiatorArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
 
             // Obsidian
             if (item.type == ItemID.ObsidianHelm)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{ObsidianArmorSetChange.HelmetRogueDamageBoostPercent}% increased rogue damage");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.HelmetRogueDamageBoostPercent}% increased rogue damage");
             if (item.type == ItemID.ObsidianShirt)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{ObsidianArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
             if (item.type == ItemID.ObsidianPants)
-                EditTooltipByName("Defense", (line) => line.text += $"\n{ObsidianArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
+                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
 
             // Forbidden (UNLESS you are wearing the Circlet, which is Summon/Rogue and does not get this line)
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
-                EditTooltipByName("SetBonus", (line) => line.text += "\nThe minion damage nerf is reduced while wielding magic weapons");
+                EditTooltipByName("SetBonus", (line) => line.Text += "\nThe minion damage nerf is reduced while wielding magic weapons");
 
             // Stardust
             // 1) Chest and Legs only give 1 minion slot each instead of 2 each.
             if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-                EditTooltipByNum(0, (line) => line.text = line.text.Replace('2', '1'));
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace('2', '1'));
             #endregion
 
             // Provide the full stats of every vanilla set of wings
@@ -703,8 +703,8 @@ namespace CalamityMod.Items
             }
 
             // This function is shorthand for appending a stat sheet to a pair of wings.
-            void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
-            void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
+            void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.Text += WingStatsTooltip(h, a, v, f, s));
+            void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.Text += WingStatsTooltip(h, a, v, f, s));
 
             if (item.type == ItemID.AngelWings)
                 AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
@@ -830,7 +830,7 @@ namespace CalamityMod.Items
             }
 
             // This function is shorthand for appending a stat sheet to a grappling hook.
-            void AddGrappleStats(float r, float l, float e, float p) => EditTooltipByName("Equipable", (line) => line.text += HookStatsTooltip(r, l, e, p));
+            void AddGrappleStats(float r, float l, float e, float p) => EditTooltipByName("Equipable", (line) => line.Text += HookStatsTooltip(r, l, e, p));
 
             if (item.type == ItemID.GrapplingHook)
                 AddGrappleStats(18.75f, 11.5f, 11f, 11f);
@@ -891,19 +891,19 @@ namespace CalamityMod.Items
             {
                 case PrefixID.Hard:
                     EditTooltipByName("PrefixAccDefense",
-                        (line) => line.text = line.text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
+                        (line) => line.Text = line.Text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
                     return;
                 case PrefixID.Guarding:
                     EditTooltipByName("PrefixAccDefense",
-                        (line) => line.text = line.text.Replace("2", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.5f));
+                        (line) => line.Text = line.Text.Replace("2", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.5f));
                     return;
                 case PrefixID.Armored:
                     EditTooltipByName("PrefixAccDefense",
-                        (line) => line.text = line.text.Replace("3", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.75f));
+                        (line) => line.Text = line.Text.Replace("3", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.75f));
                     return;
                 case PrefixID.Warding:
                     EditTooltipByName("PrefixAccDefense",
-                        (line) => line.text = line.text.Replace("4", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(1f));
+                        (line) => line.Text = line.Text.Replace("4", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(1f));
                     return;
             }
             #endregion
@@ -921,7 +921,7 @@ namespace CalamityMod.Items
 
             // Start with the existing line of melee damage.
             StringBuilder sb = new StringBuilder(64);
-            sb.Append(line.text).Append(" : ");
+            sb.Append(line.Text).Append(" : ");
 
             Player p = Main.LocalPlayer;
             float itemCurrentDamage = item.damage * p.MeleeDamage();
@@ -933,7 +933,7 @@ namespace CalamityMod.Items
             // These two pieces are split apart for ease of translation
             sb.Append(' ');
             sb.Append("true melee damage");
-            line.text = sb.ToString();
+            line.Text = sb.ToString();
         }
         #endregion
 
@@ -961,11 +961,11 @@ namespace CalamityMod.Items
             // Special enchantment line color.
             if (line.Name == "ItemName" && line.Mod == "Terraria" && item.IsEnchanted())
             {
-                Color rarityColor = line.overrideColor ?? line.color;
+                Color rarityColor = line.OverrideColor ?? line.Color;
                 Vector2 basePosition = new Vector2(line.X, line.Y);
 
                 float backInterpolant = (float)Math.Pow(Main.GlobalTimeWrappedHourly * 0.81f % 1f, 1.5f);
-                Vector2 backScale = line.baseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
+                Vector2 backScale = line.BaseScale * MathHelper.Lerp(1f, 1.2f, backInterpolant);
                 Color backColor = Color.Lerp(rarityColor, Color.DarkRed, backInterpolant) * (float)Math.Pow(1f - backInterpolant, 0.46f);
                 Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;
 
@@ -974,13 +974,13 @@ namespace CalamityMod.Items
 
                 // Draw the back text as an ominous pulse.
                 for (int i = 0; i < 2; i++)
-                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, backPosition, backColor, line.rotation, line.origin, backScale, line.maxWidth, line.spread);
+                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, line.Text, backPosition, backColor, line.Rotation, line.Origin, backScale, line.MaxWidth, line.Spread);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin();
 
                 // Draw the front text as usual.
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.font, line.text, basePosition, rarityColor, line.rotation, line.origin, line.baseScale, line.maxWidth, line.spread);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, line.Text, basePosition, rarityColor, line.Rotation, line.Origin, line.BaseScale, line.MaxWidth, line.Spread);
 
                 return false;
             }

@@ -34,29 +34,29 @@ namespace CalamityMod.Items.Armor
             modPlayer.fBarrier = true;
             player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
             player.statLifeMax2 += 100;
-            player.allDamage += 0.08f;
+            player.GetDamage<GenericDamageClass>() += 0.08f;
             modPlayer.AllCritBoost(5);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<GodSlayerChestplate>()
-                .AddIngredient<BloodflareBodyArmor>()
-                .AddIngredient<TarragonBreastplate>()
-                .AddIngredient<FrostBarrier>()
-                .AddIngredient<AuricBar>(18)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<GodSlayerChestplate>().
+                AddIngredient<BloodflareBodyArmor>().
+                AddIngredient<TarragonBreastplate>().
+                AddIngredient<FrostBarrier>().
+                AddIngredient<AuricBar>(18).
+                AddTile<CosmicAnvil>().
+                Register();
             
-            CreateRecipe()
-                .AddIngredient<SilvaArmor>()
-                .AddIngredient<BloodflareBodyArmor>()
-                .AddIngredient<TarragonBreastplate>()
-                .AddIngredient<FrostBarrier>()
-                .AddIngredient<AuricBar>(18)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<SilvaArmor>().
+                AddIngredient<BloodflareBodyArmor>().
+                AddIngredient<TarragonBreastplate>().
+                AddIngredient<FrostBarrier>().
+                AddIngredient<AuricBar>(18).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

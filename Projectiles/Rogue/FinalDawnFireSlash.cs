@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
             Rectangle frameRectangle = new Rectangle(Projectile.frame / 5 * width, Projectile.frame % 5 * height, width, height);
 
             Texture2D scytheTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnFireSlash_Glow");
+            Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnFireSlash_Glow").Value;
 
             Main.spriteBatch.Draw(scytheTexture,
                                   drawCenter - Main.screenPosition,

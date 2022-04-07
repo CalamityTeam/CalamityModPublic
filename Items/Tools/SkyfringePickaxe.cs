@@ -36,11 +36,11 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<AerialiteBar>(7)
-                .AddIngredient(ItemID.SunplateBlock, 3)
-                .AddTile(TileID.SkyMill)
-                .Register();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(7).
+                AddIngredient(ItemID.SunplateBlock, 3).
+                AddTile(TileID.SkyMill).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

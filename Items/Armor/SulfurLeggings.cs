@@ -33,13 +33,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<UrchinStinger>(30)
-                .AddIngredient<Acidwood>(15)
-                .AddIngredient<SulphurousSand>(15)
-                .AddIngredient<SulfuricScale>(15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<UrchinStinger>(30).
+                AddIngredient<Acidwood>(15).
+                AddIngredient<SulphurousSand>(15).
+                AddIngredient<SulfuricScale>(15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

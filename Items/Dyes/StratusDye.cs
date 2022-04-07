@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,13 @@ namespace CalamityMod.Items.Dyes
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ItemID.BottledWater, 2).AddIngredient(ModContent.ItemType<RuinousSoul>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>()).AddIngredient(ModContent.ItemType<Lumenite>()).AddTile(TileID.DyeVat).Register();
+            CreateRecipe(2).
+                AddIngredient(ItemID.BottledWater, 2).
+                AddIngredient<RuinousSoul>().
+                AddIngredient<ExodiumClusterOre>().
+                AddIngredient<Lumenite>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

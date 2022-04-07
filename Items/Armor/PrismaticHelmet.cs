@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().prismaticHelmet = true;
-            player.allDamage -= 0.2f;
+            player.GetDamage<GenericDamageClass>() -= 0.2f;
             player.GetDamage(DamageClass.Magic) += 0.2f;
             player.GetDamage(DamageClass.Magic) += 0.18f;
             player.GetCritChance(DamageClass.Magic) += 12;
@@ -65,13 +65,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ArmoredShell>(3)
-                .AddIngredient<ExodiumClusterOre>(5)
-                .AddIngredient<DivineGeode>(4)
-                .AddIngredient(ItemID.Nanites, 300)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ArmoredShell>(3).
+                AddIngredient<ExodiumClusterOre>(5).
+                AddIngredient<DivineGeode>(4).
+                AddIngredient(ItemID.Nanites, 300).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.BottledWater)
-                .AddIngredient(ItemID.BeeWax, 5)
-                .AddIngredient<PlagueCellCluster>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient(ItemID.BeeWax, 5).
+                AddIngredient<PlagueCellCluster>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

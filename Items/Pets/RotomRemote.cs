@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Pets
             Item.Calamity().devItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
@@ -53,7 +53,12 @@ namespace CalamityMod.Items.Pets
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddRecipeGroup("AnyGoldBar", 8).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<PrismShard>(5).
+                AddRecipeGroup("AnyGoldBar", 8).
+                AddIngredient<DemonicBoneAsh>().
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

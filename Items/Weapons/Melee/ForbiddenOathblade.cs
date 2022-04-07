@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(BuffID.ShadowFlame, 360);
                 target.AddBuff(BuffID.OnFire, 720);
-                player.ApplyDamageToNPC(target, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)) * 2, 0f, 0, false);
+                player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)) * 2, 0f, 0, false);
                 float num50 = 1.7f;
                 float num51 = 0.8f;
                 float num52 = 2f;

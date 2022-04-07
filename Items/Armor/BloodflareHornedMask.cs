@@ -61,11 +61,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<BloodstoneCore>(11)
-                .AddIngredient<RuinousSoul>(2)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(11).
+                AddIngredient<RuinousSoul>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

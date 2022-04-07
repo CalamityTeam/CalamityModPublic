@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
 
             for (int i = 0; i < 40; i++)
             {
-                Dust brimstoneFire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(50f, 50f), DustID.Fireworks);
+                Dust brimstoneFire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(50f, 50f), 219);
                 brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 5f);
                 brimstoneFire.scale = 1f + brimstoneFire.velocity.Length() * 0.1f;
                 brimstoneFire.color = Color.Lerp(Color.White, Color.OrangeRed, Main.rand.NextFloat());

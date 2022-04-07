@@ -35,11 +35,11 @@ namespace CalamityMod.Items.Accessories
                 if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
                 {
                     player.endurance += 0.05f;
-                    player.allDamage += 0.05f;
+                    player.GetDamage<GenericDamageClass>() += 0.05f;
                 }
                 else
                 {
-                    player.allDamage += 0.1f;
+                    player.GetDamage<GenericDamageClass>() += 0.1f;
                     player.statDefense += 10;
                     player.moveSpeed += 0.3f;
                 }

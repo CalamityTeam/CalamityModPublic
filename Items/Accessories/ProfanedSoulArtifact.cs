@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().donorItem = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             return !player.Calamity().pArtifact;
         }
@@ -45,12 +45,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ExodiumClusterOre>(25)
-                .AddIngredient<Chaosplate>(25)
-                .AddIngredient<DivineGeode>(5)
-                .AddTile(TileID.DemonAltar)
-                .Register();
+            CreateRecipe().
+                AddIngredient<ExodiumClusterOre>(25).
+                AddIngredient<Chaosplate>(25).
+                AddIngredient<DivineGeode>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -27,18 +27,18 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.allDamage += 0.09f;
+            player.GetDamage<GenericDamageClass>() += 0.09f;
             player.Calamity().AllCritBoost(4);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<DraedonBar>(15)
-                .AddIngredient(ItemID.JungleSpores, 12)
-                .AddIngredient<EssenceofCinder>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<DraedonBar>(15).
+                AddIngredient(ItemID.JungleSpores, 12).
+                AddIngredient<EssenceofCinder>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,7 +22,13 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictoryShard>()).AddIngredient(ItemID.Coral).AddIngredient(ItemID.Starfish).AddIngredient(ItemID.Seashell).AddTile(TileID.Furnaces).Register();
+            CreateRecipe().
+                AddIngredient<VictoryShard>().
+                AddIngredient(ItemID.Coral).
+                AddIngredient(ItemID.Starfish).
+                AddIngredient(ItemID.Seashell).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

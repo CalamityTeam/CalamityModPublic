@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.Perforator
                             large = true;
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
+                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
                         SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.SimpleFlyMovement(desiredVelocity, acceleration);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -420,10 +420,10 @@ namespace CalamityMod.NPCs.Perforator
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorHiveGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);

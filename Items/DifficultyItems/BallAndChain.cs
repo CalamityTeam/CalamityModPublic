@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +30,11 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IronBar, 10).AddIngredient(ItemID.Chain).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.IronBar, 10).
+                AddIngredient(ItemID.Chain).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

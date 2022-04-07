@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.PaladinsShield)
-                .AddIngredient(ItemID.FrozenTurtleShell)
-                .AddIngredient<MolluskHusk>(5)
-                .AddIngredient<CoreofEleum>(5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PaladinsShield).
+                AddIngredient(ItemID.FrozenTurtleShell).
+                AddIngredient<MolluskHusk>(5).
+                AddIngredient<CoreofEleum>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.friendly = true;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            base.SetDefaults();
         }
 
         public override void Kill(int timeLeft)

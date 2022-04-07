@@ -38,7 +38,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyBodyPieceEffect(Player player)
         {
-            player.allDamage += ChestplateDamagePercentageBoost * 0.01f;
+            player.GetDamage<GenericDamageClass>() += ChestplateDamagePercentageBoost * 0.01f;
         }
 
         public override void ApplyLegPieceEffect(Player player)

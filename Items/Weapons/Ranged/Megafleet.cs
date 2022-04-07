@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             if (Main.rand.Next(0, 100) < 50 || shotType % 2 == 0)
                 return false;

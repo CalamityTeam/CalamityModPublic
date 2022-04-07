@@ -550,9 +550,9 @@ namespace CalamityMod.Items
         internal static bool HasKnockback(Item it) => !it.accessory & !it.vanity; // how to check if something is wearable armor?
         internal static bool IsAxe(Item it) => it.axe > 0;
         internal static bool IsHammer(Item it) => it.hammer > 0;
-        internal static bool IsMelee(Item it) => it.melee;
+        internal static bool IsMelee(Item it) => it.CountsAsClass<MeleeDamageClass>();
         internal static bool IsPickaxe(Item it) => it.pick > 0;
-        internal static bool IsScalable(Item it) => it.damage > 0 && it.melee; // sanity check: only melee weapons get scaled
+        internal static bool IsScalable(Item it) => it.damage > 0 && it.CountsAsClass<MeleeDamageClass>(); // sanity check: only melee weapons get scaled
         internal static bool IsUsable(Item it) => it.useStyle != 0 && it.useTime > 0 && it.useAnimation > 0;
         internal static bool UsesMana(Item it) => IsUsable(it); // Only usable items cost mana, but items must be able to have their mana cost disabled or enabled at will.
         #endregion

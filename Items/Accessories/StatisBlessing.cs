@@ -36,14 +36,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.PapyrusScarab)
-                .AddIngredient(ItemID.PygmyNecklace)
-                .AddIngredient(ItemID.SummonerEmblem)
-                .AddIngredient(ItemID.HolyWater, 30)
-                .AddIngredient<CoreofCinder>(5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PapyrusScarab).
+                AddIngredient(ItemID.PygmyNecklace).
+                AddIngredient(ItemID.SummonerEmblem).
+                AddIngredient(ItemID.HolyWater, 30).
+                AddIngredient<CoreofCinder>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

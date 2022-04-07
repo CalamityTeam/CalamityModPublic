@@ -39,11 +39,11 @@ namespace CalamityMod.World
             {
                 for (int y = shrineLocationY - randomY - 1; y <= shrineLocationY + randomY + 1; y++)
                 {
-                    Main.tile[x, y].active(true);
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[x, y].TileType = tile;
-                    Main.tile[x, y].slope(0);
+                    Main.tile[x, y].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     Main.tile[x, y].LiquidAmount = 0;
-                    Main.tile[x, y].LiquidType = LiquidID.Water;
+                    Main.tile[x, y].Get<LiquidData>().LiquidType = LiquidID.Water;
                 }
             }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.World
             {
                 for (int y = shrineLocationY - randomY; y <= shrineLocationY + randomY; y++)
                 {
-                    Main.tile[x, y].active(false);
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
                     Main.tile[x, y].WallType = wall;
                 }
             }
@@ -61,12 +61,12 @@ namespace CalamityMod.World
             for (int x = shrineLocationX - randomX - 1; x <= shrineLocationX + randomX + 1; x++)
             {
                 for (int y = shrineLocationY + randomY - 2; y <= shrineLocationY + randomY; y++)
-                    Main.tile[x, y].active(false);
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
             }
             for (int x = shrineLocationX - randomX - 1; x <= shrineLocationX + randomX + 1; x++)
             {
                 for (int y = shrineLocationY + randomY - 2; y <= shrineLocationY + randomY - 1; y++)
-                    Main.tile[x, y].active(false);
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
             }
 
             // Replace tiles from bottom of shrine area with shrine tile type 2
@@ -76,9 +76,9 @@ namespace CalamityMod.World
                 int y = shrineLocationY + randomY + 2;
                 while (!Main.tile[x, y].HasTile && y < Main.maxTilesY && verticalOffset > 0)
                 {
-                    Main.tile[x, y].active(true);
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[x, y].TileType = tile2;
-                    Main.tile[x, y].slope(0);
+                    Main.tile[x, y].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     y++;
                     verticalOffset--;
                 }
@@ -91,7 +91,7 @@ namespace CalamityMod.World
             {
                 for (int x = shrineLocationX - randomX - 1; x <= shrineLocationX + randomX + 1; x++)
                 {
-                    Main.tile[x, num21].active(true);
+                    Main.tile[x, num21].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[x, num21].TileType = tile;
                 }
                 randomX -= WorldGen.genRand.Next(1, 3);
@@ -165,7 +165,7 @@ namespace CalamityMod.World
                 {
                     if (m < Main.maxTilesY)
                     {
-                        Main.tile[l, m].slope(0);
+                        Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                         Main.tile[l, m].halfBrick(false);
                     }
                 }

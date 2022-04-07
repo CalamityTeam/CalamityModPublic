@@ -29,12 +29,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddRecipeGroup("AnySnowBlock", 20)
-                .AddRecipeGroup("AnyIceBlock", 10)
-                .AddIngredient(ItemID.BorealWood, 30)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddRecipeGroup("AnySnowBlock", 20).
+                AddRecipeGroup("AnyIceBlock", 10).
+                AddIngredient(ItemID.BorealWood, 30).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

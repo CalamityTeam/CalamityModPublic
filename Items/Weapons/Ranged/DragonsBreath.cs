@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
-        public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.66f;
+        public override bool CanConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.66f;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 5);
 

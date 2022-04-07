@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<PurifiedGel>(8)
-                .AddIngredient(ItemID.HellstoneBar, 13)
-                .AddTile<StaticRefiner>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(8).
+                AddIngredient(ItemID.HellstoneBar, 13).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

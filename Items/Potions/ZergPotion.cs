@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +33,20 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<PurifiedGel>(), 2).AddIngredient(ModContent.ItemType<EbonianGel>(), 4).AddIngredient(ModContent.ItemType<DemonicBoneAsh>()).AddTile(TileID.AlchemyTable).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<BloodOrb>(), 20).AddIngredient(ModContent.ItemType<PurifiedGel>(), 2).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<PurifiedGel>(2).
+                AddIngredient<EbonianGel>(4).
+                AddIngredient<DemonicBoneAsh>().
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(20).
+                AddIngredient<PurifiedGel>(2).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

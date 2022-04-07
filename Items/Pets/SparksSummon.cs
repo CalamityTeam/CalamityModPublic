@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Pets
             Item.Calamity().donorItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
@@ -37,7 +38,18 @@ namespace CalamityMod.Items.Pets
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GoldButterfly).AddIngredient(ItemID.MonarchButterfly).AddIngredient(ItemID.PurpleEmperorButterfly).AddIngredient(ItemID.RedAdmiralButterfly).AddIngredient(ItemID.UlyssesButterfly).AddIngredient(ItemID.SulphurButterfly).AddIngredient(ItemID.TreeNymphButterfly).AddIngredient(ItemID.ZebraSwallowtailButterfly).AddIngredient(ItemID.JuliaButterfly).AddTile(TileID.CrystalBall).Register();
+            CreateRecipe(). //Oh my god this recipe is terrible no wonder no one knows this item exists
+                AddIngredient(ItemID.GoldButterfly).
+                AddIngredient(ItemID.MonarchButterfly).
+                AddIngredient(ItemID.PurpleEmperorButterfly).
+                AddIngredient(ItemID.RedAdmiralButterfly).
+                AddIngredient(ItemID.UlyssesButterfly).
+                AddIngredient(ItemID.SulphurButterfly).
+                AddIngredient(ItemID.TreeNymphButterfly).
+                AddIngredient(ItemID.ZebraSwallowtailButterfly).
+                AddIngredient(ItemID.JuliaButterfly).
+                AddTile(TileID.CrystalBall).
+                Register();
         }
     }
 }

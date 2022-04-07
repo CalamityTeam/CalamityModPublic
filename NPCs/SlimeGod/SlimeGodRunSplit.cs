@@ -505,8 +505,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             num663 = ModContent.NPCType<SlimeSpawnCrimson2>();
                         }
-                        int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num664].SetDefaults(num663, -1f);
+                        int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
                         Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));

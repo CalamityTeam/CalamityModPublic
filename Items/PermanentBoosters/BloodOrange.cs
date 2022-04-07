@@ -55,15 +55,15 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.LifeFruit, 5)
-                .AddIngredient(ItemID.OrangeBloodroot)
-                .AddIngredient<BloodOrb>(10)
-                .AddIngredient(ItemID.SoulofMight, 5)
-                .AddIngredient(ItemID.SoulofSight, 5)
-                .AddIngredient(ItemID.SoulofFright, 5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LifeFruit, 5).
+                AddIngredient(ItemID.OrangeBloodroot).
+                AddIngredient<BloodOrb>(10).
+                AddIngredient(ItemID.SoulofMight, 5).
+                AddIngredient(ItemID.SoulofSight, 5).
+                AddIngredient(ItemID.SoulofFright, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

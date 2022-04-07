@@ -32,13 +32,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<WulfrumBattery>()
-                .AddIngredient<VoltaicJelly>()
-                .AddIngredient<PurifiedGel>(10)
-                .AddIngredient<StormlionMandible>(2)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<WulfrumBattery>().
+                AddIngredient<VoltaicJelly>().
+                AddIngredient<PurifiedGel>(10).
+                AddIngredient<StormlionMandible>(2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

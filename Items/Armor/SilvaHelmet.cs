@@ -70,13 +70,13 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<EffulgentFeather>(5)
-                .AddRecipeGroup("AnyGoldBar", 5)
-                .AddIngredient<Tenebris>(6)
-                .AddIngredient<AscendantSpiritEssence>(2)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<EffulgentFeather>(5).
+                AddRecipeGroup("AnyGoldBar", 5).
+                AddIngredient<Tenebris>(6).
+                AddIngredient<AscendantSpiritEssence>(2).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

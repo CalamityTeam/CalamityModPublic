@@ -27,11 +27,11 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.CrimtaneBar, 5)
-                .AddIngredient(ItemID.BottledWater)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 5).
+                AddIngredient(ItemID.BottledWater).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

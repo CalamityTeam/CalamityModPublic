@@ -30,19 +30,19 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 80;
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(8);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<EffulgentFeather>(10)
-                .AddRecipeGroup("AnyGoldBar", 10)
-                .AddIngredient<Tenebris>(12)
-                .AddIngredient<AscendantSpiritEssence>(3)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<EffulgentFeather>(10).
+                AddRecipeGroup("AnyGoldBar", 10).
+                AddIngredient<Tenebris>(12).
+                AddIngredient<AscendantSpiritEssence>(3).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

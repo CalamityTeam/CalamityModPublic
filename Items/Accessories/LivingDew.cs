@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.Bezoar)
-                .AddIngredient(ItemID.Vine, 2)
-                .AddIngredient<MurkyPaste>(5)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Bezoar).
+                AddIngredient(ItemID.Vine, 2).
+                AddIngredient<MurkyPaste>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

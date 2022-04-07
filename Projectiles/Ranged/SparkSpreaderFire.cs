@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
                     dustScaleSize = 0.75f;
                 }
                 Projectile.ai[0] += 1f;
-                int dustType = DustID.Fire;
+                int dustType = 6;
                 for (int i = 0; i < 2; i++)
                 {
                     int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 10, default, 0.75f);

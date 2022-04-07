@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage -= 0.3f;
+            player.GetDamage<GenericDamageClass>() -= 0.3f;
             player.endurance += 0.15f;
             player.Calamity().reaverRegen = true;
             player.statLifeMax2 += 50;
@@ -68,12 +68,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<DraedonBar>(6)
-                .AddIngredient(ItemID.JungleSpores, 4)
-                .AddIngredient<EssenceofCinder>()
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<DraedonBar>(6).
+                AddIngredient(ItemID.JungleSpores, 4).
+                AddIngredient<EssenceofCinder>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

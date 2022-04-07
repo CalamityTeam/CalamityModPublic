@@ -59,15 +59,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.AnkhShield)
-                .AddIngredient<OrnateShield>()
-                .AddIngredient<ShieldoftheOcean>()
-                .AddIngredient<Abaddon>()
-                .AddIngredient<CoreofCalamity>()
-                .AddIngredient(ItemID.LifeFruit, 5)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AnkhShield).
+                AddIngredient<OrnateShield>().
+                AddIngredient<ShieldoftheOcean>().
+                AddIngredient<Abaddon>().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient(ItemID.LifeFruit, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

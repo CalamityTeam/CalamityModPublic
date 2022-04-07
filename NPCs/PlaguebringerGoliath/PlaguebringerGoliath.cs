@@ -590,7 +590,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
+                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
                         float npcSpeed = (revenge ? 9f : 7f) + enrageScale * 2f;
 
@@ -602,7 +602,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
 
-                        int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
+                        int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
                         Main.npc[num1062].velocity.X = num1071;
                         Main.npc[num1062].velocity.Y = num1072;
                         Main.npc[num1062].netUpdate = true;
@@ -670,7 +670,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
+                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
                         float npcSpeed = (revenge ? 11f : 9f) + enrageScale * 2f;
 
@@ -684,7 +684,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 += Main.rand.Next(-20, 21) * 0.05f;
                         num1072 += Main.rand.Next(-20, 21) * 0.05f;
 
-                        int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
+                        int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
                         Main.npc[num1062].velocity.X = num1071;
                         Main.npc[num1062].velocity.Y = num1072;
                         Main.npc[num1062].netUpdate = true;
@@ -1089,7 +1089,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glowTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathGlow").Value;
@@ -1127,21 +1127,21 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 for (int num155 = 1; num155 < num153; num155 += 2)
                 {
-                    Color color38 = lightColor;
+                    Color color38 = drawColor;
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(texture.Width, texture.Height / frameCount) * NPC.scale / 2f;
                     vector41 += vector11 * NPC.scale + posOffset;
                     spriteBatch.Draw(texture, vector41, new Rectangle?(rectangle), color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture.Width, texture.Height / frameCount) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + posOffset;
-            spriteBatch.Draw(texture, vector43, new Rectangle?(rectangle), NPC.GetAlpha(lightColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, vector43, new Rectangle?(rectangle), NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
@@ -1152,7 +1152,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     Color color41 = color37;
                     color41 = Color.Lerp(color41, color36, amount9);
                     color41 *= (num153 - num163) / 15f;
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector44 -= new Vector2(glowTexture.Width, glowTexture.Height / frameCount) * NPC.scale / 2f;
                     vector44 += vector11 * NPC.scale + posOffset;
                     spriteBatch.Draw(glowTexture, vector44, new Rectangle?(rectangle), color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

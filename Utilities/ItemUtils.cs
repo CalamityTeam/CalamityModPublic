@@ -1,4 +1,4 @@
-using CalamityMod.UI.CalamitasEnchants;
+﻿using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -140,12 +140,12 @@ namespace CalamityMod
         #endregion
 
         /// <summary>
-        /// Converts the given ModHotKey into a string for insertion into item tooltips.<br></br>
+        /// Converts the given ModKeybind into a string for insertion into item tooltips.<br></br>
         /// This allows the user's actual keybind choices to be shown to them in tooltips.
         /// </summary>
-        /// <param name="mhk">The ModHotKey to convert to a string.</param>
+        /// <param name="mhk">The ModKeybind to convert to a string.</param>
         /// <returns></returns>
-        public static string TooltipHotkeyString(this ModHotKey mhk)
+        public static string TooltipHotkeyString(this ModKeybind mhk)
         {
             if (Main.dedServ || mhk is null)
                 return "";

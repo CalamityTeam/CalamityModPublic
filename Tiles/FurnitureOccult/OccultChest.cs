@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Otherworldly Chest";
+            ContainerName.SetDefault("Otherworldly Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultChest>();
         }
 

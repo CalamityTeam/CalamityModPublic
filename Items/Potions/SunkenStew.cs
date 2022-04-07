@@ -65,8 +65,21 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<AbyssGravel>(), 10).AddIngredient(ModContent.ItemType<CoastalDemonfish>()).AddIngredient(ItemID.Honeyfin).AddIngredient(ItemID.Bowl, 2).AddTile(TileID.CookingPots).Register();
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<Voidstone>(), 10).AddIngredient(ModContent.ItemType<CoastalDemonfish>()).AddIngredient(ItemID.Honeyfin).AddIngredient(ItemID.Bowl, 2).AddTile(TileID.CookingPots).Register();
+            CreateRecipe(2).
+                AddIngredient<AbyssGravel>(10).
+                AddIngredient<CoastalDemonfish>().
+                AddIngredient(ItemID.Honeyfin).
+                AddIngredient(ItemID.Bowl, 2).
+                AddTile(TileID.CookingPots).
+                Register();
+
+            CreateRecipe(2).
+                AddIngredient<Voidstone>(10).
+                AddIngredient<CoastalDemonfish>().
+                AddIngredient(ItemID.Honeyfin).
+                AddIngredient(ItemID.Bowl, 2).
+                AddTile(TileID.CookingPots).
+                Register();
         }
     }
 }

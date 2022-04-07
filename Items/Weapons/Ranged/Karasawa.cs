@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Disable vanilla ammo consumption
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             return false;
         }

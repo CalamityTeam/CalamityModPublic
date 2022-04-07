@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureExo;
+﻿using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int yPos = j % 2;
-            frameYOffset = yPos * animationFrameHeight;
+            frameYOffset = yPos * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -53,12 +53,12 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.TileFrameX;
-            int frameOffset = j % 2 * animationFrameHeight;
+            int frameOffset = j % 2 * AnimationFrameHeight;
             int yPos = tile.TileFrameY + frameOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 
-            if (!tile.IsHalfBlock && tile.slope() == 0)
+            if (!tile.IsHalfBlock && tile.Slope == 0)
             {
                 spriteBatch.Draw(GlowTexture, drawPosition, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }

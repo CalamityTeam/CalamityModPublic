@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
             AddMapEntry(new Color(0, 0, 80));
             MineResist = 3f;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

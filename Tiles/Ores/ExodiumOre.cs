@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileOreFinderPriority[Type] = 760;
             Main.tileSpelunker[Type] = true;
             ItemDrop = ModContent.ItemType<ExodiumClusterOre>();
-            base.SetDefaults();
+            base.SetStaticDefaults();
 
             TileID.Sets.ChecksForMerge[Type] = true;
         }

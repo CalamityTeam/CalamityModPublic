@@ -70,14 +70,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<TheAbsorber>()
-                .AddIngredient<MysteriousCircuitry>(10)
-                .AddIngredient<DubiousPlating>(20)
-                .AddIngredient<CosmiliteBar>(5)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<TheAbsorber>().
+                AddIngredient<MysteriousCircuitry>(10).
+                AddIngredient<DubiousPlating>(20).
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

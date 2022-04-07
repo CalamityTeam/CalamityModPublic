@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<RogueEmblem>()
-                .AddIngredient<SolarVeil>(10)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<RogueEmblem>().
+                AddIngredient<SolarVeil>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

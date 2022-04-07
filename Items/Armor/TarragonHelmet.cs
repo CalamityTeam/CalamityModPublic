@@ -69,11 +69,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<UeliaceBar>(7)
-                .AddIngredient<DivineGeode>(6)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<UeliaceBar>(7).
+                AddIngredient<DivineGeode>(6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

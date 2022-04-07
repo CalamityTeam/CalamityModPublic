@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

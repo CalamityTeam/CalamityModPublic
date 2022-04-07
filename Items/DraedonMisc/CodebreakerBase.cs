@@ -27,10 +27,10 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<ChargingStationItem>()).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 35).
+            CreateRecipe().
+                AddIngredient<ChargingStationItem>().
+                AddIngredient<MysteriousCircuitry>(20).
+                AddIngredient<DubiousPlating>(35).
                 AddTile(TileID.Anvils).
                 Register();
         }

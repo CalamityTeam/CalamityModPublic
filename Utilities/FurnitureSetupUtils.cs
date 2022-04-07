@@ -21,7 +21,7 @@ namespace CalamityMod
                 WorldGen.KillTile(i, j, false, false, false);
                 if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
                 }
             }
         }
@@ -41,12 +41,12 @@ namespace CalamityMod
             if (player.SpawnX == spawnX && player.SpawnY == spawnY)
             {
                 player.RemoveSpawn();
-                Main.NewText("Spawn point removed!", 255, 240, 20, false);
+                Main.NewText("Spawn point removed!", 255, 240, 20);
             }
             else if (Player.CheckSpawn(spawnX, spawnY))
             {
                 player.ChangeSpawn(spawnX, spawnY);
-                Main.NewText("Spawn point set!", 255, 240, 20, false);
+                Main.NewText("Spawn point set!", 255, 240, 20);
             }
             return true;
         }
@@ -264,7 +264,7 @@ namespace CalamityMod
                 }
                 else
                 {
-                    player.flyingPigChest = -1;
+                    player.piggyBankProjTracker.Clear();
                     int num213 = Chest.FindChest(left, top);
                     if (num213 != -1)
                     {
@@ -303,8 +303,8 @@ namespace CalamityMod
                 Main.playerInventory = false;
                 player.chest = -1;
                 Recipe.FindRecipes();
-                Main.dresserX = Player.tileTargetX;
-                Main.dresserY = Player.tileTargetY;
+                Main.interactedDresserTopLeftX = Player.tileTargetX;
+                Main.interactedDresserTopLeftY = Player.tileTargetY;
                 Main.OpenClothesWindow();
                 return true;
             }
@@ -730,15 +730,15 @@ namespace CalamityMod
             Main.tileShine[mt.Type] = 1200;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileNoAttach[mt.Type] = true;
-            Main.tileValue[mt.Type] = 500;
+            Main.tileOreFinderPriority[mt.Type] = 500;
             TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             if (offset)
                 TileObjectData.newTile.DrawYOffset = 4;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
             TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
@@ -888,8 +888,8 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
             TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;

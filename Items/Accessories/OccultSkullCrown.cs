@@ -44,13 +44,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<HeartofDarkness>()
-                .AddIngredient<Laudanum>()
-                .AddIngredient<StressPills>()
-                .AddIngredient<NightmareFuel>(20)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<HeartofDarkness>().
+                AddIngredient<Laudanum>().
+                AddIngredient<StressPills>().
+                AddIngredient<NightmareFuel>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

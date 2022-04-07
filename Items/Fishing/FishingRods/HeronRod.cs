@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,11 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 7).AddIngredient(ItemID.SunplateBlock, 5).AddTile(TileID.SkyMill).Register();
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<AerialiteBar>(), 7).
+                AddIngredient(ItemID.SunplateBlock, 5).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

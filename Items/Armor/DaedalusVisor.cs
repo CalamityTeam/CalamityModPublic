@@ -61,12 +61,12 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VerstaltiteBar>(8)
-                .AddIngredient(ItemID.CrystalShard, 3)
-                .AddIngredient<EssenceofEleum>()
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(8).
+                AddIngredient(ItemID.CrystalShard, 3).
+                AddIngredient<EssenceofEleum>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

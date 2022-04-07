@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
-            chest = "Abyss Chest";
+            ContainerName.SetDefault("Abyss Chest");
             ChestDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssChest>();
         }
 

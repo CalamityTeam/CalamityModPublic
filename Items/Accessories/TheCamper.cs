@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.StandingStill())
                 {
-                    player.allDamage += 0.15f;
+                    player.GetDamage<GenericDamageClass>() += 0.15f;
                     auraCounter++;
                     float range = 200f;
                     if (auraCounter == 9)
@@ -105,17 +105,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ShinyStone)
-                .AddIngredient(ItemID.Campfire, 10)
-                .AddIngredient(ItemID.HeartLantern, 5)
-                .AddIngredient(ItemID.SharpeningStation)
-                .AddIngredient(ItemID.CrystalBall)
-                .AddIngredient(ItemID.AmmoBox)
-                .AddIngredient(ItemID.BewitchingTable)
-                .AddRecipeGroup("AnyFood", 50)
-                .AddTile(TileID.TinkerersWorkbench)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ShinyStone).
+                AddIngredient(ItemID.Campfire, 10).
+                AddIngredient(ItemID.HeartLantern, 5).
+                AddIngredient(ItemID.SharpeningStation).
+                AddIngredient(ItemID.CrystalBall).
+                AddIngredient(ItemID.AmmoBox).
+                AddIngredient(ItemID.BewitchingTable).
+                AddRecipeGroup("AnyFood", 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
 
         }
     }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -87,7 +87,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                     break;
             }
 
-            frameYOffset = uniqueAnimationFrame * animationFrameHeight;
+            frameYOffset = uniqueAnimationFrame * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -161,7 +161,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                 Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 75));
                 Tile trackTile = Main.tile[i, j];
                 double num6 = Main.time * 0.08;
-                if (!trackTile.IsHalfBlock && trackTile.slope() == 0)
+                if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
                 {
                     Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }

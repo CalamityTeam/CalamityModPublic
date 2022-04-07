@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
@@ -11,6 +12,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AbyssFountainTile : ModTile
     {
+        internal static readonly MethodInfo ActiveFountainColorMethod = typeof(SceneMetrics).GetMethod("set_ActiveFountainColor", BindingFlags.NonPublic | BindingFlags.Instance);
         public override void SetStaticDefaults()
         {
             this.SetUpFountain();
@@ -24,7 +26,10 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             {
                 if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AbyssWater"))
                 {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Type;
+                    ActiveFountainColorMethod.Invoke(Main.SceneMetrics, new object[]
+                    {
+                        CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Slot
+                    });
                 }
             }
         }

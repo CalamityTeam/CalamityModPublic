@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.allDamage + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.ignoreWater = true;
@@ -69,10 +69,10 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VictideBar>(3)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VictideBar>(3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

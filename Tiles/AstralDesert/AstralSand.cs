@@ -1,9 +1,10 @@
-
+﻿
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -44,16 +45,13 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if (Main.tile[i, j] is null)
-                return true;
-
             if (j < Main.maxTilesY)
             {
                 // tile[i, j+1] can still be null if it's on the edge of a chunk
-                if (Main.tile[i, j + 1] != null && !Main.tile[i, j + 1].HasTile)
+                if (!Main.tile[i, j + 1].HasTile)
                 {
-                    Main.tile[i, j].active(false);
-                    Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralFallingSand>(), 15, 0f);
+                    Main.tile[i, j].Get<TileWallWireStateData>().HasTile = false;
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralFallingSand>(), 15, 0f);
                     WorldGen.SquareTileFrame(i, j);
                     return false;
                 }

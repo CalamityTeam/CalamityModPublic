@@ -88,12 +88,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<ElysianTracers>()
-                .AddIngredient<DrewsWings>()
-                .AddIngredient<AuricBar>(5)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<ElysianTracers>().
+                AddIngredient<DrewsWings>().
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

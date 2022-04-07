@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.brimstoneWaifu || modPlayer.sandWaifu || modPlayer.sandBoobWaifu || modPlayer.cloudWaifu || modPlayer.sirenWaifu)
@@ -96,14 +96,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<WifeinaBottle>()
-                .AddIngredient<WifeinaBottlewithBoobs>()
-                .AddIngredient<LureofEnthrallment>()
-                .AddIngredient<EyeoftheStorm>()
-                .AddIngredient<RoseStone>()
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<WifeinaBottle>().
+                AddIngredient<WifeinaBottlewithBoobs>().
+                AddIngredient<LureofEnthrallment>().
+                AddIngredient<EyeoftheStorm>().
+                AddIngredient<RoseStone>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

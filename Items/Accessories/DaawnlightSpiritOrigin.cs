@@ -85,14 +85,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<DaedalusEmblem>()
-                .AddIngredient<LeadCore>(3)
-                .AddIngredient<MysteriousCircuitry>(15)
-                .AddIngredient<DubiousPlating>(15)
-                .AddIngredient<AscendantSpiritEssence>(4)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<DaedalusEmblem>().
+                AddIngredient<LeadCore>(3).
+                AddIngredient<MysteriousCircuitry>(15).
+                AddIngredient<DubiousPlating>(15).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

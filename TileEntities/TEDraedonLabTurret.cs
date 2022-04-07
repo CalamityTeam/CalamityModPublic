@@ -49,9 +49,9 @@ namespace CalamityMod.TileEntities
 
         // Lab turrets specifically must be placed on the top left corner of their host tile.
         // This restriction is not shared by general turrets for flexibility reasons.
-        public override bool ValidTile(int i, int j)
+        public override bool IsTileValidForEntity(int x, int y)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Main.tile[x, y];
             return tile.HasTile && tile.TileType == TileType && tile.TileFrameX == 0 && tile.TileFrameY == 0;
         }
 

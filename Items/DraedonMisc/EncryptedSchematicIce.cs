@@ -35,9 +35,9 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 10).
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(10).
+                AddIngredient<DubiousPlating>(10).
                 AddIngredient(ItemID.Glass, 50).
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Ice", out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).

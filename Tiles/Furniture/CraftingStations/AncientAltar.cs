@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/CraftingStations/AncientAltarFlame").Value, i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/Furniture/CraftingStations/AncientAltarFlame").Value, i, j, offsetY: animationFrame * AnimationFrameHeight);
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)

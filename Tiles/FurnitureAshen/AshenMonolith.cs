@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 

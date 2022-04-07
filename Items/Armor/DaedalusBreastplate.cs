@@ -25,18 +25,18 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.03f;
+            player.GetDamage<GenericDamageClass>() += 0.03f;
             player.Calamity().AllCritBoost(3);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VerstaltiteBar>(15)
-                .AddIngredient(ItemID.CrystalShard, 6)
-                .AddIngredient<EssenceofEleum>(3)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(15).
+                AddIngredient(ItemID.CrystalShard, 6).
+                AddIngredient<EssenceofEleum>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

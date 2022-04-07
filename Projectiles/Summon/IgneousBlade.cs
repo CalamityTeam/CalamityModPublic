@@ -144,10 +144,6 @@ namespace CalamityMod.Projectiles.Summon
 
                 Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 
-                SpriteEffects spriteEffects = SpriteEffects.None;
-                if (Projectile.spriteDirection == -1)
-                    spriteEffects = SpriteEffects.FlipHorizontally;
-
                 if (Lighting.NotRetro)
                 {
                     for (int i = 0; i < Projectile.oldPos.Length; i++)

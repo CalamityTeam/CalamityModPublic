@@ -28,17 +28,17 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.1f;
-            player.allDamage += 0.08f;
+            player.GetDamage<GenericDamageClass>() += 0.08f;
             player.Calamity().AllCritBoost(8);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<UeliaceBar>(11)
-                .AddIngredient<DivineGeode>(12)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient<UeliaceBar>(11).
+                AddIngredient<DivineGeode>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

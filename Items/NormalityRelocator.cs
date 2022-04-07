@@ -49,13 +49,13 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.RodofDiscord)
-                .AddIngredient<Cinderplate>(5)
-                .AddIngredient<ExodiumClusterOre>(10)
-                .AddIngredient(ItemID.FragmentStardust, 30)
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RodofDiscord).
+                AddIngredient<Cinderplate>(5).
+                AddIngredient<ExodiumClusterOre>(10).
+                AddIngredient(ItemID.FragmentStardust, 30).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

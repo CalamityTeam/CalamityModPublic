@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.allDamage += 0.05f;
+            player.GetDamage<GenericDamageClass>() += 0.05f;
             player.Calamity().AllCritBoost(4);
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
                               "10% increased damage\n" +
                               "Your horizontal movement is slowed";
             CalamityPlayer modPlayer = player.Calamity();
-            player.allDamage += 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             modPlayer.molluskSet = true;
             player.maxMinions += 4;
             if (player.whoAmI == Main.myPlayer)
@@ -65,11 +65,11 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<MolluskHusk>(6)
-                .AddIngredient<SeaPrism>(15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient<MolluskHusk>(6).
+                AddIngredient<SeaPrism>(15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

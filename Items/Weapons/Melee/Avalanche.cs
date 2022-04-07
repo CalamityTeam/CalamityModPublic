@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), knockback, Main.myPlayer);
             }
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.allDamage + player.GetDamage(DamageClass.Melee) - 1f)), 0f, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), 0f, Main.myPlayer);
             }
         }
 

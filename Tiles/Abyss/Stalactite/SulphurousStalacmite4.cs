@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
             AddMapEntry(new Color(57, 48, 83), name);
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

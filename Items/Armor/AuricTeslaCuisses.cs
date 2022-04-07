@@ -30,29 +30,29 @@ namespace CalamityMod.Items.Armor
         {
             player.moveSpeed += 0.1f;
             player.carpet = true;
-            player.allDamage += 0.12f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(5);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<GodSlayerLeggings>()
-                .AddIngredient<BloodflareCuisses>()
-                .AddIngredient<TarragonLeggings>()
-                .AddIngredient(ItemID.FlyingCarpet)
-                .AddIngredient<AuricBar>(15)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<GodSlayerLeggings>().
+                AddIngredient<BloodflareCuisses>().
+                AddIngredient<TarragonLeggings>().
+                AddIngredient(ItemID.FlyingCarpet).
+                AddIngredient<AuricBar>(15).
+                AddTile<CosmicAnvil>().
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<SilvaLeggings>()
-                .AddIngredient<BloodflareCuisses>()
-                .AddIngredient<TarragonLeggings>()
-                .AddIngredient(ItemID.FlyingCarpet)
-                .AddIngredient<AuricBar>(15)
-                .AddTile<CosmicAnvil>()
-                .Register();
+            CreateRecipe().
+                AddIngredient<SilvaLeggings>().
+                AddIngredient<BloodflareCuisses>().
+                AddIngredient<TarragonLeggings>().
+                AddIngredient(ItemID.FlyingCarpet).
+                AddIngredient<AuricBar>(15).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

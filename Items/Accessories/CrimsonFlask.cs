@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.ViciousPowder, 15)
-                .AddIngredient(ItemID.Vertebrae, 10)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ViciousPowder, 15).
+                AddIngredient(ItemID.Vertebrae, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

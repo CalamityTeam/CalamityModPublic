@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.armor[0].type == ModContent.ItemType<DaedalusVisor>()) &&
                 player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
             {
-                player.allDamage += 0.05f;
+                player.GetDamage<GenericDamageClass>() += 0.05f;
                 player.Calamity().AllCritBoost(5);
             }
 
@@ -78,12 +78,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient<VerstaltiteBar>(5)
-                .AddIngredient<EssenceofEleum>()
-                .AddIngredient(ItemID.SoulofFlight, 20)
-                .AddTile(TileID.MythrilAnvil)
-                .Register();
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<EssenceofEleum>().
+                AddIngredient(ItemID.SoulofFlight, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

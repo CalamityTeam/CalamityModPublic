@@ -118,8 +118,8 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
                 slimesSpawned = true;
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGod>());
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGodRun>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGod>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGodRun>());
             }
 
             // Emit dust
@@ -529,7 +529,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.rotation = NPC.velocity.X * 0.1f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -548,7 +548,7 @@ namespace CalamityMod.NPCs.SlimeGod
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            spriteBatch.Draw(texture2D3, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
+            spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0);
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = NPC.GetAlpha(color25);
@@ -567,7 +567,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
                 Vector2 value4 = NPC.oldPos[num161];
                 float num165 = NPC.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - Main.screenPosition + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
+                Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
                 goto IL_6881;
             }
             return false;

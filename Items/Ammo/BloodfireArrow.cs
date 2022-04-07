@@ -33,10 +33,10 @@ namespace CalamityMod.Items.Ammo
 
         public override void AddRecipes()
         {
-            CreateRecipe(333)
-                .AddIngredient<BloodstoneCore>()
-                .AddTile(TileID.LunarCraftingStation)
-                .Register();
+            CreateRecipe(333).
+                AddIngredient<BloodstoneCore>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,8 +1,9 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Pets
             Item.Calamity().devItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
@@ -42,17 +43,22 @@ namespace CalamityMod.Items.Pets
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             List<int> pets = new List<int> { ModContent.ProjectileType<Bear>(), ModContent.ProjectileType<KendraPet>() };
             foreach(int petProjID in pets)
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), petProjID, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, petProjID, damage, knockback, player.whoAmI);
             return false;
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BearEye>()).AddIngredient(ModContent.ItemType<RomajedaOrchid>()).AddIngredient(ItemID.LovePotion).AddTile(TileID.TinkerersWorkbench).Register();
+            CreateRecipe().
+                AddIngredient<BearEye>().
+                AddIngredient<RomajedaOrchid>().
+                AddIngredient(ItemID.LovePotion).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

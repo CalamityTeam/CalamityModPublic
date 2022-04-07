@@ -33,19 +33,19 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.TungstenAxe)
-                .AddIngredient(ItemID.TungstenBar, 10)
-                .AddIngredient(ItemID.Wood, 15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TungstenAxe).
+                AddIngredient(ItemID.TungstenBar, 10).
+                AddIngredient(ItemID.Wood, 15).
+                AddTile(TileID.Anvils).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.SilverAxe)
-                .AddIngredient(ItemID.SilverBar, 10)
-                .AddIngredient(ItemID.Wood, 15)
-                .AddTile(TileID.Anvils)
-                .Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SilverAxe).
+                AddIngredient(ItemID.SilverBar, 10).
+                AddIngredient(ItemID.Wood, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

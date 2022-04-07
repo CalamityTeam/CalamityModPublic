@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.knockBack = 8f;
             Item.value = Item.buyPrice(0, 48, 0, 0);
             Item.rare = ItemRarityID.LightPurple;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Magnum");
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<MagnumRound>();
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 56;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 56;
 
         public override bool OnPickup(Player player)
         {
@@ -59,12 +60,12 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 Item.Calamity().timesUsed = 0;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 player.HeldItem.Calamity().timesUsed++;
-                for (int i = 0; i < Main.maxInventory; i++)
+                for (int i = 0; i < Main.InventorySlotsTotal; i++)
                 {
                     if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;
