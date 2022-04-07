@@ -11,6 +11,20 @@ namespace CalamityMod
 {
     public static class DropHelper
     {
+        #region Fraction Struct (thanks Yorai)
+        public struct Fraction
+        {
+            internal readonly int numerator = 1;
+            internal readonly int denominator = 1;
+
+            public Fraction(int n, int d)
+            {
+                numerator = n < 0 ? 0 : n;
+                denominator = d <= 0 ? 1 : d;
+            }
+        }
+        #endregion
+
         #region Global Drop Chances
 
         /// <summary>
@@ -19,9 +33,9 @@ namespace CalamityMod
         public const int NormalWeaponDropRateInt = 4;
 
         /// <summary>
-        /// Weapons in Normal Mode typically have this chance to drop (decimal number out of 1.0).
+        /// Weapons in Normal Mode typically have this chance to drop (as a DropHelper Fraction).
         /// </summary>
-        public const float NormalWeaponDropRateFloat = 0.25f;
+        public static readonly Fraction NormalWeaponDropRateFraction = new(1, NormalWeaponDropRateInt);
 
         /// <summary>
         /// Weapons in Expert Mode typically have a 1 in X chance of dropping, where X is this variable.
@@ -29,9 +43,9 @@ namespace CalamityMod
         public const int BagWeaponDropRateInt = 3;
 
         /// <summary>
-        /// Weapons in Expert Mode typically have this chance to drop (decimal number out of 1.0).
+        /// Weapons in Expert Mode typically have this chance to drop (as a DropHelper Fraction).
         /// </summary>
-        public const float BagWeaponDropRateFloat = 0.3333333f;
+        public static readonly Fraction BagWeaponDropRateFraction = new(1, BagWeaponDropRateInt);
         #endregion
 
         #region Block Drops
@@ -141,8 +155,7 @@ namespace CalamityMod
         #endregion
 
         #region Lambda Drop Rule Condition
-
-        // This class serves as a vanilla drop rule condition that is based on an arbitrary bool.
+        // This class serves as a vanilla drop rule condition that is based on completely arbitrary code.
         // Create these using the function DropHelper.If as needed.
         internal class LambdaDropRuleCondition : IItemDropRuleCondition
         {
@@ -163,6 +176,7 @@ namespace CalamityMod
         }
 
         public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition(lambda);
+        public static IItemDropRuleCondition If(Func<bool> lambda, bool ui = true, string desc = "") => new LambdaDropRuleCondition(lambda, ui, desc);
         #endregion
 
         #region Leading Condition Rule Extensions
@@ -187,10 +201,25 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
         /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
-        /// <returns></returns>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
         public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
             return mainRule.OnSuccess(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnSuccess(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
         #endregion
 
@@ -210,6 +239,20 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Shorthand to add a simple drop to an NPC using a Fraction drop rate.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule Add(this NPCLoot npcLoot, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
         /// Shorthand to add an arbitrary conditional drop to an NPC.
         /// </summary>
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
@@ -225,6 +268,21 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to an NPC using a Fraction drop rate.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this NPCLoot npcLoot, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
         /// Shorthand to add a simple normal-only drop to an NPC.
         /// </summary>
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
@@ -236,6 +294,20 @@ namespace CalamityMod
         public static IItemDropRule AddNormalOnly(this NPCLoot npcLoot, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
         {
             return npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple normal-only drop to an NPC.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddNormalOnly(this NPCLoot npcLoot, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
 
         /// <summary>

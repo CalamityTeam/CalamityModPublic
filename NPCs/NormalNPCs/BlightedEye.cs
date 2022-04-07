@@ -64,9 +64,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(BuffID.Weak, 180, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<BlightedLens>(), 0.5f);
+            npcLoot.Add(ModContent.ItemType<BlightedLens>(), 2);
         }
     }
 }
