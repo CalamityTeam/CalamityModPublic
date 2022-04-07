@@ -1,53 +1,13 @@
-using CalamityMod.Items.Accessories;
-using CalamityMod.World;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    #region Weighted Item Stack Struct
-    // TODO -- DropHelper will need to be fully retooled in 1.4 to utilize this struct for all functions.
-    public struct WeightedItemStack
-    {
-        public const float DefaultWeight = 1f;
-        public const float MinisiculeWeight = 1E-6f;
-
-        internal int itemID;
-        internal float weight;
-        internal int minQuantity;
-        internal int maxQuantity;
-
-        internal WeightedItemStack(int id, float w)
-        {
-            itemID = id;
-            weight = w;
-            minQuantity = 1;
-            maxQuantity = 1;
-        }
-
-        internal WeightedItemStack(int id, float w, int quantity)
-        {
-            itemID = id;
-            weight = w;
-            minQuantity = quantity;
-            maxQuantity = quantity;
-        }
-
-        internal WeightedItemStack(int id, float w, int min, int max)
-        {
-            itemID = id;
-            weight = w;
-            minQuantity = min;
-            maxQuantity = max;
-        }
-
-        internal int ChooseQuantity() => Main.rand.Next(minQuantity, maxQuantity + 1);
-    }
-    #endregion
-
     public static class DropHelper
     {
         #region Global Drop Chances
@@ -87,191 +47,6 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Weighted Item Sets
-        // int itemID --> WeightedItemStack
-        public static WeightedItemStack WeightStack(this int itemID) => WeightStack(itemID, WeightedItemStack.DefaultWeight);
-        public static WeightedItemStack WeightStack(this int itemID, float weight) => new WeightedItemStack(itemID, weight);
-        public static WeightedItemStack WeightStack(this int itemID, int quantity) => WeightStack(itemID, WeightedItemStack.DefaultWeight, quantity);
-        public static WeightedItemStack WeightStack(this int itemID, float weight, int quantity) => new WeightedItemStack(itemID, weight, quantity);
-        public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, WeightedItemStack.DefaultWeight, min, max);
-        public static WeightedItemStack WeightStack(this int itemID, float weight, int min, int max) => new WeightedItemStack(itemID, weight, min, max);
-
-        // ModItem generic parameter --> WeightedItemStack
-        public static WeightedItemStack WeightStack<T>() where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight);
-        public static WeightedItemStack WeightStack<T>(float weight) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight);
-        public static WeightedItemStack WeightStack<T>(int quantity) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, quantity);
-        public static WeightedItemStack WeightStack<T>(float weight, int quantity) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, quantity);
-        public static WeightedItemStack WeightStack<T>(int min, int max) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, min, max);
-        public static WeightedItemStack WeightStack<T>(float weight, int min, int max) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, min, max);
-
-        // Separated implementation used so weighted random code isn't duplicated in two places.
-        public static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
-        {
-            int i;
-            float[] breakpoints = new float[stacks.Length];
-            float totalWeight = 0f;
-
-            // Assign breakpoints based on the cumulative sum of weights thus far.
-            // Error check invalid weights by giving them an unbelievably small drop chance.
-            for (i = 0; i < stacks.Length; ++i)
-            {
-                float w = stacks[i].weight;
-                if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
-                    w = WeightedItemStack.MinisiculeWeight;
-                breakpoints[i] = totalWeight += w;
-            }
-
-            // Iterate through the breakpoints until you find the first one that is surpassed. Drop that item.
-            float needle = Main.rand.NextFloat(totalWeight);
-            i = 0;
-            while (needle > breakpoints[i])
-                ++i;
-            return stacks[i];
-        }
-
-        /// <summary>
-        /// Chooses an item (or stack of items) from an array of drop definitions and drops it from the given NPC.<br></br>
-        /// Each item is given a certain weight to spawn. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemFromWeightedSet(NPC npc, bool dropPerPlayer, params WeightedItemStack[] stacks)
-        {
-            // Can't choose anything from an empty array.
-            if (stacks is null || stacks.Length == 0)
-                return 0;
-
-            WeightedItemStack stk = RollWeightedRandom(stacks);
-            return DropItem(npc, stk.itemID, dropPerPlayer, stk.minQuantity, stk.maxQuantity);
-        }
-
-        /// <summary>
-        /// Chooses an item (or stack of items) from an array of drop definitions and drops it from the given NPC.<br></br>
-        /// Each item is given a certain weight to spawn.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemFromWeightedSet(NPC npc, params WeightedItemStack[] stacks)
-        {
-            return DropItemFromWeightedSet(npc, false, stacks);
-        }
-
-        /// <summary>
-        /// Chooses an item (or stack of items) from an array of drop definitions and spawns it for the given player.<br></br>
-        /// Each item is given a certain weight to spawn.
-        /// </summary>
-        /// <param name="p">The player which should receive the item(s).</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemFromWeightedSet(Player p, params WeightedItemStack[] stacks)
-        {
-            // Can't choose anything from an empty array.
-            if (stacks is null || stacks.Length == 0)
-                return 0;
-
-            WeightedItemStack stk = RollWeightedRandom(stacks);
-            return DropItem(p, stk.itemID, stk.minQuantity, stk.maxQuantity);
-        }
-
-        /// <summary>
-        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
-        /// Always drops at least one of the defined stacks. Optionally spawns one copy of these drops per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="dropPerPlayer">Whether the drops should be "instanced" (each player gets their own copy).</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireWeightedSet(NPC npc, bool dropPerPlayer, params WeightedItemStack[] stacks)
-        {
-            int numDrops = 0;
-
-            // Can't choose anything from an empty array.
-            if (stacks is null || stacks.Length == 0)
-                return numDrops;
-
-            for (int i = 0; i < stacks.Length; ++i)
-            {
-                WeightedItemStack stk = stacks[i];
-                numDrops += DropItemChance(npc, stk.itemID, dropPerPlayer, stk.weight, stk.minQuantity, stk.maxQuantity);
-            }
-
-            // If nothing at all was dropped, drop one thing at (weighted) random.
-            if (numDrops <= 0)
-                numDrops += DropItemFromWeightedSet(npc, dropPerPlayer, stacks);
-
-            return numDrops;
-        }
-
-        /// <summary>
-        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
-        /// Always drops at least one of the defined stacks.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireWeightedSet(NPC npc, params WeightedItemStack[] stacks)
-        {
-            return DropEntireWeightedSet(npc, false, stacks);
-        }
-
-        /// <summary>
-        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
-        /// Always drops at least one of the defined stacks.
-        /// </summary>
-        /// <param name="p">The player which should receive the item(s).</param>
-        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireWeightedSet(Player p, params WeightedItemStack[] stacks)
-        {
-            int numDrops = 0;
-
-            // Can't choose anything from an empty array.
-            if (stacks is null || stacks.Length == 0)
-                return numDrops;
-
-            for (int i = 0; i < stacks.Length; ++i)
-            {
-                WeightedItemStack stk = stacks[i];
-                numDrops += DropItemChance(p, stk.itemID, stk.weight, stk.minQuantity, stk.maxQuantity);
-            }
-
-            // If nothing at all was dropped, drop one thing at (weighted) random.
-            if (numDrops <= 0)
-                numDrops += DropItemFromWeightedSet(p, stacks);
-
-            return numDrops;
-        }
-        #endregion
-
-        #region Boss Bag Drop Helpers
-        /// <summary>
-        /// Automatically drops the correct number of boss bags for each difficulty based on constants kept in DropHelper.
-        /// </summary>
-        /// <param name="theBoss">The NPC to drop boss bags for.</param>
-        /// <returns>The number of boss bags dropped.</returns>
-        public static int DropBags(NPC theBoss)
-        {
-            int bagsDropped = 0;
-
-            // Don't drop any bags for an invalid NPC.
-            if (theBoss is null)
-                return bagsDropped;
-
-            // If the difficulty isn't Expert+, no more bags are dropped.
-            if (!Main.expertMode)
-                return bagsDropped;
-
-            // Drop the 1 vanilla Expert Mode boss bag.
-            theBoss.DropBossBags();
-            bagsDropped++;
-
-            return bagsDropped;
-        }
-        #endregion
-
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
         /// <summary>
@@ -282,9 +57,9 @@ namespace CalamityMod
         /// <param name="position">Where the item should be spawned.</param>
         /// <param name="stack">The stack count to use. Leave at -1 to use the stack of the <b>item</b> parameter.</param>
         /// <returns>The spawned clone of the item. <b>NEVER</b> equal to the input item.</returns>
-        public static Item DropItemClone(Item item, Vector2 position, int stack = -1)
+        public static Item DropItemClone(IEntitySource src, Item item, Vector2 position, int stack = -1)
         {
-            int index = Item.NewItem(position, item.type, stack, false, -1, false, false);
+            int index = Item.NewItem(src, position, item.type, stack, false, -1, false, false);
             Item theClone = Main.item[index] = item.Clone();
             theClone.whoAmI = index;
             theClone.position = position;
@@ -328,11 +103,6 @@ namespace CalamityMod
             return r;
         }
 
-        public static bool DropRevBagAccessories(Player p)
-        {
-            return DropItemFromSetCondition(p, CalamityWorld.revenge, 0.05f, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
-        }
-
         /// <summary>
         /// Randomly peppers stacks of 1 of the specified item all across the given NPC's hitbox.<br></br>
         /// Makes it appear as though the NPC "explodes" into a cloud of many identical items. Best used with floating items such as Souls.
@@ -361,7 +131,7 @@ namespace CalamityMod
             {
                 pos.X = Main.rand.NextFloat(npc.Hitbox.Left, npc.Hitbox.Right);
                 pos.Y = Main.rand.NextFloat(npc.Hitbox.Top, npc.Hitbox.Bottom);
-                Item.NewItem(pos, itemID, stackSize);
+                Item.NewItem(npc.GetItemSource_Loot(), pos, itemID, stackSize);
                 dropped += stackSize;
             }
 
@@ -369,419 +139,83 @@ namespace CalamityMod
         }
         #endregion
 
-        #region NPC Item Drops 100% Chance
+        #region Drop Rule and Condition Helpers
         /// <summary>
-        /// Drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
+        /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItem(NPC npc, int itemID, bool dropPerPlayer, int minQuantity = 1, int maxQuantity = 0)
+        /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
+        /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
+        /// <param name="hideLootReport">UNKNOWN. PLEASE EDIT THIS DOCUMENTATION WHEN THIS PARAMETER IS UNDERSTOOD.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
         {
-            int quantity;
-
-            // If they're equal (or for some reason max is less??) then just drop the minimum amount.
-            if (maxQuantity <= minQuantity)
-                quantity = minQuantity;
-
-            // Otherwise pick a random amount to drop, inclusive.
-            else
-                quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
-
-            // If the final quantity is 0 or less, don't bother.
-            if (quantity <= 0)
-                return 0;
-
-            // If the drop is supposed to be instanced, drop it as such.
-            if (dropPerPlayer)
-            {
-                npc.DropItemInstanced(npc.position, npc.Size, itemID, quantity, true);
-            }
-            else
-            {
-                Item.NewItem(npc.Hitbox, itemID, quantity);
-            }
-
-            return quantity;
+            return mainRule.OnSuccess(chainedRule, hideLootReport);
         }
 
         /// <summary>
-        /// Drops a stack of one or more items from the given NPC.
+        /// Shorthand to add a simple drop to the given LeadingConditionRule.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItem(NPC npc, int itemID, int minQuantity = 1, int maxQuantity = 0)
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">UNKNOWN. PLEASE EDIT THIS DOCUMENTATION WHEN THIS PARAMETER IS UNDERSTOOD.</param>
+        /// <returns></returns>
+        public static IItemDropRule Add(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
-            return DropItem(npc, itemID, false, minQuantity, maxQuantity);
+            return mainRule.OnSuccess(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
         }
         #endregion
 
-        #region NPC Item Drops Float Chance
+        #region NPCLoot Extension Helpers
         /// <summary>
-        /// At a chance, drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
+        /// Shorthand to add a simple drop to an NPC.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="chance">The chance that the items will drop. A decimal number <= 1.0.</param>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemChance(NPC npc, int itemID, bool dropPerPlayer, float chance, int minQuantity = 1, int maxQuantity = 0)
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule Add(this NPCLoot npcLoot, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
         {
-            // If you fail the roll to get the drop, stop immediately.
-            if (Main.rand.NextFloat() > chance)
-                return 0;
-
-            return DropItem(npc, itemID, dropPerPlayer, minQuantity, maxQuantity);
+            return npcLoot.Add(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity));
         }
 
         /// <summary>
-        /// At a chance, drops a stack of one or more items from the given NPC.
+        /// Shorthand to add a simple normal-only drop to an NPC.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="chance">The chance that the items will drop. A decimal number <= 1.0.</param>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemChance(NPC npc, int itemID, float chance, int minQuantity = 1, int maxQuantity = 0)
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddNormalOnly(this NPCLoot npcLoot, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
         {
-            return DropItemChance(npc, itemID, false, chance, minQuantity, maxQuantity);
-        }
-        #endregion
-
-        #region NPC Item Drops Int Chance
-        /// <summary>
-        /// At a chance, drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="oneInXChance">The chance that the items will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemChance(NPC npc, int itemID, bool dropPerPlayer, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
-        {
-            // If you fail the roll to get the drop, stop immediately.
-            if (Main.rand.Next(oneInXChance) != 0)
-                return 0;
-
-            return DropItem(npc, itemID, dropPerPlayer, minQuantity, maxQuantity);
+            return npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), itemID, dropRateInt, minQuantity, maxQuantity));
         }
 
         /// <summary>
-        /// At a chance, drops a stack of one or more items from the given NPC.
+        /// Registers a LeadingConditionRule for an NPC and returns it so you can add drops to that rule.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="oneInXChance">The chance that the items will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemChance(NPC npc, int itemID, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="condition">The condition behind which you want to gate several drop rules.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given condition.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this NPCLoot npcLoot, IItemDropRuleCondition condition)
         {
-            return DropItemChance(npc, itemID, false, oneInXChance, minQuantity, maxQuantity);
-        }
-        #endregion
-
-        #region NPC Item Drops Conditional
-        /// <summary>
-        /// With a condition, drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool dropPerPlayer, bool condition, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItem(npc, itemID, dropPerPlayer, minQuantity, maxQuantity) : 0;
+            LeadingConditionRule rule = new LeadingConditionRule(condition);
+            npcLoot.Add(rule);
+            return rule;
         }
 
         /// <summary>
-        /// With a condition, drops a stack of one or more items from the given NPC.
+        /// Shorthand for shorthand: Registers a Normal Mode only LeadingConditionRule for an NPC and returns it to you.
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool condition, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItem(npc, itemID, false, minQuantity, maxQuantity) : 0;
-        }
-
-        /// <summary>
-        /// With a condition and at a chance, drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="chance">The chance that the items will drop. A decimal number <= 1.0.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool dropPerPlayer, bool condition, float chance, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItemChance(npc, itemID, dropPerPlayer, chance, minQuantity, maxQuantity) : 0;
-        }
-
-        /// <summary>
-        /// With a condition and at a chance, drops a stack of one or more items from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="chance">The chance that the items will drop. A decimal number <= 1.0.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool condition, float chance, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItemChance(npc, itemID, false, chance, minQuantity, maxQuantity) : 0;
-        }
-
-        /// <summary>
-        /// With a condition and at a chance, drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="oneInXChance">The chance that the items will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool dropPerPlayer, bool condition, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItemChance(npc, itemID, dropPerPlayer, oneInXChance, minQuantity, maxQuantity) : 0;
-        }
-
-        /// <summary>
-        /// With a condition and at a chance, drops a stack of one or more items from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="oneInXChance">The chance that the items will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropItemCondition(NPC npc, int itemID, bool condition, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
-        {
-            return condition ? DropItemChance(npc, itemID, false, oneInXChance, minQuantity, maxQuantity) : 0;
-        }
-        #endregion
-
-        #region NPC Item Set Drops
-        /// <summary>
-        /// Chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>Whether an item was dropped.</returns>
-        public static bool DropItemFromSet(NPC npc, bool dropPerPlayer, params int[] itemIDs)
-        {
-            // Can't choose anything from an empty array.
-            if (itemIDs is null || itemIDs.Length == 0)
-                return false;
-
-            // Choose which item to drop.
-            int itemID = Main.rand.Next(itemIDs);
-
-            // If the drop is supposed to be instanced, drop it as such.
-            if (dropPerPlayer)
-            {
-                npc.DropItemInstanced(npc.position, npc.Size, itemID, 1, true);
-            }
-            else
-            {
-                Item.NewItem(npc.Hitbox, itemID);
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Chooses an item from an array and drops it from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>Whether an item was dropped.</returns>
-        public static bool DropItemFromSet(NPC npc, params int[] itemIDs)
-        {
-            return DropItemFromSet(npc, false, itemIDs);
-        }
-
-        /// <summary>
-        /// At a chance, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="chance">The chance that the item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>Whether an item was dropped.</returns>
-        public static bool DropItemFromSetChance(NPC npc, bool dropPerPlayer, float chance, params int[] itemIDs)
-        {
-            // If you fail the roll to get the drop, stop immediately.
-            if (Main.rand.NextFloat() > chance)
-                return false;
-
-            return DropItemFromSet(npc, dropPerPlayer, itemIDs);
-        }
-
-        /// <summary>
-        /// At a chance, chooses an item from an array and drops it from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="chance">The chance that the item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>Whether an item was dropped.</returns>
-        public static bool DropItemFromSetChance(NPC npc, float chance, params int[] itemIDs)
-        {
-            return DropItemFromSetChance(npc, false, chance, itemIDs);
-        }
-        #endregion
-
-        #region NPC Item Set Drops Conditional
-        /// <summary>
-        /// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, params int[] itemIDs)
-        {
-            return condition ? DropItemFromSet(npc, dropPerPlayer, itemIDs) : false;
-        }
-
-        /// <summary>
-        /// With a condition, chooses an item from an array and drops it from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        public static bool DropItemFromSetCondition(NPC npc, bool condition, params int[] itemIDs)
-        {
-            return condition ? DropItemFromSet(npc, false, itemIDs) : false;
-        }
-
-        /// <summary>
-        /// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="chance">The chance that the item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, float chance, params int[] itemIDs)
-        {
-            return condition ? DropItemFromSetChance(npc, dropPerPlayer, chance, itemIDs) : false;
-        }
-
-        /// <summary>
-        /// With a condition, chooses an item from an array and drops it from the given NPC.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="chance">The chance that the item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        public static bool DropItemFromSetCondition(NPC npc, bool condition, float chance, params int[] itemIDs)
-        {
-            return condition ? DropItemFromSetChance(npc, false, chance, itemIDs) : false;
-        }
-        #endregion
-
-        #region NPC Entire Set Drops
-        /// <summary>
-        /// Rolls for each item in an array to drop at a given chance. Always drops at least one item.<br></br>
-        /// Optionally spawns one copy of these drops per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="dropPerPlayer">Whether the drops should be "instanced" (each player gets their own copy).</param>
-        /// <param name="chance">The chance that an item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(NPC npc, bool dropPerPlayer, float chance, params int[] itemIDs)
-        {
-            int numDrops = 0;
-
-            // Can't choose anything from an empty array.
-            if (itemIDs is null || itemIDs.Length == 0)
-                return numDrops;
-
-            // Tally the total number of items dropped as the drop set is iterated through.
-            for (int i = 0; i < itemIDs.Length; ++i)
-                numDrops += DropItemChance(npc, itemIDs[i], dropPerPlayer, chance);
-
-            // If nothing at all was dropped, drop one thing at random.
-            numDrops += DropItemFromSetCondition(npc, dropPerPlayer, numDrops <= 0, itemIDs) ? 1 : 0;
-            return numDrops;
-        }
-
-        /// <summary>
-        /// Rolls for each item in an array to drop at a given chance. Always drops at least one item.<br></br>
-        /// Optionally spawns one copy of these drops per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="dropPerPlayer">Whether the drops should be "instanced" (each player gets their own copy).</param>
-        /// <param name="oneInXChance">The chance that the items will spawn is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(NPC npc, bool dropPerPlayer, int oneInXChance, params int[] itemIDs)
-        {
-            int numDrops = 0;
-
-            // Can't choose anything from an empty array.
-            if (itemIDs is null || itemIDs.Length == 0)
-                return numDrops;
-
-            // Tally the total number of items dropped as the drop set is iterated through.
-            for (int i = 0; i < itemIDs.Length; ++i)
-                numDrops += DropItemChance(npc, itemIDs[i], dropPerPlayer, oneInXChance);
-
-            // If nothing at all was dropped, drop one thing at random.
-            numDrops += DropItemFromSetCondition(npc, dropPerPlayer, numDrops <= 0, itemIDs) ? 1 : 0;
-            return numDrops;
-        }
-
-        /// <summary>
-        /// Rolls for each item in an array to drop at a given chance. Always drops at least one item.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="chance">The chance that an item will drop. A decimal number <= 1.0.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(NPC npc, float chance, params int[] itemIDs)
-        {
-            return DropEntireSet(npc, false, chance, itemIDs);
-        }
-
-        /// <summary>
-        /// Rolls for each item in an array to drop at a given chance. Always drops at least one item.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the items.</param>
-        /// <param name="oneInXChance">The chance that the items will spawn is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(NPC npc, int oneInXChance, params int[] itemIDs)
-        {
-            return DropEntireSet(npc, false, oneInXChance, itemIDs);
-        }
+        /// <param name="npcLoot">The NPC's NPCLOot object.</param>
+        /// <returns>A Normal Mode only LeadingConditionRule.</returns>
+        public static LeadingConditionRule DefineNormalOnlyDropSet(this NPCLoot npcLoot) => npcLoot.DefineConditionalDropSet(new Conditions.NotExpert());
         #endregion
 
         #region Player Item Spawns

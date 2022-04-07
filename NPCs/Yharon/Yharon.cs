@@ -30,6 +30,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -89,7 +90,6 @@ namespace CalamityMod.NPCs.Yharon
 
             NPC.HitSound = SoundID.NPCHit56;
             NPC.DeathSound = SoundID.NPCDeath60;
-            bossBag = ModContent.ItemType<YharonBag>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -2826,54 +2826,73 @@ namespace CalamityMod.NPCs.Yharon
         #endregion
 
         #region Loot
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedYharon);
-
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
-            DropHelper.DropBags(NPC);
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<YharonBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
-            if (!Main.expertMode)
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<DragonRage>(w),
-                    DropHelper.WeightStack<TheBurningSky>(w),
-                    DropHelper.WeightStack<DragonsBreath>(w),
-                    DropHelper.WeightStack<ChickenCannon>(w),
-                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
-                    DropHelper.WeightStack<FinalDawn>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<DragonRage>(),
+                    ModContent.ItemType<TheBurningSky>(),
+                    ModContent.ItemType<DragonsBreath>(),
+                    ModContent.ItemType<ChickenCannon>(),
+                    ModContent.ItemType<PhoenixFlameBarrage>(),
+                    ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
+                    ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+                    ModContent.ItemType<FinalDawn>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(ModContent.ItemType<YharimsCrystal>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<YharonMask>(), 7);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<McNuggets>(), 10);
+                normalOnly.Add(ModContent.ItemType<YharonMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
+                normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
+                // TODO -- how to easily drop these for each player? DropHelper let us do that, new system doesn't seem to
+                // There appears to be only one "drop for each player" now: Master Mode's DropPerPlayerOnThePlayer rule.
                 int soulFragMin = 15;
                 int soulFragMax = 22;
-                DropHelper.DropItem(NPC, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
+                normalOnly.Add(ModContent.ItemType<HellcasterFragment>(), 1, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<YharimsGift>(), true);
-                DropHelper.DropItem(NPC, ModContent.ItemType<DrewsWings>(), true);
+                normalOnly.Add(ModContent.ItemType<YharimsGift>());
+                normalOnly.Add(ModContent.ItemType<DrewsWings>());
             }
 
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<YharimsCrystal>(), !Main.expertMode, 0.1f);
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
-            // Vanity
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<YharonTrophy>(), 10);
+            // Lore
+            npcLoot.Add(ItemDropRule.ByCondition(new FirstYharonKillCondition(), ModContent.ItemType<KnowledgeYharon>()));
+        }
 
-            // Other
-            // DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeYharon>(), true, !DownedBossSystem.downedYharon);
+        private class FirstYharonKillCondition : IItemDropRuleCondition
+        {
+            public bool CanDrop(DropAttemptInfo info) => !DownedBossSystem.downedYharon;
+            public bool CanShowItemDropInUI() => true;
+            public string GetConditionDescription() => "On first kill";
+        }
+
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
+        }
+        #endregion
+
+        #region On Kill
+        public override void OnKill()
+        {
+            // Things that happen on killing a boss BESIDES DROPPING ITEMS go in OnKill.
+            // This function is essentially equivalent to good old NPCLoot -- minus the loot, of course.
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedYharon);
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // If Yharon has not been killed yet, notify players of Auric Ore
             if (!DownedBossSystem.downedYharon)
@@ -2888,11 +2907,6 @@ namespace CalamityMod.NPCs.Yharon
             // Mark Yharon as dead
             DownedBossSystem.downedYharon = true;
             CalamityNetcode.SyncWorld();
-        }
-
-        public override void BossLoot(ref string name, ref int potionType)
-        {
-            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
         #endregion
 
