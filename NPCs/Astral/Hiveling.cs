@@ -102,10 +102,10 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //draw glowmask
-            spriteBatch.Draw(glowmask, NPC.Center - Main.screenPosition + new Vector2(0, 12), NPC.frame, Color.White * 0.6f, NPC.rotation, new Vector2(15, 10), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(glowmask, NPC.Center - screenPos + new Vector2(0, 12), NPC.frame, Color.White * 0.6f, NPC.rotation, new Vector2(15, 10), 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
 
         public override void HitEffect(int hitDirection, double damage)

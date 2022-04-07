@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (LaserShootCountdown >= 480f && LaserShootCountdown <= 540f)
             {
