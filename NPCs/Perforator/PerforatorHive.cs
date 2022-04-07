@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.Perforator
                             large = true;
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
-                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
+                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
                         SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);

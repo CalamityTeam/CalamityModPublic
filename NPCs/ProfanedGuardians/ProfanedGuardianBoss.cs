@@ -101,8 +101,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[1] == 0f)
             {
                 NPC.localAI[1] = 1f;
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
             }
 
             bool defenderAlive = false;

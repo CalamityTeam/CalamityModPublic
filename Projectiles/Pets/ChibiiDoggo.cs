@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Pets
 
             int type = Mod.Find<ModNPC>(doggoType).Type;
 
-            int n = NPC.NewNPC((int)Projectile.position.X, (int)Projectile.position.Y, type);
+            int n = NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.position.X, (int)Projectile.position.Y, type);
             NetMessage.SendData(MessageID.SyncNPC, -1, -1, (NetworkText)null, n, 0.0f, 0.0f, 0.0f, 0, 0, 0);
             Main.npc[n].netUpdate = true;
         }

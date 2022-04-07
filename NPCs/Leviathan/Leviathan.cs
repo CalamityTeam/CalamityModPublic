@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
+                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
                     if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))

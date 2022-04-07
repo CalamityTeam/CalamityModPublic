@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         }
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueBee>()) < 3)
                         {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
+                            int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
                             Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
                             Main.npc[num1062].localAI[0] = 60f;

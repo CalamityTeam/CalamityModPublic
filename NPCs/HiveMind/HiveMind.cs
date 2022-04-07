@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.HiveMind
                 while (NPC.AnyNPCs(type) && choice < 5);
 
                 if (choice < 5)
-                    NPC.NewNPC((int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
+                    NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
             }
         }
 
@@ -466,7 +466,7 @@ namespace CalamityMod.NPCs.HiveMind
                         NPC.localAI[0] = 1f;
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                         for (int i = 0; i < maxBlobs; i++)
-                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
+                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
                     }
                 }
 
@@ -494,7 +494,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns)
                                     type = ModContent.NPCType<DankCreeper>();
 
-                                int num664 = NPC.NewNPC(x, y, type);
+                                int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, type);
                                 Main.npc[num664].SetDefaults(type);
                                 if (Main.netMode == NetmodeID.Server && num664 < Main.maxNPCs)
                                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
@@ -871,10 +871,10 @@ namespace CalamityMod.NPCs.HiveMind
                                     if (NPC.ai[0] == 2 || NPC.ai[0] == 4)
                                     {
                                         if (expertMode && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
-                                            NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DarkHeart>());
+                                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DarkHeart>());
                                     }
                                     else if (!NPC.AnyNPCs(NPCID.EaterofSouls))
-                                        NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, NPCID.EaterofSouls);
+                                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.EaterofSouls);
                                 }
 
                                 if (NPC.ai[0] == 6)

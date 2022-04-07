@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 if (NPC.ai[3] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), NPC.whoAmI);
+                    int num6 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), NPC.whoAmI);
                     NPC.ai[3] = num6 + 1;
                     NPC.localAI[1] = -1f;
                     NPC.localAI[2] += 1f;
@@ -485,7 +485,7 @@ namespace CalamityMod.NPCs.Leviathan
                     SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 85);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int spawn = NPC.NewNPC((int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
+                        int spawn = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
                         Main.npc[spawn].target = NPC.target;
                         Main.npc[spawn].velocity = player.Center - vector119;
                         Main.npc[spawn].velocity.Normalize();

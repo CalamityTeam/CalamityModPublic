@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(spawnPosition.X, spawnPosition.Y);
                     if (!(tileAtPosition.HasTile && Main.tileSolid[tileAtPosition.TileType]))
-                        NPC.NewNPC(spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
+                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
                 }
 
                 // Create sound cloud dust at the position where the nimbus was spawned.

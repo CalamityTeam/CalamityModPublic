@@ -121,11 +121,11 @@ namespace CalamityMod.NPCs.Ravager
             if (NPC.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.localAI[0] = 1f;
-                NPC.NewNPC((int)NPC.Center.X - 70, (int)NPC.Center.Y + 88, ModContent.NPCType<RavagerLegLeft>());
-                NPC.NewNPC((int)NPC.Center.X + 70, (int)NPC.Center.Y + 88, ModContent.NPCType<RavagerLegRight>());
-                NPC.NewNPC((int)NPC.Center.X - 120, (int)NPC.Center.Y + 50, ModContent.NPCType<RavagerClawLeft>());
-                NPC.NewNPC((int)NPC.Center.X + 120, (int)NPC.Center.Y + 50, ModContent.NPCType<RavagerClawRight>());
-                NPC.NewNPC((int)NPC.Center.X + 1, (int)NPC.Center.Y - 20, ModContent.NPCType<RavagerHead>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X - 70, (int)NPC.Center.Y + 88, ModContent.NPCType<RavagerLegLeft>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X + 70, (int)NPC.Center.Y + 88, ModContent.NPCType<RavagerLegRight>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X - 120, (int)NPC.Center.Y + 50, ModContent.NPCType<RavagerClawLeft>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X + 120, (int)NPC.Center.Y + 50, ModContent.NPCType<RavagerClawRight>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X + 1, (int)NPC.Center.Y - 20, ModContent.NPCType<RavagerHead>());
             }
 
             if (NPC.target >= 0 && Main.player[NPC.target].dead)
@@ -437,14 +437,14 @@ namespace CalamityMod.NPCs.Ravager
 
                             if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
                             {
-                                NPC.NewNPC((int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
-                                NPC.NewNPC((int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
+                                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
+                                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
                             }
                             else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
                             {
                                 float distanceMultiplier = finalPhase ? 2.5f : 2f;
-                                NPC.NewNPC((int)player.Center.X - (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
-                                NPC.NewNPC((int)player.Center.X + (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
+                                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)player.Center.X - (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
+                                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)player.Center.X + (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
                             }
                         }
                     }

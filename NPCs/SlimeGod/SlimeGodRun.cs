@@ -124,8 +124,8 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.position);
                 Vector2 spawnAt = vector + new Vector2(0f, NPC.height / 2f);
-                NPC.NewNPC((int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
-                NPC.NewNPC((int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
+                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -532,8 +532,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             num663 = ModContent.NPCType<SlimeSpawnCrimson2>();
                         }
-                        int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num664].SetDefaults(num663, -1f);
+                        int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
                         Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
