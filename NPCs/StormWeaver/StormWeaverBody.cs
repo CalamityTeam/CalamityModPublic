@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 for (int num155 = 1; num155 < num153; num155 += 2)
                 {
-                    Color color38 = lightColor;
+                    Color color38 = drawColor;
 
                     if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
                     {
@@ -240,17 +240,17 @@ namespace CalamityMod.NPCs.StormWeaver
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
                     color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - Main.screenPosition;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
                     vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
                     vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - Main.screenPosition;
+            Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            Color color = NPC.GetAlpha(lightColor);
+            Color color = NPC.GetAlpha(drawColor);
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {

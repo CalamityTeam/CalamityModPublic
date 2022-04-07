@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (ChainDrawer is null)
                 ChainDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction);
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.Center,
                     ChainEndpoints[i] + NPC.DirectionTo(ChainEndpoints[i]) * 25f
                 };
-                ChainDrawer.Draw(points, -Main.screenPosition, 40);
+                ChainDrawer.Draw(points, -screenPos, 40);
             }
 
             return true;

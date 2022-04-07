@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
@@ -226,14 +226,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 for (int i = 1; i < afterimageCount; i += 2)
                 {
-                    Color afterimageColor = NPC.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * ((afterimageCount - i) / 15f);
-                    Vector2 drawPosition = NPC.oldPos[i] + NPC.Size * 0.5f - Main.screenPosition;
+                    Color afterimageColor = NPC.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)) * ((afterimageCount - i) / 15f);
+                    Vector2 drawPosition = NPC.oldPos[i] + NPC.Size * 0.5f - screenPos;
                     spriteBatch.Draw(texture, drawPosition, NPC.frame, afterimageColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 mainDrawPosition = NPC.Center - Main.screenPosition;
-            spriteBatch.Draw(texture, mainDrawPosition, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
+            Vector2 mainDrawPosition = NPC.Center - screenPos;
+            spriteBatch.Draw(texture, mainDrawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow").Value;
             Color baseGlowmaskColor = Color.Lerp(Color.White, Color.Red, 0.5f);
@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 for (int i = 1; i < afterimageCount; i++)
                 {
                     Color afterimageColor = Color.Lerp(baseGlowmaskColor, Color.White, 0.5f) * ((afterimageCount - i) / 15f);
-                    Vector2 drawPosition = NPC.oldPos[i] + NPC.Size * 0.5f - Main.screenPosition;
+                    Vector2 drawPosition = NPC.oldPos[i] + NPC.Size * 0.5f - screenPos;
                     spriteBatch.Draw(texture, drawPosition, NPC.frame, afterimageColor, NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
                 }
             }

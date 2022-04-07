@@ -170,17 +170,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Limbs[1].Center = Limbs[0].Center + offsetFromSegment * 0.5f + (NPC.Center - Limbs[0].Center).SafeNormalize(Vector2.UnitY) * 84f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor_Unused)
         {
             Texture2D armTexture = TextureAssets.Npc[NPC.type].Value;
             Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormForeArm").Value;
             Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormHand").Value;
 
-            Vector2 forearmDrawPosition = Limbs[0].Center - Main.screenPosition;
+            Vector2 forearmDrawPosition = Limbs[0].Center - screenPos;
             Color drawColor = Lighting.GetColor((int)(Limbs[0].Center.X / 16), (int)(Limbs[0].Center.Y / 16));
             spriteBatch.Draw(foreArmTexture, forearmDrawPosition, null, drawColor, Limbs[0].Rotation + MathHelper.PiOver2, foreArmTexture.Size() * 0.5f, NPC.scale, SpriteEffects.None, 0f);
 
-            Vector2 armDrawPosition = Limbs[1].Center - Main.screenPosition;
+            Vector2 armDrawPosition = Limbs[1].Center - screenPos;
             drawColor = Lighting.GetColor((int)(Limbs[1].Center.X / 16), (int)(Limbs[1].Center.Y / 16));
             spriteBatch.Draw(armTexture, armDrawPosition, null, drawColor, Limbs[1].Rotation + MathHelper.PiOver2, armTexture.Size() * new Vector2(0.5f, 0f), NPC.scale, SpriteEffects.FlipVertically, 0f);
 
