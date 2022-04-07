@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -33,8 +33,8 @@ namespace CalamityMod.Waters
 
             if (Main.netMode != NetmodeID.Server)
             {
-                LavaBlockTexture = ModContent.Request<Texture2D>("Terraria/Liquid_1");
-                LavaTexture = ModContent.Request<Texture2D>("Terraria/Misc/water_1");
+                LavaBlockTexture = ModContent.Request<Texture2D>("Terraria/Images/Liquid_1").Value;
+                LavaTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/water_1").Value;
             }
         }
 

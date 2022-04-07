@@ -615,7 +615,7 @@ namespace CalamityMod.CalPlayer
                 {
                     aBulwarkRareTimer = 10;
                     for (int n = 0; n < 3; n++)
-                        CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
                 }
                 if (unstablePrism && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
                 {
@@ -636,7 +636,7 @@ namespace CalamityMod.CalPlayer
                             ProjectileID.HallowStar,
                             ProjectileType<FallenStarProj>()
                         });
-                        Projectile star = CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                             star.Calamity().forceTypeless = true;
                     }
@@ -719,7 +719,7 @@ namespace CalamityMod.CalPlayer
                             ProjectileID.HallowStar,
                             ProjectileType<FallenStarProj>()
                         });
-                        Projectile star = CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * Player.AverageDamage()), 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                             star.Calamity().forceTypeless = true;
                     }
@@ -763,7 +763,7 @@ namespace CalamityMod.CalPlayer
                 {
                     aBulwarkRareTimer = 10;
                     for (int n = 0; n < 3; n++)
-                        CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
                 }
             }
 

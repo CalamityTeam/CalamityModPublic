@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Particles
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Particles
         //Use custom draw for the squish
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color, Rotation, tex.Size() / 2f, Squish * Scale, SpriteEffects.None, 0);
         }
     }

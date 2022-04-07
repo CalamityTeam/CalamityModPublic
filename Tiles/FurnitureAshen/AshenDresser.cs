@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Ashen Dresser";
+            ContainerName.SetDefault("Ashen Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenDresser>();
         }
 
@@ -38,12 +38,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAshen.AshenDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAshen.AshenDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAshen.AshenDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAshen.AshenDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

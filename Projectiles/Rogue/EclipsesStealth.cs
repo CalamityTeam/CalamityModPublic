@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -64,6 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Projectile.localAI[1] -= 1f;
 
+                    var source = Projectile.GetProjectileSource_FromThis();
                     if (Projectile.localAI[1] <= 0f)
                     {
                         // Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
                         int numSpears = spawnTwoSpears ? 2 : 1;
                         spawnTwoSpears = !spawnTwoSpears;
                         for (int i = 0; i < numSpears; ++i)
-                            CalamityUtils.ProjectileRain(Projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, Projectile.owner);
+                            CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, 500f, 800f, 29f, type, smolDamage, smolKB, Projectile.owner);
                     }
                 }
             }

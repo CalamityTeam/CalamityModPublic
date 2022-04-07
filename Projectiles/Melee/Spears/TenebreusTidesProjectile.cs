@@ -61,12 +61,13 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public void SwordSpam(Vector2 targetPos)
         {
             int projAmt = 3;
+            var source = Projectile.GetProjectileSource_FromThis();
             for (int i = 0; i < projAmt; ++i)
             {
                 int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
             }
         }

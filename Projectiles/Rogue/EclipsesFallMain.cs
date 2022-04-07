@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -54,11 +54,12 @@ namespace CalamityMod.Projectiles.Rogue
         private void SpawnSpears(Vector2 targetPos)
         {
             int spearAmt = Main.rand.Next(3, 6); //3 to 5 spears
+            var source = Projectile.GetProjectileSource_FromThis();
             for (int n = 0; n < spearAmt; n++)
             {
                 float dmgMult = 0.08f * Main.rand.NextFloat(4f, 7f);
                 float kBMult = 0.1f * Main.rand.NextFloat(7f, 10f);
-                CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(Projectile.damage * dmgMult), Projectile.knockBack * kBMult, Projectile.owner);
+                CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(Projectile.damage * dmgMult), Projectile.knockBack * kBMult, Projectile.owner);
             }
         }
 

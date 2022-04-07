@@ -57,9 +57,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike && Main.myPlayer == Projectile.owner)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 for (int n = 0; n < 3; n++)
                 {
-                    Projectile lightning = CalamityUtils.ProjectileRain(Projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile lightning = CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     lightning.ai[0] = Main.rand.Next(2);
                 }
             }

@@ -1,7 +1,8 @@
-using CalamityMod.NPCs.StormWeaver;
+﻿using CalamityMod.NPCs.StormWeaver;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -33,16 +34,17 @@ namespace CalamityMod.Skies
             if (maxDepth < float.MaxValue || !Main.npc.IndexInRange(StormWeaverHeadIndex))
                 return;
 
-            // Draw lightning in the background based on Main.magicPixel.
+            // Draw lightning in the background based on TextureAssets.MagicPixel.
             // It is a long, white vertical strip that exists for some reason.
             // This lightning effect is achieved by expanding this to fit the entire background and then drawing it as a distinct element.
+            Texture2D white = TextureAssets.MagicPixel.Value;
             float lightningFlashPower = (Main.npc[StormWeaverHeadIndex].modNPC as StormWeaverHead).lightning;
-            Vector2 scale = new Vector2(Main.screenWidth * 1.1f / Main.magicPixel.Width, Main.screenHeight * 1.1f / Main.magicPixel.Height);
+            Vector2 scale = new Vector2(Main.screenWidth * 1.1f / white.Width, Main.screenHeight * 1.1f / white.Height);
             Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
             Color drawColor = Color.White * MathHelper.Lerp(0f, 0.88f, lightningFlashPower);
 
             for (int i = 0; i < 2; i++)
-                spriteBatch.Draw(Main.magicPixel, screenCenter, null, drawColor, 0f, Main.magicPixel.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(white, screenCenter, null, drawColor, 0f, white.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
 
         public override void Reset() { }

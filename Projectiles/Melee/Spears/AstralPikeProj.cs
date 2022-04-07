@@ -45,11 +45,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
             target.immune[Projectile.owner] = 6;
             if (crit)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 for (int i = 0; i < 3; i++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile star = CalamityUtils.ProjectileBarrage(Projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(Projectile.damage * 0.4), 1f, Projectile.owner, true);
+                        Projectile star = CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(Projectile.damage * 0.4), 1f, Projectile.owner, true);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             star.Calamity().forceMelee = true;

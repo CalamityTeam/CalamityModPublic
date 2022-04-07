@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Eutrophic Dresser";
+            ContainerName.SetDefault("Eutrophic Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDresser>();
         }
 
@@ -36,12 +36,12 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

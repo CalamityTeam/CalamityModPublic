@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
@@ -156,14 +156,14 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Indignant",
                     null,
                     player => player.Calamity().cursedSummonsEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.summon),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>()),
 
                 new Enchantment("Aflame", "Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.",
                     200,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Aflame",
                     null,
                     player => player.Calamity().flamingItemEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.summon),
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>()),
 
                 new Enchantment("Oblatory", "Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.",
                     300,
@@ -174,7 +174,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                         item.mana = (int)Math.Ceiling(item.mana * 0.6);
                     },
                     player => player.Calamity().lifeManaEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.magic && item.mana > 0),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0),
 
                 new Enchantment("Resentful", "Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.",
                     400,
@@ -195,20 +195,20 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
                     null,
                     player => player.Calamity().dischargingItemEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.summon && !item.channel),
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.channel),
 
                 new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
                     700,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Hellbound",
                     null,
                     player => player.Calamity().explosiveMinionsEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.summon),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>()),
 
                 new Enchantment("Tainted", "Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.",
                     800,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Tainted",
                     item => item.useTime = item.useAnimation = 25,
-                    player =>
+                    (Player player) =>
                     {
                         if (Main.gameMenu)
                             return;
@@ -228,24 +228,25 @@ namespace CalamityMod.UI.CalamitasEnchants
                         if (Main.myPlayer == player.whoAmI && !armsArePresent)
                         {
                             // Yes, this is a LOT of damage but given the limited range of this thing it needs to be extremely powerful when it does actually hit.
+                            var source = player.GetProjectileSource_Item(player.ActiveItem());
                             int damage = (int)(player.ActiveItem().damage * player.MeleeDamage() * 5);
-                            int blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
+                            int blade = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
                             if (Main.projectile.IndexInRange(blade))
                                 Main.projectile[blade].localAI[0] = 0f;
 
-                            blade = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1f, player.ActiveItem().type);
+                            blade = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 1f, player.ActiveItem().type);
                             if (Main.projectile.IndexInRange(blade))
                                 Main.projectile[blade].localAI[0] = -80f;
                         }
                     },
-                    item => item.IsEnchantable() && item.damage > 0 && item.melee && !item.noUseGraphic && item.shoot > ProjectileID.None),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MeleeDamageClass>() && !item.noUseGraphic && item.shoot > ProjectileID.None),
 
                 new Enchantment("Traitorous", "Causes this item to sometimes release a monster that hurts both you and enemies when you have less than 50% mana.",
                     900,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Traitorous",
                     null,
                     player => player.Calamity().manaMonsterEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.magic && item.mana > 0),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0),
 
                 new Enchantment("Withering", "When hurt, you heal a percentage of the damage taken based on how much accumulated damage you did overall beforehand, up to 100%.\n" +
                                             "After this, you gain a damage boost while holding this item but also take exponential damage over time the longer you hold it.",
@@ -253,7 +254,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Withered",
                     null,
                     player => player.Calamity().witheringWeaponEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.summon),
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>()),
 
                 new Enchantment("Persecuted", "When attacked, or over time, demon portals appear near you.\nIf sufficiently damaged they are friendly; otherwise they attack you. They become angered if a portal is damaged.",
                     1100,
@@ -290,7 +291,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                             CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
                         }
                     },
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.summon),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.CountsAsClass<SummonDamageClass>()),
             };
 
             // Special disenchantment thing. This is separated from the list on purpose.

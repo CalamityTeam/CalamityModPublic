@@ -109,12 +109,12 @@ namespace CalamityMod.World.Planets
                 {
                     int testX = origin.X + _random.Next(-radius, radius);
                     int testY = origin.Y + _random.Next(-radius, radius);
-                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].wall == WallID.HiveUnsafe)
+                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].WallType  == WallID.HiveUnsafe)
                     {
                         for (int floorX = testX - 1; floorX <= testX + 1; floorX++)
                         {
                             _tiles[floorX, testY + 2].Get<TileWallWireStateData>().HasTile = true;
-                            _tiles[floorX, testY + 2].type = TileID.Hive;
+                            _tiles[floorX, testY + 2].TileType = TileID.Hive;
                             WorldGen.SquareTileFrame(floorX, testY + 2);
                         }
                         //Place chest
@@ -151,9 +151,9 @@ namespace CalamityMod.World.Planets
                 }
                 //PLACE TILES BENEATH CHEST, IN CASE
                 _tiles[origin.X, chestY].Get<TileWallWireStateData>().HasTile = true;
-                _tiles[origin.X, chestY].type = TileID.Mud;
+                _tiles[origin.X, chestY].TileType = TileID.Mud;
                 _tiles[origin.X + 1, chestY].Get<TileWallWireStateData>().HasTile = true;
-                _tiles[origin.X + 1, chestY].type = TileID.Mud;
+                _tiles[origin.X + 1, chestY].TileType = TileID.Mud;
                 //Place chest
                 int chestID = WorldGen.PlaceChest(origin.X, chestY - 1, 21, false, 17);
                 FillChest(chestID);
@@ -212,8 +212,8 @@ namespace CalamityMod.World.Planets
 
         private int[] BarLoot = new int[]
         {
-            WorldGen.SilverTierOre == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-            WorldGen.GoldTierOre == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
         };
 
         private void FillChest(int id)
@@ -297,8 +297,8 @@ namespace CalamityMod.World.Planets
 
         private int[] BarLootHoney = new int[]
         {
-            WorldGen.SilverTierOre == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-            WorldGen.GoldTierOre == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
         };
 
         private void FillHoneyChest(int id)

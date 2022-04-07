@@ -71,9 +71,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (crit)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile petal = CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
+                    Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         petal.Calamity().forceMelee = true;

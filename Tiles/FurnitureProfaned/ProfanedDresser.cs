@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Profaned Dresser";
+            ContainerName.SetDefault("Profaned Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedDresser>();
         }
 
@@ -43,12 +43,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureProfaned.ProfanedDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureProfaned.ProfanedDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureProfaned.ProfanedDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureProfaned.ProfanedDresser>(ContainerName.GetDefault());
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

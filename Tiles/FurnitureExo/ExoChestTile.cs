@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             Tile tile = Main.tile[i, j];
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoChestGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoChestGlow").Value;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - (int)Main.screenPosition.X / 2f, j * 16 - (int)Main.screenPosition.Y + yOffset) + drawOffset;
             Color drawColour = Color.White;

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -116,7 +117,7 @@ namespace CalamityMod
                         int y = reader.ReadInt32();
                         // Not strictly necessary, but helps prevent unnecessary packetstorm in MP
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+                            NPC.NewNPC(new EntitySource_WorldEvent(), x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
                     case CalamityModMessageType.DeleteAllSuperDummies:
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -136,11 +137,11 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.ProvidenceDyeConditionSync:
                         byte npcIndex3 = reader.ReadByte();
-                        (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
+                        (Main.npc[npcIndex3].ModNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
                         break;
                     case CalamityModMessageType.PSCChallengeSync:
                         byte npcIndex4 = reader.ReadByte();
-                        (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
+                        (Main.npc[npcIndex4].ModNPC as Providence).challenge = reader.ReadBoolean();
                         break;
 
                     //
@@ -155,7 +156,7 @@ namespace CalamityMod
                         Vector2 spawnPosition = reader.ReadVector2();
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int spawnedNPC = NPC.NewNPC(x, y, npcType, Target: player);
+                            int spawnedNPC = NPC.NewNPC(new EntitySource_WorldEvent(), x, y, npcType, Target: player);
                             NetMessage.SendData(MessageID.SyncNPC, -1, player, null, spawnedNPC);
                         }
                         break;
@@ -308,7 +309,7 @@ namespace CalamityMod
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
-                NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, npcType, Target: player.whoAmI);
+                NPC.NewNPC(new EntitySource_WorldEvent(), (int)spawnPosition.X, (int)spawnPosition.Y, npcType, Target: player.whoAmI);
                 return;
             }
 

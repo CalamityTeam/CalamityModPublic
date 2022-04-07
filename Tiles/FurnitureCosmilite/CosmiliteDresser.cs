@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Cosmilite Dresser";
+            ContainerName.SetDefault("Cosmilite Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>();
         }
 

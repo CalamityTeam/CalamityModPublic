@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -137,51 +137,9 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile bubble = CalamityUtils.ProjectileBarrage(Projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
+                    var source = Projectile.GetProjectileSource_FromThis();
+                    Projectile bubble = CalamityUtils.ProjectileBarrage(source, Projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     bubble.ai[1] = Main.rand.NextFloat() + 0.5f;
-                }
-            }
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            Rectangle myRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
-            if (Projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((Projectile.friendly && (!Main.npc[i].friendly || (Main.npc[i].type == NPCID.Guide && Projectile.owner < 255 && Main.player[Projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && Projectile.owner < 255 && Main.player[Projectile.owner].killClothier))) ||
-                        (Projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (Projectile.owner < 0 || Main.npc[i].immune[Projectile.owner] == 0 || Projectile.maxPenetrate == 1))
-                    {
-                        if (Main.npc[i].noTileCollide || !Projectile.ownerHitCheck || Projectile.CanHit(Main.npc[i]))
-                        {
-                            bool flag3;
-                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
-                            {
-                                Rectangle rect = Main.npc[i].getRect();
-                                int num5 = 8;
-                                rect.X -= num5;
-                                rect.Y -= num5;
-                                rect.Width += num5 * 2;
-                                rect.Height += num5 * 2;
-                                flag3 = Projectile.Colliding(myRect, rect);
-                            }
-                            else
-                            {
-                                flag3 = Projectile.Colliding(myRect, Main.npc[i].getRect());
-                            }
-                            if (flag3)
-                            {
-                                if (Main.npc[i].reflectingProjectiles && Projectile.CanReflect())
-                                {
-                                    Main.npc[i].ReflectProjectile(Projectile.whoAmI);
-                                    return;
-                                }
-                                hitDirection = (Main.player[Projectile.owner].Center.X < Main.npc[i].Center.X) ? 1 : -1;
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -191,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
             float num5 = 60f;
             float f = Projectile.rotation - 0.7853982f * (float)Math.Sign(Projectile.velocity.X);
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

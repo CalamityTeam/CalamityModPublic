@@ -72,12 +72,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (crit)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 int bulletCount = 10;
                 for (int x = 0; x < bulletCount; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner);
                     }
                 }
             }

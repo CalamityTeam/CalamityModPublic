@@ -575,7 +575,7 @@ namespace CalamityMod
             if (resetFrame)
             {
                 randomFrame = WorldGen.genRand.Next(3);
-                Main.tile[x, y].TileFrameNumber = randomFrame;
+                Main.tile[x, y].Get<TileWallWireStateData>().TileFrameNumber = randomFrame;
             }
             else
             {

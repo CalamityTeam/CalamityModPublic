@@ -179,6 +179,7 @@ namespace CalamityMod.Projectiles.Melee
 
             int type = ProjectileID.FlowerPetal;
             int numPetals = 12;
+            var source = Projectile.GetProjectileSource_FromThis();
             int petalDamage = Projectile.damage / 8;
             float petalKB = 0f;
             for (int i = 0; i < numPetals; ++i)
@@ -186,7 +187,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Projectile.owner == Main.myPlayer)
                 {
                     float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                    Projectile petal = CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, Projectile.owner);
+                    Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, Projectile.owner);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         petal.Calamity().forceMelee = true;

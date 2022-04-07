@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Ranged;
@@ -108,6 +108,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffect(Vector2 targetPos)
         {
+            var source = Projectile.GetProjectileSource_FromThis();
             for (int n = 0; n < 3; n++)
             {
                 int projType = Utils.SelectRandom(Main.rand, new int[]
@@ -116,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
                     ProjectileID.HallowStar,
                     ModContent.ProjectileType<FallenStarProj>()
                 });
-                Projectile star = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), 5f, Projectile.owner);
+                Projectile star = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), 5f, Projectile.owner);
                 if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
                     star.Calamity().forceRogue = true;

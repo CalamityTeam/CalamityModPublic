@@ -7206,9 +7206,10 @@ namespace CalamityMod.CalPlayer
 
                 if (aeroSet && damage > 25)
                 {
+                    var source = new ProjectileSource_AerospecSetFeathers(Player);
                     for (int n = 0; n < 4; n++)
                     {
-                        CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * Player.AverageDamage()), 1f, Player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * Player.AverageDamage()), 1f, Player.whoAmI);
                     }
                 }
                 if (aBulwarkRare)
@@ -7218,14 +7219,15 @@ namespace CalamityMod.CalPlayer
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(25 * Player.AverageDamage()), 5f, Player.whoAmI, 0f, 1f);
                     for (int n = 0; n < 12; n++)
                     {
-                        CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
                     }
                 }
                 if (dAmulet)
                 {
+                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<DeificAmulet>()));
                     for (int n = 0; n < 3; n++)
                     {
-                        Projectile star = CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * Player.AverageDamage()), 4f, Player.whoAmI);
+                        Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * Player.AverageDamage()), 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             star.Calamity().forceTypeless = true;
@@ -7405,9 +7407,10 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Player.whoAmI == Main.myPlayer)
                     {
+                        var source = new ProjectileSource_DemonshadeSet(Player);
                         for (int l = 0; l < 2; l++)
                         {
-                            Projectile beam = CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * Player.AverageDamage()), 7f, Player.whoAmI);
+                            Projectile beam = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * Player.AverageDamage()), 7f, Player.whoAmI);
                             if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
                             {
                                 beam.Calamity().forceTypeless = true;
@@ -7417,7 +7420,7 @@ namespace CalamityMod.CalPlayer
                         }
                         for (int l = 0; l < 5; l++)
                         {
-                            Projectile scythe = CalamityUtils.ProjectileRain(Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * Player.AverageDamage()), 7f, Player.whoAmI);
+                            Projectile scythe = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * Player.AverageDamage()), 7f, Player.whoAmI);
                             if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
                             {
                                 scythe.Calamity().forceTypeless = true;

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureExo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             if (!Main.dedServ)
             {
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow", AssetRequestMode.ImmediateLoad).Value;
             }
 
             Main.tileSolid[Type] = true;

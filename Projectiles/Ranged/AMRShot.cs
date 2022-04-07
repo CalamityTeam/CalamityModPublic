@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -77,13 +77,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (crit)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 int extraProjectileAmt = 8;
                 for (int x = 0; x < extraProjectileAmt; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
                         bool fromRight = x > 3;
-                        CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.1), Projectile.knockBack * 0.1f, Projectile.owner);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(Projectile.damage * 0.1), Projectile.knockBack * 0.1f, Projectile.owner);
                     }
                 }
             }

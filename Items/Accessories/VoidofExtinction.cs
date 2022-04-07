@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetProjectileSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
             modPlayer.voidOfExtinction = true;
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile fire = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+                        Projectile fire = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
                         if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             fire.usesLocalNPCImmunity = true;
@@ -98,7 +99,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X += i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(70 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(70 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

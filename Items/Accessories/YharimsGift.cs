@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -53,11 +53,12 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.miscCounter % 8 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(375 * player.AverageDamage()), 9f, player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(375 * player.AverageDamage()), 9f, player.whoAmI);
                     }
                 }
             }

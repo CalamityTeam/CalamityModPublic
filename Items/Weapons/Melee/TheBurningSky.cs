@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,10 +52,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 originalVelocity = new Vector2(velocity.X, speedY);
             float speed = originalVelocity.Length();
+            var source = player.GetProjectileSource_Item(Item);
             for (int i = 0; i < ProjectilesPerBarrage; ++i)
             {
                 float randomSpeed = speed * Main.rand.NextFloat(0.7f, 1.4f);
-                CalamityUtils.ProjectileRain(Main.MouseWorld, 290f, 130f, 850f, 1100f, randomSpeed, type, damage, knockback, player.whoAmI);
+                CalamityUtils.ProjectileRain(source, Main.MouseWorld, 290f, 130f, 850f, 1100f, randomSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

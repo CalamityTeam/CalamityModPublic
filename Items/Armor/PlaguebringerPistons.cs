@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
                 {
                     tile.TileFrameY = 0;
                     tile.Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                    tile.halfBrick(false);
+                    tile.Get<TileWallWireStateData>().IsHalfBlock = false;
                     //On dirt blocks, there's a small chance to grow a dye plant
                     if (Main.tile[x, y + 1].TileType == TileID.Dirt)
                     {

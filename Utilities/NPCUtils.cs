@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
@@ -20,6 +20,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Chat;
+using Terraria.DataStructures;
 
 namespace CalamityMod
 {
@@ -304,7 +306,7 @@ namespace CalamityMod
             }
             else if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[] { Main.npc[npcIndex].GetTypeNetName() }), new Color(175, 75, 255));
+                ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[] { Main.npc[npcIndex].GetTypeNetName() }), new Color(175, 75, 255));
             }
         }
 
@@ -337,7 +339,7 @@ namespace CalamityMod
             target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
         }
 
-        public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;
+        public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.ModNPC as T;
 
         /// <summary>
         /// Summons a boss near a particular area depending on a specific spawn context.
@@ -360,7 +362,7 @@ namespace CalamityMod
                 spawnContext = new ExactPositionBossSpawnContext();
 
             Vector2 spawnPosition = spawnContext.DetermineSpawnPosition(relativeSpawnPosition);
-            int bossIndex = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, bossType, 0, ai0, ai1, ai2, ai3);
+            int bossIndex = NPC.NewNPC(NPC.GetBossSpawnSource(Player.FindClosest(spawnPosition, 1, 1)), (int)spawnPosition.X, (int)spawnPosition.Y, bossType, 0, ai0, ai1, ai2, ai3);
 
             // Broadcast a spawn message to indicate the summoning of the boss if it was successfully spawned.
             if (Main.npc.IndexInRange(bossIndex))
@@ -400,7 +402,7 @@ namespace CalamityMod
             if (projectile is null)
                 return;
 
-            int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, NPCType<OldDuke>());
+            int oldDuke = NPC.NewNPC(NPC.GetBossSpawnSource(playerIndex), (int)projectile.Center.X, (int)projectile.Center.Y + 100, NPCType<OldDuke>());
             BossAwakenMessage(oldDuke);
         }
     }

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Exo Dresser";
+            ContainerName.SetDefault("Exo Dresser");
             DresserDrop = ModContent.ItemType<ExoDresser>();
         }
 
@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.FurnitureExo
 
         public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<ExoDresser>(chest);
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<ExoDresser>(ContainerName.GetDefault());
 
-        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<ExoDresser>(chest);
+        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<ExoDresser>(ContainerName.GetDefault());
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         {
             int xFrameOffset = Main.tile[i, j].TileFrameX;
             int yFrameOffset = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoDresserGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoDresserGlow").Value;
             Vector2 drawOffest = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffest;
             Color drawColour = Color.White;

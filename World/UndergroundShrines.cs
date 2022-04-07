@@ -166,7 +166,7 @@ namespace CalamityMod.World
                     if (m < Main.maxTilesY)
                     {
                         Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                        Main.tile[l, m].halfBrick(false);
+                        Main.tile[l, m].Get<TileWallWireStateData>().IsHalfBlock = false;
                     }
                 }
             }

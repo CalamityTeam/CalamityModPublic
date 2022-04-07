@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Stratus Dresser";
+            ContainerName.SetDefault("Stratus Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDresser>();
         }
 
@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureStratus.StratusDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureStratus.StratusDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureStratus.StratusDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureStratus.StratusDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

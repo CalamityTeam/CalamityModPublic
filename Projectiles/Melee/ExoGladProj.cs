@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -91,16 +91,17 @@ namespace CalamityMod.Projectiles.Melee
             int swordDmg = (int)(Projectile.damage * 0.25);
             int numSwords = Main.rand.Next(1,4);
             int spearAmt = Main.rand.Next(1,4);
+            var source = Projectile.GetProjectileSource_FromThis();
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < numSwords; ++i)
                 {
-                    CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(24f, 30f), ModContent.ProjectileType<ExoGladiusBeam>(), swordDmg, swordKB, Projectile.owner);
+                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(24f, 30f), ModContent.ProjectileType<ExoGladiusBeam>(), swordDmg, swordKB, Projectile.owner);
                 }
 
                 for (int n = 0; n < spearAmt; n++)
                 {
-                    CalamityUtils.ProjectileRain(targetPos, 400f, 100f, -1000f, -800f, 29f, ModContent.ProjectileType<ExoGladSpears>(), swordDmg, swordKB, Projectile.owner);
+                    CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, -1000f, -800f, 29f, ModContent.ProjectileType<ExoGladSpears>(), swordDmg, swordKB, Projectile.owner);
                 }
             }
         }

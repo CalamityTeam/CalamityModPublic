@@ -68,11 +68,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
             if (crit)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 for (int i = 0; i < 2; i++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TinyFlare>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, true);
+                        CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TinyFlare>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, true);
                     }
                 }
             }

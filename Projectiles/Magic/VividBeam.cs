@@ -111,14 +111,15 @@ namespace CalamityMod.Projectiles.Magic
 
         private void SummonLasers()
         {
+            var source = Projectile.GetProjectileSource_FromThis();
             switch (Projectile.ai[1])
             {
                 case 0f:
-                    CalamityUtils.ProjectileRain(Projectile.Center, 400f, 100f, 500f, 800f, 6f, ModContent.ProjectileType<VividClarityBeam>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
+                    CalamityUtils.ProjectileRain(source, Projectile.Center, 400f, 100f, 500f, 800f, 6f, ModContent.ProjectileType<VividClarityBeam>(), (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
                     break;
 
                 case 1f:
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VividExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(source, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VividExplosion>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
                     break;
 
                 case 2f:
@@ -129,8 +130,8 @@ namespace CalamityMod.Projectiles.Magic
                     for (int i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(source, Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     break;
             }

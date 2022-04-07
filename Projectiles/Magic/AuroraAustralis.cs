@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -76,10 +76,11 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.timeLeft % 10 == 0 && Main.myPlayer == Projectile.owner) //spawn stars every 10 ticks
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
                 {
                     float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
-                    Projectile star = CalamityUtils.ProjectileRain(Projectile.Center, Projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
+                    Projectile star = CalamityUtils.ProjectileRain(source, Projectile.Center, Projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
                     star.timeLeft = 120;
                 }
             }

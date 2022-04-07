@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -78,8 +78,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 int damage = player.GetWeaponDamage(player.ActiveItem());
-                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
+                CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
         }
     }

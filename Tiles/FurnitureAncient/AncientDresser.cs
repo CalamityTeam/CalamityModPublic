@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Ancient Dresser";
+            ContainerName.SetDefault("Ancient Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientDresser>();
         }
 
@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAncient.AncientDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAncient.AncientDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAncient.AncientDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAncient.AncientDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

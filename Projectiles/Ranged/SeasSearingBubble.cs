@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -104,12 +104,13 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item96, Projectile.Center);
             if (Projectile.ai[0] == 1f)
             {
+                var source = Projectile.GetProjectileSource_FromThis();
                 for (int x = 0; x < 2; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {
                         float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                        Projectile bubble = CalamityUtils.ProjectileBarrage(Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(20f, 25f), ModContent.ProjectileType<SeasSearingBubble>(), Projectile.damage / 2, 1f, Projectile.owner);
+                        Projectile bubble = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(20f, 25f), ModContent.ProjectileType<SeasSearingBubble>(), Projectile.damage / 2, 1f, Projectile.owner);
                         bubble.rotation = angle;
                         bubble.tileCollide = false;
                         bubble.usesLocalNPCImmunity = true;

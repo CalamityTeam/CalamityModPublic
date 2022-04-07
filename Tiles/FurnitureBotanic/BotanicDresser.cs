@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Botanic Dresser";
+            ContainerName.SetDefault("Botanic Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicDresser>();
         }
 
@@ -38,12 +38,12 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureBotanic.BotanicDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureBotanic.BotanicDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureBotanic.BotanicDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureBotanic.BotanicDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

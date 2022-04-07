@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Acidwood Dresser";
+            ContainerName.SetDefault("Acidwood Dresser");
             DresserDrop = ModContent.ItemType<AcidwoodDresser>();
         }
 
@@ -32,9 +32,9 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override bool RightClick(int i, int j) => CalamityUtils.DresserRightClick();
 
-        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<AcidwoodDresser>(chest);
+        public override void MouseOverFar(int i, int j) => CalamityUtils.DresserMouseFar<AcidwoodDresser>(ContainerName.GetDefault());
 
-        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<AcidwoodDresser>(chest);
+        public override void MouseOver(int i, int j) => CalamityUtils.DresserMouseOver<AcidwoodDresser>(ContainerName.GetDefault());
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

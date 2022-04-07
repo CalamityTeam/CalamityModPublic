@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     walkTile.TileFrameY = 0;
                     walkTile.Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                    walkTile.halfBrick(false);
+                    walkTile.Get<TileWallWireStateData>().IsHalfBlock = false;
                     // On dirt blocks, there's a small chance to grow a dye plant.
                     if (groundTile.TileType == TileID.Dirt)
                     {

@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Plagued Dresser";
+            ContainerName.SetDefault("Plagued Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
@@ -41,12 +41,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(ContainerName.GetDefault());
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

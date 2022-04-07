@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -87,7 +87,7 @@ namespace CalamityMod.Particles
                     particle.CustomDraw(Main.spriteBatch, basePosition);
                 else
                 {
-                    var tex = ModContent.Request<Texture2D>(particle.Texture);
+                    var tex = ModContent.Request<Texture2D>(particle.Texture).Value;
 
                     Vector2 drawPosition = basePosition - Main.screenPosition + particle.RelativeOffset;
                     Color particleColor = particle.Color;

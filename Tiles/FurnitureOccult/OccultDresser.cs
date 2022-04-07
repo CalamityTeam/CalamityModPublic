@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Otherworldly Dresser";
+            ContainerName.SetDefault("Otherworldly Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultDresser>();
         }
 
@@ -38,12 +38,12 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureOccult.OccultDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureOccult.OccultDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureOccult.OccultDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureOccult.OccultDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

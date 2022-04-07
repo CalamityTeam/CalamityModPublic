@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.AcidRain;
+﻿using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
@@ -177,6 +177,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && projectileShootCountdown <= 0f)
                     {
+                        var source = npc.GetSpawnSource_ForProjectile();
                         if (distanceFromTarget < 120f)
                         {
                             for (int i = 0; i < 5; i++)
@@ -185,14 +186,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                                 spikeShootVelocity *= Main.rand.NextVector2Square(0.75f, 1.25f);
                                 spikeShootVelocity.Normalize();
                                 spikeShootVelocity *= Main.rand.NextFloat(3.5f, 4.5f) * projectileShootSpeedFactor;
-                                Projectile.NewProjectile(npc.Center, spikeShootVelocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(source, npc.Center, spikeShootVelocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
                                 projectileShootCountdown = 30f;
                             }
                         }
                         else
                         {
                             Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - Vector2.UnitY * Main.rand.NextFloat(200f)) * projectileShootSpeedFactor * 6f;
-                            Projectile.NewProjectile(npc.Center, velocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, npc.Center, velocity, projectileShootType, 9, 0f, Main.myPlayer, 0f, 0f);
                             projectileShootCountdown = 50f;
                         }
                     }

@@ -529,7 +529,7 @@ namespace CalamityMod.World
                         Main.tile[l, m].LiquidAmount = 0;
                         Main.tile[l, m].TileType = type;
                         Main.tile[l, m].WallType = 0;
-                        Main.tile[l, m].halfBrick(false);
+                        Main.tile[l, m].Get<TileWallWireStateData>().IsHalfBlock = false;
                         Main.tile[l, m].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     }
                 }
@@ -581,7 +581,7 @@ namespace CalamityMod.World
                 Main.tile[num9, num12].LiquidAmount = 0;
                 Main.tile[num9, num12].TileType = type;
                 Main.tile[num9, num12].WallType = 0;
-                Main.tile[num9, num12].halfBrick(false);
+                Main.tile[num9, num12].Get<TileWallWireStateData>().IsHalfBlock = false;
                 Main.tile[num9, num12].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
             }
             WorldGen.AddBuriedChest(i, num10 - 3, item, false, 4); //chest

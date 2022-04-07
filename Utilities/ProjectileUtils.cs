@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -165,24 +167,24 @@ namespace CalamityMod
             }
         }
 
-        public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
+        public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
         {
             float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
             if (projType == ProjectileType<AstralStarMagic>())
                 x = targetPos.X + xLimit;
             float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
-            Vector2 source = new Vector2(x, y);
-            Vector2 velocity = targetPos - source;
+            Vector2 spawnPosition = new Vector2(x, y);
+            Vector2 velocity = targetPos - spawnPosition;
             velocity.X += Main.rand.NextFloat(-xVariance, xVariance);
             float speed = projSpeed;
             float targetDist = velocity.Length();
             targetDist = speed / targetDist;
             velocity.X *= targetDist;
             velocity.Y *= targetDist;
-            return Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner);
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
 
-        public static Projectile ProjectileBarrage(Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
+        public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
         {
             float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
             float yPos = originVec.Y + Main.rand.NextFloat(yOffsetMin, yOffsetMax) * Main.rand.NextBool().ToDirectionInt();
@@ -198,7 +200,7 @@ namespace CalamityMod
                 velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
                 velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
             }
-            return Projectile.NewProjectileDirect(spawnPosition, velocity, projType, damage, knockback, owner);
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
 
         public static int DamageSoftCap(double dmgInput, int cap)
@@ -261,7 +263,7 @@ namespace CalamityMod
         public static bool DrawBeam(this Projectile projectile, float length, float spacer, Color lightColor, Texture2D texture = null, bool curve = false)
         {
             if (texture is null)
-                texture = ModContent.Request<Texture2D>(Texture).Value;
+                texture = TextureAssets.Projectile[projectile.type].Value;
 
             float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
             float heightOffset = (float)(projectile.height / 2);

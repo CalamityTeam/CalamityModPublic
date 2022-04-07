@@ -62,11 +62,12 @@ namespace CalamityMod.Items.Armor
 
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.immune)
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-                        Projectile cinder = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
+                        Projectile cinder = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
                         if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
                             cinder.Calamity().forceTypeless = true;
                     }

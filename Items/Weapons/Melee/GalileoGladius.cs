@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
@@ -80,10 +80,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.Calamity().galileoCooldown <= 0)
                 {
                     int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
-                    CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
+                    CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
                     player.Calamity().galileoCooldown = 15;
                 }
             }

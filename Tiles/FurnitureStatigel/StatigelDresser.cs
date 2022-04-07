@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
-            dresser = "Statigel Dresser";
+            ContainerName.SetDefault("Statigel Dresser");
             DresserDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelDresser>();
         }
 
@@ -36,12 +36,12 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureStatigel.StatigelDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureStatigel.StatigelDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureStatigel.StatigelDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureStatigel.StatigelDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

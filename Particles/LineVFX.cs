@@ -38,9 +38,9 @@ namespace CalamityMod.Particles
         {
             Texture2D tex;
             if (Concave)
-                tex = ModContent.Request<Texture2D>("CalamityMod/Particles/ThickEndedLine"); //THICC :wearty: weary: :weary : oogogg;... ooog... that line be lookin' mighty fine... :hot:
+                tex = ModContent.Request<Texture2D>("CalamityMod/Particles/ThickEndedLine").Value; //THICC :wearty: weary: :weary : oogogg;... ooog... that line be lookin' mighty fine... :hot:
             else
-                tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
+                tex = ModContent.Request<Texture2D>(Texture).Value;
 
             Vector2 drawPosition = Position - Utils.SafeNormalize(LineVector, Vector2.Zero) * (float)Math.Sqrt(1f - (float)Math.Pow(LifetimeCompletion - 1f, 2)) * Expansion / 2f;
             Vector2 expandedLine = LineVector + Utils.SafeNormalize(LineVector, Vector2.Zero) * (float)Math.Sqrt(1f - (float)Math.Pow(LifetimeCompletion - 1f, 2)) * Expansion;

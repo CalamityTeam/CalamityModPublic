@@ -44,14 +44,13 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GeneralParticleHandler.Assets.Request<Texture2D>(Type).Value;
-
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition)
         {
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge"); //GeneralParitcleHandler.GetTexture somehow wont work for set particles and defaults to the first particle it has (blood)
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge").Value; //somehow wont work for set particles and defaults to the first particle it has (blood)
             spriteBatch.Draw(tex, basePosition - Main.screenPosition, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
         }
     }

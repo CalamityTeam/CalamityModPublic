@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,10 +49,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
+            var source = Projectile.GetProjectileSource_FromThis();
             SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
             for (int n = 0; n < 5; n++)
             {
-                CalamityUtils.ProjectileRain(Projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                CalamityUtils.ProjectileRain(source, Projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 36);
             int num226 = 36;

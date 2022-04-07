@@ -63,7 +63,7 @@ namespace CalamityMod.World
         }
 
         public static int YStart = 0;
-        public static readonly List<int> SulphSeaTiles = new List<int>()
+        public static readonly List<int> SulphSeaTiles = new()
         {
             ModContent.TileType<SulphurousSand>(),
             ModContent.TileType<SulphurousSandstone>(),
@@ -162,11 +162,9 @@ namespace CalamityMod.World
                     {
                         if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)))
                         {
-                            Main.tile[trueX, y] = new Tile()
-                            {
-                                type = generateSand ? sandTileType : sandstoneTileType,
-                                wall = generateSand ? sandWallType : sandstoneWallType
-                            };
+                            Main.tile[trueX, y].ClearEverything();
+                            Main.tile[trueX, y].WallType = generateSand ? sandWallType : sandstoneWallType;
+                            Main.tile[trueX, y].TileType = generateSand ? sandTileType : sandstoneTileType;
                             if (y - YStart - 6 < wallBoundAtPosition(xRatio * MathHelper.TwoPi * 4f))
                                 Main.tile[trueX, y].WallType = WallID.None;
 
@@ -206,11 +204,9 @@ namespace CalamityMod.World
                 for (int y = YStart; y <= YStart + lakeDepth; y++)
                 {
                     ushort oldWall = Main.tile[trueX, y].WallType;
-                    Main.tile[trueX, y] = new Tile()
-                    {
-                        wall = oldWall,
-                        liquid = 255
-                    };
+                    Main.tile[trueX, y].ClearEverything();
+                    Main.tile[trueX, y].WallType = oldWall;
+                    Main.tile[trueX, y].LiquidAmount = 255;
                 }
             }
         }
@@ -241,11 +237,9 @@ namespace CalamityMod.World
                         if (perlinAverage > PerlinThreshold * WorldGen.genRand.NextFloat(1f - PerlinNoiseMax, 1f + PerlinNoiseMax))
                         {
                             ushort oldWall = Main.tile[trueX, y].WallType;
-                            Main.tile[trueX, y] = new Tile()
-                            {
-                                wall = oldWall,
-                                liquid = 255
-                            };
+                            Main.tile[trueX, y].ClearEverything();
+                            Main.tile[trueX, y].WallType = oldWall;
+                            Main.tile[trueX, y].LiquidAmount = 255;
                         }
                     }
                 }
@@ -389,7 +383,7 @@ namespace CalamityMod.World
                                     {
                                         Main.tile[x + dx, y + dy - y2].TileType = (ushort)ModContent.TileType<SulphurousSandNoWater>();
                                         Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                                        Main.tile[x + dx, y + dy - y2].halfBrick(false);
+                                        Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().IsHalfBlock = false;
                                         Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().HasTile = true;
                                     }
                                     if (dy == -2 && dx == treePosition)
@@ -525,31 +519,21 @@ namespace CalamityMod.World
                                         yFrame = 36;
                                     if (dy == height - 1)
                                         yFrame = 0;
-                                    if (Main.tile[trueX, y - dy] is null)
-                                        Main.tile[trueX, y - dy] = new Tile();
                                     ushort oldWall = Main.tile[trueX, y - dy].WallType;
-                                    Main.tile[trueX, y - dy] = new Tile
-                                    {
-                                        type = (ushort)ModContent.TileType<SulphurousColumn>(),
-                                        frameX = (short)(style * 36),
-                                        frameY = yFrame,
-                                        liquid = 255,
-                                        wall = oldWall
-                                    };
+                                    Main.tile[trueX, y - dy].ResetToType((ushort)ModContent.TileType<SulphurousColumn>());
+                                    Main.tile[trueX, y - dy].TileFrameX = (short)(style * 36);
+                                    Main.tile[trueX, y - dy].TileFrameY = yFrame;
+                                    Main.tile[trueX, y - dy].LiquidAmount = 255;
+                                    Main.tile[trueX, y - dy].WallType = oldWall;
                                     Main.tile[trueX, y - dy].Get<TileWallWireStateData>().HasTile = true;
 
-                                    if (Main.tile[trueX + 1, y - dy] is null)
-                                        Main.tile[trueX + 1, y - dy] = new Tile();
-
                                     oldWall = Main.tile[trueX + 1, y - dy].WallType;
-                                    Main.tile[trueX + 1, y - dy] = new Tile
-                                    {
-                                        type = (ushort)ModContent.TileType<SulphurousColumn>(),
-                                        frameX = (short)(style * 36 + 18),
-                                        frameY = yFrame,
-                                        liquid = 255,
-                                        wall = oldWall
-                                    };
+
+                                    Main.tile[trueX + 1, y - dy].ResetToType((ushort)ModContent.TileType<SulphurousColumn>());
+                                    Main.tile[trueX + 1, y - dy].TileFrameX = (short)(style * 36 + 18);
+                                    Main.tile[trueX + 1, y - dy].TileFrameY = yFrame;
+                                    Main.tile[trueX + 1, y - dy].LiquidAmount = 255;
+                                    Main.tile[trueX + 1, y - dy].WallType = oldWall;
                                     Main.tile[trueX + 1, y - dy].Get<TileWallWireStateData>().HasTile = true;
                                 }
                                 previousX = trueX;
@@ -610,18 +594,10 @@ namespace CalamityMod.World
                 {
                     for (int j = y - (int)Math.Ceiling(height / 2.0); j < y + (int)Math.Ceiling(height / 2.0); j++)
                     {
-                        if (Main.tile[i, j] is null)
-                        {
-                            Main.tile[i, j] = new Tile();
-                        }
                         if (Main.tile[i, j].HasTile)
                         {
                             canGenerate = false;
                         }
-                    }
-                    if (Main.tile[i, y + 1] is null)
-                    {
-                        Main.tile[i, y + 1] = new Tile();
                     }
                     if (!Main.tile[i, y + 1].HasUnactuatedTile || Main.tile[i, y + 1].IsHalfBlock || Main.tile[i, y + 1].Slope != 0 || !Main.tileSolid[Main.tile[i, y + 1].TileType])
                     {
@@ -643,12 +619,10 @@ namespace CalamityMod.World
             for (int dy = 0; dy < height; dy++)
             {
                 ushort oldWall = Main.tile[x, y + dy].WallType;
-                Main.tile[x, y + dy] = new Tile
-                {
-                    wall = oldWall,
-                    type = type,
-                    frameY = (short)(dy * 18)
-                };
+                Main.tile[x, y + dy].ClearEverything();
+                Main.tile[x, y + dy].WallType = oldWall;
+                Main.tile[x, y + dy].TileType = type;
+                Main.tile[x, y + dy].TileFrameY = (short)(dy * 18);
                 Main.tile[x, y + dy].Get<TileWallWireStateData>().HasTile = true;
             }
         }
@@ -657,12 +631,10 @@ namespace CalamityMod.World
             for (int dy = height - 1; dy > 0; dy--)
             {
                 ushort oldWall = Main.tile[x, y + dy].WallType;
-                Main.tile[x, y - dy] = new Tile
-                {
-                    type = type,
-                    frameY = (short)(height * 18 - dy * 18),
-                    wall = oldWall
-                };
+                Main.tile[x, y - dy].ClearEverything();
+                Main.tile[x, y - dy].WallType = oldWall;
+                Main.tile[x, y - dy].TileType = type;
+                Main.tile[x, y - dy].TileFrameY = (short)(height * 18 - dy * 18);
                 Main.tile[x, y - dy].Get<TileWallWireStateData>().HasTile = true;
             }
         }
@@ -715,12 +687,12 @@ namespace CalamityMod.World
 
         #region Removal of stupid Tiles above the Sea
 
-        public static List<int> OtherTilesForSulphSeaToDestroy = new List<int>()
+        public static List<int> OtherTilesForSulphSeaToDestroy = new()
         {
             TileID.PalmTree,
             TileID.Sunflower,
             TileID.CorruptThorns,
-            TileID.CrimtaneThorns,
+            TileID.CrimsonThorns,
             TileID.CorruptGrass,
             TileID.CorruptPlants,
             TileID.Stalactite,
@@ -730,7 +702,7 @@ namespace CalamityMod.World
             TileID.Pumpkins, // Happens during Halloween
         };
 
-        public static List<int> WallsForSulphSeaToDestroy = new List<int>()
+        public static List<int> WallsForSulphSeaToDestroy = new()
         {
             WallID.Dirt,
             WallID.DirtUnsafe,
@@ -758,8 +730,6 @@ namespace CalamityMod.World
                     if (YStartWhitelist.Contains(type) ||
                         OtherTilesForSulphSeaToDestroy.Contains(type))
                     {
-                        if (Main.tile[trueX, y] is null)
-                            Main.tile[trueX, y] = new Tile();
                         Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = false;
                     }
                     if (WallsForSulphSeaToDestroy.Contains(Main.tile[trueX, y].WallType))
@@ -772,7 +742,7 @@ namespace CalamityMod.World
         #endregion
 
         #region Nearby Beach
-        public static readonly List<int> ValidBeachCovertTiles = new List<int>()
+        public static readonly List<int> ValidBeachCovertTiles = new()
         {
             TileID.Dirt,
             TileID.Stone,
@@ -783,11 +753,11 @@ namespace CalamityMod.World
             TileID.Crimsand,
             TileID.Grass,
             TileID.CorruptGrass,
-            TileID.FleshGrass,
+            TileID.CrimsonGrass,
             TileID.ClayBlock,
             TileID.Mud,
         };
-        public static readonly List<int> ValidBeachDestroyTiles = new List<int>()
+        public static readonly List<int> ValidBeachDestroyTiles = new()
         {
             TileID.Coral,
             TileID.BeachPiles,
@@ -797,7 +767,7 @@ namespace CalamityMod.World
             TileID.LargePiles,
             TileID.LargePiles2,
             TileID.CorruptThorns,
-            TileID.CrimtaneThorns,
+            TileID.CrimsonThorns,
             TileID.DyePlants,
             TileID.Trees,
             TileID.Sunflower,
@@ -940,7 +910,7 @@ namespace CalamityMod.World
         #endregion Scrap Piles
 
         #region Misc Functions
-        public static List<int> YStartWhitelist = new List<int>()
+        public static List<int> YStartWhitelist = new()
         {
             TileID.Stone,
             TileID.Dirt,
@@ -949,7 +919,7 @@ namespace CalamityMod.World
             TileID.Crimsand,
             TileID.Grass,
             TileID.CorruptGrass,
-            TileID.FleshGrass,
+            TileID.CrimsonGrass,
             TileID.ClayBlock,
             TileID.Mud,
             TileID.Copper,
@@ -973,7 +943,7 @@ namespace CalamityMod.World
             TileID.Trees,
             TileID.Vines,
             TileID.CorruptThorns,
-            TileID.CrimtaneThorns,
+            TileID.CrimsonThorns,
             TileID.CrimsonVines,
             TileID.Containers,
             TileID.DyePlants,
@@ -996,7 +966,7 @@ namespace CalamityMod.World
         public static void GrowSaplingImmediately(int i, int j)
         {
             int trueStartingPositionY = j;
-            while (TileLoader.IsSapling(Main.tile[i, trueStartingPositionY].TileType))
+            while (TileID.Sets.TreeSapling[Main.tile[i, trueStartingPositionY].TileType])
             {
                 trueStartingPositionY++;
             }

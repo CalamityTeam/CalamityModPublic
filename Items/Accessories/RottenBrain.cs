@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
@@ -27,11 +27,12 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.immune)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.miscCounter % 6 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI);
+                        Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             rain.Calamity().forceTypeless = true;

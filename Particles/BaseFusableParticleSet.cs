@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -48,7 +48,7 @@ namespace CalamityMod.Particles
             }
         }
 
-        public List<FusableParticle> Particles = new List<FusableParticle>();
+        public List<FusableParticle> Particles = new();
 
         public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
@@ -88,7 +88,7 @@ namespace CalamityMod.Particles
                 Particles.RemoveAll(p => p.Size <= 5f);
 
                 // Prepare the sprite batch for specialized drawing in prepration that the graphics device will draw to new render targets.
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
                 // Draw the surviving particles.
                 DrawParticles();

@@ -243,7 +243,7 @@ namespace CalamityMod.Tiles.Abyss
                             }
                         }
                         Main.tile[i, j].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                        Main.tile[i, j].halfBrick(false);
+                        Main.tile[i, j].Get<TileWallWireStateData>().IsHalfBlock = false;
                     }
                 }
             }
