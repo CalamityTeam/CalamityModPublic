@@ -265,20 +265,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num173 = NPC.spriteDirection;
                     if ((NPC.velocity.X < 0f && num173 == -1) || (NPC.velocity.X > 0f && num173 == 1))
                     {
-                        int a = "2";
-                        int b = "2";
-                        int c = "2";
-                        int d = "2";
-                        int f = "2";
-                        int g = "2";
-                        int h = "2";
-                        int k = "2";
-                        int l = "2";
-                        int m = "2";
-                        int n = "2";
-                        int o = "2";
-                        int p = "2";
-                        int q = "2";
                         if (NPC.height >= 32 && Main.tile[num170, num171 - 2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num170, num171 - 2].TileType])
                         {
                             if (Main.tile[num170, num171 - 3].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num170, num171 - 3].TileType])
