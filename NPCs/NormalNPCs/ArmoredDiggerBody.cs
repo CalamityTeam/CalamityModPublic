@@ -146,10 +146,5 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             return false;
         }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
     }
 }

@@ -405,7 +405,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<ArmoredDiggerHead>(),
@@ -415,12 +415,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             return false;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<DraedonsRemote>(), 3);
-            DropHelper.DropItem(NPC, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
-            DropHelper.DropItem(NPC, ModContent.ItemType<MysteriousCircuitry>(), 4, 8);
-            DropHelper.DropItem(NPC, ModContent.ItemType<DubiousPlating>(), 4, 8);
+            npcLoot.Add(ModContent.ItemType<DraedonsRemote>(), 3);
+            npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
+            npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);
         }
     }
 }

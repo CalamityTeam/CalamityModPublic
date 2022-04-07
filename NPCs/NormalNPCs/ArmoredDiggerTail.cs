@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -101,11 +101,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool PreNPCLoot()
         {
             return false;
         }
