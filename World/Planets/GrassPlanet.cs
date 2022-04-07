@@ -156,8 +156,8 @@ namespace CalamityMod.World.Planets
                 {
                     for (int x = startX; x <= endX; x++)
                     {
-                        _tiles[x, y].HasTile = true;
                         _tiles[x, y].TileType = brickType;
+                        _tiles[x, y].Get<TileWallWireStateData>().HasTile = true;
                         if (y == topLayer)
                         {
                             _tiles[x, y].WallType = WallID.None;

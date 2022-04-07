@@ -73,10 +73,10 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientBasinFlame"), i, j, offsetY: animationFrame * AnimationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientBasinFlame").Value, i, j, offsetY: animationFrame * AnimationFrameHeight);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameY == 18 && tile.TileFrameX < 54)

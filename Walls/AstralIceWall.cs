@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +15,7 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Ice.
-            dustType = DustID.Shadowflame;
+            DustType = DustID.Shadowflame;
             AddMapEntry(new Color(83, 76, 92));
         }
 

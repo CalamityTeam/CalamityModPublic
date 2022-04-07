@@ -737,7 +737,7 @@ namespace CalamityMod.World
                                 {
                                     Main.tile[k, l].Get<TileWallWireStateData>().HasTile = false;
                                     Main.tile[k, l].LiquidAmount = 255;
-                                    Main.tile[k, l].lava(true);
+                                    Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Lava;
                                 }
                             }
                         }
@@ -799,7 +799,7 @@ namespace CalamityMod.World
                             else
                             {
                                 Main.tile[m, n].LiquidAmount = 255;
-                                Main.tile[m, n].lava(true);
+                                Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Lava;
                             }
                         }
                     }
@@ -818,7 +818,7 @@ namespace CalamityMod.World
                             else
                             {
                                 Main.tile[num11, num12].LiquidAmount = 255;
-                                Main.tile[num11, num12].lava(true);
+                                Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Lava;
                             }
                             if (steps <= num2)
                             {

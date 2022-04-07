@@ -1,7 +1,8 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -69,10 +70,10 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandleFlame").Value, i, j);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameX < 18)
                 CalamityUtils.DrawFlameSparks(246, 5, i, j);

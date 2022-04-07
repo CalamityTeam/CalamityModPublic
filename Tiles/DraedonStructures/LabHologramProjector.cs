@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables.DraedonStructures;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
@@ -85,7 +85,7 @@ namespace CalamityMod.Tiles.DraedonStructures
                 if (mp.CurrentlyViewedHologramID != -1)
                 {
                     SoundEngine.PlaySound(SoundID.Chat, -1, -1, 1, 1f, 0f);
-                    player.talkNPC = -1;
+                    player.SetTalkNPC(-1);
                 }
             }
             else
@@ -127,7 +127,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             xPos += frame / 8 * 96;
             yPos += frame % 8 * 112;
 
-            Texture2D tileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/LabHologramProjector");
+            Texture2D tileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/LabHologramProjector").Value;
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);

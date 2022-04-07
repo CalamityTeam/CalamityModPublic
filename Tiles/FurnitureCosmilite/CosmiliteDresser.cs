@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(chest);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(chest);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteDresser>(ContainerName.GetDefault());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

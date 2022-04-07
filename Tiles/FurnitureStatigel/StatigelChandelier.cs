@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStatigel/StatigelChandelierFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStatigel/StatigelChandelierFlame").Value, i, j);
         }
     }
 }

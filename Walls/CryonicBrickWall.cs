@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.CryonicBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.CryonicBrickWall>();
             AddMapEntry(new Color(72, 75, 122));
         }
 

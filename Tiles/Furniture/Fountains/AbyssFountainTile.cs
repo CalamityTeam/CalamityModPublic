@@ -12,7 +12,6 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 {
     public class AbyssFountainTile : ModTile
     {
-        internal static readonly MethodInfo ActiveFountainColorMethod = typeof(SceneMetrics).GetMethod("set_ActiveFountainColor", BindingFlags.NonPublic | BindingFlags.Instance);
         public override void SetStaticDefaults()
         {
             this.SetUpFountain();
@@ -25,12 +24,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             if (Main.tile[i, j].TileFrameX < 36)
             {
                 if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AbyssWater"))
-                {
-                    ActiveFountainColorMethod.Invoke(Main.SceneMetrics, new object[]
-                    {
-                        CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Slot
-                    });
-                }
+                    CalamityGlobalTile.SetActiveFountainColor(CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Slot);
             }
         }
 

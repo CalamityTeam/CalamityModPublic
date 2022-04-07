@@ -172,31 +172,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 position2.X += NPC.velocity.X;
                 int num165 = (int)((position2.X + (float)(NPC.width / 2) + (float)((NPC.width / 2 + 1) * num164)) / 16f);
                 int num166 = (int)((position2.Y + (float)NPC.height - 1f) / 16f);
-                if (Main.tile[num165, num166] == null)
-                {
-                    Main.tile[num165, num166] = new Tile();
-                }
-                if (Main.tile[num165, num166 - 1] == null)
-                {
-                    Main.tile[num165, num166 - 1] = new Tile();
-                }
-                if (Main.tile[num165, num166 - 2] == null)
-                {
-                    Main.tile[num165, num166 - 2] = new Tile();
-                }
-                if (Main.tile[num165, num166 - 3] == null)
-                {
-                    Main.tile[num165, num166 - 3] = new Tile();
-                }
-                if (Main.tile[num165, num166 + 1] == null)
-                {
-                    Main.tile[num165, num166 + 1] = new Tile();
-                }
-                if (Main.tile[num165 - num164, num166 - 3] == null)
-                {
-                    Main.tile[num165 - num164, num166 - 3] = new Tile();
-                }
-                if ((float)(num165 * 16) < position2.X + (float)NPC.width && (float)(num165 * 16 + 16) > position2.X && ((Main.tile[num165, num166].HasUnactuatedTile && !Main.tile[num165, num166].topSlope() && !Main.tile[num165, num166 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num165, num166].TileType] && !Main.tileSolidTop[(int)Main.tile[num165, num166].TileType]) || (Main.tile[num165, num166 - 1].IsHalfBlock && Main.tile[num165, num166 - 1].HasUnactuatedTile)) && (!Main.tile[num165, num166 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 1].TileType] || (Main.tile[num165, num166 - 1].IsHalfBlock && (!Main.tile[num165, num166 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 4].TileType]))) && (!Main.tile[num165, num166 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 2].TileType]) && (!Main.tile[num165, num166 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 3].TileType]) && (!Main.tile[num165 - num164, num166 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165 - num164, num166 - 3].TileType]))
+                if ((float)(num165 * 16) < position2.X + (float)NPC.width && (float)(num165 * 16 + 16) > position2.X && ((Main.tile[num165, num166].HasUnactuatedTile && !Main.tile[num165, num166].TopSlope && !Main.tile[num165, num166 - 1].TopSlope && Main.tileSolid[(int)Main.tile[num165, num166].TileType] && !Main.tileSolidTop[(int)Main.tile[num165, num166].TileType]) || (Main.tile[num165, num166 - 1].IsHalfBlock && Main.tile[num165, num166 - 1].HasUnactuatedTile)) && (!Main.tile[num165, num166 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 1].TileType] || (Main.tile[num165, num166 - 1].IsHalfBlock && (!Main.tile[num165, num166 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 4].TileType]))) && (!Main.tile[num165, num166 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 2].TileType]) && (!Main.tile[num165, num166 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165, num166 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 3].TileType]) && (!Main.tile[num165 - num164, num166 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num165 - num164, num166 - 3].TileType]))
                 {
                     float num167 = (float)(num166 * 16);
                     if (Main.tile[num165, num166].IsHalfBlock)
@@ -231,38 +207,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 int num170 = (int)((NPC.position.X + (float)(NPC.width / 2) + (float)(15 * NPC.direction)) / 16f);
                 int num171 = (int)((NPC.position.Y + (float)NPC.height - 15f) / 16f);
-                if (Main.tile[num170, num171] == null)
-                {
-                    Main.tile[num170, num171] = new Tile();
-                }
-                if (Main.tile[num170, num171 - 1] == null)
-                {
-                    Main.tile[num170, num171 - 1] = new Tile();
-                }
-                if (Main.tile[num170, num171 - 2] == null)
-                {
-                    Main.tile[num170, num171 - 2] = new Tile();
-                }
-                if (Main.tile[num170, num171 - 3] == null)
-                {
-                    Main.tile[num170, num171 - 3] = new Tile();
-                }
-                if (Main.tile[num170, num171 + 1] == null)
-                {
-                    Main.tile[num170, num171 + 1] = new Tile();
-                }
-                if (Main.tile[num170 + NPC.direction, num171 - 1] == null)
-                {
-                    Main.tile[num170 + NPC.direction, num171 - 1] = new Tile();
-                }
-                if (Main.tile[num170 + NPC.direction, num171 + 1] == null)
-                {
-                    Main.tile[num170 + NPC.direction, num171 + 1] = new Tile();
-                }
-                if (Main.tile[num170 - NPC.direction, num171 + 1] == null)
-                {
-                    Main.tile[num170 - NPC.direction, num171 + 1] = new Tile();
-                }
                 Main.tile[num170, num171 + 1].IsHalfBlock;
                 if ((Main.tile[num170, num171 - 1].HasUnactuatedTile && (Main.tile[num170, num171 - 1].TileType == 10 || Main.tile[num170, num171 - 1].TileType == 388)) & flag5)
                 {
@@ -321,6 +265,20 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num173 = NPC.spriteDirection;
                     if ((NPC.velocity.X < 0f && num173 == -1) || (NPC.velocity.X > 0f && num173 == 1))
                     {
+                        int a = "2";
+                        int b = "2";
+                        int c = "2";
+                        int d = "2";
+                        int f = "2";
+                        int g = "2";
+                        int h = "2";
+                        int k = "2";
+                        int l = "2";
+                        int m = "2";
+                        int n = "2";
+                        int o = "2";
+                        int p = "2";
+                        int q = "2";
                         if (NPC.height >= 32 && Main.tile[num170, num171 - 2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num170, num171 - 2].TileType])
                         {
                             if (Main.tile[num170, num171 - 3].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num170, num171 - 3].TileType])
@@ -339,7 +297,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             NPC.velocity.Y = -6f;
                             NPC.netUpdate = true;
                         }
-                        else if (NPC.position.Y + (float)NPC.height - (float)(num171 * 16) > 20f && Main.tile[num170, num171].HasUnactuatedTile && !Main.tile[num170, num171].topSlope() && Main.tileSolid[(int)Main.tile[num170, num171].TileType])
+                        else if (NPC.position.Y + (float)NPC.height - (float)(num171 * 16) > 20f && Main.tile[num170, num171].HasUnactuatedTile && !Main.tile[num170, num171].TopSlope && Main.tileSolid[(int)Main.tile[num170, num171].TileType])
                         {
                             NPC.velocity.Y = -5f;
                             NPC.netUpdate = true;

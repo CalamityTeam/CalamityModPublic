@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -75,7 +76,7 @@ namespace CalamityMod.Tiles.Astral
             ritualSpawnPosition += new Vector2(0f, -24f);
 
             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
-            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
+            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<TitanHeart>(), true);

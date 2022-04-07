@@ -60,10 +60,10 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedLampFlame").Value, i, j);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             if (Main.tile[i, j].TileFrameY == 0 && Main.tile[i, j].TileFrameX < 18)
             {

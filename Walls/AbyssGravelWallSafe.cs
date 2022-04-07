@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
@@ -9,9 +9,9 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AbyssGravelWallItem>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AbyssGravelWallItem>();
             AddMapEntry(new Color(6, 10, 54));
-            dustType = 33;
+            DustType = 33;
         }
 
         public override bool CanExplode(int i, int j) => false;

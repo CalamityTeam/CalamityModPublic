@@ -1,4 +1,4 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,7 +12,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.RunicProfanedBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.RunicProfanedBrickWall>();
             AddMapEntry(new Color(43, 22, 27));
         }
 

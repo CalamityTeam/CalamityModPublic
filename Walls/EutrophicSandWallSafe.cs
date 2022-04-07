@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,8 +9,8 @@ namespace CalamityMod.Walls
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = 108;
-            drop = ModContent.ItemType<Items.Placeables.Walls.EutrophicSandWallSafe>();
+            DustType = 108;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.EutrophicSandWallSafe>();
             AddMapEntry(new Color(80, 80, 120));
         }
 

@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.AcidRain
                     for (int i = 0; i < bubblesPerBurst; i++)
                     {
                         Vector2 bubbleShootVelocity = baseBubbleShootVelocity + Main.rand.NextVector2Circular(4f, 4f);
-                        Projectile.NewProjectile(mouthPosition, bubbleShootVelocity, bubbleShootType, bubbleDamage, 0f);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), mouthPosition, bubbleShootVelocity, bubbleShootType, bubbleDamage, 0f);
                     }
 
                     // Get launched back after firing. This only happens if in water and there's no obstacles behind.
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.AcidRain
                     int acidDamage = NPC.GetProjectileDamage(acidShootType);
                     Vector2 acidSpawnPosition = NPC.Center + Main.rand.NextVector2Circular(30f, 10f).RotatedBy(NPC.rotation);
                     Vector2 acidShootVelocity = -Vector2.UnitY.RotatedByRandom(0.33f) * Main.rand.NextFloat(8f, 10.5f);
-                    Projectile.NewProjectile(acidSpawnPosition, acidShootVelocity, acidShootType, acidDamage, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), acidSpawnPosition, acidShootVelocity, acidShootType, acidDamage, 0f);
                     NPC.netUpdate = true;
                 }
             }

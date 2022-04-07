@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls.DraedonStructures
@@ -8,8 +8,8 @@ namespace CalamityMod.Walls.DraedonStructures
 
         public override void SetStaticDefaults()
         {
-            dustType = 30;
-            drop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.LaboratoryPlatingWall>();
+            DustType = 30;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.DraedonStructures.LaboratoryPlatingWall>();
             Main.wallHouse[Type] = true;
 
             AddMapEntry(new Color(105, 102, 98));

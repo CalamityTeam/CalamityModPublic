@@ -1,4 +1,4 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -35,6 +35,8 @@ namespace CalamityMod.Tiles.FurnitureOccult
             return false;
         }
 
+        /*
+         * TODO -- Find some way to make this work again with the new parameters.
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if ((Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
@@ -58,6 +60,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             DrawExtraWallEnds(i, j, cloth, drawOffset, drawColour);
             DrawExtraDrapes(i, j, cloth, drawOffset, drawColour);
         }
+        */
 
         #region 'Extra Drapes' Drawing
         private void DrawExtraTop(int i, int j, Texture2D extras, Vector2 drawOffset, Color drawColour)
@@ -229,7 +232,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         private int GetExtraVariant(int i, int j)
         {
-            return Main.tile[i, j].frameNumber() * extraFrameWidth;
+            return Main.tile[i, j].TileFrameNumber * extraFrameWidth;
         }
 
         /*

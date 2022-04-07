@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.PlagueContainmentCellsWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.PlagueContainmentCellsWall>();
             AddMapEntry(new Color(83, 122, 44));
         }
 

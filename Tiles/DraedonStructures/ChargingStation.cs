@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TEChargingStation charger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
             int numCells = charger?.CellStack ?? 0;
             if (numCells > 0)
-                Item.NewItem(dropPos, ModContent.ItemType<PowerCell>(), numCells);
+                Item.NewItem(new EntitySource_TileBreak(i, j), dropPos, ModContent.ItemType<PowerCell>(), numCells);
 
             // Netcode check is required because otherwise this will spawn two items.
             // Force cloning items into the Main item array is weird.
@@ -122,7 +122,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             // Grab the tile entity because its glowmask depends on whether it's currently charging.
             TEChargingStation charger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
 
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/ChargingStation_Glow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/ChargingStation_Glow").Value;
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Color drawColor = charger?.LightColor ?? Color.Red;

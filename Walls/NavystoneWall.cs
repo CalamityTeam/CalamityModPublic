@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 namespace CalamityMod.Walls
 {
@@ -6,7 +6,7 @@ namespace CalamityMod.Walls
     {
         public override void SetStaticDefaults()
         {
-            dustType = 96;
+            DustType = 96;
             AddMapEntry(new Color(0, 50, 50));
         }
 

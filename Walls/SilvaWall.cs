@@ -1,4 +1,4 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.SilvaWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.SilvaWall>();
             AddMapEntry(new Color(28, 32, 44));
         }
 

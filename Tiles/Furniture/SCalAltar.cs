@@ -79,7 +79,7 @@ namespace CalamityMod.Tiles.Furniture
             ritualSpawnPosition += new Vector2(-10f, -24f);
 
             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, ritualSpawnPosition);
-            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer);
+            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingSpecialItem)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<CalamityDust>(), true);

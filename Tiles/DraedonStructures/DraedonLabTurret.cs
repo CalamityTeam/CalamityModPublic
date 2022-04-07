@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             name.SetDefault("Lab Turret");
             AddMapEntry(new Color(67, 72, 81), name);
             SoundType = SoundID.Item;
-            soundStyle = 14;
+            SoundStyle = 14;
 
             // Has 500% durability.
             MineResist = 5f;
