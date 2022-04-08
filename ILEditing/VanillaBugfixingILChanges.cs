@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
 
@@ -21,7 +22,7 @@ namespace CalamityMod.ILEditing
         }
 
         // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,767.
-        private static List<int> NeedsFourLifeBytes => new List<int>()
+        private static List<int> NeedsFourLifeBytes => new()
         {
             // King Slime
             NPCID.BlueSlime,
@@ -79,7 +80,7 @@ namespace CalamityMod.ILEditing
             NPCID.AncientCultistSquidhead,
         };
 
-        public static List<OrderedProjectileEntry> OrderedProjectiles = new List<OrderedProjectileEntry>();
+        public static List<OrderedProjectileEntry> OrderedProjectiles = new();
 
         /*
         #region Fixing NPC HP Sync Byte Counts in Boss Rush
@@ -228,7 +229,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc_0);
             cursor.EmitDelegate<Func<int, Rectangle?>>(itemType =>
             {
-                return Main.itemAnimations[itemType]?.GetFrame(Main.itemTexture[itemType]) ?? null;
+                return Main.itemAnimations[itemType]?.GetFrame(TextureAssets.Item[itemType].Value) ?? null;
             });
         }
         #endregion Make Mouse Hover Items Work with Animated Items

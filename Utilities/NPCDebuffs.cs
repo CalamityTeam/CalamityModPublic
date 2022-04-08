@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -55,7 +55,7 @@ namespace CalamityMod
             // Also, can I just say that I hate Sorted Dictionaries and Tuples and want to make something explode? -Ben
             var stupidTupleThing = new Tuple<bool, int[]>(true, new int[] {});
             bool exists = EnemyStats.DebuffImmunities.TryGetValue(npc.type, out stupidTupleThing);
-            if (npc.modNPC is null || !exists)
+            if (npc.ModNPC is null || !exists)
                 return;
 
             // If the npc is immune to everything, make it immune to everything

@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
+using ReLogic.Content;
 
 namespace CalamityMod.UI
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
+            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AstralArcanumCircles", AssetRequestMode.ImmediateLoad).Value;
             CircleNames = new string[]
             {
                 "Underworld",
@@ -164,7 +165,7 @@ namespace CalamityMod.UI
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    NetMessage.SendData(MessageID.TeleportationPotion, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
             else

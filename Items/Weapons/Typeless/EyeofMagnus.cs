@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 5f;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.height = 50;
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         }
 
         // Eye of Magnus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             float formula = 5f * (player.GetDamage<GenericDamageClass>() - 1f);
             formula += player.GetDamage(DamageClass.Melee) - 1f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             formula += player.GetDamage(DamageClass.Magic) - 1f;
             formula += player.GetDamage(DamageClass.Summon) - 1f;
             formula += player.Calamity().throwingDamage - 1f;
-            add += formula;
+            damage += formula;
         }
 
         public override void AddRecipes()

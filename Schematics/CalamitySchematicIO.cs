@@ -69,17 +69,17 @@ namespace CalamityMod.Schematics
             {
                 target.CopyFrom(replacement);
                 target.WallType = original.WallType;
-                target.wallFrameX(original.wallFrameX());
-                target.wallFrameY(original.wallFrameY());
-                target.wallColor(original.wallColor());
+                target.wallFrameX(original.WallFrameX);
+                target.wallFrameY(original.WallFrameY);
+                target.wallColor(original.WallColor);
             }
             else if (keepTile) // tile from original, wall from replacement
             {
                 target.CopyFrom(original);
                 target.WallType = replacement.WallType;
-                target.wallFrameX(replacement.wallFrameX());
-                target.wallFrameY(replacement.wallFrameY());
-                target.wallColor(replacement.wallColor());
+                target.wallFrameX(replacement.WallFrameX);
+                target.wallFrameY(replacement.WallFrameY);
+                target.wallColor(replacement.WallColor);
             }
         }
     }
@@ -181,8 +181,8 @@ namespace CalamityMod.Schematics
             bool framesMatch = t.TileFrameX == smt.frameX;
             framesMatch &= t.TileFrameY == smt.frameY;
             // Wall frames are not checked separately because these are computed from binary headers.
-            // wallFrameX() => (bTileHeader2 & 0xF) * 36;
-            // wallFrameY() => (bTileHeader3 & 7) * 36;
+            // WallFrameX => (bTileHeader2 & 0xF) * 36;
+            // WallFrameY => (bTileHeader3 & 7) * 36;
             if (!framesMatch)
                 return false;
 

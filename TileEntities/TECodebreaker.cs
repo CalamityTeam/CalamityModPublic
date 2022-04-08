@@ -128,7 +128,7 @@ namespace CalamityMod.TileEntities
             // Also tell the server that you placed the 5x8 tiles that make up the Codebreaker.
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, CodebreakerTile.Width, CodebreakerTile.Height);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, CodebreakerTile.Width, CodebreakerTile.Height);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
                 return -1;
             }
@@ -167,7 +167,7 @@ namespace CalamityMod.TileEntities
                 if (totalCellsToDrop > 999)
                     totalCellsToDrop = 999;
                 InputtedCellCount -= totalCellsToDrop;
-                Item.NewItem(x * 16, y * 16, 32, 32, ModContent.ItemType<PowerCell>(), totalCellsToDrop);
+                Item.NewItem(new EntitySource_TileEntity(this), x * 16, y * 16, 32, 32, ModContent.ItemType<PowerCell>(), totalCellsToDrop);
             }
         }
 

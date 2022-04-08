@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -43,8 +43,6 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 int i = Main.myPlayer;
                 float num72 = Item.shootSpeed;
-                float knockback = knockBack;
-                knockback = player.GetWeaponKnockback(Item, knockback);
                 player.itemTime = Item.useTime;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

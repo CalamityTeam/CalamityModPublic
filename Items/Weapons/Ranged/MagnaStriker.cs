@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/OpalStrike");
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<OpalStrike>();
             Item.shootSpeed = 15f;

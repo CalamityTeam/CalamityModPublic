@@ -40,13 +40,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (!initialized && Projectile.ranged) //Ranged check prevents quiver splits triggering the sound
+            if (!initialized && Projectile.CountsAsClass(DamageClass.Ranged)) //Ranged check prevents quiver splits triggering the sound
             {
                 initialized = true;
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+                    var sound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
                     sound = sound.WithVolume(sound.Volume * 0.45f);
                     SoundEngine.PlaySound(sound, Projectile.Center);
                 }

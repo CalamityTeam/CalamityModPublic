@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
@@ -38,7 +38,7 @@ Reduces defense by 6% and life regen by 1");
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
-                player.statMana += item.healMana;
+                player.statMana += Item.healMana;
                 if (player.statMana > player.statManaMax2)
                 {
                     player.statMana = player.statManaMax2;
@@ -46,10 +46,10 @@ Reduces defense by 6% and life regen by 1");
                 player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    player.ManaEffect(item.healMana);
+                    player.ManaEffect(Item.healMana);
                 }
             }
-            player.AddBuff(item.buffType, item.buffTime);
+            player.AddBuff(Item.buffType, Item.buffTime);
             return true;
         }
     }

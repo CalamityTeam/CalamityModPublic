@@ -1,4 +1,5 @@
-﻿using CalamityMod.CustomRecipes;
+﻿using System;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;

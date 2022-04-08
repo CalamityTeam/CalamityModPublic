@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Summon;
@@ -78,7 +78,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonsRemote>()).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            // TODO -- Draedon's remote appears to not exist as of 1.4 porting. Is this intentional or did something go wrong?
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            //CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonsRemote>()).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

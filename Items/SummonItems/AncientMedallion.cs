@@ -1,9 +1,11 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.Ravager;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.DataStructures;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class AncientMedallion : ModItem
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
             SoundEngine.PlaySound(SoundID.Roar, player.position, 2);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<RavagerBody>(), 1);
+                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<RavagerBody>(), 1);
                 Main.npc[npc].timeLeft *= 20;
                 CalamityUtils.BossAwakenMessage(npc);
             }

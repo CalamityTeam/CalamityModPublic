@@ -38,7 +38,7 @@ namespace CalamityMod.Skies
             // It is a long, white vertical strip that exists for some reason.
             // This lightning effect is achieved by expanding this to fit the entire background and then drawing it as a distinct element.
             Texture2D white = TextureAssets.MagicPixel.Value;
-            float lightningFlashPower = (Main.npc[StormWeaverHeadIndex].modNPC as StormWeaverHead).lightning;
+            float lightningFlashPower = (Main.npc[StormWeaverHeadIndex].ModNPC as StormWeaverHead).lightning;
             Vector2 scale = new Vector2(Main.screenWidth * 1.1f / white.Width, Main.screenHeight * 1.1f / white.Height);
             Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
             Color drawColor = Color.White * MathHelper.Lerp(0f, 0.88f, lightningFlashPower);

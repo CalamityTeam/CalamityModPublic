@@ -1,5 +1,6 @@
 ﻿using CalamityMod.NPCs.NormalNPCs;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,7 +68,7 @@ namespace CalamityMod.Items
                     // dummies are gone, and cause them to reappear, making the deletion moot.
                     else
                     {
-                        var netMessage = mod.GetPacket();
+                        var netMessage = Mod.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.DeleteAllSuperDummies);
                         netMessage.Send();
                     }
@@ -80,12 +81,12 @@ namespace CalamityMod.Items
 
                 // In single player, just spawn the dummy.
                 if (Main.netMode == NetmodeID.SinglePlayer)
-                    NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+                    NPC.NewNPC(new EntitySource_ItemUse(player, Item), x, y, ModContent.NPCType<SuperDummyNPC>());
 
                 // Otherwise, send a message to the server indicating that a Super Dummy should be spawned at this position.
                 else
                 {
-                    var netMessage = mod.GetPacket();
+                    var netMessage = Mod.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.SpawnSuperDummy);
                     netMessage.Write(x);
                     netMessage.Write(y);

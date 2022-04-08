@@ -35,7 +35,7 @@ namespace CalamityMod.Walls
                 (
                     sprite,
                     drawOffset,
-                    new Rectangle(sheetOffset[0] + Main.tile[i, j].wallFrameX(), sheetOffset[1] + Main.tile[i, j].wallFrameY(), 32, 32),
+                    new Rectangle(sheetOffset[0] + Main.tile[i, j].WallFrameX, sheetOffset[1] + Main.tile[i, j].WallFrameY, 32, 32),
                     lightColor,
                     0,
                     new Vector2(0f, 0f),
@@ -56,7 +56,7 @@ namespace CalamityMod.Walls
 
         private Color GetWallColour(int i, int j)
         {
-            int colType = Main.tile[i, j].wallColor();
+            int colType = Main.tile[i, j].WallColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {

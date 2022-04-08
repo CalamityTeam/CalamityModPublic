@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogIceBiome");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogIceBiome").Value;
                 case 1:
                     return null; // No image exists for Daedalus' ruins at the moment.
                 default:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPermafrost");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPermafrost").Value;
             }
         }
     }

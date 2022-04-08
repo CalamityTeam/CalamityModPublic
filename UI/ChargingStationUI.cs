@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.UI
 {
@@ -106,10 +107,10 @@ namespace CalamityMod.UI
                     bool syncRequired = false;
 
                     // If the player is holding shift and has space for the item, just spawn it on his or her face.
-                    if (Main.keyState.PressingShift() && p.ItemSpace(pluggedItem))
+                    if (Main.keyState.PressingShift() && p.ItemSpace(pluggedItem).CanTakeItemToPersonalInventory)
                     {
                         // This does not use DropHelper because it has to clone an existing item, not create one from nothing.
-                        p.QuickSpawnClonedItem(pluggedItem, pluggedItem.stack);
+                        p.QuickSpawnClonedItem(new EntitySource_TileEntity(charger), pluggedItem, pluggedItem.stack);
 
                         // Destroy the original plugged item because a clone of it was just spawned.
                         pluggedItem.TurnToAir();
@@ -154,7 +155,7 @@ namespace CalamityMod.UI
                     bool shiftClicked = false;
 
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
-                    if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
+                    if (Main.keyState.PressingShift() && p.ItemSpace(powercell).CanTakeItemToPersonalInventory)
                     {
                         DropHelper.DropItem(p, powercellID, powercell.stack);
                         chargerStackDiff = (short)-powercell.stack;
@@ -208,13 +209,13 @@ namespace CalamityMod.UI
 
         public static void DrawWeaponSlot(SpriteBatch spriteBatch, Item item, Vector2 drawPosition)
         {
-            Texture2D slotBackgroundTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargerWeaponSlot");
+            Texture2D slotBackgroundTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargerWeaponSlot").Value;
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
 
             if (!item.IsAir)
             {
                 float inventoryScale = Main.inventoryScale;
-                Texture2D itemTexture = Main.itemTexture[item.type];
+                Texture2D itemTexture = TextureAssets.Item[item.type].Value;
                 Rectangle itemFrame = Main.itemAnimations[item.type] == null ? itemTexture.Frame(1, 1, 0, 0) : Main.itemAnimations[item.type].GetFrame(itemTexture);
 
                 float baseScale = 1f;

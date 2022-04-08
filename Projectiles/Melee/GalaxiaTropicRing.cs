@@ -73,16 +73,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sigil = GetTexture(Mode == 0 ? "CalamityMod/Projectiles/Melee/GalaxiaCancer" : "CalamityMod/Projectiles/Melee/GalaxiaCapricorn"); //OMG Karkat and Gamzee from homestuck i am a big fan
-            Texture2D ring = GetTexture("CalamityMod/Particles/BloomRing");
-            Texture2D starTexture = GetTexture("CalamityMod/Particles/Sparkle");
-            Texture2D lineTexture = GetTexture("CalamityMod/Particles/BloomLine");
-            Texture2D bloomTexture = GetTexture("CalamityMod/Particles/BloomCircle");
+            Texture2D sigil = Request<Texture2D>(Mode == 0 ? "CalamityMod/Projectiles/Melee/GalaxiaCancer" : "CalamityMod/Projectiles/Melee/GalaxiaCapricorn").Value; //OMG Karkat and Gamzee from homestuck i am a big fan
+            Texture2D ring = Request<Texture2D>("CalamityMod/Particles/BloomRing").Value;
+            Texture2D starTexture = Request<Texture2D>("CalamityMod/Particles/Sparkle").Value;
+            Texture2D lineTexture = Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
+            Texture2D bloomTexture = Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
 
             Color ringColor = Mode == 0 ? new Color(255, 0, 0) * Fade : new Color(66, 0, 176) * Fade;
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.EntitySpriteDraw(bloomTexture, Projectile.Center - Main.screenPosition, null, ringColor * 0.5f, 0, bloomTexture.Size() / 2f, 2.5f, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(ring, Projectile.Center - Main.screenPosition, null, ringColor * 0.8f, 0f, ring.Size() / 2f, Projectile.scale, 0f, 0);
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

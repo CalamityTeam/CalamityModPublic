@@ -138,8 +138,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             float barScale = 1.3f;
 
-            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
             Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);

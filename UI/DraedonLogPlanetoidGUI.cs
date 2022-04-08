@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPlanetoid");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogPlanetoid").Value;
                 case 1:
                     return null; // The Draedon's backstory page does not have an image, and probably shouldn't.
                 default:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogDoGArmor");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogDoGArmor").Value;
             }
         }
     }

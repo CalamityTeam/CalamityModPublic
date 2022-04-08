@@ -4139,7 +4139,7 @@ namespace CalamityMod.NPCs
                 {
                     bool appropriatePlayer = Main.myPlayer == playerIndex;
                     if (Main.player[playerIndex].active && appropriatePlayer)
-                        Main.player[playerIndex].Spawn();
+                        Main.player[playerIndex].Spawn(PlayerSpawnContext.RecallFromItem);
                 }
             }
         }

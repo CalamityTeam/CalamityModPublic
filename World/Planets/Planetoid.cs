@@ -39,7 +39,7 @@ namespace CalamityMod.World.Planets
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2), (int)(Main.maxTilesX * 0.8));
                 int y = WorldGen.genRand.Next(70, 101);
 
-                bool placed = config2.CreateBiome<HeartPlanet>().Place(x, y, WorldGen.structures);
+                bool placed = config2.CreateBiome<HeartPlanet>().Place(new Point(x, y), WorldGen.structures);
 
                 if (placed)
                     LCPlanetoidCount--;
@@ -54,7 +54,7 @@ namespace CalamityMod.World.Planets
                 int y = WorldGen.genRand.Next(100, 131);
 
 
-                bool placed = config2.CreateBiome<GrassPlanet>().Place(x, y, WorldGen.structures);
+                bool placed = config2.CreateBiome<GrassPlanet>().Place(new Point(x, y), WorldGen.structures);
 
                 if (placed)
                     GrassPlanetoidCount--;
@@ -68,7 +68,7 @@ namespace CalamityMod.World.Planets
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
                 int y = WorldGen.genRand.Next(100, 131);
 
-                bool placed = config2.CreateBiome<MudPlanet>().Place(x, y, WorldGen.structures);
+                bool placed = config2.CreateBiome<MudPlanet>().Place(new Point(x, y), WorldGen.structures);
 
                 if (placed)
                     MudPlanetoidCount--;
@@ -87,7 +87,7 @@ namespace CalamityMod.World.Planets
                         return false;
 
                     if (varia != null &&
-                        (Main.tile[i, j].TileType == varia.Find<ModTile>("StarplateBrick") .Type|| Main.tile[i, j].TileType == varia.Find<ModTile>("ForgottenCloud").Type))
+                        (Main.tile[i, j].TileType == varia.Find<ModTile>("StarplateBrick").Type || Main.tile[i, j].TileType == varia.Find<ModTile>("ForgottenCloud").Type))
                     {
                         return false;
                     }

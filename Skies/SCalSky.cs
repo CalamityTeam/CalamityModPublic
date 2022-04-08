@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -199,11 +200,11 @@ namespace CalamityMod.Skies
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
             }
 
             // Draw cinders.
-            Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder");
+            Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center - Main.screenPosition;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawHook(Projectile, GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"));
+            CalamityUtils.DrawHook(Projectile, Request<Texture2D>("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain").Value);
             return true;
         }
 

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 shootVelocity = new Vector2(velocity.X, speedY);
-            Projectile.NewProjectile(source, position, shootVelocity, type, damage, knockback, player.whoAmI, 0f, shootVelocity.ToRotation());
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, shootVelocity.ToRotation());
             return false;
         }
     }

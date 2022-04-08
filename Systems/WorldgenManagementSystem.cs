@@ -219,16 +219,6 @@ namespace CalamityMod.Systems
         #region PostWorldGen
         public override void PostWorldGen()
         {
-            // 60% chance of 3-5 Mining Potions
-            // 20% chance of 2-3 Builder's Potions
-            // 20% chance of 5-9 Shine Potions
-            WeightedItemStack[] replacementPotions = new WeightedItemStack[]
-            {
-                DropHelper.WeightStack(ItemID.MiningPotion, 0.6f, 3, 5),
-                DropHelper.WeightStack(ItemID.BuilderPotion, 0.2f, 2, 3),
-                DropHelper.WeightStack(ItemID.ShinePotion, 0.2f, 5, 9),
-            };
-
             // Replace Suspicious Looking Eyes in Chests with random useful early game potions.
             for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
             {
@@ -245,9 +235,25 @@ namespace CalamityMod.Systems
                         {
                             if (chest.item[inventoryIndex].type == ItemID.SuspiciousLookingEye)
                             {
-                                WeightedItemStack replacement = DropHelper.RollWeightedRandom(replacementPotions);
-                                chest.item[inventoryIndex].SetDefaults(replacement.itemID);
-                                chest.item[inventoryIndex].stack = replacement.ChooseQuantity();
+                                // 60% chance of 3-5 Mining Potions
+                                // 20% chance of 2-3 Builder's Potions
+                                // 20% chance of 5-9 Shine Potions
+                                float rng = WorldGen.genRand.NextFloat();
+                                if (rng < 0.2f)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.ShinePotion);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(5, 10);
+                                }
+                                else if (rng < 0.4f)
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.BuilderPotion);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(2, 4);
+                                }
+                                else
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ItemID.MiningPotion);
+                                    chest.item[inventoryIndex].stack = WorldGen.genRand.Next(3, 6);
+                                }
                                 break;
                             }
                         }

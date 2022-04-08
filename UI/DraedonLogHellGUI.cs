@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
@@ -29,11 +29,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogCragsBiome");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogCragsBiome").Value;
                 case 1:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogWallOfFlesh");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogWallOfFlesh").Value;
                 default:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogMurasamaPhaseslayer");
+                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogMurasamaPhaseslayer").Value;
             }
         }
     }

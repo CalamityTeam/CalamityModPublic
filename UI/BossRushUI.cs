@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +33,7 @@ namespace CalamityMod.UI
         }
         public override string InvasionName => "Boss Rush";
         public override Color InvasionBarColor => Color.DarkSlateBlue;
-        public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossRushIcon");
+        public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossRushIcon").Value;
 
         public static float EvaluationLifeRatioFromNPCTypes(params int[] types)
         {

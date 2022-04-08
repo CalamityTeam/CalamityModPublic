@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace CalamityMod.Walls
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = ModContent.Request<Texture2D>("CalamityMod/Walls/PerennialBrickWall");
+            Texture2D sprite = ModContent.Request<Texture2D>("CalamityMod/Walls/PerennialBrickWall").Value;
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);
@@ -36,7 +36,7 @@ namespace CalamityMod.Walls
                 (
                     sprite,
                     drawOffset,
-                    new Rectangle(sheetOffset[0] + Main.tile[i, j].wallFrameX(), sheetOffset[1] + Main.tile[i, j].wallFrameY(), 32, 32),
+                    new Rectangle(sheetOffset[0] + Main.tile[i, j].WallFrameX, sheetOffset[1] + Main.tile[i, j].WallFrameY, 32, 32),
                     lightColor,
                     0,
                     new Vector2(0f, 0f),
@@ -57,7 +57,7 @@ namespace CalamityMod.Walls
 
         private Color GetWallColour(int i, int j)
         {
-            int colType = Main.tile[i, j].wallColor();
+            int colType = Main.tile[i, j].WallColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {

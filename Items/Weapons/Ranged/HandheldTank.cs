@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TankCannon");
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;

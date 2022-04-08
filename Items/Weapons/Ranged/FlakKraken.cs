@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 0f;
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
             Item.shoot = ModContent.ProjectileType<FlakKrakenGun>();
             Item.shootSpeed = 30f; //30
         }

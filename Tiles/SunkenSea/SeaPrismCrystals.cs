@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.SunkenSea
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(0, 150, 200), name);
             SoundType = SoundID.Item;
-            soundStyle = 27;
+            SoundStyle = 27;
             DustType = 67;
             ItemDrop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;

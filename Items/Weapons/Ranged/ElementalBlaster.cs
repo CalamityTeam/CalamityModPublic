@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 1.75f;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<RainbowBlast>();
             Item.shootSpeed = 18f;

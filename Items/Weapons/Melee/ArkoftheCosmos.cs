@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -205,8 +205,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D handleTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosHandle");
-            Texture2D bladeTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosGlow");
+            Texture2D handleTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosHandle").Value;
+            Texture2D bladeTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosGlow").Value;
 
             float bladeOpacity = (Charge > 0) ? 1f : MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.7f + 0.3f;
 
@@ -221,8 +221,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge <= 0)
                 return;
 
-            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
             float barScale = 3f;
 

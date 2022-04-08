@@ -1,8 +1,9 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -77,12 +78,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                     double blackScreenLife_GateValue = lifeRatio < 0.6f && CalamityWorld.DoGSecondStageCountdown <= 2 ? 0.09 : 0.66;
                     if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || BossRushEvent.BossRushActive)
                     {
-                        spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             Color.Black * (intensity + 0.5f));
                     }
                     else
                     {
-                        spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
                     }
                 }

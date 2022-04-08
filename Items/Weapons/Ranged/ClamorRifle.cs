@@ -1,5 +1,4 @@
-using Terraria.DataStructures;
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 2.5f;
             Item.value = Item.buyPrice(0, 36, 0, 0);
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ClamorRifleProj>();

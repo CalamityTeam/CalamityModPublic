@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if ((Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime > 0f)
+                        if ((Main.projectile[i].ModProjectile as ViridVanguardBlade).FiringTime > 0f)
                             continue;
                         swordCount++;
                         for (int j = 0; j < 22; j++)
@@ -68,12 +68,12 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
 
                 Projectile newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                (newBlade.modProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
+                (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
                 newBlade.netUpdate = true;
                 swordCount++;
 
                 newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                (newBlade.modProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
+                (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
                 newBlade.netUpdate = true;
                 swordCount++;
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if ((Main.projectile[i].modProjectile as ViridVanguardBlade).FiringTime > 0f)
+                        if ((Main.projectile[i].ModProjectile as ViridVanguardBlade).FiringTime > 0f)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         Main.projectile[i].localAI[1] = 80f;

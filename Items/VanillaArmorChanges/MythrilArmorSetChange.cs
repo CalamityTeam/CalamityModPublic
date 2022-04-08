@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
             int flareDamage = CalamityUtils.DamageSoftCap(originalDamage * 0.4, FlareDamageSoftcap);
             Vector2 flareSpawnPosition = victim.Center + Main.rand.NextVector2Circular(10f, 10f);
-            Projectile.NewProjectile(flareSpawnPosition, Vector2.Zero, ModContent.ProjectileType<MythrilFlare>(), flareDamage, 0f, owner.whoAmI);
+            Projectile.NewProjectile(owner.GetProjectileSource_Item(owner.ActiveItem()), flareSpawnPosition, Vector2.Zero, ModContent.ProjectileType<MythrilFlare>(), flareDamage, 0f, owner.whoAmI);
         }
     }
 }

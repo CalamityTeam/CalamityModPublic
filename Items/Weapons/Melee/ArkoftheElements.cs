@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -207,8 +207,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             float extraScale = 0.3f;
-            Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
-            Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
+            Texture2D frontTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheElements").Value;
+            Texture2D backTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack").Value;
 
             float tweakedScale = scale * (1 + extraScale); //Make the scale bigger to avoid crunching of the item
             Vector2 offset = (frontTexture.Size() * extraScale / 2f) * scale;
@@ -223,8 +223,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D frontTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElements");
-            Texture2D backTexture = GetTexture("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack");
+            Texture2D frontTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheElements").Value;
+            Texture2D backTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheElementsBack").Value;
 
             spriteBatch.Draw(backTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(frontTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
@@ -236,8 +236,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge <= 0)
                 return;
 
-            var barBG = GetTexture("CalamityMod/ExtraTextures/GenericBarBack");
-            var barFG = GetTexture("CalamityMod/ExtraTextures/GenericBarFront");
+            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
             float barScale = 3.5f;
 

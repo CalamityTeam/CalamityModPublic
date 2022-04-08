@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -20,8 +20,8 @@ namespace CalamityMod.UI
             if (player.Calamity().dischargingItemEnchant)
             {
                 float dischargeFactor = heldItem.Calamity().DischargeExhaustionRatio;
-                Texture2D barBorderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EphemeralBarBorder");
-                Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EphemeralBar");
+                Texture2D barBorderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EphemeralBarBorder").Value;
+                Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EphemeralBar").Value;
 
                 int barCutoff = (int)(barTexture.Height * (1f - dischargeFactor));
                 Rectangle barFrame = new Rectangle(0, barCutoff, barTexture.Width, barTexture.Height - barCutoff);

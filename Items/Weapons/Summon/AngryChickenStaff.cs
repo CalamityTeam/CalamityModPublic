@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound");
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SonOfYharon>();
             Item.shootSpeed = 10f;

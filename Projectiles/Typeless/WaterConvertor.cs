@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
             ConvertShit(Projectile);
         }
 
-        public void ConvertShit(Projectile projectile)
+        public static void ConvertShit(Projectile projectile)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -58,16 +58,13 @@ namespace CalamityMod.Projectiles.Typeless
                         if (projectile.ai[0] == 4f)
                         {
                             AstralBiome.ConvertToAstral(i, j);
-                            NetMessage.SendTileRange(-1, i, j, 1, 1);
+                            NetMessage.SendTileSquare(-1, i, j, 1, 1);
                         }
                     }
                 }
             }
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

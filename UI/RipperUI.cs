@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Content;
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
@@ -44,22 +45,22 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            rageBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBar");
-            rageBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBarBorder");
-            rageAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageFullAnimation");
+            rageBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBar", AssetRequestMode.ImmediateLoad).Value;
+            rageBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBarBorder", AssetRequestMode.ImmediateLoad).Value;
+            rageAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageFullAnimation", AssetRequestMode.ImmediateLoad).Value;
 
-            adrenBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBar");
-            adrenBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
-            adrenBorderTexFull = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull");
-            adrenAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
+            adrenBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBar", AssetRequestMode.ImmediateLoad).Value;
+            adrenBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder", AssetRequestMode.ImmediateLoad).Value;
+            adrenBorderTexFull = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull", AssetRequestMode.ImmediateLoad).Value;
+            adrenAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation", AssetRequestMode.ImmediateLoad).Value;
 
-            mushroomPlasmaTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot");
-            infernalBloodTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood");
-            redLightningTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer");
+            mushroomPlasmaTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot", AssetRequestMode.ImmediateLoad).Value;
+            infernalBloodTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood", AssetRequestMode.ImmediateLoad).Value;
+            redLightningTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer", AssetRequestMode.ImmediateLoad).Value;
 
-            electrolyteGelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack");
-            starlightFuelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell");
-            ectoheartTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart");
+            electrolyteGelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack", AssetRequestMode.ImmediateLoad).Value;
+            starlightFuelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell", AssetRequestMode.ImmediateLoad).Value;
+            ectoheartTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart", AssetRequestMode.ImmediateLoad).Value;
 
             pearlOffsetLeft = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
             pearlOffsetCenter = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);

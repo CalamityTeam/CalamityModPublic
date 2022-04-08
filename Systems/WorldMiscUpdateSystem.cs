@@ -408,8 +408,12 @@ namespace CalamityMod.Systems
                         spawnRate *= 1.43D;
                     if (Main.SceneMetrics.PeaceCandleCount > 0)
                         spawnRate *= 1.25D;
+
+                    // TODO -- Draedon's remote appears to not exist as of 1.4 porting. Is this intentional or did something go wrong?
+                    /*
                     if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
                         spawnRate *= 5D;
+                    */
 
                     int chance = (int)spawnRate;
                     if (Main.rand.NextBool(chance))

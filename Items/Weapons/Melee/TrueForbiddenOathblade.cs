@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int index = 8;
             for (int i = -index; i <= index; i += index)
             {
-                Vector2 perturbedSpeed = new Vector2(velocity.X, speedY).RotatedBy(MathHelper.ToRadians(i));
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
                 Projectile.NewProjectile(source, position, perturbedSpeed, type, damage / 2, knockback, player.whoAmI, 0f, 0f);
             }
             return false;

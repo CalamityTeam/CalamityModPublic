@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 6f;
 
             // Reduce volume to 30% so it stops destroying people's ears.
-            var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+            var sound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
             Item.UseSound = sound?.WithVolume(0.3f);
 
             Item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/MechGaussRifle");
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
