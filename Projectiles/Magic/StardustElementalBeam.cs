@@ -13,9 +13,9 @@ namespace CalamityMod.Projectiles.Magic
         public override float MaxLaserLength => 1000f;
         public override float Lifetime => 30f;
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart").Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid").Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd").Value;
 
         public override void SetStaticDefaults()
         {
@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawBeamWithColor(spriteBatch, Color.Lerp(Color.CornflowerBlue * 1.1f, Color.Transparent, 0.3f), Projectile.scale);
-            DrawBeamWithColor(spriteBatch, Color.Lerp(Color.Cyan, Color.Transparent, 0.3f), Projectile.scale * 0.5f);
-            DrawBeamWithColor(spriteBatch, Color.Lerp(Color.White, Color.Transparent, 0.3f), Projectile.scale * 0.2f);
+            DrawBeamWithColor(Color.Lerp(Color.CornflowerBlue * 1.1f, Color.Transparent, 0.3f), Projectile.scale);
+            DrawBeamWithColor(Color.Lerp(Color.Cyan, Color.Transparent, 0.3f), Projectile.scale * 0.5f);
+            DrawBeamWithColor(Color.Lerp(Color.White, Color.Transparent, 0.3f), Projectile.scale * 0.2f);
             return false;
         }
 

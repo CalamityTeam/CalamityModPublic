@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = LaserSpeed;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge");
             Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Tools
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
         public override bool AltFunctionUse(Player player) => true;
 

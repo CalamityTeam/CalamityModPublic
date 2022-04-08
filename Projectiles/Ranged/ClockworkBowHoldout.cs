@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Ranged
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
             int projectileType = 0;
 
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref BoltDamage, ref knockback, false);
+            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref BoltDamage, ref knockback, out _, false);
             projectileType = ModContent.ProjectileType<PrecisionBolt>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
@@ -231,14 +231,14 @@ namespace CalamityMod.Projectiles.Ranged
 
                 if (i == LoadedBolts - 1 || LoadedBolts == ClockworkBow.MaxBolts) //If the arrow we are looking at is the one that just got loaded, OR all arrows got loaded, we apply some flashiness
                 {
-                    spriteBatch.EnterShaderRegion();
+                    Main.spriteBatch.EnterShaderRegion();
                     GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f - MathHelper.Clamp((CurrentChargingFrames * 2 / FramesToLoadBolt), 0f, 1f));
                     GameShaders.Misc["CalamityMod:BasicTint"].UseColor(Main.hslToRgb(1f - (LoadedBolts / ClockworkBow.MaxBolts), 0.8f, 0.85f));
                     GameShaders.Misc["CalamityMod:BasicTint"].Apply();
                 }
 
                 Color Transparency = Color.White * (1 - Shift);
-                var BoltTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/PrecisionBolt");
+                var BoltTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/PrecisionBolt").Value;
                 Vector2 PointingTo = new Vector2((float)Math.Cos(Projectile.rotation + BoltAngle), (float)Math.Sin(Projectile.rotation + BoltAngle)); //It's called trigonometry we do a little trigonometry
                 Vector2 ShiftDown = PointingTo.RotatedBy(-MathHelper.PiOver2);
                 float FlipFactor = Owner.direction < 0 ? MathHelper.Pi : 0f;
@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.EntitySpriteDraw(BoltTexture, drawPosition, null, Transparency, Projectile.rotation + BoltAngle + MathHelper.PiOver2 + FlipFactor, BoltTexture.Size(), 1f, 0, 0);
 
                 if (i == LoadedBolts - 1 || LoadedBolts == ClockworkBow.MaxBolts) //Don't forget to exit the shader region
-                    spriteBatch.ExitShaderRegion();
+                    Main.spriteBatch.ExitShaderRegion();
             }
             return true;
         }

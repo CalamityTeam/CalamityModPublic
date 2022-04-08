@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 end = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-            Texture2D tex3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/RedLightningTexture");
+            Texture2D tex3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/RedLightningTexture").Value;
             Projectile.GetAlpha(lightColor);
             Vector2 scale16 = new Vector2(Projectile.scale) / 2f;
             for (int num289 = 0; num289 < 3; num289++)
@@ -210,7 +210,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         Vector2 start = Projectile.oldPos[num290] + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
                         Vector2 end2 = Projectile.oldPos[num290 - 1] + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-                        Utils.DrawLaser(spriteBatch, tex3, start, end2, scale16, new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                        Utils.DrawLaser(Main.spriteBatch, tex3, start, end2, scale16, new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
                     }
                 }
                 if (Projectile.oldPos[0] != Vector2.Zero)

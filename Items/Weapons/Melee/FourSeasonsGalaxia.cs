@@ -238,7 +238,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.whoAmI != Main.myPlayer)
                 return;
 
-            mainAttunement.PassiveEffect(player, ref UseTimer, ref OnHitProc);
+            var source = player.GetProjectileSource_Item(Item);
+            mainAttunement.PassiveEffect(player, source, ref UseTimer, ref OnHitProc);
 
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
             {
@@ -246,7 +247,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<GalaxiaHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                var source = player.GetProjectileSource_Item(Item);
                 Projectile.NewProjectile(source, player.Top, Vector2.Zero, ProjectileType<GalaxiaHoldout>(), 0, 0, player.whoAmI, 0, Math.Sign(player.position.X - Main.MouseWorld.X));
             }
         }

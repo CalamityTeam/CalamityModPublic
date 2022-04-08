@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Vector2 start = Projectile.oldPos[j] + Projectile.Size * 0.5f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
                         Vector2 end = Projectile.oldPos[j - 1] + Projectile.Size * 0.5f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
-                        Utils.DrawLaser(spriteBatch, lightningSegmentTexture, start, end, lightningScale, DelegateMethods.LightningLaserDraw);
+                        Utils.DrawLaser(Main.spriteBatch, lightningSegmentTexture, start, end, lightningScale, DelegateMethods.LightningLaserDraw);
                     }
                 }
             }

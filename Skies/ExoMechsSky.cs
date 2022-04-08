@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +10,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod.Skies
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Skies
 
         public float BackgroundIntensity;
         public float LightningIntensity;
-        public List<Lightning> LightningBolts = new List<Lightning>();
+        public List<Lightning> LightningBolts = new();
         public static bool CanSkyBeActive
         {
             get
@@ -40,7 +41,7 @@ namespace CalamityMod.Skies
             }
         }
 
-        public float CurrentIntensity
+        public static float CurrentIntensity
         {
             get
             {
@@ -58,7 +59,7 @@ namespace CalamityMod.Skies
             }
         }
 
-        public static readonly Color DrawColor = new Color(0.16f, 0.16f, 0.16f);
+        public static readonly Color DrawColor = new(0.16f, 0.16f, 0.16f);
 
         public static void CreateLightningBolt(int count = 1, bool playSound = false)
         {
@@ -85,7 +86,7 @@ namespace CalamityMod.Skies
 
             if (playSound && !Main.gamePaused)
             {
-                var lightningSound = SoundEngine.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                var lightningSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
                 if (lightningSound != null)
                     lightningSound.Volume *= 0.5f;
             }
@@ -120,7 +121,7 @@ namespace CalamityMod.Skies
 
                 if (!Main.gamePaused)
                 {
-                    var lightningSound = SoundEngine.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                    var lightningSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
                     if (lightningSound != null)
                         lightningSound.Volume *= 0.5f;
                 }
@@ -135,22 +136,22 @@ namespace CalamityMod.Skies
         {
             if (maxDepth >= float.MaxValue)
             {
-                // Draw lightning in the background based on Main.magicPixel.
+                // Draw lightning in the background based on TextureAssets.MagicPixel.Value.
                 // It is a long, white vertical strip that exists for some reason.
                 // This lightning effect is achieved by expanding this to fit the entire background and then drawing it as a distinct element.
-                Vector2 scale = new Vector2(Main.screenWidth * 1.1f / Main.magicPixel.Width, Main.screenHeight * 1.1f / Main.magicPixel.Height);
+                Vector2 scale = new Vector2(Main.screenWidth * 1.1f / TextureAssets.MagicPixel.Value.Width, Main.screenHeight * 1.1f / TextureAssets.MagicPixel.Value.Height);
                 Vector2 screenArea = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 Color drawColor = Color.White * MathHelper.Lerp(0f, 0.24f, LightningIntensity) * BackgroundIntensity;
 
                 // Draw a grey background as base.
-                spriteBatch.Draw(Main.magicPixel, screenArea, null, OnTileColor(Color.Transparent), 0f, Main.magicPixel.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, OnTileColor(Color.Transparent), 0f, TextureAssets.MagicPixel.Value.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 
                 for (int i = 0; i < 2; i++)
-                    spriteBatch.Draw(Main.magicPixel, screenArea, null, drawColor, 0f, Main.magicPixel.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, screenArea, null, drawColor, 0f, TextureAssets.MagicPixel.Value.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             }
 
-            Texture2D flashTexture = TextureManager.Load("Images/Misc/VortexSky/Flash");
-            Texture2D boltTexture = TextureManager.Load("Images/Misc/VortexSky/Bolt");
+            Texture2D flashTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/VortexSky/Flash").Value;
+            Texture2D boltTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/VortexSky/Bolt").Value;
 
             // Draw lightning bolts.
             float spaceFade = Math.Min(1f, (Main.screenPosition.Y - 300f) / 300f);

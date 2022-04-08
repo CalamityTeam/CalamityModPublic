@@ -296,7 +296,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 unit = Projectile.velocity;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit, Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit, Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

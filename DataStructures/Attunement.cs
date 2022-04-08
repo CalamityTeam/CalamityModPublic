@@ -5,6 +5,7 @@ using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.DataStructures
 {
@@ -70,9 +71,9 @@ namespace CalamityMod.DataStructures
         /// <param name="CanLunge">>Used by evil attunements to check if a regular dash is avaialble</param>
         /// <param name="PowerLungeCounter">Used by evil attunements to check if a strong dash is avaialble</param>
         /// <returns></returns>
-        public virtual bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter) => true;
+        public virtual bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter) => true;
 
-        public virtual void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public virtual void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
         }
     }
@@ -157,20 +158,20 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
+        public override bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
         {
             switch (Combo)
             {
                 case 0:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 0, 15);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 0, 15);
                     break;
 
                 case 1:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 1, 20);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 1, 20);
                     break;
 
                 case 2:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<BitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
                     break;
             }
             Combo++;
@@ -233,9 +234,9 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
+        public override bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
         {
-            Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<DecaysRetort>(), damage, knockBack, player.whoAmI, 26, (float)CanLunge);
+            Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<DecaysRetort>(), damage, knockBack, player.whoAmI, 26, (float)CanLunge);
             CanLunge = 0;
             return false;
         }
@@ -323,20 +324,20 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
+        public override bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
         {
             switch (Combo)
             {
                 case 0:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 0, 15);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 0, 15);
                     break;
 
                 case 1:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 1, 20);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 1, 20);
                     break;
 
                 case 2:
-                    Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
+                    Projectile.NewProjectile(source, player.Center, new Vector2(speedX, speedY), ProjectileType<TrueBitingEmbrace>(), damage, knockBack, player.whoAmI, 2, 50);
                     break;
             }
             Combo++;
@@ -373,10 +374,10 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
+        public override bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
         {
-            Projectile whipProj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 0);
-            if (whipProj.modProjectile is TrueGrovetendersTouch whip)
+            Projectile whipProj = Projectile.NewProjectileDirect(source, player.Center, new Vector2(speedX, speedY), ProjectileType<TrueGrovetendersTouch>(), damage, knockBack, player.whoAmI, 0, 0);
+            if (whipProj.ModProjectile is TrueGrovetendersTouch whip)
                 whip.flipped = Combo == 0 ? 1 : -1;
             Combo++;
             if (Combo > 1)
@@ -412,7 +413,7 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
+        public override bool Shoot(Player player, IEntitySource source, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack, ref int Combo, ref int CanLunge, ref int PowerLungeCounter)
         {
             bool powerLungeAvailable = false;
             if (PowerLungeCounter == 3)
@@ -420,8 +421,8 @@ namespace CalamityMod.DataStructures
                 powerLungeAvailable = true;
                 PowerLungeCounter = 0;
             }
-            Projectile proj = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage, knockBack, player.whoAmI, 26f, CanLunge > 0 ? 1f : 0f);
-            if (proj.modProjectile is TrueDecaysRetort rapier)
+            Projectile proj = Projectile.NewProjectileDirect(source, player.Center, new Vector2(speedX, speedY), ProjectileType<TrueDecaysRetort>(), damage, knockBack, player.whoAmI, 26f, CanLunge > 0 ? 1f : 0f);
+            if (proj.ModProjectile is TrueDecaysRetort rapier)
                 rapier.ChargedUp = powerLungeAvailable;
             CanLunge--;
             if (CanLunge < 0)
@@ -541,12 +542,12 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile beamSword = Projectile.NewProjectileDirect(player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                Projectile beamSword = Projectile.NewProjectileDirect(source, player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
             }
@@ -578,11 +579,11 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (Procced)
             {
-                if (projectile.modProjectile is ChainedMeatHook hook && hook.Twirling == 0f)
+                if (projectile.ModProjectile is ChainedMeatHook hook && hook.Twirling == 0f)
                 {
                     hook.Twirling = 1f;
                     hook.Projectile.timeLeft = (int)ChainedMeatHook.MaxTwirlTime;
@@ -617,7 +618,7 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (Procced)
             {
@@ -655,11 +656,11 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 120 == 119)
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
                 UseTimer++;
             }
         }
@@ -698,12 +699,12 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 500 == 449)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
                 UseTimer++;
             }
         }
@@ -737,12 +738,12 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 500 == 449)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), 0, 0f, player.whoAmI, 1f);
                 UseTimer++;
             }
         }
@@ -776,12 +777,12 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 500 == 449)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
                 UseTimer++;
             }
         }
@@ -816,12 +817,12 @@ namespace CalamityMod.DataStructures
             item.noMelee = true;
         }
 
-        public override void PassiveEffect(Player player, ref int UseTimer, ref bool Procced, Projectile projectile = null)
+        public override void PassiveEffect(Player player, IEntitySource source, ref int UseTimer, ref bool Procced, Projectile projectile = null)
         {
             if (UseTimer % 500 == 449)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<GalaxiaTropicRing>(), FourSeasonsGalaxia.CancerPassiveDamage, 0f, player.whoAmI, 0f);
                 UseTimer++;
             }
         }
