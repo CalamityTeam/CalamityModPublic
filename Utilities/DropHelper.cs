@@ -51,8 +51,12 @@ namespace CalamityMod
         #region Block Drops
         /// <summary>
         /// Adds the specified items to TML's blockLoot list. Items on the list cannot spawn in the world via any means.<br />
-        /// This is used to prevent vanilla loot code from spawning certain items.<br />
-        /// <b>You should only use this function inside NPCLoot or bag opening code.</b> TML will clear the list for you when the loot event is over.
+        /// <b>You should only use this function in the following places:</b><br />
+        /// - GlobalItem.PreOpenVanillaBag (blocking items from treasure bags, fishing crates, etc.)<br />
+        /// - GlobalNPC.PreKill or GlobalNPC.OnKill (blocking items from NPCs based on temporary conditions)<br /><br />
+        /// If you want to <b>permanently remove</b> a drop from an NPC, this is not the function you want.<br />
+        /// In those cases, use GlobalNPC.ModifyLoot, an if statement for that NPC, and npcLoot.Remove or npcLoot.RemoveWhere.<br />
+        /// This will ensure that the drops are removed from the bestiary as well.
         /// </summary>
         /// <param name="itemIDs">The item IDs to prevent from spawning.</param>
         public static void BlockDrops(params int[] itemIDs)
