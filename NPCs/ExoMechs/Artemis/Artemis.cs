@@ -1385,8 +1385,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             return false;
         }
 
-        public override bool PreNPCLoot() => false;
-
         // Needs edits
         public override void HitEffect(int hitDirection, double damage)
         {

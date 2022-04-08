@@ -25,6 +25,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -161,7 +163,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<DraedonTreasureBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -1210,7 +1211,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Check if the other exo mechs are alive
             bool exoWormAlive = false;
@@ -1253,106 +1254,97 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
                 }
             }
-
-            // Mark Exo Mechs as dead and drop loot
             else
-                DropExoMechLoot(NPC, (int)MechType.Ares);
+                AresBody.DoMiscDeathEffects(NPC, MechType.Ares);
         }
 
-        public static void DropExoMechLoot(NPC npc, int mechType)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // Dropped before the downed variable is set to true
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeExoMechs>(), true, !DownedBossSystem.downedExoMechs);
+            DropExoMechLoot(NPC, npcLoot, (int)MechType.Ares);
+        }
+
+        public static bool CanDropLoot()
+        {
+            return NPC.CountNPCS(ModContent.NPCType<ThanatosHead>()) +
+                NPC.CountNPCS(ModContent.NPCType<AresBody>()) +
+                NPC.CountNPCS(ModContent.NPCType<Apollo.Apollo>()) <= 1;
+        }
+
+        public static void DoMiscDeathEffects(NPC npc, MechType mechType)
+        {
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
             switch (mechType)
             {
-                case (int)MechType.Ares:
-
-                    DropHelper.DropItem(npc, ModContent.ItemType<AresTrophy>());
-
-                    DownedBossSystem.downedAres = true;
-                    DownedBossSystem.downedExoMechs = true;
-                    CalamityNetcode.SyncWorld();
-
-                    break;
-
-                case (int)MechType.Thanatos:
-
-                    DropHelper.DropItem(npc, ModContent.ItemType<ThanatosTrophy>());
-
+                case MechType.Thanatos:
                     DownedBossSystem.downedThanatos = true;
                     DownedBossSystem.downedExoMechs = true;
-                    CalamityNetcode.SyncWorld();
-
                     break;
-
-                case (int)MechType.ArtemisAndApollo:
-
-                    DropHelper.DropItem(npc, ModContent.ItemType<ArtemisTrophy>());
-                    DropHelper.DropItem(npc, ModContent.ItemType<ApolloTrophy>());
-
+                case MechType.Ares:
+                    DownedBossSystem.downedAres = true;
+                    DownedBossSystem.downedExoMechs = true;
+                    break;
+                case MechType.ArtemisAndApollo:
                     DownedBossSystem.downedArtemisAndApollo = true;
                     DownedBossSystem.downedExoMechs = true;
-                    CalamityNetcode.SyncWorld();
-
                     break;
             }
+            CalamityNetcode.SyncWorld();
+        }
 
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+        public static void DropExoMechLoot(NPC npc, NPCLoot npcLoot, int mechType)
+        {
+            var restrictedSet = npcLoot.DefineConditionalDropSet(DropHelper.If(CanDropLoot));
+            var restrictedSetNotExpert = npcLoot.DefineConditionalDropSet(DropHelper.If(() => CanDropLoot() && !Main.expertMode));
 
-            DropHelper.DropBags(npc);
+            bool ThanatosLoot() => npc.type == ModContent.NPCType<ThanatosHead>() || DownedBossSystem.downedThanatos;
+            bool AresLoot() => npc.type == ModContent.NPCType<AresBody>() || DownedBossSystem.downedAres;
+            bool ApolloLoot() => npc.type == ModContent.NPCType<Apollo.Apollo>() || DownedBossSystem.downedArtemisAndApollo;
+
+            // Trophies
+            restrictedSet.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<ThanatosHead>()), ModContent.ItemType<ThanatosTrophy>()));
+            restrictedSet.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<AresBody>()), ModContent.ItemType<AresTrophy>()));
+            restrictedSet.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ArtemisTrophy>()));
+            restrictedSet.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ApolloTrophy>()));
+
+            // Lore item
+            restrictedSet.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs), ModContent.ItemType<KnowledgeExoMechs>()));
+
+            // Treasure bag
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonTreasureBag>()));
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<ExoPrism>(), true, 24, 32);
+                restrictedSetNotExpert.Add(ItemDropRule.Common(ModContent.ItemType<ExoPrism>(), 1, 24, 32));
 
                 // Weapons
                 // Higher chance due to how the drops work
-                float w = DropHelper.NormalWeaponDropRateFloat * 2f;
-                if (DownedBossSystem.downedAres)
-                {
-                    DropHelper.DropEntireWeightedSet(npc,
-                        DropHelper.WeightStack<PhotonRipper>(w),
-                        DropHelper.WeightStack<TheJailor>(w)
-                    );
-                }
-                if (DownedBossSystem.downedThanatos)
-                {
-                    DropHelper.DropEntireWeightedSet(npc,
-                        DropHelper.WeightStack<SpineOfThanatos>(w),
-                        DropHelper.WeightStack<RefractionRotor>(w)
-                    );
-                }
-                if (DownedBossSystem.downedArtemisAndApollo)
-                {
-                    DropHelper.DropEntireWeightedSet(npc,
-                        DropHelper.WeightStack<SurgeDriver>(w),
-                        DropHelper.WeightStack<TheAtomSplitter>(w)
-                    );
-                }
+
+                // Thanatos weapons
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<SpineOfThanatos>(), 2));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<RefractionRotor>(), 2));
+
+                // Ares weapons
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<PhotonRipper>(), 2));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheJailor>(), 2));
+
+                // Twins weapons
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheAtomSplitter>(), 2));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<SurgeDriver>(), 2));
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DraedonsHeart>(), true);
-                DropHelper.DropItem(npc, ModContent.ItemType<ExoThrone>());
+                restrictedSetNotExpert.Add(ItemDropRule.Common(ModContent.ItemType<ExoThrone>()));
+                restrictedSetNotExpert.Add(ItemDropRule.Common(ModContent.ItemType<DraedonsHeart>()));
 
                 // Vanity
                 // Higher chance due to how the drops work
-                float maskDropRate = 1f / 3.5f;
-                if (DownedBossSystem.downedThanatos)
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ThanatosMask>(), maskDropRate);
-
-                if (DownedBossSystem.downedArtemisAndApollo)
-                {
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ArtemisMask>(), maskDropRate);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ApolloMask>(), maskDropRate);
-                }
-
-                if (DownedBossSystem.downedAres)
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<AresMask>(), maskDropRate);
-
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonMask>(), maskDropRate);
+                restrictedSetNotExpert.Add(ItemDropRule.Common(ModContent.ItemType<DraedonMask>(), 3));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<ThanatosMask>(), 10, 1, 1, 35));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<AresMask>(), 10, 1, 1, 35));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<ArtemisMask>(), 10, 1, 1, 35));
+                restrictedSetNotExpert.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<ApolloMask>(), 10, 1, 1, 35));
             }
         }
 

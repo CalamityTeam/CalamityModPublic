@@ -1579,13 +1579,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             return false;
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<Artemis.Artemis>(),
                 ModContent.NPCType<Apollo>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return false;
+            return true;
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -1593,7 +1593,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Check if the other exo mechs are alive
             bool exoWormAlive = false;
@@ -1636,10 +1636,13 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
                 }
             }
-
-            // Mark Exo Mechs as dead and drop loot
             else
-                AresBody.DropExoMechLoot(NPC, (int)AresBody.MechType.ArtemisAndApollo);
+                AresBody.DoMiscDeathEffects(NPC, AresBody.MechType.ArtemisAndApollo);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            AresBody.DropExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.ArtemisAndApollo);
         }
 
         // Needs edits

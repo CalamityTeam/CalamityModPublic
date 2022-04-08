@@ -1119,7 +1119,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<ThanatosHead>(),
@@ -1127,10 +1127,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 ModContent.NPCType<ThanatosBody2>(),
                 ModContent.NPCType<ThanatosTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return false;
+            return true;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Check if the other exo mechs are alive
             bool exoTwinsAlive = false;
@@ -1173,10 +1173,13 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     Main.npc[CalamityGlobalNPC.draedon].ai[0] = Draedon.ExoMechPhaseDialogueTime;
                 }
             }
-
-            // Mark Exo Mechs as dead and drop loot
             else
-                AresBody.DropExoMechLoot(NPC, (int)AresBody.MechType.Thanatos);
+                AresBody.DoMiscDeathEffects(NPC, AresBody.MechType.Thanatos);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            AresBody.DropExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
         }
 
         public override void HitEffect(int hitDirection, double damage)

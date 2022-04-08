@@ -615,8 +615,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot() => false;
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.soundDelay == 0)
